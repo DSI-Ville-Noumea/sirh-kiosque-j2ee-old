@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nc.noumea.mairie</groupId>
+	<artifactId>sirh-kiosque-j2ee</artifactId>
+	<packaging>war</packaging>
+	<version>0.0</version>
+	<name>sirh-kiosque-j2ee</name>
+	<description>Kiosque RH en J2EE</description>
+
+	<properties>
+		<java.version>7</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+		<zk.version>7.0.0</zk.version>
+	</properties>
+
+	<issueManagement>
+		<system>REDMINE</system>
+		<url>https://redmine/projects/kiosquerhj2ee</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:svn:https://svn.ville-noumea.nc/sed/sirh-kiosque-j2ee/trunk</connection>
+		<developerConnection>scm:svn:https://svn.ville-noumea.nc/sed/sirh-kiosque-j2ee/trunk</developerConnection>
+		<url>https://svn.ville-noumea.nc/sed/sirh-kiosque-j2ee/trunk</url>
+	</scm>
+
+	<distributionManagement>
+		<site>
+			<id>kiosquerhj2ee.website.prod</id>
+			<name>SIRH KIOSQUE RH J2EE Website Prod</name>
+			<url>file:\\cristal\DSI$\DSI\PROJETS\doxia\${project.name}</url>
+		</site>
+	</distributionManagement>
+	<dependencies>
+		<!-- CE requirements -->
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zk</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zhtml</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.zkoss.zk</groupId> -->
+		<!-- <artifactId>zml</artifactId> -->
+		<!-- <version>${zk.version}</version> -->
+		<!-- </dependency> -->
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zul</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.common</groupId>
+			<artifactId>zcommon</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.common</groupId>
+			<artifactId>zweb</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.common</groupId>
+			<artifactId>zel</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zkbind</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+	</dependencies>
+</project>
