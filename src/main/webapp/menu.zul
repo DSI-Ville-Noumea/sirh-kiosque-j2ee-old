@@ -24,23 +24,9 @@
 				</menubar>
 			</west>
 			<center>
-				<vlayout id="product_list" width="100%">
-					<n:h1 class="mo_head">Top Sales</n:h1>
-					<separator bar="true"></separator>
-					<hlayout spacing="10px">
-						<zk forEach="${products}"
-							if="${each le num }">
-							<image
-								src="/widgets/menu/menu_orientation/img/product${each}.png" />
-						</zk>
-					</hlayout>
-					<hlayout spacing="10px">
-						<zk forEach="${products}"
-							if="${each gt num and each le (num * 2)}">
-							<image
-								src="/widgets/menu/menu_orientation/img/product${each}.png" />
-						</zk>
-					</hlayout>
+				<vlayout width="100%"
+					visible="@bind(not empty vm.action)">
+					<include src="soldeAgent.zul" />
 				</vlayout>
 			</center>
 
