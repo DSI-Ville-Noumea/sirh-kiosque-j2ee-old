@@ -18,7 +18,6 @@ public class MenuViewModel {
 
 	@Command
 	public void soldeAgent() {
-		System.out.println("ici");
 		FiltreSoldeDto filtreDto = new FiltreSoldeDto();
 		filtreDto.setDateDebut(new Date());
 		filtreDto.setDateFin(new Date());

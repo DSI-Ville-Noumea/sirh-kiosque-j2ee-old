@@ -22,7 +22,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	@Qualifier("sirhAbsWsBaseUrl")
 	private String sirhAbsWsBaseUrl;
 
-	private static final String sirhAgentSoldeUrl = "solde/test";
+	private static final String sirhAgentSoldeUrl = "solde/soldeAgent";
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
