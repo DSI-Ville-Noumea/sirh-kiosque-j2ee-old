@@ -1,0 +1,56 @@
+<?page title="Menu de l'application" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:n="native">
+	<div height="100%" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.MenuViewModel')">
+		<borderlayout sclass="complex-layout">
+			<north size="40px" border="0"></north>
+			<west width="150px" vflex="true" splittable="true">
+				<menubar id="menubar" orient="vertical"
+					autodrop="true">
+					<menu label="Mes absences">
+						<menupopup>
+							<menuitem label="Mon solde"
+								onClick="@command('soldeAgent')" />
+							<menuitem label="Mes demandes"
+								onClick="alert(self.label)" />
+						</menupopup>
+					</menu>
+					<menu label="Mes pointages">
+						<menupopup>
+							<menuitem label="Mes demandes"
+								onClick="alert(self.label)" />
+						</menupopup>
+					</menu>
+				</menubar>
+			</west>
+			<center>
+				<vlayout id="product_list" width="100%">
+					<n:h1 class="mo_head">Top Sales</n:h1>
+					<separator bar="true"></separator>
+					<hlayout spacing="10px">
+						<zk forEach="${products}"
+							if="${each le num }">
+							<image
+								src="/widgets/menu/menu_orientation/img/product${each}.png" />
+						</zk>
+					</hlayout>
+					<hlayout spacing="10px">
+						<zk forEach="${products}"
+							if="${each gt num and each le (num * 2)}">
+							<image
+								src="/widgets/menu/menu_orientation/img/product${each}.png" />
+						</zk>
+					</hlayout>
+				</vlayout>
+			</center>
+
+			<!-- Footer -->
+			<south size="40px" border="0"
+				style="background: none repeat scroll 0 0 ;">
+				<toolbar mold="panel" align="center">
+					Powered by ZK ${desktop.webApp.version} @ Mairie
+				</toolbar>
+			</south>
+		</borderlayout>
+	</div>
+</zk>
