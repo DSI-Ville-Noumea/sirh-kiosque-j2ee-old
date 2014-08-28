@@ -5,13 +5,13 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.ContextParam;
-import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.zk.ui.Component;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Tab;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class DemandesAgentViewModel {
@@ -25,13 +25,16 @@ public class DemandesAgentViewModel {
 
 	@Init
 	public void initDemandes() {
-		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, "TOUTES");
+		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, "NON_PRISES");
 		setListeDemandes(result);
 	}
 
 	@Command
-	public void changeVue(@ContextParam(ContextType.VIEW) Component window) {
-		System.out.println("ici");
+	@NotifyChange("listeDemandes")
+	public void changeVue(@BindingParam("tab") Tab tab) {
+		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, tab.getId());
+		setListeDemandes(result);
+
 	}
 
 	public List<DemandeDto> getListeDemandes() {
