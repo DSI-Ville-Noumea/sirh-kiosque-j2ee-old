@@ -3,6 +3,7 @@ package nc.noumea.mairie.kiosque.viewModel;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -23,6 +24,8 @@ public class DemandesAgentViewModel {
 
 	private DemandeDto demandeCourant;
 
+	private List<RefTypeAbsenceDto> listeTypeAbsence;
+
 	@Init
 	public void initDemandes() {
 		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, "NON_PRISES");
@@ -34,6 +37,14 @@ public class DemandesAgentViewModel {
 	public void changeVue(@BindingParam("tab") Tab tab) {
 		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, tab.getId());
 		setListeDemandes(result);
+
+	}
+
+	@Command
+	@NotifyChange("listeTypeAbsence")
+	public void creerDemande() {
+		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9005138);
+		setListeTypeAbsence(result);
 
 	}
 
@@ -51,5 +62,13 @@ public class DemandesAgentViewModel {
 
 	public void setDemandeCourant(DemandeDto demandeCourant) {
 		this.demandeCourant = demandeCourant;
+	}
+
+	public List<RefTypeAbsenceDto> getListeTypeAbsence() {
+		return listeTypeAbsence;
+	}
+
+	public void setListeTypeAbsence(List<RefTypeAbsenceDto> listeTypeAbsence) {
+		this.listeTypeAbsence = listeTypeAbsence;
 	}
 }

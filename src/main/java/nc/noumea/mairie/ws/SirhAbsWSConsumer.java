@@ -6,6 +6,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
@@ -26,6 +27,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	private static final String sirhAgentSoldeUrl = "solde/soldeAgent";
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
+	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
@@ -50,5 +52,16 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(DemandeDto.class, res, url);
+	}
+
+	@Override
+	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent) {
+
+		String url = String.format(sirhAbsWsBaseUrl + sirhTypeAbsenceKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgentConcerne", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefTypeAbsenceDto.class, res, url);
 	}
 }

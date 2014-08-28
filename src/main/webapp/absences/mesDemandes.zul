@@ -18,6 +18,8 @@
 						onClick="@command('changeVue',tab = EN_COURS)" />
 					<tab id="TOUTES" label="Toutes les demandes"
 						onClick="@command('changeVue',tab = TOUTES)" />
+					<tab label="Ajouter"
+						onClick="@command('creerDemande')" />
 				</tabs>
 				<tabpanels>
 					<tabpanel>
@@ -28,6 +30,8 @@
 					</tabpanel>
 					<tabpanel>
 						<include src="tableauDemandeAgent.zul" />
+					</tabpanel>
+					<tabpanel>Ajouter
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
