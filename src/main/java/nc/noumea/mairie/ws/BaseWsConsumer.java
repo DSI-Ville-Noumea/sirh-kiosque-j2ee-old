@@ -1,8 +1,11 @@
 package nc.noumea.mairie.ws;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,14 +46,12 @@ public abstract class BaseWsConsumer {
 		try {
 			if (isPost)
 				if (postContent == null)
-					response = webResource.accept(MediaType.APPLICATION_JSON_VALUE)
-							.type(MediaType.APPLICATION_JSON_VALUE).post(ClientResponse.class);
+					response = webResource.type(MediaType.APPLICATION_JSON_VALUE).post(ClientResponse.class);
 				else
-					response = webResource.accept(MediaType.APPLICATION_JSON_VALUE)
-							.type(MediaType.APPLICATION_JSON_VALUE).post(ClientResponse.class, postContent);
+					response = webResource.type(MediaType.APPLICATION_JSON_VALUE).post(ClientResponse.class,
+							postContent);
 			else
-				response = webResource.accept(MediaType.APPLICATION_JSON_VALUE).type(MediaType.APPLICATION_JSON_VALUE)
-						.get(ClientResponse.class);
+				response = webResource.accept(MediaType.APPLICATION_JSON_VALUE).get(ClientResponse.class);
 		} catch (ClientHandlerException ex) {
 			throw new WSConsumerException(String.format("An error occured when querying '%s'.", url), ex);
 		}
@@ -93,7 +94,7 @@ public abstract class BaseWsConsumer {
 
 		String output = response.getEntity(String.class);
 
-		result = new JSONDeserializer<T>().deserializeInto(output, result);
+		result = new JSONDeserializer<T>().use(Date.class, new MSDateTransformer()).deserializeInto(output, result);
 
 		return result;
 	}
@@ -115,9 +116,34 @@ public abstract class BaseWsConsumer {
 
 		String output = response.getEntity(String.class);
 
-		result = new JSONDeserializer<List<T>>().use(null, ArrayList.class).use("values", targetClass)
-				.deserialize(output);
+		result = new JSONDeserializer<List<T>>().use(null, ArrayList.class).use(Date.class, new MSDateTransformer())
+				.use("values", targetClass).deserialize(output);
 
+		return result;
+	}
+
+	public <T> T readResponseWithReturnMessageDto(Class<T> targetClass, ClientResponse response, String url) {
+
+		T result = null;
+
+		try {
+			result = targetClass.newInstance();
+		} catch (Exception ex) {
+			throw new WSConsumerException(
+					"An error occured when instantiating return type when deserializing JSON from SIRH ABS WS request.",
+					ex);
+		}
+
+		if (response.getStatus() == HttpStatus.NO_CONTENT.value()) {
+			return null;
+		}
+
+		if (response.getStatus() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+			return null;
+		}
+
+		String output = response.getEntity(String.class);
+		result = new JSONDeserializer<T>().use(Date.class, new MSDateTransformer()).deserializeInto(output, result);
 		return result;
 	}
 }

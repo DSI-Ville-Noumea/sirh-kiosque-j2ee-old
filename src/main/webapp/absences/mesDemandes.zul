@@ -1,0 +1,69 @@
+<zk>
+	<style>.fond { background-color:#FFEBCD; }</style>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel')">
+		<div sclass="fond">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="ABSENCES" />
+				<label style="font-size: 18px;color: blue;"
+					value="Mes demandes" />
+			</vlayout>
+			<separator />
+			<tabbox id="tb" height="300px">
+				<tabs id="tabs">
+					<tab id="A" label="Demandes non prises" />
+					<tab id="B" label="Demandes en cours" />
+					<tab id="TOUTES" label="Toutes les demandes"
+						onClick="@command('changeVue')" />
+				</tabs>
+				<tabpanels>
+					<tabpanel>
+						<listbox mold="paging" pageSize="10"
+							model="@bind(vm.listeDemandes)"
+							selectedItem="@bind(vm.demandeCourant)">
+							<custom-attributes
+								org.zkoss.zul.listbox.autoSort="true" />
+							<listhead>
+								<listheader label="Type de demande"
+									sort="auto('libelleTypeDemande')" width="300px"/>
+								<listheader label="Date de début"
+									sort="auto('dateDebut')" align="center" />
+								<listheader label="Heure de début"
+									sort="auto('heureDebut')" />
+								<listheader label="Durée"
+									sort="auto('dureeToString')" width="60px" />
+								<listheader label="Date de demande"
+									sort="auto('dateDemande')" align="center" />
+								<listheader label="Etat"
+									sort="auto('etat')" />
+							</listhead>
+
+							<template name="model">
+								<listitem>
+									<listcell
+										label="@bind(each.libelleTypeDemande)" />
+									<listcell
+										label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
+									<listcell
+										label="@bind(each.heureDebut)" />
+									<listcell
+										label="@bind(each.dureeToString)" />
+									<listcell
+										label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
+									<listcell label="@bind(each.etat)" />
+
+								</listitem>
+							</template>
+
+						</listbox>
+
+					</tabpanel>
+					<tabpanel>This is panel B</tabpanel>
+					<tabpanel>This is panel C</tabpanel>
+				</tabpanels>
+			</tabbox>
+		</div>
+	</window>
+</zk>
+

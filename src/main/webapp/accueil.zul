@@ -1,0 +1,13 @@
+<zk>
+	<style>
+		.test {
+		background-image:url('img/menu/backgroundBase.png');background-repeat:
+		repeat; }
+	</style>
+	<window contentSclass="test" height="100%">
+		<vbox align="center" pack="center">
+			<vbox>Accueil</vbox>
+			<vbox>Votre Kiosque RH</vbox>
+		</vbox>
+	</window>
+</zk>

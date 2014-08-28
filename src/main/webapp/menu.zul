@@ -1,13 +1,18 @@
 <?page title="Menu de l'application" contentType="text/html;charset=UTF-8"?>
 <zk xmlns:n="native">
+	<style>
+		.menu { background-color:#EE7203; }
+
+	</style>
 	<div height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.MenuViewModel')">
-		<borderlayout sclass="complex-layout">
-			<north size="40px" border="0"></north>
-			<west width="150px" vflex="true" splittable="true">
+		<borderlayout>
+			<west width="150px" vflex="true" splittable="true"
+				sclass="menu">
 				<menubar id="menubar" orient="vertical"
 					autodrop="true">
-					<menu label="Mes absences">
+					<menuitem label="Accueil" image="/img/menu/accueil_up.png"/>
+					<menu label="Mes absences" image="/img/menu/conge_up.png">
 						<menupopup>
 							<menuitem label="Mon solde"
 								onClick="@command('soldeAgent')" />
@@ -15,7 +20,7 @@
 								onClick="alert(self.label)" />
 						</menupopup>
 					</menu>
-					<menu label="Mes pointages">
+					<menu label="Mes pointages" image="/img/menu/pointage_up.png">
 						<menupopup>
 							<menuitem label="Mes demandes"
 								onClick="alert(self.label)" />
@@ -23,20 +28,11 @@
 					</menu>
 				</menubar>
 			</west>
-			<center>
-				<vlayout width="100%"
-					visible="@bind(not empty vm.action)">
-					<include src="soldeAgent.zul" />
-				</vlayout>
+			<center autoscroll="true">
+			<div hflex="true" vflex="true" id="content">
+				<include src="accueil.zul" />
+			</div>
 			</center>
-
-			<!-- Footer -->
-			<south size="40px" border="0"
-				style="background: none repeat scroll 0 0 ;">
-				<toolbar mold="panel" align="center">
-					Powered by ZK ${desktop.webApp.version} @ Mairie
-				</toolbar>
-			</south>
 		</borderlayout>
 	</div>
 </zk>
