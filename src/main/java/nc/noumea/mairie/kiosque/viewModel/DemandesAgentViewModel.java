@@ -63,22 +63,43 @@ public class DemandesAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeTypeAbsence", "demandeCreation", "etatDemandeCreation", "listeOrganisationsSyndicale" })
+	@NotifyChange({ "demandeCourant", "demandeCreation", "listeTypeAbsence", "typeAbsenceCourant",
+			"etatDemandeCreation", "listeOrganisationsSyndicale", "organisationsSyndicaleCourant", "selectDebutAM",
+			"selectFinAM" })
 	public void creerDemande() {
+		// on vide
+		viderZones();
+		// on recharge les type sd'absences
 		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9005138);
 		setListeTypeAbsence(result);
+		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
 		setListeOrganisationsSyndicale(orga);
-		setDemandeCreation(new DemandeDto());
+		// on positionne la selection du statut Provisoire/Définitif
 		setEtatDemandeCreation("0");
+		// on initialise la demande
+		setDemandeCreation(new DemandeDto());
 
 	}
 
 	@Command
-	@NotifyChange({ "typeAbsenceCourant", "organisationsSyndicaleCourant" })
+	@NotifyChange({ "demandeCourant", "demandeCreation", "listeTypeAbsence", "typeAbsenceCourant",
+			"etatDemandeCreation", "listeOrganisationsSyndicale", "organisationsSyndicaleCourant", "selectDebutAM",
+			"selectFinAM" })
 	public void cancelDemande() {
+		viderZones();
+	}
+
+	private void viderZones() {
+		setDemandeCourant(null);
+		setDemandeCreation(null);
+		setListeTypeAbsence(null);
 		setTypeAbsenceCourant(null);
+		setEtatDemandeCreation(null);
+		setListeOrganisationsSyndicale(null);
 		setOrganisationsSyndicaleCourant(null);
+		setSelectDebutAM(null);
+		setSelectFinAM(null);
 	}
 
 	@Command
