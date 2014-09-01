@@ -17,7 +17,7 @@
             </template>
         </listbox>
 
-        <listbox vflex="1" id="inf" model="@load(vm.errorsMessages)" visible="@bind(not empty vm.infosMessages)">
+        <listbox vflex="1" id="inf" model="@load(vm.infosMessages)" visible="@bind(not empty vm.infosMessages)">
             <listhead>
                 <listheader label="Infos :" style="color:orange;" />
             </listhead>

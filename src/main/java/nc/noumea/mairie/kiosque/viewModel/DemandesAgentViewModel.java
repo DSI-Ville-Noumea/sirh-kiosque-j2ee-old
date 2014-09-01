@@ -43,6 +43,11 @@ public class DemandesAgentViewModel {
 
 	private OrganisationSyndicaleDto organisationsSyndicaleCourant;
 
+	// pour savoir si la date de debut est le matin
+	private String selectDebutAM;
+	// pour savoir si la date de fin est le matin
+	private String selectFinAM;
+
 	@Init
 	public void initDemandes() {
 		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, "NON_PRISES");
@@ -78,7 +83,8 @@ public class DemandesAgentViewModel {
 
 	@Command
 	public void saveDemande() {
-		if (IsFormValid()) {
+
+		if (IsFormValid(getTypeAbsenceCourant())) {
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
 			agentWithServiceDto.setIdAgent(9005138);
 
@@ -88,6 +94,10 @@ public class DemandesAgentViewModel {
 			getDemandeCreation().setTypeSaisi(getTypeAbsenceCourant().getTypeSaisiDto());
 			getDemandeCreation().setAgentWithServiceDto(agentWithServiceDto);
 			getDemandeCreation().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
+			getDemandeCreation().setDateDebutAM(getSelectDebutAM().equals("AM") ? true : false);
+			getDemandeCreation().setDateDebutPM(getSelectDebutAM().equals("PM") ? true : false);
+			getDemandeCreation().setDateFinAM(getSelectFinAM().equals("AM") ? true : false);
+			getDemandeCreation().setDateFinPM(getSelectFinAM().equals("PM") ? true : false);
 
 			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9005138, getDemandeCreation());
 
@@ -110,12 +120,51 @@ public class DemandesAgentViewModel {
 		}
 	}
 
-	private boolean IsFormValid() {
+	private boolean IsFormValid(RefTypeAbsenceDto refTypeAbsenceDto) {
 
 		List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
 
+		// Date de debut
 		if (getDemandeCreation().getDateDebut() == null) {
-			vList.add(new ValidationMessage("La date de début ne doit pas être vide."));
+			vList.add(new ValidationMessage("La date de début est obligatoire."));
+		}
+		if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateDebut()) {
+			if (getSelectDebutAM() == null) {
+				vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+			}
+		}
+
+		// OS
+		if (refTypeAbsenceDto.getTypeSaisiDto().isCompteurCollectif()) {
+			if (getOrganisationsSyndicaleCourant() == null) {
+				vList.add(new ValidationMessage("L'organisation syndicale est obligatoire."));
+			}
+		}
+
+		// DUREE
+		if (refTypeAbsenceDto.getTypeSaisiDto().isDuree()) {
+			if (getDemandeCreation().getDuree() == null || getDemandeCreation().getDuree() == 0) {
+				vList.add(new ValidationMessage("La durée est obligatoire."));
+			}
+		}
+
+		// DATE FIN
+		if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarDateFin()) {
+			if (getDemandeCreation().getDateFin() == null) {
+				vList.add(new ValidationMessage("La date de fin est obligatoire."));
+			}
+		}
+		if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateFin()) {
+			if (getSelectFinAM() == null) {
+				vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+			}
+		}
+
+		// MOTIF
+		if (refTypeAbsenceDto.getTypeSaisiDto().isMotif()) {
+			if (getDemandeCreation().getMotif() == null) {
+				vList.add(new ValidationMessage("Le motif est obligatoire."));
+			}
 		}
 
 		if (vList.size() > 0) {
@@ -189,5 +238,21 @@ public class DemandesAgentViewModel {
 
 	public void setOrganisationsSyndicaleCourant(OrganisationSyndicaleDto organisationsSyndicaleCourant) {
 		this.organisationsSyndicaleCourant = organisationsSyndicaleCourant;
+	}
+
+	public String getSelectDebutAM() {
+		return selectDebutAM;
+	}
+
+	public void setSelectDebutAM(String selectDebutAM) {
+		this.selectDebutAM = selectDebutAM;
+	}
+
+	public String getSelectFinAM() {
+		return selectFinAM;
+	}
+
+	public void setSelectFinAM(String selectFinAM) {
+		this.selectFinAM = selectFinAM;
 	}
 }

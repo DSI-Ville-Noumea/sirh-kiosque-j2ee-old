@@ -82,10 +82,12 @@
 											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateDebut)"
 											cols="14" format="dd/MM/yyyy"
 											value="@bind(vm.demandeCreation.dateDebut)" />
-										<radiogroup
-											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateDebut)">
-											<radio label="M" />
-											<radio label="AM" />
+										<radiogroup id="rg1"
+											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateDebut)"
+											selectedItem="@bind(vm.selectDebutAM)">
+											<radio label="M" value="AM" />
+											<radio label="AM"
+												value="PM" />
 										</radiogroup>
 									</hlayout>
 								</hlayout>
@@ -121,12 +123,12 @@
 											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateFin)"
 											cols="14" format="dd/MM/yyyy"
 											value="@bind(vm.demandeCreation.dateFin)" />
-										<radiogroup
-											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateFin)">
-											<radio label="M"
-												value="@bind(vm.demandeCreation.dateFinAM)" />
+										<radiogroup id="rg2"
+											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateFin)"
+											selectedItem="@bind(vm.selectFinAM)">
+											<radio label="M" value="AM" />
 											<radio label="AM"
-												value="@bind(vm.demandeCreation.dateFinPM)" />
+												value="PM" />
 										</radiogroup>
 									</hlayout>
 								</hlayout>
