@@ -55,11 +55,10 @@ public class DemandesAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange("listeDemandes")
+	@NotifyChange({ "listeDemandes" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
 		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, tab.getId());
 		setListeDemandes(result);
-
 	}
 
 	@Command
@@ -86,7 +85,8 @@ public class DemandesAgentViewModel {
 	@NotifyChange({ "demandeCourant", "demandeCreation", "listeTypeAbsence", "typeAbsenceCourant",
 			"etatDemandeCreation", "listeOrganisationsSyndicale", "organisationsSyndicaleCourant", "selectDebutAM",
 			"selectFinAM" })
-	public void cancelDemande() {
+	public void cancelDemande(@BindingParam("tab") Tab tab) {
+		tab.setSelected(true);
 		viderZones();
 	}
 
@@ -103,7 +103,8 @@ public class DemandesAgentViewModel {
 	}
 
 	@Command
-	public void saveDemande() {
+	@NotifyChange({ "listeDemandes" })
+	public void saveDemande(@BindingParam("tab") Tab tab) {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
@@ -115,10 +116,14 @@ public class DemandesAgentViewModel {
 			getDemandeCreation().setTypeSaisi(getTypeAbsenceCourant().getTypeSaisiDto());
 			getDemandeCreation().setAgentWithServiceDto(agentWithServiceDto);
 			getDemandeCreation().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
-			getDemandeCreation().setDateDebutAM(getSelectDebutAM().equals("AM") ? true : false);
-			getDemandeCreation().setDateDebutPM(getSelectDebutAM().equals("PM") ? true : false);
-			getDemandeCreation().setDateFinAM(getSelectFinAM().equals("AM") ? true : false);
-			getDemandeCreation().setDateFinPM(getSelectFinAM().equals("PM") ? true : false);
+			getDemandeCreation().setDateDebutAM(
+					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
+			getDemandeCreation().setDateDebutPM(
+					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("PM") ? true : false);
+			getDemandeCreation().setDateFinAM(
+					getSelectFinAM() == null ? false : getSelectFinAM().equals("AM") ? true : false);
+			getDemandeCreation().setDateFinPM(
+					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
 			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9005138, getDemandeCreation());
 
@@ -137,6 +142,11 @@ public class DemandesAgentViewModel {
 				map.put("errors", listErreur);
 				map.put("infos", listInfo);
 				Executions.createComponents("../messages/returnMessage.zul", null, map);
+				if (listErreur.size() == 0) {
+					tab.setSelected(true);
+					changeVue(tab);
+					viderZones();
+				}
 			}
 		}
 	}

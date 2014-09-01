@@ -19,7 +19,7 @@
 						onClick="@command('changeVue',tab = EN_COURS)" />
 					<tab id="TOUTES" label="Toutes les demandes"
 						onClick="@command('changeVue',tab = TOUTES)" />
-					<tab label="Ajouter"
+					<tab id="AJOUT" label="Ajouter"
 						onClick="@command('creerDemande')" />
 				</tabs>
 				<tabpanels>
@@ -39,12 +39,13 @@
 							</hlayout>
 							<hlayout>
 								<combobox id="cmbTypeAbsence"
-									width="700px" model="@load(vm.listeTypeAbsence)"
+									readonly="true" width="700px"
+									model="@bind(vm.listeTypeAbsence)"
 									selectedItem="@bind(vm.typeAbsenceCourant)">
 									<template name="model">
 										<comboitem
-											label="@load(each.libelle)"
-											description="@load(each.groupeAbsence.libelle)" />
+											label="@bind(each.libelle)"
+											description="@bind(each.groupeAbsence.libelle)" />
 									</template>
 								</combobox>
 							</hlayout>
@@ -62,12 +63,12 @@
 									<hlayout>
 										<combobox
 											id="cmbOrganisationSyndicale" width="700px"
-											model="@load(vm.listeOrganisationsSyndicale)"
+											model="@bind(vm.listeOrganisationsSyndicale)"
 											selectedItem="@bind(vm.organisationsSyndicaleCourant)">
 											<template name="model">
 												<comboitem
-													label="@load(each.sigle)"
-													description="@load(each.libelle)" />
+													label="@bind(each.sigle)"
+													description="@bind(each.libelle)" />
 											</template>
 										</combobox>
 									</hlayout>
@@ -178,9 +179,9 @@
 								</hlayout>
 								<hlayout>
 									<button label="Ajouter la demande"
-										onClick="@command('saveDemande')" />
+										onClick="@command('saveDemande' ,tab=NON_PRISES)" />
 									<button label="Annuler"
-										onClick="@command('cancelDemande')" />
+										onClick="@command('cancelDemande' ,tab=NON_PRISES)" />
 								</hlayout>
 							</vlayout>
 						</div>
