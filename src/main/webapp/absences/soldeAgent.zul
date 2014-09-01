@@ -20,7 +20,7 @@
 					<rows>
 						<row>
 							<label
-								value="@bind(vm.soldeCourant.soldeCongeAnnee)" />
+								value="@bind(vm.soldeCourant.soldeCongeAnneeToString)" />
 						</row>
 					</rows>
 
@@ -32,7 +32,7 @@
 					<rows>
 						<row>
 							<label
-								value="@bind(vm.soldeCourant.soldeRecup)" />
+								value="@bind(vm.soldeCourant.soldeRecupToString)" />
 						</row>
 					</rows>
 
@@ -44,7 +44,7 @@
 					<rows>
 						<row>
 							<label
-								value="@bind(vm.soldeCourant.soldeReposCompAnnee)" />
+								value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
 						</row>
 					</rows>
 

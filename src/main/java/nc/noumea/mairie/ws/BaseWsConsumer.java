@@ -86,7 +86,7 @@ public abstract class BaseWsConsumer {
 			return null;
 		}
 
-		if (response.getStatus() != HttpStatus.OK.value()) {
+		if (response.getStatus() != HttpStatus.OK.value() && response.getStatus() != HttpStatus.CONFLICT.value()) {
 			throw new WSConsumerException(String.format(
 					"An error occured when querying '%s'. Return code is : %s, content is %s", url,
 					response.getStatus(), response.getEntity(String.class)));

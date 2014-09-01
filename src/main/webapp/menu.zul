@@ -1,9 +1,5 @@
 <?page title="Menu de l'application" contentType="text/html;charset=UTF-8"?>
 <zk xmlns:n="native">
-	<style>
-		.menu { background-color:#EE7203; }
-
-	</style>
 	<div height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.MenuViewModel')">
 		<borderlayout>
@@ -11,8 +7,10 @@
 				sclass="menu">
 				<menubar id="menubar" orient="vertical"
 					autodrop="true">
-					<menuitem label="Accueil" image="/img/menu/accueil_up.png"/>
-					<menu label="Mes absences" image="/img/menu/conge_up.png">
+					<menuitem label="Accueil"
+						image="/img/menu/accueil_up.png" />
+					<menu label="Mes absences"
+						image="/img/menu/conge_up.png">
 						<menupopup>
 							<menuitem label="Mon solde"
 								onClick="@command('soldeAgent')" />
@@ -20,7 +18,8 @@
 								onClick="alert(self.label)" />
 						</menupopup>
 					</menu>
-					<menu label="Mes pointages" image="/img/menu/pointage_up.png">
+					<menu label="Mes pointages"
+						image="/img/menu/pointage_up.png">
 						<menupopup>
 							<menuitem label="Mes demandes"
 								onClick="alert(self.label)" />
@@ -29,10 +28,15 @@
 				</menubar>
 			</west>
 			<center autoscroll="true">
-			<div hflex="true" vflex="true" id="content">
-				<include src="accueil.zul" />
-			</div>
+				<div hflex="true" vflex="true" id="content">
+					<include src="accueil.zul" />
+				</div>
 			</center>
+			<south>
+				<toolbar mold="panel" align="center">
+					${project.version} @ Mairie
+				</toolbar>
+			</south>
 		</borderlayout>
 	</div>
 </zk>

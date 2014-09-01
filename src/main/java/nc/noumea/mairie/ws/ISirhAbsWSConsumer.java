@@ -4,7 +4,9 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
+import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 
 public interface ISirhAbsWSConsumer {
@@ -14,4 +16,8 @@ public interface ISirhAbsWSConsumer {
 	List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet);
 
 	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent);
+
+	ReturnMessageDto saveDemandeAbsence(Integer idAgent, DemandeDto dto);
+
+	List<OrganisationSyndicaleDto> getListOrganisationSyndicale();
 }

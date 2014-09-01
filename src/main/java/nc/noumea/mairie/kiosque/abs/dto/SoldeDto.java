@@ -164,4 +164,34 @@ public class SoldeDto {
 		this.listeSoldeCongesExcep = listeSoldeCongesExcep;
 	}
 
+	public String getSoldeCongeAnneeToString() {
+		if (soldeCongeAnnee == 0)
+			return "aucun";
+		return soldeCongeAnnee + " j";
+	}
+
+	public String getSoldeRecupToString() {
+		if (soldeRecup == 0)
+			return "aucun";
+		return getHeureMinute(soldeRecup.intValue());
+	}
+
+	public String getSoldeReposCompAnneeToString() {
+		if (soldeReposCompAnnee == 0)
+			return "aucun";
+		return soldeReposCompAnnee + " j";
+	}
+
+	private static String getHeureMinute(int nombreMinute) {
+		int heure = nombreMinute / 60;
+		int minute = nombreMinute % 60;
+		String res = "";
+		if (heure > 0)
+			res += heure + "h";
+		if (minute > 0)
+			res += minute + "m";
+
+		return res;
+	}
+
 }

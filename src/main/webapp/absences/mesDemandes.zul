@@ -1,7 +1,8 @@
 <zk>
 	<style>.fond { background-color:#FFEBCD; }</style>
 	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel')">
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel')"
+		validationMessages="@id('vmsgs')">
 		<div sclass="fond">
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
@@ -10,7 +11,7 @@
 					value="Mes demandes" />
 			</vlayout>
 			<separator />
-			<tabbox id="tb" height="300px">
+			<tabbox id="tb" height="500px">
 				<tabs id="tabs">
 					<tab id="NON_PRISES" label="Demandes non prises"
 						onClick="@command('changeVue',tab = NON_PRISES)" />
@@ -31,7 +32,156 @@
 					<tabpanel>
 						<include src="tableauDemandeAgent.zul" />
 					</tabpanel>
-					<tabpanel>Ajouter
+					<tabpanel>
+						<hlayout>
+							<hlayout width="150px">
+								<label value="Famille d'absence" />
+							</hlayout>
+							<hlayout>
+								<combobox id="cmbTypeAbsence"
+									width="700px" model="@load(vm.listeTypeAbsence)"
+									selectedItem="@bind(vm.typeAbsenceCourant)">
+									<template name="model">
+										<comboitem
+											label="@load(each.libelle)"
+											description="@load(each.groupeAbsence.libelle)" />
+									</template>
+								</combobox>
+							</hlayout>
+						</hlayout>
+						<div
+							visible="@bind(not empty vm.typeAbsenceCourant) ">
+							<separator />
+							<vlayout>
+								<hlayout
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.compteurCollectif)">
+									<hlayout width="150px">
+										<label
+											value="Org. syndicale : " />
+									</hlayout>
+									<hlayout>
+										<combobox
+											id="cmbOrganisationSyndicale" width="700px"
+											model="@load(vm.listeOrganisationsSyndicale)"
+											selectedItem="@bind(vm.organisationsSyndicaleCourant)">
+											<template name="model">
+												<comboitem
+													label="@load(each.sigle)"
+													description="@load(each.libelle)" />
+											</template>
+										</combobox>
+									</hlayout>
+								</hlayout>
+								<hlayout>
+									<hlayout width="150px"
+										visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateDebut)">
+										<label value="Date de début : " />
+									</hlayout>
+									<hlayout>
+										<datebox
+											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateDebut)"
+											cols="14" format="dd/MM/yyyy"
+											value="@bind(vm.demandeCreation.dateDebut)" />
+										<radiogroup
+											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateDebut)">
+											<radio label="M" />
+											<radio label="AM" />
+										</radiogroup>
+									</hlayout>
+								</hlayout>
+								<hlayout
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarHeureDebut)">
+									<hlayout width="150px">
+										<label
+											value="Heure de début : " />
+									</hlayout>
+									<hlayout>
+										<timebox cols="14"
+											format="HH:mm" value="@bind(vm.demandeCreation.dateDebut)" />
+									</hlayout>
+								</hlayout>
+								<hlayout
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.duree)">
+									<hlayout width="150px">
+										<label value="Durée : " />
+									</hlayout>
+									<hlayout>
+										<textbox cols="14"
+											value="@bind(vm.demandeCreation.duree)" />
+										<label value="heures" />
+									</hlayout>
+								</hlayout>
+								<hlayout>
+									<hlayout width="150px"
+										visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateFin)">
+										<label value="Date de fin : " />
+									</hlayout>
+									<hlayout>
+										<datebox
+											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateFin)"
+											cols="14" format="dd/MM/yyyy"
+											value="@bind(vm.demandeCreation.dateFin)" />
+										<radiogroup
+											visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateFin)">
+											<radio label="M"
+												value="@bind(vm.demandeCreation.dateFinAM)" />
+											<radio label="AM"
+												value="@bind(vm.demandeCreation.dateFinPM)" />
+										</radiogroup>
+									</hlayout>
+								</hlayout>
+								<hlayout
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarHeureFin)">
+									<hlayout width="150px">
+										<label value="Heure de fin : " />
+									</hlayout>
+									<hlayout>
+										<timebox cols="14"
+											format="HH:mm" value="@bind(vm.demandeCreation.dateFin)" />
+									</hlayout>
+								</hlayout>
+								<hlayout
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.motif)">
+									<hlayout width="150px">
+										<label value="Motif : " />
+									</hlayout>
+									<vlayout>
+										<textbox rows="4" width="200px"
+											value="@bind(vm.demandeCreation.motif)" />
+										<label
+											value="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosComplementaires)" />
+									</vlayout>
+								</hlayout>
+								<hlayout
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.pieceJointe)">
+									<hlayout width="150px">
+										<label value="Pièce jointe : " />
+									</hlayout>
+									<hlayout></hlayout>
+								</hlayout>
+								<hlayout>
+									<hlayout width="150px">
+										<label
+											value="Etat de la demande : " />
+									</hlayout>
+									<hlayout>
+										<radiogroup
+											selectedItem="@bind(vm.etatDemandeCreation)">
+											<radio label="Provisoire"
+												value="0" />
+											<radio label="Définitive"
+												value="1" />
+										</radiogroup>
+									</hlayout>
+								</hlayout>
+								<hlayout>
+									<button label="Ajouter la demande"
+										onClick="@command('saveDemande')" />
+									<button label="Annuler"
+										onClick="@command('cancelDemande')" />
+								</hlayout>
+							</vlayout>
+						</div>
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
