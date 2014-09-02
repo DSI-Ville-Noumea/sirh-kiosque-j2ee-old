@@ -1,5 +1,6 @@
 <listbox mold="paging" pageSize="10" model="@bind(vm.listeDemandes)"
 	selectedItem="@bind(vm.demandeCourant)">
+
 	<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 	<listhead>
 		<listheader label="Type de demande"

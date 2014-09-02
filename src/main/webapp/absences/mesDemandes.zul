@@ -1,5 +1,27 @@
 <zk>
-	<style>.fond { background-color:#FFEBCD; }</style>
+	<style>
+		.fond { background-color:#FFEBCD; }
+
+		.z-tab.z-tab-selected{background-position: -485px -73px;
+		margin-bottom: 5px; background-image: url("../img/Sprite.png");
+		background-repeat: no-repeat; height: 25px; padding-left: 14px;}
+
+		.z-tab{ background-position: -485px -98px;margin-bottom: 5px;
+		background-image: url("../img/Sprite.png"); background-repeat:
+		no-repeat; height: 25px; padding-left: 14px; border-style:
+		none;padding-top: 0px;}
+
+		.z-tab.z-tab-selected>.z-tab-content>.z-tab-text {
+		background-position: right -19px;margin-bottom:
+		5px;background-image: url("../img/SpriteH.png");
+		background-repeat: no-repeat; display: inline-block; height:
+		25px; padding-right: 14px;}
+
+		.z-tab-text { background-image: url("../img/SpriteH.png");
+		background-position: right -44px; background-repeat: no-repeat;
+		display: inline-block; height: 25px; padding-right: 14px;
+		color:#FFFFFF;font-weight: bold;}
+	</style>
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel')"
 		validationMessages="@id('vmsgs')">
@@ -7,7 +29,7 @@
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
 					value="ABSENCES" />
-				<label style="font-size: 18px;color: blue;"
+				<label style="font-size: 18px;color: #004f9f;"
 					value="Mes demandes" />
 			</vlayout>
 			<separator />
@@ -20,7 +42,7 @@
 					<tab id="TOUTES" label="Toutes les demandes"
 						onClick="@command('changeVue',tab = TOUTES)" />
 					<tab id="AJOUT" label="Ajouter"
-						onClick="@command('creerDemande')" />
+						onClick="@command('creerDemande')" sclass="RHTitle2" />
 				</tabs>
 				<tabpanels>
 					<tabpanel>
