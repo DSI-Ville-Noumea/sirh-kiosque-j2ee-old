@@ -18,8 +18,6 @@ public class SoldeAgentViewModel {
 
 	private SoldeDto soldeCourant = new SoldeDto();
 
-	private String matricule = null;
-
 	@Init
 	public void initSoldeAgent() {
 		FiltreSoldeDto filtreDto = new FiltreSoldeDto();
@@ -27,7 +25,6 @@ public class SoldeAgentViewModel {
 		filtreDto.setDateFin(new Date());
 		SoldeDto result = absWsConsumer.getAgentSolde(9005138, filtreDto);
 		soldeCourant = result;
-		matricule = "9005138";
 	}
 
 	public SoldeDto getSoldeCourant() {
@@ -36,13 +33,5 @@ public class SoldeAgentViewModel {
 
 	public void setSoldeCourant(SoldeDto soldeCourant) {
 		this.soldeCourant = soldeCourant;
-	}
-
-	public String getMatricule() {
-		return matricule;
-	}
-
-	public void setMatricule(String matricule) {
-		this.matricule = matricule;
 	}
 }

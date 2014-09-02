@@ -170,6 +170,12 @@ public class SoldeDto {
 		return soldeCongeAnnee + " j";
 	}
 
+	public String getSoldeCongeAnneePrecToString() {
+		if (soldeCongeAnneePrec == 0)
+			return "aucun";
+		return soldeCongeAnneePrec + " j";
+	}
+
 	public String getSoldeRecupToString() {
 		if (soldeRecup == 0)
 			return "aucun";
@@ -180,6 +186,12 @@ public class SoldeDto {
 		if (soldeReposCompAnnee == 0)
 			return "aucun";
 		return soldeReposCompAnnee + " j";
+	}
+
+	public String getSoldeReposCompAnneePrecToString() {
+		if (soldeReposCompAnneePrec == 0)
+			return "aucun";
+		return soldeReposCompAnneePrec + " j";
 	}
 
 	private static String getHeureMinute(int nombreMinute) {

@@ -1,5 +1,36 @@
 <zk>
-	<style>.fond { background-color:#FFEBCD; }</style>
+	<style>
+		.fond { background-color: #FFEBCD; }
+
+		.conges { width: 910px; }
+
+		.conges .RHTitle2 { color: #ffffff; margin-bottom: 5px; }
+
+		.conges .RHTitle2>span { height: 25px; padding-top: 5px; }
+
+		.RHTitle2 { background-image: url("../img/Sprite.png");
+		background-position: -485px -98px; background-repeat: no-repeat;
+		height: 25px; padding-left: 14px;}
+
+		.RHTitle2>span { background-image: url("../img/SpriteH.png");
+		background-position: right -44px; background-repeat: no-repeat;
+		display: inline-block; height: 25px; padding-right: 14px; }
+
+		.RHTitle2Line { background-image: -moz-linear-gradient(left
+		center, rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%);
+		clear: both; height: 1px;}
+
+		.RHContent { margin-top: 10px; margin-bottom: 15px;
+		margin-right: 80px; }
+
+		.RHContent.right { text-align: right; }
+
+		.RHContent .name { width: 150px; margin: 5px 10px 5px 30px;
+		display: inline-block; color: #3B62A7; }
+
+		.RHContent .value { width: 120px; display: inline-block; color:
+		#000000; }
+	</style>
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.SoldeAgentViewModel')">
 		<div sclass="fond">
@@ -10,46 +41,58 @@
 					value="Mes soldes" />
 			</vlayout>
 			<separator />
-			<vlayout>
-				Agent :
-				<label value="@bind(vm.matricule)" />
-				<grid width="50%">
-					<columns>
-						<column>Mon solde de congés annuel</column>
-					</columns>
-					<rows>
-						<row>
-							<label
-								value="@bind(vm.soldeCourant.soldeCongeAnneeToString)" />
-						</row>
-					</rows>
-
-				</grid>
-				<grid width="50%">
-					<columns>
-						<column>Mon solde de récupération</column>
-					</columns>
-					<rows>
-						<row>
-							<label
-								value="@bind(vm.soldeCourant.soldeRecupToString)" />
-						</row>
-					</rows>
-
-				</grid>
-				<grid width="50%">
-					<columns>
-						<column>Mon solde de repos compensateur</column>
-					</columns>
-					<rows>
-						<row>
-							<label
-								value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
-						</row>
-					</rows>
-
-				</grid>
-			</vlayout>
+			<separator />
+			<separator />
+			<div sclass="conges">
+				<div sclass="RHTitle2">
+					<label value="Mon solde de congés annuel" />
+				</div>
+				<div sclass="RHTitle2Line"></div>
+				<div sclass="RHContent right">
+					<div>
+						<label sclass="name"
+							value="Solde année précédente" />
+						<label sclass="value"
+							value="@bind(vm.soldeCourant.soldeCongeAnneePrecToString)" />
+					</div>
+					<div>
+						<label sclass="name"
+							value="Solde année en cours" />
+						<label sclass="value"
+							value="@bind(vm.soldeCourant.soldeCongeAnneeToString)" />
+					</div>
+				</div>
+				<div sclass="RHTitle2">
+					<label value="Mon solde de récuéprations" />
+				</div>
+				<div sclass="RHTitle2Line"></div>
+				<div sclass="RHContent right">
+					<div>
+						<label sclass="name"
+							value="Solde année en cours" />
+						<label sclass="value"
+							value="@bind(vm.soldeCourant.soldeRecupToString)" />
+					</div>
+				</div>
+				<div sclass="RHTitle2">
+					<label value="Mon solde de repos compensateur" />
+				</div>
+				<div sclass="RHTitle2Line"></div>
+				<div sclass="RHContent right">
+					<div>
+						<label sclass="name"
+							value="Solde année précédente" />
+						<label sclass="value"
+							value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+					</div>
+					<div>
+						<label sclass="name"
+							value="Solde année en cours" />
+						<label sclass="value"
+							value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+					</div>
+				</div>
+			</div>
 		</div>
 	</window>
 </zk>
