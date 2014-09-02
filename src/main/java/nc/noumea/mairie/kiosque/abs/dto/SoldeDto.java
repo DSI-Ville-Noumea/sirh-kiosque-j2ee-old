@@ -194,6 +194,28 @@ public class SoldeDto {
 		return soldeReposCompAnneePrec + " j";
 	}
 
+	public String getSoldeAsaA48ToString() {
+		if (soldeAsaA48 == 0)
+			return "aucun";
+		return soldeAsaA48 + " j";
+	}
+
+	public String getSoldeAsaA54ToString() {
+		if (soldeAsaA54 == 0)
+			return "aucun";
+		return soldeAsaA54 + " j";
+	}
+
+	public String getSoldeAsaA55ToString() {
+		if (soldeAsaA55 == 0)
+			return "aucun";
+		return soldeAsaA55 + " j";
+	}
+
+	public boolean isAfficheSoldeAsa() {
+		return afficheSoldeAsaA48 || afficheSoldeAsaA54 || afficheSoldeAsaA55;
+	}
+
 	private static String getHeureMinute(int nombreMinute) {
 		int heure = nombreMinute / 60;
 		int minute = nombreMinute % 60;

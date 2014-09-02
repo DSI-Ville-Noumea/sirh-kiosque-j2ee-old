@@ -25,7 +25,7 @@
 
 		.RHContent.right { text-align: right; }
 
-		.RHContent .name { width: 150px; margin: 5px 10px 5px 30px;
+		.RHContent .name {  margin: 5px 10px 5px 30px;
 		display: inline-block; color: #3B62A7; }
 
 		.RHContent .value { width: 120px; display: inline-block; color:
@@ -44,52 +44,88 @@
 			<separator />
 			<separator />
 			<div sclass="conges">
-				<div sclass="RHTitle2">
-					<label value="Mon solde de congés annuel" />
-				</div>
-				<div sclass="RHTitle2Line"></div>
-				<div sclass="RHContent right">
-					<div>
-						<label sclass="name"
-							value="Solde année précédente" />
-						<label sclass="value"
-							value="@bind(vm.soldeCourant.soldeCongeAnneePrecToString)" />
+				<div
+					visible="@bind(vm.soldeCourant.afficheSoldeConge)">
+					<div sclass="RHTitle2">
+						<label value="Mon solde de congés annuel" />
 					</div>
-					<div>
-						<label sclass="name"
-							value="Solde année en cours" />
-						<label sclass="value"
-							value="@bind(vm.soldeCourant.soldeCongeAnneeToString)" />
-					</div>
-				</div>
-				<div sclass="RHTitle2">
-					<label value="Mon solde de récuéprations" />
-				</div>
-				<div sclass="RHTitle2Line"></div>
-				<div sclass="RHContent right">
-					<div>
-						<label sclass="name"
-							value="Solde année en cours" />
-						<label sclass="value"
-							value="@bind(vm.soldeCourant.soldeRecupToString)" />
+					<div sclass="RHTitle2Line"></div>
+					<div sclass="RHContent right">
+						<div>
+							<label sclass="name"
+								value="Solde année précédente" />
+							<label sclass="value"
+								value="@bind(vm.soldeCourant.soldeCongeAnneePrecToString)" />
+						</div>
+						<div>
+							<label sclass="name"
+								value="Solde année en cours" />
+							<label sclass="value"
+								value="@bind(vm.soldeCourant.soldeCongeAnneeToString)" />
+						</div>
 					</div>
 				</div>
-				<div sclass="RHTitle2">
-					<label value="Mon solde de repos compensateur" />
-				</div>
-				<div sclass="RHTitle2Line"></div>
-				<div sclass="RHContent right">
-					<div>
-						<label sclass="name"
-							value="Solde année précédente" />
-						<label sclass="value"
-							value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+				<div
+					visible="@bind(vm.soldeCourant.afficheSoldeRecup)">
+					<div sclass="RHTitle2">
+						<label value="Mon solde de récupérations" />
 					</div>
-					<div>
-						<label sclass="name"
-							value="Solde année en cours" />
-						<label sclass="value"
-							value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+					<div sclass="RHTitle2Line"></div>
+					<div sclass="RHContent right">
+						<div>
+							<label sclass="name"
+								value="Solde année en cours" />
+							<label sclass="value"
+								value="@bind(vm.soldeCourant.soldeRecupToString)" />
+						</div>
+					</div>
+				</div>
+				<div
+					visible="@bind(vm.soldeCourant.afficheSoldeReposComp)">
+					<div sclass="RHTitle2">
+						<label value="Mon solde de repos compensateur" />
+					</div>
+					<div sclass="RHTitle2Line"></div>
+					<div sclass="RHContent right">
+						<div>
+							<label sclass="name"
+								value="Solde année précédente" />
+							<label sclass="value"
+								value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+						</div>
+						<div>
+							<label sclass="name"
+								value="Solde année en cours" />
+							<label sclass="value"
+								value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+						</div>
+					</div>
+				</div>
+				<div
+					visible="@bind(vm.soldeCourant.afficheSoldeAsa)">
+					<div sclass="RHTitle2">
+						<label value="Mon solde ASA" />
+					</div>
+					<div sclass="RHTitle2Line"></div>
+					<div sclass="RHContent right">
+						<div visible="@bind(vm.soldeCourant.afficheSoldeAsaA48)">
+							<label sclass="name"
+								value="Réunion des membres du bureau directeur" />
+							<label sclass="value"
+								value="@bind(vm.soldeCourant.soldeAsaA48ToString)" />
+						</div>
+						<div visible="@bind(vm.soldeCourant.afficheSoldeAsaA54)">
+							<label sclass="name"
+								value="Congrès et conseil syndical" />
+							<label sclass="value"
+								value="@bind(vm.soldeCourant.soldeAsaA54ToString)" />
+						</div>
+						<div visible="@bind(vm.soldeCourant.afficheSoldeAsaA55)">
+							<label sclass="name"
+								value="Délégation (DP)" />
+							<label sclass="value"
+								value="@bind(vm.soldeCourant.soldeAsaA55ToString)" />
+						</div>
 					</div>
 				</div>
 			</div>
