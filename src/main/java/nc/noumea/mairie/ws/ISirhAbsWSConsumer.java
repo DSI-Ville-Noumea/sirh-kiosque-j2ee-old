@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
+import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
@@ -21,6 +22,8 @@ public interface ISirhAbsWSConsumer {
 	ReturnMessageDto saveDemandeAbsence(Integer idAgent, DemandeDto dto);
 
 	ReturnMessageDto deleteDemandeAbsence(Integer idAgent, Integer idDemande);
+
+	ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent, DemandeEtatChangeDto dto);
 
 	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent);
 

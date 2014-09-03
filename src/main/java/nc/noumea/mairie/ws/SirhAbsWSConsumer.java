@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
+import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
@@ -30,6 +31,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private String sirhAbsWsBaseUrl;
 
 	private static final String sirhAgentSoldeUrl = "solde/soldeAgent";
+	private static final String sirhChangerEtatDemandesAgentUrl = "demandes/changerEtats";
 	private static final String sirhDeleteDemandesAgentUrl = "demandes/deleteDemande";
 	private static final String sirhSaveDemandesAgentUrl = "demandes/demande";
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
@@ -125,6 +127,19 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		params.put("idDemande", idDemande.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent, DemandeEtatChangeDto dto) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhChangerEtatDemandesAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(dto);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
