@@ -56,8 +56,9 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "listeTypeAbsenceFiltre" })
+	@NotifyChange({ "listeDemandes", "listeTypeAbsenceFiltre" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
+		setListeDemandes(null);
 		// on recharge les états d'absences pour les filtres
 		List<RefEtatDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
 		setListeEtatAbsenceFiltre(filtreEtat);
