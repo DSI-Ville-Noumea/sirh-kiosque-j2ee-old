@@ -1,6 +1,51 @@
 <listbox mold="paging" pageSize="10" model="@bind(vm.listeDemandes)"
 	selectedItem="@bind(vm.demandeCourant)">
+	<div sclass="RHTitle2Line" />
+	<separator />
+	<vlayout>
+		<hlayout>
 
+			<label value="Famille d'absence :" />
+			<combobox readonly="true" width="400px"
+				model="@bind(vm.listeTypeAbsenceFiltre)"
+				selectedItem="@bind(vm.typeAbsenceFiltre)">
+				<template name="model">
+					<comboitem label="@bind(each.libelle)"
+						description="@bind(each.groupeAbsence.libelle)" />
+				</template>
+			</combobox>
+
+			<label value="Date de début : " />
+			<datebox cols="14" format="dd/MM/yyyy"
+				value="@bind(vm.dateDebutFiltre)" />
+
+			<label value="Date de fin : " />
+			<datebox cols="14" format="dd/MM/yyyy"
+				value="@bind(vm.dateFinFiltre)" />
+		</hlayout>
+		<hlayout>
+
+			<label value="Etat :" />
+			<combobox readonly="true" width="100px"
+				model="@bind(vm.listeEtatAbsenceFiltre)"
+				selectedItem="@bind(vm.etatAbsenceFiltre)">
+				<template name="model">
+					<comboitem label="@bind(each.libelle)" />
+				</template>
+			</combobox>
+
+			<label value="Date de la demande : " />
+			<datebox cols="14" format="dd/MM/yyyy"
+				value="@bind(vm.dateDemandeFiltre)" />
+
+			<button label="Filtrer" onClick="@command('filtrer')" />
+			<button label="Vider" onClick="@command('viderFiltre')" />
+		</hlayout>
+	</vlayout>
+	<separator />
+	<div sclass="RHTitle2Line" />
+	<separator />
+	
 	<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 	<listhead>
 		<listheader label="Type de demande"
@@ -28,7 +73,7 @@
 			<listcell label="@bind(each.etat)" />
 			<listcell>
 			<hlayout>
-			<image sclass="ListAction edit" onClick="@command('modifierDemande')"/>
+				<image sclass="ListAction edit" onClick="@command('modifierDemande')"/>
 			</hlayout>
 			</listcell>
 
