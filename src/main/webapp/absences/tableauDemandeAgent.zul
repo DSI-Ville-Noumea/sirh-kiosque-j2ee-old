@@ -13,6 +13,7 @@
 		<listheader label="Date de demande" sort="auto('dateDemande')"
 			align="center" />
 		<listheader label="Etat" sort="auto('etat')" />
+		<listheader label="" sort="none" />
 	</listhead>
 
 	<template name="model">
@@ -25,6 +26,11 @@
 			<listcell
 				label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
 			<listcell label="@bind(each.etat)" />
+			<listcell>
+			<hlayout>
+			<image sclass="ListAction edit" onClick="@command('modifierDemande')"/>
+			</hlayout>
+			</listcell>
 
 		</listitem>
 	</template>
