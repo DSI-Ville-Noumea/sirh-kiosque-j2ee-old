@@ -29,6 +29,16 @@
 		0; width: 90px; min-height: 0px;font-family: "Helvetica
 		Neue",Helvetica,Arial,sans-serif; font-size:
 		12px;text-shadow:none;}
+
+		.z-tabs-content { border-bottom: 0px solid #cfcfcf; display:
+		table;}
+
+		.z-tabpanel { border-style: none none none; border-width: 0 0 0;
+		}
+
+		.RHTitle2Line { background-image: -moz-linear-gradient(left
+		center, rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%);
+		clear: both; height: 1px;}
 	</style>
 	<window
 		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel"
@@ -42,17 +52,19 @@
 					value="Mes demandes" />
 			</vlayout>
 			<separator />
-			<tabbox id="tb" height="430px">
+			<tabbox id="tb"
+				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
 				<tabs id="tabs">
 					<tab id="NON_PRISES" label="Demandes non prises"
-						onClick="@command('changeVue',tab = NON_PRISES)" />
+						onClick="@command('changeVue',tab = NON_PRISES)">
+					</tab>
 					<tab id="EN_COURS" label="Demandes en cours"
 						onClick="@command('changeVue',tab = EN_COURS)" />
 					<tab id="TOUTES" label="Toutes les demandes"
 						onClick="@command('changeVue',tab = TOUTES)" />
 				</tabs>
 				<tabpanels>
-					<tabpanel>
+					<tabpanel>						
 						<include src="tableauDemandeAgent.zul" />
 					</tabpanel>
 					<tabpanel>

@@ -15,7 +15,6 @@ import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -45,8 +44,6 @@ public class AjoutDemandesAgentViewModel {
 	private String selectFinAM;
 
 	@Init
-	@NotifyChange({ "demandeCreation", "listeTypeAbsence", "typeAbsenceCourant", "etatDemandeCreation",
-			"listeOrganisationsSyndicale", "organisationsSyndicaleCourant", "selectDebutAM", "selectFinAM" })
 	public void initDemandes() {
 		// on vide
 		viderZones();

@@ -12,10 +12,8 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -23,9 +21,7 @@ import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class DemandesAgentViewModel extends SelectorComposer<Component> {
-
-	private static final long serialVersionUID = 1L;
+public class DemandesAgentViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
@@ -33,8 +29,6 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	private List<DemandeDto> listeDemandes;
 
 	private DemandeDto demandeCourant;
-
-	private Tab tabCourant;
 
 	/* POUR LES FILTRES */
 	private List<RefTypeAbsenceDto> listeTypeAbsenceFiltre;
@@ -47,6 +41,8 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 
 	@Init
 	public void initDemandes() {
+		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, "NON_PRISES");
+		setListeDemandes(result);
 		// on recharge les types d'absences pour les filtres
 		List<RefTypeAbsenceDto> filtreFamille = absWsConsumer.getRefTypeAbsenceKiosque(9005138);
 		setListeTypeAbsenceFiltre(filtreFamille);
@@ -58,41 +54,11 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeDemandes", "listeTypeAbsenceFiltre" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
-		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, tab.getId(), getDateDebutFiltre(),
-				getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
-						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
-						: getTypeAbsenceFiltre().getIdRefTypeAbsence());
+		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, tab.getId());
 		setListeDemandes(result);
 		// on recharge les états d'absences pour les filtres
 		List<RefEtatDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
 		setListeEtatAbsenceFiltre(filtreEtat);
-		// on sauvegarde l'onglet
-		setTabCourant(tab);
-	}
-
-	@Command
-	public void setTabDebut(@BindingParam("tab") Tab tab) {
-		setTabCourant(tab);
-	}
-
-	@Command
-	@NotifyChange({ "listeDemandes" })
-	public void filtrer() {
-		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, getTabCourant().getId(),
-				getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
-						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
-						: getTypeAbsenceFiltre().getIdRefTypeAbsence());
-		setListeDemandes(result);
-	}
-
-	@Command
-	@NotifyChange({ "typeAbsenceFiltre", "etatAbsenceFiltre", "dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre" })
-	public void viderFiltre() {
-		setTypeAbsenceFiltre(null);
-		setEtatAbsenceFiltre(null);
-		setDateDebutFiltre(null);
-		setDateFinFiltre(null);
-		setDateDemandeFiltre(null);
 	}
 
 	@Listen("onClick = #AJOUT")
@@ -172,13 +138,5 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 
 	public void setEtatAbsenceFiltre(RefEtatDto etatAbsenceFiltre) {
 		this.etatAbsenceFiltre = etatAbsenceFiltre;
-	}
-
-	public Tab getTabCourant() {
-		return tabCourant;
-	}
-
-	public void setTabCourant(Tab tabCourant) {
-		this.tabCourant = tabCourant;
 	}
 }
