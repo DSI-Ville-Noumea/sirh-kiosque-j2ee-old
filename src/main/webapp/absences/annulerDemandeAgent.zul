@@ -24,8 +24,13 @@
 
 		</style>
 		<div sclass="fond" height="100%">
-			<label
-				value="Voulez-vous vraiment annuler cette demande ?" />
+			<label value="Voulez-vous vraiment annuler cette demande ?" />
+			<separator />
+			<vlayout>
+				<label value="Merci de renseigner un motif" />
+				<textbox rows="4" width="200px"
+					value="@bind(vm.motifAnnulation)" />
+			</vlayout>
 			<separator />
 			<div sclass="RHTitle2Line" />
 			<separator />

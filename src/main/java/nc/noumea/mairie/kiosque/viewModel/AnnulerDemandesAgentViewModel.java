@@ -27,6 +27,8 @@ public class AnnulerDemandesAgentViewModel {
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
+	private String motifAnnulation;
+
 	private DemandeDto demandeCourant;
 
 	@AfterCompose
@@ -46,7 +48,7 @@ public class AnnulerDemandesAgentViewModel {
 		dto.setIdDemande(getDemandeCourant().getIdDemande());
 		dto.setIdRefEtat(RefEtatEnum.ANNULEE.getCodeEtat());
 		dto.setDateAvis(new Date());
-		dto.setMotif(null);
+		dto.setMotif(getMotifAnnulation());
 		ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(9005138, dto);
 
 		if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
@@ -77,5 +79,13 @@ public class AnnulerDemandesAgentViewModel {
 
 	public void setDemandeCourant(DemandeDto demandeCourant) {
 		this.demandeCourant = demandeCourant;
+	}
+
+	public String getMotifAnnulation() {
+		return motifAnnulation;
+	}
+
+	public void setMotifAnnulation(String motifAnnulation) {
+		this.motifAnnulation = motifAnnulation;
 	}
 }
