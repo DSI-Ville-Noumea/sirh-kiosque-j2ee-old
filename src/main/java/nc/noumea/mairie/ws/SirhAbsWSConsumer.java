@@ -30,6 +30,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private String sirhAbsWsBaseUrl;
 
 	private static final String sirhAgentSoldeUrl = "solde/soldeAgent";
+	private static final String sirhDeleteDemandesAgentUrl = "demandes/deleteDemande";
 	private static final String sirhSaveDemandesAgentUrl = "demandes/demande";
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
 	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
@@ -114,6 +115,17 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(RefEtatDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto deleteDemandeAbsence(Integer idAgent, Integer idDemande) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhDeleteDemandesAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idDemande", idDemande.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 }

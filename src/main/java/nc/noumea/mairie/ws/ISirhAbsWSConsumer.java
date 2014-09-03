@@ -20,9 +20,12 @@ public interface ISirhAbsWSConsumer {
 
 	ReturnMessageDto saveDemandeAbsence(Integer idAgent, DemandeDto dto);
 
+	ReturnMessageDto deleteDemandeAbsence(Integer idAgent, Integer idDemande);
+
 	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent);
 
 	List<RefEtatDto> getEtatAbsenceKiosque(String onglet);
 
 	List<OrganisationSyndicaleDto> getListOrganisationSyndicale();
+
 }

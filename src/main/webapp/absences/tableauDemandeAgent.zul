@@ -75,6 +75,8 @@
 					<hlayout>
 						<image tooltiptext="Editer la demande" sclass="ListAction edit" visible="@bind(each.affichageBoutonModifier)"
 							onClick="@command('modifierDemande')" />
+						<image tooltiptext="Supprimer la demande" sclass="ListAction delete" visible="@bind(each.affichageBoutonSupprimer)"
+							onClick="@command('supprimerDemande')" />
 					</hlayout>
 				</listcell>
 

@@ -112,6 +112,15 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		win.doModal();
 	}
 
+	@Command
+	public void supprimerDemande() {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", getDemandeCourant());
+		Window win = (Window) Executions.createComponents("supprimerDemandeAgent.zul", null, args);
+		win.doModal();
+	}
+
 	public List<DemandeDto> getListeDemandes() {
 		return listeDemandes;
 	}
