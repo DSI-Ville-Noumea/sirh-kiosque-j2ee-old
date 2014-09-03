@@ -22,7 +22,7 @@
 		display: inline-block; height: 25px; padding-right: 14px;
 		color:#FFFFFF;font-weight: bold;line-height:15px;}
 
-		.z-button { background-color: transparent; background-image:
+		.z-button,.z-button:focus { background-color: transparent; background-image:
 		url("../img/Sprite.png"); background-position: -90px top;
 		background-repeat: no-repeat; border: 0 none; color: #ffffff;
 		cursor: pointer; font-weight: bold; height: 18px; margin: 5px 0

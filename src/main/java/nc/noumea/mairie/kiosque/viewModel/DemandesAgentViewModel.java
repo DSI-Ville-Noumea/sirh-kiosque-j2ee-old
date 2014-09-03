@@ -56,7 +56,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "listeDemandes", "listeTypeAbsenceFiltre" })
+	@NotifyChange({ "listeDemandes", "listeEtatAbsenceFiltre" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
 		setListeDemandes(null);
 		// on recharge les états d'absences pour les filtres
@@ -64,11 +64,14 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		setListeEtatAbsenceFiltre(filtreEtat);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
+		filtrer();
 	}
 
 	@Command
+	@NotifyChange({ "listeDemandes" })
 	public void setTabDebut(@BindingParam("tab") Tab tab) {
 		setTabCourant(tab);
+		filtrer();
 	}
 
 	@Command
