@@ -362,7 +362,7 @@ public class DemandeDto {
 	@Transient
 	public String getHeureDebut() {
 		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
-		return sf.format(getDateDebut()).equals("00:00") ? "" : sf.format(getDateDebut());
+		return sf.format(getDateDebut());
 	}
 
 	@Transient
