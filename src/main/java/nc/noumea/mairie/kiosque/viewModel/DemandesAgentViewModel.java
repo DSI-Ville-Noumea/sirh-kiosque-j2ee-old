@@ -1,7 +1,9 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
@@ -94,10 +96,19 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		setDateDemandeFiltre(null);
 	}
 
-	@Listen("onClick = #AJOUT")
-	public void showModal(Event e) {
+	@Listen("onClick = #AJOUTER")
+	public void ajouterDemande(Event e) {
 		// create a window programmatically and use it as a modal dialog.
 		Window win = (Window) Executions.createComponents("ajoutDemandeAgent.zul", null, null);
+		win.doModal();
+	}
+
+	@Command
+	public void modifierDemande() {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", getDemandeCourant());
+		Window win = (Window) Executions.createComponents("modifierDemandeAgent.zul", null, args);
 		win.doModal();
 	}
 

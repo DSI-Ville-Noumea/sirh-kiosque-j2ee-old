@@ -22,12 +22,12 @@
 		display: inline-block; height: 25px; padding-right: 14px;
 		color:#FFFFFF;font-weight: bold;line-height:15px;}
 
-		.z-button,.z-button:focus { background-color: transparent; background-image:
-		url("../img/Sprite.png"); background-position: -90px top;
-		background-repeat: no-repeat; border: 0 none; color: #ffffff;
-		cursor: pointer; font-weight: bold; height: 18px; margin: 5px 0
-		0; width: 90px; min-height: 0px;font-family: "Helvetica
-		Neue",Helvetica,Arial,sans-serif; font-size:
+		.z-button,.z-button:focus { background-color: transparent;
+		background-image: url("../img/Sprite.png"); background-position:
+		-90px top; background-repeat: no-repeat; border: 0 none; color:
+		#ffffff; cursor: pointer; font-weight: bold; height: 18px;
+		margin: 5px 0 0; width: 90px; min-height: 0px;font-family:
+		"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:
 		12px;text-shadow:none;}
 
 		.z-tabs-content { border-bottom: 0px solid #cfcfcf; display:
@@ -39,12 +39,18 @@
 		.RHTitle2Line { background-image: -moz-linear-gradient(left
 		center, rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%);
 		clear: both; height: 1px;}
+
+		.ListAction.edit { background-position: -235px -229px; }
+
+		.ListAction { background-image: url("../img/Sprite.png");
+		background-repeat: no-repeat; cursor: pointer; display:
+		inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }
 	</style>
 	<window
 		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel')"
 		height="100%">
-		<div sclass="fond" height="100%">
+		<div sclass="fond" height="100%" >
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
 					value="ABSENCES" />
@@ -64,7 +70,7 @@
 						onClick="@command('changeVue',tab = TOUTES)" />
 				</tabs>
 				<tabpanels>
-					<tabpanel>						
+					<tabpanel>
 						<include src="tableauDemandeAgent.zul" />
 					</tabpanel>
 					<tabpanel>
@@ -75,7 +81,7 @@
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
-			<button id="AJOUT" label="Ajouter" />
+			<button id="AJOUTER" label="Ajouter" />
 		</div>
 	</window>
 </zk>
