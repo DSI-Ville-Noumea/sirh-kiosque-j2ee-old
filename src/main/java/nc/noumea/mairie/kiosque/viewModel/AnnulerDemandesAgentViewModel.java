@@ -44,33 +44,53 @@ public class AnnulerDemandesAgentViewModel {
 
 	@Command
 	public void annuleDemande(@BindingParam("win") Window window) {
-		DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
-		dto.setIdDemande(getDemandeCourant().getIdDemande());
-		dto.setIdRefEtat(RefEtatEnum.ANNULEE.getCodeEtat());
-		dto.setDateAvis(new Date());
-		dto.setMotif(getMotifAnnulation());
-		ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(9005138, dto);
+		if (IsFormValid()) {
 
-		if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
-			final HashMap<String, Object> map = new HashMap<String, Object>();
-			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
-			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
-			for (String error : result.getErrors()) {
-				ValidationMessage vm = new ValidationMessage(error);
-				listErreur.add(vm);
-			}
-			for (String info : result.getInfos()) {
-				ValidationMessage vm = new ValidationMessage(info);
-				listInfo.add(vm);
-			}
-			map.put("errors", listErreur);
-			map.put("infos", listInfo);
-			Executions.createComponents("../messages/returnMessage.zul", null, map);
-			if (listErreur.size() == 0) {
-				window.detach();
+			DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
+			dto.setIdDemande(getDemandeCourant().getIdDemande());
+			dto.setIdRefEtat(RefEtatEnum.ANNULEE.getCodeEtat());
+			dto.setDateAvis(new Date());
+			dto.setMotif(getMotifAnnulation());
+			ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(9005138, dto);
+
+			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
+				final HashMap<String, Object> map = new HashMap<String, Object>();
+				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+				List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+				for (String error : result.getErrors()) {
+					ValidationMessage vm = new ValidationMessage(error);
+					listErreur.add(vm);
+				}
+				for (String info : result.getInfos()) {
+					ValidationMessage vm = new ValidationMessage(info);
+					listInfo.add(vm);
+				}
+				map.put("errors", listErreur);
+				map.put("infos", listInfo);
+				Executions.createComponents("../messages/returnMessage.zul", null, map);
+				if (listErreur.size() == 0) {
+					window.detach();
+				}
 			}
 		}
+	}
 
+	private boolean IsFormValid() {
+
+		List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
+
+		// Motif
+		if (getMotifAnnulation() == null) {
+			vList.add(new ValidationMessage("Le motif est obligatoire."));
+		}
+
+		if (vList.size() > 0) {
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("errors", vList);
+			Executions.createComponents("../messages/returnMessage.zul", null, map);
+			return false;
+		} else
+			return true;
 	}
 
 	public DemandeDto getDemandeCourant() {
