@@ -21,6 +21,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
@@ -132,11 +133,9 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 
 	@Command
 	public void imprimerDemande() {
-		// create a window programmatically and use it as a modal dialog.
-		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
-		Window win = (Window) Executions.createComponents("imprimerDemandeAgent.zul", null, args);
-		win.doModal();
+		// on imprime la demande
+		byte[] resp = absWsConsumer.imprimerDemande(9005138, getDemandeCourant().getIdDemande());
+		Filedownload.save(resp, "application/pdf", "titreAbsence");
 	}
 
 	public List<DemandeDto> getListeDemandes() {
