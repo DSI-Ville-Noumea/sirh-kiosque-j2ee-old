@@ -146,4 +146,18 @@ public abstract class BaseWsConsumer {
 		result = new JSONDeserializer<T>().use(Date.class, new MSDateTransformer()).deserializeInto(output, result);
 		return result;
 	}
+
+	public byte[] readResponseWithFile(ClientResponse response, String url) {
+
+		if (response.getStatus() == HttpStatus.NO_CONTENT.value()) {
+			return null;
+		}
+
+		if (response.getStatus() != HttpStatus.OK.value()) {
+			throw new WSConsumerException(String.format("An error occured when querying '%s'. Return code is : %s",
+					url, response.getStatus()));
+		}
+
+		return response.getEntity(byte[].class);
+	}
 }

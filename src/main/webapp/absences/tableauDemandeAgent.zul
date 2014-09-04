@@ -79,6 +79,8 @@
 							onClick="@command('supprimerDemande')" />
 						<image tooltiptext="Annuler la demande" sclass="ListAction delete" visible="@bind(each.affichageBoutonAnnuler)"
 							onClick="@command('annulerDemande')" />
+						<image tooltiptext="Imprimer la demande" sclass="ListAction print" visible="@bind(each.affichageBoutonImprimer)"
+							onClick="@command('imprimerDemande')" />
 					</hlayout>
 				</listcell>
 

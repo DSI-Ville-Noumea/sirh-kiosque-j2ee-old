@@ -38,6 +38,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
 	private static final String sirhEtatAbsenceKiosqueUrl = "filtres/getEtats";
 	private static final String sirhListOrganisationUrl = "organisation/listOrganisationActif";
+	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
@@ -141,6 +142,17 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public byte[] imprimerDemande(Integer idAgent, Integer idDemande) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhPrintDemandesAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idDemande", idDemande.toString());
+		ClientResponse res = createAndFireRequest(params, url, false, null);
+
+		return readResponseWithFile(res, url);
 	}
 
 }

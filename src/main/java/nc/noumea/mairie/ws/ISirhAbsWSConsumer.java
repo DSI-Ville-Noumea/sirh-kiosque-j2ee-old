@@ -31,4 +31,6 @@ public interface ISirhAbsWSConsumer {
 
 	List<OrganisationSyndicaleDto> getListOrganisationSyndicale();
 
+	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
+
 }
