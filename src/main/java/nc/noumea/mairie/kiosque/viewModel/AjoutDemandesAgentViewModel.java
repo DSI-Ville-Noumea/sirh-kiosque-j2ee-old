@@ -12,6 +12,7 @@ import nc.noumea.mairie.kiosque.abs.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -115,6 +116,7 @@ public class AjoutDemandesAgentViewModel {
 				map.put("infos", listInfo);
 				Executions.createComponents("../messages/returnMessage.zul", null, map);
 				if (listErreur.size() == 0) {
+					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
 					window.detach();
 				}
 			}
