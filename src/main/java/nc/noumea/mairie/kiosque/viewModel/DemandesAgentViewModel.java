@@ -12,6 +12,7 @@ import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
@@ -136,6 +137,12 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		// on imprime la demande
 		byte[] resp = absWsConsumer.imprimerDemande(9005138, getDemandeCourant().getIdDemande());
 		Filedownload.save(resp, "application/pdf", "titreAbsence");
+	}
+
+	@GlobalCommand
+	@NotifyChange({ "listeDemandes" })
+	public void refreshListeDemande() {
+		filtrer();
 	}
 
 	public List<DemandeDto> getListeDemandes() {
