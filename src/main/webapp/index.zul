@@ -1,6 +1,24 @@
-<?page title="Auto Generated index.zul"?>
-<window title="Hello World!!" border="normal" width="200px" closable="true">
-
-<label value="You are using: ${desktop.webApp.version}"/>
-
-</window>
+<zk>
+	<window height="100%">
+		<div height="100%">
+			<borderlayout>
+				<west id="west" splittable="true" sclass="fondMenu">
+					<div id="menuGauche" height="100%">
+						<include src="menu.zul" />
+					</div>
+				</west>
+				<center autoscroll="true">
+					<div hflex="true" vflex="true" id="content">
+						<include src="accueil.zul"></include>
+					</div>
+				</center>
+				<south sclass="fondMenu">
+					<toolbar mold="panel" align="center">
+						${project.version} @ Mairie
+					</toolbar>
+				</south>
+			</borderlayout>
+		</div>
+		<include id="includeStyle" src="/css/index.zul" />
+	</window>
+</zk>

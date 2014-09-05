@@ -1,95 +1,27 @@
 <zk>
-	<style>
-		.fond { background-color: #ee7203; }
-
-		.z-west,.z-south { border: 0 none; }
-
-		.z-window-content { padding: 0px; }
-
-		.accueil{background-image: url("img/Sprite.png");
-		background-repeat: no-repeat; float: none; height: 52px; width:
-		58px; background-position: left -18px;}
-		
-		.accueil>.z-menuitem-content{height: 52px;}
-
-		.accueil>.z-menuitem-content:hover{background-image:
-		url("img/Sprite.png"); background-repeat: no-repeat; float:
-		none; height: 52px; width: 58px;background-position: -116px
-		-73px;}
-
-
-		.accueil>.z-menu-content:focus,.accueil>.z-menuitem-content:focus{background-image:
-		url("img/Sprite.png"); background-repeat: no-repeat; float:
-		none; height: 52px; width: 58px;background-position: -116px
-		-73px;}
-
-		.absence{ background-image: url("img/Sprite.png");
-		background-repeat: no-repeat; float: none; height: 52px; width:
-		58px;background-position: -116px -18px;}
-
-
-		.absence>.z-menu-content:hover,.absence.z-menu-selected>.z-menu-content{background-image:
-		url("img/Sprite.png"); background-repeat: no-repeat; float:
-		none; height: 52px; width: 58px;background-position: -232px
-		-73px;}
-
-		.pointage{ background-image: url("img/Sprite.png");
-		background-repeat: no-repeat; float: none; height: 52px; width:
-		58px;background-position: -219px -349px;}
-
-
-		.pointage>.z-menu-content:hover,.pointage.z-menu-selected>.z-menu-content{background-image:
-		url("img/Sprite.png"); background-repeat: no-repeat; float:
-		none; height: 52px; width: 58px; background-position: -277px
-		-349px;}
-
-		.z-menu-content{height: 52px;}
-
-		.menu { background: none; border-bottom: none ; border-top:
-		none; }
-
-		.z-menu-content:focus{background: none; border-bottom: none ;
-		border-top: none; border-radius:none; }
-	</style>
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.MenuViewModel')"
 		height="100%">
-		<div height="100%" sclass="fond">
-			<borderlayout>
-				<west splittable="true" sclass="fond">
-					<menubar id="menubar" orient="vertical"
-						autodrop="true" sclass="menu">
-						<menuitem tooltiptext="Accueil"
-							sclass="accueil" />
-						<menu tooltiptext="Mes absences"
-							sclass="absence">
-							<menupopup>
-								<menuitem label="Mon solde"
-									onClick="@command('soldeAgent')" />
-								<menuitem label="Mes demandes"
-									onClick="alert(self.label)" />
-							</menupopup>
-						</menu>
-						<menu tooltiptext="Mes pointages"
-							sclass="pointage">
-							<menupopup>
-								<menuitem label="Mes demandes"
-									onClick="alert(self.label)" />
-							</menupopup>
-						</menu>
-					</menubar>
-				</west>
-				<center autoscroll="true">
-					<div hflex="true" vflex="true" id="content">
-						<!-- 					<include src="accueil.zul" /> -->
-					</div>
-				</center>
-				<south sclass="fond">
-					<toolbar mold="panel" align="center">
-						${project.version} @ Mairie
-					</toolbar>
-				</south>
-			</borderlayout>
-		</div>
+		<style>
+		</style>
+		<menubar id="menubar" orient="vertical" autodrop="true"
+			sclass="menu">
+			<menuitem tooltiptext="Accueil" sclass="accueil" onClick="@command('changeEcran',page='accueil',ecran=content)" />
+			<menu tooltiptext="Mes absences" sclass="absence">
+				<menupopup>
+					<menuitem label="Mon solde"
+						onClick="@command('changeEcran',page='/absences/soldeAgent',ecran=content)" />
+					<menuitem label="Mes demandes"
+						onClick="@command('changeEcran',page='/absences/mesDemandes',ecran=content)" />
+				</menupopup>
+			</menu>
+			<menu tooltiptext="Mes pointages" sclass="pointage">
+				<menupopup>
+					<menuitem label="Mes demandes"
+						onClick="alert(self.label)" />
+				</menupopup>
+			</menu>
+		</menubar>
+		<include id="includeStyleMenu" src="/css/menu.zul" />
 	</window>
 </zk>

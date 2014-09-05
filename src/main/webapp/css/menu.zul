@@ -1,0 +1,45 @@
+<style>
+	
+	<![CDATA[
+
+	.accueil{background-image: url("img/Sprite.png"); background-repeat:
+	no-repeat; float: none; height: 52px; width: 58px;
+	background-position: left -18px;}
+
+	.accueil>.z-menuitem-content{height: 52px;}
+
+	.accueil>.z-menuitem-content:hover{background-image:
+	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
+	height: 52px; width: 58px;background-position: -116px -73px;}
+
+
+	.accueil>.z-menu-content:focus,.accueil>.z-menuitem-content:focus{background-image:
+	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
+	height: 52px; width: 58px;background-position: -116px -73px;}
+
+	.absence{ background-image: url("img/Sprite.png");
+	background-repeat: no-repeat; float: none; height: 52px; width:
+	58px;background-position: -116px -18px;}
+
+
+	.absence>.z-menu-content:hover,.absence.z-menu-selected>.z-menu-content{background-image:
+	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
+	height: 52px; width: 58px;background-position: -232px -73px;}
+
+	.pointage{ background-image: url("img/Sprite.png");
+	background-repeat: no-repeat; float: none; height: 52px; width:
+	58px;background-position: -219px -349px;}
+
+
+	.pointage>.z-menu-content:hover,.pointage.z-menu-selected>.z-menu-content{background-image:
+	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
+	height: 52px; width: 58px; background-position: -277px -349px;}
+
+	.z-menu-content{height: 52px;}
+
+	.menu { background: none; border-bottom: none ; border-top: none; }
+
+	.z-menu-content:focus{background: none; border-bottom: none ;
+	border-top: none; border-radius:none; } ]]>
+	
+</style>

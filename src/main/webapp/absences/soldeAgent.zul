@@ -1,36 +1,4 @@
 <zk>
-	<style>
-		.fond { background-color: #FFEBCD; }
-
-		.conges { width: 910px; }
-
-		.conges .RHTitle2 { color: #ffffff; margin-bottom: 5px; }
-
-		.conges .RHTitle2>span { height: 25px; padding-top: 5px; }
-
-		.RHTitle2 { background-image: url("../img/Sprite.png");
-		background-position: -485px -98px; background-repeat: no-repeat;
-		height: 25px; padding-left: 14px;}
-
-		.RHTitle2>span { background-image: url("../img/SpriteH.png");
-		background-position: right -44px; background-repeat: no-repeat;
-		display: inline-block; height: 25px; padding-right: 14px; }
-
-		.RHTitle2Line { background-image: -moz-linear-gradient(left
-		center, rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%);
-		clear: both; height: 1px;}
-
-		.RHContent { margin-top: 10px; margin-bottom: 15px;
-		margin-right: 80px; }
-
-		.RHContent.right { text-align: right; }
-
-		.RHContent .name {  margin: 5px 10px 5px 30px;
-		display: inline-block; color: #3B62A7; }
-
-		.RHContent .value { width: 120px; display: inline-block; color:
-		#000000; }
-	</style>
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.SoldeAgentViewModel')" height="100%">
 		<div sclass="fond" height="100%">
@@ -130,6 +98,7 @@
 				</div>
 			</div>
 		</div>
+		<include id="includeStyleSoldeAgent" src="/css/soldeAgent.zul" />
 	</window>
 </zk>
 

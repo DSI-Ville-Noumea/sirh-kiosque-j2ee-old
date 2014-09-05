@@ -1,55 +1,4 @@
 <zk>
-	<style>
-		.fond { background-color:#FFEBCD; }
-
-		.z-tab.z-tab-selected{background-position: -485px -73px;
-		margin-bottom: 5px; background-image: url("../img/Sprite.png");
-		background-repeat: no-repeat; height: 25px; padding-left: 14px;}
-
-		.z-tab{ background-position: -485px -98px;margin-bottom: 5px;
-		background-image: url("../img/Sprite.png"); background-repeat:
-		no-repeat; height: 25px; padding-left: 14px; border-style:
-		none;padding-top: 0px;}
-
-		.z-tab.z-tab-selected>.z-tab-content>.z-tab-text {
-		background-position: right -19px;margin-bottom:
-		5px;background-image: url("../img/SpriteH.png");
-		background-repeat: no-repeat; display: inline-block; height:
-		25px; padding-right: 14px;}
-
-		.z-tab-text { background-image: url("../img/SpriteH.png");
-		background-position: right -44px; background-repeat: no-repeat;
-		display: inline-block; height: 25px; padding-right: 14px;
-		color:#FFFFFF;font-weight: bold;line-height:15px;}
-
-		.z-button,.z-button:focus { background-color: transparent;
-		background-image: url("../img/Sprite.png"); background-position:
-		-90px top; background-repeat: no-repeat; border: 0 none; color:
-		#ffffff; cursor: pointer; font-weight: bold; height: 18px;
-		margin: 5px 0 0; width: 90px; min-height: 0px;font-family:
-		"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:
-		12px;text-shadow:none;}
-
-		.z-tabs-content { border-bottom: 0px solid #cfcfcf; display:
-		table;}
-
-		.z-tabpanel { border-style: none none none; border-width: 0 0 0;
-		}
-
-		.RHTitle2Line { background-image: -moz-linear-gradient(left
-		center, rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%);
-		clear: both; height: 1px;}
-
-		.ListAction.edit { background-position: -235px -229px; }
-
-		.ListAction.delete { background-position: -251px -229px; }
-
-		.ListAction.print { background-position: -299px -229px; }
-
-		.ListAction { background-image: url("../img/Sprite.png");
-		background-repeat: no-repeat; cursor: pointer; display:
-		inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }
-	</style>
 	<window
 		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel')"
@@ -75,18 +24,23 @@
 				</tabs>
 				<tabpanels>
 					<tabpanel>
-						<include src="tableauDemandeAgent.zul" />
+						<include
+							src="/absences/tableauDemandeAgent.zul" />
 					</tabpanel>
 					<tabpanel>
-						<include src="tableauDemandeAgent.zul" />
+						<include
+							src="/absences/tableauDemandeAgent.zul" />
 					</tabpanel>
 					<tabpanel>
-						<include src="tableauDemandeAgent.zul" />
+						<include
+							src="/absences/tableauDemandeAgent.zul" />
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
 			<button id="AJOUTER" label="Ajouter" />
 		</div>
+		<include id="includeStyleMesDemandes"
+			src="/css/mesDemandes.zul" />
 	</window>
 </zk>
 

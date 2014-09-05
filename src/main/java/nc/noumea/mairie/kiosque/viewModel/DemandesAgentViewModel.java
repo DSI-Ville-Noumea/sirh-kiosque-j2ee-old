@@ -101,7 +101,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Listen("onClick = #AJOUTER")
 	public void ajouterDemande(Event e) {
 		// create a window programmatically and use it as a modal dialog.
-		Window win = (Window) Executions.createComponents("ajoutDemandeAgent.zul", null, null);
+		Window win = (Window) Executions.createComponents("/absences/ajoutDemandeAgent.zul", null, null);
 		win.doModal();
 	}
 
@@ -110,7 +110,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
 		args.put("demandeCourant", getDemandeCourant());
-		Window win = (Window) Executions.createComponents("modifierDemandeAgent.zul", null, args);
+		Window win = (Window) Executions.createComponents("/absences/modifierDemandeAgent.zul", null, args);
 		win.doModal();
 	}
 
@@ -119,7 +119,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
 		args.put("demandeCourant", getDemandeCourant());
-		Window win = (Window) Executions.createComponents("supprimerDemandeAgent.zul", null, args);
+		Window win = (Window) Executions.createComponents("/absences/supprimerDemandeAgent.zul", null, args);
 		win.doModal();
 	}
 
@@ -128,7 +128,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
 		args.put("demandeCourant", getDemandeCourant());
-		Window win = (Window) Executions.createComponents("annulerDemandeAgent.zul", null, args);
+		Window win = (Window) Executions.createComponents("/absences/annulerDemandeAgent.zul", null, args);
 		win.doModal();
 	}
 
