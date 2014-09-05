@@ -1,6 +1,6 @@
 <zk>
 	<window id="annuleDialog"
-		title="Confirmation de la suppression d'une demande" mode="modal"
+		title="Confirmation de l'annulation d'une demande" mode="modal"
 		closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.AnnulerDemandesAgentViewModel')">

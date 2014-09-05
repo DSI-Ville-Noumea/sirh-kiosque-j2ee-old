@@ -26,8 +26,7 @@
 	background-image: url("img/Sprite.png"); background-position: -90px
 	top; background-repeat: no-repeat; border: 0 none; color: #ffffff;
 	cursor: pointer; font-weight: bold; height: 18px; margin: 5px 0 0;
-	width: 90px; min-height: 0px;font-family: "Helvetica
-	Neue",Helvetica,Arial,sans-serif; font-size: 12px;text-shadow:none;}
+	width: 90px; min-height: 0px;text-shadow:none; font-size: 12px;}
 
 	.z-tabs-content { border-bottom: 0px solid #cfcfcf; display: table;}
 
