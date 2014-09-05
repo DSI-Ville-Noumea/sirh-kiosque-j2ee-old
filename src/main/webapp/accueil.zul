@@ -1,13 +1,74 @@
 <zk>
-	<window contentSclass="imageAccueil" height="100%">
+	<window height="100%" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.AccueilViewModel')">
 		<style>
-			.imageAccueil {
-			background-image:url('img/menu/backgroundBase.png');background-repeat:
-			repeat; }
+			.imageAccueil { background-color: #f3e6d5; background-image:
+			url("img/menu/backgroundBase.png"); background-position:
+			right bottom; background-repeat: no-repeat;padding-left:
+			10px;padding-top: 10px; padding-bottom: 10px;padding-right:
+			10px;color: #00395e;}
+
+
+			.z-a { color: #0072bc; text-decoration: none; }
 		</style>
-		<vbox align="center" pack="center">
-			<vbox>Accueil</vbox>
-			<vbox>Votre Kiosque RH</vbox>
-		</vbox>
+		<div height="100%" width="100%" sclass="imageAccueil">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Accueil" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Votre Kiosque RH" />
+				<separator />
+				<div style="padding-left:10px;">
+					<label
+						value="Ce nouveau service vous permet d'accéder à vos informations de Ressources Humaines." />
+					<separator />
+					<separator />
+					<separator />
+					<label
+						value="Dès aujourd’hui, vous pouvez consulter vos informations personnelles, votre fiche de poste et l'historique de vos congés." />
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<label
+						value="Bientôt, de nouveaux services vous seront offerts concernant :" />
+					<separator />
+					<div style="padding-left:20px;">
+						<label
+							value="- la gestion de vos absences : congés, absences syndicales, repos compensateurs, récupération … 
+        une saisie directe par l’agent, une validation en ligne : gain de temps et économie de papier !" />
+						<separator />
+						<label
+							value="- le suivi des pointages : pour les agents concernés, la saisie et la validation facilitées ; " />
+					</div>
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<separator />
+					<label
+						value="La DRH est à votre écoute pour toute demande concernant :" />
+					<separator />
+					<div style="padding-left:20px;">
+						<label
+							value="- votre outil KIOSQUE RH : contactez " />
+						<a href="mailto:kiosque-rh@ville-noumea.nc">
+							kiosque-rh@ville-noumea.nc
+						</a>
+						<label value=" ;" />
+						<separator />
+						<label
+							value="- vos informations RH : contactez" />
+
+						<a onClick="@command('referentRH')">
+							votre référent R.H.
+						</a>
+					</div>
+				</div>
+			</vlayout>
+		</div>
 	</window>
 </zk>
