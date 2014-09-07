@@ -114,7 +114,7 @@ public class AjoutDemandesAgentViewModel {
 				}
 				map.put("errors", listErreur);
 				map.put("infos", listInfo);
-				Executions.createComponents("../messages/returnMessage.zul", null, map);
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
 				if (listErreur.size() == 0) {
 					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
 					window.detach();
@@ -173,7 +173,7 @@ public class AjoutDemandesAgentViewModel {
 		if (vList.size() > 0) {
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("errors", vList);
-			Executions.createComponents("../messages/returnMessage.zul", null, map);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
 			return false;
 		} else
 			return true;

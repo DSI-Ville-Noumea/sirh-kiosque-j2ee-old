@@ -79,7 +79,7 @@ public class ModifierDemandesAgentViewModel {
 		if (IsFormValid(getDemandeCourant().getTypeSaisi())) {
 
 			getDemandeCourant().setIdRefEtat(Integer.valueOf(getEtatDemande()));
-			getDemandeCourant().setDuree(getDureeDemande());
+			getDemandeCourant().setDuree(getDureeDemande() == null ? null : getDureeDemande() * 60);
 			getDemandeCourant().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
 			getDemandeCourant().setDateDebutAM(
 					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
@@ -106,7 +106,7 @@ public class ModifierDemandesAgentViewModel {
 				}
 				map.put("errors", listErreur);
 				map.put("infos", listInfo);
-				Executions.createComponents("../messages/returnMessage.zul", null, map);
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
 				if (listErreur.size() == 0) {
 					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
 					window.detach();
@@ -138,7 +138,7 @@ public class ModifierDemandesAgentViewModel {
 
 		// DUREE
 		if (typeSaisie.isDuree()) {
-			if (getDemandeCourant().getDuree() == null || getDemandeCourant().getDuree() == 0) {
+			if (getDureeDemande() == null || getDureeDemande() == 0) {
 				vList.add(new ValidationMessage("La durée est obligatoire."));
 			}
 		}
@@ -165,7 +165,7 @@ public class ModifierDemandesAgentViewModel {
 		if (vList.size() > 0) {
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("errors", vList);
-			Executions.createComponents("../messages/returnMessage.zul", null, map);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
 			return false;
 		} else
 			return true;

@@ -56,7 +56,7 @@ public class SupprimerDemandesAgentViewModel {
 			}
 			map.put("errors", listErreur);
 			map.put("infos", listInfo);
-			Executions.createComponents("../messages/returnMessage.zul", null, map);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
 			if (listErreur.size() == 0) {
 				BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
 				window.detach();

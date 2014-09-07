@@ -1,38 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <zk>
 	<window id="returnMessage" title=" " width="420px" height="420px"
 		border="normal" minimizable="false" mode="modal" maximizable="false"
 		closable="true" action="hide: slideUp" sizable="true"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.validation.Validation')">
+		<style>
+			.fond { background-color: #FFEBCD; padding-left:
+			10px;padding-top: 10px; padding-bottom: 10px;padding-right:
+			10px; }
+		</style>
+		<div sclass="fond" height="100%">
+			<listbox vflex="1" id="err" model="@load(vm.errorsMessages)"
+				visible="@bind(not empty vm.errorsMessages)">
+				<listhead>
+					<listheader label="Erreurs :" style="color:red;" />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="@bind(each.message)" />
+					</listitem>
+				</template>
+			</listbox>
 
-		<listbox vflex="1" id="err" model="@load(vm.errorsMessages)"
-			visible="@bind(not empty vm.errorsMessages)">
-			<listhead>
-				<listheader label="Erreurs :" style="color:red;" />
-			</listhead>
-			<template name="model">
-				<listitem>
-					<listcell label="@bind(each.message)" />
-				</listitem>
-			</template>
-		</listbox>
-
-		<listbox vflex="1" id="inf" model="@load(vm.infosMessages)"
-			visible="@bind(not empty vm.infosMessages)">
-			<listhead>
-				<listheader label="Infos :" style="color:orange;" />
-			</listhead>
-			<template name="model">
-				<listitem>
-					<listcell label="@bind(each.message)" />
-				</listitem>
-			</template>
-		</listbox>
-		<separator />
-		<div align="center">
-			<button label="Ok" onCreate="self.setFocus(true)"
-				onClick="returnMessage.detach()" />
+			<listbox vflex="1" id="inf" model="@load(vm.infosMessages)"
+				visible="@bind(not empty vm.infosMessages)">
+				<listhead>
+					<listheader label="Infos :" style="color:orange;" />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="@bind(each.message)" />
+					</listitem>
+				</template>
+			</listbox>
+			<separator />
+			<div align="center">
+				<button label="Ok" onCreate="self.setFocus(true)"
+					onClick="returnMessage.detach()" />
+			</div>
 		</div>
 	</window>
 </zk>
