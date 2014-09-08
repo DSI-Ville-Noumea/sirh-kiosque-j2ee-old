@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,8 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	private Date dateFinFiltre;
 	private Date dateDemandeFiltre;
 
+	private String filter;
+
 	@Init
 	public void initDemandes() {
 		// on recharge les types d'absences pour les filtres
@@ -86,6 +90,28 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
 						: getTypeAbsenceFiltre().getIdRefTypeAbsence());
 		setListeDemandes(result);
+	}
+
+	@Command
+	@NotifyChange({ "listeDemandes" })
+	public void doSearch() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		List<DemandeDto> list = new ArrayList<DemandeDto>();
+		if (getFilter() != null && !"".equals(getFilter())) {
+			for (DemandeDto item : getListeDemandes()) {
+				if (item.getLibelleTypeDemande().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (sdf.format(item.getDateDebut()).contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+			}
+			setListeDemandes(list);
+		} else {
+			filtrer();
+		}
 	}
 
 	@Command
@@ -223,5 +249,13 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 
 	public void setTabCourant(Tab tabCourant) {
 		this.tabCourant = tabCourant;
+	}
+
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
 	}
 }

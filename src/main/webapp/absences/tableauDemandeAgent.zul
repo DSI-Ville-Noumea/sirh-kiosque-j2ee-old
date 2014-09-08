@@ -43,8 +43,11 @@
 	<separator />
 	<div sclass="RHTitle2Line" />
 	<separator />
+	Recherche instantanée : <textbox value="@bind(vm.filter)" onChange="@command('doSearch')" instant="true"/>
+	<separator/>
 	<listbox mold="paging" pageSize="10" model="@bind(vm.listeDemandes)"
-		selectedItem="@bind(vm.demandeCourant)" emptyMessage="Aucun élément">
+		selectedItem="@bind(vm.demandeCourant)"
+		emptyMessage="Aucun élément">
 		<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 		<listhead>
 			<listheader label="Type de demande"
@@ -73,13 +76,21 @@
 				<listcell label="@bind(each.etat)" />
 				<listcell>
 					<hlayout>
-						<image tooltiptext="Editer la demande" sclass="ListAction edit" visible="@bind(each.affichageBoutonModifier)"
+						<image tooltiptext="Editer la demande"
+							sclass="ListAction edit"
+							visible="@bind(each.affichageBoutonModifier)"
 							onClick="@command('modifierDemande')" />
-						<image tooltiptext="Supprimer la demande" sclass="ListAction delete" visible="@bind(each.affichageBoutonSupprimer)"
+						<image tooltiptext="Supprimer la demande"
+							sclass="ListAction delete"
+							visible="@bind(each.affichageBoutonSupprimer)"
 							onClick="@command('supprimerDemande')" />
-						<image tooltiptext="Annuler la demande" sclass="ListAction delete" visible="@bind(each.affichageBoutonAnnuler)"
+						<image tooltiptext="Annuler la demande"
+							sclass="ListAction delete"
+							visible="@bind(each.affichageBoutonAnnuler)"
 							onClick="@command('annulerDemande')" />
-						<image tooltiptext="Imprimer la demande" sclass="ListAction print" visible="@bind(each.affichageBoutonImprimer)"
+						<image tooltiptext="Imprimer la demande"
+							sclass="ListAction print"
+							visible="@bind(each.affichageBoutonImprimer)"
 							onClick="@command('imprimerDemande')" />
 					</hlayout>
 				</listcell>
