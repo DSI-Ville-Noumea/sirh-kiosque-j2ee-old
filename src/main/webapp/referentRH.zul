@@ -1,6 +1,7 @@
 <zk>
 	<window title="Contact RH" mode="modal" closable="true"
-		action="show: slideDown;hide: slideUp" width="600px">
+		action="show: slideDown;hide: slideUp" width="600px"
+		onCancel="self.detach()">
 		<style>
 
 			.fond { background-color:#FFEBCD;padding-left:

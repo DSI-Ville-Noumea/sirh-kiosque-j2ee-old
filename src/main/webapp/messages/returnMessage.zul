@@ -2,7 +2,7 @@
 	<window id="returnMessage" title=" " width="420px" height="420px"
 		border="normal" minimizable="false" mode="modal" maximizable="false"
 		closable="true" action="hide: slideUp" sizable="true"
-		apply="org.zkoss.bind.BindComposer"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.validation.Validation')">
 		<style>
 			.fond { background-color: #FFEBCD; padding-left:
