@@ -4,6 +4,10 @@ import java.beans.Transient;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 

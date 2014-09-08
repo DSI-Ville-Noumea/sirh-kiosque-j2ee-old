@@ -44,6 +44,21 @@
 
 	
 	.titreMenu>.z-menuitem-content>.z-menuitem-text{color:#ee7203;font-size: 20px;}
+
+	.profil{background-image: url("img/Sprite.png"); background-repeat:
+	no-repeat; float: none; height: 52px; width: 58px;
+	background-position: -58px -18px;}
+
+	.profil>.z-menuitem-content{height: 52px;}
+
+	.profil>.z-menuitem-content:hover{background-image:
+	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
+	height: 52px; width: 58px;background-position: -174px -73px;}
+
+
+	.profil>.z-menu-content:focus,.profil>.z-menuitem-content:focus{background-image:
+	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
+	height: 52px; width: 58px;background-position: -58px -18px;}
 	]]>
 	
 </style>

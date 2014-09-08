@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.viewModel;
+package nc.noumea.mairie.kiosque.abs.viewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,7 +8,7 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
-import nc.noumea.mairie.kiosque.abs.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 

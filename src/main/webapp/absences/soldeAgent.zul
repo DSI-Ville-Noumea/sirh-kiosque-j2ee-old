@@ -1,10 +1,10 @@
 <zk>
 	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.SoldeAgentViewModel')" height="100%">
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.SoldeAgentViewModel')" height="100%">
 		<div sclass="fond" height="100%">
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
-					value="ABSENCES" />
+					value="Absences" />
 				<label style="font-size: 18px;color: #004f9f;"
 					value="Mes soldes" />
 			</vlayout>
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 		</div>
-		<include id="includeStyleSoldeAgent" src="/css/soldeAgent.zul" />
+		<include id="includeStyleSoldeAgent" src="/css/absences/soldeAgent.zul" />
 	</window>
 </zk>
 

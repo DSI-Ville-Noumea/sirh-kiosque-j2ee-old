@@ -2,7 +2,7 @@
 	<window id="modifDialog" title="Modification d'une demande"
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.ModifierDemandesAgentViewModel')">
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.ModifierDemandesAgentViewModel')">
 		<div sclass="fond" height="100%">
 			<hlayout>
 				<hlayout width="150px">

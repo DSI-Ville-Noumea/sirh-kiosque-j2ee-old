@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.viewModel;
+package nc.noumea.mairie.kiosque.abs.viewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
-import nc.noumea.mairie.kiosque.abs.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 

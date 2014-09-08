@@ -126,9 +126,9 @@
 		</listbox>
 		<div>
 			<div align="right">
-				<button label="Export PDF"
+				<button label="Exp. PDF"
 					onClick="@command('exportPDF', ref=listeAgent)" />
-				<button label="Export Excel"
+				<button label="Exp. Excel"
 					onClick="@command('exportExcel', ref=listeAgent)" />
 			</div>
 		</div>

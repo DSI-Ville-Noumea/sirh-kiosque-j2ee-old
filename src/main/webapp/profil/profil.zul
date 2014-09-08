@@ -1,0 +1,41 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.profil.viewModel.ProfilViewModel')"
+		height="100%">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Mon profil" />
+			</vlayout>
+			<separator />
+			<separator />
+			<separator />
+			<div sclass="profil">
+				<div>
+					<div sclass="RHTitle2">
+						<label value="Qui suis-je ?" />
+					</div>
+					<div sclass="RHTitle2Line"></div>
+					<div sclass="RHContent right">
+						<div>
+							<label sclass="name"
+								value="N° matricule" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.agent.nomatr)" />
+						</div>
+						<div>
+							<label sclass="name"
+								value="Nom patronymique" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.agent.nomPatronymique)" />
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/profil/profil.zul" />
+	</window>
+</zk>
+

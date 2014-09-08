@@ -10,8 +10,8 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 
 public interface ISirhAbsWSConsumer {
 

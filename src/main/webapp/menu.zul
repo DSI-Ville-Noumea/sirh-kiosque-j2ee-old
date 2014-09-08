@@ -6,6 +6,8 @@
 		<menubar id="menubar" orient="vertical" sclass="menu" autodrop="true">
 			<menuitem tooltiptext="Accueil" sclass="accueil"
 				onClick="@command('changeEcran',page='accueil',ecran=content)" />
+			<menuitem tooltiptext="Mon profil" sclass="profil"
+				onClick="@command('changeEcran',page='/profil/profil',ecran=content)" />
 			<menu tooltiptext="Mes absences" sclass="absence">
 				<menupopup>
 					<menuitem label="Absences" sclass="titreMenu" />

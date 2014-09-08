@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.abs.dto;
+package nc.noumea.mairie.kiosque.dto;
 
 public class AgentDto {
 

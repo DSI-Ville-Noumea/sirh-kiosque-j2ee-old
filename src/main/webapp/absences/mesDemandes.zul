@@ -1,12 +1,12 @@
 <zk>
 	<window
-		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.DemandesAgentViewModel')"
+		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.abs.viewModel.DemandesAgentViewModel"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.DemandesAgentViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
-					value="ABSENCES" />
+					value="Absences" />
 				<label style="font-size: 18px;color: #004f9f;"
 					value="Mes demandes" />
 			</vlayout>
@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		<include id="includeStyleMesDemandes"
-			src="/css/mesDemandes.zul" />
+			src="/css/absences/mesDemandes.zul" />
 	</window>
 </zk>
 
