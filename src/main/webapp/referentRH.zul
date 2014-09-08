@@ -9,7 +9,7 @@
 			10px;}
 		</style>
 		<div sclass="fond" height="100%">
-			<listbox mold="paging" pageSize="10">
+			<listbox mold="paging" pageSize="10" emptyMessage="Aucun élément">
 				<custom-attributes
 					org.zkoss.zul.listbox.autoSort="true" />
 				<listhead>

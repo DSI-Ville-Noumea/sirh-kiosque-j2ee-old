@@ -44,7 +44,7 @@
 	<div sclass="RHTitle2Line" />
 	<separator />
 	<listbox mold="paging" pageSize="10" model="@bind(vm.listeDemandes)"
-		selectedItem="@bind(vm.demandeCourant)">
+		selectedItem="@bind(vm.demandeCourant)" emptyMessage="Aucun élément">
 		<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 		<listhead>
 			<listheader label="Type de demande"
