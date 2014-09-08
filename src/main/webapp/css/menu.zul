@@ -40,6 +40,10 @@
 	.menu { background: none; border-bottom: none ; border-top: none; }
 
 	.z-menu-content:focus{background: none; border-bottom: none ;
-	border-top: none; border-radius:none; } ]]>
+	border-top: none; border-radius:none; } 
+
+	
+	.titreMenu>.z-menuitem-content>.z-menuitem-text{color:#ee7203;font-size: 20px;}
+	]]>
 	
 </style>
