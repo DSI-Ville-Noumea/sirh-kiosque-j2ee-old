@@ -72,8 +72,8 @@
 		<separator />
 		<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
 			model="@bind(vm.listeDemandes)"
-			selectedItem="@bind(vm.demandeCourant)"
-			emptyMessage="Aucun élément">
+			selectedItem="@bind(vm.demandeCourant)" emptyMessage="Aucun élément"
+			id="listeAgent">
 			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 			<listhead>
 				<listheader label="Type de demande"
@@ -124,5 +124,13 @@
 				</listitem>
 			</template>
 		</listbox>
+		<div>
+			<div align="right">
+				<button label="Export PDF"
+					onClick="@command('exportPDF', ref=listeAgent)" />
+				<button label="Export Excel"
+					onClick="@command('exportExcel', ref=listeAgent)" />
+			</div>
+		</div>
 	</vlayout>
 </zk>

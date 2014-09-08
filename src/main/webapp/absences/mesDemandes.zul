@@ -37,7 +37,11 @@
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
-			<button id="AJOUTER" label="Ajouter" />
+			<div>
+				<div align="left">
+					<button id="AJOUTER" label="Ajouter" />
+				</div>
+			</div>
 		</div>
 		<include id="includeStyleMesDemandes"
 			src="/css/mesDemandes.zul" />

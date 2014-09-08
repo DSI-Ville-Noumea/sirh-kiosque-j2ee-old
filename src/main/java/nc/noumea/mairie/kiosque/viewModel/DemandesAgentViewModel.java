@@ -1,5 +1,6 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,8 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.export.ExcelExporter;
+import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -18,6 +21,7 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -26,6 +30,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
@@ -188,6 +193,30 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@NotifyChange({ "listeDemandes" })
 	public void refreshListeDemande() {
 		filtrer();
+	}
+
+	@Command
+	public void exportPDF(@BindingParam("ref") Listbox listbox) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		PdfExporter exporter = new PdfExporter();
+		exporter.export(listbox, out);
+
+		AMedia amedia = new AMedia("mesDemandes.pdf", "pdf", "application/pdf", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
+	}
+
+	@Command
+	public void exportExcel(@BindingParam("ref") Listbox listbox) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		ExcelExporter exporter = new ExcelExporter();
+		exporter.export(listbox, out);
+
+		AMedia amedia = new AMedia("mesDemandes.xlsx", "xls", "application/file", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
 	}
 
 	public List<DemandeDto> getListeDemandes() {

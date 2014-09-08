@@ -35,6 +35,12 @@
 			<url>file:\\cristal\DSI$\DSI\PROJETS\doxia\${project.name}</url>
 		</site>
 	</distributionManagement>
+	<repositories>
+		<repository>
+			<id>ZK Spreadsheet EE Evaluation</id>
+			<url>http://mavensync.zkoss.org/eval/</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<!-- CE requirements -->
 		<dependency>
@@ -83,6 +89,21 @@
 			<version>${zk.version}</version>
 		</dependency>
 		<!-- Autres -->
+		<dependency>
+			<groupId>org.zkoss.poi</groupId>
+			<artifactId>zpoi</artifactId>
+			<version>3.8.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.poi</groupId>
+			<artifactId>zpoiex</artifactId>
+			<version>3.8.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>4.2.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
