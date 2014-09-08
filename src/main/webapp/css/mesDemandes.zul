@@ -1,4 +1,8 @@
 <style>
+
+
+
+	
 	<![CDATA[ .fond { background-color:#FFEBCD;padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px;}
 
@@ -46,8 +50,15 @@
 	background-repeat: no-repeat; cursor: pointer; display:
 	inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }
 
+	.rechercheTableau { background-image: url("img/SpriteV.png");
+	background-position: left top; background-repeat: repeat-x;}
+
+	.rechercheTableau2 { background-image: url("img/Sprite.png");
+	background-position: -485px -98px; background-repeat: no-repeat;
+	padding-left: 14px;color: #ffffff; display: block !important;
+	margin-bottom: 5px;}
+
 	]]>
-	
 	
 	
 </style>

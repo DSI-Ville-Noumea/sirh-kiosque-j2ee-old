@@ -43,73 +43,78 @@
 	<separator />
 	<div sclass="RHTitle2Line" />
 	<separator />
-	<hlayout>
-		Affichage de
-		<combobox width="50px" selectedItem="@bind(vm.tailleListe)">
-			<comboitem value="5" label="5"/>
-			<comboitem value="10" label="10"/>
-			<comboitem value="15" label="15"/>
-			<comboitem value="20" label="20"/>
-		</combobox>
-		demandes par page
+	<vlayout height="100%">
+		<hlayout  width="100%" sclass="rechercheTableau2">
+			<div  sclass="rechercheTableau">
+				Affichage de
+				<combobox width="50px"
+					selectedItem="@bind(vm.tailleListe)">
+					<comboitem value="5" label="5" />
+					<comboitem value="10" label="10" />
+					<comboitem value="15" label="15" />
+					<comboitem value="20" label="20" />
+				</combobox>
+				demandes par page
+				<space/>
+				Recherche instantanée :
+				<textbox value="@bind(vm.filter)"
+					onChange="@command('doSearch')" instant="true" />
+			</div>
+		</hlayout>
 		<separator />
-		Recherche instantanée :
-		<textbox value="@bind(vm.filter)"
-			onChange="@command('doSearch')" instant="true" />
+		<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
+			model="@bind(vm.listeDemandes)"
+			selectedItem="@bind(vm.demandeCourant)"
+			emptyMessage="Aucun élément">
+			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
+			<listhead>
+				<listheader label="Type de demande"
+					sort="auto('libelleTypeDemande')" width="300px" />
+				<listheader label="Date de début"
+					sort="auto('dateDebut')" align="center" />
+				<listheader label="Heure de début"
+					sort="auto('heureDebut')" />
+				<listheader label="Durée" sort="auto('dureeToString')"
+					width="60px" />
+				<listheader label="Date de demande"
+					sort="auto('dateDemande')" align="center" />
+				<listheader label="Etat" sort="auto('etat')" />
+				<listheader label="" sort="none" />
+			</listhead>
 
-	</hlayout>
-	<separator />
-	<listbox mold="paging" pageSize="@bind(vm.tailleListe)" model="@bind(vm.listeDemandes)"
-		selectedItem="@bind(vm.demandeCourant)"
-		emptyMessage="Aucun élément">
-		<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
-		<listhead>
-			<listheader label="Type de demande"
-				sort="auto('libelleTypeDemande')" width="300px" />
-			<listheader label="Date de début" sort="auto('dateDebut')"
-				align="center" />
-			<listheader label="Heure de début"
-				sort="auto('heureDebut')" />
-			<listheader label="Durée" sort="auto('dureeToString')"
-				width="60px" />
-			<listheader label="Date de demande"
-				sort="auto('dateDemande')" align="center" />
-			<listheader label="Etat" sort="auto('etat')" />
-			<listheader label="" sort="none" />
-		</listhead>
+			<template name="model">
+				<listitem>
+					<listcell label="@bind(each.libelleTypeDemande)" />
+					<listcell
+						label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
+					<listcell label="@bind(each.heureDebut)" />
+					<listcell label="@bind(each.dureeToString)" />
+					<listcell
+						label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
+					<listcell label="@bind(each.etat)" />
+					<listcell>
+						<hlayout>
+							<image tooltiptext="Editer la demande"
+								sclass="ListAction edit"
+								visible="@bind(each.affichageBoutonModifier)"
+								onClick="@command('modifierDemande')" />
+							<image tooltiptext="Supprimer la demande"
+								sclass="ListAction delete"
+								visible="@bind(each.affichageBoutonSupprimer)"
+								onClick="@command('supprimerDemande')" />
+							<image tooltiptext="Annuler la demande"
+								sclass="ListAction delete"
+								visible="@bind(each.affichageBoutonAnnuler)"
+								onClick="@command('annulerDemande')" />
+							<image tooltiptext="Imprimer la demande"
+								sclass="ListAction print"
+								visible="@bind(each.affichageBoutonImprimer)"
+								onClick="@command('imprimerDemande')" />
+						</hlayout>
+					</listcell>
 
-		<template name="model">
-			<listitem>
-				<listcell label="@bind(each.libelleTypeDemande)" />
-				<listcell
-					label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
-				<listcell label="@bind(each.heureDebut)" />
-				<listcell label="@bind(each.dureeToString)" />
-				<listcell
-					label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
-				<listcell label="@bind(each.etat)" />
-				<listcell>
-					<hlayout>
-						<image tooltiptext="Editer la demande"
-							sclass="ListAction edit"
-							visible="@bind(each.affichageBoutonModifier)"
-							onClick="@command('modifierDemande')" />
-						<image tooltiptext="Supprimer la demande"
-							sclass="ListAction delete"
-							visible="@bind(each.affichageBoutonSupprimer)"
-							onClick="@command('supprimerDemande')" />
-						<image tooltiptext="Annuler la demande"
-							sclass="ListAction delete"
-							visible="@bind(each.affichageBoutonAnnuler)"
-							onClick="@command('annulerDemande')" />
-						<image tooltiptext="Imprimer la demande"
-							sclass="ListAction print"
-							visible="@bind(each.affichageBoutonImprimer)"
-							onClick="@command('imprimerDemande')" />
-					</hlayout>
-				</listcell>
-
-			</listitem>
-		</template>
-	</listbox>
+				</listitem>
+			</template>
+		</listbox>
+	</vlayout>
 </zk>
