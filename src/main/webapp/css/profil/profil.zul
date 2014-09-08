@@ -1,6 +1,4 @@
 <style>
-
-	
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
@@ -36,7 +34,11 @@
 	.man { background-position: -281px -125px; }
 
 	.woman, .man { background-image: url("img/Sprite.png");
-	background-repeat: no-repeat; height: 100px; width: 100px; } ]]>
-		
+	background-repeat: no-repeat; height: 100px; width: 100px; }
+
+	.picture { border: 1px solid #ee7203; float: left; height: 110px;
+	width: 110px; }
+
+	.info { overflow: hidden; }]]>	
 	
 </style>
