@@ -9,6 +9,7 @@ import java.util.Map;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
@@ -43,6 +44,8 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	private Tab tabCourant;
 
 	/* POUR LES FILTRES */
+	private List<RefGroupeAbsenceDto> listeGroupeAbsenceFiltre;
+	private RefGroupeAbsenceDto groupeAbsenceFiltre;
 	private List<RefTypeAbsenceDto> listeTypeAbsenceFiltre;
 	private RefTypeAbsenceDto typeAbsenceFiltre;
 	private List<RefEtatDto> listeEtatAbsenceFiltre;
@@ -51,19 +54,28 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	private Date dateFinFiltre;
 	private Date dateDemandeFiltre;
 
-	/*POUR LE HAUT DU TABLEAU*/
+	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
 
 	@Init
 	public void initDemandes() {
 		// on recharge les types d'absences pour les filtres
-		List<RefTypeAbsenceDto> filtreFamille = absWsConsumer.getRefTypeAbsenceKiosque(9005138);
-		setListeTypeAbsenceFiltre(filtreFamille);
+		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
+		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
+
 		// on recharge les états d'absences pour les filtres
 		List<RefEtatDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
 		setListeEtatAbsenceFiltre(filtreEtat);
 		setTailleListe("5");
+	}
+
+	@Command
+	@NotifyChange({ "listeTypeAbsenceFiltre" })
+	public void alimenteTypeFamilleAbsence() {
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(9005138,
+				getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
+		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
 	}
 
 	@Command
@@ -91,7 +103,8 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, getTabCourant().getId(),
 				getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
 						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
-						: getTypeAbsenceFiltre().getIdRefTypeAbsence());
+						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getGroupeAbsenceFiltre() == null ? null
+						: getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeDemandes(result);
 	}
 
@@ -118,8 +131,11 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "typeAbsenceFiltre", "etatAbsenceFiltre", "dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre" })
+	@NotifyChange({ "groupeAbsenceFiltre", "listeTypeAbsenceFiltre", "typeAbsenceFiltre", "etatAbsenceFiltre",
+			"dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre" })
 	public void viderFiltre() {
+		setListeTypeAbsenceFiltre(null);
+		setGroupeAbsenceFiltre(null);
 		setTypeAbsenceFiltre(null);
 		setEtatAbsenceFiltre(null);
 		setDateDebutFiltre(null);
@@ -269,5 +285,21 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@NotifyChange
 	public void setTailleListe(String tailleListe) {
 		this.tailleListe = tailleListe;
+	}
+
+	public List<RefGroupeAbsenceDto> getListeGroupeAbsenceFiltre() {
+		return listeGroupeAbsenceFiltre;
+	}
+
+	public void setListeGroupeAbsenceFiltre(List<RefGroupeAbsenceDto> listeGroupeAbsenceFiltre) {
+		this.listeGroupeAbsenceFiltre = listeGroupeAbsenceFiltre;
+	}
+
+	public RefGroupeAbsenceDto getGroupeAbsenceFiltre() {
+		return groupeAbsenceFiltre;
+	}
+
+	public void setGroupeAbsenceFiltre(RefGroupeAbsenceDto groupeAbsenceFiltre) {
+		this.groupeAbsenceFiltre = groupeAbsenceFiltre;
 	}
 }

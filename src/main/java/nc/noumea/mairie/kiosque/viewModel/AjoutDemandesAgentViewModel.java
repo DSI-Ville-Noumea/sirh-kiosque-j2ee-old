@@ -48,8 +48,8 @@ public class AjoutDemandesAgentViewModel {
 	public void initDemandes() {
 		// on vide
 		viderZones();
-		// on recharge les type sd'absences
-		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9005138);
+		// on recharge les types d'absences
+		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9005138, null);
 		setListeTypeAbsence(result);
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();

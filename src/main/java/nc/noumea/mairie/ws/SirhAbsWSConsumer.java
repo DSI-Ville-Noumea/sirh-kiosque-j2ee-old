@@ -10,6 +10,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
@@ -37,6 +38,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
 	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
 	private static final String sirhEtatAbsenceKiosqueUrl = "filtres/getEtats";
+	private static final String sirhGroupeAbsenceUrl = "filtres/getGroupesAbsence";
 	private static final String sirhListOrganisationUrl = "organisation/listOrganisationActif";
 	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
 
@@ -55,7 +57,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet, Date fromDate, Date toDate,
-			Date dateDemande, Integer idRefEtat, Integer idRefType) {
+			Date dateDemande, Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence) {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhDemandesAgentUrl);
@@ -72,17 +74,21 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			params.put("etat", idRefEtat.toString());
 		if (idRefType != null)
 			params.put("type", idRefType.toString());
+		if (idRefGroupeAbsence != null)
+			params.put("groupe", idRefGroupeAbsence.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(DemandeDto.class, res, url);
 	}
 
 	@Override
-	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent) {
+	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent, Integer idRefGroupeAbsence) {
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhTypeAbsenceKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgentConcerne", idAgent.toString());
+		if (idRefGroupeAbsence != null)
+			params.put("idRefGroupeAbsence", idRefGroupeAbsence.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(RefTypeAbsenceDto.class, res, url);
@@ -153,6 +159,15 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		ClientResponse res = createAndFireRequest(params, url, false, null);
 
 		return readResponseWithFile(res, url);
+	}
+
+	@Override
+	public List<RefGroupeAbsenceDto> getRefGroupeAbsence() {
+		String url = String.format(sirhAbsWsBaseUrl + sirhGroupeAbsenceUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefGroupeAbsenceDto.class, res, url);
 	}
 
 }

@@ -8,6 +8,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
@@ -17,7 +18,7 @@ public interface ISirhAbsWSConsumer {
 	SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto);
 
 	List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
-			Integer idRefEtat, Integer idRefType);
+			Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence);
 
 	ReturnMessageDto saveDemandeAbsence(Integer idAgent, DemandeDto dto);
 
@@ -25,12 +26,14 @@ public interface ISirhAbsWSConsumer {
 
 	ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent, DemandeEtatChangeDto dto);
 
-	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent);
+	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent, Integer idRefGroupeAbsence);
 
 	List<RefEtatDto> getEtatAbsenceKiosque(String onglet);
 
 	List<OrganisationSyndicaleDto> getListOrganisationSyndicale();
 
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
+
+	List<RefGroupeAbsenceDto> getRefGroupeAbsence();
 
 }

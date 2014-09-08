@@ -3,16 +3,26 @@
 	<separator />
 	<vlayout>
 		<hlayout>
-			<label value="Famille d'absence :" />
-			<combobox readonly="true" width="400px"
-				model="@bind(vm.listeTypeAbsenceFiltre)"
-				selectedItem="@bind(vm.typeAbsenceFiltre)">
+			<label value="Groupe d'absence :" />
+			<combobox readonly="true" width="250px"
+				model="@bind(vm.listeGroupeAbsenceFiltre)"
+				selectedItem="@bind(vm.groupeAbsenceFiltre)"
+				onSelect="@command('alimenteTypeFamilleAbsence')">
 				<template name="model">
-					<comboitem label="@bind(each.libelle)"
-						description="@bind(each.groupeAbsence.libelle)" />
+					<comboitem label="@bind(each.libelle)" />
 				</template>
 			</combobox>
-
+			<label value="Famille d'absence :" />
+			<combobox width="300px"
+				model="@bind(vm.listeTypeAbsenceFiltre)"
+				selectedItem="@bind(vm.typeAbsenceFiltre)"
+				visible="@bind(not empty vm.listeTypeAbsenceFiltre)">
+				<template name="model">
+					<comboitem label="@bind(each.libelle)" />
+				</template>
+			</combobox>
+		</hlayout>
+		<hlayout>
 			<label value="Date de début : " />
 			<datebox cols="14" format="dd/MM/yyyy"
 				value="@bind(vm.dateDebutFiltre)" />
@@ -20,8 +30,6 @@
 			<label value="Date de fin : " />
 			<datebox cols="14" format="dd/MM/yyyy"
 				value="@bind(vm.dateFinFiltre)" />
-		</hlayout>
-		<hlayout>
 
 			<label value="Etat :" />
 			<combobox readonly="true" width="100px"
@@ -44,8 +52,8 @@
 	<div sclass="RHTitle2Line" />
 	<separator />
 	<vlayout height="100%">
-		<hlayout  width="100%" sclass="rechercheTableau2">
-			<div  sclass="rechercheTableau">
+		<hlayout width="100%" sclass="rechercheTableau2">
+			<div sclass="rechercheTableau">
 				Affichage de
 				<combobox width="50px"
 					selectedItem="@bind(vm.tailleListe)">
@@ -55,7 +63,7 @@
 					<comboitem value="20" label="20" />
 				</combobox>
 				demandes par page
-				<space/>
+				<space />
 				Recherche instantanée :
 				<textbox value="@bind(vm.filter)"
 					onChange="@command('doSearch')" instant="true" />
