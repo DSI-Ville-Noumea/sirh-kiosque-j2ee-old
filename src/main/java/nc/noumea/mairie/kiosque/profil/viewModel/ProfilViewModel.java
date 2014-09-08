@@ -12,13 +12,16 @@ public class ProfilViewModel {
 
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
-	
+
 	private EtatCivilDto agentCourant;
+
+	private String sclassPhoto;
 
 	@Init
 	public void initProfilAgent() {
 		EtatCivilDto result = sirhWsConsumer.getEtatCivil(9005138);
 		setAgentCourant(result);
+		setSclassPhoto(getAgentCourant().getSexe().equals("M") ? "man" : "woman");
 	}
 
 	public EtatCivilDto getAgentCourant() {
@@ -27,5 +30,13 @@ public class ProfilViewModel {
 
 	public void setAgentCourant(EtatCivilDto agentCourant) {
 		this.agentCourant = agentCourant;
+	}
+
+	public String getSclassPhoto() {
+		return sclassPhoto;
+	}
+
+	public void setSclassPhoto(String sclassPhoto) {
+		this.sclassPhoto = sclassPhoto;
 	}
 }

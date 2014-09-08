@@ -1,5 +1,6 @@
 package nc.noumea.mairie.kiosque.profil.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
@@ -59,6 +60,10 @@ public class EtatCivilDto {
 
 	public void setLieuNaissance(String lieuNaissance) {
 		this.lieuNaissance = lieuNaissance;
+	}
+
+	public String getDateNaissanceToString() {
+		return new SimpleDateFormat("dd/MM/yyyy").format(dateNaissance);
 	}
 
 }

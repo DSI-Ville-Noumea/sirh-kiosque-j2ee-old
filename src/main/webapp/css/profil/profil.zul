@@ -1,8 +1,10 @@
 <style>
+
+	
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
-	.profil { width: 910px; }
+	.profil { width: 800px; }
 
 	.profil .RHTitle2 { color: #ffffff; margin-bottom: 5px; }
 
@@ -23,12 +25,18 @@
 	.RHContent { margin-top: 10px; margin-bottom: 15px; margin-right:
 	80px; }
 
-	.RHContent.right { text-align: right; }
-
 	.RHContent .name { margin: 5px 10px 5px 30px; display: inline-block;
 	color: #3B62A7; }
 
 	.RHContent .value { width: 120px; display: inline-block; color:
-	#000000; }]]>
+	#000000; }
+
+	.woman { background-position: -381px -125px; }
+
+	.man { background-position: -281px -125px; }
+
+	.woman, .man { background-image: url("img/Sprite.png");
+	background-repeat: no-repeat; height: 100px; width: 100px; } ]]>
+		
 	
 </style>

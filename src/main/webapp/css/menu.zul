@@ -2,36 +2,36 @@
 	
 	<![CDATA[
 
-	.accueil{background-image: url("img/Sprite.png"); background-repeat:
+	.accueilMenu{background-image: url("img/Sprite.png"); background-repeat:
 	no-repeat; float: none; height: 52px; width: 58px;
 	background-position: left -18px;}
 
-	.accueil>.z-menuitem-content{height: 52px;}
+	.accueilMenu>.z-menuitem-content{height: 52px;}
 
-	.accueil>.z-menuitem-content:hover{background-image:
+	.accueilMenu>.z-menuitem-content:hover{background-image:
 	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
 	height: 52px; width: 58px;background-position: -116px -73px;}
 
 
-	.accueil>.z-menu-content:focus,.accueil>.z-menuitem-content:focus{background-image:
+	.accueilMenu>.z-menu-content:focus,.accueilMenu>.z-menuitem-content:focus{background-image:
 	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
 	height: 52px; width: 58px;background-position: -116px -73px;}
 
-	.absence{ background-image: url("img/Sprite.png");
+	.absenceMenu{ background-image: url("img/Sprite.png");
 	background-repeat: no-repeat; float: none; height: 52px; width:
 	58px;background-position: -116px -18px;}
 
 
-	.absence>.z-menu-content:hover,.absence.z-menu-selected>.z-menu-content{background-image:
+	.absenceMenu>.z-menu-content:hover,.absenceMenu.z-menu-selected>.z-menu-content{background-image:
 	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
 	height: 52px; width: 58px;background-position: -232px -73px;}
 
-	.pointage{ background-image: url("img/Sprite.png");
+	.pointageMenu{ background-image: url("img/Sprite.png");
 	background-repeat: no-repeat; float: none; height: 52px; width:
 	58px;background-position: -219px -349px;}
 
 
-	.pointage>.z-menu-content:hover,.pointage.z-menu-selected>.z-menu-content{background-image:
+	.pointageMenu>.z-menu-content:hover,.pointageMenu.z-menu-selected>.z-menu-content{background-image:
 	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
 	height: 52px; width: 58px; background-position: -277px -349px;}
 
@@ -45,18 +45,18 @@
 	
 	.titreMenu>.z-menuitem-content>.z-menuitem-text{color:#ee7203;font-size: 20px;}
 
-	.profil{background-image: url("img/Sprite.png"); background-repeat:
+	.profilMenu{background-image: url("img/Sprite.png"); background-repeat:
 	no-repeat; float: none; height: 52px; width: 58px;
 	background-position: -58px -18px;}
 
-	.profil>.z-menuitem-content{height: 52px;}
+	.profilMenu>.z-menuitem-content{height: 52px;}
 
-	.profil>.z-menuitem-content:hover{background-image:
+	.profilMenu>.z-menuitem-content:hover{background-image:
 	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
 	height: 52px; width: 58px;background-position: -174px -73px;}
 
 
-	.profil>.z-menu-content:focus,.profil>.z-menuitem-content:focus{background-image:
+	.profilMenu>.z-menu-content:focus,.profilMenu>.z-menuitem-content:focus{background-image:
 	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
 	height: 52px; width: 58px;background-position: -58px -18px;}
 	]]>

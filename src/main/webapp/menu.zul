@@ -4,11 +4,11 @@
 		height="100%">
 		<style></style>
 		<menubar id="menubar" orient="vertical" sclass="menu" autodrop="true">
-			<menuitem tooltiptext="Accueil" sclass="accueil"
+			<menuitem tooltiptext="Accueil" sclass="accueilMenu"
 				onClick="@command('changeEcran',page='accueil',ecran=content)" />
-			<menuitem tooltiptext="Mon profil" sclass="profil"
+			<menuitem tooltiptext="Mon profil" sclass="profilMenu"
 				onClick="@command('changeEcran',page='/profil/profil',ecran=content)" />
-			<menu tooltiptext="Mes absences" sclass="absence">
+			<menu tooltiptext="Mes absences" sclass="absenceMenu">
 				<menupopup>
 					<menuitem label="Absences" sclass="titreMenu" />
 					<menuitem label="Mon solde"
@@ -17,7 +17,7 @@
 						onClick="@command('changeEcran',page='/absences/mesDemandes',ecran=content)" />
 				</menupopup>
 			</menu>
-			<menu tooltiptext="Mes pointages" sclass="pointage">
+			<menu tooltiptext="Mes pointages" sclass="pointageMenu">
 				<menupopup>
 					<menuitem label="Pointages" sclass="titreMenu" />
 					<menuitem label="Mes demandes"

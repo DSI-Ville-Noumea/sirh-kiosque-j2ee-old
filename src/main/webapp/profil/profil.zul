@@ -16,10 +16,10 @@
 						<label value="Qui suis-je ?" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent right">
+					<div sclass="RHContent">
+						<div sclass="@bind(vm.sclassPhoto)"></div>
 						<div>
-							<label sclass="name"
-								value="N° matricule" />
+							<label sclass="name" value="N° matricule" />
 							<label sclass="value"
 								value="@bind(vm.agentCourant.agent.nomatr)" />
 						</div>
@@ -28,6 +28,44 @@
 								value="Nom patronymique" />
 							<label sclass="value"
 								value="@bind(vm.agentCourant.agent.nomPatronymique)" />
+						</div>
+						<div>
+							<label sclass="name" value="Nom d'usage" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.agent.nomUsage)" />
+						</div>
+						<div>
+							<label sclass="name" value="Nom marital" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.agent.nomMarital)" />
+						</div>
+						<div>
+							<label sclass="name" value="Prénom" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.agent.prenom)" />
+						</div>
+						<div>
+							<label sclass="name" value="Prénom d'usage" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.agent.prenomUsage)" />
+						</div>
+						<div>
+							<label sclass="name"
+								value="Situation familiale" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.situationFamiliale)" />
+						</div>
+						<div>
+							<label sclass="name"
+								value="Date de naissance" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.dateNaissanceToString)" />
+						</div>
+						<div>
+							<label sclass="name"
+								value="Lieu de naissance" />
+							<label sclass="value"
+								value="@bind(vm.agentCourant.lieuNaissance)" />
 						</div>
 					</div>
 				</div>
