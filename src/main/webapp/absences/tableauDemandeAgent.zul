@@ -43,9 +43,23 @@
 	<separator />
 	<div sclass="RHTitle2Line" />
 	<separator />
-	Recherche instantanée : <textbox value="@bind(vm.filter)" onChange="@command('doSearch')" instant="true"/>
-	<separator/>
-	<listbox mold="paging" pageSize="10" model="@bind(vm.listeDemandes)"
+	<hlayout>
+		Affichage de
+		<combobox width="50px" selectedItem="@bind(vm.tailleListe)">
+			<comboitem value="5" label="5"/>
+			<comboitem value="10" label="10"/>
+			<comboitem value="15" label="15"/>
+			<comboitem value="20" label="20"/>
+		</combobox>
+		demandes par page
+		<separator />
+		Recherche instantanée :
+		<textbox value="@bind(vm.filter)"
+			onChange="@command('doSearch')" instant="true" />
+
+	</hlayout>
+	<separator />
+	<listbox mold="paging" pageSize="@bind(vm.tailleListe)" model="@bind(vm.listeDemandes)"
 		selectedItem="@bind(vm.demandeCourant)"
 		emptyMessage="Aucun élément">
 		<custom-attributes org.zkoss.zul.listbox.autoSort="true" />

@@ -51,7 +51,9 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	private Date dateFinFiltre;
 	private Date dateDemandeFiltre;
 
+	/*POUR LE HAUT DU TABLEAU*/
 	private String filter;
+	private String tailleListe;
 
 	@Init
 	public void initDemandes() {
@@ -61,6 +63,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		// on recharge les états d'absences pour les filtres
 		List<RefEtatDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
 		setListeEtatAbsenceFiltre(filtreEtat);
+		setTailleListe("5");
 	}
 
 	@Command
@@ -257,5 +260,14 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 
 	public void setFilter(String filter) {
 		this.filter = filter;
+	}
+
+	public String getTailleListe() {
+		return tailleListe;
+	}
+
+	@NotifyChange
+	public void setTailleListe(String tailleListe) {
+		this.tailleListe = tailleListe;
 	}
 }
