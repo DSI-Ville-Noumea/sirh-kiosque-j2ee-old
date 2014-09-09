@@ -18,6 +18,7 @@ public class ProfilAgentDto {
 	private List<ContactAgentDto> listeContacts;
 	private List<EnfantDto> listeEnfants;
 	private CompteDto compte;
+	private CouvertureSocialeDto couvertureSociale;
 
 	public AgentGeneriqueDto getAgent() {
 		return agent;
@@ -101,6 +102,14 @@ public class ProfilAgentDto {
 
 	public void setCompte(CompteDto compte) {
 		this.compte = compte;
+	}
+
+	public CouvertureSocialeDto getCouvertureSociale() {
+		return couvertureSociale;
+	}
+
+	public void setCouvertureSociale(CouvertureSocialeDto couvertureSociale) {
+		this.couvertureSociale = couvertureSociale;
 	}
 
 }

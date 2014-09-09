@@ -48,6 +48,13 @@ public class ProfilViewModel {
 		win.doModal();
 	}
 
+	@Command
+	public void voirCouvertureSociale() {
+		// create a window programmatically and use it as a modal dialog.
+		Window win = (Window) Executions.createComponents("/profil/couvertureSociale.zul", null, null);
+		win.doModal();
+	}
+
 	public ProfilAgentDto getAgentCourant() {
 		return agentCourant;
 	}

@@ -1,5 +1,5 @@
 <zk>
-	<window title="Mes contacts" mode="modal" closable="true"
+	<window title="Mon compte bancaire" mode="modal" closable="true"
 		action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.profil.viewModel.ProfilViewModel')">
@@ -16,6 +16,10 @@
 				<div>
 					<label sclass="name" value="R.I.B" />
 					<label sclass="value" value="@bind(vm.agentCourant.compte.rib)" />
+				</div>
+				<div>
+					<label sclass="name" value="Banque" />
+					<label sclass="value" value="@bind(vm.agentCourant.compte.libelleBanque)" />
 				</div>
 				<div>
 					<label sclass="name" value="Code banque" />

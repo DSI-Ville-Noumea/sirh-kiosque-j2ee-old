@@ -172,6 +172,16 @@
 							</div>
 							<div sclass="RHTitle2Line" />
 						</div>
+						<separator />
+						<separator />
+						<separator />
+						<div>
+							<div sclass="RHTitle2">
+								<label value="Voir ma couverture sociale"
+									onClick="@command('voirCouvertureSociale')" />
+							</div>
+							<div sclass="RHTitle2Line" />
+						</div>
 					</div>
 				</vlayout>
 			</vlayout>
