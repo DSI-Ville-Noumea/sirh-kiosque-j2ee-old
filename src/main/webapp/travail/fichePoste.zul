@@ -11,6 +11,8 @@
 			<separator />
 			<separator />
 		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/profil/profil.zul" />
 	</window>
 </zk>
 
