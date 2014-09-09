@@ -1,0 +1,16 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.profil.viewModel.FichePosteViewModel')"
+		height="100%">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Ma fiche de poste" />
+			</vlayout>
+			<separator />
+			<separator />
+			<separator />
+		</div>
+	</window>
+</zk>
+

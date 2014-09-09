@@ -8,6 +8,17 @@
 				onClick="@command('changeEcran',page='accueil',ecran=content)" />
 			<menuitem tooltiptext="Mon profil" sclass="profilMenu"
 				onClick="@command('changeEcran',page='/profil/profil',ecran=content)" />
+			<menu tooltiptext="Mon travail" sclass="travailMenu">
+				<menupopup>
+					<menuitem label="Mon travail" sclass="titreMenu" />
+					<menuitem label="Ma fiche de poste"
+						onClick="@command('changeEcran',page='/travail/fichePoste',ecran=content)" />
+					<menuitem label="Mon équipe"
+						onClick="@command('changeEcran',page='/travail/equipe',ecran=content)" />
+					<menuitem label="Mes Eaes"
+						onClick="@command('changeEcran',page='/travail/eae',ecran=content)" />
+				</menupopup>
+			</menu>
 			<menu tooltiptext="Mes absences" sclass="absenceMenu">
 				<menupopup>
 					<menuitem label="Absences" sclass="titreMenu" />
