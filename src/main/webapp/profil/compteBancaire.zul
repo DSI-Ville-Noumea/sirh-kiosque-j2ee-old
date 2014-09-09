@@ -28,5 +28,7 @@
 				<div sclass="RHTitle2Line" />
 			</div>
 		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/profil/enfant.zul" />
 	</window>
 </zk>

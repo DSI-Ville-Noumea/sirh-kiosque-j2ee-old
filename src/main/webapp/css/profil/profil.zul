@@ -22,7 +22,7 @@
 
 	.RHContent { margin-top: 10px; margin-bottom: 15px; }
 
-	.RHContent .name { margin: 5px 10px 5px 30px; display: inline-block;
+	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;
 	color: #3B62A7; width:100px; }
 
 	.RHContent .value { display: inline-block; color:
