@@ -13,6 +13,7 @@ public class EtatCivilDto {
 	private Date dateNaissance;
 	private String titre;
 	private String lieuNaissance;
+	private AdresseAgentDto adresse;
 
 	public AgentGeneriqueDto getAgent() {
 		return agent;
@@ -64,6 +65,14 @@ public class EtatCivilDto {
 
 	public String getDateNaissanceToString() {
 		return new SimpleDateFormat("dd/MM/yyyy").format(dateNaissance);
+	}
+
+	public AdresseAgentDto getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(AdresseAgentDto adresse) {
+		this.adresse = adresse;
 	}
 
 }

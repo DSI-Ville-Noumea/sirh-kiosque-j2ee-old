@@ -2,7 +2,7 @@
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
-	.profil { width: 800px; }
+	.profil { width: 600px; }
 
 	.profil .RHTitle2 { color: #ffffff; margin-bottom: 5px; }
 
@@ -20,13 +20,12 @@
 	rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); clear: both;
 	height: 1px;}
 
-	.RHContent { margin-top: 10px; margin-bottom: 15px; margin-right:
-	80px; }
+	.RHContent { margin-top: 10px; margin-bottom: 15px; }
 
 	.RHContent .name { margin: 5px 10px 5px 30px; display: inline-block;
-	color: #3B62A7; }
+	color: #3B62A7; width:100px; }
 
-	.RHContent .value { width: 120px; display: inline-block; color:
+	.RHContent .value { display: inline-block; color:
 	#000000; }
 
 	.woman { background-position: -381px -125px; }
