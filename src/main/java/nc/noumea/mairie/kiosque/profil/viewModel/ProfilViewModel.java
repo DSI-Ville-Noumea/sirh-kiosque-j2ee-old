@@ -41,6 +41,13 @@ public class ProfilViewModel {
 		win.doModal();
 	}
 
+	@Command
+	public void voirCompte() {
+		// create a window programmatically and use it as a modal dialog.
+		Window win = (Window) Executions.createComponents("/profil/compteBancaire.zul", null, null);
+		win.doModal();
+	}
+
 	public ProfilAgentDto getAgentCourant() {
 		return agentCourant;
 	}

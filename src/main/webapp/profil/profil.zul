@@ -162,6 +162,16 @@
 							</div>
 							<div sclass="RHTitle2Line" />
 						</div>
+						<separator />
+						<separator />
+						<separator />
+						<div>
+							<div sclass="RHTitle2">
+								<label value="Voir mon compte bancaire"
+									onClick="@command('voirCompte')" />
+							</div>
+							<div sclass="RHTitle2Line" />
+						</div>
 					</div>
 				</vlayout>
 			</vlayout>

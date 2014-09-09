@@ -17,6 +17,7 @@ public class ProfilAgentDto {
 	private AdresseAgentDto adresse;
 	private List<ContactAgentDto> listeContacts;
 	private List<EnfantDto> listeEnfants;
+	private CompteDto compte;
 
 	public AgentGeneriqueDto getAgent() {
 		return agent;
@@ -92,6 +93,14 @@ public class ProfilAgentDto {
 
 	public void setListeEnfants(List<EnfantDto> listeEnfants) {
 		this.listeEnfants = listeEnfants;
+	}
+
+	public CompteDto getCompte() {
+		return compte;
+	}
+
+	public void setCompte(CompteDto compte) {
+		this.compte = compte;
 	}
 
 }

@@ -1,0 +1,32 @@
+<zk>
+	<window title="Mes contacts" mode="modal" closable="true"
+		action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.profil.viewModel.ProfilViewModel')">
+		<div sclass="fond" height="100%">
+			<div sclass="RHContent">
+				<div>
+					<label sclass="name" value="Intitulé du compte" />
+					<label sclass="value" value="@bind(vm.agentCourant.compte.intituleCompte)" />
+				</div>
+				<div>
+					<label sclass="name" value="Numéro de compte" />
+					<label sclass="value" value="@bind(vm.agentCourant.compte.numCompte)" />
+				</div>
+				<div>
+					<label sclass="name" value="R.I.B" />
+					<label sclass="value" value="@bind(vm.agentCourant.compte.rib)" />
+				</div>
+				<div>
+					<label sclass="name" value="Code banque" />
+					<label sclass="value" value="@bind(vm.agentCourant.compte.codeBanque)" />
+				</div>
+				<div>
+					<label sclass="name" value="Code guichet" />
+					<label sclass="value" value="@bind(vm.agentCourant.compte.codeGuichet)" />
+				</div>
+				<div sclass="RHTitle2Line" />
+			</div>
+		</div>
+	</window>
+</zk>
