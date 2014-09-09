@@ -2,6 +2,7 @@ package nc.noumea.mairie.kiosque.profil.dto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
 
@@ -14,6 +15,7 @@ public class EtatCivilDto {
 	private String titre;
 	private String lieuNaissance;
 	private AdresseAgentDto adresse;
+	private List<ContactAgentDto> listeContacts;
 
 	public AgentGeneriqueDto getAgent() {
 		return agent;
@@ -73,6 +75,14 @@ public class EtatCivilDto {
 
 	public void setAdresse(AdresseAgentDto adresse) {
 		this.adresse = adresse;
+	}
+
+	public List<ContactAgentDto> getListeContacts() {
+		return listeContacts;
+	}
+
+	public void setListeContacts(List<ContactAgentDto> listeContacts) {
+		this.listeContacts = listeContacts;
 	}
 
 }

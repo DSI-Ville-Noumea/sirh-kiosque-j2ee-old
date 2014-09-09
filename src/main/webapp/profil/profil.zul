@@ -89,32 +89,36 @@
 							<div sclass="RHTitle2">
 								<label value="Contacts" />
 							</div>
-							<div sclass="RHTitle2Line"></div>
+							<div sclass="RHTitle2Line" />
 							<div sclass="RHContent">
-								<div>
-									<label sclass="name"
-										value="Type de contact" />
-									<label sclass="value"
-										value="@bind(vm.agentCourant.agent.nomatr)" />
-								</div>
-								<div>
-									<label sclass="name"
-										value="Prioritaire" />
-									<label sclass="value"
-										value="@bind(vm.agentCourant.agent.nomPatronymique)" />
-								</div>
-								<div>
-									<label sclass="name"
-										value="Decsription" />
-									<label sclass="value"
-										value="@bind(vm.agentCourant.agent.nomUsage)" />
-								</div>
-								<div>
-									<label sclass="name"
-										value="Diffusable ?" />
-									<label sclass="value"
-										value="@bind(vm.agentCourant.agent.nomMarital)" />
-								</div>
+								<zk
+									forEach="${vm.agentCourant.listeContacts}">
+									<div>
+										<label sclass="name"
+											value="Type de contact" />
+										<label sclass="value"
+											value="${each.typeContact}" />
+									</div>
+									<div>
+										<label sclass="name"
+											value="Prioritaire" />
+										<label sclass="value"
+											value="${each.prioritaire}" />
+									</div>
+									<div>
+										<label sclass="name"
+											value="Decsription" />
+										<label sclass="value"
+											value="${each.description}" />
+									</div>
+									<div>
+										<label sclass="name"
+											value="Diffusable ?" />
+										<label sclass="value"
+											value="${each.diffusable}" />
+									</div>
+									<div sclass="RHTitle2Line" />
+								</zk>
 							</div>
 						</div>
 					</div>
