@@ -1,9 +1,9 @@
 package nc.noumea.mairie.ws;
 
-import nc.noumea.mairie.kiosque.profil.dto.EtatCivilDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 
 public interface ISirhWSConsumer {
 
-	EtatCivilDto getEtatCivil(Integer idAgent) ;
+	ProfilAgentDto getEtatCivil(Integer idAgent) ;
 
 }

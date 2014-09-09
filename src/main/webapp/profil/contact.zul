@@ -1,0 +1,34 @@
+<zk>
+	<window title="Mes contacts" mode="modal"
+		closable="true" action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.profil.viewModel.ProfilViewModel')">
+		<div sclass="fond" height="100%">
+			<div sclass="RHContent">
+				<zk forEach="${vm.agentCourant.listeContacts}">
+					<div>
+						<label sclass="name" value="Type de contact" />
+						<label sclass="value"
+							value="${each.typeContact}" />
+					</div>
+					<div>
+						<label sclass="name" value="Prioritaire" />
+						<label sclass="value"
+							value="${each.prioritaire}" />
+					</div>
+					<div>
+						<label sclass="name" value="Description" />
+						<label sclass="value"
+							value="${each.description}" />
+					</div>
+					<div>
+						<label sclass="name" value="Diffusable ?" />
+						<label sclass="value"
+							value="${each.diffusable}" />
+					</div>
+					<div sclass="RHTitle2Line" />
+				</zk>
+			</div>
+		</div>
+	</window>
+</zk>

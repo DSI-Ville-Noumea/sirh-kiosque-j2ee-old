@@ -6,7 +6,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
 
-public class EtatCivilDto {
+public class ProfilAgentDto {
 
 	private AgentGeneriqueDto agent;
 	private String sexe;
@@ -16,6 +16,7 @@ public class EtatCivilDto {
 	private String lieuNaissance;
 	private AdresseAgentDto adresse;
 	private List<ContactAgentDto> listeContacts;
+	private List<EnfantDto> listeEnfants;
 
 	public AgentGeneriqueDto getAgent() {
 		return agent;
@@ -83,6 +84,14 @@ public class EtatCivilDto {
 
 	public void setListeContacts(List<ContactAgentDto> listeContacts) {
 		this.listeContacts = listeContacts;
+	}
+
+	public List<EnfantDto> getListeEnfants() {
+		return listeEnfants;
+	}
+
+	public void setListeEnfants(List<EnfantDto> listeEnfants) {
+		this.listeEnfants = listeEnfants;
 	}
 
 }

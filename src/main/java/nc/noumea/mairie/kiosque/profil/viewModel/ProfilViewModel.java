@@ -1,11 +1,14 @@
 package nc.noumea.mairie.kiosque.profil.viewModel;
 
-import nc.noumea.mairie.kiosque.profil.dto.EtatCivilDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class ProfilViewModel {
@@ -13,22 +16,36 @@ public class ProfilViewModel {
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
 
-	private EtatCivilDto agentCourant;
+	private ProfilAgentDto agentCourant;
 
 	private String sclassPhoto;
 
 	@Init
 	public void initProfilAgent() {
-		EtatCivilDto result = sirhWsConsumer.getEtatCivil(9005138);
+		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(9005138);
 		setAgentCourant(result);
 		setSclassPhoto(getAgentCourant().getSexe().equals("M") ? "man" : "woman");
 	}
 
-	public EtatCivilDto getAgentCourant() {
+	@Command
+	public void voirContact() {
+		// create a window programmatically and use it as a modal dialog.
+		Window win = (Window) Executions.createComponents("/profil/contact.zul", null, null);
+		win.doModal();
+	}
+
+	@Command
+	public void voirEnfant() {
+		// create a window programmatically and use it as a modal dialog.
+		Window win = (Window) Executions.createComponents("/profil/enfant.zul", null, null);
+		win.doModal();
+	}
+
+	public ProfilAgentDto getAgentCourant() {
 		return agentCourant;
 	}
 
-	public void setAgentCourant(EtatCivilDto agentCourant) {
+	public void setAgentCourant(ProfilAgentDto agentCourant) {
 		this.agentCourant = agentCourant;
 	}
 

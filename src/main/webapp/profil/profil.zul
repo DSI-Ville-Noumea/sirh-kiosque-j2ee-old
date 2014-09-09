@@ -82,108 +82,88 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 					<div sclass="profil">
-						<div>
-							<div sclass="RHTitle2">
-								<label value="Contacts" />
+						<vlayout>
+							<div>
+								<div sclass="RHTitle2">
+									<label value="Adresse domicile" />
+								</div>
+								<div sclass="RHTitle2Line"></div>
+								<div sclass="RHContent">
+									<div sclass="info">
+										<div>
+											<label sclass="name"
+												value="N° - Voie" />
+											<label sclass="value"
+												value="@bind(vm.agentCourant.adresse.numRue)" />
+											<label sclass="value"
+												value="@bind(vm.agentCourant.adresse.rue)" />
+										</div>
+										<div>
+											<label sclass="name"
+												value="Complément" />
+											<label sclass="value"
+												value="@bind(vm.agentCourant.adresse.adresseComplementaire)" />
+										</div>
+										<div>
+											<label sclass="name"
+												value="Code postal - Ville" />
+											<label sclass="value"
+												value="@bind(vm.agentCourant.adresse.codePostalDomicile)" />
+											<label sclass="value"
+												value="@bind(vm.agentCourant.adresse.villeDomicile)" />
+										</div>
+									</div>
+								</div>
 							</div>
-							<div sclass="RHTitle2Line" />
-							<div sclass="RHContent">
-								<zk
-									forEach="${vm.agentCourant.listeContacts}">
+							<separator />
+							<div>
+								<div sclass="RHTitle2">
+									<label value="Boite Postal" />
+								</div>
+								<div sclass="RHTitle2Line"></div>
+								<div sclass="RHContent">
 									<div>
-										<label sclass="name"
-											value="Type de contact" />
+										<label sclass="name" value="BP" />
 										<label sclass="value"
-											value="${each.typeContact}" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Prioritaire" />
-										<label sclass="value"
-											value="${each.prioritaire}" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Decsription" />
-										<label sclass="value"
-											value="${each.description}" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Diffusable ?" />
-										<label sclass="value"
-											value="${each.diffusable}" />
-									</div>
-									<div sclass="RHTitle2Line" />
-								</zk>
-							</div>
-						</div>
-					</div>
-				</hlayout>
-				<separator />
-				<hlayout>
-					<div sclass="profil">
-						<div>
-							<div sclass="RHTitle2">
-								<label value="Adresse domicile" />
-							</div>
-							<div sclass="RHTitle2Line"></div>
-							<div sclass="RHContent">
-								<div sclass="info">
-									<div>
-										<label sclass="name"
-											value="N° - Voie" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.adresse.numRue)" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.adresse.rue)" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Complément" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.adresse.adresseComplementaire)" />
+											value="@bind(vm.agentCourant.adresse.bp)" />
 									</div>
 									<div>
 										<label sclass="name"
 											value="Code postal - Ville" />
 										<label sclass="value"
-											value="@bind(vm.agentCourant.adresse.codePostalDomicile)" />
+											value="@bind(vm.agentCourant.adresse.codePostalBp)" />
 										<label sclass="value"
-											value="@bind(vm.agentCourant.adresse.villeDomicile)" />
+											value="@bind(vm.agentCourant.adresse.villeBp)" />
 									</div>
 								</div>
 							</div>
-						</div>
-
+						</vlayout>
 					</div>
+				</hlayout>
+				<separator />
+				<vlayout>
 					<div sclass="profil">
 						<div>
 							<div sclass="RHTitle2">
-								<label value="Boite Postal" />
+								<label value="Voir mes contacts"
+									onClick="@command('voirContact')" />
 							</div>
-							<div sclass="RHTitle2Line"></div>
-							<div sclass="RHContent">
-								<div>
-									<label sclass="name" value="BP" />
-									<label sclass="value"
-										value="@bind(vm.agentCourant.adresse.bp)" />
-								</div>
-								<div>
-									<label sclass="name"
-										value="Code postal - Ville" />
-									<label sclass="value"
-										value="@bind(vm.agentCourant.adresse.codePostalBp)" />
-									<label sclass="value"
-										value="@bind(vm.agentCourant.adresse.villeBp)" />
-								</div>
+							<div sclass="RHTitle2Line" />
+						</div>
+						<separator />
+						<separator />
+						<separator />
+						<div>
+							<div sclass="RHTitle2">
+								<label value="Voir mes enfants"
+									onClick="@command('voirEnfant')" />
 							</div>
+							<div sclass="RHTitle2Line" />
 						</div>
 					</div>
-				</hlayout>
+				</vlayout>
 			</vlayout>
 		</div>
 		<include id="includeStyleSoldeAgent"

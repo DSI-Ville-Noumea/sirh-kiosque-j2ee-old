@@ -2,7 +2,7 @@
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
-	.profil { width: 600px; }
+	.profil { width: 500px; }
 
 	.profil .RHTitle2 { color: #ffffff; margin-bottom: 5px; }
 
