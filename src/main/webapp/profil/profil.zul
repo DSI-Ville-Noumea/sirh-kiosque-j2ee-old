@@ -143,47 +143,41 @@
 					</div>
 				</hlayout>
 				<separator />
-				<vlayout>
+				<hlayout>
 					<div sclass="profil">
-						<div>
-							<div sclass="RHTitle2">
-								<label value="Voir mes contacts"
-									onClick="@command('voirContact')" />
-							</div>
-							<div sclass="RHTitle2Line" />
+						<div sclass="RHTitle2">
+							<label value="Voir mes contacts"
+								onClick="@command('voirContact')" />
 						</div>
-						<separator />
-						<separator />
-						<separator />
-						<div>
-							<div sclass="RHTitle2">
-								<label value="Voir mes enfants"
-									onClick="@command('voirEnfant')" />
-							</div>
-							<div sclass="RHTitle2Line" />
-						</div>
-						<separator />
-						<separator />
-						<separator />
-						<div>
-							<div sclass="RHTitle2">
-								<label value="Voir mon compte bancaire"
-									onClick="@command('voirCompte')" />
-							</div>
-							<div sclass="RHTitle2Line" />
-						</div>
-						<separator />
-						<separator />
-						<separator />
-						<div>
-							<div sclass="RHTitle2">
-								<label value="Voir ma couverture sociale"
-									onClick="@command('voirCouvertureSociale')" />
-							</div>
-							<div sclass="RHTitle2Line" />
-						</div>
+						<div sclass="RHTitle2Line" />
 					</div>
-				</vlayout>
+					<div sclass="profil">
+						<div sclass="RHTitle2">
+							<label value="Voir mes enfants"
+								onClick="@command('voirEnfant')" />
+						</div>
+						<div sclass="RHTitle2Line" />
+					</div>
+				</hlayout>
+				<separator />
+				<separator />
+				<separator />
+				<hlayout>
+					<div sclass="profil">
+						<div sclass="RHTitle2">
+							<label value="Voir mon compte bancaire"
+								onClick="@command('voirCompte')" />
+						</div>
+						<div sclass="RHTitle2Line" />
+					</div>
+					<div sclass="profil">
+						<div sclass="RHTitle2">
+							<label value="Voir ma couverture sociale"
+								onClick="@command('voirCouvertureSociale')" />
+						</div>
+						<div sclass="RHTitle2Line" />
+					</div>
+				</hlayout>
 			</vlayout>
 		</div>
 		<include id="includeStyleSoldeAgent"
