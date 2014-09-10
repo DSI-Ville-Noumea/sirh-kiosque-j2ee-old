@@ -1,9 +1,12 @@
 package nc.noumea.mairie.ws;
 
 import java.util.HashMap;
+import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.profil.dto.FichePosteDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.profil.dto.ServiceTreeDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +23,8 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 	private static final String sirhAgentEtatCivilUrl = "agents/getEtatCivil";
 	private static final String sirhAgentFichePosteUrl = "fichePostes/getFichePoste";
+	private static final String sirhSuperieurHierarchiqueAgentUrl = "agents/getSuperieurHierarchique";
+	private static final String sirhArbreServiceAgentUrl = "agents/serviceArbre";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -38,6 +43,27 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(FichePosteDto.class, res, url);
+	}
+
+	@Override
+	public AgentWithServiceDto getSuperieurHierarchique(Integer idAgent) {
+		String url = String.format(sirhWsBaseUrl + sirhSuperieurHierarchiqueAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(AgentWithServiceDto.class, res, url);
+	}
+
+	@Override
+	public List<ServiceTreeDto> getArbreServiceAgent(Integer idAgent) {
+		String url = String.format(sirhWsBaseUrl + sirhArbreServiceAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(ServiceTreeDto.class, res, url);
+
 	}
 
 }

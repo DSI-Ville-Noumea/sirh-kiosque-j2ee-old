@@ -5,6 +5,7 @@ public class AgentDto {
 	private String nom;
 	private String prenom;
 	private Integer idAgent;
+	private String civilite;
 
 	public AgentDto() {
 
@@ -36,6 +37,16 @@ public class AgentDto {
 
 	@Override
 	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
 		return idAgent.equals(((AgentDto) obj).getIdAgent());
+	}
+
+	public String getCivilite() {
+		return civilite;
+	}
+
+	public void setCivilite(String civilite) {
+		this.civilite = civilite;
 	}
 }

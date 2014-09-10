@@ -1,15 +1,44 @@
 <zk>
-	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.profil.viewModel.FichePosteViewModel')"
+	<window id="equipe" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.profil.viewModel.EquipeViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
 					value="Mon équipe" />
+				<separator />
+				<separator />
+				<div sclass="profil">
+					<div sclass="RHTitle2">
+						<label value="Mon supérieur" />
+					</div>
+					<div sclass="RHTitle2Line" />
+					<div sclass="RHContent">
+						<div>
+							<label sclass="value"
+								value="@bind(vm.superieurHierarchique.civilite)" />
+							<label sclass="value"
+								value="@bind(vm.superieurHierarchique.nom)" />
+							<label sclass="value"
+								value="@bind(vm.superieurHierarchique.prenom)" />
+							<label value=" - " />
+							<label sclass="value"
+								value="@bind(vm.superieurHierarchique.position)" />
+						</div>
+					</div>
+				</div>
+				<separator />
+				<separator />
+				<div sclass="profil">
+					<div sclass="RHTitle2">
+						<label value="Mon équipe" />
+					</div>
+					<div sclass="RHTitle2Line" />
+					<div sclass="RHContent">
+						<tree id="tree" model="@load(vm.model)" />
+					</div>
+				</div>
 			</vlayout>
-			<separator />
-			<separator />
-			<separator />
 		</div>
 		<include id="includeStyleSoldeAgent"
 			src="/css/profil/profil.zul" />
