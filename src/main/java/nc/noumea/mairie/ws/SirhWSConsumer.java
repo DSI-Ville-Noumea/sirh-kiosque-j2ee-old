@@ -25,6 +25,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhAgentFichePosteUrl = "fichePostes/getFichePoste";
 	private static final String sirhSuperieurHierarchiqueAgentUrl = "agents/getSuperieurHierarchique";
 	private static final String sirhArbreServiceAgentUrl = "agents/serviceArbre";
+	private static final String sirhEquipeAgentUrl = "agents/equipe";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -63,7 +64,17 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(ServiceTreeDto.class, res, url);
+	}
 
+	@Override
+	public List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, String sigle) {
+		String url = String.format(sirhWsBaseUrl + sirhEquipeAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("sigleService", sigle);
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentWithServiceDto.class, res, url);
 	}
 
 }

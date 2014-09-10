@@ -17,4 +17,6 @@ public interface ISirhWSConsumer {
 
 	List<ServiceTreeDto> getArbreServiceAgent(Integer idAgent);
 
+	List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, String sigle);
+
 }

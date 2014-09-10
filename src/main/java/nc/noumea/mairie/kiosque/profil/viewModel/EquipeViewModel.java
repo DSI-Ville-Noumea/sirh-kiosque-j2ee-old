@@ -41,8 +41,16 @@ public class EquipeViewModel {
 		ServiceTreeNode root = new ServiceTreeNode(null, "");
 		for (ServiceTreeDto premierNiv : getArbreService()) {
 			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, premierNiv.getSigle());
+			for(AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(9005138, premierNiv.getSigle())){
+				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, ag.getNom()+" " +ag.getPrenom());
+				firstLevelNode.appendChild(agentLevelNode);
+			}
 			for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
 				ServiceTreeNode secondLevelNode = new ServiceTreeNode(firstLevelNode, deuxNiv.getSigle());
+				for(AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(9005138, deuxNiv.getSigle())){
+					ServiceTreeNode agentLevelNode = new ServiceTreeNode(secondLevelNode, ag.getNom()+" " +ag.getPrenom());
+					secondLevelNode.appendChild(agentLevelNode);
+				}
 				firstLevelNode.appendChild(secondLevelNode);
 			}
 			root.appendChild(firstLevelNode);
