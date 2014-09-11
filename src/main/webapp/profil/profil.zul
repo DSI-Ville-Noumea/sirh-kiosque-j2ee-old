@@ -146,14 +146,14 @@
 				<hlayout>
 					<div sclass="profil">
 						<div sclass="RHTitle2">
-							<label value="Voir mes contacts"
+							<label value="Voir mes contacts" sclass="clic"
 								onClick="@command('voirContact')" />
 						</div>
 						<div sclass="RHTitle2Line" />
 					</div>
 					<div sclass="profil">
 						<div sclass="RHTitle2">
-							<label value="Voir mes enfants"
+							<label value="Voir mes enfants" sclass="clic"
 								onClick="@command('voirEnfant')" />
 						</div>
 						<div sclass="RHTitle2Line" />
@@ -165,14 +165,14 @@
 				<hlayout>
 					<div sclass="profil">
 						<div sclass="RHTitle2">
-							<label value="Voir mon compte bancaire"
+							<label value="Voir mon compte bancaire" sclass="clic"
 								onClick="@command('voirCompte')" />
 						</div>
 						<div sclass="RHTitle2Line" />
 					</div>
 					<div sclass="profil">
 						<div sclass="RHTitle2">
-							<label value="Voir ma couverture sociale"
+							<label value="Voir ma couverture sociale" sclass="clic"
 								onClick="@command('voirCouvertureSociale')" />
 						</div>
 						<div sclass="RHTitle2Line" />

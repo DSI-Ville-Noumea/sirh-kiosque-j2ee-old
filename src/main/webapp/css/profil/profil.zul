@@ -38,6 +38,8 @@
 	.picture { border: 1px solid #ee7203; float: left; height: 110px;
 	width: 110px; }
 
-	.info { overflow: hidden; }]]>	
+	.info { overflow: hidden; }
+	
+	.clic { cursor: pointer; }]]>	
 	
 </style>

@@ -39,4 +39,11 @@
 		description="SIRH WS endpoint url" value="http://localhost:8090/sirhws/"
 		override="false" />
 
+	<!-- -->
+	<!-- WS SIRH-PTG-WS -->
+	<!-- -->
+	<Environment name="SIRH_PTG_WS_BASE_URL" type="java.lang.String"
+		description="SIRH ABS WS endpoint url" value="http://localhost:8090/sirh-ptg-ws/"
+		override="false" />
+
 </Context>

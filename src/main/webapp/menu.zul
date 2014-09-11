@@ -31,8 +31,8 @@
 			<menu tooltiptext="Mes pointages" sclass="pointageMenu">
 				<menupopup>
 					<menuitem label="Pointages" sclass="titreMenu" />
-					<menuitem label="Mes demandes"
-						onClick="alert(self.label)" />
+					<menuitem label="Saisie hebdomadaire"
+						onClick="@command('changeEcran',page='/pointages/saisieHebdo',ecran=content)" />
 				</menupopup>
 			</menu>
 		</menubar>
