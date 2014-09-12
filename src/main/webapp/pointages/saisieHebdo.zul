@@ -96,7 +96,7 @@
 				</listhead>
 			</listbox>
 			<listbox id="primes">
-				<listitem >
+				<listitem>
 					<listcell>
 						<listbox model="@bind(vm.premierJour.primes)">
 							<listhead>
@@ -113,43 +113,50 @@
 								<listitem>
 									<listcell>
 										<listbox>
-											<listitem sclass="fondBlanc">
+											<listitem
+												sclass="fondBlanc">
 												<listcell>
 													<label
 														value="${each.titre}" />
 												</listcell>
 											</listitem>
-											<listitem visible="${each.periodeHeure}" sclass="fondBlanc">
+											<listitem
+												visible="${each.periodeHeure}" sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Heure début / fin *" />
 												</listcell>
 											</listitem>
-											<listitem visible="${each.caseACocher}" sclass="fondBlanc">
+											<listitem
+												visible="${each.caseACocher}" sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Accordée ? *" />
 												</listcell>
 											</listitem>
-											<listitem visible="${each.nbHeures}" sclass="fondBlanc">
+											<listitem
+												visible="${each.nbHeures}" sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Nombre d'heures *" />
 												</listcell>
 											</listitem>
-											<listitem visible="${each.nbIndemnites}" sclass="fondBlanc">
+											<listitem
+												visible="${each.nbIndemnites}" sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Nombre d'indemnités *" />
 												</listcell>
 											</listitem>
-											<listitem sclass="fondBlanc">
+											<listitem
+												sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Motif" />
 												</listcell>
 											</listitem>
-											<listitem sclass="fondBlanc">
+											<listitem
+												sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Commentaire" />
@@ -159,28 +166,53 @@
 									</listcell>
 									<listcell>
 										<listbox>
-											<listitem sclass="fondBlanc">
+											<listitem
+												sclass="fondBlanc">
 												<listcell>
 													<label
 														value="siaie" />
 												</listcell>
 											</listitem>
-											<listitem sclass="fondBlanc">
+											<listitem
+												visible="${each.periodeHeure}" sclass="fondBlanc">
 												<listcell>
 													<label
-														value="titi2" />
+														value="Heure début / fin *" />
 												</listcell>
 											</listitem>
-											<listitem sclass="fondBlanc">
+											<listitem
+												visible="${each.caseACocher}" sclass="fondBlanc">
 												<listcell>
-													<label
-														value="titi2" />
+													<checkbox checked="${each.checkCoche}" onClick="@command('checkAccorde',prime=each, checkbox=self)"/>
+													<label value="${each.labelCoche}"></label>
 												</listcell>
 											</listitem>
-											<listitem sclass="fondBlanc">
+											<listitem
+												visible="${each.nbHeures}" sclass="fondBlanc">
 												<listcell>
 													<label
-														value="titi2" />
+														value="Nombre d'heures *" />
+												</listcell>
+											</listitem>
+											<listitem
+												visible="${each.nbIndemnites}" sclass="fondBlanc">
+												<listcell>
+													<label
+														value="Nombre d'indemnités *" />
+												</listcell>
+											</listitem>
+											<listitem
+												sclass="fondBlanc">
+												<listcell>
+													<label
+														value="titi3" />
+												</listcell>
+											</listitem>
+											<listitem
+												sclass="fondBlanc">
+												<listcell>
+													<label
+														value="titi4" />
 												</listcell>
 											</listitem>
 										</listbox>

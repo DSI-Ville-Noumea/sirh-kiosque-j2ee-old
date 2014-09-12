@@ -7,11 +7,16 @@ import java.util.Date;
 
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.JourPointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.PrimeDto;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Checkbox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class SaisieHebdomadaireViewModel {
@@ -31,6 +36,12 @@ public class SaisieHebdomadaireViewModel {
 		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(9005138, sdf.parse("08/09/2014"), 9005138);
 		setFicheCourante(result);
 		setPremierJour(getFicheCourante().getSaisies().get(0));
+	}
+
+	@Command
+	@NotifyChange({ "ficheCourante", "premierJour" })
+	public void checkAccorde(@BindingParam("prime") PrimeDto prime, @BindingParam("checkbox") Checkbox checkbox) {
+		prime.setQuantite(checkbox.isChecked() ? 1 : null);
 	}
 
 	public FichePointageDto getFicheCourante() {

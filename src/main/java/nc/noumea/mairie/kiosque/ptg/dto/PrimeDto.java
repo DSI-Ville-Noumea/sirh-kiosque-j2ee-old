@@ -8,12 +8,9 @@ public class PrimeDto extends PointageDto {
 	private Integer numRubrique;
 	private Integer idRefPrime;
 
+	/*POUR L'AFFICHAGE*/
 	public boolean isPeriodeHeure() {
 		return typeSaisie.equals("PERIODE_HEURES");
-	}
-
-	public boolean isCaseACocher() {
-		return typeSaisie.equals("CASE_A_COCHER");
 	}
 
 	public boolean isnbHeures() {
@@ -23,6 +20,20 @@ public class PrimeDto extends PointageDto {
 	public boolean isnbIndemnites() {
 		return typeSaisie.equals("NB_INDEMNITES");
 	}
+
+	public boolean isCaseACocher() {
+		return typeSaisie.equals("CASE_A_COCHER");
+	}
+
+	public boolean getCheckCoche() {
+		return quantite!=null;
+	}
+
+	public String getLabelCoche() {
+		return quantite==null ? "Non" : "Oui";
+	}
+
+	/*FIN DE POUR L'AFFICHAGE*/
 
 	public String getTitre() {
 		return titre;
