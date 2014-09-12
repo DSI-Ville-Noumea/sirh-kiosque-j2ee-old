@@ -42,45 +42,45 @@
 			<separator />
 			<listbox id="saisieHebdo">
 				<listhead sclass="header">
-					<listheader sort="none" label="" width="105px"
+					<listheader sort="none" label="" width="200px"
 						sclass="contentHeader" />
-					<listheader sort="none">
+					<listheader sort="none" width="140px">
 						<label value="Lundi" sclass="contentHeader" />
 						<separator />
 						<label value="@bind(vm.lundi)"
 							sclass="contentHeader" />
 					</listheader>
-					<listheader sort="none">
+					<listheader sort="none" width="140px">
 						<label value="Mardi" sclass="contentHeader" />
 						<separator />
 						<label value="@bind(vm.mardi)"
 							sclass="contentHeader" />
 					</listheader>
-					<listheader sort="none">
+					<listheader sort="none" width="140px">
 						<label value="Mercredi" sclass="contentHeader" />
 						<separator />
 						<label value="@bind(vm.mercredi)"
 							sclass="contentHeader" />
 					</listheader>
-					<listheader sort="none">
+					<listheader sort="none" width="140px">
 						<label value="Jeudi" sclass="contentHeader" />
 						<separator />
 						<label value="@bind(vm.jeudi)"
 							sclass="contentHeader" />
 					</listheader>
-					<listheader sort="none">
+					<listheader sort="none" width="140px">
 						<label value="Vendredi" sclass="contentHeader" />
 						<separator />
 						<label value="@bind(vm.vendredi)"
 							sclass="contentHeader" />
 					</listheader>
-					<listheader sort="none">
+					<listheader sort="none" width="140px">
 						<label value="Samedi" sclass="contentHeader" />
 						<separator />
 						<label value="@bind(vm.samedi)"
 							sclass="contentHeader" />
 					</listheader>
-					<listheader sort="none">
+					<listheader sort="none" width="140px">
 						<label value="Dimanche" sclass="contentHeader" />
 						<separator />
 						<label value="@bind(vm.dimanche)"
@@ -90,16 +90,142 @@
 			</listbox>
 			<listbox id="entetePrime">
 				<listhead>
-					<listheader sort="none"  sclass="headerEntete">
-						<label value="Primes"  />
+					<listheader sort="none" sclass="headerEntete">
+						<label value="Primes" sclass="contentHeader" />
 					</listheader>
 				</listhead>
 			</listbox>
-			<listbox id="primes" model="@bind(vm.premierJour.primes)">
+			<listbox id="primes">
+				<listitem >
+					<listcell>
+						<listbox model="@bind(vm.premierJour.primes)">
+							<listhead>
+								<listheader width="200px"></listheader>
+								<listheader width="140px"></listheader>
+								<listheader width="140px"></listheader>
+								<listheader width="140px"></listheader>
+								<listheader width="140px"></listheader>
+								<listheader width="140px"></listheader>
+								<listheader width="140px"></listheader>
+								<listheader width="140px"></listheader>
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell>
+										<listbox>
+											<listitem sclass="fondBlanc">
+												<listcell>
+													<label
+														value="${each.titre}" />
+												</listcell>
+											</listitem>
+											<listitem visible="${each.periodeHeure}" sclass="fondBlanc">
+												<listcell>
+													<label
+														value="Heure début / fin *" />
+												</listcell>
+											</listitem>
+											<listitem visible="${each.caseACocher}" sclass="fondBlanc">
+												<listcell>
+													<label
+														value="Accordée ? *" />
+												</listcell>
+											</listitem>
+											<listitem visible="${each.nbHeures}" sclass="fondBlanc">
+												<listcell>
+													<label
+														value="Nombre d'heures *" />
+												</listcell>
+											</listitem>
+											<listitem visible="${each.nbIndemnites}" sclass="fondBlanc">
+												<listcell>
+													<label
+														value="Nombre d'indemnités *" />
+												</listcell>
+											</listitem>
+											<listitem sclass="fondBlanc">
+												<listcell>
+													<label
+														value="Motif" />
+												</listcell>
+											</listitem>
+											<listitem sclass="fondBlanc">
+												<listcell>
+													<label
+														value="Commentaire" />
+												</listcell>
+											</listitem>
+										</listbox>
+									</listcell>
+									<listcell>
+										<listbox>
+											<listitem sclass="fondBlanc">
+												<listcell>
+													<label
+														value="siaie" />
+												</listcell>
+											</listitem>
+											<listitem sclass="fondBlanc">
+												<listcell>
+													<label
+														value="titi2" />
+												</listcell>
+											</listitem>
+											<listitem sclass="fondBlanc">
+												<listcell>
+													<label
+														value="titi2" />
+												</listcell>
+											</listitem>
+											<listitem sclass="fondBlanc">
+												<listcell>
+													<label
+														value="titi2" />
+												</listcell>
+											</listitem>
+										</listbox>
+									</listcell>
+									<listcell label="nono" />
+									<listcell label="nono" />
+									<listcell label="nono" />
+									<listcell label="nono" />
+									<listcell label="nono" />
+									<listcell label="nono" />
+									<listcell label="nono" />
+								</listitem>
+							</template>
+						</listbox>
+					</listcell>
+				</listitem>
+			</listbox>
+			<listbox id="enteteHeuresSup">
+				<listhead>
+					<listheader sort="none" sclass="headerEntete">
+						<label value="Heures supplémentaires"
+							sclass="contentHeader" />
+					</listheader>
+				</listhead>
+			</listbox>
+			<listbox id="heuresSup"
+				model="@bind(vm.premierJour.heuresSup)">
 				<template name="model">
 					<listitem>
-						<listcell />
-						<listcell label="${each.typeSaisie}" />
+						<listcell label="${each.idPointage}" />
+					</listitem>
+				</template>
+			</listbox>
+			<listbox id="enteteAbsences">
+				<listhead>
+					<listheader sort="none" sclass="headerEntete">
+						<label value="Absences" sclass="contentHeader" />
+					</listheader>
+				</listhead>
+			</listbox>
+			<listbox id="absences"
+				model="@bind(vm.premierJour.absences)">
+				<template name="model">
+					<listitem>
+						<listcell label="${each.idRefTypeAbsence}" />
 					</listitem>
 				</template>
 			</listbox>

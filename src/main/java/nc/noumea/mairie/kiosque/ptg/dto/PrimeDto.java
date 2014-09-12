@@ -8,6 +8,22 @@ public class PrimeDto extends PointageDto {
 	private Integer numRubrique;
 	private Integer idRefPrime;
 
+	public boolean isPeriodeHeure() {
+		return typeSaisie.equals("PERIODE_HEURES");
+	}
+
+	public boolean isCaseACocher() {
+		return typeSaisie.equals("CASE_A_COCHER");
+	}
+
+	public boolean isnbHeures() {
+		return typeSaisie.equals("NB_HEURES");
+	}
+
+	public boolean isnbIndemnites() {
+		return typeSaisie.equals("NB_INDEMNITES");
+	}
+
 	public String getTitre() {
 		return titre;
 	}

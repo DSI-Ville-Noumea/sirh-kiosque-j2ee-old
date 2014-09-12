@@ -1,8 +1,4 @@
 <style>
-
-
-
-	
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
@@ -49,12 +45,13 @@
 	159);height: 25px;line-height: 0px;font-weight: bold;padding-left:
 	10px;color: #ffffff;text-align: left;}
 
-	.z-listbox { border: 0px solid #cfcfcf; }
+	.z-listbox { border: 0px solid #ffffff; }
+
+	.fondBlanc.z-listitem { background: none repeat scroll 0 0 #ffffff;}
+
+	.z-listitem .z-listbox-odd .fondBlanc.z-listitem { background: none
+	repeat scroll 0 0 #f7f7f7;}
 
 	]]>
-	
-	
-	
-		
 	
 </style>
