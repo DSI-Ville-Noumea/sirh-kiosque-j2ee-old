@@ -5,6 +5,6 @@
 
 	.z-west,.z-south { border: 0 none; }
 
-	.z-window-content { padding: 0px; background-color: #ee7203;}
+	.z-window-content { padding: 0px; background-color: #ee7203;overflow: auto;}
 	]]>
 </style>

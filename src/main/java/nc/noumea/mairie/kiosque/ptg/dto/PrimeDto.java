@@ -8,7 +8,7 @@ public class PrimeDto extends PointageDto {
 	private Integer numRubrique;
 	private Integer idRefPrime;
 
-	/*POUR L'AFFICHAGE*/
+	/* POUR L'AFFICHAGE */
 	public boolean isPeriodeHeure() {
 		return typeSaisie.equals("PERIODE_HEURES");
 	}
@@ -26,14 +26,20 @@ public class PrimeDto extends PointageDto {
 	}
 
 	public boolean getCheckCoche() {
-		return quantite!=null;
+		return quantite != null;
 	}
 
 	public String getLabelCoche() {
-		return quantite==null ? "Non" : "Oui";
+		return quantite == null ? "Non" : "Oui";
 	}
 
-	/*FIN DE POUR L'AFFICHAGE*/
+	public String getEtatToString() {
+		if (getIdRefEtat() == null)
+			return "Non saisi";
+		return EtatPointageEnum.getEtatPointageEnum(getIdRefEtat()).name();
+	}
+
+	/* FIN DE POUR L'AFFICHAGE */
 
 	public String getTitre() {
 		return titre;

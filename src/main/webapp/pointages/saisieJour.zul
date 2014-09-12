@@ -1,0 +1,43 @@
+<zk>
+	<listbox>
+		<listitem sclass="fondBlanc">
+			<listcell style="text-align:center;">
+				<label value="${each.etatToString}" />
+			</listcell>
+		</listitem>
+		<listitem visible="${each.periodeHeure}" sclass="fondBlanc">
+			<listcell>
+				<textbox width="47%" />
+				<textbox width="47%" />
+			</listcell>
+		</listitem>
+		<listitem visible="${each.caseACocher}" sclass="fondBlanc">
+			<listcell>
+				<checkbox checked="${each.checkCoche}"
+					onClick="@command('checkAccorde',prime=each, checkbox=self)" />
+				<label value="${each.labelCoche}"></label>
+			</listcell>
+		</listitem>
+		<listitem visible="${each.nbHeures}" sclass="fondBlanc">
+			<listcell>
+				<textbox width="100%" />
+			</listcell>
+		</listitem>
+		<listitem visible="${each.nbIndemnites}" sclass="fondBlanc">
+			<listcell>
+				<textbox width="100%" />
+			</listcell>
+		</listitem>
+		<listitem sclass="fondBlanc">
+			<listcell>
+				<textbox width="100%" />
+			</listcell>
+		</listitem>
+		<listitem sclass="fondBlanc">
+			<listcell>
+				<textbox width="100%" height="50px" />
+			</listcell>
+		</listitem>
+	</listbox>
+</zk>
+
