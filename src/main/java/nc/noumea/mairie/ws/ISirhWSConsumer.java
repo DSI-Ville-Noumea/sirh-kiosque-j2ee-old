@@ -19,4 +19,6 @@ public interface ISirhWSConsumer {
 
 	List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, String sigle);
 
+	byte[] imprimerFDP(Integer idFichePoste);
+
 }

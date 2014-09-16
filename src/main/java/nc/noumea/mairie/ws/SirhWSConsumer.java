@@ -26,6 +26,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhSuperieurHierarchiqueAgentUrl = "agents/getSuperieurHierarchique";
 	private static final String sirhArbreServiceAgentUrl = "agents/serviceArbre";
 	private static final String sirhEquipeAgentUrl = "agents/equipe";
+	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -75,6 +76,16 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentWithServiceDto.class, res, url);
+	}
+
+	@Override
+	public byte[] imprimerFDP(Integer idFichePoste) {
+		String url = String.format(sirhWsBaseUrl + sirhPrintFDPAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idFichePoste", idFichePoste.toString());
+		ClientResponse res = createAndFireRequest(params, url, false, null);
+
+		return readResponseWithFile(res, url);
 	}
 
 }

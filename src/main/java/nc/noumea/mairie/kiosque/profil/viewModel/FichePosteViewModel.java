@@ -3,9 +3,11 @@ package nc.noumea.mairie.kiosque.profil.viewModel;
 import nc.noumea.mairie.kiosque.profil.dto.FichePosteDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Filedownload;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class FichePosteViewModel {
@@ -19,6 +21,13 @@ public class FichePosteViewModel {
 	public void initFichePosteAgent() {
 		FichePosteDto result = sirhWsConsumer.getFichePoste(9005138);
 		setFicheCourant(result);
+	}
+
+	@Command
+	public void imprimeFDP() {
+		// on imprime la FDP de l'agent
+		byte[] resp = sirhWsConsumer.imprimerFDP(getFicheCourant().getIdFichePoste());
+		Filedownload.save(resp, "application/pdf", "fichePoste");
 	}
 
 	public FichePosteDto getFicheCourant() {

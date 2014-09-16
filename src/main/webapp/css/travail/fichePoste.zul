@@ -1,4 +1,5 @@
 <style>
+
 	
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
@@ -19,18 +20,24 @@
 	rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); clear: both;
 	height: 1px;}
 
-	.RHContent { margin-top: 10px; margin-bottom: 15px; margin-left:15px;}
+	.RHContent { margin-top: 10px; margin-bottom: 15px;
+	margin-left:15px;}
 
 	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;
 	color: #3B62A7; width:100px; }
 
 	.RHContent .value { display: inline-block; color: #000000; }
 
+	.RHContent .print { background-image: url("img/Sprite.png");
+	background-position: -299px -229px; display: block; height: 16px;
+	width: 16px; float: right; }
+
 	.RHTitle3 { background-image: url("img/Sprite.png");
 	background-position: -494px -46px; background-repeat: no-repeat;
 	color: #d3711c !important; height: 16px; padding: 0 0 0 8px; }
-	
+
 	.z-hlayout-inner{width: 33%;}]]>
+	
 		
 	
 </style>
