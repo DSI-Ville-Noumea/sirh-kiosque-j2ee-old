@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.profil.viewModel;
+package nc.noumea.mairie.kiosque.travail.viewModel;
 
 import java.util.List;
 

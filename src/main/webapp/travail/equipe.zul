@@ -1,6 +1,6 @@
 <zk>
 	<window id="equipe" apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.profil.viewModel.EquipeViewModel')"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.travail.viewModel.EquipeViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
 			<vlayout>
@@ -40,8 +40,8 @@
 				</div>
 			</vlayout>
 		</div>
-		<include id="includeStyleSoldeAgent"
-			src="/css/profil/equipe.zul" />
+		<include id="includeStyleEquipe"
+			src="/css/travail/equipe.zul" />
 	</window>
 </zk>
 

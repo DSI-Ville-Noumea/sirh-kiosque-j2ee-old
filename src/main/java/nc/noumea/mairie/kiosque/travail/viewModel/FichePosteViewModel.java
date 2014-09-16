@@ -1,6 +1,6 @@
-package nc.noumea.mairie.kiosque.profil.viewModel;
+package nc.noumea.mairie.kiosque.travail.viewModel;
 
-import nc.noumea.mairie.kiosque.profil.dto.FichePosteDto;
+import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.annotation.Command;

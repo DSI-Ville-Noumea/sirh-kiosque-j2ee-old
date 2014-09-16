@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.profil.dto.FichePosteDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.profil.dto.ServiceTreeDto;
+import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
+import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

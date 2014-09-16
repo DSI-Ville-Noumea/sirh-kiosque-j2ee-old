@@ -3,9 +3,9 @@ package nc.noumea.mairie.ws;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.profil.dto.FichePosteDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.profil.dto.ServiceTreeDto;
+import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
+import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
 
 public interface ISirhWSConsumer {
 

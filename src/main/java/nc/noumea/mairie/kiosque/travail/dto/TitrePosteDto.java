@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.profil.dto;
+package nc.noumea.mairie.kiosque.travail.dto;
 
 public class TitrePosteDto {
 

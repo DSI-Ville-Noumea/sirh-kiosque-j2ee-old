@@ -1,9 +1,9 @@
-package nc.noumea.mairie.kiosque.profil.viewModel;
+package nc.noumea.mairie.kiosque.travail.viewModel;
 
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.profil.dto.ServiceTreeDto;
+import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.annotation.Init;
