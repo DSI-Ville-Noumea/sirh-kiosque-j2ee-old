@@ -30,7 +30,7 @@
 
 	.RHContent .print { background-image: url("img/Sprite.png");
 	background-position: -299px -229px; display: block; height: 16px;
-	width: 16px; float: right; }
+	width: 16px; float: right; cursor: pointer;}
 
 	.RHTitle3 { background-image: url("img/Sprite.png");
 	background-position: -494px -46px; background-repeat: no-repeat;
