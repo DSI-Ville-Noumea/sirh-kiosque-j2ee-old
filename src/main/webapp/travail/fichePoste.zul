@@ -58,14 +58,6 @@
 											value="@bind(vm.ficheCourant.niveauEtudes)" />
 									</div>
 								</div>
-								<separator />
-								<separator />
-								<separator />
-								<separator />
-								<separator />
-								<separator />
-								<separator />
-								<separator />
 								<div>
 									<div>
 										<label sclass="name"

@@ -24,6 +24,14 @@
 	color: #3B62A7; width:100px; }
 
 	.RHContent .value { display: inline-block; color:
-	#000000; }]]>	
+	#000000; }
+
+	.RHContent .print { background-image: url("img/Sprite.png");
+	background-position: -299px -229px; display: block; height: 16px;
+	width: 16px; float: right; cursor: pointer;}
+
+	.RHTitle3 { background-image: url("img/Sprite.png");
+	background-position: -494px -46px; background-repeat: no-repeat;
+	color: #d3711c !important; height: 16px; padding: 0 0 0 8px; }]]>	
 	
 </style>

@@ -1,10 +1,14 @@
 <style>
+	
 	<![CDATA[
 
 	.fondMenu { background-color: #ee7203; }
 
 	.z-west,.z-south { border: 0 none; }
 
-	.z-window-content { padding: 0px; background-color: #ee7203;overflow: auto;}
-	]]>
+	.z-window-content { padding: 0px; background-color:
+	#FFEBCD;overflow: auto;}
+
+	.z-menubar ul {background-color: #ee7203; } ]]>
+	
 </style>

@@ -45,13 +45,6 @@
 								</div>
 							</div>
 							<separator />
-							<separator />
-							<separator />
-							<separator />
-							<separator />
-							<separator />
-							<separator />
-							<separator />
 							<div>
 								<div>
 									<label sclass="name" value="Titre" />
@@ -161,7 +154,5 @@
 		<separator />
 		<separator />
 	</div>
-	<include id="includeStyleFichePoste"
-		src="/css/travail/fichePoste.zul" />
 </zk>
 

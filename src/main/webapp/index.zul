@@ -3,7 +3,7 @@
 		<div height="100%">
 			<borderlayout>
 				<west id="west" splittable="true" sclass="fondMenu">
-					<div id="menuGauche" height="100%">
+					<div id="menuGauche">
 						<include src="menu.zul" />
 					</div>
 				</west>

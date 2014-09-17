@@ -37,7 +37,7 @@
 
 	.z-menu-content{height: 52px;}
 
-	.menu { background: none; border-bottom: none ; border-top: none; }
+	.menu { background: none; border-bottom: none ; border-top: none;background-color: #ee7203; }
 
 	.z-menu-content:focus{background: none; border-bottom: none ;
 	border-top: none; border-radius:none; } 
