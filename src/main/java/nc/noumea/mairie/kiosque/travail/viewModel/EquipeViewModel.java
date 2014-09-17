@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
 import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
@@ -34,7 +35,11 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 
 	private AgentWithServiceDto superieurHierarchique;
 
+	private List<AgentWithServiceDto> equipeAgent;
+
 	private FichePosteDto ficheCourant;
+
+	private boolean estChef;
 
 	@Wire
 	private Grid resultGrid;
@@ -47,9 +52,18 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	public void initEquipeAgent() {
 		AgentWithServiceDto result = sirhWsConsumer.getSuperieurHierarchique(9005138);
 		setSuperieurHierarchique(result);
-		List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(9005138);
-		setArbreService(tree);
-		initModel();
+		EstChefDto dto = sirhWsConsumer.isAgentChef(9005138);
+		setEstChef(false);
+		// si l'agent est chef
+		if (isEstChef()) {
+			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(9005138);
+			setArbreService(tree);
+			initModel();
+		} else {
+			// sinon
+			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(9004117, null);
+			setEquipeAgent(ag);
+		}
 	}
 
 	private void initModel() {
@@ -135,5 +149,21 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 
 	public void setFicheCourant(FichePosteDto ficheCourant) {
 		this.ficheCourant = ficheCourant;
+	}
+
+	public boolean isEstChef() {
+		return estChef;
+	}
+
+	public void setEstChef(boolean estChef) {
+		this.estChef = estChef;
+	}
+
+	public List<AgentWithServiceDto> getEquipeAgent() {
+		return equipeAgent;
+	}
+
+	public void setEquipeAgent(List<AgentWithServiceDto> equipeAgent) {
+		this.equipeAgent = equipeAgent;
 	}
 }

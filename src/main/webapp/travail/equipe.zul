@@ -16,15 +16,26 @@
 					<div sclass="RHTitle2Line" />
 					<div sclass="RHContent">
 						<div>
-							<label sclass="value"
-								value="@bind(vm.superieurHierarchique.civilite)" />
-							<label sclass="value"
-								value="@bind(vm.superieurHierarchique.nom)" />
-							<label sclass="value"
-								value="@bind(vm.superieurHierarchique.prenom)" />
-							<label value=" - " />
-							<label sclass="value"
-								value="@bind(vm.superieurHierarchique.position)" />
+							<grid>
+								<columns visible="false">
+									<column width="100px" label="Titre" />
+									<column label="Nom" />
+									<column label="Prenom" />
+									<column label="Poste" />
+								</columns>
+								<rows>
+									<row>
+										<label sclass="value"
+											value="@bind(vm.superieurHierarchique.civilite)" />
+										<label sclass="value"
+											value="@bind(vm.superieurHierarchique.nom)" />
+										<label sclass="value"
+											value="@bind(vm.superieurHierarchique.prenom)" />
+										<label sclass="value"
+											value="@bind(vm.superieurHierarchique.position)" />
+									</row>
+								</rows>
+							</grid>
 						</div>
 					</div>
 				</div>
@@ -35,17 +46,44 @@
 						<label value="Mon équipe" />
 					</div>
 					<div sclass="RHTitle2Line" />
-					<div sclass="RHContent" width="35%">
-						<tree id="tree" model="@bind(vm.arbre)" />
+					<div visible="@bind(vm.estChef)">
+						<div sclass="RHContent" width="35%">
+							<tree id="tree" model="@bind(vm.arbre)" />
+						</div>
+						<separator />
+						<div sclass="RHContent">
+							<div>
+								<grid id="resultGrid">
+									<template name="model">
+										<row>
+											<include
+												visible="${not empty each }"
+												src="/travail/fichePosteEquipe.zul" />
+										</row>
+									</template>
+								</grid>
+							</div>
+						</div>
 					</div>
-					<separator />
-					<div sclass="RHContent">
-						<div>
-							<grid id="resultGrid">
+					<div visible="@bind(!vm.estChef)">
+						<div sclass="RHContent">
+							<grid model="@bind(vm.equipeAgent)">
+								<columns visible="false">
+									<column width="100px" label="Titre" />
+									<column label="Nom" />
+									<column label="Prenom" />
+									<column label="Poste" />
+								</columns>
 								<template name="model">
 									<row>
-										<include visible="${not empty each }"
-											src="/travail/fichePosteEquipe.zul" />
+										<label sclass="value"
+											value="@bind(each.civilite)" />
+										<label sclass="value"
+											value="@bind(each.nom)" />
+										<label sclass="value"
+											value="@bind(each.prenom)" />
+										<label sclass="value"
+											value="@bind(each.position)" />
 									</row>
 								</template>
 							</grid>

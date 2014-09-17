@@ -1,4 +1,6 @@
 <style>
+
+	
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
@@ -23,8 +25,7 @@
 	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;
 	color: #3B62A7; width:100px; }
 
-	.RHContent .value { display: inline-block; color:
-	#000000; }
+	.RHContent .value { display: inline-block; color: #000000; }
 
 	.RHContent .print { background-image: url("img/Sprite.png");
 	background-position: -299px -229px; display: block; height: 16px;
@@ -32,6 +33,23 @@
 
 	.RHTitle3 { background-image: url("img/Sprite.png");
 	background-position: -494px -46px; background-repeat: no-repeat;
-	color: #d3711c !important; height: 16px; padding: 0 0 0 8px; }]]>	
+	color: #d3711c !important; height: 16px; padding: 0 0 0 8px; }
+
+
+	.z-row {background-color: #e3d2ad;}
+
+	.z-row:hover .z-row-inner { background:#ee7203; }
+
+	.z-row.z-grid-odd{background-color: #e6bb91;}
+
+	.z-grid-odd > .z-row-inner {background-color:
+	#e6bb91; background:none;}
+	
+	.equipe table {
+	    border-collapse: collapse;
+	}
+]]>
+	
+		
 	
 </style>

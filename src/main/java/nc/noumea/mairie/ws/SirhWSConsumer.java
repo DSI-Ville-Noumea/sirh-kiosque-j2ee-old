@@ -5,6 +5,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
 import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
 
@@ -25,7 +26,8 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhAgentFichePosteUrl = "fichePostes/getFichePoste";
 	private static final String sirhSuperieurHierarchiqueAgentUrl = "agents/getSuperieurHierarchique";
 	private static final String sirhArbreServiceAgentUrl = "agents/serviceArbre";
-	private static final String sirhEquipeAgentUrl = "agents/equipe";
+	private static final String sirhEquipeAgentUrl = "agents/getEquipe";
+	private static final String sirhEstChefUrl = "agents/estChef";
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
@@ -72,7 +74,8 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 		String url = String.format(sirhWsBaseUrl + sirhEquipeAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
-		params.put("sigleService", sigle);
+		if (sigle != null)
+			params.put("sigleService", sigle);
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentWithServiceDto.class, res, url);
@@ -86,6 +89,16 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 		ClientResponse res = createAndFireRequest(params, url, false, null);
 
 		return readResponseWithFile(res, url);
+	}
+
+	@Override
+	public EstChefDto isAgentChef(Integer idAgent) {
+		String url = String.format(sirhWsBaseUrl + sirhEstChefUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(EstChefDto.class, res, url);
 	}
 
 }
