@@ -1,0 +1,167 @@
+<zk>
+	<div sclass="fond" height="100%">
+		<vlayout>
+			<div sclass="fiche">
+				<div sclass="RHContent">
+					<image sclass="print"
+						onClick="@command('imprimeFDP', ref=resultGrid)" />
+					<div class="RHTitle3">Général</div>
+					<div sclass="RHContent">
+						<hlayout width="100%">
+							<div>
+								<div>
+									<label sclass="name" value="Numero" />
+									<label sclass="value"
+										value="${each.numero}" />
+								</div>
+								<div>
+									<label sclass="name" value="Budget" />
+									<label sclass="value"
+										value="${each.budget}" />
+								</div>
+								<div>
+									<label sclass="name"
+										value="Budgété" />
+									<label sclass="value"
+										value="${each.budgete}" />
+								</div>
+								<div>
+									<label sclass="name"
+										value="Réglementaire" />
+									<label sclass="value"
+										value="${each.reglementaire}" />
+								</div>
+								<div>
+									<label sclass="name"
+										value="Cadre emploi" />
+									<label sclass="value"
+										value="${each.cadreEmploi}" />
+								</div>
+								<div>
+									<label sclass="name"
+										value="Niveau d'études" />
+									<label sclass="value"
+										value="${each.niveauEtudes}" />
+								</div>
+							</div>
+							<separator />
+							<separator />
+							<separator />
+							<separator />
+							<separator />
+							<separator />
+							<separator />
+							<separator />
+							<div>
+								<div>
+									<label sclass="name" value="Titre" />
+									<label sclass="value"
+										value="${each.titre}" />
+								</div>
+								<div>
+									<label sclass="name"
+										value="Direction" />
+									<label sclass="value"
+										value="${each.direction}" />
+								</div>
+								<div>
+									<label sclass="name"
+										value="Service" />
+									<label sclass="value"
+										value="${each.service}" />
+								</div>
+								<div>
+									<label sclass="name"
+										value="Section" />
+									<label sclass="value"
+										value="${each.section}" />
+								</div>
+								<div>
+									<label sclass="name" value="Lieu" />
+									<label sclass="value"
+										value="${each.lieu}" />
+								</div>
+								<div>
+									<label sclass="name"
+										value="Grade du poste" />
+									<label sclass="value"
+										value="${each.gradePoste}" />
+								</div>
+							</div>
+						</hlayout>
+					</div>
+					<div sclass="RHTitle2Line" />
+					<separator />
+					<separator />
+					<div class="RHTitle3">Mission(s)</div>
+					<div sclass="RHContent">
+						<label value="${each.missions}" />
+					</div>
+					<div sclass="RHTitle2Line" />
+					<separator />
+					<separator />
+					<div class="RHTitle3">
+						Activités / Tâches principales
+					</div>
+					<div sclass="RHContent">
+						<zk forEach="${each.activites}">
+							<div>
+								<label sclass="value" value="- ${each}" />
+							</div>
+						</zk>
+					</div>
+					<div sclass="RHTitle2Line" />
+					<separator />
+					<separator />
+					<div class="RHTitle3">Compétences</div>
+					<div sclass="RHContent" width="100%">
+						<hlayout>
+							<div>
+								<label value="Savoir"
+									style="color: #d3711c;" />
+								<separator />
+								<zk
+									forEach="${each.savoirs}">
+									<div>
+										<label sclass="value"
+											value="- ${each}" />
+									</div>
+								</zk>
+							</div>
+							<div>
+								<label value="Savoir-faire"
+									style="color: #d3711c;" />
+								<separator />
+								<zk
+									forEach="${each.savoirsFaire}">
+									<div>
+										<label sclass="value"
+											value="- ${each}" />
+									</div>
+								</zk>
+							</div>
+							<div>
+								<label
+									value="Comportements professionnels" style="color: #d3711c;" />
+								<separator />
+								<zk
+									forEach="${each.comportementsProfessionnels}">
+									<div>
+										<label sclass="value"
+											value="- ${each}" />
+									</div>
+								</zk>
+							</div>
+						</hlayout>
+					</div>
+				</div>
+			</div>
+		</vlayout>
+		<separator />
+		<separator />
+		<separator />
+	</div>
+	<include id="includeStyleFichePoste"
+		src="/css/travail/fichePoste.zul" />
+</zk>
+
