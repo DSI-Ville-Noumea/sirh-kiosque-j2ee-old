@@ -3,6 +3,7 @@ package nc.noumea.mairie.ws;
 import java.util.Date;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
@@ -35,5 +36,7 @@ public interface ISirhAbsWSConsumer {
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
 
 	List<RefGroupeAbsenceDto> getRefGroupeAbsence();
+
+	AccessRightsDto getDroitsAbsenceAgent(Integer idAgent);
 
 }

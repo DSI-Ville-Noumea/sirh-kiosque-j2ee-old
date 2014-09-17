@@ -53,7 +53,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		AgentWithServiceDto result = sirhWsConsumer.getSuperieurHierarchique(9005138);
 		setSuperieurHierarchique(result);
 		EstChefDto dto = sirhWsConsumer.isAgentChef(9005138);
-		setEstChef(false);
+		setEstChef(dto.isEstResponsable());
 		// si l'agent est chef
 		if (isEstChef()) {
 			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(9005138);
@@ -61,7 +61,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 			initModel();
 		} else {
 			// sinon
-			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(9004117, null);
+			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(9005138, null);
 			setEquipeAgent(ag);
 		}
 	}

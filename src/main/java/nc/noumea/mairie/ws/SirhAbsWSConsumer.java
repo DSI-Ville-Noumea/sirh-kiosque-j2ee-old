@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
@@ -31,6 +32,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	@Qualifier("sirhAbsWsBaseUrl")
 	private String sirhAbsWsBaseUrl;
 
+	private static final String sirhDroitsAgentUrl = "droits/listeDroitsAgent";
 	private static final String sirhAgentSoldeUrl = "solde/soldeAgent";
 	private static final String sirhChangerEtatDemandesAgentUrl = "demandes/changerEtats";
 	private static final String sirhDeleteDemandesAgentUrl = "demandes/deleteDemande";
@@ -168,6 +170,16 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(RefGroupeAbsenceDto.class, res, url);
+	}
+
+	@Override
+	public AccessRightsDto getDroitsAbsenceAgent(Integer idAgent) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhDroitsAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(AccessRightsDto.class, res, url);
 	}
 
 }

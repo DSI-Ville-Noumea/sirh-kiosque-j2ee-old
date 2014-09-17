@@ -1,0 +1,43 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.DroitsViewModel')"
+		height="100%">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Absences" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Droits d'accès" />
+			</vlayout>
+			<separator />
+			<tabbox id="tb"
+				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
+				<tabs id="tabs">
+					<tab id="APPROUVER" label="Agents à approuver"
+						onClick="@command('changeVue',tab = APPROUVER)">
+					</tab>
+					<tab id="OPERATEUR" label="Opérateurs et délégataire"
+						onClick="@command('changeVue',tab = OPERATEUR)" />
+					<tab id="VISEUR" label="Viseurs"
+						onClick="@command('changeVue',tab = VISEUR)" />
+				</tabs>
+				<tabpanels>
+					<tabpanel>hj
+					</tabpanel>
+					<tabpanel>jf
+					</tabpanel>
+					<tabpanel>jghf
+					</tabpanel>
+				</tabpanels>
+			</tabbox>
+			<div>
+				<div align="left">
+					<button id="AJOUTER" label="Ajouter" />
+				</div>
+			</div>
+		</div>
+		<include id="includeStyleMesDemandes"
+			src="/css/absences/mesDemandes.zul" />
+	</window>
+</zk>
+
