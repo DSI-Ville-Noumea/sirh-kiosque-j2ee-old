@@ -1,7 +1,7 @@
 <zk>
 	<window
-		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.abs.viewModel.DroitsViewModel"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.DroitsViewModel')"
+		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.abs.droits.viewModel.DroitsViewModel"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.droits.viewModel.DroitsViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
 			<vlayout>
@@ -14,7 +14,7 @@
 			<tabbox id="tb"
 				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
 				<tabs id="tabs">
-					<tab id="APPROUVER" label="Agents à approuver"
+					<tab id="APPROBATEUR" label="Agents à approuver"
 						onClick="@command('changeVue',tab = APPROUVER)">
 					</tab>
 					<tab id="OPERATEUR"

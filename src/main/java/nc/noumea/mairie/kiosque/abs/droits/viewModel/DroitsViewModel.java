@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.abs.viewModel;
+package nc.noumea.mairie.kiosque.abs.droits.viewModel;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -64,16 +64,26 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 
 	@Listen("onClick = #AJOUTER")
 	public void ajouterAgentApprobateur(Event e) {
-		// create a window programmatically and use it as a modal dialog.
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("agentsExistants", absWsConsumer.getAgentsApprobateur(9005138));
-		Window win = (Window) Executions.createComponents("/absences/droits/ajoutAgentApprobateur.zul", null, map);
-		win.doModal();
+		// on regarde dans quel onglet on est
+		if (getTabCourant().getId().equals("APPROBATEUR")) {
+			// create a window programmatically and use it as a modal dialog.
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("agentsExistants", absWsConsumer.getAgentsApprobateur(9005138));
+			Window win = (Window) Executions.createComponents("/absences/droits/ajoutAgentApprobateur.zul", null, map);
+			win.doModal();
+		}
 	}
 
 	@Command
 	@NotifyChange({ "listeAgents" })
 	public void supprimerAgent(@BindingParam("ref") AgentDto agentASupprimer) {
+		// on regarde dans quel onglet on est
+		if (getTabCourant().getId().equals("APPROBATEUR")) {
+			supprimerAgentsApprobateurs(agentASupprimer);
+		}
+	}
+
+	private void supprimerAgentsApprobateurs(AgentDto agentASupprimer) {
 		// on recupere tous les agnts de l'approbateurs et on supprime l'entree
 		if (getListeAgents().contains(agentASupprimer)) {
 			getListeAgents().remove(agentASupprimer);
