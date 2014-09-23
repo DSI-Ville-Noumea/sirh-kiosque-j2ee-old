@@ -55,9 +55,13 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 	@GlobalCommand
 	@NotifyChange({ "listeAgents" })
 	public void refreshListeAgent() {
-		// on recupere les agents de l'approbateur
-		List<AgentDto> result = absWsConsumer.getAgentsApprobateur(9005138);
-		setListeAgents(result);
+		setListeAgents(null);
+		// on regarde dans quel onglet on est
+		if (getTabCourant().getId().equals("APPROBATEUR")) {
+			// on recupere les agents de l'approbateur
+			List<AgentDto> result = absWsConsumer.getAgentsApprobateur(9005138);
+			setListeAgents(result);
+		}
 	}
 
 	@Command
@@ -165,8 +169,16 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeAgents" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
+		setListeAgents(null);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
+
+		// on regarde dans quel onglet on est
+		if (getTabCourant().getId().equals("APPROBATEUR")) {
+			// on recupere les agents de l'approbateur
+			List<AgentDto> result = absWsConsumer.getAgentsApprobateur(9005138);
+			setListeAgents(result);
+		}
 	}
 
 	public Tab getTabCourant() {
