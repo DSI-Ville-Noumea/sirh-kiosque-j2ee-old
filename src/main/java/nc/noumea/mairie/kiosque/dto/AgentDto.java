@@ -7,8 +7,18 @@ public class AgentDto {
 	private Integer idAgent;
 	private String civilite;
 
+	// Pour la gestion des droits des absences
+	private boolean selectedDroitAbs;
+
 	public AgentDto() {
 
+	}
+
+	public AgentDto(AgentWithServiceDto agDto) {
+		this.nom = agDto.getNom();
+		this.prenom = agDto.getPrenom();
+		this.idAgent = agDto.getIdAgent();
+		this.civilite = agDto.getCivilite();
 	}
 
 	public String getNom() {
@@ -48,5 +58,13 @@ public class AgentDto {
 
 	public void setCivilite(String civilite) {
 		this.civilite = civilite;
+	}
+
+	public void setSelectedDroitAbs(boolean contains) {
+		this.selectedDroitAbs = contains;
+	}
+
+	public boolean isSelectedDroitAbs() {
+		return selectedDroitAbs;
 	}
 }

@@ -14,6 +14,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
@@ -43,6 +44,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhGroupeAbsenceUrl = "filtres/getGroupesAbsence";
 	private static final String sirhListOrganisationUrl = "organisation/listOrganisationActif";
 	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
+	private static final String sirhAgentApprobateurUrl = "droits/agentsApprouves";
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
@@ -180,6 +182,29 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(AccessRightsDto.class, res, url);
+	}
+
+	@Override
+	public List<AgentDto> getAgentsApprobateur(Integer idAgent) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhAgentApprobateurUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto saveAgentsApprobateur(Integer idAgent, List<AgentDto> listSelect) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhAgentApprobateurUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
+				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 }

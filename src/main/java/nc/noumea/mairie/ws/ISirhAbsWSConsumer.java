@@ -12,6 +12,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 
 public interface ISirhAbsWSConsumer {
@@ -38,5 +39,9 @@ public interface ISirhAbsWSConsumer {
 	List<RefGroupeAbsenceDto> getRefGroupeAbsence();
 
 	AccessRightsDto getDroitsAbsenceAgent(Integer idAgent);
+
+	List<AgentDto> getAgentsApprobateur(Integer idAgent);
+
+	ReturnMessageDto saveAgentsApprobateur(Integer idAgent, List<AgentDto> listSelect);
 
 }

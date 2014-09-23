@@ -27,7 +27,7 @@
 					<menuitem label="Mes demandes"
 						onClick="@command('changeEcran',page='/absences/mesDemandes',ecran=content)" />
 					<menuitem label="Droits d'accès" visible="@bind(vm.droitsAbsence.droitAcces)"
-						onClick="@command('changeEcran',page='/absences/gestionDroits',ecran=content)" />
+						onClick="@command('changeEcran',page='/absences/droits/gestionDroits',ecran=content)" />
 				</menupopup>
 			</menu>
 			<menu tooltiptext="Mes pointages" sclass="pointageMenu">
