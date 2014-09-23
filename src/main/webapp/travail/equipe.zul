@@ -20,7 +20,7 @@
 								<columns visible="false">
 									<column width="100px" label="Titre" />
 									<column label="Nom" />
-									<column label="Prenom" />
+									<column label="Prénom" />
 									<column label="Poste" />
 								</columns>
 								<rows>
@@ -71,7 +71,7 @@
 								<columns visible="false">
 									<column width="100px" label="Titre" />
 									<column label="Nom" />
-									<column label="Prenom" />
+									<column label="Prénom" />
 									<column label="Poste" />
 								</columns>
 								<template name="model">

@@ -31,7 +31,7 @@
 						org.zkoss.zul.listbox.autoSort="true" />
 					<listhead>
 						<listheader label="Nom" sort="auto('nom')" />
-						<listheader label="Prenom" sort="auto('prenom')"
+						<listheader label="Prénom" sort="auto('prenom')"
 							align="center" />
 					</listhead>
 

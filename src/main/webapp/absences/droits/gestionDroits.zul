@@ -55,7 +55,7 @@
 									org.zkoss.zul.listbox.autoSort="true" />
 								<listhead>
 									<listheader label="Nom" sort="none" />
-									<listheader label="Prenom"
+									<listheader label="Prénom"
 										sort="none" align="center" />
 									<listheader label="" sort="none" />
 								</listhead>
