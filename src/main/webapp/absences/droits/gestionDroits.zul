@@ -15,7 +15,7 @@
 				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
 				<tabs id="tabs">
 					<tab id="APPROBATEUR" label="Agents à approuver"
-						onClick="@command('changeVue',tab = APPROUVER)">
+						onClick="@command('changeVue',tab = APPROBATEUR)">
 					</tab>
 					<tab id="OPERATEUR"
 						label="Opérateurs et délégataire"
@@ -96,7 +96,8 @@
 			</tabbox>
 			<div>
 				<div align="left">
-					<button id="AJOUTER" label="Ajouter" />
+					<button label="AJOUTER"
+						onClick="@command('ajouterAgent')" />
 				</div>
 			</div>
 		</div>

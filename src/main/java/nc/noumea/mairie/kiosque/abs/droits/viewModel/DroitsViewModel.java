@@ -20,9 +20,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
@@ -62,8 +60,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		setListeAgents(result);
 	}
 
-	@Listen("onClick = #AJOUTER")
-	public void ajouterAgentApprobateur(Event e) {
+	@Command
+	public void ajouterAgent() {
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
@@ -165,7 +163,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "listeDemandes" })
+	@NotifyChange({ "listeAgents" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
