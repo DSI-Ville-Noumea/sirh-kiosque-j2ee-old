@@ -48,8 +48,8 @@ public class AjoutViseurApprobateurViewModel {
 		setListeAgentsExistants(viseursExistants);
 		// on vide
 		viderZones();
-		// on charge tous les agents de la mairie
-		List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
+		// on charge les sous agents
+		List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(9005138, null);
 		setListeAgents(transformeListe(result));
 		setTailleListe("5");
 	}
@@ -108,7 +108,7 @@ public class AjoutViseurApprobateurViewModel {
 			}
 			setListeAgents(list);
 		} else {
-			List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
+			List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(9005138, null);
 			setListeAgents(transformeListe(result));
 		}
 	}

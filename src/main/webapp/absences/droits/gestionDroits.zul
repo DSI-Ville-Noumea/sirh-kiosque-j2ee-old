@@ -33,18 +33,13 @@
 					<tabpanel>
 						<div sclass="RHTitle2Line" />
 						<separator />
-						<div sclass="RHTitle2">
-							<label value="Opérateurs" />
-						</div>
-						<div sclass="RHTitle2Line" />
-						<separator />
 						<include
 							src="/absences/droits/tableauAgent.zul" />
 						<separator />
 						<separator />
 						<separator />
 						<div sclass="RHTitle2">
-							<label value="Délégataire" />
+							<label value="Mon Délégataire" />
 						</div>
 						<div sclass="RHTitle2Line" />
 						<separator />
@@ -77,7 +72,7 @@
 							</listbox>
 							<div>
 								<div align="left">
-									<button label="Ajouter"
+									<button label="Choisir"
 										onClick="@command('ajouterDelegataire')" />
 								</div>
 							</div>
