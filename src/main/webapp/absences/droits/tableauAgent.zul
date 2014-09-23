@@ -4,7 +4,7 @@
 			<div sclass="rechercheTableau">
 				Affichage de
 				<combobox width="50px"
-					selectedItem="@bind(vm.tailleListe)">
+					selectedItem="@bind(vm.tailleListe)" readonly="true">
 					<comboitem value="5" label="5" />
 					<comboitem value="10" label="10" />
 					<comboitem value="15" label="15" />
@@ -44,6 +44,12 @@
 				</listitem>
 			</template>
 		</listbox>
+		<div>
+			<div align="left">
+				<button label="Ajouter"
+					onClick="@command('ajouterAgent')" />
+			</div>
+		</div>
 		<div>
 			<div align="right">
 				<button label="Exp. PDF"

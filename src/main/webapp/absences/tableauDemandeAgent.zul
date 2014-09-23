@@ -56,7 +56,7 @@
 			<div sclass="rechercheTableau">
 				Affichage de
 				<combobox width="50px"
-					selectedItem="@bind(vm.tailleListe)">
+					selectedItem="@bind(vm.tailleListe)" readonly="true">
 					<comboitem value="5" label="5" />
 					<comboitem value="10" label="10" />
 					<comboitem value="15" label="15" />

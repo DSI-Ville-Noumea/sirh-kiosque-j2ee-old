@@ -33,8 +33,55 @@
 					<tabpanel>
 						<div sclass="RHTitle2Line" />
 						<separator />
+						<div sclass="RHTitle2">
+							<label value="Opérateurs" />
+						</div>
+						<div sclass="RHTitle2Line" />
+						<separator />
 						<include
 							src="/absences/droits/tableauAgent.zul" />
+						<separator />
+						<separator />
+						<separator />
+						<div sclass="RHTitle2">
+							<label value="Délégataire" />
+						</div>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<vlayout height="100%">
+							<listbox model="@bind(vm.listeDelegataire)"
+								emptyMessage="Aucun élément" id="delegataire">
+								<custom-attributes
+									org.zkoss.zul.listbox.autoSort="true" />
+								<listhead>
+									<listheader label="Nom" sort="none" />
+									<listheader label="Prenom"
+										sort="none" align="center" />
+									<listheader label="" sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell
+											label="@bind(each.nom)" />
+										<listcell
+											label="@bind(each.prenom)" />
+										<listcell>
+											<hlayout>
+												<image
+													tooltiptext="Supprimer l'agent" sclass="ListAction delete"
+													onClick="@command('supprimerDelegataire', ref=each)" />
+											</hlayout>
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div>
+								<div align="left">
+									<button label="Ajouter"
+										onClick="@command('ajouterDelegataire')" />
+								</div>
+							</div>
+						</vlayout>
 					</tabpanel>
 					<tabpanel>
 						<div sclass="RHTitle2Line" />
@@ -44,15 +91,9 @@
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
-			<div>
-				<div align="left">
-					<button label="AJOUTER"
-						onClick="@command('ajouterAgent')" />
-				</div>
-			</div>
 		</div>
-		<include id="includeStyleMesDemandes"
-			src="/css/absences/mesDemandes.zul" />
+		<include id="includeStyleDroits"
+			src="/css/absences/gestionDroits.zul" />
 	</window>
 </zk>
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -25,7 +26,7 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class AjoutAgentApprobateurViewModel {
+public class AjoutDelegataireApprobateurViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
@@ -35,20 +36,30 @@ public class AjoutAgentApprobateurViewModel {
 
 	private List<AgentDto> listeAgents;
 
-	private List<AgentDto> listeAgentsExistants;
+	private List<AgentDto> listeOperateursExistants;
+
+	private List<AgentDto> listeDelegataireExistants;
 
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
 
 	@Init
-	public void initDemandes(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants) {
-		// on sauvegarde qui sont les agnts deja approuvés pour les coches
-		setListeAgentsExistants(agentsExistants);
+	public void initDemandes(@ExecutionArgParam("operateursExistants") List<AgentDto> operateursExistants,
+			@ExecutionArgParam("delegataireExistants") AgentDto delegataireExistants) {
+		// on sauvegarde qui sont les opérateurs de l'approbateur
+		setListeOperateursExistants(operateursExistants);
+		// on sauvegarde qui est le delegataire de l'approbateur
+		List<AgentDto> delegataire = null;
+		if (delegataireExistants != null) {
+			delegataire = new ArrayList<>();
+			delegataire.add(delegataireExistants);
+		}
+		setListeDelegataireExistants(delegataire);
 		// on vide
 		viderZones();
-		// on charge les sous agents
-		List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(9005138, null);
+		// on charge tous les agents de la mairie
+		List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
 		setListeAgents(transformeListe(result));
 		setTailleListe("5");
 	}
@@ -57,20 +68,22 @@ public class AjoutAgentApprobateurViewModel {
 	public void saveAgent(@BindingParam("win") Window window, @BindingParam("listBox") Listbox listAgent) {
 		// on récupère les agents selectionnés
 		List<Listitem> t = listAgent.getItems();
-		List<AgentDto> listSelect = new ArrayList<AgentDto>();
+		AgentDto listSelect = new AgentDto();
 		for (Listitem a : t) {
 			if (a.isSelected())
-				listSelect.add((AgentDto) a.getValue());
+				listSelect = (AgentDto) a.getValue();
 		}
-
-		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(9005138, listSelect);
+		InputterDto dto = new InputterDto();
+		dto.setOperateurs(getListeOperateursExistants());
+		dto.setDelegataire(listSelect);
+		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(9005138, dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Les agents à approuver ont été enregistrés correctement.");
+			result.getInfos().add("Le délégataire a été enregistré correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -106,8 +119,7 @@ public class AjoutAgentApprobateurViewModel {
 			}
 			setListeAgents(list);
 		} else {
-			// on charge les sous agents
-			List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(9005138, null);
+			List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
 			setListeAgents(transformeListe(result));
 		}
 	}
@@ -116,7 +128,8 @@ public class AjoutAgentApprobateurViewModel {
 		List<AgentDto> listFinale = new ArrayList<AgentDto>();
 		for (AgentWithServiceDto agDto : result) {
 			AgentDto dto = new AgentDto(agDto);
-			dto.setSelectedDroitAbs(getListeAgentsExistants().contains(dto));
+			dto.setSelectedDroitAbs(getListeDelegataireExistants() == null ? false : getListeDelegataireExistants()
+					.contains(dto));
 			listFinale.add(dto);
 		}
 		return listFinale;
@@ -155,11 +168,19 @@ public class AjoutAgentApprobateurViewModel {
 		this.tailleListe = tailleListe;
 	}
 
-	public List<AgentDto> getListeAgentsExistants() {
-		return listeAgentsExistants;
+	public List<AgentDto> getListeDelegataireExistants() {
+		return listeDelegataireExistants;
 	}
 
-	public void setListeAgentsExistants(List<AgentDto> listeAgentsExistants) {
-		this.listeAgentsExistants = listeAgentsExistants;
+	public void setListeDelegataireExistants(List<AgentDto> listeDelegataireExistants) {
+		this.listeDelegataireExistants = listeDelegataireExistants;
+	}
+
+	public List<AgentDto> getListeOperateursExistants() {
+		return listeOperateursExistants;
+	}
+
+	public void setListeOperateursExistants(List<AgentDto> listeOperateursExistants) {
+		this.listeOperateursExistants = listeOperateursExistants;
 	}
 }

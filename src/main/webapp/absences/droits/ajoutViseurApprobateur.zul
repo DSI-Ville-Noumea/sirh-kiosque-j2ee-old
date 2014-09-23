@@ -1,8 +1,9 @@
 <zk>
-	<window id="ajoutDialog" title="Ajout d'agents à approuver"
+	<window id="ajoutDialog" title="Ajout de viseurs"
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.droits.viewModel.AjoutAgentApprobateurViewModel')" width="70%">
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.droits.viewModel.AjoutViseurApprobateurViewModel')"
+		width="70%">
 		<div sclass="fond" height="100%">
 			<vlayout height="100%">
 				<hlayout width="100%" sclass="rechercheTableau2">
@@ -25,7 +26,7 @@
 				<separator />
 				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
 					model="@bind(vm.listeAgents)" multiple="true" checkmark="true"
-					emptyMessage="Aucun élément" id="listeAgent" >
+					emptyMessage="Aucun élément" id="listeAgent">
 					<custom-attributes
 						org.zkoss.zul.listbox.autoSort="true" />
 					<listhead>
@@ -35,7 +36,8 @@
 					</listhead>
 
 					<template name="model">
-						<listitem selected="@bind(each.selectedDroitAbs)">
+						<listitem
+							selected="@bind(each.selectedDroitAbs)">
 							<listcell label="@bind(each.nom)" />
 							<listcell label="@bind(each.prenom)" />
 						</listitem>

@@ -1,15 +1,15 @@
 <zk>
-	<window id="ajoutDialog" title="Ajout d'agents à approuver"
+	<window id="ajoutDialog" title="Ajout d'un délégataire"
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.droits.viewModel.AjoutAgentApprobateurViewModel')" width="70%">
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.droits.viewModel.AjoutDelegataireApprobateurViewModel')" width="70%">
 		<div sclass="fond" height="100%">
 			<vlayout height="100%">
 				<hlayout width="100%" sclass="rechercheTableau2">
 					<div sclass="rechercheTableau">
 						Affichage de
 						<combobox width="50px"
-							selectedItem="@bind(vm.tailleListe)" readonly="true">
+							selectedItem="@bind(vm.tailleListe)"  readonly="true">
 							<comboitem value="5" label="5" />
 							<comboitem value="10" label="10" />
 							<comboitem value="15" label="15" />
@@ -24,7 +24,7 @@
 				</hlayout>
 				<separator />
 				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
-					model="@bind(vm.listeAgents)" multiple="true" checkmark="true"
+					model="@bind(vm.listeAgents)" checkmark="true"
 					emptyMessage="Aucun élément" id="listeAgent" >
 					<custom-attributes
 						org.zkoss.zul.listbox.autoSort="true" />

@@ -29,6 +29,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhEquipeAgentUrl = "agents/getEquipe";
 	private static final String sirhEstChefUrl = "agents/estChef";
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
+	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -99,6 +100,15 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(EstChefDto.class, res, url);
+	}
+
+	@Override
+	public List<AgentWithServiceDto> getListeAgentsMairie() {
+		String url = String.format(sirhWsBaseUrl + sirhAgentsMairieUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentWithServiceDto.class, res, url);
 	}
 
 }

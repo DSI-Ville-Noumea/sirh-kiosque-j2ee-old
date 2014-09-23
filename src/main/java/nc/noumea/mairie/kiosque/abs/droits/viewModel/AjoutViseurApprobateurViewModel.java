@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -25,7 +26,7 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class AjoutAgentApprobateurViewModel {
+public class AjoutViseurApprobateurViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
@@ -42,13 +43,13 @@ public class AjoutAgentApprobateurViewModel {
 	private String tailleListe;
 
 	@Init
-	public void initDemandes(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants) {
-		// on sauvegarde qui sont les agnts deja approuvés pour les coches
-		setListeAgentsExistants(agentsExistants);
+	public void initDemandes(@ExecutionArgParam("viseursExistants") List<AgentDto> viseursExistants) {
+		// on sauvegarde qui sont les opérateurs de l'approbateur
+		setListeAgentsExistants(viseursExistants);
 		// on vide
 		viderZones();
-		// on charge les sous agents
-		List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(9005138, null);
+		// on charge tous les agents de la mairie
+		List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
 		setListeAgents(transformeListe(result));
 		setTailleListe("5");
 	}
@@ -62,15 +63,16 @@ public class AjoutAgentApprobateurViewModel {
 			if (a.isSelected())
 				listSelect.add((AgentDto) a.getValue());
 		}
-
-		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(9005138, listSelect);
+		ViseursDto dto = new ViseursDto();
+		dto.setViseurs(listSelect);
+		ReturnMessageDto result = absWsConsumer.saveViseursApprobateur(9005138, dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Les agents à approuver ont été enregistrés correctement.");
+			result.getInfos().add("Les viseurs ont été enregistrés correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -106,8 +108,7 @@ public class AjoutAgentApprobateurViewModel {
 			}
 			setListeAgents(list);
 		} else {
-			// on charge les sous agents
-			List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(9005138, null);
+			List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
 			setListeAgents(transformeListe(result));
 		}
 	}

@@ -24,4 +24,6 @@ public interface ISirhWSConsumer {
 
 	EstChefDto isAgentChef(Integer idAgent);
 
+	List<AgentWithServiceDto> getListeAgentsMairie();
+
 }
