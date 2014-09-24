@@ -1,0 +1,58 @@
+<zk>
+	<window id="ajoutDialog" title="@bind(vm.title)"
+		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.droits.viewModel.AjoutAgentViseurViewModel')" width="70%">
+		<div sclass="fond" height="100%">
+			<vlayout height="100%">
+				<hlayout width="100%" sclass="rechercheTableau2">
+					<div sclass="rechercheTableau">
+						Affichage de
+						<combobox width="50px"
+							selectedItem="@bind(vm.tailleListe)" readonly="true">
+							<comboitem value="5" label="5" />
+							<comboitem value="10" label="10" />
+							<comboitem value="15" label="15" />
+							<comboitem value="20" label="20" />
+						</combobox>
+						agents par page
+						<space />
+						Recherche instantanée :
+						<textbox value="@bind(vm.filter)"
+							onChange="@command('doSearch')" instant="true" />
+					</div>
+				</hlayout>
+				<separator />
+				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
+					model="@bind(vm.listeAgents)" multiple="true" checkmark="true"
+					emptyMessage="Aucun élément" id="listeAgent" >
+					<custom-attributes
+						org.zkoss.zul.listbox.autoSort="true" />
+					<listhead>
+						<listheader label="Nom" sort="auto('nom')" />
+						<listheader label="Prénom" sort="auto('prenom')"
+							align="center" />
+					</listhead>
+
+					<template name="model">
+						<listitem selected="@bind(each.selectedDroitAbs)">
+							<listcell label="@bind(each.nom)" />
+							<listcell label="@bind(each.prenom)" />
+						</listitem>
+					</template>
+				</listbox>
+				<separator />
+				<div align="center">
+					<hlayout>
+						<button label="Valider"
+							onClick="@command('saveAgent',win=ajoutDialog,listBox=listeAgent)" />
+						<button label="Annuler"
+							onClick="@command('cancelDemande',win=ajoutDialog)" />
+					</hlayout>
+				</div>
+			</vlayout>
+		</div>
+		<include id="includeStyleDroits"
+			src="/css/absences/gestionDroits.zul" />
+	</window>
+</zk>

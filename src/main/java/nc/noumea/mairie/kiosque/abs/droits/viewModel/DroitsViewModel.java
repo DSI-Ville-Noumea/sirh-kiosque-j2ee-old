@@ -44,6 +44,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 
 	private Tab tabCourant;
 
+	private boolean afficheAffecterAgent;
+
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
@@ -54,6 +56,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		List<AgentDto> result = absWsConsumer.getAgentsApprobateur(9005138);
 		setListeAgents(result);
 		setTailleListe("5");
+		setAfficheAffecterAgent(false);
 	}
 
 	@GlobalCommand
@@ -67,6 +70,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 			// on recupere les agents de l'approbateur
 			List<AgentDto> result = absWsConsumer.getAgentsApprobateur(9005138);
 			setListeAgents(result);
+			setAfficheAffecterAgent(false);
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// on recupere les opérateurs de l'agent
 			InputterDto result = absWsConsumer.getOperateursDelegataireApprobateur(9005138);
@@ -77,10 +81,12 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 				delegataire.add(result.getDelegataire());
 			}
 			setListeDelegataire(delegataire);
+			setAfficheAffecterAgent(true);
 		} else if (getTabCourant().getId().equals("VISEUR")) {
 			// on recupere les viseurs de l'agent
 			ViseursDto result = absWsConsumer.getViseursApprobateur(9005138);
 			setListeAgents(result.getViseurs());
+			setAfficheAffecterAgent(true);
 		}
 	}
 
@@ -106,6 +112,32 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("viseursExistants", absWsConsumer.getViseursApprobateur(9005138).getViseurs());
 			Window win = (Window) Executions.createComponents("/absences/droits/ajoutViseurApprobateur.zul", null, map);
+			win.doModal();
+		}
+	}
+
+	@Command
+	public void affecterAgent(@BindingParam("ref") AgentDto agent) {
+		// on regarde dans quel onglet on est
+		if (getTabCourant().getId().equals("OPERATEUR")) {
+			// create a window programmatically and use it as a modal dialog.
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("agentsExistants", absWsConsumer.getAgentsOperateursOrViseur(9005138, agent.getIdAgent()));
+			map.put("operateur", agent);
+			AgentDto approbateur = new AgentDto();
+			approbateur.setIdAgent(9005138);
+			map.put("approbateur", approbateur);
+			Window win = (Window) Executions.createComponents("/absences/droits/ajoutAgentOperateur.zul", null, map);
+			win.doModal();
+		} else if (getTabCourant().getId().equals("VISEUR")) {
+			// create a window programmatically and use it as a modal dialog.
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("agentsExistants", absWsConsumer.getAgentsOperateursOrViseur(9005138, agent.getIdAgent()));
+			map.put("viseur", agent);
+			AgentDto approbateur = new AgentDto();
+			approbateur.setIdAgent(9005138);
+			map.put("approbateur", approbateur);
+			Window win = (Window) Executions.createComponents("/absences/droits/ajoutAgentViseur.zul", null, map);
 			win.doModal();
 		}
 	}
@@ -342,6 +374,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 			// on recupere les agents de l'approbateur
 			List<AgentDto> result = absWsConsumer.getAgentsApprobateur(9005138);
 			setListeAgents(result);
+			setAfficheAffecterAgent(false);
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// on recupere les opérateurs de l'agent
 			InputterDto result = absWsConsumer.getOperateursDelegataireApprobateur(9005138);
@@ -352,10 +385,12 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 				delegataire.add(result.getDelegataire());
 			}
 			setListeDelegataire(delegataire);
+			setAfficheAffecterAgent(true);
 		} else if (getTabCourant().getId().equals("VISEUR")) {
 			// on recupere les viseurs de l'agent
 			ViseursDto result = absWsConsumer.getViseursApprobateur(9005138);
 			setListeAgents(result.getViseurs());
+			setAfficheAffecterAgent(true);
 		}
 	}
 
@@ -397,6 +432,14 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 
 	public void setListeDelegataire(List<AgentDto> listeDelegataire) {
 		this.listeDelegataire = listeDelegataire;
+	}
+
+	public boolean isAfficheAffecterAgent() {
+		return afficheAffecterAgent;
+	}
+
+	public void setAfficheAffecterAgent(boolean afficheAffecterAgent) {
+		this.afficheAffecterAgent = afficheAffecterAgent;
 	}
 
 }

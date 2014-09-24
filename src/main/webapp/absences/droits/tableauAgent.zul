@@ -38,6 +38,9 @@
 							<image tooltiptext="Supprimer l'agent"
 								sclass="ListAction delete"
 								onClick="@command('supprimerAgent', ref=each)" />
+							<image tooltiptext="Editer les affectations de cet agent"
+								sclass="ListAction edit" visible="@bind(vm.afficheAffecterAgent)"
+								onClick="@command('affecterAgent', ref=each)" />
 						</hlayout>
 					</listcell>
 
