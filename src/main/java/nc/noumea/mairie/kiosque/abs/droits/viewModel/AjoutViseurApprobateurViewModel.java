@@ -43,7 +43,7 @@ public class AjoutViseurApprobateurViewModel {
 	private String tailleListe;
 
 	@Init
-	public void initDemandes(@ExecutionArgParam("viseursExistants") List<AgentDto> viseursExistants) {
+	public void initAjoutViseur(@ExecutionArgParam("viseursExistants") List<AgentDto> viseursExistants) {
 		// on sauvegarde qui sont les opérateurs de l'approbateur
 		setListeAgentsExistants(viseursExistants);
 		// on vide

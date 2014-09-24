@@ -279,6 +279,7 @@ public class PdfExporter extends AbstractExporter<PdfPTable, PdfPTable> {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void syncCellRowSpan(Component cmp, PdfPCell cell) {
 		Object rowSpan = invokeComponentGetter(cmp, "getRowspan");
 		if (rowSpan instanceof Number) {

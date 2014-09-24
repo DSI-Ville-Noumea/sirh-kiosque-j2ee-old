@@ -45,7 +45,7 @@ public class AjoutDemandesAgentViewModel {
 	private String selectFinAM;
 
 	@Init
-	public void initDemandes() {
+	public void initAjoutDemande() {
 		// on vide
 		viderZones();
 		// on recharge les types d'absences

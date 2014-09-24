@@ -46,7 +46,7 @@ public class AjoutAgentViseurViewModel {
 	private String tailleListe;
 
 	@Init
-	public void initAgentOperateur(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants,
+	public void initAgentViseur(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants,
 			@ExecutionArgParam("viseur") AgentDto viseur, @ExecutionArgParam("approbateur") AgentDto approbateur) {
 		// on sauvegarde qui est l'approbateur
 		setApprobateur(approbateur);

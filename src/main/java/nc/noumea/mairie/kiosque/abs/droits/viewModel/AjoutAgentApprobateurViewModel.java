@@ -42,7 +42,7 @@ public class AjoutAgentApprobateurViewModel {
 	private String tailleListe;
 
 	@Init
-	public void initDemandes(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants) {
+	public void initAjoutAgentApprobateur(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants) {
 		// on sauvegarde qui sont les agnts deja approuvés pour les coches
 		setListeAgentsExistants(agentsExistants);
 		// on vide

@@ -45,7 +45,7 @@ public class AjoutOperateurApprobateurViewModel {
 	private String tailleListe;
 
 	@Init
-	public void initDemandes(@ExecutionArgParam("operateursExistants") List<AgentDto> operateursExistants,
+	public void initAjoutOperateur(@ExecutionArgParam("operateursExistants") List<AgentDto> operateursExistants,
 			@ExecutionArgParam("delegataireExistants") AgentDto delegataireExistants) {
 		// on sauvegarde qui sont les opérateurs de l'approbateur
 		setListeAgentsExistants(operateursExistants);

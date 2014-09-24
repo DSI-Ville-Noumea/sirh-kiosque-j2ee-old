@@ -64,7 +64,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	private String tailleListe;
 
 	@Init
-	public void initDemandes() {
+	public void initDemandesAgent() {
 		// on recharge les types d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
 		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
