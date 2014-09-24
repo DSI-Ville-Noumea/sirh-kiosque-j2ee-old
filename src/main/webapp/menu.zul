@@ -28,6 +28,8 @@
 						onClick="@command('changeEcran',page='/absences/mesDemandes',ecran=content)" />
 					<menuitem label="Droits d'accès" visible="@bind(vm.droitsAbsence.droitAcces)"
 						onClick="@command('changeEcran',page='/absences/droits/gestionDroits',ecran=content)" />
+					<menuitem label="Gestion des compteurs" visible="@bind(vm.droitsAbsence.majSolde)"
+						onClick="@command('changeEcran',page='/absences/compteurs/gestionCompteurs',ecran=content)" />
 				</menupopup>
 			</menu>
 			<menu tooltiptext="Mes pointages" sclass="pointageMenu">
