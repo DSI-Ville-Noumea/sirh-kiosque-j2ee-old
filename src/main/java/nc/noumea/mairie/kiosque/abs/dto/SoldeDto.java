@@ -185,13 +185,13 @@ public class SoldeDto {
 	public String getSoldeReposCompAnneeToString() {
 		if (soldeReposCompAnnee == 0)
 			return "aucun";
-		return soldeReposCompAnnee + " j";
+		return getHeureMinute(soldeReposCompAnnee.intValue());
 	}
 
 	public String getSoldeReposCompAnneePrecToString() {
 		if (soldeReposCompAnneePrec == 0)
 			return "aucun";
-		return soldeReposCompAnneePrec + " j";
+		return getHeureMinute(soldeReposCompAnneePrec.intValue());
 	}
 
 	public String getSoldeAsaA48ToString() {

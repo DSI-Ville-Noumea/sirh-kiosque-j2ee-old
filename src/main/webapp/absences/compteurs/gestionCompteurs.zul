@@ -57,6 +57,9 @@
 							<textbox readonly="true"
 								value="@bind(vm.soldeCourant.soldeRecupToString)" />
 						</hlayout>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
 						<hlayout>
 							<hlayout width="400px"
 								style="text-align:right;">
@@ -89,6 +92,9 @@
 								</template>
 							</combobox>
 						</hlayout>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
 						<hlayout>
 							<hlayout width="400px"
 								style="text-align:right;">
@@ -141,6 +147,8 @@
 							</div>
 						</vlayout>
 						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
 						<hlayout>
 							<hlayout width="400px"
 								style="text-align:right;">
@@ -150,8 +158,7 @@
 								selectedItem="@bind(vm.anneePrec)"
 								selectedIndex="@bind(vm.anneePrec)"
 								onCheck="@command('changeAnneePrec')">
-								<radio label="année en cours"
-									value="0" />
+								<radio label="année en cours" value="0" />
 								<radio label="année précédente"
 									value="1" />
 							</radiogroup>
@@ -189,6 +196,9 @@
 								</template>
 							</combobox>
 						</hlayout>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
 						<vlayout>
 							<hlayout width="400px"
 								style="text-align:right;">
