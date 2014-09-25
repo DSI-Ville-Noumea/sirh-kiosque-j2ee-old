@@ -76,7 +76,7 @@
 								style="text-align:right;">
 								<label value="Motif" />
 							</hlayout>
-							<combobox width="200px"
+							<combobox width="200px" readonly="true"
 								model="@bind(vm.listeMotifsCompteur)"
 								selectedItem="@bind(vm.motifCompteur)">
 								<template name="model">
