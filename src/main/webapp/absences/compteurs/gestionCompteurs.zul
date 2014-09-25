@@ -34,7 +34,8 @@
 				<label value="Agent :" />
 				<combobox width="200px"
 					model="@bind(vm.listeAgentsFiltre)"
-					selectedItem="@bind(vm.agentFiltre)" onSelect="@command('refreshNomAgent')">
+					selectedItem="@bind(vm.agentFiltre)"
+					onSelect="@command('refreshNomAgent')">
 					<template name="model">
 						<comboitem
 							label="@bind(vm.concatAgent(each.nom,each.prenom))" />
@@ -53,7 +54,8 @@
 								<label
 									value="@bind(vm.formulaireRecup)" />
 							</hlayout>
-							<textbox readonly="true" value="@bind(vm.soldeCourant.soldeRecupToString)"/>
+							<textbox readonly="true"
+								value="@bind(vm.soldeCourant.soldeRecupToString)" />
 						</hlayout>
 						<hlayout>
 							<hlayout width="400px"
@@ -61,7 +63,8 @@
 								<label value="Durée à ajouter" />
 							</hlayout>
 							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.compteurACreer.dateDebut)"  onChange="@command('actualiseNouveauSoldeRecup',ref='ajouter')" />
+								value="@bind(vm.compteurACreer.dateDebut)"
+								onChange="@command('actualiseNouveauSoldeRecup',ref='ajouter')" />
 						</hlayout>
 						<hlayout>
 							<hlayout width="400px"
@@ -69,7 +72,8 @@
 								<label value="Durée à retrancher" />
 							</hlayout>
 							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.compteurACreer.dateFin)" onChange="@command('actualiseNouveauSoldeRecup',ref='retrancher')" />
+								value="@bind(vm.compteurACreer.dateFin)"
+								onChange="@command('actualiseNouveauSoldeRecup',ref='retrancher')" />
 						</hlayout>
 						<hlayout>
 							<hlayout width="400px"
@@ -90,13 +94,15 @@
 								style="text-align:right;">
 								<label value="Nouveau solde" />
 							</hlayout>
-							<textbox readonly="true" value="@bind(vm.nouveauSolde)"/>
+							<textbox readonly="true"
+								value="@bind(vm.nouveauSolde)" />
 						</hlayout>
 					</vlayout>
 					<separator />
 					<div sclass="RHTitle2Line" />
 					<separator />
-					<div align="center" visible="@bind(not empty vm.agentFiltre) ">
+					<div align="center"
+						visible="@bind(not empty vm.agentFiltre) ">
 						<hlayout>
 							<button label="Valider"
 								onClick="@command('saveCompteurRecup')" />
@@ -105,7 +111,122 @@
 				</div>
 				<div
 					visible="@bind(not empty vm.formulaireReposComp) ">
-					nono
+					<vlayout>
+						<vlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label
+									value="@bind(vm.formulaireReposComp)" />
+							</hlayout>
+							<div style="padding-left: 400px;">
+								<hlayout>
+									<hlayout width="120px"
+										style="text-align:right;">
+										<label
+											value="Année en cours : " />
+									</hlayout>
+									<textbox readonly="true"
+										value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+								</hlayout>
+								<separator />
+								<hlayout>
+									<hlayout width="120px"
+										style="text-align:right;">
+										<label
+											value="Année précédente : " />
+									</hlayout>
+									<textbox readonly="true"
+										value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+								</hlayout>
+							</div>
+						</vlayout>
+						<separator />
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Compteur de l' " />
+							</hlayout>
+							<radiogroup id="rg1"
+								selectedItem="@bind(vm.anneePrec)"
+								selectedIndex="@bind(vm.anneePrec)"
+								onCheck="@command('changeAnneePrec')">
+								<radio label="année en cours"
+									value="0" />
+								<radio label="année précédente"
+									value="1" />
+							</radiogroup>
+						</hlayout>
+						<separator />
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Durée à ajouter" />
+							</hlayout>
+							<timebox cols="14" format="HH:mm"
+								value="@bind(vm.compteurACreer.dateDebut)"
+								onChange="@command('actualiseNouveauSoldeReposComp',ref='ajouter')" />
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Durée à retrancher" />
+							</hlayout>
+							<timebox cols="14" format="HH:mm"
+								value="@bind(vm.compteurACreer.dateFin)"
+								onChange="@command('actualiseNouveauSoldeReposComp',ref='retrancher')" />
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Motif" />
+							</hlayout>
+							<combobox width="200px" readonly="true"
+								model="@bind(vm.listeMotifsCompteur)"
+								selectedItem="@bind(vm.motifCompteur)">
+								<template name="model">
+									<comboitem
+										label="@bind(each.libelle)" />
+								</template>
+							</combobox>
+						</hlayout>
+						<vlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Nouveau solde" />
+							</hlayout>
+							<div style="padding-left: 400px;">
+								<hlayout>
+									<hlayout width="120px"
+										style="text-align:right;">
+										<label
+											value="Année en cours : " />
+									</hlayout>
+									<textbox readonly="true"
+										value="@bind(vm.nouveauSolde)" />
+								</hlayout>
+								<separator />
+								<hlayout>
+									<hlayout width="120px"
+										style="text-align:right;">
+										<label
+											value="Année précédente : " />
+									</hlayout>
+									<textbox readonly="true"
+										value="@bind(vm.nouveauSoldeAnneePrec)" />
+								</hlayout>
+							</div>
+						</vlayout>
+					</vlayout>
+					<separator />
+					<div sclass="RHTitle2Line" />
+					<separator />
+					<div align="center"
+						visible="@bind(not empty vm.agentFiltre) ">
+						<hlayout>
+							<button label="Valider"
+								onClick="@command('saveCompteurReposComp')" />
+						</hlayout>
+					</div>
 				</div>
 			</hlayout>
 		</div>

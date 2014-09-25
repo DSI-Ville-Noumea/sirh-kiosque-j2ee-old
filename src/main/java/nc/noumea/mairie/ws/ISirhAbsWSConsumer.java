@@ -79,6 +79,8 @@ public interface ISirhAbsWSConsumer {
 
 	List<MotifCompteurDto> getListeMotifsCompteur(Integer idRefTypeAbsence);
 
-	ReturnMessageDto saveCompteur(Integer idAgent, CompteurDto compteurACreer);
+	ReturnMessageDto saveCompteurRecup(Integer idAgent, CompteurDto compteurACreer);
+
+	ReturnMessageDto saveCompteurReposComp(Integer idAgent, CompteurDto compteurACreer);
 
 }

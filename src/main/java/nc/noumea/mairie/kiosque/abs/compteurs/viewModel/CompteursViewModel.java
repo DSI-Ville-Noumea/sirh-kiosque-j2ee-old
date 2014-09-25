@@ -44,7 +44,11 @@ public class CompteursViewModel {
 
 	private String nouveauSolde;
 
+	private String nouveauSoldeAnneePrec;
+
 	private CompteurDto compteurACreer;
+
+	private String anneePrec;
 
 	/* Pour les filtres */
 
@@ -110,10 +114,12 @@ public class CompteursViewModel {
 
 	@Command
 	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
-			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer" })
+			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
+			"nouveauSoldeAnneePrec" })
 	public void chargeFormulaire() {
 		videFormulaireSansType();
 		if (getTypeAbsenceFiltre().getIdRefTypeAbsence() == RefTypeAbsenceEnum.RECUP.getValue()) {
+			setAnneePrec("0");
 			if (getAgentFiltre() == null) {
 				setFormulaireRecup("Solde du compteur de récupération pour l'agent ");
 			} else {
@@ -130,6 +136,7 @@ public class CompteursViewModel {
 			setCompteurACreer(new CompteurDto());
 
 		} else if (getTypeAbsenceFiltre().getIdRefTypeAbsence() == RefTypeAbsenceEnum.REPOS_COMP.getValue()) {
+			setAnneePrec("0");
 			if (getAgentFiltre() == null) {
 				setFormulaireReposComp("Solde du compteur de repos compensateur pour l'agent ");
 			} else {
@@ -148,9 +155,10 @@ public class CompteursViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "nouveauSolde" })
+	@NotifyChange({ "nouveauSolde", "nouveauSoldeAnneePrec" })
 	public void actualiseNouveauSoldeRecup(@BindingParam("ref") String texte) {
 		setNouveauSolde(null);
+		setNouveauSoldeAnneePrec(null);
 		if (texte != null && texte.equals("ajouter")) {
 			// on recupere la durée
 			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -180,6 +188,70 @@ public class CompteursViewModel {
 		}
 	}
 
+	@Command
+	@NotifyChange({ "nouveauSolde", "nouveauSoldeAnneePrec" })
+	public void changeAnneePrec() {
+		setNouveauSolde(null);
+		setNouveauSoldeAnneePrec(null);
+		if (getSoldeCourant() != null) {
+			// on affiche le nouveau solde
+			if (compteurAnneePrec())
+				setNouveauSoldeAnneePrec(getHeureMinute(getSoldeCourant().getSoldeReposCompAnneePrec(),
+						getCompteurACreer()));
+			else
+				setNouveauSolde(getHeureMinute(getSoldeCourant().getSoldeReposCompAnnee(), getCompteurACreer()));
+		}
+	}
+
+	@Command
+	@NotifyChange({ "nouveauSolde", "nouveauSoldeAnneePrec" })
+	public void actualiseNouveauSoldeReposComp(@BindingParam("ref") String texte) {
+		if (getSoldeCourant() != null) {
+
+			setNouveauSolde(null);
+			setNouveauSoldeAnneePrec(null);
+			if (texte != null && texte.equals("ajouter")) {
+				// on recupere la durée
+				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+				String dureeAjout = getCompteurACreer().getDateDebut() == null ? "00:00" : sdf
+						.format(getCompteurACreer().getDateDebut());
+				// on transforme ce temps en minute
+				String heures = dureeAjout.substring(0, dureeAjout.indexOf(":"));
+				String minutes = dureeAjout.substring(dureeAjout.indexOf(":") + 1, dureeAjout.length());
+				// on rempli le DTO avec la valeur
+				Double dureeAj = (double) ((Integer.valueOf(heures) * 60) + Integer.valueOf(minutes));
+				getCompteurACreer().setDureeAAjouter(dureeAj == 0 ? null : dureeAj);
+				// on affiche le nouveau solde
+				if (compteurAnneePrec())
+					setNouveauSoldeAnneePrec(getHeureMinute(getSoldeCourant().getSoldeReposCompAnneePrec(),
+							getCompteurACreer()));
+				else
+					setNouveauSolde(getHeureMinute(getSoldeCourant().getSoldeReposCompAnnee(), getCompteurACreer()));
+			} else if (texte != null && texte.equals("retrancher")) {
+				// on recupere la durée
+				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+				String dureeRetranche = getCompteurACreer().getDateFin() == null ? "00:00" : sdf
+						.format(getCompteurACreer().getDateFin());
+				// on transforme ce temps en minute
+				String heures = dureeRetranche.substring(0, dureeRetranche.indexOf(":"));
+				String minutes = dureeRetranche.substring(dureeRetranche.indexOf(":") + 1, dureeRetranche.length());
+				// on rempli le DTO avec la valeur
+				Double dureeRetr = (double) ((Integer.valueOf(heures) * 60) + Integer.valueOf(minutes));
+				getCompteurACreer().setDureeARetrancher(dureeRetr == 0 ? null : dureeRetr);
+				// on affiche le nouveau solde
+				if (compteurAnneePrec())
+					setNouveauSoldeAnneePrec(getHeureMinute(getSoldeCourant().getSoldeReposCompAnneePrec(),
+							getCompteurACreer()));
+				else
+					setNouveauSolde(getHeureMinute(getSoldeCourant().getSoldeReposCompAnnee(), getCompteurACreer()));
+			}
+		}
+	}
+
+	private boolean compteurAnneePrec() {
+		return getAnneePrec() == null ? false : getAnneePrec().equals("1") ? true : false;
+	}
+
 	private String getHeureMinute(Double soldeExistant, CompteurDto compteurACreer) {
 		Integer nombreMinute = (int) (soldeExistant
 				+ (compteurACreer.getDureeAAjouter() == null ? 0 : compteurACreer.getDureeAAjouter()) - (compteurACreer
@@ -202,7 +274,8 @@ public class CompteursViewModel {
 
 	@Command
 	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
-			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer" })
+			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
+			"nouveauSoldeAnneePrec" })
 	public void saveCompteurRecup() {
 
 		if (IsFormValid(getCompteurACreer())) {
@@ -213,7 +286,7 @@ public class CompteursViewModel {
 			getCompteurACreer().setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
 			getCompteurACreer().setIdOrganisationSyndicale(null);
 
-			ReturnMessageDto result = absWsConsumer.saveCompteur(9003041, getCompteurACreer());
+			ReturnMessageDto result = absWsConsumer.saveCompteurRecup(9003041, getCompteurACreer());
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -222,8 +295,51 @@ public class CompteursViewModel {
 			// message
 			if (result.getErrors().size() == 0)
 				result.getInfos().add(
-						"Le compteur de l'agent " + getAgentFiltre().getNom() + " " + getAgentFiltre().getPrenom()
-								+ " a été enregistré correctement.");
+						"Le compteur de récupération de l'agent " + getAgentFiltre().getNom() + " "
+								+ getAgentFiltre().getPrenom() + " a été enregistré correctement.");
+			for (String error : result.getErrors()) {
+				ValidationMessage vm = new ValidationMessage(error);
+				listErreur.add(vm);
+			}
+			for (String info : result.getInfos()) {
+				ValidationMessage vm = new ValidationMessage(info);
+				listInfo.add(vm);
+			}
+			map.put("errors", listErreur);
+			map.put("infos", listInfo);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+
+			// on reinitialise le formulaire
+			videFormulaire();
+		}
+
+	}
+
+	@Command
+	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
+			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
+			"nouveauSoldeAnneePrec" })
+	public void saveCompteurReposComp() {
+
+		if (IsFormValid(getCompteurACreer())) {
+			getCompteurACreer().setDateDebut(null);
+			getCompteurACreer().setDateFin(null);
+			getCompteurACreer().setAnneePrecedente(compteurAnneePrec());
+			getCompteurACreer().setIdAgent(getAgentFiltre().getIdAgent());
+			getCompteurACreer().setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
+			getCompteurACreer().setIdOrganisationSyndicale(null);
+
+			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(9003041, getCompteurACreer());
+
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+			// ici la liste info est toujours vide alors on ajoute un
+			// message
+			if (result.getErrors().size() == 0)
+				result.getInfos().add(
+						"Le compteur de repos compensateur de l'agent " + getAgentFiltre().getNom() + " "
+								+ getAgentFiltre().getPrenom() + " a été enregistré correctement.");
 			for (String error : result.getErrors()) {
 				ValidationMessage vm = new ValidationMessage(error);
 				listErreur.add(vm);
@@ -277,12 +393,14 @@ public class CompteursViewModel {
 	}
 
 	private void videFormulaireSansType() {
+		setAnneePrec("0");
 		setFormulaireRecup(null);
 		setFormulaireReposComp(null);
 		setListeMotifsCompteur(null);
 		setMotifCompteur(null);
 		setSoldeCourant(null);
 		setNouveauSolde(null);
+		setNouveauSoldeAnneePrec(null);
 		setCompteurACreer(null);
 		setAgentFiltre(null);
 		setServiceFiltre(null);
@@ -390,6 +508,22 @@ public class CompteursViewModel {
 
 	public void setNouveauSolde(String nouveauSolde) {
 		this.nouveauSolde = nouveauSolde;
+	}
+
+	public String getNouveauSoldeAnneePrec() {
+		return nouveauSoldeAnneePrec;
+	}
+
+	public void setNouveauSoldeAnneePrec(String nouveauSoldeAnneePrec) {
+		this.nouveauSoldeAnneePrec = nouveauSoldeAnneePrec;
+	}
+
+	public String getAnneePrec() {
+		return anneePrec;
+	}
+
+	public void setAnneePrec(String anneePrec) {
+		this.anneePrec = anneePrec;
 	}
 
 }

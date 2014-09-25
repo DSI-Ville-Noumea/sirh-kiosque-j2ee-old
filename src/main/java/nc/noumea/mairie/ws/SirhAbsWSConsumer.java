@@ -58,6 +58,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhAgentsCompteurKiosqueUrl = "filtres/agents";
 	private static final String sirhMotifsCompteurKiosqueUrl = "motifCompteur/getListeMotifCompteur";
 	private static final String sirhsaveCompteurRecupUrl = "recuperations/addManual";
+	private static final String sirhsaveCompteurReposCompUrl = "reposcomps/addManual";
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
@@ -334,8 +335,21 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveCompteur(Integer idAgent, CompteurDto compteurACreer) {
+	public ReturnMessageDto saveCompteurRecup(Integer idAgent, CompteurDto compteurACreer) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhsaveCompteurRecupUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(compteurACreer);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto saveCompteurReposComp(Integer idAgent, CompteurDto compteurACreer) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhsaveCompteurReposCompUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
