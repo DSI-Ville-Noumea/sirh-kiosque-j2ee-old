@@ -109,13 +109,10 @@ public class CompteursViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "formulaireRecup", "formulaireReposComp", "listeMotifsCompteur", "motifCompteur", "soldeCourant" })
+	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
+		"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer" })
 	public void chargeFormulaire() {
-		setFormulaireRecup(null);
-		setFormulaireReposComp(null);
-		setListeMotifsCompteur(null);
-		setMotifCompteur(null);
-		setSoldeCourant(null);
+		videFormulaire();
 		if (getTypeAbsenceFiltre().getIdRefTypeAbsence() == RefTypeAbsenceEnum.RECUP.getValue()) {
 			if (getAgentFiltre() == null) {
 				setFormulaireRecup("Solde du compteur de récupération pour l'agent ");
