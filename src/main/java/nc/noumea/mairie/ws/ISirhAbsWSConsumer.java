@@ -12,6 +12,7 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -65,5 +66,13 @@ public interface ISirhAbsWSConsumer {
 
 	ReturnMessageDto saveAgentsOperateursOrViseur(Integer idAgentApprobateur, Integer idAgentOperateurOrViseur,
 			List<AgentDto> listSelect);
+
+	/* COMPTEURS */
+
+	List<RefTypeAbsenceDto> getRefGroupeAbsenceCompteur();
+
+	List<ServiceDto> getServicesCompteur(Integer idAgent);
+
+	List<AgentDto> getAgentsCompteur(Integer idAgent, String codeService);
 
 }

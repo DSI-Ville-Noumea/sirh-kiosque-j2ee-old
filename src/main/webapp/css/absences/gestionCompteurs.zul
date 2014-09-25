@@ -3,5 +3,9 @@
 	<![CDATA[ .fond { background-color:#FFEBCD;padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px;}
 
+	.RHTitle2Line { background-image: -moz-linear-gradient(left center,
+	rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); clear: both;
+	height: 1px;}
+
 	]]>
 </style>

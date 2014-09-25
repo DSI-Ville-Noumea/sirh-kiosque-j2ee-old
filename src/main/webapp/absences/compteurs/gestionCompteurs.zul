@@ -1,6 +1,5 @@
 <zk>
-	<window
-		apply="org.zkoss.bind.BindComposer"
+	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.compteurs.viewModel.CompteursViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
@@ -11,6 +10,49 @@
 					value="Gestion des compteurs" />
 			</vlayout>
 			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<hlayout>
+				<label value="Famille d'absence :" />
+				<combobox width="200px"
+					onSelect="@command('chargeFormulaire')"
+					model="@bind(vm.listeTypeAbsenceFiltre)"
+					selectedItem="@bind(vm.typeAbsenceFiltre)">
+					<template name="model">
+						<comboitem label="@bind(each.libelle)" />
+					</template>
+				</combobox>
+				<label value="Service :" />
+				<combobox width="200px"
+					model="@bind(vm.listeServicesFiltre)"
+					selectedItem="@bind(vm.serviceFiltre)"
+					onSelect="@command('chargeAgent')">
+					<template name="model">
+						<comboitem label="@bind(each.service)" />
+					</template>
+				</combobox>
+				<label value="Agent :" />
+				<combobox width="200px"
+					model="@bind(vm.listeAgentsFiltre)"
+					selectedItem="@bind(vm.agentFiltre)">
+					<template name="model">
+						<comboitem
+							label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+					</template>
+				</combobox>
+			</hlayout>
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<vlayout>
+				<div visible="@bind(not empty vm.formulaireRecup) ">
+					nono1
+				</div>
+				<div
+					visible="@bind(not empty vm.formulaireReposComp) ">
+					nono
+				</div>
+			</vlayout>
 		</div>
 		<include id="includeStyleDroits"
 			src="/css/absences/gestionCompteurs.zul" />

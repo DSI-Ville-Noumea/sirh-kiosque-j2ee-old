@@ -14,6 +14,7 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -50,6 +51,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhOperateursDelegataireApprobateurUrl = "droits/inputter";
 	private static final String sirhViseursApprobateurUrl = "droits/viseur";
 	private static final String sirhAgentsOperatuerOrViseurUrl = "droits/agentsSaisis";
+	private static final String sirhTypeAbsenceCompteurKiosqueUrl = "filtres/getTypeAbsenceCompteurKiosque";
+	private static final String sirhServicesCompteurKiosqueUrl = "filtres/services";
+	private static final String sirhAgentsCompteurKiosqueUrl = "filtres/agents";
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
@@ -282,6 +286,37 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public List<RefTypeAbsenceDto> getRefGroupeAbsenceCompteur() {
+		String url = String.format(sirhAbsWsBaseUrl + sirhTypeAbsenceCompteurKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefTypeAbsenceDto.class, res, url);
+	}
+
+	@Override
+	public List<ServiceDto> getServicesCompteur(Integer idAgent) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhServicesCompteurKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(ServiceDto.class, res, url);
+	}
+
+	@Override
+	public List<AgentDto> getAgentsCompteur(Integer idAgent, String codeService) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsCompteurKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("codeService", codeService);
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentDto.class, res, url);
+
 	}
 
 }
