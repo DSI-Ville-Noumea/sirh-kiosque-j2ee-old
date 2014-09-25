@@ -16,7 +16,7 @@ public class SoldeAgentViewModel {
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
-	private SoldeDto soldeCourant = new SoldeDto();
+	private SoldeDto soldeCourant ;
 
 	@Init
 	public void initSoldeAgent() {
@@ -24,7 +24,7 @@ public class SoldeAgentViewModel {
 		filtreDto.setDateDebut(new Date());
 		filtreDto.setDateFin(new Date());
 		SoldeDto result = absWsConsumer.getAgentSolde(9005138, filtreDto);
-		soldeCourant = result;
+		setSoldeCourant(result);
 	}
 
 	public SoldeDto getSoldeCourant() {

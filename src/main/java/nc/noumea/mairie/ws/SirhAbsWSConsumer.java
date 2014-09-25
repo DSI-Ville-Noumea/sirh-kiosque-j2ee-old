@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
+import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
+import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
@@ -54,6 +56,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhTypeAbsenceCompteurKiosqueUrl = "filtres/getTypeAbsenceCompteurKiosque";
 	private static final String sirhServicesCompteurKiosqueUrl = "filtres/services";
 	private static final String sirhAgentsCompteurKiosqueUrl = "filtres/agents";
+	private static final String sirhMotifsCompteurKiosqueUrl = "motifCompteur/getListeMotifCompteur";
+	private static final String sirhsaveCompteurRecupUrl = "recuperations/addManual";
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
@@ -317,6 +321,29 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);
 
+	}
+
+	@Override
+	public List<MotifCompteurDto> getListeMotifsCompteur(Integer idRefTypeAbsence) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhMotifsCompteurKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idRefType", idRefTypeAbsence.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(MotifCompteurDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto saveCompteur(Integer idAgent, CompteurDto compteurACreer) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhsaveCompteurRecupUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(compteurACreer);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 }

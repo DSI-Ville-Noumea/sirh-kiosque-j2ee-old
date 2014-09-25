@@ -34,7 +34,7 @@
 				<label value="Agent :" />
 				<combobox width="200px"
 					model="@bind(vm.listeAgentsFiltre)"
-					selectedItem="@bind(vm.agentFiltre)">
+					selectedItem="@bind(vm.agentFiltre)" onSelect="@command('refreshNomAgent')">
 					<template name="model">
 						<comboitem
 							label="@bind(vm.concatAgent(each.nom,each.prenom))" />
@@ -44,15 +44,70 @@
 			<separator />
 			<div sclass="RHTitle2Line" />
 			<separator />
-			<vlayout>
+			<hlayout>
 				<div visible="@bind(not empty vm.formulaireRecup) ">
-					nono1
+					<vlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label
+									value="@bind(vm.formulaireRecup)" />
+							</hlayout>
+							<textbox readonly="true" value="@bind(vm.soldeCourant.soldeRecupToString)"/>
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Durée à ajouter" />
+							</hlayout>
+							<timebox cols="14" format="HH:mm"
+								value="@bind(vm.compteurACreer.dateDebut)"  onChange="@command('actualiseNouveauSoldeRecup',ref='ajouter')" />
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Durée à retrancher" />
+							</hlayout>
+							<timebox cols="14" format="HH:mm"
+								value="@bind(vm.compteurACreer.dateFin)" onChange="@command('actualiseNouveauSoldeRecup',ref='retrancher')" />
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Motif" />
+							</hlayout>
+							<combobox width="200px"
+								model="@bind(vm.listeMotifsCompteur)"
+								selectedItem="@bind(vm.motifCompteur)">
+								<template name="model">
+									<comboitem
+										label="@bind(each.libelle)" />
+								</template>
+							</combobox>
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Nouveau solde" />
+							</hlayout>
+							<textbox readonly="true" value="@bind(vm.nouveauSolde)"/>
+						</hlayout>
+					</vlayout>
+					<separator />
+					<div sclass="RHTitle2Line" />
+					<separator />
+					<div align="center" visible="@bind(not empty vm.agentFiltre) ">
+						<hlayout>
+							<button label="Valider"
+								onClick="@command('saveCompteurRecup')" />
+						</hlayout>
+					</div>
 				</div>
 				<div
 					visible="@bind(not empty vm.formulaireReposComp) ">
 					nono
 				</div>
-			</vlayout>
+			</hlayout>
 		</div>
 		<include id="includeStyleDroits"
 			src="/css/absences/gestionCompteurs.zul" />

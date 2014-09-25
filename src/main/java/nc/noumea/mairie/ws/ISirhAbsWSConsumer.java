@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
+import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
+import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
@@ -74,5 +76,9 @@ public interface ISirhAbsWSConsumer {
 	List<ServiceDto> getServicesCompteur(Integer idAgent);
 
 	List<AgentDto> getAgentsCompteur(Integer idAgent, String codeService);
+
+	List<MotifCompteurDto> getListeMotifsCompteur(Integer idRefTypeAbsence);
+
+	ReturnMessageDto saveCompteur(Integer idAgent, CompteurDto compteurACreer);
 
 }
