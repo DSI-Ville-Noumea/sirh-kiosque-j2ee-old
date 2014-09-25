@@ -23,11 +23,13 @@
 				<menupopup>
 					<menuitem label="Absences" sclass="titreMenu" />
 					<menuitem label="Mon solde"
-						onClick="@command('changeEcran',page='/absences/soldeAgent',ecran=content)" />
+						onClick="@command('changeEcran',page='/absences/agent/soldeAgent',ecran=content)" />
 					<menuitem label="Mes demandes"
-						onClick="@command('changeEcran',page='/absences/mesDemandes',ecran=content)" />
+						onClick="@command('changeEcran',page='/absences/agent/mesDemandes',ecran=content)" />
 					<menuitem label="Droits d'accès" visible="@bind(vm.droitsAbsence.droitAcces)"
 						onClick="@command('changeEcran',page='/absences/droits/gestionDroits',ecran=content)" />
+					<menuitem label="Gestion des demandes" visible="@bind(vm.droitsAbsence.visuSolde)"
+						onClick="@command('changeEcran',page='/absences/compteurs/gestionDemandes',ecran=content)" />
 					<menuitem label="Gestion des compteurs" visible="@bind(vm.droitsAbsence.majSolde)"
 						onClick="@command('changeEcran',page='/absences/compteurs/gestionCompteurs',ecran=content)" />
 				</menupopup>

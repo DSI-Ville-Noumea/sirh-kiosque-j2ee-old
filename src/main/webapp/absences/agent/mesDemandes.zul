@@ -25,15 +25,15 @@
 				<tabpanels>
 					<tabpanel>
 						<include
-							src="/absences/tableauDemandeAgent.zul" />
+							src="/absences/agent/tableauDemandeAgent.zul" />
 					</tabpanel>
 					<tabpanel>
 						<include
-							src="/absences/tableauDemandeAgent.zul" />
+							src="/absences/agent/tableauDemandeAgent.zul" />
 					</tabpanel>
 					<tabpanel>
 						<include
-							src="/absences/tableauDemandeAgent.zul" />
+							src="/absences/agent/tableauDemandeAgent.zul" />
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
