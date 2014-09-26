@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.abs.viewModel;
+package nc.noumea.mairie.kiosque.abs.agent.viewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,28 +6,34 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.BindUtils;
-import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class ModifierDemandesAgentViewModel {
+public class AjoutDemandesAgentViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
-	private DemandeDto demandeCourant;
+	private DemandeDto demandeCreation;
+
+	private List<RefTypeAbsenceDto> listeTypeAbsence;
+
+	private RefTypeAbsenceDto typeAbsenceCourant;
+
+	private String etatDemandeCreation;
 
 	private List<OrganisationSyndicaleDto> listeOrganisationsSyndicale;
 
@@ -37,35 +43,21 @@ public class ModifierDemandesAgentViewModel {
 	private String selectDebutAM;
 	// pour savoir si la date de fin est le matin
 	private String selectFinAM;
-	private Double dureeDemande;
-	private String etatDemande;
 
-	@AfterCompose
-	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
-		// on recupere la demande selectionnée
-		setDemandeCourant(demande);
-
+	@Init
+	public void initAjoutDemande() {
+		// on vide
+		viderZones();
+		// on recharge les types d'absences
+		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9005138, null);
+		setListeTypeAbsence(result);
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
 		setListeOrganisationsSyndicale(orga);
-		setOrganisationsSyndicaleCourant(getDemandeCourant().getOrganisationSyndicale());
-
-		// date AM/PM
-		setSelectDebutAM(getDemandeCourant().isDateDebutAM() ? "AM" : "PM");
-		setSelectFinAM(getDemandeCourant().isDateFinAM() ? "AM" : "PM");
-
-		// durée
-		setDureeDemande(getDureeHeureMinutes(getDemandeCourant().getDuree(), getDemandeCourant().getTypeSaisi()
-				.getUniteDecompte()));
-		// etat
-		setEtatDemande(getDemandeCourant().getIdRefEtat().toString());
-	}
-
-	private Double getDureeHeureMinutes(Double duree, String uniteDecompte) {
-		if (uniteDecompte.equals("minutes")) {
-			return duree / 60;
-		}
-		return (double) 0;
+		// on positionne la selection du statut Provisoire/Définitif
+		setEtatDemandeCreation("0");
+		// on initialise la demande
+		setDemandeCreation(new DemandeDto());
 	}
 
 	@Command
@@ -73,24 +65,40 @@ public class ModifierDemandesAgentViewModel {
 		window.detach();
 	}
 
+	private void viderZones() {
+		setDemandeCreation(null);
+		setListeTypeAbsence(null);
+		setTypeAbsenceCourant(null);
+		setEtatDemandeCreation(null);
+		setListeOrganisationsSyndicale(null);
+		setOrganisationsSyndicaleCourant(null);
+		setSelectDebutAM(null);
+		setSelectFinAM(null);
+	}
+
 	@Command
 	public void saveDemande(@BindingParam("win") Window window) {
 
-		if (IsFormValid(getDemandeCourant().getTypeSaisi())) {
+		if (IsFormValid(getTypeAbsenceCourant())) {
+			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
+			agentWithServiceDto.setIdAgent(9005138);
 
-			getDemandeCourant().setIdRefEtat(Integer.valueOf(getEtatDemande()));
-			getDemandeCourant().setDuree(getDureeDemande() == null ? null : getDureeDemande() * 60);
-			getDemandeCourant().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
-			getDemandeCourant().setDateDebutAM(
+			getDemandeCreation().setIdRefEtat(Integer.valueOf(getEtatDemandeCreation()));
+			getDemandeCreation().setIdTypeDemande(getTypeAbsenceCourant().getIdRefTypeAbsence());
+			getDemandeCreation().setGroupeAbsence(getTypeAbsenceCourant().getGroupeAbsence());
+			getDemandeCreation().setTypeSaisi(getTypeAbsenceCourant().getTypeSaisiDto());
+			getDemandeCreation().setAgentWithServiceDto(agentWithServiceDto);
+			getDemandeCreation().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
+			getDemandeCreation().setDateDebutAM(
 					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
-			getDemandeCourant().setDateDebutPM(
+			getDemandeCreation().setDateDebutPM(
 					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("PM") ? true : false);
-			getDemandeCourant().setDateFinAM(
+			getDemandeCreation().setDateFinAM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("AM") ? true : false);
-			getDemandeCourant().setDateFinPM(
+			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9005138, getDemandeCourant());
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9005138, getDemandeCreation());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -115,49 +123,49 @@ public class ModifierDemandesAgentViewModel {
 		}
 	}
 
-	private boolean IsFormValid(RefTypeSaisiDto typeSaisie) {
+	private boolean IsFormValid(RefTypeAbsenceDto refTypeAbsenceDto) {
 
 		List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
 
 		// Date de debut
-		if (getDemandeCourant().getDateDebut() == null) {
+		if (getDemandeCreation().getDateDebut() == null) {
 			vList.add(new ValidationMessage("La date de début est obligatoire."));
 		}
-		if (typeSaisie.isChkDateDebut()) {
+		if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateDebut()) {
 			if (getSelectDebutAM() == null) {
 				vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
 			}
 		}
 
 		// OS
-		if (typeSaisie.isCompteurCollectif()) {
+		if (refTypeAbsenceDto.getTypeSaisiDto().isCompteurCollectif()) {
 			if (getOrganisationsSyndicaleCourant() == null) {
 				vList.add(new ValidationMessage("L'organisation syndicale est obligatoire."));
 			}
 		}
 
 		// DUREE
-		if (typeSaisie.isDuree()) {
-			if (getDureeDemande() == null || getDureeDemande() == 0) {
+		if (refTypeAbsenceDto.getTypeSaisiDto().isDuree()) {
+			if (getDemandeCreation().getDuree() == null || getDemandeCreation().getDuree() == 0) {
 				vList.add(new ValidationMessage("La durée est obligatoire."));
 			}
 		}
 
 		// DATE FIN
-		if (typeSaisie.isCalendarDateFin()) {
-			if (getDemandeCourant().getDateFin() == null) {
+		if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarDateFin()) {
+			if (getDemandeCreation().getDateFin() == null) {
 				vList.add(new ValidationMessage("La date de fin est obligatoire."));
 			}
 		}
-		if (typeSaisie.isChkDateFin()) {
+		if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateFin()) {
 			if (getSelectFinAM() == null) {
 				vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
 			}
 		}
 
 		// MOTIF
-		if (typeSaisie.isMotif()) {
-			if (getDemandeCourant().getMotif() == null) {
+		if (refTypeAbsenceDto.getTypeSaisiDto().isMotif()) {
+			if (getDemandeCreation().getMotif() == null) {
 				vList.add(new ValidationMessage("Le motif est obligatoire."));
 			}
 		}
@@ -171,12 +179,36 @@ public class ModifierDemandesAgentViewModel {
 			return true;
 	}
 
-	public DemandeDto getDemandeCourant() {
-		return demandeCourant;
+	public List<RefTypeAbsenceDto> getListeTypeAbsence() {
+		return listeTypeAbsence;
 	}
 
-	public void setDemandeCourant(DemandeDto demandeCourant) {
-		this.demandeCourant = demandeCourant;
+	public void setListeTypeAbsence(List<RefTypeAbsenceDto> listeTypeAbsence) {
+		this.listeTypeAbsence = listeTypeAbsence;
+	}
+
+	public RefTypeAbsenceDto getTypeAbsenceCourant() {
+		return typeAbsenceCourant;
+	}
+
+	public void setTypeAbsenceCourant(RefTypeAbsenceDto typeAbsenceCourant) {
+		this.typeAbsenceCourant = typeAbsenceCourant;
+	}
+
+	public DemandeDto getDemandeCreation() {
+		return demandeCreation;
+	}
+
+	public void setDemandeCreation(DemandeDto demandeCreation) {
+		this.demandeCreation = demandeCreation;
+	}
+
+	public String getEtatDemandeCreation() {
+		return etatDemandeCreation;
+	}
+
+	public void setEtatDemandeCreation(String etatDemandeCreation) {
+		this.etatDemandeCreation = etatDemandeCreation;
 	}
 
 	public List<OrganisationSyndicaleDto> getListeOrganisationsSyndicale() {
@@ -209,21 +241,5 @@ public class ModifierDemandesAgentViewModel {
 
 	public void setSelectFinAM(String selectFinAM) {
 		this.selectFinAM = selectFinAM;
-	}
-
-	public Double getDureeDemande() {
-		return dureeDemande;
-	}
-
-	public void setDureeDemande(Double dureeDemande) {
-		this.dureeDemande = dureeDemande;
-	}
-
-	public String getEtatDemande() {
-		return etatDemande;
-	}
-
-	public void setEtatDemande(String etatDemande) {
-		this.etatDemande = etatDemande;
 	}
 }

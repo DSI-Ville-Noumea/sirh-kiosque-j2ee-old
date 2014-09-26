@@ -32,7 +32,8 @@ import com.sun.jersey.api.client.ClientResponse;
 import flexjson.JSONSerializer;
 
 @Service("absWsConsumer")
-public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsumer {
+public class SirhAbsWSConsumer extends BaseWsConsumer implements
+		ISirhAbsWSConsumer {
 
 	@Autowired
 	@Qualifier("sirhAbsWsBaseUrl")
@@ -66,7 +67,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+		String json = new JSONSerializer().exclude("*.class")
+				.transform(new MSDateTransformer(), Date.class)
 				.deepSerialize(filtreDto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
@@ -74,8 +76,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet, Date fromDate, Date toDate,
-			Date dateDemande, Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence) {
+	public List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet,
+			Date fromDate, Date toDate, Date dateDemande, Integer idRefEtat,
+			Integer idRefType, Integer idRefGroupeAbsence) {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhDemandesAgentUrl);
@@ -100,9 +103,11 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent, Integer idRefGroupeAbsence) {
+	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent,
+			Integer idRefGroupeAbsence) {
 
-		String url = String.format(sirhAbsWsBaseUrl + sirhTypeAbsenceKiosqueUrl);
+		String url = String
+				.format(sirhAbsWsBaseUrl + sirhTypeAbsenceKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgentConcerne", idAgent.toString());
 		if (idRefGroupeAbsence != null)
@@ -118,8 +123,11 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.dureeToString").exclude("*.heureDebut")
-				.exclude("*.etat").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+		String json = new JSONSerializer().exclude("*.class")
+				.exclude("*.dureeToString").exclude("*.heureDebut")
+				.exclude("*.etat")
+				.transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(dto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
@@ -136,7 +144,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public List<RefEtatDto> getEtatAbsenceKiosque(String onglet) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhEtatAbsenceKiosqueUrl);
+		String url = String
+				.format(sirhAbsWsBaseUrl + sirhEtatAbsenceKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("ongletDemande", onglet);
 
@@ -145,8 +154,10 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto deleteDemandeAbsence(Integer idAgent, Integer idDemande) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhDeleteDemandesAgentUrl);
+	public ReturnMessageDto deleteDemandeAbsence(Integer idAgent,
+			Integer idDemande) {
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhDeleteDemandesAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("idDemande", idDemande.toString());
@@ -156,12 +167,15 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent, DemandeEtatChangeDto dto) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhChangerEtatDemandesAgentUrl);
+	public ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent,
+			DemandeEtatChangeDto dto) {
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhChangerEtatDemandesAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+		String json = new JSONSerializer().exclude("*.class")
+				.transform(new MSDateTransformer(), Date.class)
 				.deepSerialize(dto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
@@ -170,7 +184,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public byte[] imprimerDemande(Integer idAgent, Integer idDemande) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhPrintDemandesAgentUrl);
+		String url = String
+				.format(sirhAbsWsBaseUrl + sirhPrintDemandesAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("idDemande", idDemande.toString());
@@ -209,13 +224,16 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveAgentsApprobateur(Integer idAgent, List<AgentDto> listSelect) {
+	public ReturnMessageDto saveAgentsApprobateur(Integer idAgent,
+			List<AgentDto> listSelect) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentApprobateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
+		String json = new JSONSerializer().exclude("*.class")
+				.exclude("*.civilite").exclude("*.selectedDroitAbs")
+				.transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(listSelect);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
@@ -223,7 +241,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public InputterDto getOperateursDelegataireApprobateur(Integer idAgent) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhOperateursDelegataireApprobateurUrl);
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhOperateursDelegataireApprobateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
@@ -233,7 +252,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public ViseursDto getViseursApprobateur(Integer idAgent) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhViseursApprobateurUrl);
+		String url = String
+				.format(sirhAbsWsBaseUrl + sirhViseursApprobateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
@@ -242,34 +262,44 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveOperateursDelegataireApprobateur(Integer idAgent, InputterDto dto) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhOperateursDelegataireApprobateurUrl);
+	public ReturnMessageDto saveOperateursDelegataireApprobateur(
+			Integer idAgent, InputterDto dto) {
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhOperateursDelegataireApprobateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+		String json = new JSONSerializer().exclude("*.class")
+				.exclude("*.civilite").exclude("*.selectedDroitAbs")
+				.transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(dto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
-	public ReturnMessageDto saveViseursApprobateur(Integer idAgent, ViseursDto dto) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhViseursApprobateurUrl);
+	public ReturnMessageDto saveViseursApprobateur(Integer idAgent,
+			ViseursDto dto) {
+		String url = String
+				.format(sirhAbsWsBaseUrl + sirhViseursApprobateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+		String json = new JSONSerializer().exclude("*.class")
+				.exclude("*.civilite").exclude("*.selectedDroitAbs")
+				.transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(dto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
-	public List<AgentDto> getAgentsOperateursOrViseur(Integer idAgentApprobateur, Integer idAgentOperateurOrViseur) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsOperatuerOrViseurUrl);
+	public List<AgentDto> getAgentsOperateursOrViseur(
+			Integer idAgentApprobateur, Integer idAgentOperateurOrViseur) {
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhAgentsOperatuerOrViseurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgentApprobateur.toString());
 		params.put("idOperateurOrViseur", idAgentOperateurOrViseur.toString());
@@ -279,15 +309,19 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveAgentsOperateursOrViseur(Integer idAgentApprobateur, Integer idAgentOperateurOrViseur,
+	public ReturnMessageDto saveAgentsOperateursOrViseur(
+			Integer idAgentApprobateur, Integer idAgentOperateurOrViseur,
 			List<AgentDto> listSelect) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsOperatuerOrViseurUrl);
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhAgentsOperatuerOrViseurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgentApprobateur.toString());
 		params.put("idOperateurOrViseur", idAgentOperateurOrViseur.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
+		String json = new JSONSerializer().exclude("*.class")
+				.exclude("*.civilite").exclude("*.selectedDroitAbs")
+				.transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(listSelect);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
@@ -295,7 +329,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public List<RefTypeAbsenceDto> getRefGroupeAbsenceCompteur() {
-		String url = String.format(sirhAbsWsBaseUrl + sirhTypeAbsenceCompteurKiosqueUrl);
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhTypeAbsenceCompteurKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 
 		ClientResponse res = createAndFireGetRequest(params, url);
@@ -304,7 +339,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public List<ServiceDto> getServicesCompteur(Integer idAgent) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhServicesCompteurKiosqueUrl);
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhServicesCompteurKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
@@ -314,7 +350,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public List<AgentDto> getAgentsCompteur(Integer idAgent, String codeService) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsCompteurKiosqueUrl);
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhAgentsCompteurKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("codeService", codeService);
@@ -325,8 +362,10 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<MotifCompteurDto> getListeMotifsCompteur(Integer idRefTypeAbsence) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhMotifsCompteurKiosqueUrl);
+	public List<MotifCompteurDto> getListeMotifsCompteur(
+			Integer idRefTypeAbsence) {
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhMotifsCompteurKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idRefType", idRefTypeAbsence.toString());
 
@@ -335,12 +374,14 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveCompteurRecup(Integer idAgent, CompteurDto compteurACreer) {
+	public ReturnMessageDto saveCompteurRecup(Integer idAgent,
+			CompteurDto compteurACreer) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhsaveCompteurRecupUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+		String json = new JSONSerializer().exclude("*.class")
+				.transform(new MSDateTransformer(), Date.class)
 				.deepSerialize(compteurACreer);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
@@ -348,12 +389,15 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveCompteurReposComp(Integer idAgent, CompteurDto compteurACreer) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhsaveCompteurReposCompUrl);
+	public ReturnMessageDto saveCompteurReposComp(Integer idAgent,
+			CompteurDto compteurACreer) {
+		String url = String.format(sirhAbsWsBaseUrl
+				+ sirhsaveCompteurReposCompUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+		String json = new JSONSerializer().exclude("*.class")
+				.transform(new MSDateTransformer(), Date.class)
 				.deepSerialize(compteurACreer);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);

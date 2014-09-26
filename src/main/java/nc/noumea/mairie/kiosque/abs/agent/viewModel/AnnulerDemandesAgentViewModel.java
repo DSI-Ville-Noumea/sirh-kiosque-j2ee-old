@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.abs.viewModel;
+package nc.noumea.mairie.kiosque.abs.agent.viewModel;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,0 +1,247 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.compteurs.viewModel.CompteursViewModel')"
+		height="100%">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Absences" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Gestion des compteurs" />
+			</vlayout>
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<hlayout>
+				<label value="Famille d'absence :" />
+				<combobox width="200px"
+					onSelect="@command('chargeFormulaire')"
+					model="@bind(vm.listeTypeAbsenceFiltre)"
+					selectedItem="@bind(vm.typeAbsenceFiltre)">
+					<template name="model">
+						<comboitem label="@bind(each.libelle)" />
+					</template>
+				</combobox>
+				<label value="Service :" />
+				<combobox width="200px"
+					model="@bind(vm.listeServicesFiltre)"
+					selectedItem="@bind(vm.serviceFiltre)"
+					onSelect="@command('chargeAgent')">
+					<template name="model">
+						<comboitem label="@bind(each.service)" />
+					</template>
+				</combobox>
+				<label value="Agent :" />
+				<combobox width="200px"
+					model="@bind(vm.listeAgentsFiltre)"
+					selectedItem="@bind(vm.agentFiltre)"
+					onSelect="@command('refreshNomAgent')">
+					<template name="model">
+						<comboitem
+							label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+					</template>
+				</combobox>
+			</hlayout>
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<hlayout>
+				<div visible="@bind(not empty vm.formulaireRecup) ">
+					<vlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label
+									value="@bind(vm.formulaireRecup)" />
+							</hlayout>
+							<textbox readonly="true"
+								value="@bind(vm.soldeCourant.soldeRecupToString)" />
+						</hlayout>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Durée à ajouter" />
+							</hlayout>
+							<timebox cols="14" format="HH:mm"
+								value="@bind(vm.compteurACreer.dateDebut)"
+								onChange="@command('actualiseNouveauSoldeRecup',ref='ajouter')" />
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Durée à retrancher" />
+							</hlayout>
+							<timebox cols="14" format="HH:mm"
+								value="@bind(vm.compteurACreer.dateFin)"
+								onChange="@command('actualiseNouveauSoldeRecup',ref='retrancher')" />
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Motif" />
+							</hlayout>
+							<combobox width="200px" readonly="true"
+								model="@bind(vm.listeMotifsCompteur)"
+								selectedItem="@bind(vm.motifCompteur)">
+								<template name="model">
+									<comboitem
+										label="@bind(each.libelle)" />
+								</template>
+							</combobox>
+						</hlayout>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Nouveau solde" />
+							</hlayout>
+							<textbox readonly="true"
+								value="@bind(vm.nouveauSolde)" />
+						</hlayout>
+					</vlayout>
+					<separator />
+					<div sclass="RHTitle2Line" />
+					<separator />
+					<div align="center"
+						visible="@bind(not empty vm.agentFiltre) ">
+						<hlayout>
+							<button label="Valider"
+								onClick="@command('saveCompteurRecup')" />
+						</hlayout>
+					</div>
+				</div>
+				<div
+					visible="@bind(not empty vm.formulaireReposComp) ">
+					<vlayout>
+						<vlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label
+									value="@bind(vm.formulaireReposComp)" />
+							</hlayout>
+							<div style="padding-left: 400px;">
+								<hlayout>
+									<hlayout width="120px"
+										style="text-align:right;">
+										<label
+											value="Année en cours : " />
+									</hlayout>
+									<textbox readonly="true"
+										value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+								</hlayout>
+								<separator />
+								<hlayout>
+									<hlayout width="120px"
+										style="text-align:right;">
+										<label
+											value="Année précédente : " />
+									</hlayout>
+									<textbox readonly="true"
+										value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+								</hlayout>
+							</div>
+						</vlayout>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Compteur de l' " />
+							</hlayout>
+							<radiogroup id="rg1"
+								selectedItem="@bind(vm.anneePrec)"
+								selectedIndex="@bind(vm.anneePrec)"
+								onCheck="@command('changeAnneePrec')">
+								<radio label="année en cours" value="0" />
+								<radio label="année précédente"
+									value="1" />
+							</radiogroup>
+						</hlayout>
+						<separator />
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Durée à ajouter" />
+							</hlayout>
+							<timebox cols="14" format="HH:mm"
+								value="@bind(vm.compteurACreer.dateDebut)"
+								onChange="@command('actualiseNouveauSoldeReposComp',ref='ajouter')" />
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Durée à retrancher" />
+							</hlayout>
+							<timebox cols="14" format="HH:mm"
+								value="@bind(vm.compteurACreer.dateFin)"
+								onChange="@command('actualiseNouveauSoldeReposComp',ref='retrancher')" />
+						</hlayout>
+						<hlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Motif" />
+							</hlayout>
+							<combobox width="200px" readonly="true"
+								model="@bind(vm.listeMotifsCompteur)"
+								selectedItem="@bind(vm.motifCompteur)">
+								<template name="model">
+									<comboitem
+										label="@bind(each.libelle)" />
+								</template>
+							</combobox>
+						</hlayout>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<vlayout>
+							<hlayout width="400px"
+								style="text-align:right;">
+								<label value="Nouveau solde" />
+							</hlayout>
+							<div style="padding-left: 400px;">
+								<hlayout>
+									<hlayout width="120px"
+										style="text-align:right;">
+										<label
+											value="Année en cours : " />
+									</hlayout>
+									<textbox readonly="true"
+										value="@bind(vm.nouveauSolde)" />
+								</hlayout>
+								<separator />
+								<hlayout>
+									<hlayout width="120px"
+										style="text-align:right;">
+										<label
+											value="Année précédente : " />
+									</hlayout>
+									<textbox readonly="true"
+										value="@bind(vm.nouveauSoldeAnneePrec)" />
+								</hlayout>
+							</div>
+						</vlayout>
+					</vlayout>
+					<separator />
+					<div sclass="RHTitle2Line" />
+					<separator />
+					<div align="center"
+						visible="@bind(not empty vm.agentFiltre) ">
+						<hlayout>
+							<button label="Valider"
+								onClick="@command('saveCompteurReposComp')" />
+						</hlayout>
+					</div>
+				</div>
+			</hlayout>
+		</div>
+		<include id="includeStyleDroits"
+			src="/css/absences/gestionCompteurs.zul" />
+	</window>
+</zk>
+
