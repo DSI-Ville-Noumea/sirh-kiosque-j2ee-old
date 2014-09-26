@@ -125,7 +125,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements
 
 		String json = new JSONSerializer().exclude("*.class")
 				.exclude("*.dureeToString").exclude("*.heureDebut")
-				.exclude("*.etat")
+				.exclude("*.etat").exclude("*.civilite").exclude("*.signature")
+				.exclude("*.position").exclude("*.selectedDroitAbs")
 				.transform(new MSDateTransformer(), Date.class)
 				.deepSerialize(dto);
 
