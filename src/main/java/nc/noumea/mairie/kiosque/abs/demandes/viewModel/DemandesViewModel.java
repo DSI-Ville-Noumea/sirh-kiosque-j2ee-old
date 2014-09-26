@@ -1,10 +1,33 @@
 package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.export.ExcelExporter;
+import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.AMedia;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Tab;
+import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class DemandesViewModel {
@@ -12,8 +35,261 @@ public class DemandesViewModel {
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
+	private List<DemandeDto> listeDemandes;
+
+	private DemandeDto demandeCourant;
+
+	private Tab tabCourant;
+
+	/* POUR LES FILTRES */
+	private List<RefTypeAbsenceDto> listeTypeAbsenceFiltre;
+	private RefTypeAbsenceDto typeAbsenceFiltre;
+	private List<RefEtatDto> listeEtatAbsenceFiltre;
+	private RefEtatDto etatAbsenceFiltre;
+	private List<ServiceDto> listeServicesFiltre;
+	private ServiceDto serviceFiltre;
+	private List<AgentDto> listeAgentsFiltre;
+	private AgentDto agentFiltre;
+	private Date dateDebutFiltre;
+	private Date dateFinFiltre;
+	private Date dateDemandeFiltre;
+
+	/* POUR LE HAUT DU TABLEAU */
+	private String filter;
+	private String tailleListe;
+
 	@Init
 	public void initDemandes() {
+		// on charge tous les type d'absences
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getAllRefTypeAbsence();
+		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
+		// on charge les service pour les filtres
+		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(9005138);
+		setListeServicesFiltre(filtreService);
+		// pour les agents, on ne rempli pas la liste, elle le sera avec le
+		// choix du service
+		setListeAgentsFiltre(null);
+		// on recharge les états d'absences pour les filtres
+		List<RefEtatDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
+		setListeEtatAbsenceFiltre(filtreEtat);
+		setTailleListe("5");
+	}
+	
+	@Command
+	public void visuSoldeAgent(@BindingParam("ref") AgentWithServiceDto agent){
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, AgentWithServiceDto> args = new HashMap<String, AgentWithServiceDto>();
+		args.put("agentCourant", agent);
+		Window win = (Window) Executions.createComponents("/absences/demandes/demandesSoldeAgent.zul", null, args);
+		win.doModal();
+	}
+
+	@Command
+	@NotifyChange({ "listeAgentsFiltre" })
+	public void chargeAgent() {
+		// on charge les agents pour les filtres
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(9005138, getServiceFiltre().getCodeService());
+		setListeAgentsFiltre(filtreAgent);
+	}
+
+	public String concatAgent(String nom, String prenom) {
+		return nom + " " + prenom;
+	}
+
+	@Command
+	@NotifyChange({ "listeDemandes", "listeEtatAbsenceFiltre" })
+	public void changeVue(@BindingParam("tab") Tab tab) {
+		setListeDemandes(null);
+		// on recharge les états d'absences pour les filtres
+		List<RefEtatDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
+		setListeEtatAbsenceFiltre(filtreEtat);
+		// on sauvegarde l'onglet
+		setTabCourant(tab);
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listeDemandes" })
+	public void setTabDebut(@BindingParam("tab") Tab tab) {
+		setTabCourant(tab);
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listeDemandes" })
+	public void filtrer() {
+		List<DemandeDto> result = absWsConsumer.getListeDemandes(9005138, getTabCourant().getId(),
+				getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
+						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
+						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getAgentFiltre() == null ? null
+						: getAgentFiltre().getIdAgent());
+		setListeDemandes(result);
+	}
+
+	@Command
+	@NotifyChange({ "typeAbsenceFiltre", "etatAbsenceFiltre", "dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre",
+			"listeAgentsFiltre", "agentFiltre", "serviceFiltre" })
+	public void viderFiltre() {
+		setListeAgentsFiltre(null);
+		setServiceFiltre(null);
+		setAgentFiltre(null);
+		setTypeAbsenceFiltre(null);
+		setEtatAbsenceFiltre(null);
+		setDateDebutFiltre(null);
+		setDateFinFiltre(null);
+		setDateDemandeFiltre(null);
+	}
+
+	@Command
+	public void exportPDF(@BindingParam("ref") Listbox listbox) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		PdfExporter exporter = new PdfExporter();
+		exporter.export(listbox, out);
+
+		AMedia amedia = new AMedia("gestionDemandes.pdf", "pdf", "application/pdf", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
+	}
+
+	@Command
+	public void exportExcel(@BindingParam("ref") Listbox listbox) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		ExcelExporter exporter = new ExcelExporter();
+		exporter.export(listbox, out);
+
+		AMedia amedia = new AMedia("gestionDemandes.xlsx", "xls", "application/file", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
+	}
+
+	public Tab getTabCourant() {
+		return tabCourant;
+	}
+
+	public void setTabCourant(Tab tabCourant) {
+		this.tabCourant = tabCourant;
+	}
+
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	public String getTailleListe() {
+		return tailleListe;
+	}
+
+	public void setTailleListe(String tailleListe) {
+		this.tailleListe = tailleListe;
+	}
+
+	public List<RefTypeAbsenceDto> getListeTypeAbsenceFiltre() {
+		return listeTypeAbsenceFiltre;
+	}
+
+	public void setListeTypeAbsenceFiltre(List<RefTypeAbsenceDto> listeTypeAbsenceFiltre) {
+		this.listeTypeAbsenceFiltre = listeTypeAbsenceFiltre;
+	}
+
+	public RefTypeAbsenceDto getTypeAbsenceFiltre() {
+		return typeAbsenceFiltre;
+	}
+
+	public void setTypeAbsenceFiltre(RefTypeAbsenceDto typeAbsenceFiltre) {
+		this.typeAbsenceFiltre = typeAbsenceFiltre;
+	}
+
+	public List<RefEtatDto> getListeEtatAbsenceFiltre() {
+		return listeEtatAbsenceFiltre;
+	}
+
+	public void setListeEtatAbsenceFiltre(List<RefEtatDto> listeEtatAbsenceFiltre) {
+		this.listeEtatAbsenceFiltre = listeEtatAbsenceFiltre;
+	}
+
+	public RefEtatDto getEtatAbsenceFiltre() {
+		return etatAbsenceFiltre;
+	}
+
+	public void setEtatAbsenceFiltre(RefEtatDto etatAbsenceFiltre) {
+		this.etatAbsenceFiltre = etatAbsenceFiltre;
+	}
+
+	public Date getDateDebutFiltre() {
+		return dateDebutFiltre;
+	}
+
+	public void setDateDebutFiltre(Date dateDebutFiltre) {
+		this.dateDebutFiltre = dateDebutFiltre;
+	}
+
+	public Date getDateFinFiltre() {
+		return dateFinFiltre;
+	}
+
+	public void setDateFinFiltre(Date dateFinFiltre) {
+		this.dateFinFiltre = dateFinFiltre;
+	}
+
+	public Date getDateDemandeFiltre() {
+		return dateDemandeFiltre;
+	}
+
+	public void setDateDemandeFiltre(Date dateDemandeFiltre) {
+		this.dateDemandeFiltre = dateDemandeFiltre;
+	}
+
+	public List<DemandeDto> getListeDemandes() {
+		return listeDemandes;
+	}
+
+	public void setListeDemandes(List<DemandeDto> listeDemandes) {
+		this.listeDemandes = listeDemandes;
+	}
+
+	public DemandeDto getDemandeCourant() {
+		return demandeCourant;
+	}
+
+	public void setDemandeCourant(DemandeDto demandeCourant) {
+		this.demandeCourant = demandeCourant;
+	}
+
+	public List<ServiceDto> getListeServicesFiltre() {
+		return listeServicesFiltre;
+	}
+
+	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+		this.listeServicesFiltre = listeServicesFiltre;
+	}
+
+	public ServiceDto getServiceFiltre() {
+		return serviceFiltre;
+	}
+
+	public void setServiceFiltre(ServiceDto serviceFiltre) {
+		this.serviceFiltre = serviceFiltre;
+	}
+
+	public List<AgentDto> getListeAgentsFiltre() {
+		return listeAgentsFiltre;
+	}
+
+	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
+		this.listeAgentsFiltre = listeAgentsFiltre;
+	}
+
+	public AgentDto getAgentFiltre() {
+		return agentFiltre;
+	}
+
+	public void setAgentFiltre(AgentDto agentFiltre) {
+		this.agentFiltre = agentFiltre;
 	}
 
 }

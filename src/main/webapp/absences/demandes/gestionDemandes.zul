@@ -10,8 +10,32 @@
 					value="Gestion des demandes" />
 			</vlayout>
 			<separator />
-			<div sclass="RHTitle2Line" />
-			<separator />
+			<tabbox id="tb"
+				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
+				<tabs id="tabs">
+					<tab id="NON_PRISES" label="Demandes non prises"
+						onClick="@command('changeVue',tab = NON_PRISES)">
+					</tab>
+					<tab id="EN_COURS" label="Demandes en cours"
+						onClick="@command('changeVue',tab = EN_COURS)" />
+					<tab id="TOUTES" label="Toutes les demandes"
+						onClick="@command('changeVue',tab = TOUTES)" />
+				</tabs>
+				<tabpanels>
+					<tabpanel>
+						<include
+							src="/absences/demandes/tableauDemande.zul" />
+					</tabpanel>
+					<tabpanel>
+						<include
+							src="/absences/demandes/tableauDemande.zul" />
+					</tabpanel>
+					<tabpanel>
+						<include
+							src="/absences/demandes/tableauDemande.zul" />
+					</tabpanel>
+				</tabpanels>
+			</tabbox>
 		</div>
 		<include id="includeStyleDroits"
 			src="/css/absences/gestionDemandes.zul" />

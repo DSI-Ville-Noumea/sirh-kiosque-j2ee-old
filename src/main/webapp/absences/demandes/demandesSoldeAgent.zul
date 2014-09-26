@@ -1,0 +1,109 @@
+<zk>
+	<window id="soldeAgentDialog" title="@bind(vm.title)" mode="modal"
+		closable="true" action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.demandes.viewModel.DemandesSoldeAgentViewModel')">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeConge)">
+					<div width="300px">
+						<label
+							value="Solde de congés de l'année précédente : " />
+					</div>
+					<div>
+						<label
+							value="@bind(vm.soldeCourant.soldeCongeAnneePrecToString)" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeConge)">
+					<div width="300px">
+						<label
+							value="Solde de congés de l'année en cours : " />
+					</div>
+					<div>
+						<label
+							value="@bind(vm.soldeCourant.soldeCongeAnneeToString)" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeRecup)">
+					<div width="300px">
+						<label
+							value="Solde de récupération : " />
+					</div>
+					<div>
+						<label
+							value="@bind(vm.soldeCourant.soldeRecupToString)" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeReposComp)">
+					<div width="300px">
+						<label
+							value="Solde de repos compensateur de l'année précédente : " />
+					</div>
+					<div>
+						<label
+							value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeReposComp)">
+					<div width="300px">
+						<label
+							value="Solde de repos compensateur de l'année en cours : " />
+					</div>
+					<div>
+						<label
+							value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeAsaA48)">
+					<div width="300px">
+						<label
+							value="Solde réunion des membres du bureau directeur : " />
+					</div>
+					<div>
+						<label
+							value="@bind(vm.soldeCourant.soldeAsaA48ToString)" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeAsaA54)">
+					<div width="300px">
+						<label
+							value="Solde congrès et conseil syndical : " />
+					</div>
+					<div>
+						<label
+							value="@bind(vm.soldeCourant.soldeAsaA54ToString)" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeAsaA55)">
+					<div width="300px">
+						<label
+							value="Solde délégation (DP) : " />
+					</div>
+					<div>
+						<label
+							value="@bind(vm.soldeCourant.soldeAsaA55ToString)" />
+					</div>
+				</hlayout>
+			</vlayout>
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+
+			<div align="center">
+				<hlayout>
+					<button label="Annuler"
+						onClick="@command('cancelDemande',win=soldeAgentDialog)" />
+				</hlayout>
+			</div>
+		</div>
+	</window>
+</zk>

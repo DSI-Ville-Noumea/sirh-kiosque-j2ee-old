@@ -21,13 +21,22 @@ import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 
 public interface ISirhAbsWSConsumer {
+	/* COMMUN */
+
+	List<ServiceDto> getServicesAbsences(Integer idAgent);
+
+	List<AgentDto> getAgentsAbsences(Integer idAgent, String codeService);
+
 	/* SOLDE */
 
 	SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto);
 
 	/* FILTRES */
 
-	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent, Integer idRefGroupeAbsence);
+	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent,
+			Integer idRefGroupeAbsence);
+
+	List<RefTypeAbsenceDto> getAllRefTypeAbsence();
 
 	List<RefEtatDto> getEtatAbsenceKiosque(String onglet);
 
@@ -37,14 +46,16 @@ public interface ISirhAbsWSConsumer {
 
 	/* DEMANDES AGENTS */
 
-	List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
-			Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence);
+	List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet,
+			Date fromDate, Date toDate, Date dateDemande, Integer idRefEtat,
+			Integer idRefType, Integer idRefGroupeAbsence);
 
 	ReturnMessageDto saveDemandeAbsence(Integer idAgent, DemandeDto dto);
 
 	ReturnMessageDto deleteDemandeAbsence(Integer idAgent, Integer idDemande);
 
-	ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent, DemandeEtatChangeDto dto);
+	ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent,
+			DemandeEtatChangeDto dto);
 
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
 
@@ -58,29 +69,36 @@ public interface ISirhAbsWSConsumer {
 
 	ViseursDto getViseursApprobateur(Integer idAgent);
 
-	ReturnMessageDto saveAgentsApprobateur(Integer idAgent, List<AgentDto> listSelect);
+	ReturnMessageDto saveAgentsApprobateur(Integer idAgent,
+			List<AgentDto> listSelect);
 
-	ReturnMessageDto saveOperateursDelegataireApprobateur(Integer idAgent, InputterDto dto);
+	ReturnMessageDto saveOperateursDelegataireApprobateur(Integer idAgent,
+			InputterDto dto);
 
 	ReturnMessageDto saveViseursApprobateur(Integer idAgent, ViseursDto dto);
 
-	List<AgentDto> getAgentsOperateursOrViseur(Integer idAgentApprobateur, Integer idAgentOperateurOrViseur);
+	List<AgentDto> getAgentsOperateursOrViseur(Integer idAgentApprobateur,
+			Integer idAgentOperateurOrViseur);
 
-	ReturnMessageDto saveAgentsOperateursOrViseur(Integer idAgentApprobateur, Integer idAgentOperateurOrViseur,
-			List<AgentDto> listSelect);
+	ReturnMessageDto saveAgentsOperateursOrViseur(Integer idAgentApprobateur,
+			Integer idAgentOperateurOrViseur, List<AgentDto> listSelect);
 
 	/* COMPTEURS */
 
 	List<RefTypeAbsenceDto> getRefGroupeAbsenceCompteur();
 
-	List<ServiceDto> getServicesCompteur(Integer idAgent);
-
-	List<AgentDto> getAgentsCompteur(Integer idAgent, String codeService);
-
 	List<MotifCompteurDto> getListeMotifsCompteur(Integer idRefTypeAbsence);
 
-	ReturnMessageDto saveCompteurRecup(Integer idAgent, CompteurDto compteurACreer);
+	ReturnMessageDto saveCompteurRecup(Integer idAgent,
+			CompteurDto compteurACreer);
 
-	ReturnMessageDto saveCompteurReposComp(Integer idAgent, CompteurDto compteurACreer);
+	ReturnMessageDto saveCompteurReposComp(Integer idAgent,
+			CompteurDto compteurACreer);
+
+	/* GESTION DEMANDES */
+
+	List<DemandeDto> getListeDemandes(Integer idAgent, String onglet,
+			Date fromDate, Date toDate, Date dateDemande, Integer idRefEtat,
+			Integer idRefType, Integer idAgentRecherche);
 
 }
