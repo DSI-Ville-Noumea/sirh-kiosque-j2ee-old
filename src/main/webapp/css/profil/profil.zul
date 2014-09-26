@@ -8,18 +8,6 @@
 
 	.profil .RHTitle2>span { height: 25px; padding-top: 5px; }
 
-	.RHTitle2 { background-image: url("img/Sprite.png");
-	background-position: -485px -98px; background-repeat: no-repeat;
-	height: 25px; padding-left: 14px;}
-
-	.RHTitle2>span { background-image: url("img/SpriteH.png");
-	background-position: right -44px; background-repeat: no-repeat;
-	display: inline-block; height: 25px; padding-right: 14px; }
-
-	.RHTitle2Line { background-image: -moz-linear-gradient(left center,
-	rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); clear: both;
-	height: 1px;}
-
 	.RHContent { margin-top: 10px; margin-bottom: 15px; }
 
 	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;

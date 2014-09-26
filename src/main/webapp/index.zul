@@ -20,5 +20,6 @@
 			</borderlayout>
 		</div>
 		<include id="includeStyle" src="/css/index.zul" />
+		<include id="includeStyleGlobal" src="/css/global.zul" />
 	</window>
 </zk>
