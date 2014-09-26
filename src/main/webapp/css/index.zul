@@ -1,4 +1,5 @@
 <style>
+
 	
 	<![CDATA[
 
@@ -9,6 +10,13 @@
 	.z-window-content { padding: 0px; background-color:
 	#FFEBCD;overflow: auto;}
 
-	.z-menubar ul {background-color: #ee7203; } ]]>
+	.z-menubar ul {background-color: #ee7203; }
+
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; } 
+
+	]]>
+	
 	
 </style>

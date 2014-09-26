@@ -36,7 +36,11 @@
 	background-position: -494px -46px; background-repeat: no-repeat;
 	color: #d3711c !important; height: 16px; padding: 0 0 0 8px; }
 
-	.z-hlayout-inner{width: 33%;}]]>
+	.z-hlayout-inner{width: 33%;}
+
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; } ]]>
 	
 		
 	

@@ -1,8 +1,15 @@
 <style>
 
+
 	
-	<![CDATA[ .fond { background-color:#FFEBCD;padding-left:
-	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px;}
+	<![CDATA[
+
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; } 
+
+	.fond { background-color:#FFEBCD;padding-left: 10px;padding-top:
+	10px; padding-bottom: 10px;padding-right: 10px;}
 
 	.z-tab.z-tab-selected{background-position: -485px -73px;
 	margin-bottom: 5px; background-image: url("img/Sprite.png");
@@ -60,6 +67,7 @@
 
 
 	]]>
+	
 	
 	
 	

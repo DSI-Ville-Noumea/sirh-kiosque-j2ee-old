@@ -1,4 +1,5 @@
 <style>
+	
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
@@ -29,7 +30,14 @@
 	color: #3B62A7; }
 
 	.RHContent .value { width: 120px; display: inline-block; color:
-	#000000; }]]>
+	#000000; }
+
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; }
+
+	]]>
+	
 	
 	
 	

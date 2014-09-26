@@ -13,5 +13,9 @@
 	cursor: pointer; font-weight: bold; height: 18px; margin: 5px 0 0;
 	width: 90px; min-height: 0px;text-shadow:none; font-size: 12px;}
 
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; } 
+
 	]]>
 </style>

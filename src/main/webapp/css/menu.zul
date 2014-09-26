@@ -68,6 +68,10 @@
 	.travailMenu>.z-menu-content:hover,.travailMenu.z-menu-selected>.z-menu-content{background-image:
 	url("img/Sprite.png"); background-repeat: no-repeat; float: none;
 	height: 52px; width: 58px;background-position: -290px -73px;}
+
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; } 
 	]]>
 	
 </style>

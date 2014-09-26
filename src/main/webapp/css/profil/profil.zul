@@ -40,6 +40,10 @@
 
 	.info { overflow: hidden; }
 	
-	.clic { cursor: pointer; }]]>	
+	.clic { cursor: pointer; }
+
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; } ]]>	
 	
 </style>

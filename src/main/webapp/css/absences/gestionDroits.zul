@@ -71,6 +71,10 @@
 	background-position: right -44px; background-repeat: no-repeat;
 	display: inline-block; height: 25px; padding-right: 14px; }
 
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; } 
+
 	]]>
 	
 	

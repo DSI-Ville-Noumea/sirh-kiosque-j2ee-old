@@ -58,6 +58,10 @@
 	padding-left: 14px;color: #ffffff; display: block !important;
 	margin-bottom: 5px;}
 
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; } 
+
 	]]>
 	
 	
