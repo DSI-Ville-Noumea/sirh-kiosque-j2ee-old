@@ -1,6 +1,8 @@
 package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
@@ -64,7 +67,7 @@ public class DemandesViewModel {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getAllRefTypeAbsence();
 		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(9005138);
+		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(9003041);
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service
@@ -88,12 +91,43 @@ public class DemandesViewModel {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(9005138, getServiceFiltre().getCodeService());
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(9003041, getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
 	public String concatAgent(String nom, String prenom) {
 		return nom + " " + prenom;
+	}
+
+
+	@Command
+	@NotifyChange({ "listeDemandes" })
+	public void doSearch() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		List<DemandeDto> list = new ArrayList<DemandeDto>();
+		if (getFilter() != null && !"".equals(getFilter())) {
+			for (DemandeDto item : getListeDemandes()) {
+				if (item.getLibelleTypeDemande().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getAgentWithServiceDto().getNom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getAgentWithServiceDto().getPrenom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (sdf.format(item.getDateDebut()).contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+			}
+			setListeDemandes(list);
+		} else {
+			filtrer();
+		}
 	}
 
 	@Command
@@ -118,12 +152,28 @@ public class DemandesViewModel {
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void filtrer() {
-		List<DemandeDto> result = absWsConsumer.getListeDemandes(9005138, getTabCourant().getId(),
+		List<DemandeDto> result = absWsConsumer.getListeDemandes(9003041, getTabCourant().getId(),
 				getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
 						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
 						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getAgentFiltre() == null ? null
 						: getAgentFiltre().getIdAgent());
 		setListeDemandes(result);
+	}
+
+	@GlobalCommand
+	@NotifyChange({ "listeDemandes" })
+	public void refreshListeDemande() {
+		filtrer();
+	}
+
+
+	@Command
+	public void modifierDemande() {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", getDemandeCourant());
+		Window win = (Window) Executions.createComponents("/absences/agent/modifierDemandeAgent.zul", null, args);
+		win.doModal();
 	}
 
 	@Command

@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.abs.agent.viewModel;
+package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class ModifierDemandesAgentViewModel {
+public class ModifierDemandesViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
@@ -90,7 +90,7 @@ public class ModifierDemandesAgentViewModel {
 			getDemandeCourant().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9003041, getDemandeCourant());
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9005138, getDemandeCourant());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
