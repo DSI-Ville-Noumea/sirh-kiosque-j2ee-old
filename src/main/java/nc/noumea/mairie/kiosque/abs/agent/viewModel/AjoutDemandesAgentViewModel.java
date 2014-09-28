@@ -49,7 +49,7 @@ public class AjoutDemandesAgentViewModel {
 		// on vide
 		viderZones();
 		// on recharge les types d'absences
-		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9005138, null);
+		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9003041, null);
 		setListeTypeAbsence(result);
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
@@ -81,7 +81,7 @@ public class AjoutDemandesAgentViewModel {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
-			agentWithServiceDto.setIdAgent(9005138);
+			agentWithServiceDto.setIdAgent(9003041);
 
 			getDemandeCreation().setIdRefEtat(Integer.valueOf(getEtatDemandeCreation()));
 			getDemandeCreation().setIdTypeDemande(getTypeAbsenceCourant().getIdRefTypeAbsence());
@@ -98,7 +98,7 @@ public class AjoutDemandesAgentViewModel {
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9005138, getDemandeCreation());
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9003041, getDemandeCreation());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();

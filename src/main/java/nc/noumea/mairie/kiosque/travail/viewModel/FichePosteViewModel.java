@@ -19,7 +19,7 @@ public class FichePosteViewModel {
 
 	@Init
 	public void initFichePosteAgent() {
-		FichePosteDto result = sirhWsConsumer.getFichePoste(9005138);
+		FichePosteDto result = sirhWsConsumer.getFichePoste(9003041);
 		setFicheCourant(result);
 	}
 

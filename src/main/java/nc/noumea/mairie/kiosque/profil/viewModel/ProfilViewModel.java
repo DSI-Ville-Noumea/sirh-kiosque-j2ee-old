@@ -22,7 +22,7 @@ public class ProfilViewModel {
 
 	@Init
 	public void initProfilAgent() {
-		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(9005138);
+		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(9003041);
 		setAgentCourant(result);
 		setSclassPhoto(getAgentCourant().getSexe().equals("M") ? "man" : "woman");
 	}

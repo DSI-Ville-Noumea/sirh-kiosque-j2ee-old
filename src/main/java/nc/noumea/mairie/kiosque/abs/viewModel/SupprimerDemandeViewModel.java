@@ -40,7 +40,7 @@ public class SupprimerDemandeViewModel {
 
 	@Command
 	public void deleteDemande(@BindingParam("win") Window window) {
-		ReturnMessageDto result = absWsConsumer.deleteDemandeAbsence(9005138, getDemandeCourant().getIdDemande());
+		ReturnMessageDto result = absWsConsumer.deleteDemandeAbsence(9003041, getDemandeCourant().getIdDemande());
 
 		if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 			final HashMap<String, Object> map = new HashMap<String, Object>();

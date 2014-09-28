@@ -50,18 +50,18 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 
 	@Init
 	public void initEquipeAgent() {
-		AgentWithServiceDto result = sirhWsConsumer.getSuperieurHierarchique(9005138);
+		AgentWithServiceDto result = sirhWsConsumer.getSuperieurHierarchique(9003041);
 		setSuperieurHierarchique(result);
-		EstChefDto dto = sirhWsConsumer.isAgentChef(9005138);
+		EstChefDto dto = sirhWsConsumer.isAgentChef(9003041);
 		setEstChef(dto.isEstResponsable());
 		// si l'agent est chef
 		if (isEstChef()) {
-			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(9005138);
+			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(9003041);
 			setArbreService(tree);
 			initModel();
 		} else {
 			// sinon
-			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(9005138, null);
+			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(9003041, null);
 			setEquipeAgent(ag);
 		}
 	}
@@ -75,7 +75,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		ServiceTreeNode root = new ServiceTreeNode(null, "", null);
 		for (ServiceTreeDto premierNiv : getArbreService()) {
 			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, premierNiv.getSigle(), premierNiv.getService());
-			for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(9005138, premierNiv.getSigle())) {
+			for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(9003041, premierNiv.getSigle())) {
 				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode,
 						ag.getNom() + " " + ag.getPrenom(), ag.getIdAgent().toString());
 				firstLevelNode.appendChild(agentLevelNode);
@@ -83,7 +83,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 			for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
 				ServiceTreeNode secondLevelNode = new ServiceTreeNode(firstLevelNode, deuxNiv.getSigle(),
 						deuxNiv.getService());
-				for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(9005138, deuxNiv.getSigle())) {
+				for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(9003041, deuxNiv.getSigle())) {
 					ServiceTreeNode agentLevelNode = new ServiceTreeNode(secondLevelNode, ag.getNom() + " "
 							+ ag.getPrenom(), ag.getIdAgent().toString());
 					secondLevelNode.appendChild(agentLevelNode);

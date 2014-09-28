@@ -33,7 +33,7 @@ public class SaisieHebdomadaireViewModel {
 	@Init
 	public void initSaisieFichePointage() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(9005138, sdf.parse("08/09/2014"), 9005138);
+		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(9003041, sdf.parse("08/09/2014"), 9003041);
 		setFicheCourante(result);
 		setPremierJour(getFicheCourante().getSaisies().get(0));
 	}

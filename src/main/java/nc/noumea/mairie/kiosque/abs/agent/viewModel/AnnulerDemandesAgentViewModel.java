@@ -52,7 +52,7 @@ public class AnnulerDemandesAgentViewModel {
 			dto.setIdRefEtat(RefEtatEnum.ANNULEE.getCodeEtat());
 			dto.setDateAvis(new Date());
 			dto.setMotif(getMotifAnnulation());
-			ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(9005138, dto);
+			ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(9003041, dto);
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();

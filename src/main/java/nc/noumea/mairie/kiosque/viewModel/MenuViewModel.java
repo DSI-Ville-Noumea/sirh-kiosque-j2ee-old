@@ -21,7 +21,7 @@ public class MenuViewModel {
 
 	@Init
 	public void initMenu() {
-		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(9005138);
+		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(9003041);
 		setDroitsAbsence(droitsAbsence);
 	}
 

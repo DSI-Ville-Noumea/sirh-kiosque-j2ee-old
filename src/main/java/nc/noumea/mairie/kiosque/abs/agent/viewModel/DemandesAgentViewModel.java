@@ -78,7 +78,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeTypeAbsenceFiltre" })
 	public void alimenteTypeFamilleAbsence() {
-		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(9005138,
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(9003041,
 				getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
 	}
@@ -105,7 +105,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void filtrer() {
-		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9005138, getTabCourant().getId(),
+		List<DemandeDto> result = absWsConsumer.getDemandesAgent(9003041, getTabCourant().getId(),
 				getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
 						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
 						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getGroupeAbsenceFiltre() == null ? null
@@ -185,7 +185,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	public void imprimerDemande() {
 		// on imprime la demande
-		byte[] resp = absWsConsumer.imprimerDemande(9005138, getDemandeCourant().getIdDemande());
+		byte[] resp = absWsConsumer.imprimerDemande(9003041, getDemandeCourant().getIdDemande());
 		Filedownload.save(resp, "application/pdf", "titreAbsence");
 	}
 
