@@ -9,8 +9,8 @@
 		padding-bottom: 10px;
 		padding-right: 10px;
 	}
-
 	.z-tab.z-tab-selected,.z-tab.z-tab-selected:hover {
+		background-image: none;
 		background-color: #004e9e;
 		margin-bottom: 5px;
 		height: 25px; 
@@ -20,13 +20,12 @@
 		-webkit-border-radius: 12px 12px 0px 12px;
 		box-shadow: none;
 	}
-
 	.z-tabbox-top .z-tab.z-tab-selected:first-child {
 	    box-shadow: none;
 	}
 
 	.z-tab,.z-tab:hover { 
-		background: none;
+		background-image: none;
 		background-color: #ee7203;
 		border-radius: 12px 12px 0px 12px;
 		-moz-border-radius: 12px 12px 0px 12px;
@@ -40,10 +39,11 @@
 	}
 
 	.z-tab.z-tab-selected>.z-tab-content>.z-tab-text {
-		margin-bottom: 5px;
+		margin-bottom: 0px;
 		display: inline-block; 
 		height: 25px; 
 		padding-right: 14px;
+		margin-top:1px;
 	}
 
 	.z-tab-text { 
@@ -53,6 +53,7 @@
 		color:#FFFFFF;
 		font-weight: bold;
 		line-height:15px;
+		margin-top:1px;
 	}
 
 	.z-button,.z-button:focus,.z-button:hover { 
@@ -70,7 +71,6 @@
 		text-shadow:none; 
 		font-size: 12px;
 	}
-	
 	.z-tabs-content { border-bottom: 0px solid #cfcfcf; display: table;}
 
 	.z-tabpanel { border-style: none none none; border-width: 0 0 0; }
