@@ -22,10 +22,6 @@ public class MenuViewModel {
 	@Init
 	public void initMenu() {
 		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(9005138);
-		//TODO
-		//A supprimer, c'est pour l'affichage du menu pour la démo
-		droitsAbsence.setMajSolde(true);
-		//fin TODO
 		setDroitsAbsence(droitsAbsence);
 	}
 
