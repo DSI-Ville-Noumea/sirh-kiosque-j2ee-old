@@ -55,12 +55,6 @@ public class ProfilViewModel {
 	@Command
 	@NotifyChange({ "showCouvertureSociale" })
 	public void voirCouvertureSociale() {
-		// create a window programmatically and use it as a modal dialog.
-		/*
-		 * Window win = (Window)
-		 * Executions.createComponents("/profil/couvertureSociale.zul", null,
-		 * null); win.doModal();
-		 */
 		if (isShowCouvertureSociale())
 			setShowCouvertureSociale(false);
 		else
