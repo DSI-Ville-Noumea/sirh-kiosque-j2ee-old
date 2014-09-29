@@ -14,6 +14,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
@@ -23,6 +24,7 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 
@@ -63,14 +65,19 @@ public class CompteursViewModel {
 	private List<AgentDto> listeAgentsFiltre;
 
 	private AgentDto agentFiltre;
+	
+	private LightUserDto currentUser;
 
 	@Init
 	public void initCompteurs() {
+		
+		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		
 		// on charge les types d'absences pour les filtres
 		List<RefTypeAbsenceDto> filtreFamille = absWsConsumer.getRefGroupeAbsenceCompteur();
 		setListeTypeAbsenceFiltre(filtreFamille);
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(9003041);
+		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getEmployeeNumber());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service
@@ -81,7 +88,7 @@ public class CompteursViewModel {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(9003041, getServiceFiltre().getCodeService());
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getEmployeeNumber(), getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -286,7 +293,7 @@ public class CompteursViewModel {
 			getCompteurACreer().setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
 			getCompteurACreer().setIdOrganisationSyndicale(null);
 
-			ReturnMessageDto result = absWsConsumer.saveCompteurRecup(9003041, getCompteurACreer());
+			ReturnMessageDto result = absWsConsumer.saveCompteurRecup(currentUser.getEmployeeNumber(), getCompteurACreer());
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -329,7 +336,7 @@ public class CompteursViewModel {
 			getCompteurACreer().setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
 			getCompteurACreer().setIdOrganisationSyndicale(null);
 
-			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(9003041, getCompteurACreer());
+			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(currentUser.getEmployeeNumber(), getCompteurACreer());
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

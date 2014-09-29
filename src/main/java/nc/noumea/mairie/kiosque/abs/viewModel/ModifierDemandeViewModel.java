@@ -7,6 +7,7 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
@@ -17,6 +18,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
@@ -90,7 +92,9 @@ public class ModifierDemandeViewModel {
 			getDemandeCourant().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9003041, getDemandeCourant());
+			LightUserDto currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+			
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getEmployeeNumber(), getDemandeCourant());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();

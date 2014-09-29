@@ -8,6 +8,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
@@ -17,6 +18,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
@@ -43,13 +45,17 @@ public class AjoutDemandeAgentViewModel {
 	private String selectDebutAM;
 	// pour savoir si la date de fin est le matin
 	private String selectFinAM;
+	
+	private LightUserDto currentUser;
 
 	@Init
 	public void initAjoutDemandeAgent() {
 		// on vide
 		viderZones();
+		
+		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
 		// on recharge les types d'absences
-		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9003041, null);
+		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getEmployeeNumber(), null);
 		setListeTypeAbsence(result);
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
@@ -81,7 +87,7 @@ public class AjoutDemandeAgentViewModel {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
-			agentWithServiceDto.setIdAgent(9003041);
+			agentWithServiceDto.setIdAgent(currentUser.getEmployeeNumber());
 
 			getDemandeCreation().setIdRefEtat(Integer.valueOf(getEtatDemandeCreation()));
 			getDemandeCreation().setIdTypeDemande(getTypeAbsenceCourant().getIdRefTypeAbsence());
@@ -98,7 +104,7 @@ public class AjoutDemandeAgentViewModel {
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(9003041, getDemandeCreation());
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getEmployeeNumber(), getDemandeCreation());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();

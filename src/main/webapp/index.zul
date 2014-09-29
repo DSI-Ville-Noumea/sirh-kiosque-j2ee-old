@@ -2,6 +2,11 @@
 	<window height="100%">
 		<div height="100%">
 			<borderlayout>
+				<north title="" id="north">
+					<div id="header">
+						<include src="header.zul" />
+					</div>
+				</north>
 				<west id="west" splittable="true" sclass="fondMenu">
 					<div id="menuGauche">
 						<include src="menu.zul" />

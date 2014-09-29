@@ -1,10 +1,12 @@
 package nc.noumea.mairie.kiosque.travail.viewModel;
 
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
@@ -17,9 +19,14 @@ public class FichePosteViewModel {
 
 	private FichePosteDto ficheCourant;
 
+	private LightUserDto currentUser;
+	
 	@Init
 	public void initFichePosteAgent() {
-		FichePosteDto result = sirhWsConsumer.getFichePoste(9003041);
+
+		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		
+		FichePosteDto result = sirhWsConsumer.getFichePoste(currentUser.getEmployeeNumber());
 		setFicheCourant(result);
 	}
 

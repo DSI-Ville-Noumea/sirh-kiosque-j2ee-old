@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
 import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
@@ -13,6 +14,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -48,20 +50,25 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	private List<ServiceTreeDto> arbreService;
 	private TreeModel<ServiceTreeNode> arbre;
 
+	private LightUserDto currentUser;
+	
 	@Init
 	public void initEquipeAgent() {
-		AgentWithServiceDto result = sirhWsConsumer.getSuperieurHierarchique(9003041);
+		
+		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		
+		AgentWithServiceDto result = sirhWsConsumer.getSuperieurHierarchique(currentUser.getEmployeeNumber());
 		setSuperieurHierarchique(result);
-		EstChefDto dto = sirhWsConsumer.isAgentChef(9003041);
+		EstChefDto dto = sirhWsConsumer.isAgentChef(currentUser.getEmployeeNumber());
 		setEstChef(dto.isEstResponsable());
 		// si l'agent est chef
 		if (isEstChef()) {
-			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(9003041);
+			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(currentUser.getEmployeeNumber());
 			setArbreService(tree);
 			initModel();
 		} else {
 			// sinon
-			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(9003041, null);
+			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(currentUser.getEmployeeNumber(), null);
 			setEquipeAgent(ag);
 		}
 	}
@@ -75,7 +82,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		ServiceTreeNode root = new ServiceTreeNode(null, "", null);
 		for (ServiceTreeDto premierNiv : getArbreService()) {
 			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, premierNiv.getSigle(), premierNiv.getService());
-			for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(9003041, premierNiv.getSigle())) {
+			for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(currentUser.getEmployeeNumber(), premierNiv.getSigle())) {
 				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode,
 						ag.getNom() + " " + ag.getPrenom(), ag.getIdAgent().toString());
 				firstLevelNode.appendChild(agentLevelNode);
@@ -83,7 +90,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 			for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
 				ServiceTreeNode secondLevelNode = new ServiceTreeNode(firstLevelNode, deuxNiv.getSigle(),
 						deuxNiv.getService());
-				for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(9003041, deuxNiv.getSigle())) {
+				for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(currentUser.getEmployeeNumber(), deuxNiv.getSigle())) {
 					ServiceTreeNode agentLevelNode = new ServiceTreeNode(secondLevelNode, ag.getNom() + " "
 							+ ag.getPrenom(), ag.getIdAgent().toString());
 					secondLevelNode.appendChild(agentLevelNode);

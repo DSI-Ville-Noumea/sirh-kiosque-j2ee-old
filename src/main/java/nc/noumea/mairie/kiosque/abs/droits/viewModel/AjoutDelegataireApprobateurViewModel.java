@@ -7,6 +7,7 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
@@ -19,6 +20,7 @@ import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Listbox;
@@ -43,10 +45,15 @@ public class AjoutDelegataireApprobateurViewModel {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
+	
+	private LightUserDto currentUser;
 
 	@Init
 	public void initAjoutDelegataire(@ExecutionArgParam("operateursExistants") List<AgentDto> operateursExistants,
 			@ExecutionArgParam("delegataireExistants") AgentDto delegataireExistants) {
+		
+		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		
 		// on sauvegarde qui sont les opérateurs de l'approbateur
 		setListeOperateursExistants(operateursExistants);
 		// on sauvegarde qui est le delegataire de l'approbateur
@@ -76,7 +83,7 @@ public class AjoutDelegataireApprobateurViewModel {
 		InputterDto dto = new InputterDto();
 		dto.setOperateurs(getListeOperateursExistants());
 		dto.setDelegataire(listSelect);
-		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(9003041, dto);
+		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getEmployeeNumber(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

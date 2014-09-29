@@ -1,6 +1,7 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -8,6 +9,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Div;
@@ -25,10 +27,14 @@ public class MenuViewModel {
 
 	private boolean droitsEae;
 
+	private LightUserDto currentUser;
+	
 	@Init
 	public void initMenu() {
-		/* Pour les absences */
-		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(9003041);
+		
+		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		
+		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getEmployeeNumber());
 		setDroitsAbsence(droitsAbsence);
 		/* Pour les absences */
 		boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(9003041);
@@ -64,7 +70,7 @@ public class MenuViewModel {
 
 	public boolean isDroitsEae() {
 		return droitsEae;
-	}
+}
 
 	public void setDroitsEae(boolean droitsEae) {
 		this.droitsEae = droitsEae;

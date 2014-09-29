@@ -1,0 +1,15 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.ConnexionViewModel')"
+		height="100%">
+		<style></style>
+		
+		<a onClick="@command('reconnectWithOtherUser')">
+			Se reconnecter avec un autre utilisateur
+		</a>
+		<a onClick="@command('disconnect')">
+			Se déconnecter
+		</a>
+		
+	</window>
+</zk>

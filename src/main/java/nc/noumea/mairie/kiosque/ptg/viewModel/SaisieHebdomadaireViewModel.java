@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.JourPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PrimeDto;
@@ -14,6 +15,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Checkbox;
@@ -32,8 +34,11 @@ public class SaisieHebdomadaireViewModel {
 
 	@Init
 	public void initSaisieFichePointage() throws ParseException {
+		
+		LightUserDto currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(9003041, sdf.parse("08/09/2014"), 9003041);
+		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(currentUser.getEmployeeNumber(), sdf.parse("08/09/2014"), currentUser.getEmployeeNumber());
 		setFicheCourante(result);
 		setPremierJour(getFicheCourante().getSaisies().get(0));
 	}

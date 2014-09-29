@@ -14,6 +14,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
@@ -26,6 +27,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -66,14 +68,19 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
+	
+	private LightUserDto currentUser;
 
 	@Init
 	public void initDemandes() {
+		
+		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		
 		// on charge tous les type d'absences
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getAllRefTypeAbsence();
 		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(9003041);
+		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getEmployeeNumber());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service
@@ -97,7 +104,7 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(9003041, getServiceFiltre().getCodeService());
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getEmployeeNumber(), getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -157,7 +164,7 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void filtrer() {
-		List<DemandeDto> result = absWsConsumer.getListeDemandes(9003041, getTabCourant().getId(),
+		List<DemandeDto> result = absWsConsumer.getListeDemandes(currentUser.getEmployeeNumber(), getTabCourant().getId(),
 				getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
 						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
 						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getAgentFiltre() == null ? null
@@ -199,7 +206,7 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 	@Command
 	public void imprimerDemande() {
 		// on imprime la demande
-		byte[] resp = absWsConsumer.imprimerDemande(9003041, getDemandeCourant().getIdDemande());
+		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getEmployeeNumber(), getDemandeCourant().getIdDemande());
 		Filedownload.save(resp, "application/pdf", "titreAbsence");
 	}
 

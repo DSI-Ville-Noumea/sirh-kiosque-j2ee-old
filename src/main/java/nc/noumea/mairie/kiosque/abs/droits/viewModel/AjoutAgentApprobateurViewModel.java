@@ -6,6 +6,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
@@ -18,6 +19,7 @@ import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Listbox;
@@ -41,14 +43,19 @@ public class AjoutAgentApprobateurViewModel {
 	private String filter;
 	private String tailleListe;
 
+	private LightUserDto currentUser;
+	
 	@Init
 	public void initAjoutAgentApprobateur(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants) {
+		
+		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		
 		// on sauvegarde qui sont les agnts deja approuvés pour les coches
 		setListeAgentsExistants(agentsExistants);
 		// on vide
 		viderZones();
 		// on charge les sous agents
-		List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(9003041, null);
+		List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(currentUser.getEmployeeNumber(), null);
 		setListeAgents(transformeListe(result));
 		setTailleListe("5");
 	}
@@ -63,7 +70,7 @@ public class AjoutAgentApprobateurViewModel {
 				listSelect.add((AgentDto) a.getValue());
 		}
 
-		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(9003041, listSelect);
+		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getEmployeeNumber(), listSelect);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -107,7 +114,7 @@ public class AjoutAgentApprobateurViewModel {
 			setListeAgents(list);
 		} else {
 			// on charge les sous agents
-			List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(9003041, null);
+			List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(currentUser.getEmployeeNumber(), null);
 			setListeAgents(transformeListe(result));
 		}
 	}

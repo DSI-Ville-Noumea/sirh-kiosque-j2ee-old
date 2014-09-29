@@ -1,5 +1,6 @@
 package nc.noumea.mairie.kiosque.profil.viewModel;
 
+import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -7,6 +8,8 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
@@ -20,12 +23,14 @@ public class ProfilViewModel {
 	private ProfilAgentDto agentCourant;
 
 	private String sclassPhoto;
-
+	
 	private boolean showCouvertureSociale;
 
 	@Init
 	public void initProfilAgent() {
-		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(9003041);
+		Session sess = Sessions.getCurrent();
+		LightUserDto userDto = (LightUserDto) sess.getAttribute("currentUser");
+		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(userDto.getEmployeeNumber());
 		setAgentCourant(result);
 		setSclassPhoto(getAgentCourant().getSexe().equals("M") ? "man" : "woman");
 		setShowCouvertureSociale(false);
