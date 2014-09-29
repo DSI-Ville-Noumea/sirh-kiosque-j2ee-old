@@ -146,15 +146,15 @@
 				<hlayout>
 					<div sclass="profil">
 						<div sclass="RHTitle2">
-							<label value="Voir mes contacts" sclass="clic"
-								onClick="@command('voirContact')" />
+							<label value="Voir mes contacts"
+								sclass="clic" onClick="@command('voirContact')" />
 						</div>
 						<div sclass="RHTitle2Line" />
 					</div>
 					<div sclass="profil">
 						<div sclass="RHTitle2">
-							<label value="Voir mes enfants" sclass="clic"
-								onClick="@command('voirEnfant')" />
+							<label value="Voir mes enfants"
+								sclass="clic" onClick="@command('voirEnfant')" />
 						</div>
 						<div sclass="RHTitle2Line" />
 					</div>
@@ -165,15 +165,50 @@
 				<hlayout>
 					<div sclass="profil">
 						<div sclass="RHTitle2">
-							<label value="Voir mon compte bancaire" sclass="clic"
-								onClick="@command('voirCompte')" />
+							<label value="Voir mon compte bancaire"
+								sclass="clic" onClick="@command('voirCompte')" />
 						</div>
 						<div sclass="RHTitle2Line" />
 					</div>
 					<div sclass="profil">
 						<div sclass="RHTitle2">
-							<label value="Voir ma couverture sociale" sclass="clic"
-								onClick="@command('voirCouvertureSociale')" />
+							<label value="Voir ma couverture sociale"
+								sclass="clic" onClick="@command('voirCouvertureSociale')" />
+						</div>
+
+						<div action="show: slideDown;hide: slideUp" sclass="RHContent" visible="@bind(vm.showCouvertureSociale)">
+							<div>
+								<label sclass="name" value="N° CAFAT" />
+								<label sclass="value"
+									value="@bind(vm.agentCourant.couvertureSociale.numCafat)" />
+							</div>
+							<div>
+								<label sclass="name"
+									value="N° MUTUELLE" />
+								<label sclass="value"
+									value="@bind(vm.agentCourant.couvertureSociale.numMutuelle)" />
+							</div>
+							<div>
+								<label sclass="name" value="N° RUAMM" />
+								<label sclass="value"
+									value="@bind(vm.agentCourant.couvertureSociale.numRuamm)" />
+							</div>
+							<div>
+								<label sclass="name" value="N° IRCAFEX" />
+								<label sclass="value"
+									value="@bind(vm.agentCourant.couvertureSociale.numIrcafex)" />
+							</div>
+							<div>
+								<label sclass="name" value="N° CRE" />
+								<label sclass="value"
+									value="@bind(vm.agentCourant.couvertureSociale.numCre)" />
+							</div>
+							<div>
+								<label sclass="name" value="N° CLR" />
+								<label sclass="value"
+									value="@bind(vm.agentCourant.couvertureSociale.numClr)" />
+							</div>
+							<div sclass="RHTitle2Line" />
 						</div>
 						<div sclass="RHTitle2Line" />
 					</div>

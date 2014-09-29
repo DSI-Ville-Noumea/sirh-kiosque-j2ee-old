@@ -5,6 +5,7 @@ import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -20,11 +21,14 @@ public class ProfilViewModel {
 
 	private String sclassPhoto;
 
+	private boolean showCouvertureSociale;
+
 	@Init
 	public void initProfilAgent() {
 		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(9003041);
 		setAgentCourant(result);
 		setSclassPhoto(getAgentCourant().getSexe().equals("M") ? "man" : "woman");
+		setShowCouvertureSociale(false);
 	}
 
 	@Command
@@ -49,10 +53,18 @@ public class ProfilViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "showCouvertureSociale" })
 	public void voirCouvertureSociale() {
 		// create a window programmatically and use it as a modal dialog.
-		Window win = (Window) Executions.createComponents("/profil/couvertureSociale.zul", null, null);
-		win.doModal();
+		/*
+		 * Window win = (Window)
+		 * Executions.createComponents("/profil/couvertureSociale.zul", null,
+		 * null); win.doModal();
+		 */
+		if (isShowCouvertureSociale())
+			setShowCouvertureSociale(false);
+		else
+			setShowCouvertureSociale(true);
 	}
 
 	public ProfilAgentDto getAgentCourant() {
@@ -69,5 +81,13 @@ public class ProfilViewModel {
 
 	public void setSclassPhoto(String sclassPhoto) {
 		this.sclassPhoto = sclassPhoto;
+	}
+
+	public boolean isShowCouvertureSociale() {
+		return showCouvertureSociale;
+	}
+
+	public void setShowCouvertureSociale(boolean showCouvertureSociale) {
+		this.showCouvertureSociale = showCouvertureSociale;
 	}
 }
