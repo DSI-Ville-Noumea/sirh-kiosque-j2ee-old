@@ -162,9 +162,6 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
 						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getAgentFiltre() == null ? null
 						: getAgentFiltre().getIdAgent());
-		// TODO a supprimer
-		result.get(0).setAffichageBoutonModifier(true);
-		result.get(0).setAffichageBoutonSupprimer(true);
 		setListeDemandes(result);
 	}
 

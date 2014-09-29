@@ -6,7 +6,9 @@
 		<div sclass="fond" height="100%">
 			<vlayout>
 				<hlayout>
-					<label value="Service :" />
+					<div width="70px">
+						<label value="Service :" />
+					</div>
 					<combobox width="200px" readonly="true"
 						model="@bind(vm.listeServicesFiltre)"
 						selectedItem="@bind(vm.serviceFiltre)"
@@ -17,34 +19,43 @@
 					</combobox>
 				</hlayout>
 				<hlayout>
-					<label value="Agent :" />
+					<div width="70px">
+						<label value="Agent :" />
+					</div>
 					<combobox width="200px" readonly="true"
 						model="@bind(vm.listeAgentsFiltre)"
-						selectedItem="@bind(vm.agentFiltre)">
+						selectedItem="@bind(vm.agentFiltre)"
+						onSelect="@command('chargeFamille')">
 						<template name="model">
 							<comboitem
 								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
 						</template>
 					</combobox>
 				</hlayout>
+				<separator />
+				<div sclass="RHTitle2Line" />
+				<separator />
+				<hlayout
+					visible="@bind(not empty vm.listeTypeAbsence)">
+					<hlayout width="150px">
+						<label value="Famille d'absence" />
+					</hlayout>
+					<hlayout>
+						<combobox readonly="true" width="400px"
+							model="@bind(vm.listeTypeAbsence)"
+							selectedItem="@bind(vm.typeAbsenceCourant)"
+							onSelect="@command('chargeFormulaire')">
+							<template name="model">
+								<comboitem label="@bind(each.libelle)"
+									description="@bind(each.groupeAbsence.libelle)" />
+							</template>
+						</combobox>
+					</hlayout>
+				</hlayout>
 			</vlayout>
-			<hlayout visible="@bind(not empty vm.listeTypeAbsence)">
-				<hlayout width="150px">
-					<label value="Famille d'absence" />
-				</hlayout>
-				<hlayout>
-					<combobox readonly="true" width="400px"
-						model="@bind(vm.listeTypeAbsence)"
-						selectedItem="@bind(vm.typeAbsenceCourant)"
-						onSelect="@command('chargeFormulaire')">
-						<template name="model">
-							<comboitem label="@bind(each.libelle)"
-								description="@bind(each.groupeAbsence.libelle)" />
-						</template>
-					</combobox>
-				</hlayout>
-			</hlayout>
 			<div visible="@bind(not empty vm.typeAbsenceCourant) ">
+				<separator />
+				<div sclass="RHTitle2Line" />
 				<separator />
 				<vlayout>
 					<hlayout

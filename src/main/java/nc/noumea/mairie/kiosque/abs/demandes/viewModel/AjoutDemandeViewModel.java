@@ -65,11 +65,16 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeTypeAbsence", "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation" })
-	public void chargeFormulaire() {
+	@NotifyChange({ "listeTypeAbsence" })
+	public void chargeFamille() {
 		// on recharge les types d'absences
 		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(getAgentFiltre().getIdAgent(), null);
 		setListeTypeAbsence(result);
+	}
+
+	@Command
+	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation" })
+	public void chargeFormulaire() {
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
 		setListeOrganisationsSyndicale(orga);
