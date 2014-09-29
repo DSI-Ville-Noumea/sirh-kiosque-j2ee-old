@@ -26,4 +26,6 @@ public interface ISirhWSConsumer {
 
 	List<AgentWithServiceDto> getListeAgentsMairie();
 
+	boolean estHabiliteEAE(Integer idAgent);
+
 }

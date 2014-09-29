@@ -11,6 +11,7 @@ import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -30,6 +31,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhEstChefUrl = "agents/estChef";
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
+	private static final String sirhEstHabiliteEaeUrl = "eaes/estHabiliteEAE";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -109,6 +111,22 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentWithServiceDto.class, res, url);
+	}
+
+	@Override
+	public boolean estHabiliteEAE(Integer idAgent) {
+		String url = String.format(sirhWsBaseUrl + sirhEstHabiliteEaeUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+
+		if (res.getStatus() == HttpStatus.UNAUTHORIZED.value()) {
+			return false;
+		} else if (res.getStatus() == HttpStatus.OK.value()) {
+			return true;
+		}
+		return false;
 	}
 
 }
