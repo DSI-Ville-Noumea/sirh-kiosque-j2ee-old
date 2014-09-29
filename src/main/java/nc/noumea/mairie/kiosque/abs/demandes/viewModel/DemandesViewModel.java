@@ -171,6 +171,24 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 		filtrer();
 	}
 
+	@Command
+	public void viserDemande() {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", getDemandeCourant());
+		Window win = (Window) Executions.createComponents("/absences/demandes/viserDemande.zul", null, args);
+		win.doModal();
+	}
+
+	@Command
+	public void approuverDemande() {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", getDemandeCourant());
+		Window win = (Window) Executions.createComponents("/absences/demandes/approuverDemande.zul", null, args);
+		win.doModal();
+	}
+
 	@Listen("onClick = #AJOUTER")
 	public void ajouterDemande(Event e) {
 		// create a window programmatically and use it as a modal dialog.

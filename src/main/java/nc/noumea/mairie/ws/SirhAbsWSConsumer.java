@@ -12,6 +12,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
+import nc.noumea.mairie.kiosque.abs.dto.MotifDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
@@ -55,6 +56,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
 	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
 	private static final String sirhListeDemandesUrl = "demandes/listeDemandes";
+	private static final String sirhListeMotifsRefusUrl = "motif/getListeMotif";
 
 	/* Filtres */
 	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
@@ -404,5 +406,14 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(RefTypeAbsenceDto.class, res, url);
+	}
+
+	@Override
+	public List<MotifDto> getListeMotifsRefus() {
+		String url = String.format(sirhAbsWsBaseUrl + sirhListeMotifsRefusUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(MotifDto.class, res, url);
 	}
 }

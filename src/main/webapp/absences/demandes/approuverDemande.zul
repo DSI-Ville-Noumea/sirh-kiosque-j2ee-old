@@ -1,0 +1,49 @@
+<zk>
+	<window id="approuverDialog" title="Avis du supérieur hiérarchique"
+		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.demandes.viewModel.ApprouverDemandeViewModel')">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<hlayout>
+					<hlayout width="35px">
+						<label value="Avis : " />
+					</hlayout>
+					<radiogroup id="rg1"
+						selectedItem="@bind(vm.avisApprobateur)"
+						selectedIndex="@bind(vm.avisApprobateur)"
+						onCheck="@command('changeAvis')">
+						<radio label="Refuser" value="0" />
+						<radio label="Accepter" value="1" />
+					</radiogroup>
+				</hlayout>
+				<hlayout
+					visible="@bind(not empty vm.listeMotifsRefus)">
+					<hlayout width="35px">
+						<label value="Motif : " />
+					</hlayout>
+					<combobox width="500px" id="motifRefusCbx"
+						model="@bind(vm.listeMotifsRefus)" value="@bind(vm.motifRefus)"
+						selectedItem="@bind(vm.motifRefus)"
+						onChange="@command('saveMotif', ref=motifRefusCbx)"
+						autocomplete="true" autodrop="true">
+						<template name="model">
+							<comboitem label="@bind(each.libelle)" />
+						</template>
+					</combobox>
+				</hlayout>
+				<separator />
+				<div sclass="RHTitle2Line" />
+				<separator />
+				<div align="center">
+					<hlayout>
+						<button label="Valider"
+							onClick="@command('approuveDemande',win=approuverDialog)" />
+						<button label="Annuler"
+							onClick="@command('cancelDemande',win=approuverDialog)" />
+					</hlayout>
+				</div>
+			</vlayout>
+		</div>
+	</window>
+</zk>

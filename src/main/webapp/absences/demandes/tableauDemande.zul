@@ -109,7 +109,8 @@
 			<template name="model">
 				<listitem>
 					<listcell label="@bind(each.libelleTypeDemande)" />
-					<listcell style="text-decoration: underline;" onClick="@command('visuSoldeAgent',ref=each.agentWithServiceDto)"
+					<listcell style="text-decoration: underline;"
+						onClick="@command('visuSoldeAgent',ref=each.agentWithServiceDto)"
 						label="@bind(vm.concatAgent(each.agentWithServiceDto.nom,each.agentWithServiceDto.prenom))" />
 					<listcell
 						label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
@@ -118,8 +119,26 @@
 					<listcell
 						label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
 					<listcell label="@bind(each.etat)" />
-					<listcell label="@bind(each.motif)" />
-					<listcell label="@bind(each.motif)" />
+					<listcell>
+						<hlayout>
+							<image tooltiptext="Viser la demande"
+								sclass="ListAction edit" visible="@bind(each.affichageVisa)"
+								onClick="@command('viserDemande')" />
+							<label visible="@bind(each.valeurVisa)"
+								value="@bind(each.motif)" />
+						</hlayout>
+					</listcell>
+					<listcell>
+						<hlayout>
+							<image tooltiptext="Approuver la demande"
+								sclass="ListAction edit"
+								visible="@bind(each.affichageApprobation)"
+								onClick="@command('approuverDemande')" />
+							<label
+								visible="@bind(each.valeurApprobation)"
+								value="@bind(each.motif)" />
+						</hlayout>
+					</listcell>
 					<listcell>
 						<hlayout>
 							<image tooltiptext="Editer la demande"
