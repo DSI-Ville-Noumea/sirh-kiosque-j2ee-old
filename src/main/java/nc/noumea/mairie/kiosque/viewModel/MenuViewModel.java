@@ -31,9 +31,7 @@ public class MenuViewModel {
 		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(9003041);
 		setDroitsAbsence(droitsAbsence);
 		/* Pour les absences */
-		boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(9005138);
-		// TODO à supprimer
-		droitsEAe = true;
+		boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(9003041);
 		setDroitsEae(droitsEAe);
 	}
 
