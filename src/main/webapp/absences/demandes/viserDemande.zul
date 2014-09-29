@@ -13,8 +13,8 @@
 						selectedItem="@bind(vm.avisHierarchique)"
 						selectedIndex="@bind(vm.avisHierarchique)"
 						onCheck="@command('changeAvis')">
-						<radio label="Refuser" value="0" />
-						<radio label="Accepter" value="1" />
+						<radio label="Défavorable" value="0" />
+						<radio label="Favorable" value="1" />
 					</radiogroup>
 				</hlayout>
 				<hlayout

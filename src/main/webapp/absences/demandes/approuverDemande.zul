@@ -13,8 +13,8 @@
 						selectedItem="@bind(vm.avisApprobateur)"
 						selectedIndex="@bind(vm.avisApprobateur)"
 						onCheck="@command('changeAvis')">
-						<radio label="Refuser" value="0" />
-						<radio label="Accepter" value="1" />
+						<radio label="Refusé" value="0" />
+						<radio label="Accepté" value="1" />
 					</radiogroup>
 				</hlayout>
 				<hlayout
