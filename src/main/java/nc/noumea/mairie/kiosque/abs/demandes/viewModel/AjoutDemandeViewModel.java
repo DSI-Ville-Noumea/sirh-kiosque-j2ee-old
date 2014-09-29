@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.abs.agent.viewModel;
+package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class AjoutDemandesAgentViewModel {
+public class AjoutDemandeViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;

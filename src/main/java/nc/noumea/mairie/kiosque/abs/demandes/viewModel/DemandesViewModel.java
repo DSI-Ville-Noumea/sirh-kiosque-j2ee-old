@@ -24,7 +24,11 @@ import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
@@ -33,7 +37,9 @@ import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class DemandesViewModel {
+public class DemandesViewModel extends SelectorComposer<Component> {
+
+	private static final long serialVersionUID = 1L;
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
@@ -77,9 +83,9 @@ public class DemandesViewModel {
 		setListeEtatAbsenceFiltre(filtreEtat);
 		setTailleListe("5");
 	}
-	
+
 	@Command
-	public void visuSoldeAgent(@BindingParam("ref") AgentWithServiceDto agent){
+	public void visuSoldeAgent(@BindingParam("ref") AgentWithServiceDto agent) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, AgentWithServiceDto> args = new HashMap<String, AgentWithServiceDto>();
 		args.put("agentCourant", agent);
@@ -98,7 +104,6 @@ public class DemandesViewModel {
 	public String concatAgent(String nom, String prenom) {
 		return nom + " " + prenom;
 	}
-
 
 	@Command
 	@NotifyChange({ "listeDemandes" })
@@ -157,6 +162,9 @@ public class DemandesViewModel {
 						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
 						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getAgentFiltre() == null ? null
 						: getAgentFiltre().getIdAgent());
+		// TODO a supprimer
+		result.get(0).setAffichageBoutonModifier(true);
+		result.get(0).setAffichageBoutonSupprimer(true);
 		setListeDemandes(result);
 	}
 
@@ -166,6 +174,28 @@ public class DemandesViewModel {
 		filtrer();
 	}
 
+	@Listen("onClick = #AJOUTER")
+	public void ajouterDemande(Event e) {
+		// create a window programmatically and use it as a modal dialog.
+		Window win = (Window) Executions.createComponents("/absences/demandes/ajoutDemande.zul", null, null);
+		win.doModal();
+	}
+
+	@Command
+	public void imprimerDemande() {
+		// on imprime la demande
+		byte[] resp = absWsConsumer.imprimerDemande(9003041, getDemandeCourant().getIdDemande());
+		Filedownload.save(resp, "application/pdf", "titreAbsence");
+	}
+
+	@Command
+	public void annulerDemande() {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", getDemandeCourant());
+		Window win = (Window) Executions.createComponents("/absences/annulerDemande.zul", null, args);
+		win.doModal();
+	}
 
 	@Command
 	public void modifierDemande() {

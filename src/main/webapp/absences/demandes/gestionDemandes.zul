@@ -1,5 +1,5 @@
 <zk>
-	<window apply="org.zkoss.bind.BindComposer"
+	<window apply="org.zkoss.bind.BindComposer,nc.noumea.mairie.kiosque.abs.demandes.viewModel.DemandesViewModel"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.demandes.viewModel.DemandesViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
@@ -36,6 +36,11 @@
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
+			<div>
+				<div align="left">
+					<button id="AJOUTER" label="Ajouter" />
+				</div>
+			</div>
 		</div>
 		<include id="includeStyleDroits"
 			src="/css/absences/gestionDemandes.zul" />
