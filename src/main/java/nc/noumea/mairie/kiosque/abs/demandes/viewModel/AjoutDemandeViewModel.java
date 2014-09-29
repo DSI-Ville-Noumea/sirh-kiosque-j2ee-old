@@ -7,6 +7,8 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -16,6 +18,7 @@ import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -26,6 +29,11 @@ public class AjoutDemandeViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
+
+	private List<ServiceDto> listeServicesFiltre;
+	private ServiceDto serviceFiltre;
+	private List<AgentDto> listeAgentsFiltre;
+	private AgentDto agentFiltre;
 
 	private DemandeDto demandeCreation;
 
@@ -48,8 +56,19 @@ public class AjoutDemandeViewModel {
 	public void initAjoutDemande() {
 		// on vide
 		viderZones();
+		// on charge les service pour les filtres
+		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(9003041);
+		setListeServicesFiltre(filtreService);
+		// pour les agents, on ne rempli pas la liste, elle le sera avec le
+		// choix du service
+		setListeAgentsFiltre(null);
+	}
+
+	@Command
+	@NotifyChange({ "listeTypeAbsence", "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation" })
+	public void chargeFormulaire() {
 		// on recharge les types d'absences
-		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(9003041, null);
+		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(getAgentFiltre().getIdAgent(), null);
 		setListeTypeAbsence(result);
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
@@ -61,11 +80,27 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "listeAgentsFiltre" })
+	public void chargeAgent() {
+		// on charge les agents pour les filtres
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(9003041, getServiceFiltre().getCodeService());
+		setListeAgentsFiltre(filtreAgent);
+	}
+
+	public String concatAgent(String nom, String prenom) {
+		return nom + " " + prenom;
+	}
+
+	@Command
 	public void cancelDemande(@BindingParam("win") Window window) {
 		window.detach();
 	}
 
 	private void viderZones() {
+		setListeAgentsFiltre(null);
+		setListeServicesFiltre(null);
+		setAgentFiltre(null);
+		setServiceFiltre(null);
 		setDemandeCreation(null);
 		setListeTypeAbsence(null);
 		setTypeAbsenceCourant(null);
@@ -81,7 +116,7 @@ public class AjoutDemandeViewModel {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
-			agentWithServiceDto.setIdAgent(9003041);
+			agentWithServiceDto.setIdAgent(getAgentFiltre().getIdAgent());
 
 			getDemandeCreation().setIdRefEtat(Integer.valueOf(getEtatDemandeCreation()));
 			getDemandeCreation().setIdTypeDemande(getTypeAbsenceCourant().getIdRefTypeAbsence());
@@ -241,5 +276,37 @@ public class AjoutDemandeViewModel {
 
 	public void setSelectFinAM(String selectFinAM) {
 		this.selectFinAM = selectFinAM;
+	}
+
+	public List<ServiceDto> getListeServicesFiltre() {
+		return listeServicesFiltre;
+	}
+
+	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+		this.listeServicesFiltre = listeServicesFiltre;
+	}
+
+	public ServiceDto getServiceFiltre() {
+		return serviceFiltre;
+	}
+
+	public void setServiceFiltre(ServiceDto serviceFiltre) {
+		this.serviceFiltre = serviceFiltre;
+	}
+
+	public List<AgentDto> getListeAgentsFiltre() {
+		return listeAgentsFiltre;
+	}
+
+	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
+		this.listeAgentsFiltre = listeAgentsFiltre;
+	}
+
+	public AgentDto getAgentFiltre() {
+		return agentFiltre;
+	}
+
+	public void setAgentFiltre(AgentDto agentFiltre) {
+		this.agentFiltre = agentFiltre;
 	}
 }

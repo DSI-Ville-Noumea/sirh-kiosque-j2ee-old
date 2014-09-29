@@ -4,14 +4,39 @@
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.demandes.viewModel.AjoutDemandeViewModel')">
 		<div sclass="fond" height="100%">
-			<hlayout>
+			<vlayout>
+				<hlayout>
+					<label value="Service :" />
+					<combobox width="200px" readonly="true"
+						model="@bind(vm.listeServicesFiltre)"
+						selectedItem="@bind(vm.serviceFiltre)"
+						onSelect="@command('chargeAgent')">
+						<template name="model">
+							<comboitem label="@bind(each.service)" />
+						</template>
+					</combobox>
+				</hlayout>
+				<hlayout>
+					<label value="Agent :" />
+					<combobox width="200px" readonly="true"
+						model="@bind(vm.listeAgentsFiltre)"
+						selectedItem="@bind(vm.agentFiltre)">
+						<template name="model">
+							<comboitem
+								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+						</template>
+					</combobox>
+				</hlayout>
+			</vlayout>
+			<hlayout visible="@bind(not empty vm.listeTypeAbsence)">
 				<hlayout width="150px">
 					<label value="Famille d'absence" />
 				</hlayout>
 				<hlayout>
 					<combobox readonly="true" width="400px"
 						model="@bind(vm.listeTypeAbsence)"
-						selectedItem="@bind(vm.typeAbsenceCourant)">
+						selectedItem="@bind(vm.typeAbsenceCourant)"
+						onSelect="@command('chargeFormulaire')">
 						<template name="model">
 							<comboitem label="@bind(each.libelle)"
 								description="@bind(each.groupeAbsence.libelle)" />
