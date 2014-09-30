@@ -8,8 +8,8 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
@@ -55,9 +55,9 @@ public class AnnulerDemandeViewModel {
 			dto.setDateAvis(new Date());
 			dto.setMotif(getMotifAnnulation());
 			
-			LightUserDto currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+			ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 			
-			ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getEmployeeNumber(), dto);
+			ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getAgent().getIdAgent(), dto);
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();

@@ -7,8 +7,8 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
@@ -46,13 +46,13 @@ public class AjoutOperateurApprobateurViewModel {
 	private String filter;
 	private String tailleListe;
 	
-	private LightUserDto currentUser;
+	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initAjoutOperateur(@ExecutionArgParam("operateursExistants") List<AgentDto> operateursExistants,
 			@ExecutionArgParam("delegataireExistants") AgentDto delegataireExistants) {
 		
-		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
 		// on sauvegarde qui sont les opérateurs de l'approbateur
 		setListeAgentsExistants(operateursExistants);
@@ -84,7 +84,7 @@ public class AjoutOperateurApprobateurViewModel {
 		dto.setOperateurs(listSelect);
 		dto.setDelegataire(getListeDelegataireExistants() == null || getListeDelegataireExistants().size() == 0 ? null
 				: getListeDelegataireExistants().get(0));
-		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getEmployeeNumber(), dto);
+		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

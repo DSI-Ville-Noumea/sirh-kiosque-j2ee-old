@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.JourPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PrimeDto;
@@ -35,10 +35,10 @@ public class SaisieHebdomadaireViewModel {
 	@Init
 	public void initSaisieFichePointage() throws ParseException {
 		
-		LightUserDto currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(currentUser.getEmployeeNumber(), sdf.parse("08/09/2014"), currentUser.getEmployeeNumber());
+		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent().getIdAgent(), sdf.parse("08/09/2014"), currentUser.getAgent().getIdAgent());
 		setFicheCourante(result);
 		setPremierJour(getFicheCourante().getSaisies().get(0));
 	}

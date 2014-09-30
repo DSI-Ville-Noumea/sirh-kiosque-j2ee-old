@@ -3,6 +3,16 @@
 	
 	<![CDATA[
 
+	.z-north { 
+		background-color: #21374c;
+	    min-height: 43px;
+	    overflow-y: hidden;  
+    }
+	.z-north .z-window-content { 
+		background-color: #21374c;
+		color:#FFFFFF;
+    }
+    
 	.fondMenu { background-color: #ee7203; }
 
 	.z-west,.z-south { border: 0 none; }

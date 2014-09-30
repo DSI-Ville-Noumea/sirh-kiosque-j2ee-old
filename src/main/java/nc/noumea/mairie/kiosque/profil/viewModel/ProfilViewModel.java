@@ -1,6 +1,5 @@
 package nc.noumea.mairie.kiosque.profil.viewModel;
 
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -29,8 +28,8 @@ public class ProfilViewModel {
 	@Init
 	public void initProfilAgent() {
 		Session sess = Sessions.getCurrent();
-		LightUserDto userDto = (LightUserDto) sess.getAttribute("currentUser");
-		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(userDto.getEmployeeNumber());
+		ProfilAgentDto userDto = (ProfilAgentDto) sess.getAttribute("currentUser");
+		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(userDto.getAgent().getIdAgent());
 		setAgentCourant(result);
 		setSclassPhoto(getAgentCourant().getSexe().equals("M") ? "man" : "woman");
 		setShowCouvertureSociale(false);

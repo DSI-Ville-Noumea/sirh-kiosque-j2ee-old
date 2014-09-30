@@ -8,8 +8,8 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
@@ -46,16 +46,16 @@ public class AjoutDemandeAgentViewModel {
 	// pour savoir si la date de fin est le matin
 	private String selectFinAM;
 	
-	private LightUserDto currentUser;
+	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initAjoutDemandeAgent() {
 		// on vide
 		viderZones();
 		
-		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		// on recharge les types d'absences
-		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getEmployeeNumber(), null);
+		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent().getIdAgent(), null);
 		setListeTypeAbsence(result);
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
@@ -87,7 +87,7 @@ public class AjoutDemandeAgentViewModel {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
-			agentWithServiceDto.setIdAgent(currentUser.getEmployeeNumber());
+			agentWithServiceDto.setIdAgent(currentUser.getAgent().getIdAgent());
 
 			getDemandeCreation().setIdRefEtat(Integer.valueOf(getEtatDemandeCreation()));
 			getDemandeCreation().setIdTypeDemande(getTypeAbsenceCourant().getIdRefTypeAbsence());
@@ -104,7 +104,7 @@ public class AjoutDemandeAgentViewModel {
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getEmployeeNumber(), getDemandeCreation());
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(), getDemandeCreation());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();

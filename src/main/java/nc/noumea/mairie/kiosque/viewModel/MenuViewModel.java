@@ -1,7 +1,7 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -27,14 +27,14 @@ public class MenuViewModel {
 
 	private boolean droitsEae;
 
-	private LightUserDto currentUser;
+	private ProfilAgentDto currentUser;
 	
 	@Init
 	public void initMenu() {
 		
-		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
-		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getEmployeeNumber());
+		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
 		setDroitsAbsence(droitsAbsence);
 		/* Pour les absences */
 		boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(9003041);

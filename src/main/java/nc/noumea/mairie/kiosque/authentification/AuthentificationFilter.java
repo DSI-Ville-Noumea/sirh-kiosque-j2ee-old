@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import nc.noumea.mairie.kiosque.dto.LightUserDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.IRadiWSConsumer;
+import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +39,8 @@ public class AuthentificationFilter implements Filter {
     
     private IRadiWSConsumer radiWSConsumer;
     
+	private ISirhWSConsumer sirhWsConsumer;
+    
     public void init( FilterConfig config ) throws ServletException {
     	ServletContext servletContext = config.getServletContext();
     	WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
@@ -44,6 +48,7 @@ public class AuthentificationFilter implements Filter {
 		AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
 		
 		radiWSConsumer = (IRadiWSConsumer) autowireCapableBeanFactory.getBean("radiWSConsumer");
+		sirhWsConsumer = (ISirhWSConsumer) autowireCapableBeanFactory.getBean("sirhWsConsumer");
     }
 
     public void doFilter( ServletRequest req, ServletResponse res, FilterChain chain ) throws IOException,
@@ -68,16 +73,24 @@ public class AuthentificationFilter implements Filter {
         }
         
         LightUserDto userDto = radiWSConsumer.getAgentCompteADByLogin(request.getRemoteUser());
-        
         if(null == userDto) {
-        	logger.debug("User not exist in Radi WS");
+        	logger.debug("User not exist in Radi WS with RemoteUser : " + request.getRemoteUser());
+        	Session sess = Sessions.getCurrent();
+    		sess.invalidate();
+    		
+    		return;
+        }
+        ProfilAgentDto profilAgent = sirhWsConsumer.getEtatCivil(userDto.getEmployeeNumber());
+        
+        if(null == profilAgent) {
+        	logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
         	Session sess = Sessions.getCurrent();
     		sess.invalidate();
     		
     		return;
         }
         
-        hSess.setAttribute("currentUser", userDto);
+        hSess.setAttribute("currentUser", profilAgent);
         
 //        logger.info("----------------- REQUEST ----------------");
 //        logger.info("REQUEST getUserPrincipal : " + request.getUserPrincipal());

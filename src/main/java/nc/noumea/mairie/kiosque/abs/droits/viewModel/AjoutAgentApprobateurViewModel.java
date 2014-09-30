@@ -6,8 +6,8 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
@@ -43,19 +43,19 @@ public class AjoutAgentApprobateurViewModel {
 	private String filter;
 	private String tailleListe;
 
-	private LightUserDto currentUser;
+	private ProfilAgentDto currentUser;
 	
 	@Init
 	public void initAjoutAgentApprobateur(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants) {
 		
-		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
 		// on sauvegarde qui sont les agnts deja approuvés pour les coches
 		setListeAgentsExistants(agentsExistants);
 		// on vide
 		viderZones();
 		// on charge les sous agents
-		List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(currentUser.getEmployeeNumber(), null);
+		List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
 		setListeAgents(transformeListe(result));
 		setTailleListe("5");
 	}
@@ -70,7 +70,7 @@ public class AjoutAgentApprobateurViewModel {
 				listSelect.add((AgentDto) a.getValue());
 		}
 
-		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getEmployeeNumber(), listSelect);
+		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getAgent().getIdAgent(), listSelect);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -114,7 +114,7 @@ public class AjoutAgentApprobateurViewModel {
 			setListeAgents(list);
 		} else {
 			// on charge les sous agents
-			List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(currentUser.getEmployeeNumber(), null);
+			List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
 			setListeAgents(transformeListe(result));
 		}
 	}

@@ -12,9 +12,9 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -65,12 +65,12 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	private String filter;
 	private String tailleListe;
 	
-	private LightUserDto currentUser;
+	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initDemandesAgent() {
 		
-		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
 		// on recharge les types d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
@@ -85,7 +85,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeTypeAbsenceFiltre" })
 	public void alimenteTypeFamilleAbsence() {
-		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getEmployeeNumber(),
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent().getIdAgent(),
 				getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
 	}
@@ -112,7 +112,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void filtrer() {
-		List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getEmployeeNumber(), getTabCourant().getId(),
+		List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getAgent().getIdAgent(), getTabCourant().getId(),
 				getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
 						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
 						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getGroupeAbsenceFiltre() == null ? null
@@ -192,7 +192,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	public void imprimerDemande() {
 		// on imprime la demande
-		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getEmployeeNumber(), getDemandeCourant().getIdDemande());
+		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getAgent().getIdAgent(), getDemandeCourant().getIdDemande());
 		Filedownload.save(resp, "application/pdf", "titreAbsence");
 	}
 

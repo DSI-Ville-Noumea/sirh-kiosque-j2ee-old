@@ -2,8 +2,19 @@
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.ConnexionViewModel')"
 		height="100%">
-		<style></style>
+		<style>
+			.z-north .z-window-content .z-a { 
+				color:#FFFFFF;
+				text-decoration: none;
+		    }
+		</style>
 		
+		<div>
+			<label sclass="value"
+				value="@bind(vm.currentUser.agent.nomUsage)" />
+			<label sclass="value"
+				value="@bind(vm.currentUser.agent.prenomUsage)" />
+		</div>
 		<a onClick="@command('reconnectWithOtherUser')">
 			Se reconnecter avec un autre utilisateur
 		</a>

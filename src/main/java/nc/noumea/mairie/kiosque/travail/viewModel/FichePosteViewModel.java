@@ -1,6 +1,6 @@
 package nc.noumea.mairie.kiosque.travail.viewModel;
 
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -19,14 +19,14 @@ public class FichePosteViewModel {
 
 	private FichePosteDto ficheCourant;
 
-	private LightUserDto currentUser;
+	private ProfilAgentDto currentUser;
 	
 	@Init
 	public void initFichePosteAgent() {
 
-		currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
-		FichePosteDto result = sirhWsConsumer.getFichePoste(currentUser.getEmployeeNumber());
+		FichePosteDto result = sirhWsConsumer.getFichePoste(currentUser.getAgent().getIdAgent());
 		setFicheCourant(result);
 	}
 

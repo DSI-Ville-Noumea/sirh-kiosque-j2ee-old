@@ -4,7 +4,7 @@ import java.util.Date;
 
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
-import nc.noumea.mairie.kiosque.dto.LightUserDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.annotation.Init;
@@ -23,12 +23,12 @@ public class SoldeAgentViewModel {
 	@Init
 	public void initSoldeAgent() {
 		
-		LightUserDto currentUser = (LightUserDto) Sessions.getCurrent().getAttribute("currentUser");
+		ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
 		FiltreSoldeDto filtreDto = new FiltreSoldeDto();
 		filtreDto.setDateDebut(new Date());
 		filtreDto.setDateFin(new Date());
-		SoldeDto result = absWsConsumer.getAgentSolde(currentUser.getEmployeeNumber(), filtreDto);
+		SoldeDto result = absWsConsumer.getAgentSolde(currentUser.getAgent().getIdAgent(), filtreDto);
 		setSoldeCourant(result);
 	}
 
