@@ -1,0 +1,40 @@
+<style>
+
+	
+	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
+	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
+
+
+	.z-loading { top: 50% !important; left: 45% !important; align:
+	center; vertical-align: middle; }
+
+	.eae .RHTitle2 { color: #ffffff; margin-bottom: 5px; }
+
+	.eae .RHTitle2>span { height: 25px; padding-top: 5px; }
+
+	.RHContent { margin-top: 10px; margin-bottom: 15px; }
+
+	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;
+	color: #3B62A7; width:100px; }
+
+	.RHContent .value { display: inline-block; color: #000000; }
+
+	.z-row {background-color: #e3d2ad;}
+
+	.z-row:hover .z-row-inner { background:#ee7203; }
+
+	.z-row.z-grid-odd{background-color: #e6bb91;}
+
+	.z-grid-odd > .z-row-inner {background-color: #e6bb91;
+	background:none;}
+
+	.eae table { border-collapse: collapse; }
+
+	.z-column-content {background-color: #ab5420; color: #ffffff;}
+
+	.eaeDownload { background-image: url("img/download.png");
+	background-position: left top; background-repeat: no-repeat; cursor:
+	pointer; display: inline-block; height: 16px; width: 16px; } ]]>
+			
+	
+</style>

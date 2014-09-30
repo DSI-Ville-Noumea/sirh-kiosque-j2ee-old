@@ -10,6 +10,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
@@ -20,6 +21,7 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Combobox;
@@ -38,6 +40,8 @@ public class ViserDemandeViewModel {
 	private DemandeDto demandeCourant;
 
 	private String avisHierarchique;
+
+	private ProfilAgentDto currentUser;
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
@@ -69,6 +73,8 @@ public class ViserDemandeViewModel {
 	public void viseDemande(@BindingParam("win") Window window) {
 		if (IsFormValid()) {
 
+			currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+
 			DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
 			dto.setIdDemande(getDemandeCourant().getIdDemande());
 			dto.setIdRefEtat(getAvisHierarchique().equals("0") ? RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat()
@@ -76,7 +82,7 @@ public class ViserDemandeViewModel {
 			dto.setDateAvis(new Date());
 			dto.setMotif(getMotifRefus());
 
-			ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(9003041, dto);
+			ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getAgent().getIdAgent(), dto);
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();

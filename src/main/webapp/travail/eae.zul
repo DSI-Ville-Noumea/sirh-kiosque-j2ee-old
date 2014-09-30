@@ -1,6 +1,6 @@
 <zk>
 	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.travail.viewModel.FichePosteViewModel')"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.travail.viewModel.EaeViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
 			<vlayout>
@@ -9,10 +9,36 @@
 			</vlayout>
 			<separator />
 			<separator />
+			<div sclass="eae">
+				<div sclass="RHTitle2">
+					<label value="Mes derniers EAEs" />
+				</div>
+				<div sclass="RHTitle2Line" />
+				<separator />
+				<div sclass="RHContent">
+					<grid model="@bind(vm.listeUrlEae)" id="listEae">
+						<columns>
+							<column align="center" label="Année" />
+							<column align="center" label="Identifiant" />
+							<column align="center" label="Téléchargement" />
+						</columns>
+						<template name="model">
+							<row>
+								<label sclass="value"
+									value="${each.annee}" />
+								<label sclass="value"
+									value="${each.id}" />
+								<image sclass="eaeDownload"
+									onClick="@command('visuEAE', ref=each.url)" />
+							</row>
+						</template>
+					</grid>
+				</div>
+			</div>
+			<separator />
 			<separator />
 		</div>
-		<include id="includeStyleSoldeAgent"
-			src="/css/profil/profil.zul" />
+		<include id="includeStyleSoldeAgent" src="/css/travail/eae.zul" />
 	</window>
 </zk>
 
