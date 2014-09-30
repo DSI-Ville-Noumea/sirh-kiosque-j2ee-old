@@ -1,6 +1,4 @@
 <style>
-
-	
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
@@ -21,7 +19,7 @@
 
 	.RHTitle3 { background-image: url("img/Sprite.png");
 	background-position: -494px -46px; background-repeat: no-repeat;
-	color: #d3711c !important; height: 16px; padding: 0 0 0 8px; }
+	color: #d3711c !important; height: 16px; padding: 0 0 0 8px; line-height: 0px;}
 
 
 	.z-row {background-color: #e3d2ad;}
@@ -30,18 +28,20 @@
 
 	.z-row.z-grid-odd{background-color: #e6bb91;}
 
-	.z-grid-odd > .z-row-inner {background-color:
-	#e6bb91; background:none;}
-	
-	.equipe table {
-	    border-collapse: collapse;
-	}
+	.z-grid-odd > .z-row-inner {background-color: #e6bb91;
+	background:none;}
 
+	.RHTree { border: 1px solid #d88238; border-radius: 5px; float:
+	left; margin: 0 10px 0 0; overflow-x: hidden; padding: 5px 0 0; }
 
 	.z-loading { top: 50% !important; left: 45% !important; align:
-	center; vertical-align: middle; } 
-]]>
-	
-		
+	center; vertical-align: middle; }
+
+	.z-listitem,.z-listitem:hover > .z-listcell { background-color: #FFEBCD;} 
+
+	.eaeDownload { background-image: url("img/download.png");
+	background-position: left top; background-repeat: no-repeat; cursor:
+	pointer; display: inline-block; height: 16px; width: 16px; }
+	]]>		
 	
 </style>

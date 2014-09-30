@@ -50,7 +50,6 @@ public class EaeViewModel {
 		args.put("url", url);
 		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
 		win.doModal();
-
 	}
 
 	public List<SharepointDto> getListeUrlEae() {

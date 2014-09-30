@@ -46,23 +46,26 @@
 						<label value="Mon équipe" />
 					</div>
 					<div sclass="RHTitle2Line" />
-					<div visible="@bind(vm.estChef)">
-						<div sclass="RHContent" width="35%">
-							<tree id="tree" model="@bind(vm.arbre)" />
+					<div visible="@bind(vm.estChef)"
+						style="display: block;">
+						<div sclass="RHContent" width="35%"
+							style="float:left;">
+							<tree sclass="RHTree" id="tree"
+								model="@bind(vm.arbre)" />
 						</div>
 						<separator />
-						<div sclass="RHContent">
-							<div>
-								<grid id="resultGrid">
-									<template name="model">
-										<row>
+						<div width="65%" style="float:left;">
+							<listbox id="resultGrid" sclass="RHTree">
+								<template name="model">
+									<listitem>
+										<listcell>
 											<include
 												visible="${not empty each }"
 												src="/travail/fichePosteEquipe.zul" />
-										</row>
-									</template>
-								</grid>
-							</div>
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
 						</div>
 					</div>
 					<div visible="@bind(!vm.estChef)">
