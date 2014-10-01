@@ -24,6 +24,16 @@ public class ProfilViewModel {
 	private String sclassPhoto;
 	
 	private boolean showCouvertureSociale;
+	
+	private boolean showCompte;
+	
+	private boolean showEnfant;
+	
+	private boolean showContact;
+	
+	private boolean showAdresse;
+	
+	private boolean showBP;
 
 	@Init
 	public void initProfilAgent() {
@@ -33,27 +43,56 @@ public class ProfilViewModel {
 		setAgentCourant(result);
 		setSclassPhoto(getAgentCourant().getSexe().equals("M") ? "man" : "woman");
 		setShowCouvertureSociale(false);
+		setShowCompte(false);
+		setShowEnfant(false);
+		setShowContact(false);
+		setShowAdresse(false);
+		setShowBP(false);
 	}
 
 	@Command
+	@NotifyChange({ "showAdresse" })
+	public void voirBP() {
+		if (isShowBP())
+			setShowBP(false);
+		else
+			setShowBP(true);
+	}
+
+	@Command
+	@NotifyChange({ "showAdresse" })
+	public void voirAdresse() {
+		if (isShowAdresse())
+			setShowAdresse(false);
+		else
+			setShowAdresse(true);
+	}
+
+	@Command
+	@NotifyChange({ "showContact" })
 	public void voirContact() {
-		// create a window programmatically and use it as a modal dialog.
-		Window win = (Window) Executions.createComponents("/profil/contact.zul", null, null);
-		win.doModal();
+		if (isShowContact())
+			setShowContact(false);
+		else
+			setShowContact(true);
 	}
 
 	@Command
+	@NotifyChange({ "showEnfant" })
 	public void voirEnfant() {
-		// create a window programmatically and use it as a modal dialog.
-		Window win = (Window) Executions.createComponents("/profil/enfant.zul", null, null);
-		win.doModal();
+		if (isShowEnfant())
+			setShowEnfant(false);
+		else
+			setShowEnfant(true);
 	}
 
 	@Command
+	@NotifyChange({ "showCompte" })
 	public void voirCompte() {
-		// create a window programmatically and use it as a modal dialog.
-		Window win = (Window) Executions.createComponents("/profil/compteBancaire.zul", null, null);
-		win.doModal();
+		if (isShowCompte())
+			setShowCompte(false);
+		else
+			setShowCompte(true);
 	}
 
 	@Command
@@ -87,5 +126,45 @@ public class ProfilViewModel {
 
 	public void setShowCouvertureSociale(boolean showCouvertureSociale) {
 		this.showCouvertureSociale = showCouvertureSociale;
+	}
+
+	public boolean isShowCompte() {
+		return showCompte;
+	}
+
+	public void setShowCompte(boolean showCompte) {
+		this.showCompte = showCompte;
+	}
+
+	public boolean isShowEnfant() {
+		return showEnfant;
+	}
+
+	public void setShowEnfant(boolean showEnfant) {
+		this.showEnfant = showEnfant;
+	}
+
+	public boolean isShowContact() {
+		return showContact;
+	}
+
+	public void setShowContact(boolean showContact) {
+		this.showContact = showContact;
+	}
+
+	public boolean isShowAdresse() {
+		return showAdresse;
+	}
+
+	public void setShowAdresse(boolean showAdresse) {
+		this.showAdresse = showAdresse;
+	}
+
+	public boolean isShowBP() {
+		return showBP;
+	}
+
+	public void setShowBP(boolean showBP) {
+		this.showBP = showBP;
 	}
 }

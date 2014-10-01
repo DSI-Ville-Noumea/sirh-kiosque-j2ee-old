@@ -1,4 +1,6 @@
 <style>
+
+	
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
@@ -13,8 +15,7 @@
 	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;
 	color: #3B62A7; width:100px; }
 
-	.RHContent .value { display: inline-block; color:
-	#000000; }
+	.RHContent .value { display: inline-block; color: #000000; }
 
 	.woman { background-position: -381px -125px; }
 
@@ -27,11 +28,17 @@
 	width: 110px; }
 
 	.info { overflow: hidden; }
-	
+
 	.clic { cursor: pointer; }
+
+	.deplInfo { background-image: url("img/Sprite.png");
+	background-repeat: no-repeat; cursor: pointer; height: 16px; margin:
+	0 auto; width: 16px; background-position: -483px -145px;}
 
 
 	.z-loading { top: 50% !important; left: 45% !important; align:
-	center; vertical-align: middle; } ]]>	
+	center; vertical-align: middle; } ]]>
+	
+		
 	
 </style>

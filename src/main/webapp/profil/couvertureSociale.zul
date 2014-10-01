@@ -1,0 +1,34 @@
+<zk>
+	<div>
+		<label sclass="name" value="N° CAFAT" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.couvertureSociale.numCafat)" />
+	</div>
+	<div>
+		<label sclass="name" value="N° MUTUELLE" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.couvertureSociale.numMutuelle)" />
+	</div>
+	<div>
+		<label sclass="name" value="N° RUAMM" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.couvertureSociale.numRuamm)" />
+	</div>
+	<div>
+		<label sclass="name" value="N° IRCAFEX" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.couvertureSociale.numIrcafex)" />
+	</div>
+	<div>
+		<label sclass="name" value="N° CRE" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.couvertureSociale.numCre)" />
+	</div>
+	<div>
+		<label sclass="name" value="N° CLR" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.couvertureSociale.numClr)" />
+	</div>
+	<div sclass="RHTitle2Line" />
+</zk>
+

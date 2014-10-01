@@ -1,0 +1,21 @@
+<zk>
+	<div>
+		<label sclass="name" value="N° - Voie" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.adresse.numRue)" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.adresse.rue)" />
+	</div>
+	<div>
+		<label sclass="name" value="Complément" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.adresse.adresseComplementaire)" />
+	</div>
+	<div>
+		<label sclass="name" value="Code postal - Ville" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.adresse.codePostalDomicile)" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.adresse.villeDomicile)" />
+	</div>
+</zk>

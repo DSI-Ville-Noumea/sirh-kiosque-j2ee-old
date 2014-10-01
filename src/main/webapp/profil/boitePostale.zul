@@ -1,0 +1,13 @@
+<zk>
+	<div>
+		<label sclass="name" value="BP" />
+		<label sclass="value" value="@bind(vm.agentCourant.adresse.bp)" />
+	</div>
+	<div>
+		<label sclass="name" value="Code postal - Ville" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.adresse.codePostalBp)" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.adresse.villeBp)" />
+	</div>
+</zk>
