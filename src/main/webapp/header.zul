@@ -7,18 +7,28 @@
 				color:#FFFFFF;
 				text-decoration: none;
 		    }
+		    .divName {
+		    	float: left;
+		    	margin : 15px; 
+		    }
+		    
+		    .disconnect {
+		    	float: right;
+		    	margin: 15px;
+		    	margin-right:20px;
+		    }
 		</style>
 		
-		<div>
+		<div class="divName">
+			<label sclass="value" value="Bonjour " />
 			<label sclass="value"
 				value="@bind(vm.currentUser.agent.nomUsage)" />
 			<label sclass="value"
 				value="@bind(vm.currentUser.agent.prenomUsage)" />
 		</div>
-		<a onClick="@command('reconnectWithOtherUser')">
-			Se reconnecter avec un autre utilisateur
-		</a>
-		<a onClick="@command('disconnect')">
+		
+		
+		<a class="disconnect" onClick="@command('disconnect')">
 			Se déconnecter
 		</a>
 		

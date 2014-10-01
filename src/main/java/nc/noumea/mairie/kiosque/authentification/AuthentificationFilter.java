@@ -58,17 +58,20 @@ public class AuthentificationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
     	HttpSession hSess = ((HttpServletRequest)request).getSession();
-         
-    	if(null != hSess.getAttribute("currentUser")){
+    	
+    	if(null != hSess.getAttribute("currentUser")) {
     		chain.doFilter( request, response );
             return;
     	}
-        
+    	
         if(null == request.getRemoteUser() || "".equals(request.getRemoteUser().trim())) {
         	logger.debug("RemoteUser is NULL");
         	Session sess = Sessions.getCurrent();
     		sess.invalidate();
-    		
+    		hSess.invalidate();
+    		request.logout();
+        	response.sendError(HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED, "You are logged out.");
+        	chain.doFilter( request, response );
     		return;
         }
         
@@ -77,7 +80,8 @@ public class AuthentificationFilter implements Filter {
         	logger.debug("User not exist in Radi WS with RemoteUser : " + request.getRemoteUser());
         	Session sess = Sessions.getCurrent();
     		sess.invalidate();
-    		
+    		request.logout();
+    		chain.doFilter( request, response );
     		return;
         }
         ProfilAgentDto profilAgent = sirhWsConsumer.getEtatCivil(userDto.getEmployeeNumber());
@@ -86,7 +90,8 @@ public class AuthentificationFilter implements Filter {
         	logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
         	Session sess = Sessions.getCurrent();
     		sess.invalidate();
-    		
+    		request.logout();
+    		chain.doFilter( request, response );
     		return;
         }
         
