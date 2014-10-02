@@ -24,13 +24,39 @@ import org.apache.http.impl.auth.NTLMSchemeFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-@Service
+@Service("sharepointConsumer")
 public class SharepointService implements ISharepointService {
+
+	@Autowired
+	@Qualifier("sharepointBaseUrl")
+	private String sharepointBaseUrl;
+
+	@Autowired
+	@Qualifier("sharepointUser")
+	private String sharepointUser;
+
+	@Autowired
+	@Qualifier("sharepointUserPwd")
+	private String sharepointUserPwd;
+
+	@Autowired
+	@Qualifier("sharepointDomain")
+	private String sharepointDomain;
+
+	@Autowired
+	@Qualifier("sharepointPort")
+	private String sharepointPort;
+
+	@Autowired
+	@Qualifier("sharepointHost")
+	private String sharepointHost;
 
 	@Override
 	public List<SharepointDto> getAllEae(Integer idAgent) throws Exception {
@@ -86,11 +112,11 @@ public class SharepointService implements ISharepointService {
 		String urlRestSharepoint = "/kiosque-rh/_vti_bin/ListData.svc/EAE?$filter=MatriculeAgent+eq+'" + idAgent + "'";
 
 		HashMap<String, String> params = new HashMap<>();
-		params.put("userSharepoint", "sirhDroitEAE");
-		params.put("userPwdSharepoint", "fum2ndo5");
-		params.put("domainSharepoint", "SITE-MAIRIE");
-		params.put("urlSharepoint", "svq-sp");
-		params.put("portSharepoint", "80");
+		params.put("userSharepoint", sharepointUser);
+		params.put("userPwdSharepoint", sharepointUserPwd);
+		params.put("domainSharepoint", sharepointDomain);
+		params.put("urlSharepoint", sharepointHost);
+		params.put("portSharepoint", sharepointPort);
 		params.put("urlSharepointComplete", urlRestSharepoint);
 
 		HttpResponse res = null;
@@ -154,5 +180,20 @@ public class SharepointService implements ISharepointService {
 		}
 
 		return output;
+	}
+
+	@Override
+	public String getUrlEaeApprobateur() {
+		return sharepointBaseUrl + "kiosque-rh/_layouts/Noumea.RH.Eae/EAEList.aspx";
+	}
+
+	@Override
+	public String getUrlTableauBordApprobateur() {
+		return sharepointBaseUrl + "kiosque-rh/_layouts/Noumea.RH.Eae/EAETableauDeBord.aspx";
+	}
+
+	@Override
+	public String getUrlDocumentEAE() {
+		return sharepointBaseUrl + "kiosque-rh/EAE/";
 	}
 }

@@ -5,4 +5,10 @@ import java.util.List;
 public interface ISharepointService {
 
 	List<SharepointDto> getAllEae(Integer idAgent) throws Exception;
+
+	String getUrlEaeApprobateur();
+
+	String getUrlTableauBordApprobateur();
+
+	String getUrlDocumentEAE();
 }

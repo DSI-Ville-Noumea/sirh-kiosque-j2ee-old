@@ -1,8 +1,8 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
+import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.ws.ISharepointConsumer;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -25,7 +25,7 @@ public class MenuViewModel {
 	private ISirhWSConsumer sirhWsConsumer;
 
 	@WireVariable
-	private ISharepointConsumer sharepointConsumer;
+	private ISharepointService sharepointConsumer;
 
 	private AccessRightsDto droitsAbsence;
 

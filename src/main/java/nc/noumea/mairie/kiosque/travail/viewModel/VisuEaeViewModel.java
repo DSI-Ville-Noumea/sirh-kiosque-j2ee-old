@@ -1,6 +1,6 @@
 package nc.noumea.mairie.kiosque.travail.viewModel;
 
-import nc.noumea.mairie.ws.ISharepointConsumer;
+import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ExecutionArgParam;
@@ -13,7 +13,7 @@ public class VisuEaeViewModel {
 	private String url;
 
 	@WireVariable
-	private ISharepointConsumer sharepointConsumer;
+	private ISharepointService sharepointConsumer;
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("url") String url) {
