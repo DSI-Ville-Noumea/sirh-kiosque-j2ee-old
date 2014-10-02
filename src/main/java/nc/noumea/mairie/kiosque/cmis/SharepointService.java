@@ -64,7 +64,7 @@ public class SharepointService implements ISharepointService {
 		return transformeXmlEnListUrl(xml);
 	}
 
-	public List<SharepointDto> transformeXmlEnListUrl(String xml) {
+	private List<SharepointDto> transformeXmlEnListUrl(String xml) {
 		List<SharepointDto> result = new ArrayList<SharepointDto>();
 		try {
 
@@ -108,7 +108,6 @@ public class SharepointService implements ISharepointService {
 	}
 
 	private String recupereEaeSharepoint(Integer idAgent) throws Exception {
-
 		String urlRestSharepoint = "/kiosque-rh/_vti_bin/ListData.svc/EAE?$filter=MatriculeAgent+eq+'" + idAgent + "'";
 
 		HashMap<String, String> params = new HashMap<>();
@@ -131,7 +130,7 @@ public class SharepointService implements ISharepointService {
 		return readResponse(String.class, res, params.get("urlSharepointComplete"));
 	}
 
-	public HttpResponse createAndFireRequest(Map<String, String> parameters) throws ClientProtocolException,
+	private HttpResponse createAndFireRequest(Map<String, String> parameters) throws ClientProtocolException,
 			IOException {
 
 		DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -158,7 +157,7 @@ public class SharepointService implements ISharepointService {
 		return response1;
 	}
 
-	public <T> String readResponse(Class<T> targetClass, HttpResponse response, String url) throws Exception {
+	private <T> String readResponse(Class<T> targetClass, HttpResponse response, String url) throws Exception {
 
 		if (response.getStatusLine().getStatusCode() == HttpStatus.NO_CONTENT.value()) {
 			return null;

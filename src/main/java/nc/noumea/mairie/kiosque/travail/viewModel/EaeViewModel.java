@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.cmis.SharepointDto;
-import nc.noumea.mairie.kiosque.cmis.SharepointService;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -16,6 +16,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -25,12 +26,14 @@ public class EaeViewModel {
 
 	private ProfilAgentDto currentUser;
 
+	@WireVariable
+	private ISharepointService sharepointConsumer;
+
 	@Init
 	public void iniEaeAgent() throws Exception {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		SharepointService serv = new SharepointService();
-		List<SharepointDto> res = serv.getAllEae(currentUser.getAgent().getIdAgent());
+		List<SharepointDto> res = sharepointConsumer.getAllEae(currentUser.getAgent().getIdAgent());
 
 		// on tri la liste par année
 		Collections.sort(res, new Comparator<SharepointDto>() {

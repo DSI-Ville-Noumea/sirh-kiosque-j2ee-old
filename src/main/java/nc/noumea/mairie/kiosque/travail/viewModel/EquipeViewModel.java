@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.cmis.SharepointDto;
-import nc.noumea.mairie.kiosque.cmis.SharepointService;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
@@ -19,7 +19,6 @@ import nc.noumea.mairie.ws.ISirhWSConsumer;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
@@ -44,6 +43,9 @@ import org.zkoss.zul.Window;
 public class EquipeViewModel extends SelectorComposer<Component> {
 
 	private static final long serialVersionUID = 1L;
+
+	@WireVariable
+	private ISharepointService sharepointConsumer;
 
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
@@ -150,9 +152,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	@GlobalCommand
 	@NotifyChange("listeUrlEae")
 	public void chargeEAEAgent(@BindingParam("idAgent") Integer idAgent) throws Exception {
-		SharepointService serv = new SharepointService();
-
-		List<SharepointDto> res = serv.getAllEae(idAgent);
+		List<SharepointDto> res = sharepointConsumer.getAllEae(idAgent);
 
 		// on tri la liste par année
 		Collections.sort(res, new Comparator<SharepointDto>() {
