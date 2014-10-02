@@ -24,8 +24,6 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 
 @Component
@@ -66,8 +64,6 @@ public class AuthentificationFilter implements Filter {
     	
         if(null == request.getRemoteUser() || "".equals(request.getRemoteUser().trim())) {
         	logger.debug("RemoteUser is NULL");
-        	Session sess = Sessions.getCurrent();
-    		sess.invalidate();
     		hSess.invalidate();
     		request.logout();
         	response.sendError(HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED, "You are logged out.");
@@ -78,8 +74,6 @@ public class AuthentificationFilter implements Filter {
         LightUserDto userDto = radiWSConsumer.getAgentCompteADByLogin(request.getRemoteUser());
         if(null == userDto) {
         	logger.debug("User not exist in Radi WS with RemoteUser : " + request.getRemoteUser());
-        	Session sess = Sessions.getCurrent();
-    		sess.invalidate();
     		request.logout();
     		chain.doFilter( request, response );
     		return;
@@ -88,8 +82,6 @@ public class AuthentificationFilter implements Filter {
         
         if(null == profilAgent) {
         	logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
-        	Session sess = Sessions.getCurrent();
-    		sess.invalidate();
     		request.logout();
     		chain.doFilter( request, response );
     		return;

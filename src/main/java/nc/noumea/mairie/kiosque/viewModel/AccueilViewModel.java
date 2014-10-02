@@ -1,12 +1,8 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
-import nc.noumea.mairie.ws.IRadiWSConsumer;
-import nc.noumea.mairie.ws.ISirhWSConsumer;
-
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
