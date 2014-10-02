@@ -2,6 +2,7 @@ package nc.noumea.mairie.kiosque.viewModel;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.ws.ISharepointConsumer;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -23,17 +24,20 @@ public class MenuViewModel {
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
 
+	@WireVariable
+	private ISharepointConsumer sharepointConsumer;
+
 	private AccessRightsDto droitsAbsence;
 
 	private boolean droitsEae;
 
 	private ProfilAgentDto currentUser;
-	
+
 	@Init
 	public void initMenu() {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
 		setDroitsAbsence(droitsAbsence);
 		/* Pour les absences */
@@ -50,14 +54,13 @@ public class MenuViewModel {
 	@Command
 	public void eaeSharepoint(@BindingParam("ecran") Div div) {
 		div.getChildren().clear();
-		Executions.getCurrent().sendRedirect("http://svq-sp/kiosque-rh/_layouts/Noumea.RH.Eae/EAEList.aspx", "_blank");
+		Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlEaeApprobateur(), "_blank");
 	}
 
 	@Command
 	public void tableauBordSharepoint(@BindingParam("ecran") Div div) {
 		div.getChildren().clear();
-		Executions.getCurrent().sendRedirect("http://svq-sp/kiosque-rh/_layouts/Noumea.RH.Eae/EAETableauDeBord.aspx",
-				"_blank");
+		Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlTableauBordApprobateur(), "_blank");
 	}
 
 	public AccessRightsDto getDroitsAbsence() {
@@ -70,7 +73,7 @@ public class MenuViewModel {
 
 	public boolean isDroitsEae() {
 		return droitsEae;
-}
+	}
 
 	public void setDroitsEae(boolean droitsEae) {
 		this.droitsEae = droitsEae;
