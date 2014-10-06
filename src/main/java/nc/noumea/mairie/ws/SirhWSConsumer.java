@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
@@ -32,6 +33,8 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
 	private static final String sirhEstHabiliteEaeUrl = "eaes/estHabiliteEAE";
+	private static final String sirhReferentRHUrl = "referentRH/getListeReferentRH";
+	private static final String sirhAgentUrl = "agents/getAgent";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -127,6 +130,25 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<ReferentRhDto> getListeReferentRH() {
+		String url = String.format(sirhWsBaseUrl + sirhReferentRHUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(ReferentRhDto.class, res, url);
+	}
+
+	@Override
+	public AgentWithServiceDto getAgent(Integer idAgentReferent) {
+		String url = String.format(sirhWsBaseUrl + sirhAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgentReferent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(AgentWithServiceDto.class, res, url);
 	}
 
 }

@@ -3,6 +3,7 @@ package nc.noumea.mairie.ws;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
@@ -27,5 +28,9 @@ public interface ISirhWSConsumer {
 	List<AgentWithServiceDto> getListeAgentsMairie();
 
 	boolean estHabiliteEAE(Integer idAgent);
+
+	List<ReferentRhDto> getListeReferentRH();
+
+	AgentWithServiceDto getAgent(Integer idAgentReferent);
 
 }

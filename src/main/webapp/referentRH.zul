@@ -1,93 +1,38 @@
 <zk>
-	<window title="Contact RH" mode="modal" closable="true"
+	<window title="Vos référents RH" mode="modal" closable="true"
 		action="show: slideDown;hide: slideUp" width="600px"
-		onCancel="self.detach()">
+		onCancel="self.detach()" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.ReferentRHViewModel')">
 		<style>
-
 			.fond { background-color:#FFEBCD;padding-left:
 			10px;padding-top: 10px; padding-bottom: 10px;padding-right:
 			10px;}
+
+			.z-listitem {background-color: #fed89c;}
+
+			.z-listitem.z-listbox-odd { background-color: #FFEBCD;}
 		</style>
 		<div sclass="fond" height="100%">
-			<listbox mold="paging" pageSize="10" emptyMessage="Aucun élément">
+			<listbox mold="paging" pageSize="10"
+				model="@bind(vm.listeReferentRh)" emptyMessage="Aucun élément">
 				<custom-attributes
 					org.zkoss.zul.listbox.autoSort="true" />
 				<listhead>
-					<listheader label="Mon service" sort="auto" />
-					<listheader label="Mon référent RH" sort="auto" />
-					<listheader label="Mon contact" sort="auto" />
+					<listheader label="Mon service"
+						sort="auto('sigleService')" />
+					<listheader label="Mon référent RH"
+						sort="auto('prenomAgentReferent')" />
+					<listheader label="Mon contact"
+						sort="auto('numeroTelephone')" />
 				</listhead>
-				<listitem>
-					<listcell label="Cabinet du maire"
-						style="font-weight: bold;" />
-					<listcell label="Kelly" />
-					<listcell label="6228" />
-				</listitem>
-				<listitem>
-					<listcell label="DAEDU" style="font-weight: bold;" />
-					<listcell label="Kelly" />
-					<listcell label="6228" />
-				</listitem>
-				<listitem>
-					<listcell label="DASP" style="font-weight: bold;" />
-					<listcell label="Isabelle" />
-					<listcell label="6210" />
-				</listitem>
-				<listitem>
-					<listcell label="DASP-SAPEC" />
-					<listcell label="Kelly" />
-					<listcell label="6228" />
-				</listitem>
-				<listitem>
-					<listcell label="DASP-SC" />
-					<listcell label="Isabelle" />
-					<listcell label="6210" />
-				</listitem>
-				<listitem>
-					<listcell label="DASP-SE" />
-					<listcell label="Nadège" />
-					<listcell label="6222" />
-				</listitem>
-				<listitem>
-					<listcell label="DASP-SJC" />
-					<listcell label="Isabelle" />
-					<listcell label="6210" />
-				</listitem>
-				<listitem>
-					<listcell label="DASP-SVS" />
-					<listcell label="Sabrina" />
-					<listcell label="6281" />
-				</listitem>
-				<listitem>
-					<listcell label="DECV" style="font-weight: bold;" />
-					<listcell label="Isabelle" />
-					<listcell label="6210" />
-				</listitem>
-				<listitem>
-					<listcell label="DECV-ATM" />
-					<listcell label="Isabelle" />
-					<listcell label="6210" />
-				</listitem>
-				<listitem>
-					<listcell label="DECV-DEPEV" />
-					<listcell label="Isabelle" />
-					<listcell label="6210" />
-				</listitem>
-				<listitem>
-					<listcell label="DECV-SIPRES" />
-					<listcell label="Laury-Ann" />
-					<listcell label="6207" />
-				</listitem>
-				<listitem>
-					<listcell label="DF" style="font-weight: bold;" />
-					<listcell label="Laury-Ann" />
-					<listcell label="6207" />
-				</listitem>
-				<listitem>
-					<listcell label="DGST" style="font-weight: bold;" />
-					<listcell label="Nadège" />
-					<listcell label="6222" />
-				</listitem>
+				<template name="model">
+					<listitem>
+						<listcell label="@bind(each.sigleService)" />
+						<listcell
+							label="@bind(each.prenomAgentReferent)" />
+						<listcell label="@bind(each.numeroTelephone)" />
+					</listitem>
+				</template>
 			</listbox>
 		</div>
 	</window>
