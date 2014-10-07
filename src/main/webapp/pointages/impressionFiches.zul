@@ -12,25 +12,55 @@
 			<separator />
 			<separator />
 			<separator />
-			<hlayout width="100%" sclass="rechercheTableau2">
-				<div sclass="rechercheTableau">
-					Semaine...du ....au....
-					<combobox width="50px">
-						<comboitem value="5" label="5" />
-						<comboitem value="10" label="10" />
-						<comboitem value="15" label="15" />
-						<comboitem value="20" label="20" />
-					</combobox>
-					<space />
-					Services :
-					<combobox width="50px">
-						<comboitem value="5" label="5" />
-						<comboitem value="10" label="10" />
-						<comboitem value="15" label="15" />
-						<comboitem value="20" label="20" />
-					</combobox>
-				</div>
+			<div sclass="RHTitle2Line" />
+			<hlayout>
+				Semaine...du ....au....
+				<combobox width="50px">
+					<comboitem value="5" label="5" />
+					<comboitem value="10" label="10" />
+					<comboitem value="15" label="15" />
+					<comboitem value="20" label="20" />
+				</combobox>
+				<space />
+				Services :
+				<combobox width="50px">
+					<comboitem value="5" label="5" />
+					<comboitem value="10" label="10" />
+					<comboitem value="15" label="15" />
+					<comboitem value="20" label="20" />
+				</combobox>
 			</hlayout>
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<vlayout height="100%">
+				<hlayout width="100%" sclass="rechercheTableau2">
+					<div sclass="rechercheTableau">
+						Affichage de
+						<combobox width="50px"
+							selectedItem="@bind(vm.tailleListe)" readonly="true">
+							<comboitem value="5" label="5" />
+							<comboitem value="10" label="10" />
+							<comboitem value="15" label="15" />
+							<comboitem value="20" label="20" />
+						</combobox>
+						fiches par page
+						<space />
+						Recherche instantanée :
+						<textbox value="@bind(vm.filter)"
+							onChange="@command('doSearch')" instant="true" />
+					</div>
+				</hlayout>
+				<separator />
+				<div>
+					<div align="right">
+						<button label="Exp. PDF"
+							onClick="@command('exportPDF', ref=listeAgent)" />
+						<button label="Exp. Excel"
+							onClick="@command('exportExcel', ref=listeAgent)" />
+					</div>
+				</div>
+			</vlayout>
 			<div>
 				<div align="left">
 					<button id="EDITER" label="Editer" />
