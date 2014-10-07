@@ -2,5 +2,42 @@
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.viewModel.ImpressionFichesViewModel')"
 		height="100%">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Pointages" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Edition des fiches de pointages" />
+			</vlayout>
+			<separator />
+			<separator />
+			<separator />
+			<hlayout width="100%" sclass="rechercheTableau2">
+				<div sclass="rechercheTableau">
+					Semaine...du ....au....
+					<combobox width="50px">
+						<comboitem value="5" label="5" />
+						<comboitem value="10" label="10" />
+						<comboitem value="15" label="15" />
+						<comboitem value="20" label="20" />
+					</combobox>
+					<space />
+					Services :
+					<combobox width="50px">
+						<comboitem value="5" label="5" />
+						<comboitem value="10" label="10" />
+						<comboitem value="15" label="15" />
+						<comboitem value="20" label="20" />
+					</combobox>
+				</div>
+			</hlayout>
+			<div>
+				<div align="left">
+					<button id="EDITER" label="Editer" />
+				</div>
+			</div>
+		</div>
+		<include id="includeStyleMesDemandes"
+			src="/css/pointages/impressionFiches.zul" />
 	</window>
 </zk>
