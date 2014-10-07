@@ -1,6 +1,6 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
-public class AccessRightsDto {
+public class AccessRightsAbsDto {
 
 	private boolean saisie;
 	private boolean modification;

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
+import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
@@ -202,13 +202,13 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public AccessRightsDto getDroitsAbsenceAgent(Integer idAgent) {
+	public AccessRightsAbsDto getDroitsAbsenceAgent(Integer idAgent) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhDroitsAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponse(AccessRightsDto.class, res, url);
+		return readResponse(AccessRightsAbsDto.class, res, url);
 	}
 
 	@Override

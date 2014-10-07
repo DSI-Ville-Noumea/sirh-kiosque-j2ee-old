@@ -1,0 +1,6 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.agent.viewModel.SoldeAgentViewModel')"
+		height="100%">
+	</window>
+</zk>

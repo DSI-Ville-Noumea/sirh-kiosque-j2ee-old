@@ -1,9 +1,11 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
-import nc.noumea.mairie.kiosque.abs.dto.AccessRightsDto;
+import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
+import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -22,12 +24,19 @@ public class MenuViewModel {
 	private ISirhAbsWSConsumer absWsConsumer;
 
 	@WireVariable
+	private ISirhPtgWSConsumer ptgWsConsumer;
+
+	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
 
 	@WireVariable
 	private ISharepointService sharepointConsumer;
 
-	private AccessRightsDto droitsAbsence;
+	private AccessRightsAbsDto droitsAbsence;
+
+	private AccessRightsPtgDto droitsPointage;
+
+	private boolean droitsModulePointage;
 
 	private boolean droitsEae;
 
@@ -38,11 +47,18 @@ public class MenuViewModel {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-		AccessRightsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
-		setDroitsAbsence(droitsAbsence);
 		/* Pour les absences */
+		AccessRightsAbsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
+		setDroitsAbsence(droitsAbsence);
+		/* Pour les eaes */
 		boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(currentUser.getAgent().getIdAgent());
 		setDroitsEae(droitsEAe);
+		/* Pour les pointages */
+		AccessRightsPtgDto droitsPointage = ptgWsConsumer.getDroitsPointageAgent(currentUser.getAgent().getIdAgent());
+		setDroitsPointage(droitsPointage);
+		setDroitsModulePointage(getDroitsPointage().isApprobation() || getDroitsPointage().isFiches()
+				|| getDroitsPointage().isGestionDroitsAcces() || getDroitsPointage().isSaisie()
+				|| getDroitsPointage().isVisualisation());
 	}
 
 	@Command
@@ -63,11 +79,11 @@ public class MenuViewModel {
 		Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlTableauBordApprobateur(), "_blank");
 	}
 
-	public AccessRightsDto getDroitsAbsence() {
+	public AccessRightsAbsDto getDroitsAbsence() {
 		return droitsAbsence;
 	}
 
-	public void setDroitsAbsence(AccessRightsDto droitsAbsence) {
+	public void setDroitsAbsence(AccessRightsAbsDto droitsAbsence) {
 		this.droitsAbsence = droitsAbsence;
 	}
 
@@ -77,5 +93,21 @@ public class MenuViewModel {
 
 	public void setDroitsEae(boolean droitsEae) {
 		this.droitsEae = droitsEae;
+	}
+
+	public AccessRightsPtgDto getDroitsPointage() {
+		return droitsPointage;
+	}
+
+	public void setDroitsPointage(AccessRightsPtgDto droitsPointage) {
+		this.droitsPointage = droitsPointage;
+	}
+
+	public boolean isDroitsModulePointage() {
+		return droitsModulePointage;
+	}
+
+	public void setDroitsModulePointage(boolean droitsModulePointage) {
+		this.droitsModulePointage = droitsModulePointage;
 	}
 }

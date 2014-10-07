@@ -43,9 +43,11 @@
 						onClick="@command('changeEcran',page='/absences/compteurs/gestionCompteurs',ecran=content)" />
 				</menupopup>
 			</menu>
-			<menu tooltiptext="Mes pointages" sclass="pointageMenu">
+			<menu tooltiptext="Mes pointages" sclass="pointageMenu" visible="@bind(vm.droitsModulePointage)">
 				<menupopup>
 					<menuitem label="Pointages" sclass="titreMenu" />
+					<menuitem label="Fiches de pointage" visible="@bind(vm.droitsPointage.fiches)"
+						onClick="@command('changeEcran',page='/pointages/impressionFiches',ecran=content)" />
 					<menuitem label="Saisie hebdomadaire"
 						onClick="@command('changeEcran',page='/pointages/saisieHebdo',ecran=content)" />
 				</menupopup>
