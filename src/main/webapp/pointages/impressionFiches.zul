@@ -1,4 +1,9 @@
 <zk>
+	<script>
+		<![CDATA[ zk.afterLoad('zul.db', function(){
+		zul.db.Renderer.titleOfWeekOfYear = function (wgt) { return
+		'No.'; }; }); ]]>
+	</script>
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.viewModel.ImpressionFichesViewModel')"
 		height="100%">
@@ -13,23 +18,20 @@
 			<separator />
 			<separator />
 			<div sclass="RHTitle2Line" />
-			<hlayout>
+			<vlayout>
 				Semaine...du ....au....
-				<combobox width="50px">
-					<comboitem value="5" label="5" />
-					<comboitem value="10" label="10" />
-					<comboitem value="15" label="15" />
-					<comboitem value="20" label="20" />
-				</combobox>
+				<calendar id="cal" weekOfYear="true" onWeekClick="alert(event.data)" />
+				<datebox id="db" weekOfYear="true" />
 				<space />
-				Services :
-				<combobox width="50px">
-					<comboitem value="5" label="5" />
-					<comboitem value="10" label="10" />
-					<comboitem value="15" label="15" />
-					<comboitem value="20" label="20" />
+				<label value="Service :" />
+				<combobox width="200px" readonly="true"
+					model="@bind(vm.listeServicesFiltre)"
+					selectedItem="@bind(vm.serviceFiltre)">
+					<template name="model">
+						<comboitem label="@bind(each.service)" />
+					</template>
 				</combobox>
-			</hlayout>
+			</vlayout>
 			<separator />
 			<div sclass="RHTitle2Line" />
 			<separator />

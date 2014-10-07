@@ -2,16 +2,6 @@
 	
 	<![CDATA[
 
-	.ListAction.edit { background-position: -235px -229px; }
-
-	.ListAction.delete { background-position: -251px -229px; }
-
-	.ListAction.print { background-position: -299px -229px; }
-
-	.ListAction { background-image: url("img/Sprite.png");
-	background-repeat: no-repeat; cursor: pointer; display:
-	inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }
-
 	.rechercheTableau { background-image: url("img/SpriteV.png");
 	background-position: left top; background-repeat: repeat-x;}
 
