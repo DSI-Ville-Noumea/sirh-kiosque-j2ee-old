@@ -50,7 +50,7 @@
 						onClick="@command('changeEcran',page='/pointages/droits/gestionDroitsAcces',ecran=content)" />
 					<menuitem label="Fiches de pointage" visible="@bind(vm.droitsPointage.fiches)"
 						onClick="@command('changeEcran',page='/pointages/impressionFiches',ecran=content)" />
-					<menuitem label="Saisie hebdomadaire"
+					<menuitem label="Saisie hebdomadaire" visible="@bind(vm.droitsPointage.saisie)"
 						onClick="@command('changeEcran',page='/pointages/saisieHebdo',ecran=content)" />
 				</menupopup>
 			</menu>

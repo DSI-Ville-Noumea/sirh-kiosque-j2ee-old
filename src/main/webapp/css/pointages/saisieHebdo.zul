@@ -45,9 +45,6 @@
 
 	.alignHaut{vertical-align:top;}
 
-	.srcollDiv { overflow: auto; }
-
-
 	.z-loading { top: 50% !important; left: 45% !important; align:
 	center; vertical-align: middle; } 
 

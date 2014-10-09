@@ -137,6 +137,7 @@ public class ImpressionFichesViewModel {
 
 	private Date getLundi(Date dateLundi) {
 		Calendar c = Calendar.getInstance();
+		c.setTime(dateLundi);
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		return c.getTime();
 	}
