@@ -6,12 +6,10 @@ import nc.noumea.mairie.ws.ISirhWSConsumer;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class ProfilViewModel {
@@ -22,17 +20,17 @@ public class ProfilViewModel {
 	private ProfilAgentDto agentCourant;
 
 	private String sclassPhoto;
-	
+
 	private boolean showCouvertureSociale;
-	
+
 	private boolean showCompte;
-	
+
 	private boolean showEnfant;
-	
+
 	private boolean showContact;
-	
+
 	private boolean showAdresse;
-	
+
 	private boolean showBP;
 
 	@Init

@@ -29,6 +29,7 @@ public class ImpressionFichesViewModel {
 
 	private List<AgentDto> listeAgents;
 
+	@SuppressWarnings("unused")
 	private boolean isChecked;
 
 	private List<String> listeIdAgentsToPrint;
