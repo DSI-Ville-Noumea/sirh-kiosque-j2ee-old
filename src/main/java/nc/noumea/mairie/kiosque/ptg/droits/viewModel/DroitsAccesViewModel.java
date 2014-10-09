@@ -7,7 +7,7 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsDto;
+import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
@@ -36,37 +36,37 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 
 	@WireVariable
 	private ISirhPtgWSConsumer ptgWsConsumer;
-	
+
 	private List<AgentDto> listeAgents;
 
 	private List<AgentDto> listeDelegataire;
-	
+
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
-	
+
 	private boolean afficheAffecterAgent;
 	private Tab tabCourant;
-	
+
 	private ProfilAgentDto currentUser;
-	
+
 	@Init
 	public void initDroitsAccesPointage() {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
-		AccessRightsDto accessRightsDto = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent().getIdAgent());
-		
-		if(!accessRightsDto.isGestionDroitsAcces()) {
+
+		AccessRightsPtgDto accessRightsDto = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
+				.getIdAgent());
+
+		if (!accessRightsDto.isGestionDroitsAcces()) {
 			Executions.getCurrent().sendRedirect("401.jsp");
 		}
-		
+
 		setListeAgents(ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent()));
-		
+
 		setTailleListe("5");
 	}
 
-	
 	@Command
 	public void ajouterAgent() {
 		// on regarde dans quel onglet on est
@@ -79,14 +79,16 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("operateursExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent()).getSaisisseurs());
-			map.put("delegataireExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent()).getDelegataire());
+			map.put("operateursExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent())
+					.getSaisisseurs());
+			map.put("delegataireExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent())
+					.getDelegataire());
 			Window win = (Window) Executions.createComponents("/pointages/droits/ajoutOperateurApprobateur.zul", null,
 					map);
 			win.doModal();
 		}
 	}
-	
+
 	@GlobalCommand
 	@NotifyChange({ "listeAgents", "listeDelegataire" })
 	public void refreshListeAgent() {
@@ -112,20 +114,20 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			setAfficheAffecterAgent(true);
 		}
 	}
-	
-	@Command 
+
+	@Command
 	public void setTabDebut(@BindingParam("tab") Tab tab) {
 		setTabCourant(tab);
 	}
-	
+
 	@Command
 	@NotifyChange({ "listeAgents", "listeDelegataire" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
-		setListeAgents(null); 
+		setListeAgents(null);
 		setListeDelegataire(null);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
-		
+
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// on recupere les agents de l'approbateur
@@ -145,14 +147,15 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			setAfficheAffecterAgent(true);
 		}
 	}
-	
+
 	@Command
 	public void affecterAgent(@BindingParam("ref") AgentDto agent) {
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("OPERATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("agentsExistants", ptgWsConsumer.getAgentsSaisisOperateur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
+			map.put("agentsExistants",
+					ptgWsConsumer.getAgentsSaisisOperateur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
 			map.put("operateur", agent);
 			AgentDto approbateur = new AgentDto();
 			approbateur.setIdAgent(currentUser.getAgent().getIdAgent());
@@ -161,20 +164,22 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			win.doModal();
 		}
 	}
-	
+
 	@Command
 	public void ajouterDelegataire() {
 		if (getTabCourant().getId().equals("OPERATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("operateursExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent()).getSaisisseurs());
-			map.put("delegataireExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent()).getDelegataire());
-			Window win = (Window) Executions.createComponents("/pointages/droits/ajoutDelegataireApprobateur.zul", null,
-					map);
+			map.put("operateursExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent())
+					.getSaisisseurs());
+			map.put("delegataireExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent())
+					.getDelegataire());
+			Window win = (Window) Executions.createComponents("/pointages/droits/ajoutDelegataireApprobateur.zul",
+					null, map);
 			win.doModal();
 		}
 	}
-	
+
 	@Command
 	@NotifyChange({ "listeAgents" })
 	public void supprimerAgent(@BindingParam("ref") AgentDto agentASupprimer) {
@@ -185,7 +190,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			supprimerOperateursApprobateurs(agentASupprimer);
 		}
 	}
-	
+
 	private void supprimerDelegataireApprobateurs(AgentDto agentDelegataireASupprimer) {
 		// on recupere tous le délagatire de l'approbateurs et on supprime
 		// l'entree
@@ -261,7 +266,8 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			getListeAgents().remove(agentASupprimer);
 		}
 
-		ReturnMessageDto result = ptgWsConsumer.saveApprovedAgents(currentUser.getAgent().getIdAgent(), getListeAgents());
+		ReturnMessageDto result = ptgWsConsumer.saveApprovedAgents(currentUser.getAgent().getIdAgent(),
+				getListeAgents());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -284,7 +290,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			refreshListeAgent();
 		}
 	}
-	
+
 	@Command
 	@NotifyChange({ "listeDelegataire" })
 	public void supprimerDelegataire(@BindingParam("ref") AgentDto agentDelegataireASupprimer) {
@@ -318,35 +324,28 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		this.tailleListe = tailleListe;
 	}
 
-
 	public boolean isAfficheAffecterAgent() {
 		return afficheAffecterAgent;
 	}
-
 
 	public void setAfficheAffecterAgent(boolean afficheAffecterAgent) {
 		this.afficheAffecterAgent = afficheAffecterAgent;
 	}
 
-
 	public Tab getTabCourant() {
 		return tabCourant;
 	}
-
 
 	public void setTabCourant(Tab tabCourant) {
 		this.tabCourant = tabCourant;
 	}
 
-
 	public List<AgentDto> getListeDelegataire() {
 		return listeDelegataire;
 	}
 
-
 	public void setListeDelegataire(List<AgentDto> listeDelegataire) {
 		this.listeDelegataire = listeDelegataire;
 	}
-	
-	
+
 }

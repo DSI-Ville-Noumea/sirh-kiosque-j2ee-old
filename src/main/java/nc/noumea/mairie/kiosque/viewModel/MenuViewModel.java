@@ -54,7 +54,8 @@ public class MenuViewModel {
 		boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(currentUser.getAgent().getIdAgent());
 		setDroitsEae(droitsEAe);
 		/* Pour les pointages */
-		AccessRightsPtgDto droitsPointage = ptgWsConsumer.getDroitsPointageAgent(currentUser.getAgent().getIdAgent());
+		AccessRightsPtgDto droitsPointage = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
+				.getIdAgent());
 		setDroitsPointage(droitsPointage);
 		setDroitsModulePointage(getDroitsPointage().isApprobation() || getDroitsPointage().isFiches()
 				|| getDroitsPointage().isGestionDroitsAcces() || getDroitsPointage().isSaisie()
