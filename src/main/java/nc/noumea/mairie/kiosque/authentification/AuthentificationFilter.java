@@ -67,7 +67,6 @@ public class AuthentificationFilter implements Filter {
     		hSess.invalidate();
     		request.logout();
         	response.sendError(HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED, "You are logged out.");
-        	chain.doFilter( request, response );
     		return;
         }
         
@@ -75,15 +74,21 @@ public class AuthentificationFilter implements Filter {
         if(null == userDto) {
         	logger.debug("User not exist in Radi WS with RemoteUser : " + request.getRemoteUser());
     		request.logout();
-    		chain.doFilter( request, response );
     		return;
         }
+        
+        if(0 == userDto.getEmployeeNumber()) {
+        	logger.debug("User not exist in Radi WS with RemoteUser : " + request.getRemoteUser());
+        	response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Vous n'êtes pas un agent de la mairie, vous n'êtes pas autorisé à accéder à cette application.");
+    		return;
+        }
+        
         ProfilAgentDto profilAgent = sirhWsConsumer.getEtatCivil(userDto.getEmployeeNumber());
         
         if(null == profilAgent) {
         	logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
     		request.logout();
-    		chain.doFilter( request, response );
     		return;
         }
         

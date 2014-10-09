@@ -1,0 +1,88 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer,nc.noumea.mairie.kiosque.ptg.droits.viewModel.DroitsAccesViewModel"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.droits.viewModel.DroitsAccesViewModel')"
+		height="100%">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Pointages" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Droits d'accès" />
+			</vlayout>
+			<separator />
+			<tabbox id="tb"
+				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
+				<tabs id="tabs">
+					<tab id="APPROBATEUR" label="Agents à approuver"
+						onClick="@command('changeVue',tab = APPROBATEUR)" />
+					<tab id="OPERATEUR" label="Opérateurs et délégataire"
+						onClick="@command('changeVue',tab = OPERATEUR)" />
+				</tabs>
+						
+				<tabpanels>
+					<tabpanel>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<include
+							src="/pointages/droits/tableauAgent.zul" />
+					</tabpanel>
+					<tabpanel>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<div sclass="RHTitle2">
+							<label value="Mes Opérateurs" />
+						</div>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<include
+							src="/pointages/droits/tableauAgent.zul" />
+						<separator />
+						<separator />
+						<separator />
+						<div sclass="RHTitle2">
+							<label value="Mon Délégataire" />
+						</div>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<vlayout height="100%">
+							<listbox model="@bind(vm.listeDelegataire)"
+								emptyMessage="Aucun élément" id="delegataire">
+								<custom-attributes
+									org.zkoss.zul.listbox.autoSort="true" />
+								<listhead>
+									<listheader label="Nom" sort="none" />
+									<listheader label="Prénom"
+										sort="none" align="center" />
+									<listheader label="" sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell
+											label="@bind(each.nom)" />
+										<listcell
+											label="@bind(each.prenom)" />
+										<listcell>
+											<hlayout>
+												<image
+													tooltiptext="Supprimer l'agent" sclass="ListAction delete"
+													onClick="@command('supprimerDelegataire', ref=each)" />
+											</hlayout>
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div>
+								<div align="left">
+									<button label="Changer"
+										onClick="@command('ajouterDelegataire')" />
+								</div>
+							</div>
+						</vlayout>
+					</tabpanel>
+				</tabpanels>
+			</tabbox>
+		</div>
+		<include id="includeStyleDroitsAcces"
+			src="/css/pointages/gestionDroitsAcces.zul" />
+	</window>
+</zk>

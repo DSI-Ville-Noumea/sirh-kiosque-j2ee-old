@@ -46,6 +46,8 @@
 			<menu tooltiptext="Mes pointages" sclass="pointageMenu" visible="@bind(vm.droitsModulePointage)">
 				<menupopup>
 					<menuitem label="Pointages" sclass="titreMenu" />
+					<menuitem label="Droits d'accès" visible="@bind(vm.droitsPointage.gestionDroitsAcces)"
+						onClick="@command('changeEcran',page='/pointages/droits/gestionDroitsAcces',ecran=content)" />
 					<menuitem label="Fiches de pointage" visible="@bind(vm.droitsPointage.fiches)"
 						onClick="@command('changeEcran',page='/pointages/impressionFiches',ecran=content)" />
 					<menuitem label="Saisie hebdomadaire"
