@@ -72,6 +72,7 @@
 		<zk.version>7.0.3</zk.version>
 		<aspectj.version>1.7.4</aspectj.version>
 		<chemistry.version>0.10.0</chemistry.version>
+		<tomcat.version>7.0.55</tomcat.version>
 	</properties>
 
 	<issueManagement>
@@ -186,6 +187,13 @@
 			<groupId>org.zkoss.poi</groupId>
 			<artifactId>zpoi</artifactId>
 			<version>3.8.1</version>
+			<!-- dependance en doublon dans chemistry-opencmis-commons-impl -->
+			<exclusions>
+				<exclusion>
+					<groupId>stax</groupId>
+					<artifactId>stax-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.zkoss.poi</groupId>
@@ -287,33 +295,38 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-catalina</artifactId>
-			<version>7.0.55</version>
+			<version>${tomcat.version}</version>
   			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-api</artifactId>
-			<version>7.0.55</version>
+			<version>${tomcat.version}</version>
+  			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>
-			<version>7.0.55</version>
+			<version>${tomcat.version}</version>
+  			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-util</artifactId>
-			<version>7.0.55</version>
+			<version>${tomcat.version}</version>
+  			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-juli</artifactId>
-			<version>7.0.55</version>
+			<version>${tomcat.version}</version>
+  			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-annotations-api</artifactId>
-			<version>7.0.55</version>
+			<version>${tomcat.version}</version>
+  			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
