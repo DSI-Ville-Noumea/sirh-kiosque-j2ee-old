@@ -1,6 +1,8 @@
 package nc.noumea.mairie.kiosque.ptg.viewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class ImpressionFichesViewModel {
 	/* POUR LES FILTRES */
 	private List<ServiceDto> listeServicesFiltre;
 	private ServiceDto serviceFiltre;
+	private String dateFiltre;
 
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
@@ -50,15 +53,51 @@ public class ImpressionFichesViewModel {
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		setTailleListe("5");
+		setDateFiltre("Semaine ... du ... au ...");
 	}
 
 	@Command
 	@NotifyChange({ "listeAgents" })
+	public void doSearch() {
+		List<AgentDto> list = new ArrayList<AgentDto>();
+		if (getFilter() != null && !"".equals(getFilter())) {
+			for (AgentDto item : getListeAgents()) {
+				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getPrenom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+			}
+			setListeAgents(list);
+		} else {
+			afficheListeFiche();
+		}
+	}
+
+	@Command
+	@NotifyChange({ "listeAgents", "dateFiltre" })
 	public void afficheListeFiche() {
-		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = ptgWsConsumer.getFichesToPrint(currentUser.getAgent().getIdAgent(),
-				getServiceFiltre().getCodeService());
-		setListeAgents(filtreAgent);
+		if (getDateLundi() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			Calendar c = Calendar.getInstance();
+			c.setTime(getDateLundi());
+			String numSemaine = String.valueOf(c.get(Calendar.WEEK_OF_YEAR));
+			c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			String lundi = sdf.format(c.getTime());
+			c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+			String dimanche = sdf.format(c.getTime());
+
+			setDateFiltre("Semaine " + numSemaine + " du " + lundi + " au " + dimanche);
+		}
+		if (getServiceFiltre() != null && getDateLundi() != null) {
+			// on charge les agents pour les filtres
+			List<AgentDto> filtreAgent = ptgWsConsumer.getFichesToPrint(currentUser.getAgent().getIdAgent(),
+					getServiceFiltre().getCodeService());
+			setListeAgents(filtreAgent);
+		}
 	}
 
 	@Command
@@ -91,9 +130,15 @@ public class ImpressionFichesViewModel {
 	@Command
 	public void imprimerFiches() {
 		// on imprime la demande
-		byte[] resp = ptgWsConsumer.imprimerFiches(currentUser.getAgent().getIdAgent(), getDateLundi(),
+		byte[] resp = ptgWsConsumer.imprimerFiches(currentUser.getAgent().getIdAgent(), getLundi(getDateLundi()),
 				getListeIdAgentsToPrint());
 		Filedownload.save(resp, "application/pdf", "fichesPointage");
+	}
+
+	private Date getLundi(Date dateLundi) {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		return c.getTime();
 	}
 
 	public boolean checked(Integer idAgent) {
@@ -169,5 +214,13 @@ public class ImpressionFichesViewModel {
 
 	public void setChecked(boolean isChecked) {
 		this.isChecked = isChecked;
+	}
+
+	public String getDateFiltre() {
+		return dateFiltre;
+	}
+
+	public void setDateFiltre(String dateFiltre) {
+		this.dateFiltre = dateFiltre;
 	}
 }

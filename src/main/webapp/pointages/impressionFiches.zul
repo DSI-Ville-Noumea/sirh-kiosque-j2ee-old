@@ -13,10 +13,11 @@
 			<separator />
 			<separator />
 			<div sclass="RHTitle2Line" />
-			<vlayout>
-				Semaine...du ....au....
-				<!-- <calendar id="cal" weekOfYear="true" onWeekClick="alert(event.data)" /> -->
-				<!-- <datebox id="db" weekOfYear="true" /> -->
+			<hlayout>
+				<label value="@bind(vm.dateFiltre)" />
+				<datebox value="@bind(vm.dateLundi)" id="db"
+					format="dd/MM/yyyy" locale="fr"
+					onChange="@command('afficheListeFiche')" />
 				<space />
 				<label value="Service :" />
 				<combobox width="200px" readonly="true"
@@ -27,7 +28,7 @@
 						<comboitem label="@bind(each.service)" />
 					</template>
 				</combobox>
-			</vlayout>
+			</hlayout>
 			<separator />
 			<div sclass="RHTitle2Line" />
 			<separator />
@@ -51,8 +52,8 @@
 				</hlayout>
 				<separator />
 				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
-					model="@bind(vm.listeAgents)" 
-					emptyMessage="Aucun élément" id="listeAgent">
+					model="@bind(vm.listeAgents)" emptyMessage="Aucun élément"
+					id="listeAgent">
 					<custom-attributes
 						org.zkoss.zul.listbox.autoSort="true" />
 					<listhead>
@@ -61,7 +62,8 @@
 						<listheader label="Agent" sort="auto('nom')" />
 						<listheader>
 							<label value="A éditer" />
-							<checkbox visible="@bind(not empty vm.listeAgents)"
+							<checkbox
+								visible="@bind(not empty vm.listeAgents)"
 								onClick="@command('checkAllImpressionFiche', checkbox=self)" />
 						</listheader>
 					</listhead>
