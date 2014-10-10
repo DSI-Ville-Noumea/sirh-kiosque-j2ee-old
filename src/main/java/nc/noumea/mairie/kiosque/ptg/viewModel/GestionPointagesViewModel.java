@@ -9,11 +9,14 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
+import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -43,6 +46,8 @@ public class GestionPointagesViewModel {
 
 	private ConsultPointageDto pointageCourant;
 
+	private AccessRightsPtgDto droitsPointage;
+
 	/* POUR LES FILTRES */
 	private List<ServiceDto> listeServicesFiltre;
 	private ServiceDto serviceFiltre;
@@ -62,6 +67,10 @@ public class GestionPointagesViewModel {
 	@Init
 	public void initGestionPointages() {
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+		/* Pour les pointages */
+		AccessRightsPtgDto droitsPointage = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
+				.getIdAgent());
+		setDroitsPointage(droitsPointage);
 		// on charge les service pour les filtres
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
@@ -178,6 +187,119 @@ public class GestionPointagesViewModel {
 		out.close();
 	}
 
+	@Command
+	@NotifyChange({ "listePointages" })
+	public void approuverAllPointage() {
+		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
+		for (ConsultPointageDto ptg : getListePointages()) {
+			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+			dto.setIdPointage(ptg.getIdPointage());
+			dto.setIdRefEtat(EtatPointageEnum.APPROUVE.getCodeEtat());
+			listeChangeEtat.add(dto);
+		}
+
+		sauvegardeEtatPointage(listeChangeEtat);
+
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listePointages" })
+	public void refuserAllPointage() {
+		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
+		for (ConsultPointageDto ptg : getListePointages()) {
+			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+			dto.setIdPointage(ptg.getIdPointage());
+			dto.setIdRefEtat(EtatPointageEnum.REFUSE.getCodeEtat());
+			listeChangeEtat.add(dto);
+		}
+
+		sauvegardeEtatPointage(listeChangeEtat);
+
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listePointages" })
+	public void attenteAllPointage() {
+		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
+		for (ConsultPointageDto ptg : getListePointages()) {
+			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+			dto.setIdPointage(ptg.getIdPointage());
+			dto.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+			listeChangeEtat.add(dto);
+		}
+
+		sauvegardeEtatPointage(listeChangeEtat);
+
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listePointages" })
+	public void approuverPointage(@BindingParam("ref") ConsultPointageDto pointage) {
+		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
+		PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+		dto.setIdPointage(pointage.getIdPointage());
+		dto.setIdRefEtat(EtatPointageEnum.APPROUVE.getCodeEtat());
+		listeChangeEtat.add(dto);
+
+		sauvegardeEtatPointage(listeChangeEtat);
+
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listePointages" })
+	public void refuserPointage(@BindingParam("ref") ConsultPointageDto pointage) {
+		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
+		PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+		dto.setIdPointage(pointage.getIdPointage());
+		dto.setIdRefEtat(EtatPointageEnum.REFUSE.getCodeEtat());
+		listeChangeEtat.add(dto);
+
+		sauvegardeEtatPointage(listeChangeEtat);
+
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listePointages" })
+	public void attentePointage(@BindingParam("ref") ConsultPointageDto pointage) {
+		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
+		PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+		dto.setIdPointage(pointage.getIdPointage());
+		dto.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+		listeChangeEtat.add(dto);
+
+		sauvegardeEtatPointage(listeChangeEtat);
+
+		filtrer();
+	}
+
+	private void sauvegardeEtatPointage(List<PointagesEtatChangeDto> listeChangeEtat) {
+		ReturnMessageDto result = ptgWsConsumer.changerEtatPointage(currentUser.getAgent().getIdAgent(),
+				listeChangeEtat);
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		// ici la liste info est toujours vide alors on ajoute un message
+		if (result.getErrors().size() == 0)
+			result.getInfos().add("Mise à jour des pointages correctement effectuée.");
+		for (String error : result.getErrors()) {
+			ValidationMessage vm = new ValidationMessage(error);
+			listErreur.add(vm);
+		}
+		for (String info : result.getInfos()) {
+			ValidationMessage vm = new ValidationMessage(info);
+			listInfo.add(vm);
+		}
+		map.put("errors", listErreur);
+		map.put("infos", listInfo);
+		Executions.createComponents("/messages/returnMessage.zul", null, map);
+	}
+
 	public String getFilter() {
 		return filter;
 	}
@@ -288,5 +410,13 @@ public class GestionPointagesViewModel {
 
 	public void setPointageCourant(ConsultPointageDto pointageCourant) {
 		this.pointageCourant = pointageCourant;
+	}
+
+	public AccessRightsPtgDto getDroitsPointage() {
+		return droitsPointage;
+	}
+
+	public void setDroitsPointage(AccessRightsPtgDto droitsPointage) {
+		this.droitsPointage = droitsPointage;
 	}
 }

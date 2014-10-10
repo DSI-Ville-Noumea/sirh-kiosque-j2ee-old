@@ -12,6 +12,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
@@ -35,6 +36,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 	/* Gestion des pointages */
 	private static final String ptgListePointagesUrl = "visualisation/pointages";
+	private static final String ptgChangeEtatPointageUrl = "visualisation/changerEtats";
 
 	/* Filtres */
 	private static final String ptgServicesKiosqueUrl = "filtres/services";
@@ -247,6 +249,18 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(ConsultPointageDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto changerEtatPointage(Integer idAgent, List<PointagesEtatChangeDto> listeChangeEtat) {
+		String url = String.format(sirhPtgWsBaseUrl + ptgChangeEtatPointageUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").deepSerialize(listeChangeEtat);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 }

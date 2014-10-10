@@ -112,6 +112,26 @@
 						<listheader label="Etat" sort="none" />
 						<listheader label="Date de saisie"
 							sort="auto('dateSaisie')" />
+						<listheader
+							visible="@bind(vm.droitsPointage.approbation)">
+							<hlayout>
+								<image
+									tooltiptext="Accepter tous les pointages"
+									sclass="ListAction accept"
+									visible="@bind(vm.droitsPointage.approbation)"
+									onClick="@command('approuverAllPointage')" />
+								<image
+									tooltiptext="Refuser tous les pointages"
+									sclass="ListAction delete"
+									visible="@bind(vm.droitsPointage.approbation)"
+									onClick="@command('refuserAllPointage')" />
+								<image
+									tooltiptext="Re-mettre en saisie tous les pointages"
+									sclass="ListAction delay"
+									visible="@bind(vm.droitsPointage.approbation)"
+									onClick="@command('attenteAllPointage')" />
+							</hlayout>
+						</listheader>
 					</listhead>
 
 					<template name="model">
@@ -128,7 +148,7 @@
 							<listcell label="@bind(each.quantite)" />
 							<listcell>
 								<label value="@bind(each.motif)" />
-								<label value=" - "/>
+								<label value=" - " />
 								<label value="@bind(each.commentaire)" />
 							</listcell>
 							<listcell
@@ -137,6 +157,23 @@
 								label="@bind(vm.etatToString(each.idRefEtat))" />
 							<listcell
 								label="@bind(vm.dateSaisieToString(each.dateSaisie))" />
+							<listcell
+								visible="@bind(vm.droitsPointage.approbation)">
+								<hlayout>
+									<image
+										tooltiptext="Accepter le pointage" sclass="ListAction accept"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('approuverPointage',ref=each)" />
+									<image
+										tooltiptext="Refuser le pointage" sclass="ListAction delete"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('refuserPointage',ref=each)" />
+									<image
+										tooltiptext="Re-mettre en saisie le pointage" sclass="ListAction delay"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('attentePointage',ref=each)" />
+								</hlayout>
+							</listcell>
 						</listitem>
 					</template>
 				</listbox>
@@ -151,7 +188,7 @@
 			</vlayout>
 		</div>
 		<include id="includeStyleDroits"
-			src="/css/absences/gestionDemandes.zul" />
+			src="/css/pointages/gestionPointages.zul" />
 	</window>
 </zk>
 
