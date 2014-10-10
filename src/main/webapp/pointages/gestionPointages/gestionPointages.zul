@@ -128,6 +128,7 @@
 							<listcell label="@bind(each.quantite)" />
 							<listcell>
 								<label value="@bind(each.motif)" />
+								<label value=" - "/>
 								<label value="@bind(each.commentaire)" />
 							</listcell>
 							<listcell
@@ -135,7 +136,7 @@
 							<listcell
 								label="@bind(vm.etatToString(each.idRefEtat))" />
 							<listcell
-								label="@bind(each.dateSaisie) @converter('formatedDate',format='dd/MM/yyyy')" />
+								label="@bind(vm.dateSaisieToString(each.dateSaisie))" />
 						</listitem>
 					</template>
 				</listbox>

@@ -1,6 +1,7 @@
 package nc.noumea.mairie.kiosque.ptg.viewModel;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -132,6 +133,12 @@ public class GestionPointagesViewModel {
 		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser.getAgent().getIdAgent(),
 				getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
+	}
+
+	public String dateSaisieToString(Date dateSaisie) {
+		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
+		return sdfJour.format(dateSaisie) + " à " + sdfHeure.format(dateSaisie);
 	}
 
 	public String etatToString(Integer idRefEtat) {
