@@ -73,7 +73,7 @@ public class GestionPointagesViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeDemandes" })
+	@NotifyChange({ "listePointages" })
 	public void filtrer() {
 		if (IsFiltreValid()) {
 			List<ConsultPointageDto> result = ptgWsConsumer.getListePointages(currentUser.getAgent().getIdAgent(),
