@@ -139,8 +139,7 @@
 						<listitem>
 							<listcell>
 								<image
-									tooltiptext="Historique du pointage" sclass="ListAction open"
-									 />
+									tooltiptext="Historique du pointage" sclass="ListAction open" />
 							</listcell>
 							<listcell
 								label="@bind(vm.concatAgentNomatr(each.agent))" />
