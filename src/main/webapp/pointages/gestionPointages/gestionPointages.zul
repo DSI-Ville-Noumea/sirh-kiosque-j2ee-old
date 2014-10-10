@@ -96,6 +96,7 @@
 					<custom-attributes
 						org.zkoss.zul.listbox.autoSort="true" />
 					<listhead>
+						<listheader label="" sort="none" />
 						<listheader label="Agent"
 							sort="auto('agent.nom')" />
 						<listheader label="Type"
@@ -136,6 +137,11 @@
 
 					<template name="model">
 						<listitem>
+							<listcell>
+								<image
+									tooltiptext="Historique du pointage" sclass="ListAction open"
+									 />
+							</listcell>
 							<listcell
 								label="@bind(vm.concatAgentNomatr(each.agent))" />
 							<listcell label="@bind(each.typePointage)" />
@@ -169,7 +175,8 @@
 										visible="@bind(vm.droitsPointage.approbation)"
 										onClick="@command('refuserPointage',ref=each)" />
 									<image
-										tooltiptext="Re-mettre en saisie le pointage" sclass="ListAction delay"
+										tooltiptext="Re-mettre en saisie le pointage"
+										sclass="ListAction delay"
 										visible="@bind(vm.droitsPointage.approbation)"
 										onClick="@command('attentePointage',ref=each)" />
 								</hlayout>
