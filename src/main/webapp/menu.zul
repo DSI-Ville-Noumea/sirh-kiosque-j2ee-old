@@ -51,7 +51,9 @@
 					<menuitem label="Fiches de pointage" visible="@bind(vm.droitsPointage.fiches)"
 						onClick="@command('changeEcran',page='/pointages/impressionFiches',ecran=content)" />
 					<menuitem label="Saisie hebdomadaire" visible="@bind(vm.droitsPointage.saisie)"
-						onClick="@command('changeEcran',page='/pointages/saisieHebdo',ecran=content)" />
+						onClick="@command('changeEcran',page='/pointages/saisie/saisieHebdo',ecran=content)" />
+					<menuitem label="Visualisation / Validation" visible="@bind(vm.droitsPointage.approbation ||vm.droitsPointage.visualisation )"
+						onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content)" />
 				</menupopup>
 			</menu>
 		</menubar>

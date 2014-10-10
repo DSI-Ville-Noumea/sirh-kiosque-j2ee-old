@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
@@ -55,8 +55,8 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	private RefGroupeAbsenceDto groupeAbsenceFiltre;
 	private List<RefTypeAbsenceDto> listeTypeAbsenceFiltre;
 	private RefTypeAbsenceDto typeAbsenceFiltre;
-	private List<RefEtatDto> listeEtatAbsenceFiltre;
-	private RefEtatDto etatAbsenceFiltre;
+	private List<RefEtatAbsenceDto> listeEtatAbsenceFiltre;
+	private RefEtatAbsenceDto etatAbsenceFiltre;
 	private Date dateDebutFiltre;
 	private Date dateFinFiltre;
 	private Date dateDemandeFiltre;
@@ -77,7 +77,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
 
 		// on recharge les états d'absences pour les filtres
-		List<RefEtatDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
+		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
 		setListeEtatAbsenceFiltre(filtreEtat);
 		setTailleListe("5");
 	}
@@ -95,7 +95,7 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	public void changeVue(@BindingParam("tab") Tab tab) {
 		setListeDemandes(null);
 		// on recharge les états d'absences pour les filtres
-		List<RefEtatDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
+		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
 		setListeEtatAbsenceFiltre(filtreEtat);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
@@ -282,19 +282,19 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		this.listeTypeAbsenceFiltre = listeTypeAbsenceFiltre;
 	}
 
-	public List<RefEtatDto> getListeEtatAbsenceFiltre() {
+	public List<RefEtatAbsenceDto> getListeEtatAbsenceFiltre() {
 		return listeEtatAbsenceFiltre;
 	}
 
-	public void setListeEtatAbsenceFiltre(List<RefEtatDto> listeEtatAbsenceFiltre) {
+	public void setListeEtatAbsenceFiltre(List<RefEtatAbsenceDto> listeEtatAbsenceFiltre) {
 		this.listeEtatAbsenceFiltre = listeEtatAbsenceFiltre;
 	}
 
-	public RefEtatDto getEtatAbsenceFiltre() {
+	public RefEtatAbsenceDto getEtatAbsenceFiltre() {
 		return etatAbsenceFiltre;
 	}
 
-	public void setEtatAbsenceFiltre(RefEtatDto etatAbsenceFiltre) {
+	public void setEtatAbsenceFiltre(RefEtatAbsenceDto etatAbsenceFiltre) {
 		this.etatAbsenceFiltre = etatAbsenceFiltre;
 	}
 

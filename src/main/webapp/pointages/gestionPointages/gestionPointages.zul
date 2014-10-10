@@ -1,0 +1,152 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.viewModel.GestionPointagesViewModel')"
+		height="100%">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Pointages" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Visualisation / Validation" />
+			</vlayout>
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<vlayout>
+				<hlayout>
+					<label value="Filtres obligatoires" />
+					<label value="du : " />
+					<datebox format="dd/MM/yyyy"
+						value="@bind(vm.dateDebutFiltre)" />
+					<label value="au : " />
+					<datebox format="dd/MM/yyyy"
+						value="@bind(vm.dateFinFiltre)" />
+					<label value="Service :" />
+					<combobox width="200px" readonly="true"
+						model="@bind(vm.listeServicesFiltre)"
+						selectedItem="@bind(vm.serviceFiltre)"
+						onSelect="@command('afficheListeAgent')">
+						<template name="model">
+							<comboitem label="@bind(each.service)" />
+						</template>
+					</combobox>
+				</hlayout>
+				<hlayout>
+					<label value="Filtres optionnels" />
+					<label value="Etat :" />
+					<combobox readonly="true" width="100px"
+						model="@bind(vm.listeEtatPointageFiltre)"
+						selectedItem="@bind(vm.etatPointageFiltre)">
+						<template name="model">
+							<comboitem label="@bind(each.libelle)" />
+						</template>
+					</combobox>
+					<label value="Type :" />
+					<combobox readonly="true" width="100px"
+						model="@bind(vm.listeTypePointageFiltre)"
+						selectedItem="@bind(vm.typePointageFiltre)">
+						<template name="model">
+							<comboitem label="@bind(each.libelle)" />
+						</template>
+					</combobox>
+					<label value="Agent :" />
+					<combobox width="200px" readonly="true"
+						model="@bind(vm.listeAgentsFiltre)"
+						selectedItem="@bind(vm.agentFiltre)">
+						<template name="model">
+							<comboitem
+								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+						</template>
+					</combobox>
+				</hlayout>
+				<hlayout>
+					<button label="Vider"
+						onClick="@command('viderFiltre')" />
+					<button label="Filtrer"
+						onClick="@command('filtrer')" />
+				</hlayout>
+			</vlayout>
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<vlayout height="100%">
+				<hlayout width="100%" sclass="rechercheTableau2">
+					<div sclass="rechercheTableau">
+						Affichage de
+						<combobox width="50px"
+							selectedItem="@bind(vm.tailleListe)" readonly="true">
+							<comboitem value="5" label="5" />
+							<comboitem value="10" label="10" />
+							<comboitem value="15" label="15" />
+							<comboitem value="20" label="20" />
+						</combobox>
+						pointages par page
+						<space />
+						Recherche instantanée :
+						<textbox value="@bind(vm.filter)"
+							onChange="@command('doSearch')" instant="true" />
+					</div>
+				</hlayout>
+				<separator />
+				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
+					model="@bind(vm.listePointages)"
+					selectedItem="@bind(vm.pointageCourant)"
+					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage"
+					id="listePointages">
+					<custom-attributes
+						org.zkoss.zul.listbox.autoSort="true" />
+					<listhead>
+						<listheader label="Agent"
+							sort="auto('agent.nom')" />
+						<listheader label="Type"
+							sort="auto('typePointage')" />
+						<listheader label="Date" sort="auto('date')" />
+						<listheader label="Début" sort="auto('debut')" />
+						<listheader label="Fin" sort="auto('fin')" />
+						<listheader label="Quantité"
+							sort="auto('quantite')" />
+						<listheader label="Motif - Commentaires"
+							sort="none" />
+						<listheader label="Opérateur"
+							sort="auto('operateur.nom')" />
+						<listheader label="Etat" sort="none" />
+						<listheader label="Date de saisie"
+							sort="auto('dateSaisie')" />
+					</listhead>
+
+					<template name="model">
+						<listitem>
+							<listcell
+								label="@bind(vm.concatAgentNomatr(each.agent))" />
+							<listcell label="@bind(each.typePointage)" />
+							<listcell
+								label="@bind(each.date) @converter('formatedDate',format='dd/MM/yyyy')" />
+							<listcell
+								label="@bind(each.debut) @converter('formatedDate',format='HH:mm')" />
+							<listcell
+								label="@bind(each.fin) @converter('formatedDate',format='HH:mm')" />
+							<listcell label="@bind(each.quantite)" />
+							<listcell label="tO" />
+							<listcell
+								label="@bind(vm.concatAgentNomatr(each.operateur))" />
+							<listcell label="@bind(each.idRefEtat)" />
+							<listcell
+								label="@bind(each.dateSaisie) @converter('formatedDate',format='dd/MM/yyyy')" />
+						</listitem>
+					</template>
+				</listbox>
+				<div>
+					<div align="right">
+						<button label="Exp. PDF"
+							onClick="@command('exportPDF', ref=listePointages)" />
+						<button label="Exp. Excel"
+							onClick="@command('exportExcel', ref=listePointages)" />
+					</div>
+				</div>
+			</vlayout>
+		</div>
+		<include id="includeStyleDroits"
+			src="/css/absences/gestionDemandes.zul" />
+	</window>
+</zk>
+

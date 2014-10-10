@@ -83,7 +83,7 @@
 		<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
 			model="@bind(vm.listeDemandes)"
 			selectedItem="@bind(vm.demandeCourant)" emptyMessage="Aucun élément"
-			id="lisetDemande">
+			id="listeDemande">
 			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 			<listhead>
 				<listheader label="Type de demande"
@@ -168,7 +168,7 @@
 				<button label="Exp. PDF"
 					onClick="@command('exportPDF', ref=listeDemande)" />
 				<button label="Exp. Excel"
-					onClick="@command('exportExcel', ref=lisetDemande)" />
+					onClick="@command('exportExcel', ref=listeDemande)" />
 			</div>
 		</div>
 	</vlayout>

@@ -167,35 +167,35 @@
 									</listcell>
 									<listcell>
 										<include
-											src="/pointages/saisieJour.zul" />
+											src="/pointages/saisie/saisieJour.zul" />
 									</listcell>
 									<listcell>
 										<include
-											src="/pointages/saisieJour.zul" />
+											src="/pointages/saisie/saisieJour.zul" />
 									</listcell>
 									<listcell>
 										<include
-											src="/pointages/saisieJour.zul" />
+											src="/pointages/saisie/saisieJour.zul" />
 									</listcell>
 									<listcell>
 										<include
-											src="/pointages/saisieJour.zul" />
+											src="/pointages/saisie/saisieJour.zul" />
 									</listcell>
 									<listcell>
 										<include
-											src="/pointages/saisieJour.zul" />
+											src="/pointages/saisie/saisieJour.zul" />
 									</listcell>
 									<listcell>
 										<include
-											src="/pointages/saisieJour.zul" />
+											src="/pointages/saisie/saisieJour.zul" />
 									</listcell>
 									<listcell>
 										<include
-											src="/pointages/saisieJour.zul" />
+											src="/pointages/saisie/saisieJour.zul" />
 									</listcell>
 									<listcell>
 										<include
-											src="/pointages/saisieJour.zul" />
+											src="/pointages/saisie/saisieJour.zul" />
 									</listcell>
 								</listitem>
 							</template>

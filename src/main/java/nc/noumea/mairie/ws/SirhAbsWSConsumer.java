@@ -14,7 +14,7 @@ import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
@@ -148,13 +148,13 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<RefEtatDto> getEtatAbsenceKiosque(String onglet) {
+	public List<RefEtatAbsenceDto> getEtatAbsenceKiosque(String onglet) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhEtatAbsenceKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("ongletDemande", onglet);
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponseAsList(RefEtatDto.class, res, url);
+		return readResponseAsList(RefEtatAbsenceDto.class, res, url);
 	}
 
 	@Override

@@ -1,11 +1,11 @@
-package nc.noumea.mairie.kiosque.abs.dto;
+package nc.noumea.mairie.kiosque.ptg.dto;
 
-public class RefEtatDto {
+public class RefEtatPointageDto {
 
 	private Integer idRefEtat;
 	private String libelle;
 
-	public RefEtatDto() {
+	public RefEtatPointageDto() {
 	}
 
 	public Integer getIdRefEtat() {

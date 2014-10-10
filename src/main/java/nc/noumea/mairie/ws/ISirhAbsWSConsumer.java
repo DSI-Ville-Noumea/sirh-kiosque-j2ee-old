@@ -12,7 +12,7 @@ import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
@@ -38,7 +38,7 @@ public interface ISirhAbsWSConsumer {
 
 	List<RefTypeAbsenceDto> getAllRefTypeAbsence();
 
-	List<RefEtatDto> getEtatAbsenceKiosque(String onglet);
+	List<RefEtatAbsenceDto> getEtatAbsenceKiosque(String onglet);
 
 	List<OrganisationSyndicaleDto> getListOrganisationSyndicale();
 
