@@ -12,6 +12,7 @@ import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -131,6 +132,10 @@ public class GestionPointagesViewModel {
 		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser.getAgent().getIdAgent(),
 				getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
+	}
+
+	public String etatToString(Integer idRefEtat) {
+		return EtatPointageEnum.getEtatPointageEnum(idRefEtat).getLibEtat();
 	}
 
 	public String concatAgent(String nom, String prenom) {

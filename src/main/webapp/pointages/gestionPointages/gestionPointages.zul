@@ -126,10 +126,14 @@
 							<listcell
 								label="@bind(each.fin) @converter('formatedDate',format='HH:mm')" />
 							<listcell label="@bind(each.quantite)" />
-							<listcell label="tO" />
+							<listcell>
+								<label value="@bind(each.motif)" />
+								<label value="@bind(each.commentaire)" />
+							</listcell>
 							<listcell
 								label="@bind(vm.concatAgentNomatr(each.operateur))" />
-							<listcell label="@bind(each.idRefEtat)" />
+							<listcell
+								label="@bind(vm.etatToString(each.idRefEtat))" />
 							<listcell
 								label="@bind(each.dateSaisie) @converter('formatedDate',format='dd/MM/yyyy')" />
 						</listitem>

@@ -2,14 +2,16 @@ package nc.noumea.mairie.kiosque.ptg.dto;
 
 public enum EtatPointageEnum {
 
-	SAISI(0), APPROUVE(1), REFUSE(2), REFUSE_DEFINITIVEMENT(3), VENTILE(4), REJETE(
-			5), REJETE_DEFINITIVEMENT(6), VALIDE(7), EN_ATTENTE(8), JOURNALISE(
-			9);
+	SAISI(0, "Saisi"), APPROUVE(1, "Approuvé"), REFUSE(2, "Refusé"), REFUSE_DEFINITIVEMENT(3, "Refusé définitivement"), VENTILE(
+			4, "Ventilé"), REJETE(5, "Rejeté"), REJETE_DEFINITIVEMENT(6, "Rejeté définitivement"), VALIDE(7, "Validé"), EN_ATTENTE(
+			8, "En attente"), JOURNALISE(9, "Journalisé");
 
 	private int codeEtat;
+	private String libEtat;
 
-	EtatPointageEnum(int _value) {
+	EtatPointageEnum(int _value, String _lib) {
 		codeEtat = _value;
+		libEtat = _lib;
 	}
 
 	public int getCodeEtat() {
@@ -25,7 +27,7 @@ public enum EtatPointageEnum {
 
 		if (codeEtat == null)
 			return null;
-		
+
 		switch (codeEtat) {
 			case 0:
 				return SAISI;
@@ -50,5 +52,13 @@ public enum EtatPointageEnum {
 			default:
 				return null;
 		}
+	}
+
+	public String getLibEtat() {
+		return libEtat;
+	}
+
+	public void setLibEtat(String libEtat) {
+		this.libEtat = libEtat;
 	}
 }
