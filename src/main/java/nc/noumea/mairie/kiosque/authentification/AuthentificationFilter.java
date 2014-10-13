@@ -35,7 +35,7 @@ public class AuthentificationFilter implements Filter {
     public static final String ACCES_CONNEXION  = "/connexion";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     
-    public static final List<String> PAGES_STATIQUES = Arrays.asList("/version.jsp");
+    public static final List<String> PAGES_STATIQUES = Arrays.asList("/401.jsp", "/404.jsp", "/incident.jsp", "/maintenance.jsp", "/version.jsp");
 
     private Logger logger = LoggerFactory.getLogger(AuthentificationFilter.class);
     
