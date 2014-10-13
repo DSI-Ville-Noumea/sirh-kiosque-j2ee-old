@@ -1,6 +1,8 @@
 package nc.noumea.mairie.kiosque.authentification;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -32,6 +34,8 @@ public class AuthentificationFilter implements Filter {
 	
     public static final String ACCES_CONNEXION  = "/connexion";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
+    
+    public static final List<String> PAGES_STATIQUES = Arrays.asList("/version.jsp");
 
     private Logger logger = LoggerFactory.getLogger(AuthentificationFilter.class);
     
@@ -58,6 +62,11 @@ public class AuthentificationFilter implements Filter {
     	HttpSession hSess = ((HttpServletRequest)request).getSession();
     	
     	if(null != hSess.getAttribute("currentUser")) {
+    		chain.doFilter( request, response );
+            return;
+    	}
+    	// on laisse passer pour le rproxy et ainsi permettre de deployer l application sur le 2e noeud tomcat
+    	if(PAGES_STATIQUES.contains(request.getServletPath())) {
     		chain.doFilter( request, response );
             return;
     	}
