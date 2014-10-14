@@ -1,11 +1,14 @@
 package nc.noumea.mairie.kiosque.ptg.droits.viewModel;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.export.ExcelExporter;
+import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
@@ -17,12 +20,15 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
@@ -102,7 +108,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			setListeAgents(result);
 			setAfficheAffecterAgent(false);
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
-			// on recupere les opÃ©rateurs de l'agent
+			// on recupere les opérateurs de l'agent
 			DelegatorAndOperatorsDto result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent());
 			setListeAgents(result.getSaisisseurs());
 			List<AgentDto> delegataire = null;
@@ -135,7 +141,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			setListeAgents(result);
 			setAfficheAffecterAgent(false);
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
-			// on recupere les opÃ©rateurs de l'agent
+			// on recupere les opérateurs de l'agent
 			DelegatorAndOperatorsDto result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent());
 			setListeAgents(result.getSaisisseurs());
 			List<AgentDto> delegataire = null;
@@ -192,7 +198,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	}
 
 	private void supprimerDelegataireApprobateurs(AgentDto agentDelegataireASupprimer) {
-		// on recupere tous le dÃ©lagatire de l'approbateurs et on supprime
+		// on recupere tous le délagatire de l'approbateurs et on supprime
 		// l'entree
 		if (getListeDelegataire().contains(agentDelegataireASupprimer)) {
 			getListeDelegataire().remove(agentDelegataireASupprimer);
@@ -208,7 +214,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Le dÃ©lÃ©gataire a Ã©tÃ© enregistrÃ© correctement.");
+			result.getInfos().add("Le délégataire a été enregistré correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -226,7 +232,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	}
 
 	private void supprimerOperateursApprobateurs(AgentDto agentASupprimer) {
-		// on recupere tous les opÃ©rateurs de l'approbateurs et on supprime
+		// on recupere tous les opérateurs de l'approbateurs et on supprime
 		// l'entree
 		if (getListeAgents().contains(agentASupprimer)) {
 			getListeAgents().remove(agentASupprimer);
@@ -243,7 +249,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Les opÃ©rateurs ont Ã©tÃ© enregistrÃ©s correctement.");
+			result.getInfos().add("Les opérateurs ont été enregistrés correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -274,7 +280,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Les agents Ã  approuver ont Ã©tÃ© enregistrÃ©s correctement.");
+			result.getInfos().add("Les agents à approuver ont été enregistrés correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -298,6 +304,30 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		if (getTabCourant().getId().equals("OPERATEUR")) {
 			supprimerDelegataireApprobateurs(agentDelegataireASupprimer);
 		}
+	}
+	
+	@Command
+	public void exportPDF(@BindingParam("ref") Listbox listbox) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		PdfExporter exporter = new PdfExporter();
+		exporter.export(listbox, out);
+
+		AMedia amedia = new AMedia("droitsAbsence.pdf", "pdf", "application/pdf", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
+	}
+
+	@Command
+	public void exportExcel(@BindingParam("ref") Listbox listbox) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		ExcelExporter exporter = new ExcelExporter();
+		exporter.export(listbox, out);
+
+		AMedia amedia = new AMedia("droitsAbsence.xlsx", "xls", "application/file", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
 	}
 
 	public List<AgentDto> getListeAgents() {

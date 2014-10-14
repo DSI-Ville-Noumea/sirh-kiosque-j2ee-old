@@ -98,18 +98,18 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	private ServiceTreeNode getServiceTreeRoot() {
 		ServiceTreeNode root = new ServiceTreeNode(null, "", null);
 		for (ServiceTreeDto premierNiv : getArbreService()) {
-			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, premierNiv.getSigle(), premierNiv.getService());
+			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, premierNiv.getService(), premierNiv.getService());
 			for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
-					premierNiv.getSigle())) {
+					premierNiv.getService())) {
 				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode,
 						ag.getNom() + " " + ag.getPrenom(), ag.getIdAgent().toString());
 				firstLevelNode.appendChild(agentLevelNode);
 			}
 			for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
-				ServiceTreeNode secondLevelNode = new ServiceTreeNode(firstLevelNode, deuxNiv.getSigle(),
+				ServiceTreeNode secondLevelNode = new ServiceTreeNode(firstLevelNode, deuxNiv.getService(),
 						deuxNiv.getService());
 				for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
-						deuxNiv.getSigle())) {
+						deuxNiv.getService())) {
 					ServiceTreeNode agentLevelNode = new ServiceTreeNode(secondLevelNode, ag.getNom() + " "
 							+ ag.getPrenom(), ag.getIdAgent().toString());
 					secondLevelNode.appendChild(agentLevelNode);

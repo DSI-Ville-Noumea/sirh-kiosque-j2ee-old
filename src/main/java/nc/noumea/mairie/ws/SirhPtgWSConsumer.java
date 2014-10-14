@@ -1,6 +1,7 @@
 package nc.noumea.mairie.ws;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -135,7 +136,15 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-		return readResponse(ReturnMessageDto.class, res, url);
+		
+		ReturnMessageDto dto = new ReturnMessageDto();
+		try {
+			readResponse(res, url);
+		} catch (WSConsumerException e) {
+			dto.setErrors(Arrays.asList("Une erreur est survenue lors de la sauvegarde des agents à approuver."));
+		}
+		
+		return dto;
 	}
 
 	@Override
@@ -152,7 +161,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 	@Override
 	public ReturnMessageDto saveAgentsSaisisOperateur(Integer idAgent, Integer idOperateur, List<AgentDto> listSelect) {
-		String url = String.format(sirhPtgWsBaseUrl + ptgDroitsAgentsApprouvesUrl);
+		String url = String.format(sirhPtgWsBaseUrl + ptgDroitsAgentsSaisisUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("idOperateur", idOperateur.toString());
@@ -161,7 +170,14 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-		return readResponse(ReturnMessageDto.class, res, url);
+		ReturnMessageDto dto = new ReturnMessageDto();
+		try {
+			readResponse(res, url);
+		} catch (WSConsumerException e) {
+			dto.setErrors(Arrays.asList("Une erreur est survenue lors de la sauvegarde des agents à approuver."));
+		}
+		
+		return dto;
 	}
 
 	/**************************** Droits *******************************/

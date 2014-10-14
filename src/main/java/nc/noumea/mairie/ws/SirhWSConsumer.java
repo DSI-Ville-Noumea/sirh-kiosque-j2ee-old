@@ -76,12 +76,12 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
-	public List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, String sigle) {
+	public List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, String codeService) {
 		String url = String.format(sirhWsBaseUrl + sirhEquipeAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
-		if (sigle != null)
-			params.put("sigleService", sigle);
+		if (codeService != null)
+			params.put("codeService", codeService);
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentWithServiceDto.class, res, url);

@@ -19,7 +19,7 @@ public interface ISirhWSConsumer {
 
 	List<ServiceTreeDto> getArbreServiceAgent(Integer idAgent);
 
-	List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, String sigle);
+	List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, String codeService);
 
 	byte[] imprimerFDP(Integer idFichePoste);
 

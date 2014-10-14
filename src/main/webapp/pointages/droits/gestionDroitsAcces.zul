@@ -77,6 +77,14 @@
 										onClick="@command('ajouterDelegataire')" />
 								</div>
 							</div>
+							<div>
+								<div align="right">
+									<button label="Exp. PDF"
+										onClick="@command('exportPDF', ref=delegataire)" />
+									<button label="Exp. Excel"
+										onClick="@command('exportExcel', ref=delegataire)" />
+								</div>
+							</div>
 						</vlayout>
 					</tabpanel>
 				</tabpanels>
