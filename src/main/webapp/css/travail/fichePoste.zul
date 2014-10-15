@@ -4,9 +4,9 @@
 	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
 	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
 
-	.fiche .RHTitle2 { color: #ffffff; margin-bottom: 5px; }
+	.fiche .RHTitle2 { color: #ffffff; margin-bottom: 5px; width: 200px;}
 
-	.fiche .RHTitle2>span { height: 25px; padding-top: 5px; }
+	.fiche .RHTitle2>span { height: 25px; }
 
 	.RHContent { margin-top: 10px; margin-bottom: 15px;
 	margin-left:15px;}
