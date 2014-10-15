@@ -157,6 +157,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	public List<AgentDto> getAgentsSubordonnes(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentSubordonnesUrl);
 		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);
