@@ -75,9 +75,14 @@ public class MenuViewModel {
 	}
 
 	@Command
-	public void tableauBordSharepoint(@BindingParam("ecran") Div div) {
-		div.getChildren().clear();
-		Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlTableauBordApprobateur(), "_blank");
+	public void tableauBordSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
+		if (currentUser.getAgent().getIdAgent() == 9005138) {
+			div.getChildren().clear();
+			Executions.createComponents(page + ".zul", div, null);
+		} else {
+			div.getChildren().clear();
+			Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlTableauBordApprobateur(), "_blank");
+		}
 	}
 
 	public AccessRightsAbsDto getDroitsAbsence() {
