@@ -136,14 +136,14 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-		
+
 		ReturnMessageDto dto = new ReturnMessageDto();
 		try {
 			readResponse(res, url);
 		} catch (WSConsumerException e) {
 			dto.setErrors(Arrays.asList("Une erreur est survenue lors de la sauvegarde des agents à approuver."));
 		}
-		
+
 		return dto;
 	}
 
@@ -176,7 +176,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		} catch (WSConsumerException e) {
 			dto.setErrors(Arrays.asList("Une erreur est survenue lors de la sauvegarde des agents à approuver."));
 		}
-		
+
 		return dto;
 	}
 
@@ -244,7 +244,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 	@Override
 	public List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate,
-			String codeService, Integer idAgentRecherche, Integer idEtat, Integer idType) {
+			String codeService, Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
 
@@ -262,6 +262,14 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 			params.put("type", idType.toString());
 		if (idAgentRecherche != null)
 			params.put("agent", idAgentRecherche.toString());
+		if (typeHS != null) {
+			if (typeHS.equals("Récupérées")) {
+				typeHS = "R";
+			} else if (typeHS.equals("Rappel en service")) {
+				typeHS = "RS";
+			}
+			params.put("typeHS", typeHS);
+		}
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(ConsultPointageDto.class, res, url);

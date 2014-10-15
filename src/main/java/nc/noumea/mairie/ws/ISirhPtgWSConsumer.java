@@ -49,7 +49,8 @@ public interface ISirhPtgWSConsumer {
 
 	/* GESTION POINTAGES */
 	List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate,
-			String codeService, Integer idAgentRecherche, Integer idEtat, Integer idType);
+ String codeService,
+			Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS);
 
 	ReturnMessageDto changerEtatPointage(Integer idAgent, List<PointagesEtatChangeDto> listeChangeEtat);
 

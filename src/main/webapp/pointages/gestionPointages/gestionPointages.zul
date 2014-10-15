@@ -34,7 +34,7 @@
 				<hlayout>
 					<label value="Filtres optionnels" />
 					<label value="Etat :" />
-					<combobox readonly="true" width="100px"
+					<combobox width="100px"
 						model="@bind(vm.listeEtatPointageFiltre)"
 						selectedItem="@bind(vm.etatPointageFiltre)">
 						<template name="model">
@@ -42,7 +42,7 @@
 						</template>
 					</combobox>
 					<label value="Type :" />
-					<combobox readonly="true" width="100px"
+					<combobox width="100px"
 						model="@bind(vm.listeTypePointageFiltre)"
 						selectedItem="@bind(vm.typePointageFiltre)">
 						<template name="model">
@@ -50,12 +50,21 @@
 						</template>
 					</combobox>
 					<label value="Agent :" />
-					<combobox width="200px" readonly="true"
+					<combobox width="200px" 
 						model="@bind(vm.listeAgentsFiltre)"
 						selectedItem="@bind(vm.agentFiltre)">
 						<template name="model">
 							<comboitem
 								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+						</template>
+					</combobox>
+					<label value="Type HS :" />
+					<combobox width="100px" 
+						model="@bind(vm.listeTypeHSupFiltre)"
+						selectedItem="@bind(vm.typeHSupFiltre)">
+						<template name="model">
+							<comboitem
+								label="@bind(each)" />
 						</template>
 					</combobox>
 				</hlayout>
@@ -101,6 +110,8 @@
 							sort="auto('agent.nom')" />
 						<listheader label="Type"
 							sort="auto('typePointage')" />
+						<listheader label="Type HS"
+							sort="none" />
 						<listheader label="Date" sort="auto('date')" />
 						<listheader label="Début" sort="auto('debut')" />
 						<listheader label="Fin" sort="auto('fin')" />
@@ -144,6 +155,7 @@
 							<listcell
 								label="@bind(vm.concatAgentNomatr(each.agent))" />
 							<listcell label="@bind(each.typePointage)" />
+							<listcell label="@bind(vm.typeHSup(each))" />
 							<listcell
 								label="@bind(each.date) @converter('formatedDate',format='dd/MM/yyyy')" />
 							<listcell

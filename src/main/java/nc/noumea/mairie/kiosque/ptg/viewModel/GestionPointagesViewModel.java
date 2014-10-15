@@ -51,6 +51,8 @@ public class GestionPointagesViewModel {
 	/* POUR LES FILTRES */
 	private List<ServiceDto> listeServicesFiltre;
 	private ServiceDto serviceFiltre;
+	private List<String> listeTypeHSupFiltre;
+	private String typeHSupFiltre;
 	private Date dateDebutFiltre;
 	private Date dateFinFiltre;
 	private List<RefEtatPointageDto> listeEtatPointageFiltre;
@@ -80,6 +82,12 @@ public class GestionPointagesViewModel {
 		// on recharge les types de pointages pour les filtres
 		List<RefTypePointageDto> filtreType = ptgWsConsumer.getTypePointageKiosque();
 		setListeTypePointageFiltre(filtreType);
+		// on recharge les types d'heures sup pour les filtres
+		ArrayList<String> listeTypeHS = new ArrayList<String>();
+		listeTypeHS.add("Récupérées");
+		listeTypeHS.add("Rappel en service");
+		setListeTypeHSupFiltre(listeTypeHS);
+		// on initialise la taille du tableau
 		setTailleListe("5");
 	}
 
@@ -91,7 +99,8 @@ public class GestionPointagesViewModel {
 					getDateDebutFiltre(), getDateFinFiltre(), getServiceFiltre().getCodeService(),
 					getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(),
 					getEtatPointageFiltre() == null ? null : getEtatPointageFiltre().getIdRefEtat(),
-					getTypePointageFiltre() == null ? null : getTypePointageFiltre().getIdRefTypePointage());
+					getTypePointageFiltre() == null ? null : getTypePointageFiltre().getIdRefTypePointage(),
+					getTypeHSupFiltre());
 			setListePointages(result);
 		}
 	}
@@ -124,7 +133,7 @@ public class GestionPointagesViewModel {
 
 	@Command
 	@NotifyChange({ "serviceFiltre", "dateDebutFiltre", "dateFinFiltre", "etatPointageFiltre", "typePointageFiltre",
-			"listeAgentsFiltre", "agentFiltre" })
+			"listeAgentsFiltre", "agentFiltre", "typeHSupFiltre" })
 	public void viderFiltre() {
 		setServiceFiltre(null);
 		setDateDebutFiltre(null);
@@ -133,6 +142,7 @@ public class GestionPointagesViewModel {
 		setTypePointageFiltre(null);
 		setListeAgentsFiltre(null);
 		setAgentFiltre(null);
+		setTypeHSupFiltre(null);
 	}
 
 	@Command
@@ -156,6 +166,10 @@ public class GestionPointagesViewModel {
 
 	public String concatAgent(String nom, String prenom) {
 		return nom + " " + prenom;
+	}
+
+	public String typeHSup(ConsultPointageDto dto) {
+		return dto.isHeuresSupRappelEnService() ? "RS" : dto.isHeuresSupRecuperees() ? "R" : null;
 	}
 
 	public String concatAgentNomatr(AgentDto ag) {
@@ -418,5 +432,21 @@ public class GestionPointagesViewModel {
 
 	public void setDroitsPointage(AccessRightsPtgDto droitsPointage) {
 		this.droitsPointage = droitsPointage;
+	}
+
+	public List<String> getListeTypeHSupFiltre() {
+		return listeTypeHSupFiltre;
+	}
+
+	public void setListeTypeHSupFiltre(List<String> listeTypeHSupFiltre) {
+		this.listeTypeHSupFiltre = listeTypeHSupFiltre;
+	}
+
+	public String getTypeHSupFiltre() {
+		return typeHSupFiltre;
+	}
+
+	public void setTypeHSupFiltre(String typeHSupFiltre) {
+		this.typeHSupFiltre = typeHSupFiltre;
 	}
 }
