@@ -3,6 +3,7 @@ package nc.noumea.mairie.ws;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -29,6 +30,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhSuperieurHierarchiqueAgentUrl = "agents/getSuperieurHierarchique";
 	private static final String sirhArbreServiceAgentUrl = "agents/serviceArbre";
 	private static final String sirhEquipeAgentUrl = "agents/getEquipe";
+	private static final String sirhAgentSubordonnesUrl = "agents/agentsSubordonnes";
 	private static final String sirhEstChefUrl = "agents/estChef";
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
@@ -149,6 +151,15 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(AgentWithServiceDto.class, res, url);
+	}
+
+	@Override
+	public List<AgentDto> getAgentsSubordonnes(Integer idAgent) {
+		String url = String.format(sirhWsBaseUrl + sirhAgentSubordonnesUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentDto.class, res, url);
 	}
 
 }

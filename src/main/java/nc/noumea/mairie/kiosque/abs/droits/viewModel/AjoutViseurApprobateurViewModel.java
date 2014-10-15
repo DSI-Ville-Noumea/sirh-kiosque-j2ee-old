@@ -6,7 +6,6 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
-import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -45,18 +44,18 @@ public class AjoutViseurApprobateurViewModel {
 	private String tailleListe;
 
 	private ProfilAgentDto currentUser;
-	
+
 	@Init
 	public void initAjoutViseur(@ExecutionArgParam("viseursExistants") List<AgentDto> viseursExistants) {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		// on sauvegarde qui sont les opérateurs de l'approbateur
 		setListeAgentsExistants(viseursExistants);
 		// on vide
 		viderZones();
 		// on charge les sous agents
-		List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
+		List<AgentDto> result = sirhWsConsumer.getAgentsSubordonnes(currentUser.getAgent().getIdAgent());
 		setListeAgents(transformeListe(result));
 		setTailleListe("5");
 	}
@@ -115,17 +114,16 @@ public class AjoutViseurApprobateurViewModel {
 			}
 			setListeAgents(list);
 		} else {
-			List<AgentWithServiceDto> result = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
+			List<AgentDto> result = sirhWsConsumer.getAgentsSubordonnes(currentUser.getAgent().getIdAgent());
 			setListeAgents(transformeListe(result));
 		}
 	}
 
-	private List<AgentDto> transformeListe(List<AgentWithServiceDto> result) {
+	private List<AgentDto> transformeListe(List<AgentDto> result) {
 		List<AgentDto> listFinale = new ArrayList<AgentDto>();
-		for (AgentWithServiceDto agDto : result) {
-			AgentDto dto = new AgentDto(agDto);
-			dto.setSelectedDroitAbs(getListeAgentsExistants().contains(dto));
-			listFinale.add(dto);
+		for (AgentDto agDto : result) {
+			agDto.setSelectedDroitAbs(getListeAgentsExistants().contains(agDto));
+			listFinale.add(agDto);
 		}
 		return listFinale;
 	}

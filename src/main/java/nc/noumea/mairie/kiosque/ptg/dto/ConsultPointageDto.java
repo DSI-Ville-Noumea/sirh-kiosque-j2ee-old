@@ -19,6 +19,7 @@ public class ConsultPointageDto {
 	private Date dateSaisie;
 	private AgentDto operateur;
 	private boolean heuresSupRecuperees;
+	private boolean heuresSupRappelEnService;
 
 	public Integer getIdPointage() {
 		return idPointage;
@@ -122,6 +123,14 @@ public class ConsultPointageDto {
 
 	public void setHeuresSupRecuperees(boolean heuresSupRecuperees) {
 		this.heuresSupRecuperees = heuresSupRecuperees;
+	}
+
+	public boolean isHeuresSupRappelEnService() {
+		return heuresSupRappelEnService;
+	}
+
+	public void setHeuresSupRappelEnService(boolean heuresSupRappelEnService) {
+		this.heuresSupRappelEnService = heuresSupRappelEnService;
 	}
 
 }
