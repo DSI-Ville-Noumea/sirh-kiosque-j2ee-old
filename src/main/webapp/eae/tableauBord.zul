@@ -17,43 +17,64 @@
 				</div>
 				<div sclass="RHTitle2Line" />
 			</div>
-				<separator />
-				<listbox
-					model="@bind(vm.tableauBord)">
-					<listhead style="align:center;">
-						<listheader label="" sort="none" />
-						<listheader label="Non affecté" sort="none" />
-						<listheader label="Non débuté" sort="none" />
-						<listheader label="Créé" sort="none" />
-						<listheader label="En cours" sort="none" />
-						<listheader label="Finalisé" sort="none" />
-						<listheader label="Figé" sort="none" />
-						<listheader label="Total des EAE" sort="none" />
-						<listheader label="Non défini" sort="none" />
-						<listheader label="MINI" sort="none" />
-						<listheader label="MOY" sort="none" />
-						<listheader label="MAXI" sort="none" />
-						<listheader label="Chang. classe" sort="none" />
-					</listhead>
-					<template name="model">
-						<listitem style="align:center;">
-							<listcell
-								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
-							<listcell label="@bind(each.nonAffecte)" />
-							<listcell label="@bind(each.nonDebute)" />
-							<listcell label="@bind(each.cree)" />
-							<listcell label="@bind(each.enCours)" />
-							<listcell label="@bind(each.finalise)" />
-							<listcell label="@bind(each.fige)" />
-							<listcell label="@bind(vm.totalEae(each))" />
-							<listcell label="@bind(each.nonDefini)" />
-							<listcell label="@bind(each.mini)" />
-							<listcell label="@bind(each.moy)" />
-							<listcell label="@bind(each.maxi)" />
-							<listcell label="@bind(each.changClasse)" />
-						</listitem>
-					</template>
-				</listbox>
+			<separator />
+			<listbox model="@bind(vm.tableauBord)">
+				<listhead>
+					<listheader label="" sort="none" />
+					<listheader align="center" label="Non affecté"
+						sort="none" />
+					<listheader align="center" label="Non débuté"
+						sort="none" />
+					<listheader align="center" label="Créé" sort="none" />
+					<listheader align="center" label="En cours"
+						sort="none" />
+					<listheader align="center" label="Finalisé"
+						sort="none" />
+					<listheader align="center" label="Figé" sort="none" />
+					<listheader align="center" label="Total des EAE"
+						sort="none" />
+					<listheader align="center" label="Non défini"
+						sort="none" />
+					<listheader align="center" label="MINI" sort="none" />
+					<listheader align="center" label="MOY" sort="none" />
+					<listheader align="center" label="MAXI" sort="none" />
+					<listheader align="center" label="Chang. classe"
+						sort="none" />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell
+							label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+						<listcell label="@bind(each.nonAffecte)" />
+						<listcell label="@bind(each.nonDebute)" />
+						<listcell label="@bind(each.cree)" />
+						<listcell label="@bind(each.enCours)" />
+						<listcell label="@bind(each.finalise)" />
+						<listcell label="@bind(each.fige)" />
+						<listcell label="@bind(vm.totalEae(each))" />
+						<listcell label="@bind(each.nonDefini)" />
+						<listcell label="@bind(each.mini)" />
+						<listcell label="@bind(each.moy)" />
+						<listcell label="@bind(each.maxi)" />
+						<listcell label="@bind(each.changClasse)" />
+					</listitem>
+				</template>
+				<listfoot>
+					<listfooter label="Total" />
+					<listfooter label="@bind(vm.totalNonAffecte())"/>
+					<listfooter label="@bind(vm.totalNonDebute())"/>
+					<listfooter label="@bind(vm.totalCree())"/>
+					<listfooter label="@bind(vm.totalEnCours())"/>
+					<listfooter label="@bind(vm.totalFinalise())"/>
+					<listfooter label="@bind(vm.totalFige())"/>
+					<listfooter label="@bind(vm.totalEae())"/>
+					<listfooter label="@bind(vm.totalNonDefini())"/>
+					<listfooter label="@bind(vm.totalMini())"/>
+					<listfooter label="@bind(vm.totalMoy())"/>
+					<listfooter label="@bind(vm.totalMaxi())"/>
+					<listfooter label="@bind(vm.totalChgtClasse())"/>
+				</listfoot>
+			</listbox>
 
 		</div>
 		<include id="includeStyleDroits" src="/css/eae/tableauBord.zul" />

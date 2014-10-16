@@ -1,9 +1,14 @@
 <style>
+
 	
 	<![CDATA[
 
 	.RHTitle2 { width: 220px; }
 
+	.z-listheader-content, .z-listcell-content, .z-listgroup-content,
+	.z-listgroupfoot-content, .z-listfooter-content { font-size: 10px; }
+
 	]]>
+	
 		
 </style>
