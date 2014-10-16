@@ -11,7 +11,7 @@ public class EaeListItemDto {
 	private AgentDto agentEvalue;
 	private List<AgentDto> eaeEvaluateurs;
 	private AgentDto agentDelegataire;
-	private EaeEtatEnum etat;
+	private String etat;
 	private boolean cap;
 	private String avisShd;
 	private boolean docAttache;
@@ -64,11 +64,11 @@ public class EaeListItemDto {
 		this.agentDelegataire = agentDelegataire;
 	}
 
-	public EaeEtatEnum getEtat() {
+	public String getEtat() {
 		return etat;
 	}
 
-	public void setEtat(EaeEtatEnum etat) {
+	public void setEtat(String etat) {
 		this.etat = etat;
 	}
 
