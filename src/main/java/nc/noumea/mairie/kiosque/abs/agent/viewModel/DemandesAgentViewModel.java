@@ -10,8 +10,10 @@ import java.util.Map;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -64,14 +66,14 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
-	
+
 	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initDemandesAgent() {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		// on recharge les types d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
 		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
@@ -85,8 +87,8 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeTypeAbsenceFiltre" })
 	public void alimenteTypeFamilleAbsence() {
-		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent().getIdAgent(),
-				getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent()
+				.getIdAgent(), getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
 	}
 
@@ -112,11 +114,11 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void filtrer() {
-		List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getAgent().getIdAgent(), getTabCourant().getId(),
-				getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), getEtatAbsenceFiltre() == null ? null
-						: getEtatAbsenceFiltre().getIdRefEtat(), getTypeAbsenceFiltre() == null ? null
-						: getTypeAbsenceFiltre().getIdRefTypeAbsence(), getGroupeAbsenceFiltre() == null ? null
-						: getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
+		List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getAgent().getIdAgent(), getTabCourant()
+				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
+				getEtatAbsenceFiltre() == null ? null : getEtatAbsenceFiltre().getIdRefEtat(),
+				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
+				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeDemandes(result);
 	}
 
@@ -192,7 +194,8 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 	@Command
 	public void imprimerDemande() {
 		// on imprime la demande
-		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getAgent().getIdAgent(), getDemandeCourant().getIdDemande());
+		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getAgent().getIdAgent(), getDemandeCourant()
+				.getIdDemande());
 		Filedownload.save(resp, "application/pdf", "titreAbsence");
 	}
 
@@ -224,6 +227,38 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		AMedia amedia = new AMedia("mesDemandes.xlsx", "xls", "application/file", out.toByteArray());
 		Filedownload.save(amedia);
 		out.close();
+	}
+
+	public String getEtatToString(Integer idRefEtat) {
+		return RefEtatEnum.getRefEtatEnum(idRefEtat).getLibEtat();
+	}
+
+	public String getHeureDebutToString(Date date) {
+		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
+		return sf.format(date);
+	}
+
+	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi) {
+		if (typeSaisi != null) {
+			if (typeSaisi.getUniteDecompte().equals("jours")) {
+				return duree + " j";
+			} else {
+				return getHeureMinute(duree.intValue());
+			}
+		}
+		return "";
+	}
+
+	private static String getHeureMinute(int nombreMinute) {
+		int heure = nombreMinute / 60;
+		int minute = nombreMinute % 60;
+		String res = "";
+		if (heure > 0)
+			res += heure + "h";
+		if (minute > 0)
+			res += minute + "m";
+
+		return res;
 	}
 
 	public List<DemandeDto> getListeDemandes() {

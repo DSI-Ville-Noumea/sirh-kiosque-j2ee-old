@@ -1,7 +1,5 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
-import java.beans.Transient;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
@@ -356,41 +354,6 @@ public class DemandeDto {
 
 	public void setLibelleTypeDemande(String libelleTypeDemande) {
 		this.libelleTypeDemande = libelleTypeDemande;
-	}
-
-	@Transient
-	public String getEtat() {
-		return RefEtatEnum.getRefEtatEnum(getIdRefEtat()).getLibEtat();
-	}
-
-	@Transient
-	public String getHeureDebut() {
-		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
-		return sf.format(getDateDebut());
-	}
-
-	@Transient
-	public String getDureeToString() {
-		if (getTypeSaisi() != null) {
-			if (getTypeSaisi().getUniteDecompte().equals("jours")) {
-				return getDuree() + " j";
-			} else {
-				return getHeureMinute(getDuree().intValue());
-			}
-		}
-		return "";
-	}
-
-	private static String getHeureMinute(int nombreMinute) {
-		int heure = nombreMinute / 60;
-		int minute = nombreMinute % 60;
-		String res = "";
-		if (heure > 0)
-			res += heure + "h";
-		if (minute > 0)
-			res += minute + "m";
-
-		return res;
 	}
 
 	public Double getDuree() {

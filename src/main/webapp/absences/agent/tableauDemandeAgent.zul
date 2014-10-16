@@ -81,12 +81,12 @@
 				<listheader label="Date de début"
 					sort="auto('dateDebut')" align="center" />
 				<listheader label="Heure de début"
-					sort="auto('heureDebut')" />
-				<listheader label="Durée" sort="auto('dureeToString')"
+					sort="none" />
+				<listheader label="Durée" sort="none"
 					width="60px" />
 				<listheader label="Date de demande"
 					sort="auto('dateDemande')" align="center" />
-				<listheader label="Etat" sort="auto('etat')" />
+				<listheader label="Etat" sort="none" />
 				<listheader label="" sort="none" />
 			</listhead>
 
@@ -95,11 +95,13 @@
 					<listcell label="@bind(each.libelleTypeDemande)" />
 					<listcell
 						label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
-					<listcell label="@bind(each.heureDebut)" />
-					<listcell label="@bind(each.dureeToString)" />
+					<listcell
+						label="@bind(vm.getHeureDebutToString(each.dateDebut))" />
+					<listcell label="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
 					<listcell
 						label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
-					<listcell label="@bind(each.etat)" />
+					<listcell
+						label="@bind(vm.getEtatToString(each.idRefEtat))" />
 					<listcell>
 						<hlayout>
 							<image tooltiptext="Editer la demande"
