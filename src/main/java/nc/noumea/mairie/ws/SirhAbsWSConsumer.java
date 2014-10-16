@@ -130,9 +130,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.dureeToString").exclude("*.heureDebut")
-				.exclude("*.etat").exclude("*.civilite").exclude("*.signature").exclude("*.position")
-				.exclude("*.selectedDroitAbs").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.signature")
+				.exclude("*.position").exclude("*.selectedDroitAbs").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(dto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);

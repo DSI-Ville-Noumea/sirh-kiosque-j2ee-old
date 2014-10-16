@@ -45,17 +45,18 @@ public class AjoutDemandeAgentViewModel {
 	private String selectDebutAM;
 	// pour savoir si la date de fin est le matin
 	private String selectFinAM;
-	
+
 	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initAjoutDemandeAgent() {
 		// on vide
 		viderZones();
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		// on recharge les types d'absences
-		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent().getIdAgent(), null);
+		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent().getIdAgent(),
+				null);
 		setListeTypeAbsence(result);
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
@@ -103,8 +104,12 @@ public class AjoutDemandeAgentViewModel {
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("AM") ? true : false);
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
+			if (getDemandeCreation().getTypeSaisi().getUniteDecompte().equals("minutes")) {
+				getDemandeCreation().setDuree(getDemandeCreation().getDuree() * 60);
+			}
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(), getDemandeCreation());
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+					getDemandeCreation());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
