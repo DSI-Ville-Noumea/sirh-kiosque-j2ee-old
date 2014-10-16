@@ -1,6 +1,7 @@
 <zk>
 	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.agent.viewModel.SoldeAgentViewModel')" height="100%">
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.agent.viewModel.SoldeAgentViewModel')"
+		height="100%">
 		<div sclass="fond" height="100%">
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
@@ -11,25 +12,26 @@
 			<separator />
 			<separator />
 			<separator />
-			<div width="910px" >
+			<div width="910px">
 				<div
 					visible="@bind(vm.soldeCourant.afficheSoldeConge)">
 					<div sclass="RHTitle2">
 						<label value="Mon solde de congés annuel" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent" style="text-align: right;">
+					<div sclass="RHContent"
+						style="text-align: right;">
 						<div>
 							<label sclass="name"
 								value="Solde année précédente" />
 							<label sclass="value"
-								value="@bind(vm.soldeCourant.soldeCongeAnneePrecToString)" />
+								value="@bind(vm.soldeJour(vm.soldeCourant.soldeCongeAnneePrec))" />
 						</div>
 						<div>
 							<label sclass="name"
 								value="Solde année en cours" />
 							<label sclass="value"
-								value="@bind(vm.soldeCourant.soldeCongeAnneeToString)" />
+								value="@bind(vm.soldeJour(vm.soldeCourant.soldeCongeAnnee))" />
 						</div>
 					</div>
 				</div>
@@ -39,12 +41,13 @@
 						<label value="Mon solde de récupérations" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent" style="text-align: right;">
+					<div sclass="RHContent"
+						style="text-align: right;">
 						<div>
 							<label sclass="name"
 								value="Solde année en cours" />
 							<label sclass="value"
-								value="@bind(vm.soldeCourant.soldeRecupToString)" />
+								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeRecup))" />
 						</div>
 					</div>
 				</div>
@@ -54,51 +57,56 @@
 						<label value="Mon solde de repos compensateur" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent" style="text-align: right;">
+					<div sclass="RHContent"
+						style="text-align: right;">
 						<div>
 							<label sclass="name"
 								value="Solde année précédente" />
 							<label sclass="value"
-								value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeReposCompAnneePrec))" />
 						</div>
 						<div>
 							<label sclass="name"
 								value="Solde année en cours" />
 							<label sclass="value"
-								value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeReposCompAnnee))" />
 						</div>
 					</div>
 				</div>
-				<div
-					visible="@bind(vm.soldeCourant.afficheSoldeAsa)">
+				<div visible="@bind(vm.soldeCourant.afficheSoldeAsa)">
 					<div sclass="RHTitle2">
 						<label value="Mon solde ASA" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent" style="text-align: right;">
-						<div visible="@bind(vm.soldeCourant.afficheSoldeAsaA48)">
+					<div sclass="RHContent"
+						style="text-align: right;">
+						<div
+							visible="@bind(vm.soldeCourant.afficheSoldeAsaA48)">
 							<label sclass="name"
 								value="Réunion des membres du bureau directeur" />
 							<label sclass="value"
-								value="@bind(vm.soldeCourant.soldeAsaA48ToString)" />
+								value="@bind(vm.soldeJour(vm.soldeCourant.soldeAsaA48))" />
 						</div>
-						<div visible="@bind(vm.soldeCourant.afficheSoldeAsaA54)">
+						<div
+							visible="@bind(vm.soldeCourant.afficheSoldeAsaA54)">
 							<label sclass="name"
 								value="Congrès et conseil syndical" />
 							<label sclass="value"
-								value="@bind(vm.soldeCourant.soldeAsaA54ToString)" />
+								value="@bind(vm.soldeJour(vm.soldeCourant.soldeAsaA54))" />
 						</div>
-						<div visible="@bind(vm.soldeCourant.afficheSoldeAsaA55)">
+						<div
+							visible="@bind(vm.soldeCourant.afficheSoldeAsaA55)">
 							<label sclass="name"
 								value="Délégation (DP)" />
 							<label sclass="value"
-								value="@bind(vm.soldeCourant.soldeAsaA55ToString)" />
+								value="@bind(vm.soldeJour(vm.soldeCourant.soldeAsaA55))" />
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<include id="includeStyleSoldeAgent" src="/css/absences/soldeAgent.zul" />
+		<include id="includeStyleSoldeAgent"
+			src="/css/absences/soldeAgent.zul" />
 	</window>
 </zk>
 

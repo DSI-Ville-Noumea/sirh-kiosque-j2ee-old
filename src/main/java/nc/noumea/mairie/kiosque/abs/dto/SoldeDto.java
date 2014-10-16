@@ -164,68 +164,8 @@ public class SoldeDto {
 		this.listeSoldeCongesExcep = listeSoldeCongesExcep;
 	}
 
-	public String getSoldeCongeAnneeToString() {
-		if (soldeCongeAnnee == 0)
-			return "aucun";
-		return soldeCongeAnnee + " j";
-	}
-
-	public String getSoldeCongeAnneePrecToString() {
-		if (soldeCongeAnneePrec == 0)
-			return "aucun";
-		return soldeCongeAnneePrec + " j";
-	}
-
-	public String getSoldeRecupToString() {
-		if (soldeRecup == 0)
-			return "aucun";
-		return getHeureMinute(soldeRecup.intValue());
-	}
-
-	public String getSoldeReposCompAnneeToString() {
-		if (soldeReposCompAnnee == 0)
-			return "aucun";
-		return getHeureMinute(soldeReposCompAnnee.intValue());
-	}
-
-	public String getSoldeReposCompAnneePrecToString() {
-		if (soldeReposCompAnneePrec == 0)
-			return "aucun";
-		return getHeureMinute(soldeReposCompAnneePrec.intValue());
-	}
-
-	public String getSoldeAsaA48ToString() {
-		if (soldeAsaA48 == 0)
-			return "aucun";
-		return soldeAsaA48 + " j";
-	}
-
-	public String getSoldeAsaA54ToString() {
-		if (soldeAsaA54 == 0)
-			return "aucun";
-		return soldeAsaA54 + " j";
-	}
-
-	public String getSoldeAsaA55ToString() {
-		if (soldeAsaA55 == 0)
-			return "aucun";
-		return soldeAsaA55 + " j";
-	}
-
 	public boolean isAfficheSoldeAsa() {
 		return afficheSoldeAsaA48 || afficheSoldeAsaA54 || afficheSoldeAsaA55;
-	}
-
-	private static String getHeureMinute(int nombreMinute) {
-		int heure = nombreMinute / 60;
-		int minute = nombreMinute % 60;
-		String res = "";
-		if (heure > 0)
-			res += heure + "h";
-		if (minute > 0)
-			res += minute + "m";
-
-		return res;
 	}
 
 }
