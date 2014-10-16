@@ -11,12 +11,49 @@
 			</vlayout>
 			<separator />
 			<separator />
-			<div sclass="eae">
+			<div>
 				<div sclass="RHTitle2">
 					<label value="Détail de votre tableau de bord" />
 				</div>
 				<div sclass="RHTitle2Line" />
 			</div>
+				<separator />
+				<listbox
+					model="@bind(vm.tableauBord)">
+					<listhead style="align:center;">
+						<listheader label="" sort="none" />
+						<listheader label="Non affecté" sort="none" />
+						<listheader label="Non débuté" sort="none" />
+						<listheader label="Créé" sort="none" />
+						<listheader label="En cours" sort="none" />
+						<listheader label="Finalisé" sort="none" />
+						<listheader label="Figé" sort="none" />
+						<listheader label="Total des EAE" sort="none" />
+						<listheader label="Non défini" sort="none" />
+						<listheader label="MINI" sort="none" />
+						<listheader label="MOY" sort="none" />
+						<listheader label="MAXI" sort="none" />
+						<listheader label="Chang. classe" sort="none" />
+					</listhead>
+					<template name="model">
+						<listitem style="align:center;">
+							<listcell
+								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+							<listcell label="@bind(each.nonAffecte)" />
+							<listcell label="@bind(each.nonDebute)" />
+							<listcell label="@bind(each.cree)" />
+							<listcell label="@bind(each.enCours)" />
+							<listcell label="@bind(each.finalise)" />
+							<listcell label="@bind(each.fige)" />
+							<listcell label="@bind(vm.totalEae(each))" />
+							<listcell label="@bind(each.nonDefini)" />
+							<listcell label="@bind(each.mini)" />
+							<listcell label="@bind(each.moy)" />
+							<listcell label="@bind(each.maxi)" />
+							<listcell label="@bind(each.changClasse)" />
+						</listitem>
+					</template>
+				</listbox>
 
 		</div>
 		<include id="includeStyleDroits" src="/css/eae/tableauBord.zul" />

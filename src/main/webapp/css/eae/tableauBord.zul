@@ -2,9 +2,7 @@
 	
 	<![CDATA[
 
-	.eae .RHTitle2 { color: #ffffff; margin-bottom: 5px;width: 220px; }
-
-	.eae .RHTitle2>span { height: 25px; }
+	.RHTitle2 { width: 220px; }
 
 	]]>
 		

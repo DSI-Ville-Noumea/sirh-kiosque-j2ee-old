@@ -29,6 +29,16 @@ public class TableauBordViewModel {
 		setTableauBord(tableau);
 	}
 
+	public String concatAgent(String nom, String prenom) {
+		return nom + " " + prenom;
+	}
+
+	public String totalEae(EaeDashboardItemDto dto) {
+		int total = dto.getNonAffecte() + dto.getNonDebute() + dto.getCree() + dto.getEnCours() + dto.getFinalise()
+				+ dto.getFige();
+		return String.valueOf(total);
+	}
+
 	public List<EaeDashboardItemDto> getTableauBord() {
 		return tableauBord;
 	}
