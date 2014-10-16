@@ -25,7 +25,7 @@ public class TableauBordViewModel {
 	public void initTableauBord() {
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		// on recupère les info du tableau de bord
-		List<EaeDashboardItemDto> tableau = eaeWsConsumer.getTableauBord(9002990);
+		List<EaeDashboardItemDto> tableau = eaeWsConsumer.getTableauBord(currentUser.getAgent().getIdAgent());
 		setTableauBord(tableau);
 	}
 
