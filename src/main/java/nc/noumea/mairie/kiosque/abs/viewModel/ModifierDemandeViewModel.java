@@ -81,7 +81,9 @@ public class ModifierDemandeViewModel {
 		if (IsFormValid(getDemandeCourant().getTypeSaisi())) {
 
 			getDemandeCourant().setIdRefEtat(Integer.valueOf(getEtatDemande()));
-			getDemandeCourant().setDuree(getDureeDemande() == null ? null : getDureeDemande() * 60);
+			if (getDemandeCourant().getTypeSaisi().getUniteDecompte().equals("minutes")) {
+				getDemandeCourant().setDuree(getDureeDemande() * 60);
+			}
 			getDemandeCourant().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
 			getDemandeCourant().setDateDebutAM(
 					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
@@ -93,8 +95,9 @@ public class ModifierDemandeViewModel {
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
 			ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-			
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(), getDemandeCourant());
+
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+					getDemandeCourant());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
