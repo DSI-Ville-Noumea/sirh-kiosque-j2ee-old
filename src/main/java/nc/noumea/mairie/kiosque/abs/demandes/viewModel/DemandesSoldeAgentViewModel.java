@@ -41,6 +41,30 @@ public class DemandesSoldeAgentViewModel {
 		window.detach();
 	}
 
+	public String soldeJour(Double solde) {
+		if (solde == 0)
+			return "aucun";
+		return solde + " j";
+	}
+
+	public String soldeHeure(Double solde) {
+		if (solde == 0)
+			return "aucun";
+		return getHeureMinute(solde.intValue());
+	}
+
+	private static String getHeureMinute(int nombreMinute) {
+		int heure = nombreMinute / 60;
+		int minute = nombreMinute % 60;
+		String res = "";
+		if (heure > 0)
+			res += heure + "h";
+		if (minute > 0)
+			res += minute + "m";
+
+		return res;
+	}
+
 	public SoldeDto getSoldeCourant() {
 		return soldeCourant;
 	}

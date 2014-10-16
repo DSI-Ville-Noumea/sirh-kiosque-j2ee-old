@@ -105,7 +105,7 @@ public class ProfilViewModel {
 			setShowCouvertureSociale(true);
 	}
 
-	public String getDateNaissanceToString(Date dateNaissance) {
+	public String getDateNaissance(Date dateNaissance) {
 		if (dateNaissance == null)
 			return "";
 		return new SimpleDateFormat("dd/MM/yyyy").format(dateNaissance);

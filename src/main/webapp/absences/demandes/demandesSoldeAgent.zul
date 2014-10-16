@@ -12,8 +12,8 @@
 							value="Solde de congés de l'année précédente : " />
 					</div>
 					<div>
-						<label
-							value="@bind(vm.soldeCourant.soldeCongeAnneePrecToString)" />
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeCongeAnneePrec))" />
 					</div>
 				</hlayout>
 				<hlayout
@@ -23,19 +23,18 @@
 							value="Solde de congés de l'année en cours : " />
 					</div>
 					<div>
-						<label
-							value="@bind(vm.soldeCourant.soldeCongeAnneeToString)" />
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeCongeAnnee))" />
 					</div>
 				</hlayout>
 				<hlayout
 					visible="@bind(vm.soldeCourant.afficheSoldeRecup)">
 					<div width="300px">
-						<label
-							value="Solde de récupération : " />
+						<label value="Solde de récupération : " />
 					</div>
 					<div>
-						<label
-							value="@bind(vm.soldeCourant.soldeRecupToString)" />
+						<label sclass="value"
+							value="@bind(vm.soldeHeure(vm.soldeCourant.soldeRecup))" />
 					</div>
 				</hlayout>
 				<hlayout
@@ -45,8 +44,8 @@
 							value="Solde de repos compensateur de l'année précédente : " />
 					</div>
 					<div>
-						<label
-							value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+						<label sclass="value"
+							value="@bind(vm.soldeHeure(vm.soldeCourant.soldeReposCompAnneePrec))" />
 					</div>
 				</hlayout>
 				<hlayout
@@ -56,8 +55,8 @@
 							value="Solde de repos compensateur de l'année en cours : " />
 					</div>
 					<div>
-						<label
-							value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+						<label sclass="value"
+							value="@bind(vm.soldeHeure(vm.soldeCourant.soldeReposCompAnnee))" />
 					</div>
 				</hlayout>
 				<hlayout
@@ -67,8 +66,8 @@
 							value="Solde réunion des membres du bureau directeur : " />
 					</div>
 					<div>
-						<label
-							value="@bind(vm.soldeCourant.soldeAsaA48ToString)" />
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeAsaA48))" />
 					</div>
 				</hlayout>
 				<hlayout
@@ -78,19 +77,18 @@
 							value="Solde congrès et conseil syndical : " />
 					</div>
 					<div>
-						<label
-							value="@bind(vm.soldeCourant.soldeAsaA54ToString)" />
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeAsaA54))" />
 					</div>
 				</hlayout>
 				<hlayout
 					visible="@bind(vm.soldeCourant.afficheSoldeAsaA55)">
 					<div width="300px">
-						<label
-							value="Solde délégation (DP) : " />
+						<label value="Solde délégation (DP) : " />
 					</div>
 					<div>
-						<label
-							value="@bind(vm.soldeCourant.soldeAsaA55ToString)" />
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeAsaA55))" />
 					</div>
 				</hlayout>
 			</vlayout>

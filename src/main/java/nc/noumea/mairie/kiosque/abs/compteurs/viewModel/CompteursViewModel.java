@@ -65,14 +65,14 @@ public class CompteursViewModel {
 	private List<AgentDto> listeAgentsFiltre;
 
 	private AgentDto agentFiltre;
-	
+
 	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initCompteurs() {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		// on charge les types d'absences pour les filtres
 		List<RefTypeAbsenceDto> filtreFamille = absWsConsumer.getRefGroupeAbsenceCompteur();
 		setListeTypeAbsenceFiltre(filtreFamille);
@@ -88,7 +88,8 @@ public class CompteursViewModel {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(), getServiceFiltre().getCodeService());
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
+				getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -255,15 +256,19 @@ public class CompteursViewModel {
 		}
 	}
 
-	private boolean compteurAnneePrec() {
-		return getAnneePrec() == null ? false : getAnneePrec().equals("1") ? true : false;
+	public String soldeJour(Double solde) {
+		if (solde == 0)
+			return "aucun";
+		return solde + " j";
 	}
 
-	private String getHeureMinute(Double soldeExistant, CompteurDto compteurACreer) {
-		Integer nombreMinute = (int) (soldeExistant
-				+ (compteurACreer.getDureeAAjouter() == null ? 0 : compteurACreer.getDureeAAjouter()) - (compteurACreer
-				.getDureeARetrancher() == null ? 0 : compteurACreer.getDureeARetrancher()));
+	public String soldeHeure(Double solde) {
+		if (solde == 0)
+			return "aucun";
+		return getHeureMinute(solde.intValue());
+	}
 
+	private static String getHeureMinute(int nombreMinute) {
 		int heure = nombreMinute / 60;
 		int minute = nombreMinute % 60;
 		String res = "";
@@ -273,6 +278,18 @@ public class CompteursViewModel {
 			res += minute + "m";
 
 		return res;
+	}
+
+	private boolean compteurAnneePrec() {
+		return getAnneePrec() == null ? false : getAnneePrec().equals("1") ? true : false;
+	}
+
+	private String getHeureMinute(Double soldeExistant, CompteurDto compteurACreer) {
+		Integer nombreMinute = (int) (soldeExistant
+				+ (compteurACreer.getDureeAAjouter() == null ? 0 : compteurACreer.getDureeAAjouter()) - (compteurACreer
+				.getDureeARetrancher() == null ? 0 : compteurACreer.getDureeARetrancher()));
+
+		return getHeureMinute(nombreMinute);
 	}
 
 	public String concatAgent(String nom, String prenom) {
@@ -293,7 +310,8 @@ public class CompteursViewModel {
 			getCompteurACreer().setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
 			getCompteurACreer().setIdOrganisationSyndicale(null);
 
-			ReturnMessageDto result = absWsConsumer.saveCompteurRecup(currentUser.getAgent().getIdAgent(), getCompteurACreer());
+			ReturnMessageDto result = absWsConsumer.saveCompteurRecup(currentUser.getAgent().getIdAgent(),
+					getCompteurACreer());
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -336,7 +354,8 @@ public class CompteursViewModel {
 			getCompteurACreer().setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
 			getCompteurACreer().setIdOrganisationSyndicale(null);
 
-			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(currentUser.getAgent().getIdAgent(), getCompteurACreer());
+			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(currentUser.getAgent().getIdAgent(),
+					getCompteurACreer());
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

@@ -55,7 +55,7 @@
 									value="@bind(vm.formulaireRecup)" />
 							</hlayout>
 							<textbox readonly="true"
-								value="@bind(vm.soldeCourant.soldeRecupToString)" />
+								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeRecup))" />
 						</hlayout>
 						<separator />
 						<div sclass="RHTitle2Line" />
@@ -132,7 +132,7 @@
 											value="Année en cours : " />
 									</hlayout>
 									<textbox readonly="true"
-										value="@bind(vm.soldeCourant.soldeReposCompAnneeToString)" />
+										value="@bind(vm.soldeHeure(vm.soldeCourant.soldeReposCompAnnee))" />
 								</hlayout>
 								<separator />
 								<hlayout>
@@ -142,7 +142,7 @@
 											value="Année précédente : " />
 									</hlayout>
 									<textbox readonly="true"
-										value="@bind(vm.soldeCourant.soldeReposCompAnneePrecToString)" />
+										value="@bind(vm.soldeHeure(vm.soldeCourant.soldeReposCompAnneePrec))" />
 								</hlayout>
 							</div>
 						</vlayout>
