@@ -47,6 +47,13 @@
 		override="false" />
 
 	<!-- -->
+	<!-- WS SIRH-EAE-WS -->
+	<!-- -->
+	<Environment name="SIRH_EAE_WS_BASE_URL" type="java.lang.String"
+		description="SIRH EAE WS endpoint url" value="http://localhost:8090/sirh-eae-ws/"
+		override="false" />
+
+	<!-- -->
 	<!-- WS RADI -->
 	<!-- -->
 	<Environment name="SIRH_RADI_WS_BASE_URL" type="java.lang.String"
