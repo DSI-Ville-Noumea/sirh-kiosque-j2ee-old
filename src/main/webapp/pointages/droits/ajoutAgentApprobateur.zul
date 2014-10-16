@@ -52,7 +52,5 @@
 				</div>
 			</vlayout>
 		</div>
-		<include id="includeStyleDroits"
-			src="/css/pointages/gestionDroitsAcces.zul" />
 	</window>
 </zk>

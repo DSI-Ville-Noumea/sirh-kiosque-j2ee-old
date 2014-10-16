@@ -1,21 +1,10 @@
 <style>
 
 	
-	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
-	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
+	<![CDATA[
 
-	.profil { width: 500px; }
 
-	.profil .RHTitle2 { color: #ffffff; margin-bottom: 5px; width: 170px;  }
-
-	.profil .RHTitle2>span { height: 25px; }
-
-	.RHContent { margin-top: 10px; margin-bottom: 15px; }
-
-	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;
-	color: #3B62A7; width:100px; }
-
-	.RHContent .value { display: inline-block; color: #000000; }
+	.RHTitle2 { width: 190px;  }
 
 	.woman { background-position: -381px -125px; }
 
@@ -34,10 +23,8 @@
 	.deplInfo { background-image: url("img/Sprite.png");
 	background-repeat: no-repeat; cursor: pointer; height: 16px; margin:
 	0 auto; width: 16px; background-position: -483px -145px;}
-
-
-	.z-loading { top: 50% !important; left: 45% !important; align:
-	center; vertical-align: middle; } ]]>
+	
+	]]>
 	
 		
 	

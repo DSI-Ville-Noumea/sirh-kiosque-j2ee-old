@@ -1,23 +1,9 @@
 <style>
 
 	
-	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
-	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
+	<![CDATA[ 
 
-
-	.z-loading { top: 50% !important; left: 45% !important; align:
-	center; vertical-align: middle; }
-
-	.eae .RHTitle2 { color: #ffffff; margin-bottom: 5px;width: 170px; }
-
-	.eae .RHTitle2>span { height: 25px;  }
-
-	.RHContent { margin-top: 10px; margin-bottom: 15px; }
-
-	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;
-	color: #3B62A7; width:100px; }
-
-	.RHContent .value { display: inline-block; color: #000000; }
+	.RHTitle2 { width: 170px; }
 
 	.z-row {background-color: #e3d2ad;}
 

@@ -1,25 +1,13 @@
 <style>
-	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
-	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
+	
+	<![CDATA[
 
-	.equipe .RHTitle2 { color: #ffffff; margin-bottom: 5px; }
-
-	.equipe .RHTitle2>span { height: 25px;  }
-
-	.RHContent { margin-top: 10px; margin-bottom: 15px; }
-
-	.RHContent .name { margin: 5px 10px 5px 10px; display: inline-block;
-	color: #3B62A7; width:100px; }
-
-	.RHContent .value { display: inline-block; color: #000000; }
-
-	.RHContent .print { background-image: url("img/Sprite.png");
-	background-position: -299px -229px; display: block; height: 16px;
-	width: 16px; float: right; cursor: pointer;}
+	.RHTitle2 { width: 120px; }
 
 	.RHTitle3 { background-image: url("img/Sprite.png");
 	background-position: -494px -46px; background-repeat: no-repeat;
-	color: #d3711c !important; height: 16px; padding: 0 0 0 8px; line-height: 0px;}
+	color: #d3711c !important; height: 16px; padding: 0 0 0 8px;
+	line-height: 0px;}
 
 
 	.z-row {background-color: #e3d2ad;}
@@ -34,14 +22,12 @@
 	.RHTree { border: 1px solid #d88238; border-radius: 5px; float:
 	left; margin: 0 10px 0 0; overflow-x: hidden; padding: 5px 0 0; }
 
-	.z-loading { top: 50% !important; left: 45% !important; align:
-	center; vertical-align: middle; }
-
-	.z-listitem,.z-listitem:hover > .z-listcell { background-color: #FFEBCD;} 
+	.z-listitem,.z-listitem:hover > .z-listcell { background-color:
+	#FFEBCD;}
 
 	.eaeDownload { background-image: url("img/download.png");
 	background-position: left top; background-repeat: no-repeat; cursor:
-	pointer; display: inline-block; height: 16px; width: 16px; }
-	]]>		
+	pointer; display: inline-block; height: 16px; width: 16px; } ]]>
+			
 	
 </style>

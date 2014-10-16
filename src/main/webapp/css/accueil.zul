@@ -1,0 +1,15 @@
+<style>
+
+	
+	<![CDATA[
+
+	.imageAccueil { background-color: #f3e6d5; background-image:
+	url("img/menu/backgroundBase.png"); background-position: right
+	bottom; background-repeat: no-repeat;padding-left: 10px;padding-top:
+	10px; padding-bottom: 10px;padding-right: 10px;color: #00395e;}
+
+
+	.z-a { color: #0072bc; text-decoration: none; } ]]>
+			
+	
+</style>

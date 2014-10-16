@@ -1,21 +1,12 @@
 <style>
 	
-	<![CDATA[ .fond { background-color:#FFEBCD;padding-left:
-	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px;}
-
-	.RHTitle2Line { background-image: -moz-linear-gradient(left center,
-	rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); clear: both;
-	height: 1px;}
+	<![CDATA[ 
 
 	.z-button,.z-button:focus { background-color: transparent;
 	background-image: url("img/Sprite.png"); background-position: -90px
 	top; background-repeat: no-repeat; border: 0 none; color: #ffffff;
 	cursor: pointer; font-weight: bold; height: 18px; margin: 5px 0 0;
 	width: 90px; min-height: 0px;text-shadow:none; font-size: 12px;}
-
-
-	.z-loading { top: 50% !important; left: 45% !important; align:
-	center; vertical-align: middle; } 
 
 	]]>
 </style>

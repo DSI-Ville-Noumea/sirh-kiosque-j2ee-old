@@ -8,7 +8,7 @@
 					value="Ma fiche de poste" />
 				<separator />
 				<separator />
-				<div sclass="fiche">
+				<div>
 					<div sclass="RHTitle2">
 						<label value="Détail de votre fiche de poste" />
 					</div>

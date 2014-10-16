@@ -9,6 +9,40 @@
 		padding-bottom: 10px;
 		padding-right: 10px;
 	}
+
+	.z-loading { 
+		top: 50% !important; left: 45% !important; 
+		align: center; 
+		vertical-align: middle; 
+	}
+
+	.RHContent { 
+		margin-top: 10px; 
+		margin-bottom: 15px; 
+	}
+
+	.RHContent .name { 
+		margin: 5px 10px 5px 10px; 
+		display: inline-block;
+		color: #3B62A7; 
+		width:100px; 
+	}
+
+	.RHContent .value { 
+		display: inline-block; 
+		color: #000000;
+	}
+
+	.RHContent .print { 
+		background-image: url("img/Sprite.png");
+		background-position: -299px -229px; 
+		display: block; 
+		height: 16px;
+		width: 16px; 
+		float: right; 
+		cursor: pointer;
+	}
+	
 	.z-tab.z-tab-selected,.z-tab.z-tab-selected:hover {
 		background-image: none;
 		background-color: #004e9e;
@@ -86,7 +120,6 @@
 		padding-left: 14px; 
 		border-style:none;
 		padding-top: 0px;
-		width:125px;
 	}
 
 	.RHTitle2>span {     
@@ -102,6 +135,32 @@
 	.RHTitle2Line { background-image: -moz-linear-gradient(left center,
 	rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); clear: both;
 	height: 1px;}
+	
+
+
+	.ListAction.edit { background-position: -235px -229px; }
+
+	.ListAction.delete { background-position: -251px -229px; }
+
+	.ListAction.print { background-position: -299px -229px; }
+    
+	.ListAction.accept {background-position: -315px -229px;}
+
+	.ListAction.delay { background-position: 0 -315px; }
+
+	.ListAction.open { background-position: -483px -145px; }
+
+	.ListAction { background-image: url("img/Sprite.png");
+	background-repeat: no-repeat; cursor: pointer; display:
+	inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }
+
+	.rechercheTableau { background-image: url("img/SpriteV.png");
+	background-position: left top; background-repeat: repeat-x;}
+
+	.rechercheTableau2 { background-image: url("img/Sprite.png");
+	background-position: -485px -98px; background-repeat: no-repeat;
+	padding-left: 14px;color: #ffffff; display: block !important;
+	margin-bottom: 5px;}
 	
 	]]>
 	

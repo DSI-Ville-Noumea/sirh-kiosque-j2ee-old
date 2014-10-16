@@ -90,7 +90,5 @@
 				</tabpanels>
 			</tabbox>
 		</div>
-		<include id="includeStyleDroitsAcces"
-			src="/css/pointages/gestionDroitsAcces.zul" />
 	</window>
 </zk>

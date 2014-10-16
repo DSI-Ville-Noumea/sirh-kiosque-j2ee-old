@@ -12,7 +12,7 @@
 			<separator />
 			<vlayout>
 				<hlayout>
-					<div sclass="profil">
+					<div width="500px;">
 						<div>
 							<div sclass="RHTitle2">
 								<label value="Qui suis-je ?" />
@@ -86,7 +86,7 @@
 				</hlayout>
 				<separator />
 				<hlayout>
-					<div sclass="profil">
+					<div width="500px;">
 						<div sclass="RHTitle2">
 							<label value="Voir mon adresse"
 								sclass="clic" onClick="@command('voirAdresse')" />
@@ -99,7 +99,7 @@
 							<include src="profil/adresse.zul"></include>
 						</div>
 					</div>
-					<div sclass="profil">
+					<div width="500px;">
 						<div sclass="RHTitle2">
 							<label value="Voir ma boîte postale"
 								sclass="clic" onClick="@command('voirBP')" />
@@ -115,7 +115,7 @@
 				<separator />
 				<separator />
 				<hlayout>
-					<div sclass="profil">
+					<div width="500px;">
 						<div sclass="RHTitle2">
 							<label value="Voir mes contacts"
 								sclass="clic" onClick="@command('voirContact')" />
@@ -126,7 +126,7 @@
 							<include src="profil/contact.zul"></include>
 						</div>
 					</div>
-					<div sclass="profil">
+					<div width="500px;">
 						<div sclass="RHTitle2">
 							<label value="Voir mes enfants"
 								sclass="clic" onClick="@command('voirEnfant')" />
@@ -142,7 +142,7 @@
 				<separator />
 				<separator />
 				<hlayout>
-					<div sclass="profil">
+					<div width="500px;">
 						<div sclass="RHTitle2">
 							<label value="Voir mon compte bancaire"
 								sclass="clic" onClick="@command('voirCompte')" />
@@ -153,7 +153,7 @@
 							<include src="profil/compteBancaire.zul"></include>
 						</div>
 					</div>
-					<div sclass="profil">
+					<div width="500px;">
 						<div sclass="RHTitle2">
 							<label value="Voir ma couverture sociale"
 								sclass="clic" onClick="@command('voirCouvertureSociale')" />

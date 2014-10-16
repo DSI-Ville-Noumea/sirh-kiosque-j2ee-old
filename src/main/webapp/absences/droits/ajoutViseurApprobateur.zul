@@ -54,7 +54,5 @@
 				</div>
 			</vlayout>
 		</div>
-		<include id="includeStyleDroits"
-			src="/css/absences/gestionDroits.zul" />
 	</window>
 </zk>

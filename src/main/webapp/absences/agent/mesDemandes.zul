@@ -43,8 +43,6 @@
 				</div>
 			</div>
 		</div>
-		<include id="includeStyleMesDemandes"
-			src="/css/absences/mesDemandes.zul" />
 	</window>
 </zk>
 

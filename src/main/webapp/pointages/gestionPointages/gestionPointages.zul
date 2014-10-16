@@ -205,8 +205,6 @@
 				</div>
 			</vlayout>
 		</div>
-		<include id="includeStyleDroits"
-			src="/css/pointages/gestionPointages.zul" />
 	</window>
 </zk>
 

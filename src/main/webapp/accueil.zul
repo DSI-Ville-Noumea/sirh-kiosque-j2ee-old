@@ -1,16 +1,6 @@
 <zk>
 	<window height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.AccueilViewModel')">
-		<style>
-			.imageAccueil { background-color: #f3e6d5; background-image:
-			url("img/menu/backgroundBase.png"); background-position:
-			right bottom; background-repeat: no-repeat;padding-left:
-			10px;padding-top: 10px; padding-bottom: 10px;padding-right:
-			10px;color: #00395e;}
-
-
-			.z-a { color: #0072bc; text-decoration: none; }
-		</style>
 		<div height="100%" width="100%" sclass="imageAccueil">
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
@@ -70,5 +60,7 @@
 				</div>
 			</vlayout>
 		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/accueil.zul" />
 	</window>
 </zk>

@@ -1,35 +1,11 @@
 <style>
-
 	
-	<![CDATA[ .fond { background-color: #FFEBCD; padding-left:
-	10px;padding-top: 10px; padding-bottom: 10px;padding-right: 10px; }
+	<![CDATA[
 
-	.conges { width: 910px; }
+	.RHTitle2 { width: 225px;}
 
-	.conges .RHTitle2 { color: #ffffff; margin-bottom: 5px;width: 225px;
-	}
-
-	.conges .RHTitle2>span { height: 25px;  }
-
-	.RHContent { margin-top: 10px; margin-bottom: 15px; margin-right:
-	80px; }
-
-	.RHContent.right { text-align: right; }
-
-	.RHContent .name { margin: 5px 10px 5px 30px; display: inline-block;
-	color: #3B62A7; }
-
-	.RHContent .value { width: 120px; display: inline-block; color:
-	#000000; }
-
-
-	.z-loading { top: 50% !important; left: 45% !important; align:
-	center; vertical-align: middle; }
+	.fond .RHContent .name { width: 250px; }
 
 	]]>
-	
-	
-	
-	
 	
 </style>

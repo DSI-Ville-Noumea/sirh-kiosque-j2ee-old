@@ -9,7 +9,7 @@
 					value="Mon équipe" />
 				<separator />
 				<separator />
-				<div sclass="equipe">
+				<div>
 					<div sclass="RHTitle2">
 						<label value="Mon supérieur" />
 					</div>
@@ -41,7 +41,7 @@
 				</div>
 				<separator />
 				<separator />
-				<div sclass="equipe">
+				<div>
 					<div sclass="RHTitle2">
 						<label value="Mon équipe" />
 					</div>
