@@ -8,6 +8,8 @@ import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -19,6 +21,8 @@ import org.zkoss.zul.Div;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class MenuViewModel {
+
+	private Logger logger = LoggerFactory.getLogger(MenuViewModel.class);
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
@@ -48,18 +52,33 @@ public class MenuViewModel {
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
 		/* Pour les absences */
-		AccessRightsAbsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
-		setDroitsAbsence(droitsAbsence);
+		try {
+			AccessRightsAbsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
+			setDroitsAbsence(droitsAbsence);
+		} catch (Exception e) {
+			// l'appli SIRH-ABS-WS ne semble pas répondre
+			logger.error("L'application SIRH-ABS-WS ne répond pas.");
+		}
 		/* Pour les eaes */
-		boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(currentUser.getAgent().getIdAgent());
-		setDroitsEae(droitsEAe);
+		try {
+			boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(currentUser.getAgent().getIdAgent());
+			setDroitsEae(droitsEAe);
+		} catch (Exception e) {
+			// l'appli SIRH-EAE-WS ne semble pas répondre
+			logger.error("L'application SIRH-EAE-WS ne répond pas.");
+		}
 		/* Pour les pointages */
-		AccessRightsPtgDto droitsPointage = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
-				.getIdAgent());
-		setDroitsPointage(droitsPointage);
-		setDroitsModulePointage(getDroitsPointage().isApprobation() || getDroitsPointage().isFiches()
-				|| getDroitsPointage().isGestionDroitsAcces() || getDroitsPointage().isSaisie()
-				|| getDroitsPointage().isVisualisation());
+		try {
+			AccessRightsPtgDto droitsPointage = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
+					.getIdAgent());
+			setDroitsPointage(droitsPointage);
+			setDroitsModulePointage(getDroitsPointage().isApprobation() || getDroitsPointage().isFiches()
+					|| getDroitsPointage().isGestionDroitsAcces() || getDroitsPointage().isSaisie()
+					|| getDroitsPointage().isVisualisation());
+		} catch (Exception e) {
+			// l'appli SIRH-PTG-WS ne semble pas répondre
+			logger.error("L'application SIRH-PTG-WS ne répond pas.");
+		}
 	}
 
 	@Command
@@ -69,9 +88,14 @@ public class MenuViewModel {
 	}
 
 	@Command
-	public void eaeSharepoint(@BindingParam("ecran") Div div) {
-		div.getChildren().clear();
-		Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlEaeApprobateur(), "_blank");
+	public void eaeSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
+		if (currentUser.getAgent().getIdAgent() == 9005138) {
+			div.getChildren().clear();
+			Executions.createComponents(page + ".zul", div, null);
+		} else {
+			div.getChildren().clear();
+			Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlEaeApprobateur(), "_blank");
+		}
 	}
 
 	@Command
