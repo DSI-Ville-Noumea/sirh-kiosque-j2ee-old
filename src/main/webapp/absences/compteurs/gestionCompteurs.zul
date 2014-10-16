@@ -240,8 +240,6 @@
 				</div>
 			</hlayout>
 		</div>
-		<include id="includeStyleDroits"
-			src="/css/absences/gestionCompteurs.zul" />
 	</window>
 </zk>
 

@@ -132,11 +132,22 @@
 	    padding-right: 14px; 
 	}
 
-	.RHTitle2Line { background-image: -moz-linear-gradient(left center,
-	rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); clear: both;
-	height: 1px;}
-	
+	.RHTitle2Line { 
+		background-image: -moz-linear-gradient(left center,
+			rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); 
+		clear: both;
+		height: 1px;
+	}
 
+	.RHTitle3 { 
+		background-image: url("img/Sprite.png");
+		background-position: -494px -46px; 
+		background-repeat: no-repeat;
+		color: #d3711c !important; 
+		height: 16px; 
+		padding: 0 0 0 8px;
+		line-height: 0px;
+	}
 
 	.ListAction.edit { background-position: -235px -229px; }
 

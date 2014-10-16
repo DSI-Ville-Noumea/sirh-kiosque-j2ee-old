@@ -4,11 +4,6 @@
 
 	.RHTitle2 { width: 200px;}
 
-	.RHTitle3 { background-image: url("img/Sprite.png");
-	background-position: -494px -46px; background-repeat: no-repeat;
-	color: #d3711c !important; height: 16px; padding: 0 0 0 8px;
-	line-height: 0px;}
-
 	.z-hlayout-inner{width: 33%;} ]]>		
 	
 </style>

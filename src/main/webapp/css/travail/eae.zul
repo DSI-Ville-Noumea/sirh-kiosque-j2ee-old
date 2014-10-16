@@ -14,7 +14,7 @@
 	.z-grid-odd > .z-row-inner {background-color: #e6bb91;
 	background:none;}
 
-	.eae table { border-collapse: collapse; }
+	.table { border-collapse: collapse; }
 
 	.z-column-content {background-color: #ab5420; color: #ffffff;}
 
