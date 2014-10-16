@@ -15,7 +15,7 @@
 		<div>
 			<label sclass="name" value="Date de naissance" />
 			<label sclass="value"
-				value="@bind(vm.getDateNaissanceToString(each.dateNaissance))" />
+				value="${vm.getDateNaissanceToString(each.dateNaissance)}" />
 		</div>
 		<div>
 			<label sclass="name" value="Lieu de naissance" />
