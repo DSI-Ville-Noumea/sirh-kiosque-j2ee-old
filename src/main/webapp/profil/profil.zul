@@ -71,7 +71,7 @@
 										<label sclass="name"
 											value="Date de naissance" />
 										<label sclass="value"
-											value="@bind(vm.agentCourant.dateNaissanceToString)" />
+											value="@bind(vm.getDateNaissanceToString(vm.agentCourant.dateNaissance))" />
 									</div>
 									<div>
 										<label sclass="name"

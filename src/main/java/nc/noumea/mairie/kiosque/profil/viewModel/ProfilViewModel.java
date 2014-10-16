@@ -1,5 +1,8 @@
 package nc.noumea.mairie.kiosque.profil.viewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -100,6 +103,12 @@ public class ProfilViewModel {
 			setShowCouvertureSociale(false);
 		else
 			setShowCouvertureSociale(true);
+	}
+	
+
+
+	public String getDateNaissanceToString(Date dateNaissance) {
+		return new SimpleDateFormat("dd/MM/yyyy").format(dateNaissance);
 	}
 
 	public ProfilAgentDto getAgentCourant() {

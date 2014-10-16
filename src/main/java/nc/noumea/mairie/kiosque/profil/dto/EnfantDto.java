@@ -1,6 +1,5 @@
 package nc.noumea.mairie.kiosque.profil.dto;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EnfantDto {
@@ -14,10 +13,6 @@ public class EnfantDto {
 
 	public Date getDateNaissance() {
 		return dateNaissance;
-	}
-
-	public String getDateNaissanceToString() {
-		return new SimpleDateFormat("dd/MM/yyyy").format(dateNaissance);
 	}
 
 	public void setDateNaissance(Date dateNaissance) {
