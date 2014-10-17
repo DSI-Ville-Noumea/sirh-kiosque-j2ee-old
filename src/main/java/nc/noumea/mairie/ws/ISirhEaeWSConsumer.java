@@ -9,9 +9,13 @@ public interface ISirhEaeWSConsumer {
 
 	/* TABLEAU BORD */
 	List<EaeDashboardItemDto> getTableauBord(Integer idAgent);
-	
+
 	/* TABLEAU DES EAEs */
 
 	List<EaeListItemDto> getTableauEae(Integer idAgent);
+
+	byte[] imprimerEAE(Integer idEae);
+
+	String initialiseEae(Integer idAgent, Integer idAgentEvalue);
 
 }

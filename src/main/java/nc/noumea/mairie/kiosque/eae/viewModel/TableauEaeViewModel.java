@@ -9,6 +9,7 @@ import java.util.Map;
 
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -21,6 +22,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Filedownload;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class TableauEaeViewModel {
@@ -60,6 +62,43 @@ public class TableauEaeViewModel {
 	}
 
 	@Command
+	public void voirEae(@BindingParam("ref") EaeListItemDto eae) {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, EaeListItemDto> args = new HashMap<String, EaeListItemDto>();
+		args.put("eae", eae);
+		getDivDepart().getChildren().clear();
+		Executions.createComponents("/eae/onglet/eae.zul", getDivDepart(), args);
+	}
+
+	@Command
+	public void imprimerEae(@BindingParam("ref") EaeListItemDto eae) {
+		// on imprime l'EAE de l'agent
+		byte[] resp = eaeWsConsumer.imprimerEAE(eae.getIdEae());
+		Filedownload.save(resp, "application/pdf", "eae_" + eae.getIdEae());
+	}
+
+	@Command
+	@NotifyChange({ "tableauEae" })
+	public void initialiserEae(@BindingParam("ref") EaeListItemDto eae) {
+
+		@SuppressWarnings("unused")
+		String result = eaeWsConsumer.initialiseEae(currentUser.getAgent().getIdAgent(), eae.getAgentEvalue()
+				.getIdAgent());
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		ValidationMessage val = new ValidationMessage();
+		val.setMessage("Eae initilisé avec succès");
+		listInfo.add(val);
+		map.put("errors", listErreur);
+		map.put("infos", listInfo);
+		Executions.createComponents("/messages/returnMessage.zul", null, map);
+		// on re-affiche le tableau des EAEs
+		filtrer();
+	}
+
+	@Command
 	@NotifyChange({ "tableauEae" })
 	public void doSearch() {
 		List<EaeListItemDto> list = new ArrayList<EaeListItemDto>();
@@ -91,10 +130,14 @@ public class TableauEaeViewModel {
 			}
 			setTableauEae(list);
 		} else {
-			// on recupère les info du tableau des EAEs
-			List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
-			setTableauEae(tableau);
+			filtrer();
 		}
+	}
+
+	public void filtrer() {
+		// on recupère les info du tableau des EAEs
+		List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
+		setTableauEae(tableau);
 	}
 
 	public String concatAgent(String nom, String prenom) {

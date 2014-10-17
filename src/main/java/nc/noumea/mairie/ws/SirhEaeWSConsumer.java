@@ -21,6 +21,8 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 	private static final String eaeTableauBordUrl = "eaes/tableauDeBord";
 	private static final String eaeTableauEaeUrl = "eaes/listEaesByAgent";
+	private static final String eaeImpressionEaeUrl = "reporting/eae";
+	private static final String eaeInitialiserEaeUrl = "eaes/initialiserEae";
 
 	@Override
 	public List<EaeDashboardItemDto> getTableauBord(Integer idAgent) {
@@ -40,6 +42,27 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(EaeListItemDto.class, res, url);
+	}
+
+	@Override
+	public byte[] imprimerEAE(Integer idEae) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeImpressionEaeUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idEae", idEae.toString());
+		ClientResponse res = createAndFireRequest(params, url, false, null);
+
+		return readResponseWithFile(res, url);
+	}
+
+	@Override
+	public String initialiseEae(Integer idAgent, Integer idAgentEvalue) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeInitialiserEaeUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idEvalue", idAgentEvalue.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(String.class, res, url);
 	}
 
 }

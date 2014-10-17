@@ -51,16 +51,18 @@
 							sort="auto('agentEvalue.nom')" />
 						<listheader width="100px" label="SHD"
 							sort="auto('agentShd.nom')" />
-						<listheader width="100px" label="Evaluateur(s)" sort="none" />
+						<listheader width="100px" label="Evaluateur(s)"
+							sort="none" />
 						<listheader width="100px" label="Délégataire"
 							sort="auto('agentDelegataire.nom')" />
 						<listheader width="75px" label="Etat de l'EAE"
 							sort="auto('etat')" />
-						<listheader width="30px" align="center" label="CAP" sort="auto('cap')" />
+						<listheader width="30px" align="center"
+							label="CAP" sort="auto('cap')" />
 						<listheader label="Avis Evaluateur"
 							sort="auto('avisShd')" />
-						<listheader width="55px" align="center" label="EAE joint"
-							sort="auto('docAttache')" />
+						<listheader width="55px" align="center"
+							label="EAE joint" sort="auto('docAttache')" />
 						<listheader width="70px">
 							<vlayout>
 								<label sclass="z-listheader-content"
@@ -124,26 +126,25 @@
 										value="@bind(vm.getDateToString(each.dateControle))" />
 								</vlayout>
 							</listcell>
-					<listcell>
-						<hlayout>
-							<image tooltiptext="Créer l'EAE"
-								sclass="ListAction create"
-								visible="@bind(each.droitInitialiser)"
-								onClick="@command('initialiserEae')" />
-							<image tooltiptext="Modifier l'EAE"
-								sclass="ListAction edit"
-								visible="@bind(each.droitDemarrer)"
-								onClick="@command('modifierEae', ref=each)" />
-							<image tooltiptext="Visualiser l'EAE"
-								sclass="ListAction view"
-								visible="@bind(each.droitAcceder)"
-								onClick="@command('voirEae')" />
-							<image tooltiptext="Télécharger l'EAE"
-								sclass="ListAction print"
-								visible="@bind(each.droitImprimerBirt)"
-								onClick="@command('imprimerEae')" />
-						</hlayout>
-					</listcell>
+							<listcell>
+								<hlayout>
+									<image tooltiptext="Créer l'EAE"
+										sclass="ListAction create"
+										visible="@bind(each.droitInitialiser)"
+										onClick="@command('initialiserEae', ref=each)" />
+									<image tooltiptext="Modifier l'EAE"
+										sclass="ListAction edit" visible="@bind(each.droitDemarrer)"
+										onClick="@command('modifierEae', ref=each)" />
+									<image
+										tooltiptext="Visualiser l'EAE" sclass="ListAction view"
+										visible="@bind(each.droitAcceder)"
+										onClick="@command('voirEae', ref=each)" />
+									<image
+										tooltiptext="Télécharger l'EAE" sclass="ListAction print"
+										visible="@bind(each.droitImprimerBirt)"
+										onClick="@command('imprimerEae', ref=each)" />
+								</hlayout>
+							</listcell>
 						</listitem>
 					</template>
 				</listbox>
