@@ -1,0 +1,47 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.eae.viewModel.EaeViewModel')"
+		height="100%">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="EAE" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="@bind(vm.concatAgent(vm.eaeCourant.agentEvalue.nom,vm.eaeCourant.agentEvalue.prenom))" />
+			</vlayout>
+			<separator />
+			<tabbox id="tb"
+				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
+				<tabs id="tabs">
+					<tab id="IDENTIFICATION" label="Identification"
+						onClick="@command('changeVue',tab = IDENTIFICATION)">
+					</tab>
+					<tab id="FICHEPOSTE" label="Fiche de poste"
+						onClick="@command('changeVue',tab = FICHEPOSTE)" />
+					<tab id="RESULTAT" label="Résultat"
+						onClick="@command('changeVue',tab = RESULTAT)" />
+					<tab id="APPRECIATION" label="Appreciation"
+						onClick="@command('changeVue',tab = APPRECIATION)" />
+					<tab id="EVALUATION" label="Evaluation"
+						onClick="@command('changeVue',tab = EVALUATION)" />
+					<tab id="AUTOEVALUATION" label="Auto-évaluation"
+						onClick="@command('changeVue',tab = AUTOEVALUATION)" />
+					<tab id="PLANACTION" label="Plan d'action"
+						onClick="@command('changeVue',tab = PLANACTION)" />
+					<tab id="EVOLUTION" label="Evolution"
+						onClick="@command('changeVue',tab = EVOLUTION)" />
+				</tabs>
+				<tabpanels>
+					<tabpanel>identification</tabpanel>
+					<tabpanel>fiche poste</tabpanel>
+					<tabpanel>resultat</tabpanel>
+					<tabpanel>appreciation</tabpanel>
+					<tabpanel>evaluation</tabpanel>
+					<tabpanel>auto evaluation</tabpanel>
+					<tabpanel>plan action</tabpanel>
+					<tabpanel>evolution</tabpanel>
+				</tabpanels>
+			</tabbox>
+		</div>
+	</window>
+</zk>

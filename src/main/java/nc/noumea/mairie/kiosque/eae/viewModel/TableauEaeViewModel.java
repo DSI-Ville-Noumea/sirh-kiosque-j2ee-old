@@ -3,18 +3,24 @@ package nc.noumea.mairie.kiosque.eae.viewModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Div;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class TableauEaeViewModel {
@@ -26,12 +32,15 @@ public class TableauEaeViewModel {
 
 	private List<EaeListItemDto> tableauEae;
 
+	private Div divDepart;
+
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
 
 	@Init
-	public void initTableauBord() {
+	public void initTableauEae(@ExecutionArgParam("div") Div div) {
+		setDivDepart(div);
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		// on recupère les info du tableau des EAEs
 		List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
@@ -39,6 +48,15 @@ public class TableauEaeViewModel {
 
 		// on initialise la taille du tableau
 		setTailleListe("5");
+	}
+
+	@Command
+	public void modifierEae(@BindingParam("ref") EaeListItemDto eae) {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, EaeListItemDto> args = new HashMap<String, EaeListItemDto>();
+		args.put("eae", eae);
+		getDivDepart().getChildren().clear();
+		Executions.createComponents("/eae/onglet/eae.zul", getDivDepart(), args);
 	}
 
 	@Command
@@ -84,7 +102,7 @@ public class TableauEaeViewModel {
 	}
 
 	public String getDateToString(Date date) {
-		if(date==null)
+		if (date == null)
 			return "N/A";
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
@@ -112,5 +130,13 @@ public class TableauEaeViewModel {
 
 	public void setFilter(String filter) {
 		this.filter = filter;
+	}
+
+	public Div getDivDepart() {
+		return divDepart;
+	}
+
+	public void setDivDepart(Div divDepart) {
+		this.divDepart = divDepart;
 	}
 }

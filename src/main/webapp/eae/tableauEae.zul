@@ -133,7 +133,7 @@
 							<image tooltiptext="Modifier l'EAE"
 								sclass="ListAction edit"
 								visible="@bind(each.droitDemarrer)"
-								onClick="@command('modifierEae')" />
+								onClick="@command('modifierEae', ref=each)" />
 							<image tooltiptext="Visualiser l'EAE"
 								sclass="ListAction view"
 								visible="@bind(each.droitAcceder)"

@@ -1,5 +1,8 @@
 package nc.noumea.mairie.kiosque.viewModel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -90,8 +93,11 @@ public class MenuViewModel {
 	@Command
 	public void eaeSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
 		if (currentUser.getAgent().getIdAgent() == 9005138) {
+			Map<String, Div> args = new HashMap<String, Div>();
+			args.put("div", div);
+
 			div.getChildren().clear();
-			Executions.createComponents(page + ".zul", div, null);
+			Executions.createComponents(page + ".zul", div, args);
 		} else {
 			div.getChildren().clear();
 			Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlEaeApprobateur(), "_blank");
