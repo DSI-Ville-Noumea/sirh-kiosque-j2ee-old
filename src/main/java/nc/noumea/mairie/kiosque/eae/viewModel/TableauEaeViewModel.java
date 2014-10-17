@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -81,16 +82,20 @@ public class TableauEaeViewModel {
 	@NotifyChange({ "tableauEae" })
 	public void initialiserEae(@BindingParam("ref") EaeListItemDto eae) {
 
-		@SuppressWarnings("unused")
-		String result = eaeWsConsumer.initialiseEae(currentUser.getAgent().getIdAgent(), eae.getAgentEvalue()
+		ReturnMessageDto result = eaeWsConsumer.initialiseEae(currentUser.getAgent().getIdAgent(), eae.getAgentEvalue()
 				.getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
-		ValidationMessage val = new ValidationMessage();
-		val.setMessage("Eae initilisé avec succès");
-		listInfo.add(val);
+		for (String error : result.getErrors()) {
+			ValidationMessage vm = new ValidationMessage(error);
+			listErreur.add(vm);
+		}
+		for (String info : result.getInfos()) {
+			ValidationMessage vm = new ValidationMessage(info);
+			listInfo.add(vm);
+		}
 		map.put("errors", listErreur);
 		map.put("infos", listInfo);
 		Executions.createComponents("/messages/returnMessage.zul", null, map);

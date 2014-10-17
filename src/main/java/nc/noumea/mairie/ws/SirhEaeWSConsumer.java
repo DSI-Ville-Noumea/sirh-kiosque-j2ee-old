@@ -3,11 +3,13 @@ package nc.noumea.mairie.ws;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -55,14 +57,22 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	}
 
 	@Override
-	public String initialiseEae(Integer idAgent, Integer idAgentEvalue) {
+	public ReturnMessageDto initialiseEae(Integer idAgent, Integer idAgentEvalue) {
 		String url = String.format(sirhEaeWsBaseUrl + eaeInitialiserEaeUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("idEvalue", idAgentEvalue.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponse(String.class, res, url);
+
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans l'initialisation de l'EAE.");
+			return dto;
+		}
+		String result = readResponse(String.class, res, url);
+		dto.getInfos().add(result);
+		return dto;
 	}
 
 }
