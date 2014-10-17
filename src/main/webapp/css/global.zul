@@ -160,6 +160,10 @@
 	.ListAction.delay { background-position: 0 -315px; }
 
 	.ListAction.open { background-position: -483px -145px; }
+	
+	.ListAction.create { background-position: -219px -229px; }
+	
+	.ListAction.view { background-position: -267px -229px; }
 
 	.ListAction { background-image: url("img/Sprite.png");
 	background-repeat: no-repeat; cursor: pointer; display:

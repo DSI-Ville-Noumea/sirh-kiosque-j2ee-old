@@ -1,6 +1,8 @@
 package nc.noumea.mairie.kiosque.eae.viewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
@@ -34,6 +36,7 @@ public class TableauEaeViewModel {
 		// on recupère les info du tableau des EAEs
 		List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
 		setTableauEae(tableau);
+
 		// on initialise la taille du tableau
 		setTailleListe("5");
 	}
@@ -78,6 +81,13 @@ public class TableauEaeViewModel {
 
 	public String concatAgent(String nom, String prenom) {
 		return nom + " " + prenom;
+	}
+
+	public String getDateToString(Date date) {
+		if(date==null)
+			return "N/A";
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(date);
 	}
 
 	public List<EaeListItemDto> getTableauEae() {

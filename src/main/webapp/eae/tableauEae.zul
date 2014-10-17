@@ -37,19 +37,118 @@
 				<separator />
 				<listbox model="@bind(vm.tableauEae)">
 					<listhead>
+						<listheader>
+							<vlayout>
+								<label sclass="z-listheader-content"
+									value="Direction" />
+								<label sclass="z-listheader-content"
+									value="Service" />
+								<label sclass="z-listheader-content"
+									value="Section" />
+							</vlayout>
+						</listheader>
 						<listheader label="Evalué"
 							sort="auto('agentEvalue.nom')" />
 						<listheader label="SHD"
 							sort="auto('agentShd.nom')" />
+						<listheader label="Evaluateur(s)" sort="none" />
+						<listheader label="Délégataire"
+							sort="auto('agentDelegataire.nom')" />
+						<listheader label="Etat de l'EAE"
+							sort="auto('etat')" />
+						<listheader label="CAP" sort="auto('cap')" />
+						<listheader label="Avis Evaluateur"
+							sort="auto('avisShd')" />
+						<listheader label="EAE joint"
+							sort="auto('docAttache')" />
+						<listheader>
+							<vlayout>
+								<label sclass="z-listheader-content"
+									value="Créé le" />
+								<label sclass="z-listheader-content"
+									value="Finalisé le" />
+								<label sclass="z-listheader-content"
+									value="Contrôlé le" />
+							</vlayout>
+						</listheader>
+						<listheader label="Actions" sort="none" />
 					</listhead>
 					<template name="model">
 						<listitem>
+							<listcell>
+								<vlayout>
+									<label sclass="interieur"
+										value="@bind(each.directionService)" />
+									<label sclass="interieur"
+										value="@bind(each.service)" />
+									<label sclass="interieur"
+										value="@bind(each.sectionService)" />
+								</vlayout>
+							</listcell>
+							<listcell
+								label="@bind(vm.concatAgent(each.agentEvalue.nom,each.agentEvalue.prenom))" />
 							<listcell
 								label="@bind(vm.concatAgent(each.agentShd.nom,each.agentShd.prenom))" />
+							<listcell>
+								<vlayout>
+									<zk
+										forEach="${each.eaeEvaluateurs}">
+										<label sclass="interieur"
+											value="${vm.concatAgent(each.nom,each.prenom)}" />
+									</zk>
+								</vlayout>
+							</listcell>
+							<listcell
+								label="@bind(vm.concatAgent(each.agentDelegataire.nom,each.agentDelegataire.prenom))" />
+							<listcell label="@bind(each.etat)" />
+							<listcell>
+								<image sclass="cap"
+									visible="@bind(each.cap)" />
+								<image visible="@bind(not each.cap)"
+									sclass="cap disabled" />
+							</listcell>
+							<listcell label="@bind(each.avisShd)" />
+							<listcell>
+								<label value="oui" sclass="interieur"
+									visible="@bind(each.docAttache)" />
+								<label value="non" sclass="interieur"
+									visible="@bind(not each.docAttache)" />
+							</listcell>
+							<listcell>
+								<vlayout>
+									<label sclass="interieur"
+										value="@bind(vm.getDateToString(each.dateCreation))" />
+									<label sclass="interieur"
+										value="@bind(vm.getDateToString(each.dateFinalisation))" />
+									<label sclass="interieur"
+										value="@bind(vm.getDateToString(each.dateControle))" />
+								</vlayout>
+							</listcell>
+					<listcell>
+						<hlayout>
+							<image tooltiptext="Créer l'EAE"
+								sclass="ListAction create"
+								visible="@bind(each.droitInitialiser)"
+								onClick="@command('initialiserEae')" />
+							<image tooltiptext="Modifier l'EAE"
+								sclass="ListAction edit"
+								visible="@bind(each.droitDemarrer)"
+								onClick="@command('modifierEae')" />
+							<image tooltiptext="Visualiser l'EAE"
+								sclass="ListAction view"
+								visible="@bind(each.droitAcceder)"
+								onClick="@command('voirEae')" />
+							<image tooltiptext="Télécharger l'EAE"
+								sclass="ListAction print"
+								visible="@bind(each.droitImprimerBirt)"
+								onClick="@command('imprimerEae')" />
+						</hlayout>
+					</listcell>
 						</listitem>
 					</template>
 				</listbox>
 			</vlayout>
 		</div>
+		<include id="includeStyleDroits" src="/css/eae/tableauEae.zul" />
 	</window>
 </zk>

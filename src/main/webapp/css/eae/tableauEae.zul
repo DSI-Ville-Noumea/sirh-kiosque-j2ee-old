@@ -1,0 +1,17 @@
+<style>
+	
+	<![CDATA[
+
+	.RHTitle2 { width: 160px; }
+
+	.z-listheader-content, .z-listcell-content, .z-listgroup-content,
+	.z-listgroupfoot-content, .z-listfooter-content { font-size: 10px; }
+
+	.interieur { font-size: 10px; font-weight: normal;} .cap {
+	background-image: url("img/Sprite.png"); background-position: -477px
+	top; background-repeat: no-repeat; display: block; height: 16px;
+	margin: 6px auto; width: 16px; }
+
+	.cap.disabled { background-position: -451px -87px; } ]]>
+			
+</style>
