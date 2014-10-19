@@ -1,5 +1,8 @@
 package nc.noumea.mairie.kiosque.eae.viewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -50,6 +53,48 @@ public class EaeViewModel {
 	@NotifyChange({ "eaeCourant" })
 	public void setTabDebut(@BindingParam("tab") Tab tab) {
 		setTabCourant(tab);
+	}
+
+	public String getDateToString(Date date) {
+		if (date == null)
+			return "";
+		return new SimpleDateFormat("dd/MM/yyyy").format(date);
+	}
+
+	public String transformeDuree(Integer ancienneteEchelonJours) {
+		String res = "";
+		if (ancienneteEchelonJours == null)
+			return res;
+
+		Integer annee = ancienneteEchelonJours / 365;
+		Integer mois = (ancienneteEchelonJours % 365) / 30;
+		Integer jour = (ancienneteEchelonJours % 365) % 30;
+		if (annee == 1) {
+			res += annee + " an";
+		} else if (annee > 1) {
+			res += annee + " ans";
+
+		}
+
+		if (mois > 0) {
+			if (res.equals(""))
+				res += mois + " mois";
+			else
+				res += ", " + mois + " mois";
+		}
+		if (jour == 1) {
+			if (res.equals(""))
+				res += jour + " jour";
+			else
+				res += ", " + jour + " jour";
+		} else if (jour > 1) {
+			if (res.equals(""))
+				res += jour + " jours";
+			else
+				res += ", " + jour + " jours";
+		}
+
+		return res;
 	}
 
 	public String concatAgent(String nom, String prenom) {
