@@ -32,7 +32,198 @@
 						onClick="@command('changeVue',tab = EVOLUTION)" />
 				</tabs>
 				<tabpanels>
-					<tabpanel>identification</tabpanel>
+					<tabpanel>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<vlayout>
+							<label sclass="titre"
+								value="ENTRETIEN ANNUEL D'ECHANGE" />
+							<hlayout>
+								<div sclass="espace">
+									<label
+										value="Date de l'entretien annuel d'échange" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.dateEntretien) @converter('formatedDate',format='dd/MM/yyyy')" />
+								</div>
+							</hlayout>
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="PRESENTATION DE l'EVALUATEUR" />
+
+							<vlayout>
+								<zk
+									forEach="@bind(vm.identification.evaluateurs)">
+									<hlayout>
+										<div sclass="espace">
+											<label value="Nom" />
+										</div>
+										<div sclass="bleu">
+											<label value="${each.nom}" />
+										</div>
+										<div sclass="espace">
+											<label value="Prénom" />
+										</div>
+										<div sclass="bleu">
+											<label
+												value="${each.prenom}" />
+										</div>
+									</hlayout>
+									<hlayout>
+										<div sclass="espace">
+											<label
+												value="Date d'entrée dans la collectivité" />
+										</div>
+										<div sclass="bleu">
+											<label value="${each.dateEntreeCollectivite} @converter('formatedDate',format='dd/MM/yyyy')" />
+										</div>
+										<div sclass="espace">
+											<label value="Fonction" />
+										</div>
+										<div sclass="bleu">
+											<label value="${each.fonction}" />
+										</div>
+									</hlayout>
+									<hlayout>
+										<div sclass="espace">
+											<label
+												value="Date d'entrée dans le service" />
+										</div>
+										<div sclass="bleu">
+											<label value="${each.dateEntreeService} @converter('formatedDate',format='dd/MM/yyyy')" />
+										</div>
+										<div sclass="espace">
+											<label
+												value="Date d'entrée dans la fonction" />
+										</div>
+										<div sclass="bleu">
+											<label value="${each.dateEntreeFonction} @converter('formatedDate',format='dd/MM/yyyy')" />
+										</div>
+									</hlayout>
+								</zk>
+							</vlayout>
+
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="CONNAISSANCE DE L'AGENT EVALUE" />
+							<hlayout>
+								<div sclass="espace">
+									<label value="Nom" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.agent.nom)" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Nom Patronymique" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.agent.nomJeuneFille)" />
+								</div>
+								<div sclass="espace">
+									<label value="Date de naissance" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.agent.dateNaissance) @converter('formatedDate',format='dd/MM/yyyy')" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Prénom" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.agent.prenom)" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Diplômes" />
+								</div>
+								<div sclass="bleu">
+									<label value="dsg" />
+								</div>
+								<div sclass="espace">
+									<label
+										value="Derniers stages de formation suivis" />
+								</div>
+								<div sclass="bleu">
+									<label value="dsg" />
+								</div>
+							</hlayout>
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="PARCOURS PROFESSIONNEL" />
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="SITUATION ADMINISTRATIVE" />
+							<hlayout>
+								<div sclass="espace">
+									<label value="Employeur" />
+								</div>
+								<div sclass="bleu">
+									<label value="VILLE DE NOUMEA" />
+								</div>
+								<div sclass="espace">
+									<label
+										value="Direction d'affectation" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.situation.directionService)" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label
+										value="Date d'entrée en qualité de fonctionnaire" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.situation.dateEntreeFonctionnaire) @converter('formatedDate',format='dd/MM/yyyy')" />
+								</div>
+								<div sclass="espace">
+									<label
+										value="Date d'entrée dans l'administration" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.situation.dateEntreeAdministration) @converter('formatedDate',format='dd/MM/yyyy')" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Fonction" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.situation.fonction)" />
+								</div>
+								<div sclass="espace">
+									<label
+										value="Date d'entrée dans la fonction" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.situation.dateEntreeFonction) @converter('formatedDate',format='dd/MM/yyyy')" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Emploi" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.situation.emploi)" />
+								</div>
+							</hlayout>
+						</vlayout>
+					</tabpanel>
 					<tabpanel>fiche poste</tabpanel>
 					<tabpanel>resultat</tabpanel>
 					<tabpanel>appreciation</tabpanel>
@@ -43,5 +234,6 @@
 				</tabpanels>
 			</tabbox>
 		</div>
+		<include id="includeStyleEae" src="/css/eae/eae.zul" />
 	</window>
 </zk>

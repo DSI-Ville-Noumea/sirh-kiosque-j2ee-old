@@ -1,5 +1,6 @@
 package nc.noumea.mairie.kiosque.eae.viewModel;
 
+import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
@@ -26,10 +27,16 @@ public class EaeViewModel {
 
 	private Tab tabCourant;
 
+	private EaeIdentificationDto identification;
+
 	@Init
 	public void initTableauBord(@ExecutionArgParam("eae") EaeListItemDto eae) {
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		setEaeCourant(eae);
+		// on charge l'identification
+		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(eae.getIdEae(), currentUser.getAgent()
+				.getIdAgent());
+		setIdentification(identification);
 	}
 
 	@Command
@@ -63,5 +70,13 @@ public class EaeViewModel {
 
 	public void setTabCourant(Tab tabCourant) {
 		this.tabCourant = tabCourant;
+	}
+
+	public EaeIdentificationDto getIdentification() {
+		return identification;
+	}
+
+	public void setIdentification(EaeIdentificationDto identification) {
+		this.identification = identification;
 	}
 }
