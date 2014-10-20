@@ -1,0 +1,350 @@
+<zk>
+	<div sclass="RHTitle2Line" />
+	<separator />
+	<image visible="@bind(vm.hasTextChanged)" sclass="saveAction"
+		onClick="@command('saveIdentification')" />
+	<separator />
+	<vlayout>
+		<label sclass="titre" value="ENTRETIEN ANNUEL D'ECHANGE" />
+		<hlayout>
+			<div sclass="espace">
+				<label value="Date de l'entretien annuel d'échange" />
+			</div>
+			<div sclass="bleu">
+				<label visible="@bind(not vm.modification)"
+					value="@bind(vm.identification.dateEntretien) @converter('formatedDate',format='dd/MM/yyyy')" />
+				<datebox visible="@bind(vm.modification)"
+					format="dd/MM/yyyy" value="@bind(vm.identification.dateEntretien)"
+					onChange="@command('textChanged')" />
+			</div>
+		</hlayout>
+		<div sclass="blockSeparator" />
+		<label sclass="RHTitle3" value="PRESENTATION DE l'EVALUATEUR" />
+
+		<vlayout>
+			<zk forEach="${vm.identification.evaluateurs}">
+				<hlayout>
+					<div sclass="espace">
+						<label value="Nom" />
+					</div>
+					<div sclass="bleu">
+						<label value="${each.nom}" />
+					</div>
+					<div sclass="espace">
+						<label value="Prénom" />
+					</div>
+					<div sclass="bleu">
+						<label value="${each.prenom}" />
+					</div>
+				</hlayout>
+				<hlayout>
+					<div sclass="espace">
+						<label
+							value="Date d'entrée dans la collectivité" />
+					</div>
+					<div sclass="bleu">
+						<label
+							value="${vm.getDateToString(each.dateEntreeCollectivite)}" />
+					</div>
+					<div sclass="espace">
+						<label value="Fonction" />
+					</div>
+					<div sclass="bleu">
+						<label value="${each.fonction}" />
+					</div>
+				</hlayout>
+				<hlayout>
+					<div sclass="espace">
+						<label value="Date d'entrée dans le service" />
+					</div>
+					<div sclass="bleu">
+						<label visible="@bind(not vm.modification)"
+							value="${vm.getDateToString(each.dateEntreeService)}" />
+						<datebox visible="@bind(vm.modification)"
+							format="dd/MM/yyyy" value="${each.dateEntreeService}"
+							onChange="@command('textChanged')" />
+					</div>
+					<div sclass="espace">
+						<label value="Date d'entrée dans la fonction" />
+					</div>
+					<div sclass="bleu">
+						<label visible="@bind(not vm.modification)"
+							value="${vm.getDateToString(each.dateEntreeFonction)}" />
+						<datebox visible="@bind(vm.modification)"
+							format="dd/MM/yyyy" value="${each.dateEntreeFonction}"
+							onChange="@command('textChanged')" />
+					</div>
+				</hlayout>
+				<div sclass="blockSeparator" />
+			</zk>
+		</vlayout>
+
+		<label sclass="RHTitle3" value="CONNAISSANCE DE L'AGENT EVALUE" />
+		<hlayout>
+			<div sclass="espace">
+				<label value="Nom" />
+			</div>
+			<div sclass="bleu">
+				<label value="@bind(vm.identification.agent.nom)" />
+			</div>
+		</hlayout>
+		<hlayout>
+			<div sclass="espace">
+				<label value="Nom Patronymique" />
+			</div>
+			<div sclass="bleu">
+				<label
+					value="@bind(vm.identification.agent.nomJeuneFille)" />
+			</div>
+			<div sclass="espace">
+				<label value="Date de naissance" />
+			</div>
+			<div sclass="bleu">
+				<label
+					value="@bind(vm.identification.agent.dateNaissance) @converter('formatedDate',format='dd/MM/yyyy')" />
+			</div>
+		</hlayout>
+		<hlayout>
+			<div sclass="espace">
+				<label value="Prénom" />
+			</div>
+			<div sclass="bleu">
+				<label value="@bind(vm.identification.agent.prenom)" />
+			</div>
+		</hlayout>
+		<hlayout>
+			<div sclass="espace">
+				<label value="Diplômes" />
+			</div>
+			<div sclass="bleu">
+				<zk forEach="${vm.identification.diplomes}">
+					<vlayout>
+						<label value="${each}" />
+					</vlayout>
+				</zk>
+			</div>
+			<div sclass="espace">
+				<label value="Derniers stages de formation suivis" />
+			</div>
+			<div sclass="bleu">
+				<zk forEach="${vm.identification.formations}">
+					<vlayout>
+						<label value="${each}" />
+					</vlayout>
+				</zk>
+			</div>
+		</hlayout>
+		<div sclass="blockSeparator" />
+		<label sclass="RHTitle3" value="PARCOURS PROFESSIONNEL" />
+		<div sclass="bleu" width="100%">
+			<zk forEach="${vm.identification.parcoursPros}">
+				<vlayout>
+					<label value="${each}" />
+				</vlayout>
+			</zk>
+		</div>
+		<div sclass="blockSeparator" />
+		<label sclass="RHTitle3" value="SITUATION ADMINISTRATIVE" />
+		<hlayout>
+			<div sclass="espace">
+				<label value="Employeur" />
+			</div>
+			<div sclass="bleu">
+				<label value="VILLE DE NOUMEA" />
+			</div>
+			<div sclass="espace">
+				<label value="Direction d'affectation" />
+			</div>
+			<div sclass="bleu">
+				<label
+					value="@bind(vm.identification.situation.directionService)" />
+			</div>
+		</hlayout>
+		<hlayout>
+			<div sclass="espace">
+				<label
+					value="Date d'entrée en qualité de fonctionnaire" />
+			</div>
+			<div sclass="bleu">
+				<label visible="@bind(not vm.modification)"
+					value="@bind(vm.identification.situation.dateEntreeFonctionnaire) @converter('formatedDate',format='dd/MM/yyyy')" />
+				<datebox visible="@bind(vm.modification)"
+					format="dd/MM/yyyy"
+					value="@bind(vm.identification.situation.dateEntreeFonctionnaire)"
+					onChange="@command('textChanged')" />
+			</div>
+			<div sclass="espace">
+				<label value="Date d'entrée dans l'administration" />
+			</div>
+			<div sclass="bleu">
+				<label visible="@bind(not vm.modification)"
+					value="@bind(vm.identification.situation.dateEntreeAdministration) @converter('formatedDate',format='dd/MM/yyyy')" />
+				<datebox visible="@bind(vm.modification)"
+					format="dd/MM/yyyy"
+					value="@bind(vm.identification.situation.dateEntreeAdministration)"
+					onChange="@command('textChanged')" />
+			</div>
+		</hlayout>
+		<hlayout>
+			<div sclass="espace">
+				<label value="Fonction" />
+			</div>
+			<div sclass="bleu">
+				<label
+					value="@bind(vm.identification.situation.fonction)" />
+			</div>
+			<div sclass="espace">
+				<label value="Date d'entrée dans la fonction" />
+			</div>
+			<div sclass="bleu">
+				<label visible="@bind(not vm.modification)"
+					value="@bind(vm.identification.situation.dateEntreeFonction) @converter('formatedDate',format='dd/MM/yyyy')" />
+				<datebox visible="@bind(vm.modification)"
+					format="dd/MM/yyyy"
+					value="@bind(vm.identification.situation.dateEntreeFonction)"
+					onChange="@command('textChanged')" />
+			</div>
+		</hlayout>
+		<hlayout>
+			<div sclass="espace">
+				<label value="Emploi" />
+			</div>
+			<div sclass="bleu">
+				<label
+					value="@bind(vm.identification.situation.emploi)" />
+			</div>
+		</hlayout>
+		<div sclass="blockSeparator" />
+		<label sclass="RHTitle3" value="STATUT" />
+		<hlayout>
+			<div>
+				<label sclass="titre" value="Situation actuelle" />
+				<hlayout>
+					<div sclass="espace">
+						<vlayout>
+							<radiogroup orient="vertical"
+								selectedItem="@bind(vm.identification.statut.statut.courant)">
+								<zk
+									forEach="${vm.identification.statut.statut.liste}">
+									<radio sclass="bleu" disabled="true"
+										label="${each.valeur}" value="${each.code}" />
+								</zk>
+							</radiogroup>
+						</vlayout>
+					</div>
+					<div>
+						<vlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Cadre" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.statut.cadre)" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label
+										value="Corps / Grade / Classe" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.statut.grade)" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Echelon" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.statut.echelon)" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Catégorie" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.statut.categorie)" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label value="Classification" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.identification.statut.classification)" />
+								</div>
+							</hlayout>
+							<hlayout>
+								<div sclass="espace">
+									<label
+										value="Ancienneté de l'échelon" />
+								</div>
+								<div sclass="bleu">
+									<label
+										value="@bind(vm.transformeDuree(vm.identification.statut.ancienneteEchelonJours))" />
+								</div>
+							</hlayout>
+						</vlayout>
+					</div>
+				</hlayout>
+			</div>
+
+			<div>
+				<label sclass="titre" value="Avancement" />
+				<vlayout>
+					<hlayout>
+						<div sclass="espace">
+							<label value="Corps / Grade / Classe" />
+						</div>
+						<div sclass="bleu">
+							<label
+								value="@bind(vm.identification.statut.nouvGrade)" />
+						</div>
+					</hlayout>
+					<hlayout>
+						<div sclass="espace">
+							<label value="Echelon" />
+						</div>
+						<div sclass="bleu">
+							<label
+								value="@bind(vm.identification.statut.nouvEchelon)" />
+						</div>
+					</hlayout>
+					<hlayout>
+						<div sclass="espace">
+							<label value="Date d'effet" />
+						</div>
+						<div sclass="bleu">
+							<label
+								value="@bind(vm.getDateToString(vm.identification.statut.dateEffet))" />
+						</div>
+					</hlayout>
+				</vlayout>
+			</div>
+		</hlayout>
+		<div sclass="blockSeparator" />
+		<label sclass="RHTitle3" value="POSITION" />
+		<hlayout>
+			<radiogroup orient="horizontal"
+				selectedItem="@bind(vm.identification.position.courant)">
+				<hlayout>
+					<zk forEach="${vm.identification.position.liste}">
+						<div sclass="bleu">
+							<radio disabled="true"
+								label="${each.valeur}" value="${each.code}" />
+						</div>
+					</zk>
+				</hlayout>
+			</radiogroup>
+		</hlayout>
+		<separator />
+		<separator />
+		<separator />
+	</vlayout>
+</zk>
