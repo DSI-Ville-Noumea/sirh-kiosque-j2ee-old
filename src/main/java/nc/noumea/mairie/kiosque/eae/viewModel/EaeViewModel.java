@@ -63,6 +63,7 @@ public class EaeViewModel {
 	}
 
 	@GlobalCommand
+	@Command
 	@NotifyChange({ "hasTextChanged", "identification" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
