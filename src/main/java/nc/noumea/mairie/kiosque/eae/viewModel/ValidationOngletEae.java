@@ -29,9 +29,7 @@ public class ValidationOngletEae {
 
 	@Command
 	public void engistreOnglet(@BindingParam("win") Window window) {
-		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("tab", getTabChoisi());
-		BindUtils.postGlobalCommand(null, null, "engistreOnglet", args);
+		BindUtils.postGlobalCommand(null, null, "engistreOnglet", null);
 		window.detach();
 	}
 

@@ -2,7 +2,7 @@
 	<div sclass="RHTitle2Line" />
 	<separator />
 	<image visible="@bind(vm.hasTextChanged)" sclass="saveAction"
-		onClick="@command('saveIdentification')" />
+		onClick="@command('engistreOnglet')" />
 	<separator />
 	<vlayout>
 		<label sclass="titre" value="ENTRETIEN ANNUEL D'ECHANGE" />

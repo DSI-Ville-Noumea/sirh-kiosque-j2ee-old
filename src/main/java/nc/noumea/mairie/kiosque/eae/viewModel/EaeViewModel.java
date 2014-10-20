@@ -64,7 +64,7 @@ public class EaeViewModel {
 
 	@GlobalCommand
 	@NotifyChange({ "hasTextChanged", "identification" })
-	public void engistreOnglet(@BindingParam("tab") Tab tab) {
+	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
 		if (getTabCourant().getId().equals("IDENTIFICATION")) {
