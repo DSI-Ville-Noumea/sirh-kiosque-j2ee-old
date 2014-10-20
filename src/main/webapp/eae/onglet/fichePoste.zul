@@ -240,5 +240,8 @@
 				</zk>
 			</vlayout>
 		</div>
+		<separator />
+		<separator />
+		<separator />
 	</vlayout>
 </zk>

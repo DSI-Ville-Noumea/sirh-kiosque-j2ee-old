@@ -143,4 +143,26 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		return readResponse(EaeResultatDto.class, res, url);
 	}
 
+	@Override
+	public ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatDto resultat) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeResultatUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idEae", idEae.toString());
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(resultat);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		}
+		String result = readResponse(String.class, res, url);
+		dto.getInfos().add(result);
+		return dto;
+	}
+
 }

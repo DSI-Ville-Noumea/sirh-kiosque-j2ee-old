@@ -31,4 +31,6 @@ public interface ISirhEaeWSConsumer {
 
 	EaeResultatDto getResultatEae(Integer idEae, Integer idAgent);
 
+	ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatDto resultat);
+
 }

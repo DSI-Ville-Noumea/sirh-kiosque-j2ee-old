@@ -10,6 +10,7 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -88,13 +89,16 @@ public class EaeViewModel {
 
 	@GlobalCommand
 	@Command
-	@NotifyChange({ "hasTextChanged", "identification" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
 		if (getTabCourant().getId().equals("IDENTIFICATION")) {
 			result = eaeWsConsumer.saveIdentification(getIdentification().getIdEae(), currentUser.getAgent()
 					.getIdAgent(), getIdentification());
+		} else if (getTabCourant().getId().equals("RESULTAT")) {
+			result = eaeWsConsumer.saveResultat(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+					getResultat());
 		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -120,8 +124,54 @@ public class EaeViewModel {
 		}
 	}
 
+	@Command
+	@NotifyChange({ "hasTextChanged", "resultat" })
+	public void supprimerLigneIndiv(@BindingParam("ref") EaeObjectifDto objectifIndiv) {
+		if (getResultat().getObjectifsIndividuels().contains(objectifIndiv)) {
+			getResultat().getObjectifsIndividuels().remove(objectifIndiv);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "resultat" })
+	public void ajouterLigneIndiv() {
+		EaeObjectifDto dto = new EaeObjectifDto();
+		if (getResultat().getObjectifsIndividuels() != null) {
+			getResultat().getObjectifsIndividuels().add(dto);
+		} else {
+			List<EaeObjectifDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getResultat().setObjectifsIndividuels(liste);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "resultat" })
+	public void supprimerLignePro(@BindingParam("ref") EaeObjectifDto objectifPro) {
+		if (getResultat().getObjectifsProfessionnels().contains(objectifPro)) {
+			getResultat().getObjectifsProfessionnels().remove(objectifPro);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "resultat" })
+	public void ajouterLignePro() {
+		EaeObjectifDto dto = new EaeObjectifDto();
+		if (getResultat().getObjectifsProfessionnels() != null) {
+			getResultat().getObjectifsProfessionnels().add(dto);
+		} else {
+			List<EaeObjectifDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getResultat().setObjectifsProfessionnels(liste);
+		}
+		textChanged();
+	}
+
 	@GlobalCommand
-	@NotifyChange({ "hasTextChanged", "identification" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
 		setHasTextChanged(false);
 		setTabCourant(tab);
