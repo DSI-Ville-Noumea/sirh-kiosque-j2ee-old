@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -42,6 +43,12 @@ public class EaeViewModel {
 
 	private EaeIdentificationDto identification;
 
+	private List<EaeFichePosteDto> listeFichePoste;
+
+	private EaeFichePosteDto fichePostePrimaire;
+
+	private EaeFichePosteDto fichePosteSecondaire;
+
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
 	private boolean isModification;
@@ -60,6 +67,16 @@ public class EaeViewModel {
 		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(getEaeCourant().getIdEae(),
 				currentUser.getAgent().getIdAgent());
 		setIdentification(identification);
+		// on charge les fiches de poste
+		List<EaeFichePosteDto> listeFDP = eaeWsConsumer.getListeFichePosteEae(getEaeCourant().getIdEae(), currentUser
+				.getAgent().getIdAgent());
+		setListeFichePoste(listeFDP);
+		if (getListeFichePoste().size() == 1) {
+			setFichePostePrimaire(getListeFichePoste().get(0));
+		} else if (getListeFichePoste().size() == 2) {
+			setFichePostePrimaire(getListeFichePoste().get(0));
+			setFichePosteSecondaire(getListeFichePoste().get(1));
+		}
 	}
 
 	@GlobalCommand
@@ -141,6 +158,13 @@ public class EaeViewModel {
 		if (date == null)
 			return "";
 		return new SimpleDateFormat("dd/MM/yyyy").format(date);
+	}
+
+	public String getInfoResponsable(EaeFichePosteDto fichePoste) {
+		if (fichePoste == null)
+			return "";
+		return fichePoste.getResponsableNom() + " " + fichePoste.getResponsablePrenom() + ", "
+				+ fichePoste.getResponsableFonction();
 	}
 
 	public String transformeDuree(Integer ancienneteEchelonJours) {
@@ -237,5 +261,29 @@ public class EaeViewModel {
 
 	public void setModeSaisi(String modeSaisi) {
 		this.modeSaisi = modeSaisi;
+	}
+
+	public List<EaeFichePosteDto> getListeFichePoste() {
+		return listeFichePoste;
+	}
+
+	public void setListeFichePoste(List<EaeFichePosteDto> listeFichePoste) {
+		this.listeFichePoste = listeFichePoste;
+	}
+
+	public EaeFichePosteDto getFichePostePrimaire() {
+		return fichePostePrimaire;
+	}
+
+	public void setFichePostePrimaire(EaeFichePosteDto fichePostePrimaire) {
+		this.fichePostePrimaire = fichePostePrimaire;
+	}
+
+	public EaeFichePosteDto getFichePosteSecondaire() {
+		return fichePosteSecondaire;
+	}
+
+	public void setFichePosteSecondaire(EaeFichePosteDto fichePosteSecondaire) {
+		this.fichePosteSecondaire = fichePosteSecondaire;
 	}
 }

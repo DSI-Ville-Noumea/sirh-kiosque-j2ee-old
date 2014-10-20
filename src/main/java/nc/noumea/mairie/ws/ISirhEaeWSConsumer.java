@@ -4,6 +4,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 
@@ -24,5 +25,7 @@ public interface ISirhEaeWSConsumer {
 	EaeIdentificationDto getIdentificationEae(Integer idEae, Integer idAgent);
 
 	ReturnMessageDto saveIdentification(Integer idEae, Integer idAgent, EaeIdentificationDto identification);
+
+	List<EaeFichePosteDto> getListeFichePosteEae(Integer idEae, Integer idAgent);
 
 }
