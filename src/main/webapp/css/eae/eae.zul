@@ -1,16 +1,23 @@
 <style>
 
+
 	
 	<![CDATA[
 
 	.blockSeparator { border-top: 1px solid #ccbda1; height: 0; margin:
-	10px 0; padding: 0; width: 100%; } 
+	10px 0; padding: 0; width: 100%; }
 
-	.bleu{color: #274f9a;width: 300px;} 
+	.bleu{color: #274f9a;width: 300px;}
+
+	.espace{width: 250px;}
+
+	.titre{color: #d3711c;font-weight: bold;}
+
+	.saveAction { background-image: url("img/Sprite.png");
+	background-position: -482px -164px; background-repeat: no-repeat;
+	cursor: pointer; height: 16px; margin: 0 0 0 3px;
+	vertical-align: middle; width: 16px; } ]]>
 	
-	.espace{width: 250px;} 
-	
-	.titre{color: #d3711c;font-weight: bold;}]]>
 	
 			
 </style>

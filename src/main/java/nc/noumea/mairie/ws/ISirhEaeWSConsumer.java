@@ -23,4 +23,6 @@ public interface ISirhEaeWSConsumer {
 	/* POUR LES ONGLETS */
 	EaeIdentificationDto getIdentificationEae(Integer idEae, Integer idAgent);
 
+	ReturnMessageDto saveIdentification(Integer idEae, Integer idAgent, EaeIdentificationDto identification);
+
 }

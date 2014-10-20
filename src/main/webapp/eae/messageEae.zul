@@ -1,0 +1,42 @@
+<zk>
+	<window id="returnMessageEae" title=" " width="420px" height="420px"
+		border="normal" minimizable="false" mode="modal" maximizable="false"
+		closable="true" action="hide: slideUp" sizable="true"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.eae.viewModel.ValidationOngletEae')">
+		<div sclass="fond" height="100%">
+			<listbox vflex="1" id="err" model="@load(vm.errorsMessages)"
+				visible="@bind(not empty vm.errorsMessages)">
+				<listhead>
+					<listheader label="Erreurs :" style="color:red;" />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="@bind(each.message)" />
+					</listitem>
+				</template>
+			</listbox>
+
+			<listbox vflex="1" id="inf" model="@load(vm.infosMessages)"
+				visible="@bind(not empty vm.infosMessages)">
+				<listhead>
+					<listheader label="Infos :" style="color:orange;" />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="@bind(each.message)" />
+					</listitem>
+				</template>
+			</listbox>
+			<separator />
+			<div align="center">
+				<button label="Enregistrer"
+					onClick="@command('engistreOnglet',win=returnMessageEae)" />
+				<button label="Ne pas enregistrer"
+					onClick="@command('annulerEngistreOnglet',win=returnMessageEae)" />
+				<button label="Annuler"
+					onClick="returnMessageEae.detach()" />
+			</div>
+		</div>
+	</window>
+</zk>

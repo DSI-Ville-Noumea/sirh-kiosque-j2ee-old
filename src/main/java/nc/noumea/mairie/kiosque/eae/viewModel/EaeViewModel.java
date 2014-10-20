@@ -1,22 +1,30 @@
 package nc.noumea.mairie.kiosque.eae.viewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Tab;
+import org.zkoss.zul.Tabbox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class EaeViewModel {
@@ -30,29 +38,102 @@ public class EaeViewModel {
 
 	private Tab tabCourant;
 
+	private Tabbox tabboxCourant;
+
 	private EaeIdentificationDto identification;
 
+	/* Pour savoir si on est en modif ou en visu */
+	private String modeSaisi;
+	private boolean isModification;
+	/* Pour savoir si on affiche la disquette de sauvegarde */
+	private boolean hasTextChanged;
+
 	@Init
-	public void initTableauBord(@ExecutionArgParam("eae") EaeListItemDto eae) {
+	public void initEae(@ExecutionArgParam("eae") EaeListItemDto eae, @ExecutionArgParam("mode") String modeSaisi) {
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+		setModeSaisi(modeSaisi);
 		setEaeCourant(eae);
+
+		setModification(modeSaisi.equals("EDIT"));
 		// on charge l'identification
-		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(eae.getIdEae(), currentUser.getAgent()
-				.getIdAgent());
+		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(getEaeCourant().getIdEae(),
+				currentUser.getAgent().getIdAgent());
 		setIdentification(identification);
 	}
 
-	@Command
-	@NotifyChange({ "eaeCourant" })
-	public void changeVue(@BindingParam("tab") Tab tab) {
+	@GlobalCommand
+	@NotifyChange({ "hasTextChanged", "identification" })
+	public void engistreOnglet(@BindingParam("tab") Tab tab) {
 		// on sauvegarde l'onglet
+		ReturnMessageDto result = new ReturnMessageDto();
+		if (getTabCourant().getId().equals("IDENTIFICATION")) {
+			result = eaeWsConsumer.saveIdentification(getIdentification().getIdEae(), currentUser.getAgent()
+					.getIdAgent(), getIdentification());
+		}
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		for (String error : result.getErrors()) {
+			ValidationMessage vm = new ValidationMessage(error);
+			listErreur.add(vm);
+		}
+		for (String info : result.getInfos()) {
+			ValidationMessage vm = new ValidationMessage(info);
+			listInfo.add(vm);
+		}
+		map.put("errors", listErreur);
+		map.put("infos", listInfo);
+		Executions.createComponents("/messages/returnMessage.zul", null, map);
+
+		if (listErreur.size() == 0) {
+			setHasTextChanged(false);
+
+			// on recharge l'eae pour vider les eventuelles modifs
+			initEae(getEaeCourant(), getModeSaisi());
+		}
+	}
+
+	@GlobalCommand
+	@NotifyChange({ "hasTextChanged", "identification" })
+	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
+		setHasTextChanged(false);
 		setTabCourant(tab);
+		getTabboxCourant().setSelectedTab(getTabCourant());
+		// on recharge l'eae pour vider les eventuelles modifs
+		initEae(getEaeCourant(), getModeSaisi());
 	}
 
 	@Command
-	@NotifyChange({ "eaeCourant" })
-	public void setTabDebut(@BindingParam("tab") Tab tab) {
-		setTabCourant(tab);
+	public void changeVue(@BindingParam("tabbox") Tabbox tabBox, @BindingParam("tab") Tab tab) {
+		setTabboxCourant(tabBox);
+		// on regarde si il y des choses non sauvegardées
+		if (isHasTextChanged()) {
+			tabBox.setSelectedTab(getTabCourant());
+			List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
+			vList.add(new ValidationMessage("L'onglet " + getTabCourant().getId()
+					+ " semble avoir été modifié, vous devriez l'enregistrer avant de continuer."));
+			vList.add(new ValidationMessage("Si vous ne l'enregistrez pas, vous allez perdre vos données."));
+
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("errors", vList);
+			map.put("tab", tab);
+			Executions.createComponents("/eae/messageEae.zul", null, map);
+
+		} else {
+			// on sauvegarde l'onglet
+			setTabCourant(tab);
+			tabBox.setSelectedTab(getTabCourant());
+		}
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged" })
+	public void textChanged() {
+		if (!isModification())
+			setHasTextChanged(false);
+		setHasTextChanged(true);
 	}
 
 	public String getDateToString(Date date) {
@@ -123,5 +204,37 @@ public class EaeViewModel {
 
 	public void setIdentification(EaeIdentificationDto identification) {
 		this.identification = identification;
+	}
+
+	public boolean isModification() {
+		return isModification;
+	}
+
+	public void setModification(boolean isModification) {
+		this.isModification = isModification;
+	}
+
+	public boolean isHasTextChanged() {
+		return hasTextChanged;
+	}
+
+	public void setHasTextChanged(boolean hasTextChanged) {
+		this.hasTextChanged = hasTextChanged;
+	}
+
+	public Tabbox getTabboxCourant() {
+		return tabboxCourant;
+	}
+
+	public void setTabboxCourant(Tabbox tabboxCourant) {
+		this.tabboxCourant = tabboxCourant;
+	}
+
+	public String getModeSaisi() {
+		return modeSaisi;
+	}
+
+	public void setModeSaisi(String modeSaisi) {
+		this.modeSaisi = modeSaisi;
 	}
 }

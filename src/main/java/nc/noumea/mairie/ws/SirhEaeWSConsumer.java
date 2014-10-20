@@ -1,5 +1,6 @@
 package nc.noumea.mairie.ws;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.ClientResponse;
+
+import flexjson.JSONSerializer;
 
 @Service("eaeWsConsumer")
 public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsumer {
@@ -86,7 +90,30 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
+
 		return readResponse(EaeIdentificationDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto saveIdentification(Integer idEae, Integer idAgent, EaeIdentificationDto identification) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeIdentificationUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idEae", idEae.toString());
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(identification);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		}
+		String result = readResponse(String.class, res, url);
+		dto.getInfos().add(result);
+		return dto;
 	}
 
 }

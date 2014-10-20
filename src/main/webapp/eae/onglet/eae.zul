@@ -11,29 +11,31 @@
 			</vlayout>
 			<separator />
 			<tabbox id="tb"
-				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
+				onCreate="@command('changeVue',tabbox=tb, tab= self.getSelectedTab())">
 				<tabs id="tabs">
 					<tab id="IDENTIFICATION" label="Identification"
-						onClick="@command('changeVue',tab = IDENTIFICATION)">
-					</tab>
+						onClick="@command('changeVue',tabbox=tb,tab = IDENTIFICATION)" />
 					<tab id="FICHEPOSTE" label="Fiche de poste"
-						onClick="@command('changeVue',tab = FICHEPOSTE)" />
+						onClick="@command('changeVue',tabbox=tb,tab = FICHEPOSTE)" />
 					<tab id="RESULTAT" label="Résultat"
-						onClick="@command('changeVue',tab = RESULTAT)" />
+						onClick="@command('changeVue',tabbox=tb,tab = RESULTAT)" />
 					<tab id="APPRECIATION" label="Appreciation"
-						onClick="@command('changeVue',tab = APPRECIATION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = APPRECIATION)" />
 					<tab id="EVALUATION" label="Evaluation"
-						onClick="@command('changeVue',tab = EVALUATION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = EVALUATION)" />
 					<tab id="AUTOEVALUATION" label="Auto-évaluation"
-						onClick="@command('changeVue',tab = AUTOEVALUATION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = AUTOEVALUATION)" />
 					<tab id="PLANACTION" label="Plan d'action"
-						onClick="@command('changeVue',tab = PLANACTION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = PLANACTION)" />
 					<tab id="EVOLUTION" label="Evolution"
-						onClick="@command('changeVue',tab = EVOLUTION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = EVOLUTION)" />
 				</tabs>
 				<tabpanels>
 					<tabpanel>
 						<div sclass="RHTitle2Line" />
+						<separator />
+						<image visible="@bind(vm.hasTextChanged)"
+							sclass="saveAction" onClick="@command('saveIdentification')" />
 						<separator />
 						<vlayout>
 							<label sclass="titre"
@@ -45,7 +47,12 @@
 								</div>
 								<div sclass="bleu">
 									<label
+										visible="@bind(not vm.modification)"
 										value="@bind(vm.identification.dateEntretien) @converter('formatedDate',format='dd/MM/yyyy')" />
+									<datebox
+										visible="@bind(vm.modification)" format="dd/MM/yyyy"
+										value="@bind(vm.identification.dateEntretien)"
+										onChange="@command('textChanged')" />
 								</div>
 							</hlayout>
 							<div sclass="blockSeparator" />
@@ -94,7 +101,12 @@
 										</div>
 										<div sclass="bleu">
 											<label
+												visible="@bind(not vm.modification)"
 												value="${vm.getDateToString(each.dateEntreeService)}" />
+											<datebox
+												visible="@bind(vm.modification)" format="dd/MM/yyyy"
+												value="${each.dateEntreeService}"
+												onChange="@command('textChanged')" />
 										</div>
 										<div sclass="espace">
 											<label
@@ -102,7 +114,12 @@
 										</div>
 										<div sclass="bleu">
 											<label
+												visible="@bind(not vm.modification)"
 												value="${vm.getDateToString(each.dateEntreeFonction)}" />
+											<datebox
+												visible="@bind(vm.modification)" format="dd/MM/yyyy"
+												value="${each.dateEntreeFonction}"
+												onChange="@command('textChanged')" />
 										</div>
 									</hlayout>
 									<div sclass="blockSeparator" />
@@ -207,7 +224,12 @@
 								</div>
 								<div sclass="bleu">
 									<label
+										visible="@bind(not vm.modification)"
 										value="@bind(vm.identification.situation.dateEntreeFonctionnaire) @converter('formatedDate',format='dd/MM/yyyy')" />
+									<datebox
+										visible="@bind(vm.modification)" format="dd/MM/yyyy"
+										value="@bind(vm.identification.situation.dateEntreeFonctionnaire)"
+										onChange="@command('textChanged')" />
 								</div>
 								<div sclass="espace">
 									<label
@@ -215,7 +237,12 @@
 								</div>
 								<div sclass="bleu">
 									<label
+										visible="@bind(not vm.modification)"
 										value="@bind(vm.identification.situation.dateEntreeAdministration) @converter('formatedDate',format='dd/MM/yyyy')" />
+									<datebox
+										visible="@bind(vm.modification)" format="dd/MM/yyyy"
+										value="@bind(vm.identification.situation.dateEntreeAdministration)"
+										onChange="@command('textChanged')" />
 								</div>
 							</hlayout>
 							<hlayout>
@@ -232,7 +259,12 @@
 								</div>
 								<div sclass="bleu">
 									<label
+										visible="@bind(not vm.modification)"
 										value="@bind(vm.identification.situation.dateEntreeFonction) @converter('formatedDate',format='dd/MM/yyyy')" />
+									<datebox
+										visible="@bind(vm.modification)" format="dd/MM/yyyy"
+										value="@bind(vm.identification.situation.dateEntreeFonction)"
+										onChange="@command('textChanged')" />
 								</div>
 							</hlayout>
 							<hlayout>
@@ -396,9 +428,9 @@
 									</hlayout>
 								</radiogroup>
 							</hlayout>
-							<separator/>
-							<separator/>
-							<separator/>
+							<separator />
+							<separator />
+							<separator />
 						</vlayout>
 					</tabpanel>
 					<tabpanel>fiche poste</tabpanel>

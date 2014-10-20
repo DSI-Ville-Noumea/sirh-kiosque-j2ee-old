@@ -48,7 +48,7 @@
 		background-color: #004e9e;
 		margin-bottom: 5px;
 		height: 25px; 
-		padding-left: 14px;
+		padding-left: 5px;
 		border-radius: 12px 12px 0px 12px;
 		-moz-border-radius: 12px 12px 0px 12px;
 		-webkit-border-radius: 12px 12px 0px 12px;
@@ -67,7 +67,7 @@
 		margin-bottom: 5px;
 		margin-left: 5px;
 		height: 25px;
-		padding-left: 14px; 
+		padding-left: 5px; 
 		border-style:none;
 		padding-top: 0px;
 	}

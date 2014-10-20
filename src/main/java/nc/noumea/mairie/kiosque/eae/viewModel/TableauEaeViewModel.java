@@ -56,8 +56,9 @@ public class TableauEaeViewModel {
 	@Command
 	public void modifierEae(@BindingParam("ref") EaeListItemDto eae) {
 		// create a window programmatically and use it as a modal dialog.
-		Map<String, EaeListItemDto> args = new HashMap<String, EaeListItemDto>();
+		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("eae", eae);
+		args.put("mode", "EDIT");
 		getDivDepart().getChildren().clear();
 		Executions.createComponents("/eae/onglet/eae.zul", getDivDepart(), args);
 	}
@@ -65,8 +66,9 @@ public class TableauEaeViewModel {
 	@Command
 	public void voirEae(@BindingParam("ref") EaeListItemDto eae) {
 		// create a window programmatically and use it as a modal dialog.
-		Map<String, EaeListItemDto> args = new HashMap<String, EaeListItemDto>();
+		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("eae", eae);
+		args.put("mode", "VIEW");
 		getDivDepart().getChildren().clear();
 		Executions.createComponents("/eae/onglet/eae.zul", getDivDepart(), args);
 	}
