@@ -9,6 +9,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	/* Pour les onglets */
 	private static final String eaeIdentificationUrl = "evaluation/eaeIdentification";
 	private static final String eaeFichePosteUrl = "evaluation/eaeFichePoste";
+	private static final String eaeResultatUrl = "evaluation/eaeResultats";
 
 	@Override
 	public List<EaeDashboardItemDto> getTableauBord(Integer idAgent) {
@@ -127,6 +129,18 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(EaeFichePosteDto.class, res, url);
+	}
+
+	@Override
+	public EaeResultatDto getResultatEae(Integer idEae, Integer idAgent) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeResultatUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idEae", idEae.toString());
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+
+		return readResponse(EaeResultatDto.class, res, url);
 	}
 
 }

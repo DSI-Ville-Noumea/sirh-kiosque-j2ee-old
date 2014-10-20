@@ -37,7 +37,70 @@
 					<tabpanel>
 						<include src="/eae/onglet/fichePoste.zul" />
 					</tabpanel>
-					<tabpanel>resultat</tabpanel>
+					<tabpanel>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<vlayout>
+							<label sclass="titre" value="RESULTATS" />
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="TENUE ET MAITRISE DU POSTE" />
+							<separator />
+							<div sclass="bleu">
+								<label
+									value="@bind(vm.resultat.commentaireGeneral)" />
+							</div>
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="Rappel des objectifs professionnels et des objectifs de progrès individuels fixés et résultats obtenus" />
+							<separator />
+							<listbox
+								model="@bind(vm.resultat.objectifsProfessionnels)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader
+										label="Objectifs professionnels (1000 car. max)" sort="none" />
+									<listheader
+										label="Résultats (1000 car. max)" sort="none" />
+									<listheader label="Commentaires"
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell
+											label="@bind(each.objectif)" />
+										<listcell
+											label="@bind(each.resultat)" />
+										<listcell
+											label="@bind(each.commentaire)" />
+									</listitem>
+								</template>
+							</listbox>
+							<listbox
+								model="@bind(vm.resultat.objectifsIndividuels)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader
+										label="Objectifs de progrès individuels (1000 car. max)"
+										sort="none" />
+									<listheader
+										label="Résultats (1000 car. max)" sort="none" />
+									<listheader label="Commentaires"
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell
+											label="@bind(each.objectif)" />
+										<listcell
+											label="@bind(each.resultat)" />
+										<listcell
+											label="@bind(each.commentaire)" />
+									</listitem>
+								</template>
+							</listbox>
+						</vlayout>
+					</tabpanel>
 					<tabpanel>appreciation</tabpanel>
 					<tabpanel>evaluation</tabpanel>
 					<tabpanel>auto evaluation</tabpanel>

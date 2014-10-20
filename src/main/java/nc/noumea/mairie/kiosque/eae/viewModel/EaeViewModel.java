@@ -10,6 +10,7 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
@@ -49,6 +50,8 @@ public class EaeViewModel {
 
 	private EaeFichePosteDto fichePosteSecondaire;
 
+	private EaeResultatDto resultat;
+
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
 	private boolean isModification;
@@ -77,6 +80,10 @@ public class EaeViewModel {
 			setFichePostePrimaire(getListeFichePoste().get(0));
 			setFichePosteSecondaire(getListeFichePoste().get(1));
 		}
+		// on charge les resultats
+		EaeResultatDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent()
+				.getIdAgent());
+		setResultat(resultat);
 	}
 
 	@GlobalCommand
@@ -285,5 +292,13 @@ public class EaeViewModel {
 
 	public void setFichePosteSecondaire(EaeFichePosteDto fichePosteSecondaire) {
 		this.fichePosteSecondaire = fichePosteSecondaire;
+	}
+
+	public EaeResultatDto getResultat() {
+		return resultat;
+	}
+
+	public void setResultat(EaeResultatDto resultat) {
+		this.resultat = resultat;
 	}
 }

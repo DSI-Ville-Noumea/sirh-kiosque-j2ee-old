@@ -7,6 +7,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
 
 public interface ISirhEaeWSConsumer {
 
@@ -27,5 +28,7 @@ public interface ISirhEaeWSConsumer {
 	ReturnMessageDto saveIdentification(Integer idEae, Integer idAgent, EaeIdentificationDto identification);
 
 	List<EaeFichePosteDto> getListeFichePosteEae(Integer idEae, Integer idAgent);
+
+	EaeResultatDto getResultatEae(Integer idEae, Integer idAgent);
 
 }
