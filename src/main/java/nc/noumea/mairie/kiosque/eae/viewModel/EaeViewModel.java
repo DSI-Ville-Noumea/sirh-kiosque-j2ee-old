@@ -8,6 +8,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
@@ -68,6 +69,8 @@ public class EaeViewModel {
 
 	private Date dureeEntretien;
 
+	private EaeAutoEvaluationDto autoEvaluation;
+
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
 	private boolean isModification;
@@ -93,6 +96,14 @@ public class EaeViewModel {
 		initAppreciation();
 		// on charge l'évaluation
 		initEvaluation();
+		// on charge l'auto-évaluation
+		initAutoEvaluation();
+	}
+
+	private void initAutoEvaluation() {
+		EaeAutoEvaluationDto autoEvaluation = eaeWsConsumer.getAutoEvaluationEae(getEaeCourant().getIdEae(),
+				currentUser.getAgent().getIdAgent());
+		setAutoEvaluation(autoEvaluation);
 	}
 
 	private void initEvaluation() {
@@ -140,7 +151,7 @@ public class EaeViewModel {
 
 	@GlobalCommand
 	@Command
-	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
@@ -156,6 +167,9 @@ public class EaeViewModel {
 		} else if (getTabCourant().getId().equals("EVALUATION")) {
 			result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getEvaluation());
+		} else if (getTabCourant().getId().equals("AUTOEVALUATION")) {
+			result = eaeWsConsumer.saveAutoEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+					getAutoEvaluation());
 		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -228,7 +242,7 @@ public class EaeViewModel {
 	}
 
 	@GlobalCommand
-	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
 		setHasTextChanged(false);
 		setTabCourant(tab);
@@ -483,5 +497,13 @@ public class EaeViewModel {
 
 	public void setDureeEntretien(Date dureeEntretien) {
 		this.dureeEntretien = dureeEntretien;
+	}
+
+	public EaeAutoEvaluationDto getAutoEvaluation() {
+		return autoEvaluation;
+	}
+
+	public void setAutoEvaluation(EaeAutoEvaluationDto autoEvaluation) {
+		this.autoEvaluation = autoEvaluation;
 	}
 }

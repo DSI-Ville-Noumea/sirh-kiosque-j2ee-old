@@ -5,6 +5,7 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.CampagneEaeDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
@@ -45,5 +46,9 @@ public interface ISirhEaeWSConsumer {
 	EaeEvaluationDto getEvaluationEae(Integer idEae, Integer idAgent);
 
 	ReturnMessageDto saveEvaluation(Integer idEae, Integer idAgent, EaeEvaluationDto evaluation);
+
+	EaeAutoEvaluationDto getAutoEvaluationEae(Integer idEae, Integer idAgent);
+
+	ReturnMessageDto saveAutoEvaluation(Integer idEae, Integer idAgent, EaeAutoEvaluationDto autoEvaluation);
 
 }
