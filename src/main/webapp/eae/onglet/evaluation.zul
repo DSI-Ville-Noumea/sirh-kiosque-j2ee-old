@@ -1,0 +1,88 @@
+<zk>
+	<div sclass="RHTitle2Line" />
+	<separator />
+	<image visible="@bind(vm.hasTextChanged)" sclass="saveAction"
+		onClick="@command('engistreOnglet')" />
+	<separator />
+	<vlayout>
+		<label sclass="titre" value="EVALUATION" />
+		<div sclass="blockSeparator" />
+		<label sclass="RHTitle3" value="SYNTHESE DE VOTRE EVALUATION" />
+		<hlayout>
+			<label value="Durée de l'entretien" />
+			<label sclass="bleu" visible="@bind(not vm.modification)"
+				value="@bind(vm.getInfoDureeEntretien(vm.evaluation))" />
+			<timebox format="HH:mm" visible="@bind(vm.modification)"
+				value="@bind(vm.dureeEntretien)"
+				onChanging="@command('textChanged')" />
+		</hlayout>
+		<div sclass="blockSeparator" />
+		<label sclass="RHTitle3"
+			value="L'appréciation générale (par l'évaluateur)" />
+		<label sclass="bleu" visible="@bind(not vm.modification)"
+			value="@bind(vm.evaluation.commentaireEvaluateur)" />
+		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
+			value="@bind(vm.evaluation.commentaireEvaluateur)"
+			onChanging="@command('textChanged')" />
+		<div sclass="blockSeparator" />
+		<label sclass="RHTitle3" value="Résultats dans le poste, Note " />
+		<separator />
+		<hlayout>
+			<div width="100px">
+				<label value="Niveau"
+					style="color: #d3711c;font-weight: bold;" />
+			</div>
+			<radiogroup visible="@bind(not vm.modification)"
+				selectedItem="@bind(vm.evaluation.niveau.courant)">
+				<div sclass="bleu" width="100%">
+					<zk forEach="${vm.evaluation.niveau.liste}">
+						<radio disabled="true" label="${each.valeur}"
+							value="${each.code}" />
+					</zk>
+				</div>
+			</radiogroup>
+			<radiogroup visible="@bind(vm.modification)"
+				selectedItem="@bind(vm.evaluation.niveau.courant)"
+				onCheck="@command('textChanged')">
+				<div sclass="bleu" width="100%">
+					<zk forEach="${vm.evaluation.niveau.liste}">
+						<radio label="${each.valeur}"
+							value="${each.code}" />
+					</zk>
+				</div>
+			</radiogroup>
+		</hlayout>
+		<separator />
+		<listbox emptyMessage="Aucun élément">
+			<listhead>
+				<listheader label="" sort="none" />
+				<listheader label="@bind(vm.getEnteteN1())" sort="none" />
+				<listheader label="@bind(vm.getEnteteN2())" sort="none" />
+				<listheader label="@bind(vm.getEnteteN3())" sort="none" />
+			</listhead>
+			<listitem>
+				<listcell>
+					<label value="Evaluation chifrée" />
+				</listcell>
+				<listcell>
+					<label value="@bind(vm.evaluation.noteAnneeN1)" />
+				</listcell>
+				<listcell>
+					<label value="@bind(vm.evaluation.noteAnneeN2)" />
+				</listcell>
+				<listcell>
+					<label value="@bind(vm.evaluation.noteAnneeN3)" />
+				</listcell>
+			</listitem>
+		</listbox>
+		<separator />
+		<label
+			value="Commentaires éventuels de l'évalué concernant l'appréciation"
+			style="color: #d3711c;font-weight: bold;" />
+		<label sclass="bleu" visible="@bind(not vm.modification)"
+			value="@bind(vm.evaluation.commentaireEvalue)" />
+		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
+			value="@bind(vm.evaluation.commentaireEvalue)"
+			onChanging="@command('textChanged')" />
+	</vlayout>
+</zk>
