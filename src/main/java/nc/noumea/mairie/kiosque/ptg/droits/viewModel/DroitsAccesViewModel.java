@@ -214,7 +214,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Le délégataire a été enregistré correctement.");
+			result.getInfos().add("Le dÃ©lÃ©gataire a Ã©tÃ© enregistrÃ© correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -249,7 +249,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Les opérateurs ont été enregistrés correctement.");
+			result.getInfos().add("Les opÃ©rateurs ont Ã©tÃ© enregistrÃ©s correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -280,7 +280,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Les agents à approuver ont été enregistrés correctement.");
+			result.getInfos().add("Les agents Ã  approuver ont Ã©tÃ© enregistrÃ©s correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
