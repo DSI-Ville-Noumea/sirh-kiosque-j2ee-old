@@ -37,12 +37,30 @@
 					label="Maîtrise des compétences nécessaires à l'exercice du métier" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.techniqueEvalue[0])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.techniqueEvalue[0])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.techniqueEvalue[0])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.techniqueEvaluateur[0])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.techniqueEvaluateur[0])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.techniqueEvaluateur[0])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="1-2" />
@@ -50,24 +68,60 @@
 					label="Niveau de compréhension / appréhension des enjeux et du fonctionnement de la collectivité / de la direction / du service" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.techniqueEvalue[1])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.techniqueEvalue[1])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.techniqueEvalue[1])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.techniqueEvaluateur[1])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.techniqueEvaluateur[1])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.techniqueEvaluateur[1])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="1-3" />
 				<listcell label="Organisation du travail" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.techniqueEvalue[2])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.techniqueEvalue[2])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.techniqueEvalue[2])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.techniqueEvaluateur[2])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.techniqueEvaluateur[2])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.techniqueEvaluateur[2])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="1-4" />
@@ -75,12 +129,30 @@
 					label="Niveau de connaissance de l'outil informatique (ou de l'outil de travail principal si différent)" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.techniqueEvalue[3])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.techniqueEvalue[3])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.techniqueEvalue[3])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.techniqueEvaluateur[3])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.techniqueEvaluateur[3])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.techniqueEvaluateur[3])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 		</listbox>
 		<listbox>
@@ -110,24 +182,60 @@
 					label="Travail en équipe / relation aux usagers-clients" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.savoirEtreEvalue[0])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.savoirEtreEvalue[0])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.savoirEtreEvalue[0])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.savoirEtreEvaluateur[0])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.savoirEtreEvaluateur[0])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.savoirEtreEvaluateur[0])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="2-2" />
 				<listcell label="Ponctualité / assiduité" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.savoirEtreEvalue[1])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.savoirEtreEvalue[1])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.savoirEtreEvalue[1])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.savoirEtreEvaluateur[1])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.savoirEtreEvaluateur[1])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.savoirEtreEvaluateur[1])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="2-3" />
@@ -135,12 +243,30 @@
 					label="Prise d'initiative - autonomie - implication - adaptation aux démarches de modernisation" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.savoirEtreEvalue[2])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.savoirEtreEvalue[2])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.savoirEtreEvalue[2])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.savoirEtreEvaluateur[2])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.savoirEtreEvaluateur[2])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.savoirEtreEvaluateur[2])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="2-4" />
@@ -148,12 +274,30 @@
 					label="Maîtrise de l'expression écrite et orale nécessaire à la tenue du poste" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.savoirEtreEvalue[3])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.savoirEtreEvalue[3])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.savoirEtreEvalue[3])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.savoirEtreEvaluateur[3])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.savoirEtreEvaluateur[3])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.savoirEtreEvaluateur[3])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 		</listbox>
 		<listbox>
@@ -183,12 +327,30 @@
 				<listcell label="Capacité à animer une équipe" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.managerialEvalue[0])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.managerialEvalue[0])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.managerialEvalue[0])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.managerialEvaluateur[0])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.managerialEvaluateur[0])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.managerialEvaluateur[0])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="3-2" />
@@ -196,24 +358,60 @@
 					label="Capacité à gérer des ressources (budget, RH, logistique)" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.managerialEvalue[1])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.managerialEvalue[1])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.managerialEvalue[1])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.managerialEvaluateur[1])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.managerialEvaluateur[1])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.managerialEvaluateur[1])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="3-3" />
 				<listcell label="Capacité à conduire des projets" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.managerialEvalue[2])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.managerialEvalue[2])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.managerialEvalue[2])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.managerialEvaluateur[2])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.managerialEvaluateur[2])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.managerialEvaluateur[2])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="3-4" />
@@ -221,12 +419,30 @@
 					label="Sens de la concertation et de la négociation dans l'activité de manager" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.managerialEvalue[3])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.managerialEvalue[3])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.managerialEvalue[3])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.managerialEvaluateur[3])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.managerialEvaluateur[3])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.managerialEvaluateur[3])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 		</listbox>
 		<listbox>
@@ -256,12 +472,30 @@
 					label="Atteinte des objectifs personnels sur la période (résumé de la page précédente)" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.resultatsEvalue[0])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.resultatsEvalue[0])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.resultatsEvalue[0])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.resultatsEvaluateur[0])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.resultatsEvaluateur[0])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.resultatsEvaluateur[0])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="4-2" />
@@ -269,12 +503,30 @@
 					label="Contribution à l'atteinte des objectifs collectifs sur la période considérée (si la nature du poste le justifie, sinon passer à 4-3)" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.resultatsEvalue[1])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.resultatsEvalue[1])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.resultatsEvalue[1])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.resultatsEvaluateur[1])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.resultatsEvaluateur[1])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.resultatsEvaluateur[1])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="4-3" />
@@ -282,12 +534,30 @@
 					label="Contribution à la définition des objectifs collectifs sur la période considérée" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.resultatsEvalue[2])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.resultatsEvalue[2])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.resultatsEvalue[2])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.resultatsEvaluateur[2])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.resultatsEvaluateur[2])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.resultatsEvaluateur[2])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 			<listitem>
 				<listcell label="4-4" />
@@ -295,12 +565,30 @@
 					label="Respect des délais et gestion des aléas" />
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.resultatsEvalue[3])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.resultatsEvalue[3])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.resultatsEvalue[3])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 				<listcell
 					label="@bind(vm.appreciationAnneePrec.resultatsEvaluateur[3])" />
-				<listcell
-					label="@bind(vm.appreciationAnnee.resultatsEvaluateur[3])" />
+				<listcell>
+					<combobox readonly="true" width="100%"
+						selectedItem="@bind(vm.appreciationAnnee.resultatsEvaluateur[3])"
+						onChange="@command('textChanged')">
+						<comboitem label="NA" value="NA" />
+						<comboitem label="A" value="A" />
+						<comboitem label="B" value="B" />
+						<comboitem label="C" value="C" />
+						<comboitem label="D" value="D" />
+					</combobox>
+				</listcell>
 			</listitem>
 		</listbox>
 	</vlayout>
