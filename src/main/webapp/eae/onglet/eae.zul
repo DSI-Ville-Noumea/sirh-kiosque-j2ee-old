@@ -62,7 +62,7 @@
 							<label sclass="titre" value="PLAN D'ACTION" />
 							<div sclass="blockSeparator" />
 							<label sclass="RHTitle3"
-								value="VOTRE PLAN D ACTION POUR L'ANNEE A VENIR" />
+								value="VOTRE PLAN D'ACTION POUR L'ANNEE A VENIR" />
 							<label
 								value="Il s'agit de construire ensemble votre plan d'action pour vous aider à remplir au mieux vos missions présentes et futures. Fixons les objectifs à atteindre et envisageons l'enrichissement de vos compétences"
 								style="color: #d3711c;font-weight: bold;" />
@@ -78,30 +78,82 @@
 									<listheader width="50%"
 										label="Les indicateurs de mesure/délais (1000 car. max)"
 										sort="none" />
+									<listheader width="50px"
+										visible="@bind(vm.modification)" align="center" label=""
+										sort="none" />
 								</listhead>
 								<template name="model">
 									<listitem>
 										<listcell>
 											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
 												value="@bind(each.objectif)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each.objectif)"
+												onChanging="@command('textChanged')" />
 										</listcell>
 										<listcell>
 											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
 												value="@bind(each.indicateur)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each.indicateur)"
+												onChanging="@command('textChanged')" />
+										</listcell>
+										<listcell
+											visible="@bind(vm.modification)">
+											<image
+												tooltiptext="Supprimer cette ligne"
+												sclass="ListAction delete"
+												onClick="@command('supprimerLigneObjectifPro',ref=each)" />
 										</listcell>
 									</listitem>
 								</template>
 							</listbox>
+							<div align="right" width="100%"
+								visible="@bind(vm.modification)">
+								<button label="Ajouter"
+									visible="@bind(vm.modification)"
+									onClick="@command('ajouterLigneObjectifPro')" />
+							</div>
 							<div sclass="blockSeparator" />
 							<label sclass="RHTitle3"
 								value="Objectifs de progrès individuels (1000 car. max)" />
-							<vlayout>
-								<zk
-									forEach="${vm.planAction.objectifsIndividuels}">
-									<label sclass="bleu"
-										value="${each}" />
-								</zk>
-							</vlayout>
+							<listbox
+								model="@bind(vm.planAction.objectifsIndividuels)"
+								emptyMessage="Aucun élément">
+								<listhead visible="false">
+									<listheader />
+									<listheader width="50px"
+										visible="@bind(vm.modification)" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)" value="@bind(each)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each)" onChanging="@command('textChanged')" />
+										</listcell>
+										<listcell
+											visible="@bind(vm.modification)">
+											<image
+												tooltiptext="Supprimer cette ligne"
+												sclass="ListAction delete"
+												onClick="@command('supprimerLigneObjectifIndiv',ref=each)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div align="right" width="100%"
+								visible="@bind(vm.modification)">
+								<button label="Ajouter"
+									visible="@bind(vm.modification)"
+									onClick="@command('ajouterLigneObjectifIndiv')" />
+							</div>
 							<div sclass="blockSeparator" />
 							<label sclass="RHTitle3"
 								value="Moyens d'accompagnement" />
@@ -110,35 +162,113 @@
 								<label
 									value="Besoins matériels (300 car. max)"
 									style="color: #d3711c;font-weight: bold;" />
-								<vlayout>
-									<zk
-										forEach="${vm.planAction.moyensMateriels}">
-										<label sclass="bleu"
-											value="${each}" />
-									</zk>
-								</vlayout>
+								<listbox
+									model="@bind(vm.planAction.moyensMateriels)"
+									emptyMessage="Aucun élément">
+									<listhead visible="false">
+										<listheader />
+										<listheader width="50px"
+											visible="@bind(vm.modification)" />
+									</listhead>
+									<template name="model">
+										<listitem>
+											<listcell>
+												<label sclass="bleu"
+													visible="@bind(not vm.modification)" value="@bind(each)" />
+												<textbox rows="4"
+													width="100%" visible="@bind(vm.modification)"
+													value="@bind(each)" onChanging="@command('textChanged')" />
+											</listcell>
+											<listcell
+												visible="@bind(vm.modification)">
+												<image
+													tooltiptext="Supprimer cette ligne"
+													sclass="ListAction delete"
+													onClick="@command('supprimerLigneMoyensMateriels',ref=each)" />
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+								<div align="right" width="100%"
+									visible="@bind(vm.modification)">
+									<button label="Ajouter"
+										visible="@bind(vm.modification)"
+										onClick="@command('ajouterLigneMoyensMateriels')" />
+								</div>
 								<separator />
 								<label
 									value="Besoins financiers (300 car. max)"
 									style="color: #d3711c;font-weight: bold;" />
-								<vlayout>
-									<zk
-										forEach="${vm.planAction.moyensFinanciers}">
-										<label sclass="bleu"
-											value="${each}" />
-									</zk>
-								</vlayout>
+								<listbox
+									model="@bind(vm.planAction.moyensFinanciers)"
+									emptyMessage="Aucun élément">
+									<listhead visible="false">
+										<listheader />
+										<listheader width="50px"
+											visible="@bind(vm.modification)" />
+									</listhead>
+									<template name="model">
+										<listitem>
+											<listcell>
+												<label sclass="bleu"
+													visible="@bind(not vm.modification)" value="@bind(each)" />
+												<textbox rows="4"
+													width="100%" visible="@bind(vm.modification)"
+													value="@bind(each)" onChanging="@command('textChanged')" />
+											</listcell>
+											<listcell
+												visible="@bind(vm.modification)">
+												<image
+													tooltiptext="Supprimer cette ligne"
+													sclass="ListAction delete"
+													onClick="@command('supprimerLigneMoyensFinanciers',ref=each)" />
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+								<div align="right" width="100%"
+									visible="@bind(vm.modification)">
+									<button label="Ajouter"
+										visible="@bind(vm.modification)"
+										onClick="@command('ajouterLigneMoyensFinanciers')" />
+								</div>
 								<separator />
 								<label
 									value="Autres besoins (300 car. max)"
 									style="color: #d3711c;font-weight: bold;" />
-								<vlayout>
-									<zk
-										forEach="${vm.planAction.moyensAutres}">
-										<label sclass="bleu"
-											value="${each}" />
-									</zk>
-								</vlayout>
+								<listbox
+									model="@bind(vm.planAction.moyensAutres)"
+									emptyMessage="Aucun élément">
+									<listhead visible="false">
+										<listheader />
+										<listheader width="50px"
+											visible="@bind(vm.modification)" />
+									</listhead>
+									<template name="model">
+										<listitem>
+											<listcell>
+												<label sclass="bleu"
+													visible="@bind(not vm.modification)" value="@bind(each)" />
+												<textbox rows="4"
+													width="100%" visible="@bind(vm.modification)"
+													value="@bind(each)" onChanging="@command('textChanged')" />
+											</listcell>
+											<listcell
+												visible="@bind(vm.modification)">
+												<image
+													tooltiptext="Supprimer cette ligne"
+													sclass="ListAction delete"
+													onClick="@command('supprimerLigneMoyensAutres',ref=each)" />
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+								<div align="right" width="100%"
+									visible="@bind(vm.modification)">
+									<button label="Ajouter"
+										visible="@bind(vm.modification)"
+										onClick="@command('ajouterLigneMoyensAutres')" />
+								</div>
 							</div>
 							<separator />
 							<separator />

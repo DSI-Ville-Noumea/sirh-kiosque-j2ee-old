@@ -14,6 +14,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifProDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -208,6 +209,153 @@ public class EaeViewModel {
 			// on recharge l'eae pour vider les eventuelles modifs
 			initEae(getEaeCourant(), getModeSaisi());
 		}
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void supprimerLigneMoyensAutres(@BindingParam("ref") String moyensAutres) {
+		// on transforme String[] en liste
+		ArrayList<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < getPlanAction().getMoyensAutres().length; i++) {
+			wordList.add(getPlanAction().getMoyensAutres()[i]);
+		}
+
+		if (wordList.contains(moyensAutres)) {
+			wordList.remove(moyensAutres);
+		}
+		getPlanAction().setMoyensAutres(wordList.toArray(new String[wordList.size()]));
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void ajouterLigneMoyensAutres() {
+		// on transforme String[] en liste
+		ArrayList<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < getPlanAction().getMoyensAutres().length; i++) {
+			wordList.add(getPlanAction().getMoyensAutres()[i]);
+		}
+
+		wordList.add(new String());
+		getPlanAction().setMoyensAutres(wordList.toArray(new String[wordList.size()]));
+
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void supprimerLigneMoyensFinanciers(@BindingParam("ref") String moyensFinanciers) {
+		// on transforme String[] en liste
+		ArrayList<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < getPlanAction().getMoyensFinanciers().length; i++) {
+			wordList.add(getPlanAction().getMoyensFinanciers()[i]);
+		}
+
+		if (wordList.contains(moyensFinanciers)) {
+			wordList.remove(moyensFinanciers);
+		}
+		getPlanAction().setMoyensFinanciers(wordList.toArray(new String[wordList.size()]));
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void ajouterLigneMoyensFinanciers() {
+		// on transforme String[] en liste
+		ArrayList<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < getPlanAction().getMoyensFinanciers().length; i++) {
+			wordList.add(getPlanAction().getMoyensFinanciers()[i]);
+		}
+
+		wordList.add(new String());
+		getPlanAction().setMoyensFinanciers(wordList.toArray(new String[wordList.size()]));
+
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void supprimerLigneMoyensMateriels(@BindingParam("ref") String moyensMateriels) {
+		// on transforme String[] en liste
+		ArrayList<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < getPlanAction().getMoyensMateriels().length; i++) {
+			wordList.add(getPlanAction().getMoyensMateriels()[i]);
+		}
+
+		if (wordList.contains(moyensMateriels)) {
+			wordList.remove(moyensMateriels);
+		}
+		getPlanAction().setMoyensMateriels(wordList.toArray(new String[wordList.size()]));
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void ajouterLigneMoyensMateriels() {
+		// on transforme String[] en liste
+		ArrayList<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < getPlanAction().getMoyensMateriels().length; i++) {
+			wordList.add(getPlanAction().getMoyensMateriels()[i]);
+		}
+
+		wordList.add(new String());
+		getPlanAction().setMoyensMateriels(wordList.toArray(new String[wordList.size()]));
+
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void supprimerLigneObjectifIndiv(@BindingParam("ref") String objectifIndiv) {
+		// on transforme String[] en liste
+		ArrayList<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < getPlanAction().getObjectifsIndividuels().length; i++) {
+			wordList.add(getPlanAction().getObjectifsIndividuels()[i]);
+		}
+
+		if (wordList.contains(objectifIndiv)) {
+			wordList.remove(objectifIndiv);
+		}
+		getPlanAction().setObjectifsIndividuels(wordList.toArray(new String[wordList.size()]));
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void ajouterLigneObjectifIndiv() {
+		// on transforme String[] en liste
+		ArrayList<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < getPlanAction().getObjectifsIndividuels().length; i++) {
+			wordList.add(getPlanAction().getObjectifsIndividuels()[i]);
+		}
+
+		wordList.add(new String());
+		getPlanAction().setObjectifsIndividuels(wordList.toArray(new String[wordList.size()]));
+
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void supprimerLigneObjectifPro(@BindingParam("ref") EaeObjectifProDto objectifPro) {
+		if (getPlanAction().getObjectifsProfessionnels().contains(objectifPro)) {
+			getPlanAction().getObjectifsProfessionnels().remove(objectifPro);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "planAction" })
+	public void ajouterLigneObjectifPro() {
+		EaeObjectifProDto dto = new EaeObjectifProDto();
+		if (getPlanAction().getObjectifsProfessionnels() != null) {
+			getPlanAction().getObjectifsProfessionnels().add(dto);
+		} else {
+			List<EaeObjectifProDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getPlanAction().setObjectifsProfessionnels(liste);
+		}
+		textChanged();
 	}
 
 	@Command
