@@ -56,6 +56,10 @@ public class EaeViewModel {
 
 	private EaeAppreciationDto appreciationAnnee;
 
+	private Integer annee;
+
+	private Integer anneePrec;
+
 	private EaeAppreciationDto appreciationAnneePrec;
 
 	/* Pour savoir si on est en modif ou en visu */
@@ -91,6 +95,9 @@ public class EaeViewModel {
 		EaeAppreciationDto appreciationAnneePrec = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(),
 				currentUser.getAgent().getIdAgent(), eaeWsConsumer.getCampagneEae().getAnnee() - 1);
 		setAppreciationAnneePrec(appreciationAnneePrec);
+
+		setAnnee(eaeWsConsumer.getCampagneEae().getAnnee());
+		setAnneePrec(eaeWsConsumer.getCampagneEae().getAnnee() - 1);
 	}
 
 	private void initResultat() {
@@ -399,5 +406,21 @@ public class EaeViewModel {
 
 	public void setAppreciationAnneePrec(EaeAppreciationDto appreciationAnneePrec) {
 		this.appreciationAnneePrec = appreciationAnneePrec;
+	}
+
+	public Integer getAnnee() {
+		return annee;
+	}
+
+	public void setAnnee(Integer annee) {
+		this.annee = annee;
+	}
+
+	public Integer getAnneePrec() {
+		return anneePrec;
+	}
+
+	public void setAnneePrec(Integer anneePrec) {
+		this.anneePrec = anneePrec;
 	}
 }

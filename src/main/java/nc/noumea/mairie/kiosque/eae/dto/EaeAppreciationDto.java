@@ -4,14 +4,14 @@ public class EaeAppreciationDto {
 
 	private boolean estEncadrant;
 	private int idEae;
-	private ItemAppreciationDto managerialEvaluateur;
-	private ItemAppreciationDto managerialEvalue;
-	private ItemAppreciationDto resultatsEvaluateur;
-	private ItemAppreciationDto resultatsEvalue;
-	private ItemAppreciationDto savoirEtreEvaluateur;
-	private ItemAppreciationDto savoirEtreEvalue;
-	private ItemAppreciationDto techniqueEvaluateur;
-	private ItemAppreciationDto techniqueEvalue;
+	private String[] managerialEvaluateur;
+	private String[] managerialEvalue;
+	private String[] resultatsEvaluateur;
+	private String[] resultatsEvalue;
+	private String[] savoirEtreEvaluateur;
+	private String[] savoirEtreEvalue;
+	private String[] techniqueEvaluateur;
+	private String[] techniqueEvalue;
 
 	public boolean isEstEncadrant() {
 		return estEncadrant;
@@ -29,67 +29,67 @@ public class EaeAppreciationDto {
 		this.idEae = idEae;
 	}
 
-	public ItemAppreciationDto getManagerialEvaluateur() {
+	public String[] getManagerialEvaluateur() {
 		return managerialEvaluateur;
 	}
 
-	public void setManagerialEvaluateur(ItemAppreciationDto managerialEvaluateur) {
+	public void setManagerialEvaluateur(String[] managerialEvaluateur) {
 		this.managerialEvaluateur = managerialEvaluateur;
 	}
 
-	public ItemAppreciationDto getManagerialEvalue() {
+	public String[] getManagerialEvalue() {
 		return managerialEvalue;
 	}
 
-	public void setManagerialEvalue(ItemAppreciationDto managerialEvalue) {
+	public void setManagerialEvalue(String[] managerialEvalue) {
 		this.managerialEvalue = managerialEvalue;
 	}
 
-	public ItemAppreciationDto getResultatsEvaluateur() {
+	public String[] getResultatsEvaluateur() {
 		return resultatsEvaluateur;
 	}
 
-	public void setResultatsEvaluateur(ItemAppreciationDto resultatsEvaluateur) {
+	public void setResultatsEvaluateur(String[] resultatsEvaluateur) {
 		this.resultatsEvaluateur = resultatsEvaluateur;
 	}
 
-	public ItemAppreciationDto getResultatsEvalue() {
+	public String[] getResultatsEvalue() {
 		return resultatsEvalue;
 	}
 
-	public void setResultatsEvalue(ItemAppreciationDto resultatsEvalue) {
+	public void setResultatsEvalue(String[] resultatsEvalue) {
 		this.resultatsEvalue = resultatsEvalue;
 	}
 
-	public ItemAppreciationDto getSavoirEtreEvaluateur() {
+	public String[] getSavoirEtreEvaluateur() {
 		return savoirEtreEvaluateur;
 	}
 
-	public void setSavoirEtreEvaluateur(ItemAppreciationDto savoirEtreEvaluateur) {
+	public void setSavoirEtreEvaluateur(String[] savoirEtreEvaluateur) {
 		this.savoirEtreEvaluateur = savoirEtreEvaluateur;
 	}
 
-	public ItemAppreciationDto getSavoirEtreEvalue() {
+	public String[] getSavoirEtreEvalue() {
 		return savoirEtreEvalue;
 	}
 
-	public void setSavoirEtreEvalue(ItemAppreciationDto savoirEtreEvalue) {
+	public void setSavoirEtreEvalue(String[] savoirEtreEvalue) {
 		this.savoirEtreEvalue = savoirEtreEvalue;
 	}
 
-	public ItemAppreciationDto getTechniqueEvaluateur() {
+	public String[] getTechniqueEvaluateur() {
 		return techniqueEvaluateur;
 	}
 
-	public void setTechniqueEvaluateur(ItemAppreciationDto techniqueEvaluateur) {
+	public void setTechniqueEvaluateur(String[] techniqueEvaluateur) {
 		this.techniqueEvaluateur = techniqueEvaluateur;
 	}
 
-	public ItemAppreciationDto getTechniqueEvalue() {
+	public String[] getTechniqueEvalue() {
 		return techniqueEvalue;
 	}
 
-	public void setTechniqueEvalue(ItemAppreciationDto techniqueEvalue) {
+	public void setTechniqueEvalue(String[] techniqueEvalue) {
 		this.techniqueEvalue = techniqueEvalue;
 	}
 }

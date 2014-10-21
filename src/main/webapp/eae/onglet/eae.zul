@@ -41,22 +41,10 @@
 						<include src="/eae/onglet/resultat.zul" />
 					</tabpanel>
 					<tabpanel>
-						<div sclass="RHTitle2Line" />
-						<separator />
-						<image visible="@bind(vm.hasTextChanged)"
-							sclass="saveAction" onClick="@command('engistreOnglet')" />
-						<separator />
-						<vlayout>
-							<label sclass="titre" value="APPRECIATIONS" />
-							<div sclass="blockSeparator" />
-							<label sclass="RHTitle3"
-								value="APPRECIATION DES COMPETENCES MISES EN OEUVRE SUR LE POSTE DE TRAVAIL " />
-							<separator />
-
-						</vlayout>
-						<separator />
-						<separator />
-						<separator />
+						<include visible="@bind(not vm.modification)"
+							src="/eae/onglet/appreciationView.zul" />
+						<include visible="@bind(vm.modification)"
+							src="/eae/onglet/appreciationEdit.zul" />
 					</tabpanel>
 					<tabpanel>evaluation</tabpanel>
 					<tabpanel>auto evaluation</tabpanel>

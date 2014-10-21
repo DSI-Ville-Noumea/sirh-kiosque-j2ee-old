@@ -27,7 +27,7 @@
 							<comboitem value="15" label="15" />
 							<comboitem value="20" label="20" />
 						</combobox>
-						pointages par page
+						EAE par page
 						<space />
 						Recherche instantanée :
 						<textbox value="@bind(vm.filter)"
