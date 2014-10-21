@@ -18,6 +18,7 @@ import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 
+import org.joda.time.DateTime;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
@@ -64,6 +65,8 @@ public class EaeViewModel {
 	private Integer anneePrec;
 
 	private EaeEvaluationDto evaluation;
+
+	private Date dureeEntretien;
 
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
@@ -467,5 +470,18 @@ public class EaeViewModel {
 
 	public void setEvaluation(EaeEvaluationDto evaluation) {
 		this.evaluation = evaluation;
+	}
+
+	public Date getDureeEntretien() {
+		if (dureeEntretien == null && getEvaluation().getDureeEntretien() != null) {
+			DateTime t = new DateTime(2014, 01, 01, getEvaluation().getDureeEntretien().getHeures(), getEvaluation()
+					.getDureeEntretien().getMinutes());
+			return t.toDate();
+		}
+		return dureeEntretien;
+	}
+
+	public void setDureeEntretien(Date dureeEntretien) {
+		this.dureeEntretien = dureeEntretien;
 	}
 }
