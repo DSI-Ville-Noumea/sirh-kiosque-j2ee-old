@@ -8,6 +8,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
@@ -55,5 +56,9 @@ public interface ISirhEaeWSConsumer {
 	EaePlanActionDto getPlanActionEae(Integer idEae, Integer idAgent);
 
 	ReturnMessageDto savePlanAction(Integer idEae, Integer idAgent, EaePlanActionDto planAction);
+
+	EaeEvolutionDto getEvolutionEae(Integer idEae, Integer idAgent);
+
+	ReturnMessageDto saveEvolution(Integer idEae, Integer idAgent, EaeEvolutionDto evolution);
 
 }

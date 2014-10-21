@@ -10,6 +10,7 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
@@ -17,6 +18,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifProDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeSouhaitDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
@@ -75,6 +77,8 @@ public class EaeViewModel {
 
 	private EaePlanActionDto planAction;
 
+	private EaeEvolutionDto evolution;
+
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
 	private boolean isModification;
@@ -104,6 +108,14 @@ public class EaeViewModel {
 		initAutoEvaluation();
 		// on charge le plan d'action
 		initPlanAction();
+		// on charge l'evolution
+		initEvolution();
+	}
+
+	private void initEvolution() {
+		EaeEvolutionDto evo = eaeWsConsumer.getEvolutionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
+				.getIdAgent());
+		setEvolution(evo);
 	}
 
 	private void initPlanAction() {
@@ -164,7 +176,7 @@ public class EaeViewModel {
 	@GlobalCommand
 	@Command
 	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation",
-			"autoEvaluation", "planAction" })
+			"autoEvaluation", "planAction", "evolution" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
@@ -186,6 +198,9 @@ public class EaeViewModel {
 		} else if (getTabCourant().getId().equals("PLANACTION")) {
 			result = eaeWsConsumer.savePlanAction(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getPlanAction());
+		} else if (getTabCourant().getId().equals("EVOLUTION")) {
+			result = eaeWsConsumer.saveEvolution(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+					getEvolution());
 		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -209,6 +224,29 @@ public class EaeViewModel {
 			// on recharge l'eae pour vider les eventuelles modifs
 			initEae(getEaeCourant(), getModeSaisi());
 		}
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void supprimerLigneSouhaitSuggestion(@BindingParam("ref") EaeSouhaitDto souhait) {
+		if (getEvolution().getSouhaitsSuggestions().contains(souhait)) {
+			getEvolution().getSouhaitsSuggestions().remove(souhait);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void ajouterLigneSouhaitSuggestion() {
+		EaeSouhaitDto dto = new EaeSouhaitDto();
+		if (getEvolution().getSouhaitsSuggestions() != null) {
+			getEvolution().getSouhaitsSuggestions().add(dto);
+		} else {
+			List<EaeSouhaitDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getEvolution().setSouhaitsSuggestions(liste);
+		}
+		textChanged();
 	}
 
 	@Command
@@ -406,7 +444,7 @@ public class EaeViewModel {
 
 	@GlobalCommand
 	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation",
-			"autoEvaluation", "planAction" })
+			"autoEvaluation", "planAction", "evolution" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
 		setHasTextChanged(false);
 		setTabCourant(tab);
@@ -677,5 +715,13 @@ public class EaeViewModel {
 
 	public void setPlanAction(EaePlanActionDto planAction) {
 		this.planAction = planAction;
+	}
+
+	public EaeEvolutionDto getEvolution() {
+		return evolution;
+	}
+
+	public void setEvolution(EaeEvolutionDto evolution) {
+		this.evolution = evolution;
 	}
 }
