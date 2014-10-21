@@ -38,155 +38,26 @@
 						<include src="/eae/onglet/fichePoste.zul" />
 					</tabpanel>
 					<tabpanel>
+						<include src="/eae/onglet/resultat.zul" />
+					</tabpanel>
+					<tabpanel>
 						<div sclass="RHTitle2Line" />
 						<separator />
 						<image visible="@bind(vm.hasTextChanged)"
 							sclass="saveAction" onClick="@command('engistreOnglet')" />
 						<separator />
 						<vlayout>
-							<label sclass="titre" value="RESULTATS" />
+							<label sclass="titre" value="APPRECIATIONS" />
 							<div sclass="blockSeparator" />
 							<label sclass="RHTitle3"
-								value="TENUE ET MAITRISE DU POSTE" />
+								value="APPRECIATION DES COMPETENCES MISES EN OEUVRE SUR LE POSTE DE TRAVAIL " />
 							<separator />
-							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)"
-								value="@bind(vm.resultat.commentaireGeneral)"
-								onChanging="@command('textChanged')" />
-							<div sclass="bleu">
-								<label
-									visible="@bind(not vm.modification)"
-									value="@bind(vm.resultat.commentaireGeneral)" />
-							</div>
-							<div sclass="blockSeparator" />
-							<label sclass="RHTitle3"
-								value="Rappel des objectifs professionnels et des objectifs de progrès individuels fixés et résultats obtenus" />
-							<separator />
-							<listbox
-								model="@bind(vm.resultat.objectifsProfessionnels)"
-								emptyMessage="Aucun élément">
-								<listhead>
-									<listheader
-										label="Objectifs professionnels (1000 car. max)" sort="none" />
-									<listheader
-										label="Résultats (1000 car. max)" sort="none" />
-									<listheader label="Commentaires"
-										sort="none" />
-									<listheader width="50px"
-										visible="@bind(vm.modification)" align="center" label=""
-										sort="none" />
-								</listhead>
-								<template name="model">
-									<listitem>
-										<listcell>
-											<label
-												visible="@bind(not vm.modification)"
-												value="@bind(each.objectif)" />
-											<textbox rows="4"
-												width="100%" visible="@bind(vm.modification)"
-												value="@bind(each.objectif)"
-												onChanging="@command('textChanged')" />
-										</listcell>
-										<listcell>
-											<label
-												visible="@bind(not vm.modification)"
-												value="@bind(each.resultat)" />
-											<textbox rows="4"
-												width="100%" visible="@bind(vm.modification)"
-												value="@bind(each.resultat)"
-												onChanging="@command('textChanged')" />
-										</listcell>
-										<listcell>
-											<label
-												visible="@bind(not vm.modification)"
-												value="@bind(each.commentaire)" />
-											<textbox rows="4"
-												width="100%" visible="@bind(vm.modification)"
-												value="@bind(each.commentaire)"
-												onChanging="@command('textChanged')" />
-										</listcell>
-										<listcell
-											visible="@bind(vm.modification)">
-											<image
-												tooltiptext="Supprimer cette ligne"
-												sclass="ListAction delete"
-												onClick="@command('supprimerLignePro',ref=each)" />
-										</listcell>
-									</listitem>
-								</template>
-							</listbox>
-							<div align="right" width="100%"
-								visible="@bind(vm.modification)">
-								<button label="Ajouter"
-									visible="@bind(vm.modification)"
-									onClick="@command('ajouterLignePro')" />
-							</div>
-							<listbox
-								model="@bind(vm.resultat.objectifsIndividuels)"
-								emptyMessage="Aucun élément">
-								<listhead>
-									<listheader
-										label="Objectifs de progrès individuels (1000 car. max)"
-										sort="none" />
-									<listheader
-										label="Résultats (1000 car. max)" sort="none" />
-									<listheader label="Commentaires"
-										sort="none" />
-									<listheader width="50px"
-										visible="@bind(vm.modification)" align="center" label=""
-										sort="none" />
-								</listhead>
-								<template name="model">
-									<listitem>
-										<listcell>
-											<label
-												visible="@bind(not vm.modification)"
-												value="@bind(each.objectif)" />
-											<textbox rows="4"
-												width="100%" visible="@bind(vm.modification)"
-												value="@bind(each.objectif)"
-												onChanging="@command('textChanged')" />
-										</listcell>
-										<listcell>
-											<label
-												visible="@bind(not vm.modification)"
-												value="@bind(each.resultat)" />
-											<textbox rows="4"
-												width="100%" visible="@bind(vm.modification)"
-												value="@bind(each.resultat)"
-												onChanging="@command('textChanged')" />
-										</listcell>
-										<listcell>
-											<label
-												visible="@bind(not vm.modification)"
-												value="@bind(each.commentaire)" />
-											<textbox rows="4"
-												width="100%" visible="@bind(vm.modification)"
-												value="@bind(each.commentaire)"
-												onChanging="@command('textChanged')" />
-										</listcell>
-										<listcell
-											visible="@bind(vm.modification)">
-											<image
-												tooltiptext="Supprimer cette ligne"
-												sclass="ListAction delete"
-												onClick="@command('supprimerLigneIndiv',ref=each)" />
-										</listcell>
-									</listitem>
-								</template>
-							</listbox>
-							<div align="right" width="100%"
-								visible="@bind(vm.modification)">
-								<button label="Ajouter"
-									visible="@bind(vm.modification)"
-									onClick="@command('ajouterLigneIndiv')" />
-							</div>
-							<separator />
-							<separator />
-							<separator />
+
 						</vlayout>
+						<separator />
+						<separator />
+						<separator />
 					</tabpanel>
-					<tabpanel>appreciation</tabpanel>
 					<tabpanel>evaluation</tabpanel>
 					<tabpanel>auto evaluation</tabpanel>
 					<tabpanel>plan action</tabpanel>

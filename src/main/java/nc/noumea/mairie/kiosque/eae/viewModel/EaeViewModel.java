@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
@@ -53,6 +54,10 @@ public class EaeViewModel {
 
 	private EaeResultatDto resultat;
 
+	private EaeAppreciationDto appreciationAnnee;
+
+	private EaeAppreciationDto appreciationAnneePrec;
+
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
 	private boolean isModification;
@@ -63,15 +68,38 @@ public class EaeViewModel {
 	public void initEae(@ExecutionArgParam("eae") EaeListItemDto eae, @ExecutionArgParam("mode") String modeSaisi) {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		setModeSaisi(modeSaisi);
 		setEaeCourant(eae);
 
+		setModeSaisi(modeSaisi);
 		setModification(modeSaisi.equals("EDIT"));
+
 		// on charge l'identification
-		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(getEaeCourant().getIdEae(),
-				currentUser.getAgent().getIdAgent());
-		setIdentification(identification);
+		initIdentification();
 		// on charge les fiches de poste
+		initFichePoste();
+		// on charge les resultats
+		initResultat();
+		// on charge les appreciations
+		initAppreciation();
+	}
+
+	private void initAppreciation() {
+		EaeAppreciationDto appreciationAnnee = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(), currentUser
+				.getAgent().getIdAgent(), eaeWsConsumer.getCampagneEae().getAnnee());
+		setAppreciationAnnee(appreciationAnnee);
+		// on charge les appreciations de l'annéee précédente
+		EaeAppreciationDto appreciationAnneePrec = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(),
+				currentUser.getAgent().getIdAgent(), eaeWsConsumer.getCampagneEae().getAnnee() - 1);
+		setAppreciationAnneePrec(appreciationAnneePrec);
+	}
+
+	private void initResultat() {
+		EaeResultatDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent()
+				.getIdAgent());
+		setResultat(resultat);
+	}
+
+	private void initFichePoste() {
 		List<EaeFichePosteDto> listeFDP = eaeWsConsumer.getListeFichePosteEae(getEaeCourant().getIdEae(), currentUser
 				.getAgent().getIdAgent());
 		setListeFichePoste(listeFDP);
@@ -81,15 +109,17 @@ public class EaeViewModel {
 			setFichePostePrimaire(getListeFichePoste().get(0));
 			setFichePosteSecondaire(getListeFichePoste().get(1));
 		}
-		// on charge les resultats
-		EaeResultatDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
-		setResultat(resultat);
+	}
+
+	private void initIdentification() {
+		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(getEaeCourant().getIdEae(),
+				currentUser.getAgent().getIdAgent());
+		setIdentification(identification);
 	}
 
 	@GlobalCommand
 	@Command
-	@NotifyChange({ "hasTextChanged", "identification", "resultat" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "appreciationAnneePrec" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
@@ -99,6 +129,9 @@ public class EaeViewModel {
 		} else if (getTabCourant().getId().equals("RESULTAT")) {
 			result = eaeWsConsumer.saveResultat(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getResultat());
+		} else if (getTabCourant().getId().equals("APPRECIATION")) {
+			result = eaeWsConsumer.saveAppreciation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+					getAppreciationAnnee());
 		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -171,7 +204,7 @@ public class EaeViewModel {
 	}
 
 	@GlobalCommand
-	@NotifyChange({ "hasTextChanged", "identification", "resultat" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "appreciationAnneePrec" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
 		setHasTextChanged(false);
 		setTabCourant(tab);
@@ -350,5 +383,21 @@ public class EaeViewModel {
 
 	public void setResultat(EaeResultatDto resultat) {
 		this.resultat = resultat;
+	}
+
+	public EaeAppreciationDto getAppreciationAnnee() {
+		return appreciationAnnee;
+	}
+
+	public void setAppreciationAnnee(EaeAppreciationDto appreciationAnnee) {
+		this.appreciationAnnee = appreciationAnnee;
+	}
+
+	public EaeAppreciationDto getAppreciationAnneePrec() {
+		return appreciationAnneePrec;
+	}
+
+	public void setAppreciationAnneePrec(EaeAppreciationDto appreciationAnneePrec) {
+		this.appreciationAnneePrec = appreciationAnneePrec;
 	}
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.CampagneEaeDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
@@ -28,6 +30,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	@Qualifier("sirhEaeWsBaseUrl")
 	private String sirhEaeWsBaseUrl;
 
+	private static final String eaeCampagneEaeUrl = "eaes/getEaeCampagneOuverte";
 	private static final String eaeTableauBordUrl = "eaes/tableauDeBord";
 	private static final String eaeTableauEaeUrl = "eaes/listEaesByAgent";
 	private static final String eaeImpressionEaeUrl = "reporting/eae";
@@ -36,6 +39,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	private static final String eaeIdentificationUrl = "evaluation/eaeIdentification";
 	private static final String eaeFichePosteUrl = "evaluation/eaeFichePoste";
 	private static final String eaeResultatUrl = "evaluation/eaeResultats";
+	private static final String eaeAppreciationUrl = "evaluation/eaeAppreciations";
 
 	@Override
 	public List<EaeDashboardItemDto> getTableauBord(Integer idAgent) {
@@ -152,6 +156,51 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
 				.deepSerialize(resultat);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		}
+		String result = readResponse(String.class, res, url);
+		dto.getInfos().add(result);
+		return dto;
+	}
+
+	@Override
+	public CampagneEaeDto getCampagneEae() {
+		String url = String.format(sirhEaeWsBaseUrl + eaeCampagneEaeUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+
+		return readResponse(CampagneEaeDto.class, res, url);
+	}
+
+	@Override
+	public EaeAppreciationDto getAppreciationEae(Integer idEae, Integer idAgent, Integer annee) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeAppreciationUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idEae", idEae.toString());
+		params.put("idAgent", idAgent.toString());
+		params.put("annee", annee.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+
+		return readResponse(EaeAppreciationDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto saveAppreciation(Integer idEae, Integer idAgent, EaeAppreciationDto appreciationAnnee) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeAppreciationUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idEae", idEae.toString());
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(appreciationAnnee);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 

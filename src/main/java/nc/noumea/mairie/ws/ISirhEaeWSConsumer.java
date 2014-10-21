@@ -3,6 +3,8 @@ package nc.noumea.mairie.ws;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.CampagneEaeDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
@@ -10,6 +12,8 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
 
 public interface ISirhEaeWSConsumer {
+
+	CampagneEaeDto getCampagneEae();
 
 	/* TABLEAU BORD */
 	List<EaeDashboardItemDto> getTableauBord(Integer idAgent);
@@ -32,5 +36,9 @@ public interface ISirhEaeWSConsumer {
 	EaeResultatDto getResultatEae(Integer idEae, Integer idAgent);
 
 	ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatDto resultat);
+
+	EaeAppreciationDto getAppreciationEae(Integer idEae, Integer idAgent, Integer annee);
+
+	ReturnMessageDto saveAppreciation(Integer idEae, Integer idAgent, EaeAppreciationDto appreciationAnnee);
 
 }
