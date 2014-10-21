@@ -14,6 +14,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -71,6 +72,8 @@ public class EaeViewModel {
 
 	private EaeAutoEvaluationDto autoEvaluation;
 
+	private EaePlanActionDto planAction;
+
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
 	private boolean isModification;
@@ -98,6 +101,14 @@ public class EaeViewModel {
 		initEvaluation();
 		// on charge l'auto-évaluation
 		initAutoEvaluation();
+		// on charge le plan d'action
+		initPlanAction();
+	}
+
+	private void initPlanAction() {
+		EaePlanActionDto plan = eaeWsConsumer.getPlanActionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
+				.getIdAgent());
+		setPlanAction(plan);
 	}
 
 	private void initAutoEvaluation() {
@@ -151,7 +162,8 @@ public class EaeViewModel {
 
 	@GlobalCommand
 	@Command
-	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation",
+			"autoEvaluation", "planAction" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
@@ -170,6 +182,9 @@ public class EaeViewModel {
 		} else if (getTabCourant().getId().equals("AUTOEVALUATION")) {
 			result = eaeWsConsumer.saveAutoEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getAutoEvaluation());
+		} else if (getTabCourant().getId().equals("PLANACTION")) {
+			result = eaeWsConsumer.savePlanAction(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+					getPlanAction());
 		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -242,7 +257,8 @@ public class EaeViewModel {
 	}
 
 	@GlobalCommand
-	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation",
+			"autoEvaluation", "planAction" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
 		setHasTextChanged(false);
 		setTabCourant(tab);
@@ -505,5 +521,13 @@ public class EaeViewModel {
 
 	public void setAutoEvaluation(EaeAutoEvaluationDto autoEvaluation) {
 		this.autoEvaluation = autoEvaluation;
+	}
+
+	public EaePlanActionDto getPlanAction() {
+		return planAction;
+	}
+
+	public void setPlanAction(EaePlanActionDto planAction) {
+		this.planAction = planAction;
 	}
 }

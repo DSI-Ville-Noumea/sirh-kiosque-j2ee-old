@@ -52,7 +52,25 @@
 					<tabpanel>
 						<include src="/eae/onglet/autoEvaluation.zul" />
 					</tabpanel>
-					<tabpanel>plan action</tabpanel>
+					<tabpanel>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<image visible="@bind(vm.hasTextChanged)"
+							sclass="saveAction" onClick="@command('engistreOnglet')" />
+						<separator />
+						<vlayout>
+							<label sclass="titre" value="PLAN D'ACTION" />
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="VOTRE PLAN D ACTION POUR L'ANNEE A VENIR" />
+							<label
+								value="Il s'agit de construire ensemble votre plan d'action pour vous aider à remplir au mieux vos missions présentes et futures. Fixons les objectifs à atteindre et envisageons l'enrichissement de vos compétences"
+								style="color: #d3711c;font-weight: bold;" />
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="Objectifs professionnels" />
+						</vlayout>
+					</tabpanel>
 					<tabpanel>evolution</tabpanel>
 				</tabpanels>
 			</tabbox>
