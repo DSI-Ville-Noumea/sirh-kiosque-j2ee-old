@@ -1,6 +1,6 @@
 package nc.noumea.mairie.kiosque.eae.dto;
 
-public class PositionAdministrativeDto {
+public class ValeurListeDto {
 
 	private String code;
 	private String valeur;

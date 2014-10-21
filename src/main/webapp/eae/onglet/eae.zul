@@ -46,7 +46,85 @@
 						<include visible="@bind(vm.modification)"
 							src="/eae/onglet/appreciationEdit.zul" />
 					</tabpanel>
-					<tabpanel>evaluation</tabpanel>
+					<tabpanel>
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<image visible="@bind(vm.hasTextChanged)"
+							sclass="saveAction" onClick="@command('engistreOnglet')" />
+						<separator />
+						<vlayout>
+							<label sclass="titre" value="EVALUATION" />
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="SYNTHESE DE VOTRE EVALUATION" />
+							<hlayout>
+								<label value="Durée de l'entretien" />
+								<label sclass="bleu"
+									value="@bind(vm.getInfoDureeEntretien(vm.evaluation))" />
+							</hlayout>
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="L'appréciation générale (par l'évaluateur)" />
+							<label sclass="bleu"
+								value="@bind(vm.evaluation.commentaireEvaluateur)" />
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="Résultats dans le poste, Note " />
+							<separator />
+							<hlayout>
+								<div width="100px">
+									<label value="Niveau"
+										style="color: #d3711c;font-weight: bold;" />
+								</div>
+								<radiogroup
+									selectedItem="@bind(vm.evaluation.niveau.courant)">
+									<div sclass="bleu" width="100%">
+										<zk
+											forEach="${vm.evaluation.niveau.liste}">
+											<radio disabled="true"
+												label="${each.valeur}" value="${each.code}" />
+										</zk>
+									</div>
+								</radiogroup>
+							</hlayout>
+							<separator />
+							<listbox emptyMessage="Aucun élément">
+								<listhead>
+									<listheader label="" sort="none" />
+									<listheader
+										label="@bind(vm.getEnteteN1())" sort="none" />
+									<listheader
+										label="@bind(vm.getEnteteN2())" sort="none" />
+									<listheader
+										label="@bind(vm.getEnteteN3())" sort="none" />
+								</listhead>
+								<listitem>
+									<listcell>
+										<label
+											value="Evaluation chifrée" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(vm.evaluation.noteAnneeN1)" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(vm.evaluation.noteAnneeN2)" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(vm.evaluation.noteAnneeN3)" />
+									</listcell>
+								</listitem>
+							</listbox>
+							<separator />
+							<label
+								value="Commentaires éventuels de l'évalué concernant l'appréciation"
+								style="color: #d3711c;font-weight: bold;" />
+							<label sclass="bleu"
+								value="@bind(vm.evaluation.commentaireEvalue)" />
+						</vlayout>
+					</tabpanel>
 					<tabpanel>auto evaluation</tabpanel>
 					<tabpanel>plan action</tabpanel>
 					<tabpanel>evolution</tabpanel>

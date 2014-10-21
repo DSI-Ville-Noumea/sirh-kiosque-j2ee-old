@@ -15,13 +15,13 @@ public class EaeIdentificationStatutDto {
 	private String nouvEchelon;
 	private String statutPrecision;
 
-	private EaeAgentPositionAdministrativeDto statut;
+	private EaeListeDto statut;
 
-	public EaeAgentPositionAdministrativeDto getStatut() {
+	public EaeListeDto getStatut() {
 		return statut;
 	}
 
-	public void setStatut(EaeAgentPositionAdministrativeDto statut) {
+	public void setStatut(EaeListeDto statut) {
 		this.statut = statut;
 	}
 

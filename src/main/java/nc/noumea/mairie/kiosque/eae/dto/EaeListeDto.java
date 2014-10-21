@@ -2,10 +2,10 @@ package nc.noumea.mairie.kiosque.eae.dto;
 
 import java.util.List;
 
-public class EaeAgentPositionAdministrativeDto {
+public class EaeListeDto {
 
 	private String courant;
-	private List<PositionAdministrativeDto> liste;
+	private List<ValeurListeDto> liste;
 
 	public String getCourant() {
 		return courant;
@@ -15,11 +15,11 @@ public class EaeAgentPositionAdministrativeDto {
 		this.courant = courant;
 	}
 
-	public List<PositionAdministrativeDto> getListe() {
+	public List<ValeurListeDto> getListe() {
 		return liste;
 	}
 
-	public void setListe(List<PositionAdministrativeDto> liste) {
+	public void setListe(List<ValeurListeDto> liste) {
 		this.liste = liste;
 	}
 }

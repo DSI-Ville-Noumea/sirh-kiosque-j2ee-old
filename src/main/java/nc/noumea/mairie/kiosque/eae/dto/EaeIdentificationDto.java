@@ -15,7 +15,7 @@ public class EaeIdentificationDto {
 	private List<String> parcoursPros;
 	private List<AgentEaeDto> evaluateurs;
 	private int idEae;
-	private EaeAgentPositionAdministrativeDto position;
+	private EaeListeDto position;
 	private EaeIdentificationSituationDto situation;
 	private EaeIdentificationStatutDto statut;
 
@@ -98,11 +98,11 @@ public class EaeIdentificationDto {
 		this.statut = statut;
 	}
 
-	public EaeAgentPositionAdministrativeDto getPosition() {
+	public EaeListeDto getPosition() {
 		return position;
 	}
 
-	public void setPosition(EaeAgentPositionAdministrativeDto position) {
+	public void setPosition(EaeListeDto position) {
 		this.position = position;
 	}
 }

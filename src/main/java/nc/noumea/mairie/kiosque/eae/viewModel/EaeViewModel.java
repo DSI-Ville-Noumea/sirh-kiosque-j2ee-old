@@ -8,6 +8,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
@@ -56,11 +57,13 @@ public class EaeViewModel {
 
 	private EaeAppreciationDto appreciationAnnee;
 
+	private EaeAppreciationDto appreciationAnneePrec;
+
 	private Integer annee;
 
 	private Integer anneePrec;
 
-	private EaeAppreciationDto appreciationAnneePrec;
+	private EaeEvaluationDto evaluation;
 
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
@@ -85,6 +88,14 @@ public class EaeViewModel {
 		initResultat();
 		// on charge les appreciations
 		initAppreciation();
+		// on charge l'évaluation
+		initEvaluation();
+	}
+
+	private void initEvaluation() {
+		EaeEvaluationDto evaluation = eaeWsConsumer.getEvaluationEae(getEaeCourant().getIdEae(), currentUser.getAgent()
+				.getIdAgent());
+		setEvaluation(evaluation);
 	}
 
 	private void initAppreciation() {
@@ -126,7 +137,7 @@ public class EaeViewModel {
 
 	@GlobalCommand
 	@Command
-	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "appreciationAnneePrec" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
@@ -139,6 +150,9 @@ public class EaeViewModel {
 		} else if (getTabCourant().getId().equals("APPRECIATION")) {
 			result = eaeWsConsumer.saveAppreciation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getAppreciationAnnee());
+		} else if (getTabCourant().getId().equals("EVALUATION")) {
+			result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+					getEvaluation());
 		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -211,7 +225,7 @@ public class EaeViewModel {
 	}
 
 	@GlobalCommand
-	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "appreciationAnneePrec" })
+	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
 		setHasTextChanged(false);
 		setTabCourant(tab);
@@ -262,6 +276,29 @@ public class EaeViewModel {
 			return "";
 		return fichePoste.getResponsableNom() + " " + fichePoste.getResponsablePrenom() + ", "
 				+ fichePoste.getResponsableFonction();
+	}
+
+	public String getEnteteN1() {
+		return String.valueOf(getAnnee() - 2);
+	}
+
+	public String getEnteteN2() {
+		return String.valueOf(getAnnee() - 3);
+	}
+
+	public String getEnteteN3() {
+		return String.valueOf(getAnnee() - 4);
+	}
+
+	public String getInfoDureeEntretien(EaeEvaluationDto dto) {
+		String res = "";
+		if (dto.getDureeEntretien().getHeures() != 0) {
+			res += dto.getDureeEntretien().getHeures() + " h ";
+		}
+		if (dto.getDureeEntretien().getMinutes() != 0) {
+			res += dto.getDureeEntretien().getMinutes() + " min";
+		}
+		return res;
 	}
 
 	public String transformeDuree(Integer ancienneteEchelonJours) {
@@ -422,5 +459,13 @@ public class EaeViewModel {
 
 	public void setAnneePrec(Integer anneePrec) {
 		this.anneePrec = anneePrec;
+	}
+
+	public EaeEvaluationDto getEvaluation() {
+		return evaluation;
+	}
+
+	public void setEvaluation(EaeEvaluationDto evaluation) {
+		this.evaluation = evaluation;
 	}
 }
