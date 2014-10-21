@@ -108,7 +108,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			setListeAgents(result);
 			setAfficheAffecterAgent(false);
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
-			// on recupere les opï¿½rateurs de l'agent
+			// on recupere les operateurs de l'agent
 			DelegatorAndOperatorsDto result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent());
 			setListeAgents(result.getSaisisseurs());
 			List<AgentDto> delegataire = null;
@@ -141,7 +141,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			setListeAgents(result);
 			setAfficheAffecterAgent(false);
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
-			// on recupere les opï¿½rateurs de l'agent
+			// on recupere les op?rateurs de l'agent
 			DelegatorAndOperatorsDto result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent());
 			setListeAgents(result.getSaisisseurs());
 			List<AgentDto> delegataire = null;
@@ -198,7 +198,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	}
 
 	private void supprimerDelegataireApprobateurs(AgentDto agentDelegataireASupprimer) {
-		// on recupere tous le dï¿½lagatire de l'approbateurs et on supprime
+		// on recupere tous les delegataire de l'approbateurs et on supprime
 		// l'entree
 		if (getListeDelegataire().contains(agentDelegataireASupprimer)) {
 			getListeDelegataire().remove(agentDelegataireASupprimer);
@@ -214,7 +214,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Le dÃ©lÃ©gataire a Ã©tÃ© enregistrÃ© correctement.");
+			result.getInfos().add("Le délégataire a été enregistré correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -232,7 +232,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	}
 
 	private void supprimerOperateursApprobateurs(AgentDto agentASupprimer) {
-		// on recupere tous les opï¿½rateurs de l'approbateurs et on supprime
+		// on recupere tous les operateurs de l'approbateurs et on supprime
 		// l'entree
 		if (getListeAgents().contains(agentASupprimer)) {
 			getListeAgents().remove(agentASupprimer);
@@ -249,7 +249,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Les opÃ©rateurs ont Ã©tÃ© enregistrÃ©s correctement.");
+			result.getInfos().add("Les opérateurs ont été enregistrés correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -280,7 +280,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add("Les agents Ã  approuver ont Ã©tÃ© enregistrÃ©s correctement.");
+			result.getInfos().add("Les agents à approuver ont été enregistrés correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -305,7 +305,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			supprimerDelegataireApprobateurs(agentDelegataireASupprimer);
 		}
 	}
-
+	
 	@Command
 	public void exportPDF(@BindingParam("ref") Listbox listbox) throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
