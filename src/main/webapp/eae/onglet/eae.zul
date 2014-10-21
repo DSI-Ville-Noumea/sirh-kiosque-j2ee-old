@@ -69,6 +69,80 @@
 							<div sclass="blockSeparator" />
 							<label sclass="RHTitle3"
 								value="Objectifs professionnels" />
+							<listbox
+								model="@bind(vm.planAction.objectifsProfessionnels)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader width="50%"
+										label="Les objectifs (1000 car. max)" sort="none" />
+									<listheader width="50%"
+										label="Les indicateurs de mesure/délais (1000 car. max)"
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label sclass="bleu"
+												value="@bind(each.objectif)" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												value="@bind(each.indicateur)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="Objectifs de progrès individuels (1000 car. max)" />
+							<vlayout>
+								<zk
+									forEach="${vm.planAction.objectifsIndividuels}">
+									<label sclass="bleu"
+										value="${each}" />
+								</zk>
+							</vlayout>
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="Moyens d'accompagnement" />
+							<separator />
+							<div style="margin-left: 20px;">
+								<label
+									value="Besoins matériels (300 car. max)"
+									style="color: #d3711c;font-weight: bold;" />
+								<vlayout>
+									<zk
+										forEach="${vm.planAction.moyensMateriels}">
+										<label sclass="bleu"
+											value="${each}" />
+									</zk>
+								</vlayout>
+								<separator />
+								<label
+									value="Besoins financiers (300 car. max)"
+									style="color: #d3711c;font-weight: bold;" />
+								<vlayout>
+									<zk
+										forEach="${vm.planAction.moyensFinanciers}">
+										<label sclass="bleu"
+											value="${each}" />
+									</zk>
+								</vlayout>
+								<separator />
+								<label
+									value="Autres besoins (300 car. max)"
+									style="color: #d3711c;font-weight: bold;" />
+								<vlayout>
+									<zk
+										forEach="${vm.planAction.moyensAutres}">
+										<label sclass="bleu"
+											value="${each}" />
+									</zk>
+								</vlayout>
+							</div>
+							<separator />
+							<separator />
+							<separator />
 						</vlayout>
 					</tabpanel>
 					<tabpanel>evolution</tabpanel>
