@@ -697,10 +697,6 @@ public class EaeViewModel {
 		return dureeEntretien;
 	}
 
-	public Integer toInteger(String value) {
-		return Integer.valueOf(value);
-	}
-
 	public void setDureeEntretien(Date dureeEntretien) {
 		this.dureeEntretien = dureeEntretien;
 	}

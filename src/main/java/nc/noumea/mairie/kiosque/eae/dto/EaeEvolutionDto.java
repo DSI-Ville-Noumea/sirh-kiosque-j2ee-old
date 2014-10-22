@@ -52,68 +52,12 @@ public class EaeEvolutionDto {
 		this.autrePerspective = autrePerspective;
 	}
 
-	public String getChangementMetier() {
-		return String.valueOf(changementMetier);
-	}
-
-	public void setChangementMetier(String changementMetier) {
-		this.changementMetier = Boolean.parseBoolean(changementMetier);
-	}
-
 	public boolean getConcours() {
 		return concours;
 	}
 
 	public void setConcours(boolean concours) {
 		this.concours = concours;
-	}
-
-	public String getMobiliteAutre() {
-		return String.valueOf(mobiliteAutre);
-	}
-
-	public void setMobiliteAutre(String mobiliteAutre) {
-		this.mobiliteAutre = Boolean.parseBoolean(mobiliteAutre);
-	}
-
-	public String getMobiliteCollectivite() {
-		return String.valueOf(mobiliteCollectivite);
-	}
-
-	public void setMobiliteCollectivite(String mobiliteCollectivite) {
-		this.mobiliteCollectivite = Boolean.parseBoolean(mobiliteCollectivite);
-	}
-
-	public String getMobiliteDirection() {
-		return String.valueOf(mobiliteDirection);
-	}
-
-	public void setMobiliteDirection(String mobiliteDirection) {
-		this.mobiliteDirection = Boolean.parseBoolean(mobiliteDirection);
-	}
-
-	public String getMobiliteFonctionnelle() {
-		return String.valueOf(mobiliteFonctionnelle);
-	}
-
-	public void setMobiliteFonctionnelle(String mobiliteFonctionnelle) {
-		this.mobiliteFonctionnelle = Boolean.parseBoolean(mobiliteFonctionnelle);
-	}
-
-	public String getMobiliteGeo() {
-		return String.valueOf(mobiliteGeo);
-	}
-
-	public void setMobiliteGeo(String mobiliteGeo) {
-		this.mobiliteGeo = Boolean.parseBoolean(mobiliteGeo);
-	}
-
-	public String getMobiliteService() {
-		return String.valueOf(mobiliteService);
-	}
-
-	public void setMobiliteService(String mobiliteService) {
-		this.mobiliteService = Boolean.parseBoolean(mobiliteService);
 	}
 
 	public boolean getRetraite() {

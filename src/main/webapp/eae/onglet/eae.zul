@@ -129,9 +129,9 @@
 											onCheck="@command('textChanged')"
 											selectedItem="@bind(vm.evolution.mobiliteGeo)">
 											<radio label="Oui"
-												disabled="@bind(not vm.modification)" value="true" />
+												disabled="@bind(not vm.modification)" value="${true}" />
 											<radio label="Non"
-												disabled="@bind(not vm.modification)" value="false" />
+												disabled="@bind(not vm.modification)" value="${false}" />
 										</radiogroup>
 									</div>
 									<div sclass="espace">
@@ -143,9 +143,9 @@
 											onCheck="@command('textChanged')"
 											selectedItem="@bind(vm.evolution.mobiliteService)">
 											<radio label="Oui"
-												disabled="@bind(not vm.modification)" value="true" />
+												disabled="@bind(not vm.modification)" value="${true}" />
 											<radio label="Non"
-												disabled="@bind(not vm.modification)" value="false" />
+												disabled="@bind(not vm.modification)" value="${false}" />
 										</radiogroup>
 									</div>
 								</hlayout>
@@ -159,9 +159,9 @@
 											onCheck="@command('textChanged')"
 											selectedItem="@bind(vm.evolution.mobiliteFonctionnelle)">
 											<radio label="Oui"
-												disabled="@bind(not vm.modification)" value="true" />
+												disabled="@bind(not vm.modification)" value="${true}" />
 											<radio label="Non"
-												disabled="@bind(not vm.modification)" value="false" />
+												disabled="@bind(not vm.modification)" value="${false}" />
 										</radiogroup>
 									</div>
 									<div sclass="espace">
@@ -173,9 +173,9 @@
 											onCheck="@command('textChanged')"
 											selectedItem="@bind(vm.evolution.mobiliteDirection)">
 											<radio label="Oui"
-												disabled="@bind(not vm.modification)" value="true" />
+												disabled="@bind(not vm.modification)" value="${true}" />
 											<radio label="Non"
-												disabled="@bind(not vm.modification)" value="false" />
+												disabled="@bind(not vm.modification)" value="${false}" />
 										</radiogroup>
 									</div>
 								</hlayout>
@@ -189,9 +189,9 @@
 											onCheck="@command('textChanged')"
 											selectedItem="@bind(vm.evolution.changementMetier)">
 											<radio label="Oui"
-												disabled="@bind(not vm.modification)" value="true" />
+												disabled="@bind(not vm.modification)" value="${true}" />
 											<radio label="Non"
-												disabled="@bind(not vm.modification)" value="false" />
+												disabled="@bind(not vm.modification)" value="${false}" />
 										</radiogroup>
 									</div>
 									<div sclass="espace">
@@ -203,9 +203,9 @@
 											onCheck="@command('textChanged')"
 											selectedItem="@bind(vm.evolution.mobiliteCollectivite)">
 											<radio label="Oui"
-												disabled="@bind(not vm.modification)" value="true" />
+												disabled="@bind(not vm.modification)" value="${true}" />
 											<radio label="Non"
-												disabled="@bind(not vm.modification)" value="false" />
+												disabled="@bind(not vm.modification)" value="${false}" />
 										</radiogroup>
 										<textbox rows="1"
 											disabled="@bind(not vm.modification || not vm.evolution.mobiliteCollectivite)"
@@ -240,9 +240,9 @@
 											onCheck="@command('textChanged')"
 											selectedItem="@bind(vm.evolution.mobiliteAutre)">
 											<radio label="Oui"
-												disabled="@bind(not vm.modification)" value="true" />
+												disabled="@bind(not vm.modification)" value="${true}" />
 											<radio label="Non"
-												disabled="@bind(not vm.modification)" value="false" />
+												disabled="@bind(not vm.modification)" value="${false}" />
 										</radiogroup>
 									</div>
 								</hlayout>
@@ -252,7 +252,8 @@
 											<checkbox
 												label="concours - intitulé du concours ou de l'examen"
 												disabled="@bind(not vm.modification)"
-												checked="@bind(vm.evolution.concours)" />
+												checked="@bind(vm.evolution.concours)"
+												onCheck="@command('textChanged')" />
 										</div>
 										<div sclass="espace">
 											<textbox rows="1"
@@ -266,7 +267,8 @@
 											<checkbox
 												label="demande de VAE - intitulé du diplôme:"
 												disabled="@bind(not vm.modification)"
-												checked="@bind(vm.evolution.vae)" />
+												checked="@bind(vm.evolution.vae)"
+												onCheck="@command('textChanged')" />
 										</div>
 										<div sclass="espace">
 											<textbox rows="1"
@@ -280,14 +282,15 @@
 											<checkbox sclass="bleu"
 												label="temps partiel à"
 												disabled="@bind(not vm.modification)"
-												checked="@bind(vm.evolution.tempsPartiel)" />
+												checked="@bind(vm.evolution.tempsPartiel)"
+												onCheck="@command('textChanged')" />
 										</div>
 										<div sclass="espace">
 											<combobox readonly="true"
 												width="100%"
 												disabled="@bind(not vm.modification || not vm.evolution.tempsPartiel)"
 												selectedItem="@bind(vm.evolution.pourcentageTempsPartiel.courant)"
-												onChange="@command('textChanged')">
+												onChanging="@command('textChanged')">
 												<zk
 													forEach="${vm.evolution.pourcentageTempsPartiel.liste}">
 													<comboitem
@@ -301,14 +304,15 @@
 											<checkbox sclass="bleu"
 												label="retraite départ prévu au "
 												disabled="@bind(not vm.modification)"
-												checked="@bind(vm.evolution.retraite)" />
+												checked="@bind(vm.evolution.retraite)"
+												onCheck="@command('textChanged')" />
 										</div>
 										<div sclass="espace">
 											<datebox
 												disabled="@bind(not vm.modification || not vm.evolution.retraite)"
 												cols="14" format="dd/MM/yyyy"
 												value="@bind(vm.evolution.dateRetraite)"
-												onChange="@command('textChanged')" />
+												onChanging="@command('textChanged')" />
 										</div>
 									</hlayout>
 									<hlayout>
@@ -316,7 +320,8 @@
 											<checkbox sclass="bleu"
 												label="autre perspective (préciser) :"
 												disabled="@bind(not vm.modification)"
-												checked="@bind(vm.evolution.autrePerspective)" />
+												checked="@bind(vm.evolution.autrePerspective)"
+												onCheck="@command('textChanged')" />
 										</div>
 										<div sclass="espace">
 											<textbox rows="1"
