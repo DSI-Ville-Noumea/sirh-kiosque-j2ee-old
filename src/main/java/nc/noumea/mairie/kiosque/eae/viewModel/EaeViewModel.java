@@ -9,6 +9,7 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeDeveloppementDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
@@ -224,6 +225,144 @@ public class EaeViewModel {
 			// on recharge l'eae pour vider les eventuelles modifs
 			initEae(getEaeCourant(), getModeSaisi());
 		}
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void supprimerLigneDeveloppementExamensConcours(@BindingParam("ref") EaeDeveloppementDto developpement) {
+		if (getEvolution().getDeveloppementExamensConcours().contains(developpement)) {
+			getEvolution().getDeveloppementExamensConcours().remove(developpement);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void ajouterLigneDeveloppementExamensConcours() {
+		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		if (getEvolution().getDeveloppementExamensConcours() != null) {
+			getEvolution().getDeveloppementExamensConcours().add(dto);
+		} else {
+			List<EaeDeveloppementDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getEvolution().setDeveloppementExamensConcours(liste);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void supprimerLigneDeveloppementPersonnel(@BindingParam("ref") EaeDeveloppementDto developpement) {
+		if (getEvolution().getDeveloppementPersonnel().contains(developpement)) {
+			getEvolution().getDeveloppementPersonnel().remove(developpement);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void ajouterLigneDeveloppementPersonnel() {
+		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		if (getEvolution().getDeveloppementPersonnel() != null) {
+			getEvolution().getDeveloppementPersonnel().add(dto);
+		} else {
+			List<EaeDeveloppementDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getEvolution().setDeveloppementPersonnel(liste);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void supprimerLigneDeveloppementComportement(@BindingParam("ref") EaeDeveloppementDto developpement) {
+		if (getEvolution().getDeveloppementComportement().contains(developpement)) {
+			getEvolution().getDeveloppementComportement().remove(developpement);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void ajouterLigneDeveloppementComportement() {
+		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		if (getEvolution().getDeveloppementComportement() != null) {
+			getEvolution().getDeveloppementComportement().add(dto);
+		} else {
+			List<EaeDeveloppementDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getEvolution().setDeveloppementComportement(liste);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void supprimerLigneDeveloppementFormateur(@BindingParam("ref") EaeDeveloppementDto developpement) {
+		if (getEvolution().getDeveloppementFormateur().contains(developpement)) {
+			getEvolution().getDeveloppementFormateur().remove(developpement);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void ajouterLigneDeveloppementFormateur() {
+		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		if (getEvolution().getDeveloppementFormateur() != null) {
+			getEvolution().getDeveloppementFormateur().add(dto);
+		} else {
+			List<EaeDeveloppementDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getEvolution().setDeveloppementFormateur(liste);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void supprimerLigneDeveloppementCompetence(@BindingParam("ref") EaeDeveloppementDto developpement) {
+		if (getEvolution().getDeveloppementCompetences().contains(developpement)) {
+			getEvolution().getDeveloppementCompetences().remove(developpement);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void ajouterLigneDeveloppementCompetence() {
+		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		if (getEvolution().getDeveloppementCompetences() != null) {
+			getEvolution().getDeveloppementCompetences().add(dto);
+		} else {
+			List<EaeDeveloppementDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getEvolution().setDeveloppementCompetences(liste);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void supprimerLigneDeveloppementConnaissance(@BindingParam("ref") EaeDeveloppementDto developpement) {
+		if (getEvolution().getDeveloppementConnaissances().contains(developpement)) {
+			getEvolution().getDeveloppementConnaissances().remove(developpement);
+		}
+		textChanged();
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "evolution" })
+	public void ajouterLigneDeveloppementConnaissance() {
+		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		if (getEvolution().getDeveloppementConnaissances() != null) {
+			getEvolution().getDeveloppementConnaissances().add(dto);
+		} else {
+			List<EaeDeveloppementDto> liste = new ArrayList<>();
+			liste.add(dto);
+			getEvolution().setDeveloppementConnaissances(liste);
+		}
+		textChanged();
 	}
 
 	@Command

@@ -331,15 +331,407 @@
 										</div>
 									</hlayout>
 								</vlayout>
+
+								<label
+									value="Observations éventuelles de l'agent à propos de ses souhaits d'évolution professionnelle"
+									style="color: #d3711c;font-weight: bold;" />
+								<label sclass="bleu"
+									visible="@bind(not vm.modification)"
+									value="@bind(vm.evolution.commentaireEvolution)" />
+								<textbox rows="4" width="100%"
+									visible="@bind(vm.modification)"
+									value="@bind(vm.evolution.commentaireEvolution)"
+									onChanging="@command('textChanged')" />
 							</vlayout>
 							<div sclass="blockSeparator" />
 							<label sclass="RHTitle3"
 								value="BESOINS EN FORMATION GEREES PAR VOTRE COLLECTIVITE " />
-
+							<listbox
+								model="@bind(vm.evolution.developpementConnaissances)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader width="75%"
+										label="CONNAISSANCES PROFESSIONNELLES OU TECHNIQUES A ACQUERIR (300 car. max)"
+										sort="none" />
+									<listheader align="center"
+										label="Echéance souhaitable" sort="none" />
+									<listheader label="Priorisation"
+										align="center" width="100px" sort="none" />
+									<listheader width="50px"
+										visible="@bind(vm.modification)" align="center" label=""
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.libelle)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each.libelle)"
+												onChanging="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
+											<datebox
+												visible="@bind(vm.modification)" format="MM/yyyy"
+												value="@bind(each.echeance)"
+												onChange="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.priorisation)" />
+											<label sclass="bleu"
+												visible="@bind(vm.modification)"
+												value="@bind(each.priorisation)" />
+										</listcell>
+										<listcell
+											visible="@bind(vm.modification)">
+											<image
+												tooltiptext="Supprimer cette ligne"
+												sclass="ListAction delete"
+												onClick="@command('supprimerLigneDeveloppementConnaissance',ref=each)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div align="right" width="100%"
+								visible="@bind(vm.modification)">
+								<button label="Ajouter"
+									visible="@bind(vm.modification)"
+									onClick="@command('ajouterLigneDeveloppementConnaissance')" />
+							</div>
+							<listbox
+								model="@bind(vm.evolution.developpementCompetences)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader width="75%"
+										label="COMPETENCES PROFESSIONNELLES A DEVELOPPER (300 car. max)"
+										sort="none" />
+									<listheader align="center"
+										label="Echéance souhaitable" sort="none" />
+									<listheader label="Priorisation"
+										align="center" width="100px" sort="none" />
+									<listheader width="50px"
+										visible="@bind(vm.modification)" align="center" label=""
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.libelle)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each.libelle)"
+												onChanging="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
+											<datebox
+												visible="@bind(vm.modification)" format="MM/yyyy"
+												value="@bind(each.echeance)"
+												onChange="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.priorisation)" />
+											<label sclass="bleu"
+												visible="@bind(vm.modification)"
+												value="@bind(each.priorisation)" />
+										</listcell>
+										<listcell
+											visible="@bind(vm.modification)">
+											<image
+												tooltiptext="Supprimer cette ligne"
+												sclass="ListAction delete"
+												onClick="@command('supprimerLigneDeveloppementCompetence',ref=each)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div align="right" width="100%"
+								visible="@bind(vm.modification)">
+								<button label="Ajouter"
+									visible="@bind(vm.modification)"
+									onClick="@command('ajouterLigneDeveloppementCompetence')" />
+							</div>
+							<listbox
+								model="@bind(vm.evolution.developpementExamensConcours)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader width="75%"
+										label="PREPARATION AUX EXAMENS ET CONCOURS (300 car. max)"
+										sort="none" />
+									<listheader align="center"
+										label="Echéance souhaitable" sort="none" />
+									<listheader label="Priorisation"
+										align="center" width="100px" sort="none" />
+									<listheader width="50px"
+										visible="@bind(vm.modification)" align="center" label=""
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.libelle)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each.libelle)"
+												onChanging="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
+											<datebox
+												visible="@bind(vm.modification)" format="MM/yyyy"
+												value="@bind(each.echeance)"
+												onChange="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.priorisation)" />
+											<label sclass="bleu"
+												visible="@bind(vm.modification)"
+												value="@bind(each.priorisation)" />
+										</listcell>
+										<listcell
+											visible="@bind(vm.modification)">
+											<image
+												tooltiptext="Supprimer cette ligne"
+												sclass="ListAction delete"
+												onClick="@command('supprimerLigneDeveloppementExamensConcours',ref=each)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div align="right" width="100%"
+								visible="@bind(vm.modification)">
+								<button label="Ajouter"
+									visible="@bind(vm.modification)"
+									onClick="@command('ajouterLigneDeveloppementExamensConcours')" />
+							</div>
+							<listbox
+								model="@bind(vm.evolution.developpementPersonnel)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader width="75%"
+										label="DEVELOPPEMENT PERSONNEL (300 car. max)" sort="none" />
+									<listheader align="center"
+										label="Echéance souhaitable" sort="none" />
+									<listheader label="Priorisation"
+										align="center" width="100px" sort="none" />
+									<listheader width="50px"
+										visible="@bind(vm.modification)" align="center" label=""
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.libelle)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each.libelle)"
+												onChanging="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
+											<datebox
+												visible="@bind(vm.modification)" format="MM/yyyy"
+												value="@bind(each.echeance)"
+												onChange="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.priorisation)" />
+											<label sclass="bleu"
+												visible="@bind(vm.modification)"
+												value="@bind(each.priorisation)" />
+										</listcell>
+										<listcell
+											visible="@bind(vm.modification)">
+											<image
+												tooltiptext="Supprimer cette ligne"
+												sclass="ListAction delete"
+												onClick="@command('supprimerLigneDeveloppementPersonnel',ref=each)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div align="right" width="100%"
+								visible="@bind(vm.modification)">
+								<button label="Ajouter"
+									visible="@bind(vm.modification)"
+									onClick="@command('ajouterLigneDeveloppementPersonnel')" />
+							</div>
+							<listbox
+								model="@bind(vm.evolution.developpementComportement)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader width="75%"
+										label="COMPORTEMENT (300 car. max)" sort="none" />
+									<listheader align="center"
+										label="Echéance souhaitable" sort="none" />
+									<listheader label="Priorisation"
+										align="center" width="100px" sort="none" />
+									<listheader width="50px"
+										visible="@bind(vm.modification)" align="center" label=""
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.libelle)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each.libelle)"
+												onChanging="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
+											<datebox
+												visible="@bind(vm.modification)" format="MM/yyyy"
+												value="@bind(each.echeance)"
+												onChange="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.priorisation)" />
+											<label sclass="bleu"
+												visible="@bind(vm.modification)"
+												value="@bind(each.priorisation)" />
+										</listcell>
+										<listcell
+											visible="@bind(vm.modification)">
+											<image
+												tooltiptext="Supprimer cette ligne"
+												sclass="ListAction delete"
+												onClick="@command('supprimerLigneDeveloppementComportement',ref=each)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div align="right" width="100%"
+								visible="@bind(vm.modification)">
+								<button label="Ajouter"
+									visible="@bind(vm.modification)"
+									onClick="@command('ajouterLigneDeveloppementComportement')" />
+							</div>
+							<listbox
+								model="@bind(vm.evolution.developpementFormateur)"
+								emptyMessage="Aucun élément">
+								<listhead>
+									<listheader width="75%"
+										label="FORMATEUR POTENTIEL DANS LES DOMAINES SUIVANTS (300 car. max)"
+										sort="none" />
+									<listheader align="center"
+										label="Echéance souhaitable" sort="none" />
+									<listheader label="Priorisation"
+										align="center" width="100px" sort="none" />
+									<listheader width="50px"
+										visible="@bind(vm.modification)" align="center" label=""
+										sort="none" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.libelle)" />
+											<textbox rows="4"
+												width="100%" visible="@bind(vm.modification)"
+												value="@bind(each.libelle)"
+												onChanging="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
+											<datebox
+												visible="@bind(vm.modification)" format="MM/yyyy"
+												value="@bind(each.echeance)"
+												onChange="@command('textChanged')" />
+										</listcell>
+										<listcell>
+											<label sclass="bleu"
+												visible="@bind(not vm.modification)"
+												value="@bind(each.priorisation)" />
+											<label sclass="bleu"
+												visible="@bind(vm.modification)"
+												value="@bind(each.priorisation)" />
+										</listcell>
+										<listcell
+											visible="@bind(vm.modification)">
+											<image
+												tooltiptext="Supprimer cette ligne"
+												sclass="ListAction delete"
+												onClick="@command('supprimerLigneDeveloppementFormateur',ref=each)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+							<div align="right" width="100%"
+								visible="@bind(vm.modification)">
+								<button label="Ajouter"
+									visible="@bind(vm.modification)"
+									onClick="@command('ajouterLigneDeveloppementFormateur')" />
+							</div>
+							<div sclass="blockSeparator" />
+							<label sclass="RHTitle3"
+								value="OBSERVATIONS " />
 							<separator />
-							<separator />
-							<separator />
+							<div width="100%">
+								<div width="48%" style="float:left;">
+									<label value="De l'évalué"
+										style="color: #d3711c;font-weight: bold;" />
+									<separator />
+									<label sclass="bleu"
+										visible="@bind(not vm.modification)"
+										value="@bind(vm.evolution.commentaireEvalue)" />
+									<textbox rows="4" width="100%"
+										visible="@bind(vm.modification)"
+										value="@bind(vm.evolution.commentaireEvalue)"
+										onChanging="@command('textChanged')" />
+								</div>
+								<div width="48%" style="float:right;">
+									<label value="De l'évaluateur"
+										style="color: #d3711c;font-weight: bold;" />
+									<separator />
+									<label sclass="bleu"
+										visible="@bind(not vm.modification)"
+										value="@bind(vm.evolution.commentaireEvaluateur)" />
+									<textbox rows="4" width="100%"
+										visible="@bind(vm.modification)"
+										value="@bind(vm.evolution.commentaireEvaluateur)"
+										onChanging="@command('textChanged')" />
+								</div>
+							</div>
 						</vlayout>
+						<separator />
+						<separator />
+						<separator />
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
