@@ -296,9 +296,16 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.priorisation)" />
-						<label sclass="bleu"
+						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
-							value="@bind(each.priorisation)" />
+							selectedItem="@bind(each.priorisation)"
+							onChange="@command('textChanged')">
+							<zk
+								forEach="${vm.listePriorisationEvolution}">
+								<comboitem label="${each}"
+									value="${each}" />
+							</zk>
+						</combobox>
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -348,9 +355,16 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.priorisation)" />
-						<label sclass="bleu"
+						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
-							value="@bind(each.priorisation)" />
+							selectedItem="@bind(each.priorisation)"
+							onChange="@command('textChanged')">
+							<zk
+								forEach="${vm.listePriorisationEvolution}">
+								<comboitem label="${each}"
+									value="${each}" />
+							</zk>
+						</combobox>
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -401,9 +415,16 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.priorisation)" />
-						<label sclass="bleu"
+						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
-							value="@bind(each.priorisation)" />
+							selectedItem="@bind(each.priorisation)"
+							onChange="@command('textChanged')">
+							<zk
+								forEach="${vm.listePriorisationEvolution}">
+								<comboitem label="${each}"
+									value="${each}" />
+							</zk>
+						</combobox>
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -452,9 +473,16 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.priorisation)" />
-						<label sclass="bleu"
+						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
-							value="@bind(each.priorisation)" />
+							selectedItem="@bind(each.priorisation)"
+							onChange="@command('textChanged')">
+							<zk
+								forEach="${vm.listePriorisationEvolution}">
+								<comboitem label="${each}"
+									value="${each}" />
+							</zk>
+						</combobox>
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -503,9 +531,16 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.priorisation)" />
-						<label sclass="bleu"
+						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
-							value="@bind(each.priorisation)" />
+							selectedItem="@bind(each.priorisation)"
+							onChange="@command('textChanged')">
+							<zk
+								forEach="${vm.listePriorisationEvolution}">
+								<comboitem label="${each}"
+									value="${each}" />
+							</zk>
+						</combobox>
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -555,9 +590,16 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.priorisation)" />
-						<label sclass="bleu"
+						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
-							value="@bind(each.priorisation)" />
+							selectedItem="@bind(each.priorisation)"
+							onChange="@command('textChanged')">
+							<zk
+								forEach="${vm.listePriorisationEvolution}">
+								<comboitem label="${each}"
+									value="${each}" />
+							</zk>
+						</combobox>
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"

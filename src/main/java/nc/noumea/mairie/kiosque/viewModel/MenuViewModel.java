@@ -92,7 +92,7 @@ public class MenuViewModel {
 
 	@Command
 	public void eaeSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
-		if (currentUser.getAgent().getIdAgent() == 9005138) {
+		if (currentUser.getAgent().getIdAgent() == 9005138 || currentUser.getAgent().getIdAgent() == 9005131) {
 			Map<String, Div> args = new HashMap<String, Div>();
 			args.put("div", div);
 
@@ -106,7 +106,7 @@ public class MenuViewModel {
 
 	@Command
 	public void tableauBordSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
-		if (currentUser.getAgent().getIdAgent() == 9005138) {
+		if (currentUser.getAgent().getIdAgent() == 9005138 || currentUser.getAgent().getIdAgent() == 9005131) {
 			div.getChildren().clear();
 			Executions.createComponents(page + ".zul", div, null);
 		} else {

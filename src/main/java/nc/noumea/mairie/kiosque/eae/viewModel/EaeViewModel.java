@@ -80,6 +80,8 @@ public class EaeViewModel {
 
 	private EaeEvolutionDto evolution;
 
+	private List<Integer> listePriorisationEvolution;
+
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
 	private boolean isModification;
@@ -117,6 +119,18 @@ public class EaeViewModel {
 		EaeEvolutionDto evo = eaeWsConsumer.getEvolutionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
 				.getIdAgent());
 		setEvolution(evo);
+		// on charge les priorisations
+		Integer tailleDeveloppement = getEvolution().getDeveloppementConnaissances().size()
+				+ getEvolution().getDeveloppementCompetences().size()
+				+ getEvolution().getDeveloppementExamensConcours().size()
+				+ getEvolution().getDeveloppementPersonnel().size()
+				+ getEvolution().getDeveloppementComportement().size()
+				+ getEvolution().getDeveloppementFormateur().size();
+		List<Integer> temp = new ArrayList<>();
+		for (int i = 1; i <= tailleDeveloppement; i++) {
+			temp.add(i);
+		}
+		setListePriorisationEvolution(temp);
 	}
 
 	private void initPlanAction() {
@@ -862,5 +876,13 @@ public class EaeViewModel {
 
 	public void setEvolution(EaeEvolutionDto evolution) {
 		this.evolution = evolution;
+	}
+
+	public List<Integer> getListePriorisationEvolution() {
+		return listePriorisationEvolution;
+	}
+
+	public void setListePriorisationEvolution(List<Integer> listePriorisationEvolution) {
+		this.listePriorisationEvolution = listePriorisationEvolution;
 	}
 }
