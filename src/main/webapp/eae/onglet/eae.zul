@@ -118,6 +118,215 @@
 							<div sclass="blockSeparator" />
 							<label sclass="RHTitle3"
 								value="PERSPECTIVES" />
+							<vlayout>
+								<hlayout>
+									<div sclass="espace">
+										<label
+											value="Mobilité géographique" />
+									</div>
+									<div sclass="bleu">
+										<radiogroup
+											onCheck="@command('textChanged')"
+											selectedItem="@bind(vm.evolution.mobiliteGeo)">
+											<radio label="Oui"
+												disabled="@bind(not vm.modification)" value="true" />
+											<radio label="Non"
+												disabled="@bind(not vm.modification)" value="false" />
+										</radiogroup>
+									</div>
+									<div sclass="espace">
+										<label
+											value="Au sein du service" />
+									</div>
+									<div sclass="bleu">
+										<radiogroup
+											onCheck="@command('textChanged')"
+											selectedItem="@bind(vm.evolution.mobiliteService)">
+											<radio label="Oui"
+												disabled="@bind(not vm.modification)" value="true" />
+											<radio label="Non"
+												disabled="@bind(not vm.modification)" value="false" />
+										</radiogroup>
+									</div>
+								</hlayout>
+								<hlayout>
+									<div sclass="espace">
+										<label
+											value="Mobilité fonctionnelle" />
+									</div>
+									<div sclass="bleu">
+										<radiogroup
+											onCheck="@command('textChanged')"
+											selectedItem="@bind(vm.evolution.mobiliteFonctionnelle)">
+											<radio label="Oui"
+												disabled="@bind(not vm.modification)" value="true" />
+											<radio label="Non"
+												disabled="@bind(not vm.modification)" value="false" />
+										</radiogroup>
+									</div>
+									<div sclass="espace">
+										<label
+											value="Au sein de la direction" />
+									</div>
+									<div sclass="bleu">
+										<radiogroup
+											onCheck="@command('textChanged')"
+											selectedItem="@bind(vm.evolution.mobiliteDirection)">
+											<radio label="Oui"
+												disabled="@bind(not vm.modification)" value="true" />
+											<radio label="Non"
+												disabled="@bind(not vm.modification)" value="false" />
+										</radiogroup>
+									</div>
+								</hlayout>
+								<hlayout>
+									<div sclass="espace">
+										<label
+											value="Changement de métier" />
+									</div>
+									<div sclass="bleu">
+										<radiogroup
+											onCheck="@command('textChanged')"
+											selectedItem="@bind(vm.evolution.changementMetier)">
+											<radio label="Oui"
+												disabled="@bind(not vm.modification)" value="true" />
+											<radio label="Non"
+												disabled="@bind(not vm.modification)" value="false" />
+										</radiogroup>
+									</div>
+									<div sclass="espace">
+										<label
+											value="Au sein de la collectivité" />
+									</div>
+									<div sclass="bleu">
+										<radiogroup
+											onCheck="@command('textChanged')"
+											selectedItem="@bind(vm.evolution.mobiliteCollectivite)">
+											<radio label="Oui"
+												disabled="@bind(not vm.modification)" value="true" />
+											<radio label="Non"
+												disabled="@bind(not vm.modification)" value="false" />
+										</radiogroup>
+										<textbox rows="1"
+											disabled="@bind(not vm.modification || not vm.evolution.mobiliteCollectivite)"
+											value="@bind(vm.evolution.nomCollectivite)"
+											onChanging="@command('textChanged')" />
+									</div>
+								</hlayout>
+								<hlayout>
+									<div sclass="espace">
+										<label value="Délai envisagé" />
+									</div>
+									<div sclass="bleu">
+										<radiogroup
+											selectedItem="@bind(vm.evolution.delaiEnvisage.courant)">
+											<div sclass="bleu"
+												width="100%">
+												<zk
+													forEach="${vm.evolution.delaiEnvisage.liste}">
+													<radio
+														disabled="@bind(not vm.modification)"
+														label="${each.valeur}" value="${each.code}" />
+												</zk>
+											</div>
+										</radiogroup>
+									</div>
+									<div sclass="espace">
+										<label
+											value="Dans une autre collectivité" />
+									</div>
+									<div sclass="bleu">
+										<radiogroup
+											onCheck="@command('textChanged')"
+											selectedItem="@bind(vm.evolution.mobiliteAutre)">
+											<radio label="Oui"
+												disabled="@bind(not vm.modification)" value="true" />
+											<radio label="Non"
+												disabled="@bind(not vm.modification)" value="false" />
+										</radiogroup>
+									</div>
+								</hlayout>
+								<vlayout>
+									<hlayout>
+										<div sclass="bleu">
+											<checkbox
+												label="concours - intitulé du concours ou de l'examen"
+												disabled="@bind(not vm.modification)"
+												checked="@bind(vm.evolution.concours)" />
+										</div>
+										<div sclass="espace">
+											<textbox rows="1"
+												disabled="@bind(not vm.modification || not vm.evolution.concours)"
+												value="@bind(vm.evolution.nomConcours)"
+												onChanging="@command('textChanged')" />
+										</div>
+									</hlayout>
+									<hlayout>
+										<div sclass="bleu">
+											<checkbox
+												label="demande de VAE - intitulé du diplôme:"
+												disabled="@bind(not vm.modification)"
+												checked="@bind(vm.evolution.vae)" />
+										</div>
+										<div sclass="espace">
+											<textbox rows="1"
+												disabled="@bind(not vm.modification || not vm.evolution.vae)"
+												value="@bind(vm.evolution.nomVae)"
+												onChanging="@command('textChanged')" />
+										</div>
+									</hlayout>
+									<hlayout>
+										<div sclass="bleu">
+											<checkbox sclass="bleu"
+												label="temps partiel à"
+												disabled="@bind(not vm.modification)"
+												checked="@bind(vm.evolution.tempsPartiel)" />
+										</div>
+										<div sclass="espace">
+											<combobox readonly="true"
+												width="100%"
+												disabled="@bind(not vm.modification || not vm.evolution.tempsPartiel)"
+												selectedItem="@bind(vm.evolution.pourcentageTempsPartiel.courant)"
+												onChange="@command('textChanged')">
+												<zk
+													forEach="${vm.evolution.pourcentageTempsPartiel.liste}">
+													<comboitem
+														label="${each.valeur}" value="${each.code}" />
+												</zk>
+											</combobox>
+										</div>
+									</hlayout>
+									<hlayout>
+										<div sclass="bleu">
+											<checkbox sclass="bleu"
+												label="retraite départ prévu au "
+												disabled="@bind(not vm.modification)"
+												checked="@bind(vm.evolution.retraite)" />
+										</div>
+										<div sclass="espace">
+											<datebox
+												disabled="@bind(not vm.modification || not vm.evolution.retraite)"
+												cols="14" format="dd/MM/yyyy"
+												value="@bind(vm.evolution.dateRetraite)"
+												onChange="@command('textChanged')" />
+										</div>
+									</hlayout>
+									<hlayout>
+										<div sclass="bleu">
+											<checkbox sclass="bleu"
+												label="autre perspective (préciser) :"
+												disabled="@bind(not vm.modification)"
+												checked="@bind(vm.evolution.autrePerspective)" />
+										</div>
+										<div sclass="espace">
+											<textbox rows="1"
+												disabled="@bind(not vm.modification || not vm.evolution.autrePerspective)"
+												value="@bind(vm.evolution.libelleAutrePerspective)"
+												onChanging="@command('textChanged')" />
+										</div>
+									</hlayout>
+								</vlayout>
+							</vlayout>
 							<div sclass="blockSeparator" />
 							<label sclass="RHTitle3"
 								value="BESOINS EN FORMATION GEREES PAR VOTRE COLLECTIVITE " />

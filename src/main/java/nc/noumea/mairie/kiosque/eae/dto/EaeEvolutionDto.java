@@ -44,7 +44,7 @@ public class EaeEvolutionDto {
 		this.idEae = idEae;
 	}
 
-	public boolean isAutrePerspective() {
+	public boolean getAutrePerspective() {
 		return autrePerspective;
 	}
 
@@ -52,15 +52,15 @@ public class EaeEvolutionDto {
 		this.autrePerspective = autrePerspective;
 	}
 
-	public boolean isChangementMetier() {
-		return changementMetier;
+	public String getChangementMetier() {
+		return String.valueOf(changementMetier);
 	}
 
-	public void setChangementMetier(boolean changementMetier) {
-		this.changementMetier = changementMetier;
+	public void setChangementMetier(String changementMetier) {
+		this.changementMetier = Boolean.parseBoolean(changementMetier);
 	}
 
-	public boolean isConcours() {
+	public boolean getConcours() {
 		return concours;
 	}
 
@@ -68,55 +68,55 @@ public class EaeEvolutionDto {
 		this.concours = concours;
 	}
 
-	public boolean isMobiliteAutre() {
-		return mobiliteAutre;
+	public String getMobiliteAutre() {
+		return String.valueOf(mobiliteAutre);
 	}
 
-	public void setMobiliteAutre(boolean mobiliteAutre) {
-		this.mobiliteAutre = mobiliteAutre;
+	public void setMobiliteAutre(String mobiliteAutre) {
+		this.mobiliteAutre = Boolean.parseBoolean(mobiliteAutre);
 	}
 
-	public boolean isMobiliteCollectivite() {
-		return mobiliteCollectivite;
+	public String getMobiliteCollectivite() {
+		return String.valueOf(mobiliteCollectivite);
 	}
 
-	public void setMobiliteCollectivite(boolean mobiliteCollectivite) {
-		this.mobiliteCollectivite = mobiliteCollectivite;
+	public void setMobiliteCollectivite(String mobiliteCollectivite) {
+		this.mobiliteCollectivite = Boolean.parseBoolean(mobiliteCollectivite);
 	}
 
-	public boolean isMobiliteDirection() {
-		return mobiliteDirection;
+	public String getMobiliteDirection() {
+		return String.valueOf(mobiliteDirection);
 	}
 
-	public void setMobiliteDirection(boolean mobiliteDirection) {
-		this.mobiliteDirection = mobiliteDirection;
+	public void setMobiliteDirection(String mobiliteDirection) {
+		this.mobiliteDirection = Boolean.parseBoolean(mobiliteDirection);
 	}
 
-	public boolean isMobiliteFonctionnelle() {
-		return mobiliteFonctionnelle;
+	public String getMobiliteFonctionnelle() {
+		return String.valueOf(mobiliteFonctionnelle);
 	}
 
-	public void setMobiliteFonctionnelle(boolean mobiliteFonctionnelle) {
-		this.mobiliteFonctionnelle = mobiliteFonctionnelle;
+	public void setMobiliteFonctionnelle(String mobiliteFonctionnelle) {
+		this.mobiliteFonctionnelle = Boolean.parseBoolean(mobiliteFonctionnelle);
 	}
 
-	public boolean isMobiliteGeo() {
-		return mobiliteGeo;
+	public String getMobiliteGeo() {
+		return String.valueOf(mobiliteGeo);
 	}
 
-	public void setMobiliteGeo(boolean mobiliteGeo) {
-		this.mobiliteGeo = mobiliteGeo;
+	public void setMobiliteGeo(String mobiliteGeo) {
+		this.mobiliteGeo = Boolean.parseBoolean(mobiliteGeo);
 	}
 
-	public boolean isMobiliteService() {
-		return mobiliteService;
+	public String getMobiliteService() {
+		return String.valueOf(mobiliteService);
 	}
 
-	public void setMobiliteService(boolean mobiliteService) {
-		this.mobiliteService = mobiliteService;
+	public void setMobiliteService(String mobiliteService) {
+		this.mobiliteService = Boolean.parseBoolean(mobiliteService);
 	}
 
-	public boolean isRetraite() {
+	public boolean getRetraite() {
 		return retraite;
 	}
 
@@ -124,7 +124,7 @@ public class EaeEvolutionDto {
 		this.retraite = retraite;
 	}
 
-	public boolean isTempsPartiel() {
+	public boolean getTempsPartiel() {
 		return tempsPartiel;
 	}
 
@@ -132,7 +132,7 @@ public class EaeEvolutionDto {
 		this.tempsPartiel = tempsPartiel;
 	}
 
-	public boolean isVae() {
+	public boolean getVae() {
 		return vae;
 	}
 
@@ -274,6 +274,62 @@ public class EaeEvolutionDto {
 
 	public void setSouhaitsSuggestions(List<EaeSouhaitDto> souhaitsSuggestions) {
 		this.souhaitsSuggestions = souhaitsSuggestions;
+	}
+
+	public boolean isChangementMetier() {
+		return changementMetier;
+	}
+
+	public boolean isMobiliteAutre() {
+		return mobiliteAutre;
+	}
+
+	public boolean isMobiliteCollectivite() {
+		return mobiliteCollectivite;
+	}
+
+	public boolean isMobiliteDirection() {
+		return mobiliteDirection;
+	}
+
+	public boolean isMobiliteFonctionnelle() {
+		return mobiliteFonctionnelle;
+	}
+
+	public boolean isMobiliteGeo() {
+		return mobiliteGeo;
+	}
+
+	public boolean isMobiliteService() {
+		return mobiliteService;
+	}
+
+	public void setChangementMetier(boolean changementMetier) {
+		this.changementMetier = changementMetier;
+	}
+
+	public void setMobiliteAutre(boolean mobiliteAutre) {
+		this.mobiliteAutre = mobiliteAutre;
+	}
+
+	public void setMobiliteCollectivite(boolean mobiliteCollectivite) {
+		this.mobiliteCollectivite = mobiliteCollectivite;
+	}
+
+	public void setMobiliteDirection(boolean mobiliteDirection) {
+		this.mobiliteDirection = mobiliteDirection;
+	}
+
+	public void setMobiliteFonctionnelle(boolean mobiliteFonctionnelle) {
+		this.mobiliteFonctionnelle = mobiliteFonctionnelle;
+	}
+
+	public void setMobiliteGeo(boolean mobiliteGeo) {
+		this.mobiliteGeo = mobiliteGeo;
+	}
+
+	public void setMobiliteService(boolean mobiliteService) {
+		this.mobiliteService = mobiliteService;
 	}
 
 }
