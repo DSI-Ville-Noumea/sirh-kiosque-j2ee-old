@@ -242,139 +242,163 @@ public class EaeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementExamensConcours(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementExamensConcours().contains(developpement)) {
 			getEvolution().getDeveloppementExamensConcours().remove(developpement);
+			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementExamensConcours() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
 		if (getEvolution().getDeveloppementExamensConcours() != null) {
 			getEvolution().getDeveloppementExamensConcours().add(dto);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		} else {
 			List<EaeDeveloppementDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setDeveloppementExamensConcours(liste);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementPersonnel(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementPersonnel().contains(developpement)) {
 			getEvolution().getDeveloppementPersonnel().remove(developpement);
+			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementPersonnel() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
 		if (getEvolution().getDeveloppementPersonnel() != null) {
 			getEvolution().getDeveloppementPersonnel().add(dto);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		} else {
 			List<EaeDeveloppementDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setDeveloppementPersonnel(liste);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementComportement(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementComportement().contains(developpement)) {
 			getEvolution().getDeveloppementComportement().remove(developpement);
+			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementComportement() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
 		if (getEvolution().getDeveloppementComportement() != null) {
 			getEvolution().getDeveloppementComportement().add(dto);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		} else {
 			List<EaeDeveloppementDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setDeveloppementComportement(liste);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementFormateur(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementFormateur().contains(developpement)) {
 			getEvolution().getDeveloppementFormateur().remove(developpement);
+			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementFormateur() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
 		if (getEvolution().getDeveloppementFormateur() != null) {
 			getEvolution().getDeveloppementFormateur().add(dto);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		} else {
 			List<EaeDeveloppementDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setDeveloppementFormateur(liste);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementCompetence(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementCompetences().contains(developpement)) {
 			getEvolution().getDeveloppementCompetences().remove(developpement);
+			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementCompetence() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
 		if (getEvolution().getDeveloppementCompetences() != null) {
 			getEvolution().getDeveloppementCompetences().add(dto);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		} else {
 			List<EaeDeveloppementDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setDeveloppementCompetences(liste);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementConnaissance(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementConnaissances().contains(developpement)) {
 			getEvolution().getDeveloppementConnaissances().remove(developpement);
+			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
 		textChanged();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementConnaissance() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
+		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
 		if (getEvolution().getDeveloppementConnaissances() != null) {
 			getEvolution().getDeveloppementConnaissances().add(dto);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		} else {
 			List<EaeDeveloppementDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setDeveloppementConnaissances(liste);
+			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
 		textChanged();
 	}
