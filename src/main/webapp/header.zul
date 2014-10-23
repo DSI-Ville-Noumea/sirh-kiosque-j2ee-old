@@ -27,7 +27,6 @@
 				value="@bind(vm.currentUser.agent.prenomUsage)" />
 		</div>
 		
-		
 		<a class="disconnect" onClick="@command('disconnect')">
 			Se déconnecter
 		</a>

@@ -91,45 +91,6 @@
 		<welcome-file>default.jsp</welcome-file>
 		<welcome-file>index.zul</welcome-file>
 	</welcome-file-list>
-
-<!-- 	<security-constraint> -->
-<!--         <web-resource-collection> -->
-<!--             <web-resource-name>sirh-kiosque-j2ee</web-resource-name> -->
-<!--             <url-pattern>/*</url-pattern> -->
-<!--         </web-resource-collection> -->
-<!--         <auth-constraint> -->
-<!--             <description>Role for SIRH-KIOSQUE-J2EE access</description> -->
-<!--         ROLE de controle d'acces a l'application SIRH-KIOSQUE-J2EE -->
-<!--         est ecris en dur dans le WEB.xml car il n'est pas parametrable par JNDI -->
-<!--             <role-name>*</role-name> -->
-<!--         </auth-constraint> -->
-<!--     </security-constraint> -->
-
-<!--     Exclusion des fichiers statiques jsp dont (Health Check) pour le Reverse Proxy -->
-<!--     <security-constraint> -->
-<!--         <web-resource-collection> -->
-<!--             <web-resource-name>Fichiers statiques jsp</web-resource-name> -->
-<!--             <url-pattern>/401.jsp</url-pattern> -->
-<!--             <url-pattern>/404.jsp</url-pattern> -->
-<!--             <url-pattern>/incident.jsp</url-pattern> -->
-<!--             <url-pattern>/maintenance.jsp</url-pattern> -->
-<!--             <url-pattern>/version.jsp</url-pattern> -->
-<!--         </web-resource-collection> -->
-<!--     </security-constraint> -->
-
-<!--     <login-config> -->
-<!--         <auth-method>BASIC</auth-method> -->
-<!--         <realm-name>SIRH KIOSQUE en J2EE</realm-name> -->
-<!--     </login-config> -->
-
-<!--     <security-role> -->
-<!--         <description>role for SIRH-KIOSQUE-J2EE access</description> -->
-<!--         ROLE de controle d'acces a l'application SIRH-KIOSQUE-J2EE -->
-<!--         est ecris en dur dans le WEB.xml car il n'est pas parametrable par JNDI -->
-<!--         <role-name>*</role-name> -->
-<!--     </security-role> -->
-
-	
     
     <!-- Handles Spring requests -->
     <servlet>
@@ -146,5 +107,10 @@
         <servlet-name>sirh-kiosque-j2ee</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
+    <error-page>
+        <error-code>401</error-code>
+	    <location>/login.zul</location>
+	</error-page>
 
 </web-app>

@@ -1,0 +1,54 @@
+<style>
+	<![CDATA[ 
+	.fond { 
+		background-color:#FFEBCD;
+		padding-left: 10px;
+		padding-top: 10px; 
+		padding-bottom: 10px;
+		padding-right: 10px;
+	}
+	.z-modal-mask {
+		background-color:#FFEBCD;
+		background-image: url("img/menu/backgroundBase.png");
+		background-position: right bottom;
+		background-repeat: no-repeat;
+	}
+	.z-window-header {
+		font-weight: bold;
+		margin-left:5px;
+	}
+	.z-window-content, .z-window-content:hover {
+		background-color:#FFEBCD;
+	 	padding: 0px; 
+		overflow: auto;
+	}
+	.z-loading { 
+		top: 50% !important; 
+		left: 45% !important; 
+		align:center; 
+		vertical-align: middle; 
+	}
+	.z-vlayout-inner {
+		padding-bottom: 5px;
+	
+	}
+	.error {
+		color:red;
+	}
+	.z-button,.z-button:focus,.z-button:hover { 
+		background-color: transparent;
+		background-image: url("img/Sprite.png"); 
+		background-position: -90px	top; 
+		background-repeat: no-repeat; 
+		border: 0 none; color: #ffffff;
+		cursor: pointer; 
+		font-weight: bold; 
+		height: 18px; 
+		margin: 5px 0 0;
+		width: 90px; 
+		min-height: 0px;
+		text-shadow:none; 
+		font-size: 12px;
+	}
+	]]>
+</style>

@@ -89,4 +89,13 @@
 	<Environment name="SHAREPOINT_HOST" type="java.lang.String"
 		description="Sharepoint host" value="svq-sp" override="false" />
 
+	<Parameter description="Critère de recherche LDAP" name="CRITERE_RECHERCHE_LDAP" override="false" value="samaccountname" />
+	<Parameter description="Admin LDAP" name="HOST_LDAP_ADMIN" override="false" value="cn=adminwas,ou=WAS,ou=APPLI,ou=Z-users" />
+	<Parameter description="Hôte LDAP" name="HOST_LDAP" override="false" value="ldap://hurle:389/" />
+	<Parameter description="Init CTX LDAP" name="INITCTX_LDAP" override="false" value="com.sun.jndi.ldap.LdapCtxFactory" />
+	<Parameter description="Mot de passe de l'hôte LDAP" name="HOST_LDAP_PASSWORD" override="false" value="***REMOVED***" />
+	<Parameter description="Base LDAP" name="BASE_LDAP" override="false" value="dc=site-mairie,dc=noumea,dc=nc" />
+	<Parameter description="Hôte LDAP 3" name="HOST_LDAP3" override="false" value="ldap://netone:389/" />
+	<Parameter description="Hôte LDAP 2" name="HOST_LDAP2" override="false" value="ldap://gberge:389/" />
+	
 </Context>

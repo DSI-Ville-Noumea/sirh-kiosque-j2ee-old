@@ -2,7 +2,6 @@ package nc.noumea.mairie.kiosque.authentification;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -12,7 +11,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -60,50 +58,11 @@ public class AuthentificationFilter implements Filter {
     public void doFilter( ServletRequest req, ServletResponse res, FilterChain chain ) throws IOException,
             ServletException {
 
-		// cookie will only need to be changed, if this session is created by
-		// this request.
-//		if (((HttpServletRequest) req).getRequestURL().toString().contains("/deconnexion.zul") ) {
-//			Cookie sessionCookie = findSessionCookie(((HttpServletRequest) req)
-//					.getCookies());
-//			
-//			HttpServletResponse response = null;
-//			
-//			if (sessionCookie != null) {
-//				String cookieDomainToSet = getCookieDomainToSet(req
-//						.getServerName());
-//				if (cookieDomainToSet != null) {
-//					// changing the cookie only does not help, because tomcat
-//					// immediately sets
-//					// a string representation of this cookie as MimeHeader,
-//					// thus we also
-//					// have to change this representation
-//					response = replaceCookie((HttpServletRequest) req, (HttpServletResponse)res, sessionCookie,
-//							cookieDomainToSet);
-//					logger.info("doFilter deconnexion check 1");
-//				}else{
-//					response = replaceCookie((HttpServletRequest) req, (HttpServletResponse)res, sessionCookie,
-//							"azerty");
-//					logger.info("doFilter deconnexion check 2");
-//				}
-//			}
-//			chain.doFilter( req, response );
-//            return;
-//		}
-        
         /* Cast des objets request et response */
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
     	HttpSession hSess = ((HttpServletRequest)request).getSession();
     	
-    	for (Enumeration<String> enume = request.getHeaderNames(); enume.hasMoreElements();) {
-    		String headerValue = (String) enume.nextElement();
-    		logger.info(headerValue + " : " + request.getHeader(headerValue));
-		}
-    	
-    	if(null != hSess.getAttribute("currentUser")) {
-    		chain.doFilter( request, response );
-            return;
-    	}
 		// on laisse passer pour le rproxy et ainsi permettre de deployer l
 		// application sur le 2e noeud tomcat
     	if(PAGES_STATIQUES.contains(request.getServletPath())) {
@@ -111,10 +70,21 @@ public class AuthentificationFilter implements Filter {
             return;
     	}
     	
-    	for (Enumeration<String> enume = request.getHeaderNames(); enume.hasMoreElements();) {
-    		String headerValue = (String) enume.nextElement();
-    		logger.info(headerValue + " : " + request.getHeader(headerValue));
-		}
+    	if(null != hSess.getAttribute("logout")) {
+    		if(!request.getRequestURI().contains("zkau")
+    				&& !request.getRequestURI().contains("login.zul")
+    				&& !request.getRequestURI().contains("css")) {
+            	response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are logged out.");
+            	return;
+    		}
+    		chain.doFilter( request, response );
+            return;
+    	}
+    	
+    	if(null != hSess.getAttribute("currentUser")) {
+    		chain.doFilter( request, response );
+            return;
+    	}
     	
         if((null == request.getHeader("x-krb_remote_user") || "".equals(request.getHeader("x-krb_remote_user").trim()))
         		&& !request.getHeader("host").contains("localhost")) {
@@ -130,7 +100,7 @@ public class AuthentificationFilter implements Filter {
         if(null == remoteUser && request.getHeader("host").contains("localhost")) {
         	remoteUser = "chata73";
         }
-        if(remoteUser.equals("rebjo84") || remoteUser.equals("nicno85")) {
+        if(remoteUser.equals("nicno85") || remoteUser.equals("rebjo84")) {
         	remoteUser = "chata73";
         }
         
@@ -174,90 +144,4 @@ public class AuthentificationFilter implements Filter {
 
     public void destroy() {
     }
-    
-//    @Override
-//    public void invoke(Request request, Response response) throws IOException, ServletException {
-//      
-//
-//      // process the next valve
-//      getNext().invoke(request, response);
-//    }
-
-	protected Cookie findSessionCookie(Cookie[] cookies) {
-		if (cookies != null) {
-		    for (Cookie cookie : cookies) {
-			    if ("JSESSIONID".equals(cookie.getName())) {
-			    	return cookie;
-			    }
-			    if ("JSESSIONIDSSO".equals(cookie.getName())) {
-			    	return cookie;
-			    }
-			}
-		}
-		return null;
-	}
-
-    protected HttpServletResponse replaceCookie(HttpServletRequest request, HttpServletResponse res, Cookie originalCookie, String domainToSet) {
-      // if the response has already been committed, our replacementstrategy will have no effect
-
-		// find the Set-Cookie header for the existing cookie and replace its
-		// value with new cookie
-//    	for (Enumeration<String> enume = request.getHeaderNames(); enume.hasMoreElements();) {
-//    		String headerValue = (String) enume.nextElement();
-//    		logger.info(headerValue + " : " + request.getHeader(headerValue));
-//		
-//			if (headerValue.equals("cookie")) {
-//				
-//				String value = request.getHeader(headerValue);
-//				if (value.indexOf(originalCookie.getName()) >= 0) {
-//					if (originalCookie.getDomain() == null) {
-//						StringBuilder builder = new StringBuilder(
-//								value).append("; Domain=").append(
-//								domainToSet);
-//						value = builder.toString();
-//					} else {
-//						String newDomain = value.replaceAll(
-//								"Domain=[A-Za-z0-9.-]*",
-//								"Domain=" + domainToSet);
-//						value = newDomain;
-//					}
-//					logger.info("replaceCookie check 1 ; headerValue : " + headerValue + " ; request.getHeader : " + request.getHeader(headerValue) + " ; value : " + value + " ; originalCookie.getName() : " + originalCookie.getName());
-//				}
-//			}
-//			if(headerValue.equals("authorization")) {
-//				String value = request.getHeader(headerValue);
-//				StringBuilder builder = new StringBuilder();
-//				value = builder.toString();
-//				logger.info("replaceCookie check 2 ; headerValue : " + headerValue + " ; request.getHeader : " + request.getHeader(headerValue) + " ; value : " + value);
-//			}
-//			logger.info("replaceCookie check 3 " + headerValue + " replace : " + request.getHeader(headerValue));
-//        }
-    	
-    	Cookie[] cookies = request.getCookies();
-    	int cookieLenght = cookies.length;
-    	for (int i = 0; i < cookieLenght; i++) {
-	    	Cookie cookie = cookies[i];
-		    	cookie.setMaxAge(0);
-		    	cookie.setPath("/");
-		    	cookie.setDomain(request.getHeader("host"));
-		    	cookie.setValue("test");
-	    	res.addCookie(cookie);
-	    	logger.info("replaceCookie check 4 Cookie " + cookie.getName());
-    	}
-    	
-    	return res;
-    }
-
-	protected String getCookieDomainToSet(String cookieDomain) {
-		String[] parts = cookieDomain.split("\\.");
-		if (parts.length >= 3) {
-			return "." + parts[parts.length - 2] + "."
-					+ parts[parts.length - 1];
-		}
-		return null;
-	}
-
-//	public String toString() {
-//		return ("CrossSubdomainSessionValve[container=" + container.getName() + ']');
-//	}
 }
