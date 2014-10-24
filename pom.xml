@@ -12,6 +12,8 @@
 		<name>Mairie de Nouméa</name>
 		<url>http://www.ville-noumea.nc</url>
 	</organization>
+	<inceptionYear>2014	
+	</inceptionYear>
 	<developers>
 		<developer>
 			<id>NICNO85</id>
@@ -77,10 +79,8 @@
 
 	<licenses>
 		<license>
-			<name>GPL v3</name>
+			<name>GNU General Public License (GPL) v3</name>
 			<url>http://www.gnu.org/copyleft/gpl.html</url>
-			<distribution>repo</distribution>
-			<comments>license GPL v3</comments>
 		</license>
 	</licenses>
 
@@ -341,6 +341,32 @@
 	<build>
 		<finalName>sirh-kiosque-j2ee##${maven.build.timestamp}-${project.version}</finalName>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.7</version>
+				<configuration>
+					<verbose>false</verbose>
+					<addSvnKeyWords>true</addSvnKeyWords>
+					<licenseName>gpl_v3</licenseName>
+				</configuration>				
+				<executions>
+					<execution>
+						<id>first</id>
+						<goals>
+							<goal>update-file-header</goal>
+						</goals>
+						<phase>process-sources</phase>
+						<configuration>
+							<licenseName>gpl_v3</licenseName>
+							<roots>
+								<root>src/main/java</root>
+								<root>src/test</root>
+							</roots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
