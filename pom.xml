@@ -75,6 +75,15 @@
 		<tomcat.version>7.0.55</tomcat.version>
 	</properties>
 
+	<licenses>
+		<license>
+			<name>GPL v3</name>
+			<url>http://www.gnu.org/copyleft/gpl.html</url>
+			<distribution>repo</distribution>
+			<comments>license GPL v3</comments>
+		</license>
+	</licenses>
+
 	<issueManagement>
 		<system>REDMINE</system>
 		<url>https://redmine/projects/kiosquerhj2ee</url>
@@ -296,37 +305,37 @@
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-catalina</artifactId>
 			<version>${tomcat.version}</version>
-  			<scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-api</artifactId>
 			<version>${tomcat.version}</version>
-  			<scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>
 			<version>${tomcat.version}</version>
-  			<scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-util</artifactId>
 			<version>${tomcat.version}</version>
-  			<scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-juli</artifactId>
 			<version>${tomcat.version}</version>
-  			<scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-annotations-api</artifactId>
 			<version>${tomcat.version}</version>
-  			<scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
