@@ -24,3 +24,8 @@
 <%@page contentType="text/plain"%>
 <%@page import="java.net.InetAddress"%>
 sirh.kiosque.j2ee.version=${version}<br/>
+sirh.kiosque.j2ee.hostaddress=<%=InetAddress.getLocalHost().getHostAddress() %><br/>
+sirh.kiosque.j2ee.canonicalhostname=<%=InetAddress.getLocalHost().getCanonicalHostName() %><br/>
+sirh.kiosque.j2ee.hostname=<%=InetAddress.getLocalHost().getHostName() %><br/>
+sirh.kiosque.j2ee.tomcat.version=<%= application.getServerInfo() %><br/>
+sirh.kiosque.j2ee.tomcat.catalina_base=<%= System.getProperty("catalina.base") %><br/>
