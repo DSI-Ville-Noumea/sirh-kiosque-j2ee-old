@@ -92,9 +92,13 @@
 					sort="auto('agentWithServiceDto.nom')" align="center" />
 				<listheader label="Date de début"
 					sort="auto('dateDebut')" align="center" />
-				<listheader label="Heure de début"
-					sort="none" />
+				<listheader label="Heure de début" sort="none" />
 				<listheader label="Durée" sort="none" width="60px" />
+				<listheader width="40px">
+					<image
+						tooltiptext="Le seuil du compteur est dépassé pour cette demande."
+						sclass="ListAction warn" />
+				</listheader>
 				<listheader label="Date de demande"
 					sort="auto('dateDemande')" align="center" />
 				<listheader label="Etat" sort="none" />
@@ -117,6 +121,12 @@
 						label="@bind(vm.getHeureDebutToString(each.dateDebut))" />
 					<listcell
 						label="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
+					<listcell>
+						<image
+							tooltiptext="Le seuil du compteur est dépassé pour cette demande."
+							sclass="ListAction warn"
+							visible="@bind(each.depassementCompteur)" />
+					</listcell>
 					<listcell
 						label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
 					<listcell
