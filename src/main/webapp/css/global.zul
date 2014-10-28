@@ -159,6 +159,8 @@
 
 	.ListAction.delay { background-position: 0 -315px; }
 
+	.ListAction.warn { background-position: 0 -363px; }
+
 	.ListAction.open { background-position: -483px -145px; }
 	
 	.ListAction.create { background-position: -219px -229px; }
