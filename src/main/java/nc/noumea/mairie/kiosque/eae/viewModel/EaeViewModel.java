@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.eae.viewModel;
  * #L%
  */
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -713,11 +712,13 @@ public class EaeViewModel {
 
 	public String getInfoDureeEntretien(EaeEvaluationDto dto) {
 		String res = "";
-		if (dto.getDureeEntretien().getHeures() != 0) {
-			res += dto.getDureeEntretien().getHeures() + " h ";
-		}
-		if (dto.getDureeEntretien().getMinutes() != 0) {
-			res += dto.getDureeEntretien().getMinutes() + " min";
+		if (dto != null && dto.getDureeEntretien() != null) {
+			if (dto.getDureeEntretien().getHeures() != 0) {
+				res += dto.getDureeEntretien().getHeures() + " h ";
+			}
+			if (dto.getDureeEntretien().getMinutes() != 0) {
+				res += dto.getDureeEntretien().getMinutes() + " min";
+			}
 		}
 		return res;
 	}
