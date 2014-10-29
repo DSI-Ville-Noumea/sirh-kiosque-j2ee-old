@@ -22,7 +22,7 @@
   #L%
   -->
 
-<project name="SIRH-ABS-WS">	
+<project name="SIRH-KIOSQUE-J2EE">	
 	<bannerLeft>
 		<name>DSI - Mairie de Nouméa</name>
 		<src>img/DSI-logo-blason-or.png</src>
