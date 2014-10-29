@@ -71,9 +71,9 @@
 				<listitem>
 					<listcell>
 						<label sclass="bleu"
-							visible="@bind(not vm.modification)" value="@bind(each)" />
+							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
-							visible="@bind(vm.modification)" value="@bind(each)"
+							visible="@bind(vm.modification)" value="@bind(each.libelle)"
 							onChanging="@command('textChanged')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
@@ -106,9 +106,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each)" />
+								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each)"
+								visible="@bind(vm.modification)" value="@bind(each.libelle)"
 								onChanging="@command('textChanged')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
@@ -138,9 +138,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each)" />
+								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each)"
+								visible="@bind(vm.modification)" value="@bind(each.libelle)"
 								onChanging="@command('textChanged')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
@@ -170,9 +170,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each)" />
+								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each)"
+								visible="@bind(vm.modification)" value="@bind(each.libelle)"
 								onChanging="@command('textChanged')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
