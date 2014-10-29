@@ -134,7 +134,7 @@
 					<listcell>
 						<hlayout>
 							<image tooltiptext="Viser la demande"
-								sclass="ListAction edit" visible="@bind(each.affichageVisa)"
+								sclass="ListAction edit" visible="@bind(each.modifierVisa)"
 								onClick="@command('viserDemande')" />
 							<label visible="@bind(each.valeurVisa)"
 								value="@bind(each.motif)" />
@@ -144,7 +144,7 @@
 						<hlayout>
 							<image tooltiptext="Approuver la demande"
 								sclass="ListAction edit"
-								visible="@bind(each.affichageApprobation)"
+								visible="@bind(each.modifierApprobation)"
 								onClick="@command('approuverDemande')" />
 							<label
 								visible="@bind(each.valeurApprobation)"
