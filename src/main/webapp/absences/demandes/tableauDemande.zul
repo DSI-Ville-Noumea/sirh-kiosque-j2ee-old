@@ -102,7 +102,7 @@
 				<listheader label="Date de demande"
 					sort="auto('dateDemande')" align="center" />
 				<listheader label="Etat" sort="none" />
-				<listheader label="Avis du hiérarchique"
+				<listheader label="Avis du viseur"
 					sort="auto('motif')" />
 				<listheader label="Avis de l'approbateur"
 					sort="auto('motif')" />

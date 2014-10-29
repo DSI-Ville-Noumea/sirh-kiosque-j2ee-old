@@ -1,5 +1,5 @@
 <zk>
-	<window id="viserDialog" title="Avis du supérieur hiérarchique"
+	<window id="viserDialog" title="Avis du viseur"
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.demandes.viewModel.ViserDemandeViewModel')">
