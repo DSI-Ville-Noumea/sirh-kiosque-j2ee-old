@@ -43,7 +43,7 @@ import flexjson.JSONException;
 @Component
 public class JsonDateDeserializer extends JsonDeserializer<Date>{
 
-	private static final String msDateFormat = "/[Dd][Aa][Tt][Ee]\\(([0-9]+)([\\+\\-]{1}[0-9]{4})*\\)/";
+	private static final String msDateFormat = "/[Dd][Aa][Tt][Ee]\\((\\-?[0-9]+)([\\+\\-]{1}[0-9]{4})*\\)/";
 	private static final Pattern msDateFormatPattern = Pattern.compile(msDateFormat);
 	
 	@Override

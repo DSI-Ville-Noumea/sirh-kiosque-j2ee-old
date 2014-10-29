@@ -152,7 +152,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
 			return dto;
 		}
-		String result = readResponse(String.class, res, url);
+		String result = readResponseAsString(res, url);
 		dto.getInfos().add(result);
 		return dto;
 	}
@@ -197,7 +197,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
 			return dto;
 		}
-		String result = readResponse(String.class, res, url);
+		String result = readResponseAsString(res, url);
 		dto.getInfos().add(result);
 		return dto;
 	}
@@ -242,7 +242,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
 			return dto;
 		}
-		String result = readResponse(String.class, res, url);
+		String result = readResponseAsString(res, url);
 		dto.getInfos().add(result);
 		return dto;
 	}
@@ -276,7 +276,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
 			return dto;
 		}
-		String result = readResponse(String.class, res, url);
+		String result = readResponseAsString(res, url);
 		dto.getInfos().add(result);
 		return dto;
 	}
@@ -310,7 +310,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
 			return dto;
 		}
-		String result = readResponse(String.class, res, url);
+		String result = readResponseAsString(res, url);
 		dto.getInfos().add(result);
 		return dto;
 	}
@@ -344,7 +344,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
 			return dto;
 		}
-		String result = readResponse(String.class, res, url);
+		String result = readResponseAsString(res, url);
 		dto.getInfos().add(result);
 		return dto;
 	}
@@ -378,7 +378,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
 			return dto;
 		}
-		String result = readResponse(String.class, res, url);
+		String result = readResponseAsString(res, url);
 		dto.getInfos().add(result);
 		return dto;
 	}

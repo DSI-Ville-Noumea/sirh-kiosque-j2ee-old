@@ -93,6 +93,21 @@ public abstract class BaseWsConsumer {
 				"An error occured when querying '%s'. Return code is : %s, content is %s", url, response.getStatus(),
 				response.getEntity(String.class)));
 	}
+	
+	public String readResponseAsString(ClientResponse response, String url) {
+
+		if (response.getStatus() == HttpStatus.NO_CONTENT.value()) {
+			return null;
+		}
+
+		if (response.getStatus() != HttpStatus.OK.value() && response.getStatus() != HttpStatus.CONFLICT.value()) {
+			throw new WSConsumerException(String.format(
+					"An error occured when querying '%s'. Return code is : %s, content is %s", url,
+					response.getStatus(), response.getEntity(String.class)));
+		}
+
+		return response.getEntity(String.class);
+	}
 
 	public <T> T readResponse(Class<T> targetClass, ClientResponse response, String url) {
 

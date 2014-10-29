@@ -30,16 +30,24 @@ import java.util.Date;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentEaeDto;
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 public class EaeIdentificationDto {
 
-	private AgentEaeDto agent;
+	private int idEae;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateEntretien;
+
+	private List<AgentEaeDto> evaluateurs;
+	private AgentEaeDto agent;
 	private List<String> diplomes;
 	private List<String> formations;
 	private List<String> parcoursPros;
-	private List<AgentEaeDto> evaluateurs;
-	private int idEae;
 	private EaeListeDto position;
 	private EaeIdentificationSituationDto situation;
 	private EaeIdentificationStatutDto statut;
