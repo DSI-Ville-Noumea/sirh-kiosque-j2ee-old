@@ -453,7 +453,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChanged", "planAction" })
-	public void supprimerLigneMoyensAutres(@BindingParam("ref") String moyensAutres) {
+	public void supprimerLigneMoyensAutres(@BindingParam("ref") EaeItemPlanActionDto moyensAutres) {
 		if (getPlanAction().getMoyensAutres().contains(moyensAutres)) {
 			getPlanAction().getMoyensAutres().remove(moyensAutres);
 		}
@@ -470,7 +470,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChanged", "planAction" })
-	public void supprimerLigneMoyensFinanciers(@BindingParam("ref") String moyensFinanciers) {
+	public void supprimerLigneMoyensFinanciers(@BindingParam("ref") EaeItemPlanActionDto moyensFinanciers) {
 		if (getPlanAction().getMoyensFinanciers().contains(moyensFinanciers)) {
 			getPlanAction().getMoyensFinanciers().remove(moyensFinanciers);
 		}
@@ -487,7 +487,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChanged", "planAction" })
-	public void supprimerLigneMoyensMateriels(@BindingParam("ref") String moyensMateriels) {
+	public void supprimerLigneMoyensMateriels(@BindingParam("ref") EaeItemPlanActionDto moyensMateriels) {
 		if (getPlanAction().getMoyensMateriels().contains(moyensMateriels)) {
 			getPlanAction().getMoyensMateriels().remove(moyensMateriels);
 		}
@@ -504,7 +504,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChanged", "planAction" })
-	public void supprimerLigneObjectifIndiv(@BindingParam("ref") String objectifIndiv) {
+	public void supprimerLigneObjectifIndiv(@BindingParam("ref") EaeItemPlanActionDto objectifIndiv) {
 		if (getPlanAction().getObjectifsIndividuels().contains(objectifIndiv)) {
 			getPlanAction().getObjectifsIndividuels().remove(objectifIndiv);
 		}

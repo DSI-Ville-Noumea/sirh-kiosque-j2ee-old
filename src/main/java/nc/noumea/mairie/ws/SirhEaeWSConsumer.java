@@ -147,14 +147,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		}
-		String result = readResponseAsString(res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -192,14 +185,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		}
-		String result = readResponseAsString(res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -237,14 +223,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		}
-		String result = readResponseAsString(res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -271,14 +250,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		}
-		String result = readResponseAsString(res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -305,14 +277,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		}
-		String result = readResponseAsString(res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -339,14 +304,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		}
-		String result = readResponseAsString(res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -373,14 +331,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		}
-		String result = readResponseAsString(res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 }
