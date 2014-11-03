@@ -71,7 +71,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<spring.version>4.0.6.RELEASE</spring.version>
-		<zk.version>7.0.3</zk.version>
+		<zk.version>7.0.3.1</zk.version>
 		<aspectj.version>1.7.4</aspectj.version>
 		<chemistry.version>0.10.0</chemistry.version>
 		<tomcat.version>7.0.55</tomcat.version>
@@ -106,9 +106,20 @@
 			<id>ZK EE</id>
 			<url>https://maven.zkoss.org/repo/zk/ee</url>
 		</repository>
+		<repository>
+			<id>ZK EE Evaluation</id>
+			<url>http://mavensync.zkoss.org/eval/</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<!-- CE requirements -->
+		<!-- ZK EE -->
+		<dependency>
+			<groupId>org.zkoss.zk</groupId>
+			<artifactId>zkmax</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zk</artifactId>
@@ -119,11 +130,6 @@
 			<artifactId>zhtml</artifactId>
 			<version>${zk.version}</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.zkoss.zk</groupId> -->
-		<!-- <artifactId>zml</artifactId> -->
-		<!-- <version>${zk.version}</version> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.zkoss.zk</groupId>
 			<artifactId>zul</artifactId>
