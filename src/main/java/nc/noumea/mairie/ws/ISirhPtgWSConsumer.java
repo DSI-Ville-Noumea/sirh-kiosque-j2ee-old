@@ -24,7 +24,6 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -73,10 +72,11 @@ public interface ISirhPtgWSConsumer {
 	byte[] imprimerFiches(Integer idAgent, Date dateLundi, List<String> listeIdAgentsToPrint);
 
 	/* GESTION POINTAGES */
-	List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate,
- String codeService,
+	List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate, String codeService,
 			Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS);
 
 	ReturnMessageDto changerEtatPointage(Integer idAgent, List<PointagesEtatChangeDto> listeChangeEtat);
+
+	List<ConsultPointageDto> getHistoriquePointage(Integer idAgent, Integer idPointage);
 
 }

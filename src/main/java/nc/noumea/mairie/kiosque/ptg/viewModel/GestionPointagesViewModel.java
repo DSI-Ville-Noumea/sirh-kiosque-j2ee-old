@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
  * #L%
  */
 
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -116,6 +115,12 @@ public class GestionPointagesViewModel {
 		setTailleListe("5");
 	}
 
+	public List<ConsultPointageDto> getHistoriquePointage(ConsultPointageDto ptg) {
+		List<ConsultPointageDto> result = ptgWsConsumer.getHistoriquePointage(currentUser.getAgent().getIdAgent(),
+				ptg.getIdPointage());
+		return result;
+	}
+
 	@Command
 	@NotifyChange({ "listePointages" })
 	public void filtrer() {
@@ -183,6 +188,16 @@ public class GestionPointagesViewModel {
 		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
 		return sdfJour.format(dateSaisie) + " à " + sdfHeure.format(dateSaisie);
+	}
+
+	public String dateToString(Date date) {
+		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
+		return sdfJour.format(date);
+	}
+
+	public String heureToString(Date date) {
+		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
+		return sdfHeure.format(date);
 	}
 
 	public String etatToString(Integer idRefEtat) {

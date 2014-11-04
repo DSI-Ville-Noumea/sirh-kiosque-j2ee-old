@@ -16,10 +16,10 @@
 				<hlayout>
 					<label value="Filtres obligatoires" />
 					<label value="du : " />
-					<datebox format="dd/MM/yyyy"
+					<datebox format="dd/MM/yyyy" weekOfYear="true"
 						value="@bind(vm.dateDebutFiltre)" />
 					<label value="au : " />
-					<datebox format="dd/MM/yyyy"
+					<datebox format="dd/MM/yyyy" weekOfYear="true"
 						value="@bind(vm.dateFinFiltre)" />
 					<label value="Service :" />
 					<combobox width="200px" readonly="true"
@@ -50,7 +50,7 @@
 						</template>
 					</combobox>
 					<label value="Agent :" />
-					<combobox width="200px" 
+					<combobox width="200px"
 						model="@bind(vm.listeAgentsFiltre)"
 						selectedItem="@bind(vm.agentFiltre)">
 						<template name="model">
@@ -59,12 +59,11 @@
 						</template>
 					</combobox>
 					<label value="Type HS :" />
-					<combobox width="100px" 
+					<combobox width="100px"
 						model="@bind(vm.listeTypeHSupFiltre)"
 						selectedItem="@bind(vm.typeHSupFiltre)">
 						<template name="model">
-							<comboitem
-								label="@bind(each)" />
+							<comboitem label="@bind(each)" />
 						</template>
 					</combobox>
 				</hlayout>
@@ -96,35 +95,29 @@
 							onChange="@command('doSearch')" instant="true" />
 					</div>
 				</hlayout>
-				<separator />
-				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
-					model="@bind(vm.listePointages)"
-					selectedItem="@bind(vm.pointageCourant)"
-					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage"
-					id="listePointages">
-					<custom-attributes
-						org.zkoss.zul.listbox.autoSort="true" />
-					<listhead>
-						<listheader label="" sort="none" />
-						<listheader label="Agent"
-							sort="auto('agent.nom')" />
-						<listheader label="Type"
-							sort="auto('typePointage')" />
-						<listheader label="Type HS"
-							sort="none" />
-						<listheader label="Date" sort="auto('date')" />
-						<listheader label="Début" sort="auto('debut')" />
-						<listheader label="Fin" sort="auto('fin')" />
-						<listheader label="Quantité"
+				<separator />				
+				<grid model="@bind(vm.listePointages)" mold="paging"
+					pageSize="@bind(vm.tailleListe)"
+					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
+					<columns>
+						<column width="30px" sort="none" />
+						<column label="Agent" sort="auto('agent.nom')" width="100px" />
+						<column label="Type"
+							sort="auto('typePointage')" width="100px"/>
+						<column label="Type HS" sort="none" />
+						<column label="Date" sort="auto('date')" />
+						<column label="Début" sort="auto('debut')" />
+						<column label="Fin" sort="auto('fin')" />
+						<column label="Quantité"
 							sort="auto('quantite')" />
-						<listheader label="Motif - Commentaires"
+						<column label="Motif - Commentaires"
 							sort="none" />
-						<listheader label="Opérateur"
+						<column label="Opérateur"
 							sort="auto('operateur.nom')" />
-						<listheader label="Etat" sort="none" />
-						<listheader label="Date de saisie"
+						<column label="Etat" sort="none" />
+						<column label="Date de saisie"
 							sort="auto('dateSaisie')" />
-						<listheader
+						<column width="90px"
 							visible="@bind(vm.droitsPointage.approbation)">
 							<hlayout>
 								<image
@@ -143,58 +136,57 @@
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('attenteAllPointage')" />
 							</hlayout>
-						</listheader>
-					</listhead>
-
+						</column>
+					</columns>
 					<template name="model">
-						<listitem>
-							<listcell>
-								<image
-									tooltiptext="Historique du pointage" sclass="ListAction open" />
-							</listcell>
-							<listcell
-								label="@bind(vm.concatAgentNomatr(each.agent))" />
-							<listcell label="@bind(each.typePointage)" />
-							<listcell label="@bind(vm.typeHSup(each))" />
-							<listcell
-								label="@bind(each.date) @converter('formatedDate',format='dd/MM/yyyy')" />
-							<listcell
-								label="@bind(each.debut) @converter('formatedDate',format='HH:mm')" />
-							<listcell
-								label="@bind(each.fin) @converter('formatedDate',format='HH:mm')" />
-							<listcell label="@bind(each.quantite)" />
-							<listcell>
+						<row>
+							<custom-attributes pointage="${each}" />
+							<detail open="false" fulfill="onOpen">
+								<include
+									src="/pointages/gestionPointages/histoPointage.zul"
+									pointage="${pointage}" />
+							</detail>
+							<label
+								value="@bind(vm.concatAgentNomatr(each.agent))" />
+							<label value="@bind(each.typePointage)" />
+							<label value="@bind(vm.typeHSup(each))" />
+							<label
+								value="@bind(each.date) @converter('formatedDate',format='dd/MM/yyyy')" />
+							<label
+								value="@bind(each.debut) @converter('formatedDate',format='HH:mm')" />
+							<label
+								value="@bind(each.fin) @converter('formatedDate',format='HH:mm')" />
+							<label value="@bind(each.quantite)" />
+							<hlayout>
 								<label value="@bind(each.motif)" />
 								<label value=" - " />
 								<label value="@bind(each.commentaire)" />
-							</listcell>
-							<listcell
-								label="@bind(vm.concatAgentNomatr(each.operateur))" />
-							<listcell
-								label="@bind(vm.etatToString(each.idRefEtat))" />
-							<listcell
-								label="@bind(vm.dateSaisieToString(each.dateSaisie))" />
-							<listcell
+							</hlayout>
+							<label
+								value="@bind(vm.concatAgentNomatr(each.operateur))" />
+							<label
+								value="@bind(vm.etatToString(each.idRefEtat))" />
+							<label
+								value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
+							<hlayout
 								visible="@bind(vm.droitsPointage.approbation)">
-								<hlayout>
-									<image
-										tooltiptext="Accepter le pointage" sclass="ListAction accept"
-										visible="@bind(vm.droitsPointage.approbation)"
-										onClick="@command('approuverPointage',ref=each)" />
-									<image
-										tooltiptext="Refuser le pointage" sclass="ListAction delete"
-										visible="@bind(vm.droitsPointage.approbation)"
-										onClick="@command('refuserPointage',ref=each)" />
-									<image
-										tooltiptext="Re-mettre en saisie le pointage"
-										sclass="ListAction delay"
-										visible="@bind(vm.droitsPointage.approbation)"
-										onClick="@command('attentePointage',ref=each)" />
-								</hlayout>
-							</listcell>
-						</listitem>
+								<image
+									tooltiptext="Accepter le pointage" sclass="ListAction accept"
+									visible="@bind(vm.droitsPointage.approbation)"
+									onClick="@command('approuverPointage',ref=each)" />
+								<image tooltiptext="Refuser le pointage"
+									sclass="ListAction delete"
+									visible="@bind(vm.droitsPointage.approbation)"
+									onClick="@command('refuserPointage',ref=each)" />
+								<image
+									tooltiptext="Re-mettre en saisie le pointage"
+									sclass="ListAction delay"
+									visible="@bind(vm.droitsPointage.approbation)"
+									onClick="@command('attentePointage',ref=each)" />
+							</hlayout>
+						</row>
 					</template>
-				</listbox>
+				</grid>
 				<div>
 					<div align="right">
 						<button label="Exp. PDF"
@@ -205,6 +197,8 @@
 				</div>
 			</vlayout>
 		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/pointages/gestionPointages.zul" />
 	</window>
 </zk>
 

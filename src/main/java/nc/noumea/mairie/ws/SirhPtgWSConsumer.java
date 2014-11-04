@@ -24,7 +24,6 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -63,6 +62,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	/* Gestion des pointages */
 	private static final String ptgListePointagesUrl = "visualisation/pointages";
 	private static final String ptgChangeEtatPointageUrl = "visualisation/changerEtats";
+	private static final String ptgHistoriquePointageUrl = "visualisation/historique";
 
 	/* Filtres */
 	private static final String ptgServicesKiosqueUrl = "filtres/services";
@@ -310,6 +310,17 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public List<ConsultPointageDto> getHistoriquePointage(Integer idAgent, Integer idPointage) {
+		String url = String.format(sirhPtgWsBaseUrl + ptgHistoriquePointageUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idPointage", idPointage.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(ConsultPointageDto.class, res, url);
 	}
 
 }

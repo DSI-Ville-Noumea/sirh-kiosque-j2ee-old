@@ -1,0 +1,7 @@
+<style>
+	<![CDATA[
+	
+	.z-column-content, .z-row-content, .z-group-content,
+	.z-groupfoot-content, .z-footer-content { padding: 1px 1px; } ]]>
+	
+</style>
