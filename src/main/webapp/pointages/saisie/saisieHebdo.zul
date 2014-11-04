@@ -14,33 +14,37 @@
 			<separator />
 			<hlayout width="100%" sclass="rechercheTableau2">
 				<div sclass="rechercheTableau">
-					Semaine...du ....au....
-					<combobox width="50px">
-						<comboitem value="5" label="5" />
-						<comboitem value="10" label="10" />
-						<comboitem value="15" label="15" />
-						<comboitem value="20" label="20" />
+					<label value="@bind(vm.dateFiltre)" />
+					<datebox value="@bind(vm.dateLundi)" id="db"
+						weekOfYear="true" format="dd/MM/yyyy" locale="fr"
+						onChange="@command('afficheSemaine')" />
+					<space />
+					<label value="Service :" />
+					<combobox width="200px" readonly="true"
+						model="@bind(vm.listeServicesFiltre)"
+						selectedItem="@bind(vm.serviceFiltre)"
+						onSelect="@command('afficheListeAgent')">
+						<template name="model">
+							<comboitem label="@bind(each.service)" />
+						</template>
 					</combobox>
 					<space />
-					Services :
-					<combobox width="50px">
-						<comboitem value="5" label="5" />
-						<comboitem value="10" label="10" />
-						<comboitem value="15" label="15" />
-						<comboitem value="20" label="20" />
-					</combobox>
-					<space />
-					Agent :
-					<combobox width="50px">
-						<comboitem value="5" label="5" />
-						<comboitem value="10" label="10" />
-						<comboitem value="15" label="15" />
-						<comboitem value="20" label="20" />
+					<label value="Agent :" />
+					<combobox width="200px"
+						model="@bind(vm.listeAgentsFiltre)"
+						selectedItem="@bind(vm.agentFiltre)"
+						onSelect="@command('chargeFiche')">
+						<template name="model">
+							<comboitem
+								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+						</template>
 					</combobox>
 				</div>
 			</hlayout>
 			<separator />
-			<listbox id="saisieHebdo">
+
+			<listbox id="saisieHebdo"
+				visible="@bind(not empty vm.ficheCourante)">
 				<listhead sclass="header">
 					<listheader sort="none" label="" width="180px"
 						sclass="contentHeader" />
@@ -98,7 +102,7 @@
 			<listbox id="primes">
 				<listitem>
 					<listcell>
-						<listbox model="@bind(vm.premierJour.primes)">
+						<listbox model="@bind(vm.jourPointage.primes)">
 							<listhead>
 								<listheader width="180px"></listheader>
 								<listheader width="140px"></listheader>
@@ -212,7 +216,7 @@
 				</listhead>
 			</listbox>
 			<listbox id="heuresSup"
-				model="@bind(vm.premierJour.heuresSup)">
+				model="@bind(vm.jourPointage.heuresSup)">
 				<template name="model">
 					<listitem>
 						<listcell label="${each.idPointage}" />
@@ -227,7 +231,7 @@
 				</listhead>
 			</listbox>
 			<listbox id="absences"
-				model="@bind(vm.premierJour.absences)">
+				model="@bind(vm.jourPointage.absences)">
 				<template name="model">
 					<listitem>
 						<listcell label="${each.idRefTypeAbsence}" />
