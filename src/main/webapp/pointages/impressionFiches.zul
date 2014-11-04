@@ -16,7 +16,7 @@
 			<hlayout>
 				<label value="@bind(vm.dateFiltre)" />
 				<datebox value="@bind(vm.dateLundi)" id="db"
-					format="dd/MM/yyyy" locale="fr"
+					weekOfYear="true" format="dd/MM/yyyy" locale="fr"
 					onChange="@command('afficheListeFiche')" />
 				<space />
 				<label value="Service :" />
