@@ -29,6 +29,5 @@
 		<label sclass="value"
 			value="@bind(vm.agentCourant.couvertureSociale.numClr)" />
 	</div>
-	<div sclass="RHTitle2Line" />
 </zk>
 

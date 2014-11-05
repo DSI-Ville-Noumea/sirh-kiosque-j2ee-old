@@ -28,5 +28,4 @@
 		<label sclass="value"
 			value="@bind(vm.agentCourant.compte.codeGuichet)" />
 	</div>
-	<div sclass="RHTitle2Line" />
 </zk>

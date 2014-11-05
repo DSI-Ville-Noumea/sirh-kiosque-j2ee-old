@@ -12,162 +12,78 @@
 			<separator />
 			<vlayout>
 				<hlayout>
-					<div width="500px;">
-						<div>
-							<div sclass="RHTitle2">
-								<label value="Qui suis-je ?" />
-							</div>
-							<div sclass="RHTitle2Line" />
-							<div sclass="RHContent">
-								<div sclass="picture">
-									<div
-										sclass="@bind(vm.sclassPhoto)">
-									</div>
-								</div>
-								<div sclass="info">
-									<div>
-										<label sclass="name"
-											value="N° matricule" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.agent.nomatr)" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Nom patronymique" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.agent.nomPatronymique)" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Nom d'usage" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.agent.nomUsage)" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Nom marital" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.agent.nomMarital)" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Prénom" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.agent.prenom)" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Prénom d'usage" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.agent.prenomUsage)" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Situation familiale" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.situationFamiliale)" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Date de naissance" />
-										<label sclass="value"
-											value="@bind(vm.getDateNaissance(vm.agentCourant.dateNaissance))" />
-									</div>
-									<div>
-										<label sclass="name"
-											value="Lieu de naissance" />
-										<label sclass="value"
-											value="@bind(vm.agentCourant.lieuNaissance)" />
-									</div>
+					<vlayout width="500px">
+						<div sclass="RHTitle2">
+							<label value="Qui suis-je ?" />
+						</div>
+						<div sclass="RHTitle2Line" />
+						<hlayout sclass="RHContent">
+							<div sclass="picture">
+								<div sclass="@bind(vm.sclassPhoto)">
 								</div>
 							</div>
+							<div sclass="info">
+								<include src="profil/quiSuisJe.zul" />
+							</div>
+						</hlayout>
+					</vlayout>
+					<vlayout visible="@bind(vm.showAdresse)"
+						width="500px">
+						<div sclass="RHTitle2">
+							<label value="Mon adresse" />
 						</div>
-					</div>
+						<div sclass="RHTitle2Line" />
+						<hlayout sclass="RHContent">
+							<include src="profil/adresse.zul" />
+						</hlayout>
+					</vlayout>
 				</hlayout>
-				<separator />
 				<hlayout>
-					<div width="500px;">
+					<vlayout visible="@bind(vm.showCompte)"
+						width="500px">
 						<div sclass="RHTitle2">
-							<label value="Voir mon adresse"
-								sclass="clic" onClick="@command('voirAdresse')" />
-							<image sclass="deplInfo"
-								onClick="@command('voirAdresse')" />
+							<label value="Mon compte bancaire" />
 						</div>
 						<div sclass="RHTitle2Line" />
-						<div action="show: slideDown;hide: slideUp"
-							sclass="RHContent" visible="@bind(vm.showAdresse)">
-							<include src="profil/adresse.zul"></include>
-						</div>
-					</div>
-					<div width="500px;">
+						<hlayout sclass="RHContent">
+							<include src="profil/compteBancaire.zul" />
+						</hlayout>
+					</vlayout>
+					<vlayout width="500px"
+						visible="@bind(vm.showCouvertureSociale)">
 						<div sclass="RHTitle2">
-							<label value="Voir ma boîte postale"
-								sclass="clic" onClick="@command('voirBP')" />
+							<label value="ma couverture sociale" />
 						</div>
 						<div sclass="RHTitle2Line" />
-						<div action="show: slideDown;hide: slideUp"
-							sclass="RHContent" visible="@bind(vm.showBP)">
-							<include src="profil/boitePostale.zul"></include>
-						</div>
-					</div>
+						<hlayout sclass="RHContent">
+							<include src="profil/couvertureSociale.zul" />
+						</hlayout>
+					</vlayout>
 				</hlayout>
-				<separator />
-				<separator />
-				<separator />
 				<hlayout>
-					<div width="500px;">
+					<vlayout visible="@bind(vm.showEnfant)"
+						width="500px">
 						<div sclass="RHTitle2">
-							<label value="Voir mes contacts"
-								sclass="clic" onClick="@command('voirContact')" />
+							<label value="Mes enfants" />
 						</div>
 						<div sclass="RHTitle2Line" />
-						<div action="show: slideDown;hide: slideUp"
-							sclass="RHContent" visible="@bind(vm.showContact)">
-							<include src="profil/contact.zul"></include>
-						</div>
-					</div>
-					<div width="500px;">
+						<hlayout sclass="RHContent">
+							<include src="profil/enfant.zul" />
+						</hlayout>
+					</vlayout>
+					<vlayout visible="@bind(vm.showContact)"
+						width="500px">
 						<div sclass="RHTitle2">
-							<label value="Voir mes enfants"
-								sclass="clic" onClick="@command('voirEnfant')" />
+							<label value="Mes contacts" />
 						</div>
 						<div sclass="RHTitle2Line" />
-						<div action="show: slideDown;hide: slideUp"
-							sclass="RHContent" visible="@bind(vm.showEnfant)">
-							<include src="profil/enfant.zul"></include>
-						</div>
-					</div>
-				</hlayout>
-				<separator />
-				<separator />
-				<separator />
-				<hlayout>
-					<div width="500px;">
-						<div sclass="RHTitle2">
-							<label value="Voir mon compte bancaire"
-								sclass="clic" onClick="@command('voirCompte')" />
-						</div>
-						<div sclass="RHTitle2Line" />
-						<div action="show: slideDown;hide: slideUp"
-							sclass="RHContent" visible="@bind(vm.showCompte)">
-							<include src="profil/compteBancaire.zul"></include>
-						</div>
-					</div>
-					<div width="500px;">
-						<div sclass="RHTitle2">
-							<label value="Voir ma couverture sociale"
-								sclass="clic" onClick="@command('voirCouvertureSociale')" />
-						</div>
-						<div sclass="RHTitle2Line" />
-						<div action="show: slideDown;hide: slideUp"
-							sclass="RHContent" visible="@bind(vm.showCouvertureSociale)">
-							<include
-								src="profil/couvertureSociale.zul">
-							</include>
-						</div>
-					</div>
+						<hlayout sclass="RHContent">
+							<include src="profil/contact.zul" />
+						</hlayout>
+					</vlayout>
 				</hlayout>
 			</vlayout>
+
 		</div>
 		<include id="includeStyleSoldeAgent"
 			src="/css/profil/profil.zul" />
