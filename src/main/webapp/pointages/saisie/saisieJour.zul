@@ -2,28 +2,32 @@
 	<listbox>
 		<listitem sclass="fondBlanc">
 			<listcell style="text-align:center;">
-				<label value="${each.etatToString}" />
+				<label value="${vm.etatToString(each.idRefEtat)}" />
 			</listcell>
 		</listitem>
-		<listitem visible="${each.periodeHeure}" sclass="fondBlanc">
+		<listitem visible="${vm.periodeHeure(each.typeSaisie)}"
+			sclass="fondBlanc">
 			<listcell>
 				<textbox width="47%" />
 				<textbox width="47%" />
 			</listcell>
 		</listitem>
-		<listitem visible="${each.caseACocher}" sclass="fondBlanc">
+		<listitem visible="${vm.caseACocher(each.typeSaisie)}"
+			sclass="fondBlanc">
 			<listcell>
-				<checkbox checked="${each.checkCoche}"
+				<checkbox checked="${vm.checkCoche(each.quantite)}"
 					onClick="@command('checkAccorde',prime=each, checkbox=self)" />
-				<label value="${each.labelCoche}"></label>
+				<label value="${vm.labelCoche(each.quantite)}" />
 			</listcell>
 		</listitem>
-		<listitem visible="${each.nbHeures}" sclass="fondBlanc">
+		<listitem visible="${vm.nbHeures(each.typeSaisie)}"
+			sclass="fondBlanc">
 			<listcell>
 				<textbox width="100%" />
 			</listcell>
 		</listitem>
-		<listitem visible="${each.nbIndemnites}" sclass="fondBlanc">
+		<listitem visible="${vm.nbIndemnites(each.typeSaisie)}"
+			sclass="fondBlanc">
 			<listcell>
 				<textbox width="100%" />
 			</listcell>

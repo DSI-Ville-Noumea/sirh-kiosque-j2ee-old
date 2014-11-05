@@ -125,28 +125,28 @@
 												</listcell>
 											</listitem>
 											<listitem
-												visible="${each.periodeHeure}" sclass="fondBlanc">
+												visible="${vm.periodeHeure(each.typeSaisie)}" sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Heure début / fin *" />
 												</listcell>
 											</listitem>
 											<listitem
-												visible="${each.caseACocher}" sclass="fondBlanc">
+												visible="${vm.caseACocher(each.typeSaisie)}" sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Accordée ? *" />
 												</listcell>
 											</listitem>
 											<listitem
-												visible="${each.nbHeures}" sclass="fondBlanc">
+												visible="${vm.nbHeures(each.typeSaisie)}" sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Nombre d'heures *" />
 												</listcell>
 											</listitem>
 											<listitem
-												visible="${each.nbIndemnites}" sclass="fondBlanc">
+												visible="${vm.nbIndemnites(each.typeSaisie)}" sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Nombre d'indemnités *" />

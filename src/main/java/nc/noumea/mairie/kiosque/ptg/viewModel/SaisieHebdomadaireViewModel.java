@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -83,7 +84,7 @@ public class SaisieHebdomadaireViewModel {
 			"jourPointage" })
 	public void chargeFiche() throws ParseException {
 		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent().getIdAgent(),
-				getLundi(getDateLundi()), currentUser.getAgent().getIdAgent());
+				getLundi(getDateLundi()), getAgentFiltre().getIdAgent());
 		setFicheCourante(result);
 		setJourPointage(getFicheCourante().getSaisies().get(0));
 	}
@@ -123,6 +124,34 @@ public class SaisieHebdomadaireViewModel {
 	@NotifyChange({ "ficheCourante" })
 	public void checkAccorde(@BindingParam("prime") PrimeDto prime, @BindingParam("checkbox") Checkbox checkbox) {
 		prime.setQuantite(checkbox.isChecked() ? 1 : null);
+	}
+
+	public String etatToString(Integer idRefEtat) {
+		return RefEtatEnum.getRefEtatEnum(idRefEtat).getLibEtat();
+	}
+
+	public boolean periodeHeure(String typeSaisie) {
+		return typeSaisie.equals("PERIODE_HEURES");
+	}
+
+	public boolean caseACocher(String typeSaisie) {
+		return typeSaisie.equals("CASE_A_COCHER");
+	}
+
+	public boolean nbHeures(String typeSaisie) {
+		return typeSaisie.equals("NB_HEURES");
+	}
+
+	public boolean nbIndemnites(String typeSaisie) {
+		return typeSaisie.equals("NB_INDEMNITES");
+	}
+
+	public boolean checkCoche(Integer quantite) {
+		return quantite != null;
+	}
+
+	public String labelCoche(Integer quantite) {
+		return quantite == null ? "Non" : "Oui";
 	}
 
 	public FichePointageDto getFicheCourante() {

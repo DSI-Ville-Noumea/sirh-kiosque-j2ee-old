@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  * #L%
  */
 
-
 public class PrimeDto extends PointageDto {
 
 	private String titre;
@@ -32,39 +31,6 @@ public class PrimeDto extends PointageDto {
 	private Integer quantite;
 	private Integer numRubrique;
 	private Integer idRefPrime;
-
-	/* POUR L'AFFICHAGE */
-	public boolean isPeriodeHeure() {
-		return typeSaisie.equals("PERIODE_HEURES");
-	}
-
-	public boolean isnbHeures() {
-		return typeSaisie.equals("NB_HEURES");
-	}
-
-	public boolean isnbIndemnites() {
-		return typeSaisie.equals("NB_INDEMNITES");
-	}
-
-	public boolean isCaseACocher() {
-		return typeSaisie.equals("CASE_A_COCHER");
-	}
-
-	public boolean getCheckCoche() {
-		return quantite != null;
-	}
-
-	public String getLabelCoche() {
-		return quantite == null ? "Non" : "Oui";
-	}
-
-	public String getEtatToString() {
-		if (getIdRefEtat() == null)
-			return "Non saisi";
-		return EtatPointageEnum.getEtatPointageEnum(getIdRefEtat()).name();
-	}
-
-	/* FIN DE POUR L'AFFICHAGE */
 
 	public String getTitre() {
 		return titre;

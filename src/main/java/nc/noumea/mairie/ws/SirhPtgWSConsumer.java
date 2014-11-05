@@ -88,7 +88,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("date", sdf.format(date));
-		params.put("agent", idAgent.toString());
+		params.put("agent", idAgentConcerne.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(FichePointageDto.class, res, url);
