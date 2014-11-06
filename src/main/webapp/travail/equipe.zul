@@ -18,21 +18,12 @@
 						<div>
 							<grid>
 								<columns visible="false">
-									<column width="100px" label="Titre" />
-									<column label="Nom" />
-									<column label="Prénom" />
-									<column label="Poste" />
+									<column label="Supérieur" />
 								</columns>
 								<rows>
 									<row>
 										<label sclass="value"
-											value="@bind(vm.superieurHierarchique.civilite)" />
-										<label sclass="value"
-											value="@bind(vm.superieurHierarchique.nom)" />
-										<label sclass="value"
-											value="@bind(vm.superieurHierarchique.prenom)" />
-										<label sclass="value"
-											value="@bind(vm.superieurHierarchique.position)" />
+											value="@bind(vm.concatAgent(vm.superieurHierarchique))" />
 									</row>
 								</rows>
 							</grid>
@@ -72,21 +63,12 @@
 						<div sclass="RHContent">
 							<grid model="@bind(vm.equipeAgent)">
 								<columns visible="false">
-									<column width="100px" label="Titre" />
-									<column label="Nom" />
-									<column label="Prénom" />
-									<column label="Poste" />
+									<column label="Agent" />
 								</columns>
 								<template name="model">
 									<row>
 										<label sclass="value"
-											value="@bind(each.civilite)" />
-										<label sclass="value"
-											value="@bind(each.nom)" />
-										<label sclass="value"
-											value="@bind(each.prenom)" />
-										<label sclass="value"
-											value="@bind(each.position)" />
+											value="@bind(vm.concatAgent(each))" />
 									</row>
 								</template>
 							</grid>

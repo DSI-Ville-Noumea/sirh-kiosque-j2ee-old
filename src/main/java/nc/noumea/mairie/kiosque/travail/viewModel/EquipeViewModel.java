@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.travail.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -113,6 +112,16 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
 			setEquipeAgent(ag);
 		}
+	}
+
+	public String concatAgent(AgentWithServiceDto ag) {
+		return ag.getCivilite() + " " + ag.getNom() + " " + transformPrenom(ag.getPrenom()) + " - " + ag.getPosition();
+	}
+
+	public String transformPrenom(String prenom) {
+		String premLettre = prenom.substring(0, 1).toUpperCase();
+		String reste = prenom.substring(1, prenom.length()).toLowerCase();
+		return premLettre + reste;
 	}
 
 	private void initModel() {
