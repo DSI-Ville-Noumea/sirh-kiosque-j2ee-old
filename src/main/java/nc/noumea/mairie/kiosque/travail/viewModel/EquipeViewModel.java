@@ -118,6 +118,10 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		return ag.getCivilite() + " " + ag.getNom() + " " + transformPrenom(ag.getPrenom()) + " - " + ag.getPosition();
 	}
 
+	public String concatAgentSansCivilite(AgentWithServiceDto ag) {
+		return ag.getNom() + " " + transformPrenom(ag.getPrenom()) + " - " + ag.getPosition();
+	}
+
 	public String transformPrenom(String prenom) {
 		String premLettre = prenom.substring(0, 1).toUpperCase();
 		String reste = prenom.substring(1, prenom.length()).toLowerCase();
@@ -132,20 +136,20 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	private ServiceTreeNode getServiceTreeRoot() {
 		ServiceTreeNode root = new ServiceTreeNode(null, "", null);
 		for (ServiceTreeDto premierNiv : getArbreService()) {
-			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, premierNiv.getService(), premierNiv.getService());
+			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, premierNiv.getSigle(), premierNiv.getSigle());
 			for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
 					premierNiv.getService())) {
-				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode,
-						ag.getNom() + " " + ag.getPrenom(), ag.getIdAgent().toString());
+				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(ag), ag
+						.getIdAgent().toString());
 				firstLevelNode.appendChild(agentLevelNode);
 			}
 			for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
-				ServiceTreeNode secondLevelNode = new ServiceTreeNode(firstLevelNode, deuxNiv.getService(),
-						deuxNiv.getService());
+				ServiceTreeNode secondLevelNode = new ServiceTreeNode(firstLevelNode, deuxNiv.getSigle(),
+						deuxNiv.getSigle());
 				for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
 						deuxNiv.getService())) {
-					ServiceTreeNode agentLevelNode = new ServiceTreeNode(secondLevelNode, ag.getNom() + " "
-							+ ag.getPrenom(), ag.getIdAgent().toString());
+					ServiceTreeNode agentLevelNode = new ServiceTreeNode(secondLevelNode, concatAgentSansCivilite(ag),
+							ag.getIdAgent().toString());
 					secondLevelNode.appendChild(agentLevelNode);
 				}
 				firstLevelNode.appendChild(secondLevelNode);
@@ -165,6 +169,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	}
 
 	@Listen("onSelect = #tree")
+	@NotifyChange("ficheCourant")
 	public void displayAgent(SelectEvent<Treeitem, String> event) throws NumberFormatException, Exception {
 		Treeitem ref = event.getReference();
 		ServiceTreeNode select = ref.getValue();
@@ -262,4 +267,5 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	public void setListeUrlEae(List<SharepointDto> listeUrlEae) {
 		this.listeUrlEae = listeUrlEae;
 	}
+
 }
