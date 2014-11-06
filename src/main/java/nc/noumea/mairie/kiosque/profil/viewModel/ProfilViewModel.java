@@ -24,16 +24,13 @@ package nc.noumea.mairie.kiosque.profil.viewModel;
  * #L%
  */
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
-import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -59,8 +56,6 @@ public class ProfilViewModel {
 
 	private boolean showAdresse;
 
-	private boolean showBP;
-
 	@Init
 	public void initProfilAgent() {
 		Session sess = Sessions.getCurrent();
@@ -68,66 +63,11 @@ public class ProfilViewModel {
 		ProfilAgentDto result = sirhWsConsumer.getEtatCivil(userDto.getAgent().getIdAgent());
 		setAgentCourant(result);
 		setSclassPhoto(getAgentCourant().getSexe().equals("M") ? "man" : "woman");
-		setShowCouvertureSociale(false);
-		setShowCompte(false);
-		setShowEnfant(false);
-		setShowContact(false);
-		setShowAdresse(false);
-		setShowBP(false);
-	}
-
-	@Command
-	@NotifyChange({ "showAdresse" })
-	public void voirBP() {
-		if (isShowBP())
-			setShowBP(false);
-		else
-			setShowBP(true);
-	}
-
-	@Command
-	@NotifyChange({ "showAdresse" })
-	public void voirAdresse() {
-		if (isShowAdresse())
-			setShowAdresse(false);
-		else
-			setShowAdresse(true);
-	}
-
-	@Command
-	@NotifyChange({ "showContact" })
-	public void voirContact() {
-		if (isShowContact())
-			setShowContact(false);
-		else
-			setShowContact(true);
-	}
-
-	@Command
-	@NotifyChange({ "showEnfant" })
-	public void voirEnfant() {
-		if (isShowEnfant())
-			setShowEnfant(false);
-		else
-			setShowEnfant(true);
-	}
-
-	@Command
-	@NotifyChange({ "showCompte" })
-	public void voirCompte() {
-		if (isShowCompte())
-			setShowCompte(false);
-		else
-			setShowCompte(true);
-	}
-
-	@Command
-	@NotifyChange({ "showCouvertureSociale" })
-	public void voirCouvertureSociale() {
-		if (isShowCouvertureSociale())
-			setShowCouvertureSociale(false);
-		else
-			setShowCouvertureSociale(true);
+		setShowCouvertureSociale(result.getCouvertureSociale() != null);
+		setShowCompte(result.getCompte() != null);
+		setShowEnfant(result.getListeEnfants().size() != 0);
+		setShowContact(result.getListeContacts().size() != 0);
+		setShowAdresse(result.getAdresse() != null);
 	}
 
 	public String getDateNaissance(Date dateNaissance) {
@@ -190,13 +130,5 @@ public class ProfilViewModel {
 
 	public void setShowAdresse(boolean showAdresse) {
 		this.showAdresse = showAdresse;
-	}
-
-	public boolean isShowBP() {
-		return showBP;
-	}
-
-	public void setShowBP(boolean showBP) {
-		this.showBP = showBP;
 	}
 }
