@@ -22,9 +22,7 @@
 		<div class="divName">
 			<label sclass="value" value="Bonjour " />
 			<label sclass="value"
-				value="@bind(vm.currentUser.agent.nomUsage)" />
-			<label sclass="value"
-				value="@bind(vm.currentUser.agent.prenomUsage)" />
+				value="@bind(vm.getPrenomAgent(vm.currentUser.agent.prenomUsage))" />
 		</div>
 		
 		<a class="disconnect" onClick="@command('disconnect')">

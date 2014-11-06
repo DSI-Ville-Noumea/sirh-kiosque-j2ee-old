@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.viewModel;
  * #L%
  */
 
-
 import javax.servlet.ServletException;
 
 import nc.noumea.mairie.kiosque.authentification.LDAP;
@@ -48,25 +47,25 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 public class ConnexionViewModel {
 
 	private Logger logger = LoggerFactory.getLogger(ConnexionViewModel.class);
-	 
+
 	private ProfilAgentDto currentUser;
-	
+
 	private UserForm userForm;
 
 	@WireVariable
-    private IRadiWSConsumer radiWSConsumer;
-    
+	private IRadiWSConsumer radiWSConsumer;
+
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
-	
+
 	private String errorMessage;
-	
+
 	@Init
 	public void initMenu() {
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		userForm = new UserForm();
 	}
-	
+
 	@Command
 	public void disconnect() throws ServletException {
 		// create a window programmatically and use it as a modal dialog.
@@ -74,36 +73,30 @@ public class ConnexionViewModel {
 		Executions.getCurrent().getSession().setAttribute("logout", "logout");
 		Executions.sendRedirect("/login.zul");
 	}
-	
-	@Command
-	@NotifyChange({ "userForm" , "errorMessage" })
-	public void connexion() {
-		logger.debug("connexion User : " + userForm.getUser() + " password : "
-				+ userForm.getPassword());
 
-		if (LDAP.controlerHabilitation(userForm.getUser(),
-				userForm.getPassword())) {
+	@Command
+	@NotifyChange({ "userForm", "errorMessage" })
+	public void connexion() {
+		logger.debug("connexion User : " + userForm.getUser() + " password : " + userForm.getPassword());
+
+		if (LDAP.controlerHabilitation(userForm.getUser(), userForm.getPassword())) {
 
 			String remoteUser = userForm.getUser();
-			
-			LightUserDto userDto = radiWSConsumer
-					.getAgentCompteADByLogin(remoteUser);
+
+			LightUserDto userDto = radiWSConsumer.getAgentCompteADByLogin(remoteUser);
 			if (null == userDto) {
-				logger.debug("User not exist in Radi WS with RemoteUser : "
-						+ remoteUser);
+				logger.debug("User not exist in Radi WS with RemoteUser : " + remoteUser);
 				returnError();
 			}
 
 			if (0 == userDto.getEmployeeNumber()) {
-				logger.debug("User not exist in Radi WS with RemoteUser : "
-						+ remoteUser);
+				logger.debug("User not exist in Radi WS with RemoteUser : " + remoteUser);
 				returnError();
 			}
 
 			ProfilAgentDto profilAgent = null;
 			try {
-				profilAgent = sirhWsConsumer.getEtatCivil(userDto
-						.getEmployeeNumber());
+				profilAgent = sirhWsConsumer.getEtatCivil(userDto.getEmployeeNumber());
 			} catch (Exception e) {
 				// le SIRH-WS ne semble pas repondre
 				logger.debug("L'application SIRH-WS ne semble pas répondre.");
@@ -111,8 +104,7 @@ public class ConnexionViewModel {
 			}
 
 			if (null == profilAgent) {
-				logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : "
-						+ userDto.getEmployeeNumber());
+				logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
 				returnError();
 			}
 
@@ -124,17 +116,23 @@ public class ConnexionViewModel {
 
 		returnError();
 	}
-	
+
 	@Command
-	@NotifyChange({ "userForm" , "errorMessage" })
+	@NotifyChange({ "userForm", "errorMessage" })
 	public void reset() {
 		userForm.reset();
 		setErrorMessage(null);
 	}
-	
+
 	private void returnError() {
 		setErrorMessage("Le nom d'utilisateur ou le mot de passe est incorrect.");
 		userForm.reset();
+	}
+
+	public String getPrenomAgent(String prenom) {
+		String premierLettre = prenom.substring(0, 1).toUpperCase();
+		String reste = prenom.substring(1, prenom.length()).toLowerCase();
+		return premierLettre + reste;
 	}
 
 	public ProfilAgentDto getCurrentUser() {
@@ -160,5 +158,5 @@ public class ConnexionViewModel {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-	
+
 }
