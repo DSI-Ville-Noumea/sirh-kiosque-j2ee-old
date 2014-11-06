@@ -2,15 +2,16 @@
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.MenuViewModel')"
 		height="100%">
-		<style></style>
-		<menubar id="menubar" orient="vertical" sclass="menu" autodrop="true">
+
+		<menubar id="menubar" orient="vertical" sclass="menu"
+			autodrop="true">
 			<menuitem tooltiptext="Accueil" sclass="accueilMenu"
 				onClick="@command('changeEcran',page='accueil',ecran=content)" />
 			<menuitem tooltiptext="Mon profil" sclass="profilMenu"
 				onClick="@command('changeEcran',page='/profil/profil',ecran=content)" />
 			<menu tooltiptext="Mon travail" sclass="travailMenu">
 				<menupopup>
-					<menuitem label="Mon travail" sclass="titreMenu" />
+					<menuitem label="Mon travail" sclass="titreMenu" image="img/travail.png"/>
 					<menuitem label="Ma fiche de poste"
 						onClick="@command('changeEcran',page='/travail/fichePoste',ecran=content)" />
 					<menuitem label="Mon équipe"
@@ -19,9 +20,10 @@
 						onClick="@command('changeEcran',page='/travail/eae',ecran=content)" />
 				</menupopup>
 			</menu>
-			<menu tooltiptext="Ma campagne" sclass="eaeMenu" visible="@bind(vm.droitsEae)">
+			<menu tooltiptext="Ma campagne" sclass="eaeMenu"
+				visible="@bind(vm.droitsEae)">
 				<menupopup>
-					<menuitem label="Ma campagne" sclass="titreMenu" />
+					<menuitem label="Ma campagne" sclass="titreMenu"  image="img/eae.png"/>
 					<menuitem label="EAE à réaliser"
 						onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)" />
 					<menuitem label="Mon tableau de bord"
@@ -30,29 +32,37 @@
 			</menu>
 			<menu tooltiptext="Mes absences" sclass="absenceMenu">
 				<menupopup>
-					<menuitem label="Absences" sclass="titreMenu" />
+					<menuitem label="Mes absences" sclass="titreMenu"   image="img/absence.png"/>
 					<menuitem label="Mon solde"
 						onClick="@command('changeEcran',page='/absences/agent/soldeAgent',ecran=content)" />
 					<menuitem label="Mes demandes"
 						onClick="@command('changeEcran',page='/absences/agent/mesDemandes',ecran=content)" />
-					<menuitem label="Droits d'accès" visible="@bind(vm.droitsAbsence.droitAcces)"
+					<menuitem label="Droits d'accès"
+						visible="@bind(vm.droitsAbsence.droitAcces)"
 						onClick="@command('changeEcran',page='/absences/droits/gestionDroits',ecran=content)" />
-					<menuitem label="Gestion des demandes" visible="@bind(vm.droitsAbsence.visuSolde)"
+					<menuitem label="Gestion des demandes"
+						visible="@bind(vm.droitsAbsence.visuSolde)"
 						onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content)" />
-					<menuitem label="Gestion des compteurs" visible="@bind(vm.droitsAbsence.majSolde)"
+					<menuitem label="Gestion des compteurs"
+						visible="@bind(vm.droitsAbsence.majSolde)"
 						onClick="@command('changeEcran',page='/absences/compteurs/gestionCompteurs',ecran=content)" />
 				</menupopup>
 			</menu>
-			<menu tooltiptext="Mes pointages" sclass="pointageMenu" visible="@bind(vm.droitsModulePointage)">
+			<menu tooltiptext="Mes pointages" sclass="pointageMenu"
+				visible="@bind(vm.droitsModulePointage)">
 				<menupopup>
-					<menuitem label="Pointages" sclass="titreMenu" />
-					<menuitem label="Droits d'accès" visible="@bind(vm.droitsPointage.gestionDroitsAcces)"
+					<menuitem label="Mes pointages" sclass="titreMenu"  image="img/pointage.png"/>
+					<menuitem label="Droits d'accès"
+						visible="@bind(vm.droitsPointage.gestionDroitsAcces)"
 						onClick="@command('changeEcran',page='/pointages/droits/gestionDroitsAcces',ecran=content)" />
-					<menuitem label="Fiches de pointage" visible="@bind(vm.droitsPointage.fiches)"
+					<menuitem label="Fiches de pointage"
+						visible="@bind(vm.droitsPointage.fiches)"
 						onClick="@command('changeEcran',page='/pointages/impressionFiches',ecran=content)" />
-					<menuitem label="Saisie hebdomadaire" visible="@bind(vm.droitsPointage.saisie)"
+					<menuitem label="Saisie hebdomadaire"
+						visible="@bind(vm.droitsPointage.saisie)"
 						onClick="@command('changeEcran',page='/pointages/saisie/saisieHebdo',ecran=content)" />
-					<menuitem label="Visualisation / Validation" visible="@bind(vm.droitsPointage.approbation ||vm.droitsPointage.visualisation )"
+					<menuitem label="Visualisation / Validation"
+						visible="@bind(vm.droitsPointage.approbation ||vm.droitsPointage.visualisation )"
 						onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content)" />
 				</menupopup>
 			</menu>
