@@ -52,7 +52,7 @@
 					<vlayout width="500px"
 						visible="@bind(vm.showCouvertureSociale)">
 						<div sclass="RHTitle2">
-							<label value="ma couverture sociale" />
+							<label value="Ma couverture sociale" />
 						</div>
 						<div sclass="RHTitle2Line" />
 						<hlayout sclass="RHContent">
