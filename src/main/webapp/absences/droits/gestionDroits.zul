@@ -87,6 +87,8 @@
 				</tabpanels>
 			</tabbox>
 		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/absences/gestionDroits.zul" />
 	</window>
 </zk>
 

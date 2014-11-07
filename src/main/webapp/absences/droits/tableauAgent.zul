@@ -1,7 +1,7 @@
 <zk>
 	<vlayout height="100%">
-		<hlayout width="100%" sclass="rechercheTableau2">
-			<div sclass="rechercheTableau">
+		<hlayout sclass="fondRecherche">
+			<div>
 				Affichage de
 				<combobox width="50px"
 					selectedItem="@bind(vm.tailleListe)" readonly="true">
@@ -38,8 +38,10 @@
 							<image tooltiptext="Supprimer l'agent"
 								sclass="ListAction delete"
 								onClick="@command('supprimerAgent', ref=each)" />
-							<image tooltiptext="Editer les affectations de cet agent"
-								sclass="ListAction edit" visible="@bind(vm.afficheAffecterAgent)"
+							<image
+								tooltiptext="Editer les affectations de cet agent"
+								sclass="ListAction edit"
+								visible="@bind(vm.afficheAffecterAgent)"
 								onClick="@command('affecterAgent', ref=each)" />
 						</hlayout>
 					</listcell>

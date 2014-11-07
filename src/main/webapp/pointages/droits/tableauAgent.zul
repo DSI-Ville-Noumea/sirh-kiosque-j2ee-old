@@ -1,22 +1,22 @@
 <zk>
 	<vlayout height="100%">
-		<hlayout width="100%" sclass="rechercheTableau2">
-			<div sclass="rechercheTableau">
-				Affichage de
-				<combobox width="50px"
-					selectedItem="@bind(vm.tailleListe)" readonly="true">
-					<comboitem value="5" label="5" />
-					<comboitem value="10" label="10" />
-					<comboitem value="15" label="15" />
-					<comboitem value="20" label="20" />
-				</combobox>
-				agents par page
-				<space />
-				Recherche instantanée :
-				<textbox value="@bind(vm.filter)"
-					onChange="@command('doSearch')" instant="true" />
-			</div>
-		</hlayout>
+				<hlayout sclass="fondRecherche">
+					<div>
+						Affichage de
+						<combobox width="50px"
+							selectedItem="@bind(vm.tailleListe)" readonly="true">
+							<comboitem value="5" label="5" />
+							<comboitem value="10" label="10" />
+							<comboitem value="15" label="15" />
+							<comboitem value="20" label="20" />
+						</combobox>
+						agents par page
+						<space />
+						Recherche instantanée :
+						<textbox value="@bind(vm.filter)"
+							onChange="@command('doSearch')" instant="true" />
+					</div>
+				</hlayout>
 		<separator />
 		<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
 			model="@bind(vm.listeAgents)" emptyMessage="Aucun élément"

@@ -62,8 +62,8 @@
 	<div sclass="RHTitle2Line" />
 	<separator />
 	<vlayout height="100%">
-		<hlayout width="100%" sclass="rechercheTableau2">
-			<div sclass="rechercheTableau">
+		<hlayout sclass="fondRecherche">
+			<div>
 				Affichage de
 				<combobox width="50px"
 					selectedItem="@bind(vm.tailleListe)" readonly="true">
@@ -102,8 +102,7 @@
 				<listheader label="Date de demande"
 					sort="auto('dateDemande')" align="center" />
 				<listheader label="Etat" sort="none" />
-				<listheader label="Avis du viseur"
-					sort="auto('motif')" />
+				<listheader label="Avis du viseur" sort="auto('motif')" />
 				<listheader label="Avis de l'approbateur"
 					sort="auto('motif')" />
 				<listheader label="" sort="none" />

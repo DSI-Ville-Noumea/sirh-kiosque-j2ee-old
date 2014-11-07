@@ -78,8 +78,8 @@
 			<div sclass="RHTitle2Line" />
 			<separator />
 			<vlayout height="100%">
-				<hlayout width="100%" sclass="rechercheTableau2">
-					<div sclass="rechercheTableau">
+				<hlayout sclass="fondRecherche">
+					<div>
 						Affichage de
 						<combobox width="50px"
 							selectedItem="@bind(vm.tailleListe)" readonly="true">

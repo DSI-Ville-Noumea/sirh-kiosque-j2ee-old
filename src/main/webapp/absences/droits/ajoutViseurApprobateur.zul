@@ -1,13 +1,13 @@
 <zk>
-	<window id="ajoutDialog" title="Ajout de viseurs"
-		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
+	<window id="ajoutDialog" title="Ajout de viseurs" mode="modal"
+		closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.droits.viewModel.AjoutViseurApprobateurViewModel')"
 		width="70%">
 		<div sclass="fond" height="100%">
 			<vlayout height="100%">
-				<hlayout width="100%" sclass="rechercheTableau2">
-					<div sclass="rechercheTableau">
+				<hlayout sclass="fondRecherche">
+					<div>
 						Affichage de
 						<combobox width="50px"
 							selectedItem="@bind(vm.tailleListe)" readonly="true">
