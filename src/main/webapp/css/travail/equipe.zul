@@ -1,4 +1,5 @@
 <style>
+
 	
 	<![CDATA[
 
@@ -21,16 +22,18 @@
 
 	.eaeDownload { background-image: url("img/download.png");
 	background-position: left top; background-repeat: no-repeat; cursor:
-	pointer; display: inline-block; height: 16px; width: 16px; } 
-	
+	pointer; display: inline-block; height: 16px; width: 16px; }
+
 	.z-treecell-content {background-color:#FFEBCD;}
-	
+
 	.z-treerow.z-treerow-selected > .z-treecell > .z-treecell-content {
-	    color: #ee7203;
-	}
-	.z-treerow:hover > .z-treecell > .z-treecell-content{background-color:#ee7203;}
-	
+	color: #ee7203; } .z-treerow:hover > .z-treecell >
+	.z-treecell-content{background-color:#ee7203;}
+
+	.z-treecell-content { color: black; }
+
 	]]>
+	
 			
 	
 </style>

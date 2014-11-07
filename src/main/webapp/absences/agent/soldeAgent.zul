@@ -19,8 +19,7 @@
 						<label value="Mon solde de congés annuel" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent"
-						style="text-align: right;">
+					<div sclass="RHContent">
 						<div>
 							<label sclass="name"
 								value="Solde année précédente" />
@@ -41,8 +40,7 @@
 						<label value="Mon solde de récupérations" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent"
-						style="text-align: right;">
+					<div sclass="RHContent">
 						<div>
 							<label sclass="name"
 								value="Solde année en cours" />
@@ -57,8 +55,7 @@
 						<label value="Mon solde de repos compensateur" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent"
-						style="text-align: right;">
+					<div sclass="RHContent">
 						<div>
 							<label sclass="name"
 								value="Solde année précédente" />
@@ -78,8 +75,7 @@
 						<label value="Mon solde ASA" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
-					<div sclass="RHContent"
-						style="text-align: right;">
+					<div sclass="RHContent">
 						<div
 							visible="@bind(vm.soldeCourant.afficheSoldeAsaA48)">
 							<label sclass="name"
