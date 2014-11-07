@@ -62,6 +62,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.ext.Openable;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class EquipeViewModel extends SelectorComposer<Component> {
@@ -107,11 +108,23 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(currentUser.getAgent().getIdAgent());
 			setArbreService(tree);
 			initModel();
+			ouvreArbre();
+
 		} else {
 			// sinon
 			List<AgentWithServiceDto> ag = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
 			setEquipeAgent(ag);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void ouvreArbre() {
+		// pour ouvrir l'arbre
+		ServiceTreeNode node = getArbre().getChild(getArbre().getRoot(), 0);
+		for (ServiceTreeNode enfant : node.getChildren()) {
+			((Openable) getArbre()).addOpenObject(enfant);
+		}
+		((Openable) getArbre()).addOpenObject(node);
 	}
 
 	public String concatAgent(AgentWithServiceDto ag) {
