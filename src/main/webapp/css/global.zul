@@ -105,7 +105,9 @@
 	.z-listitem.z-listbox-odd { background-color: #FFEBCD;}
 
 	.z-listheader-content,.z-paging{background-color: #ab5420;color:
-	#ffffff;} .z-paging-info,.z-paging-text {color: #ffffff;}
+	#ffffff;} 
+	
+	.z-paging-info,.z-paging-text {color: #ffffff;}
 
 	.z-listitem:hover > .z-listcell { background-color: #ee7203;}
 
