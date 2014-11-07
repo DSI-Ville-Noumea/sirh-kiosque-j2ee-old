@@ -8,6 +8,8 @@
 					value="Pointages" />
 				<label style="font-size: 18px;color: #004f9f;"
 					value="Saisie hebdomadaire" />
+			<image sclass="saveAction"
+				onClick="@command('enregistreFiche')" />
 			</vlayout>
 			<separator />
 			<separator />
@@ -102,7 +104,8 @@
 			<listbox id="primes">
 				<listitem>
 					<listcell>
-						<listbox model="@bind(vm.jourPointage.primes)">
+						<listbox
+							model="@bind(vm.jourPointage.primes)">
 							<listhead>
 								<listheader width="180px"></listheader>
 								<listheader width="140px"></listheader>
@@ -125,28 +128,32 @@
 												</listcell>
 											</listitem>
 											<listitem
-												visible="${vm.periodeHeure(each.typeSaisie)}" sclass="fondBlanc">
+												visible="${vm.periodeHeure(each.typeSaisie)}"
+												sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Heure début / fin *" />
 												</listcell>
 											</listitem>
 											<listitem
-												visible="${vm.caseACocher(each.typeSaisie)}" sclass="fondBlanc">
+												visible="${vm.caseACocher(each.typeSaisie)}"
+												sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Accordée ? *" />
 												</listcell>
 											</listitem>
 											<listitem
-												visible="${vm.nbHeures(each.typeSaisie)}" sclass="fondBlanc">
+												visible="${vm.nbHeures(each.typeSaisie)}"
+												sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Nombre d'heures *" />
 												</listcell>
 											</listitem>
 											<listitem
-												visible="${vm.nbIndemnites(each.typeSaisie)}" sclass="fondBlanc">
+												visible="${vm.nbIndemnites(each.typeSaisie)}"
+												sclass="fondBlanc">
 												<listcell>
 													<label
 														value="Nombre d'indemnités *" />

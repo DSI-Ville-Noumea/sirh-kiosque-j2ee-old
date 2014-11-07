@@ -4,9 +4,6 @@
 	
 	<![CDATA[ 
 
-	.header,.z-listheader-content{height:45px;background-color:
-	#ab5420;line-height: 0px;text-align: center;color: #ffffff;}
-
 	.contentHeader { font-family: Arial; font-size: 8pt; font-weight:
 	bold; }
 
@@ -22,6 +19,11 @@
 	repeat scroll 0 0 #f7f7f7;}
 
 	.alignHaut{vertical-align:top;}
+	
+	.saveAction { background-image: url("img/Sprite.png");
+	background-position: -482px -164px; background-repeat: no-repeat;
+	cursor: pointer; height: 16px; margin: 0 0 0 3px;
+	vertical-align: middle; width: 16px; } 
 
 	]]>
 	

@@ -3,15 +3,6 @@
 		action="show: slideDown;hide: slideUp" width="600px"
 		onCancel="self.detach()" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.ReferentRHViewModel')">
-		<style>
-			.fond { background-color:#FFEBCD;padding-left:
-			10px;padding-top: 10px; padding-bottom: 10px;padding-right:
-			10px;}
-
-			.z-listitem {background-color: #fed89c;}
-
-			.z-listitem.z-listbox-odd { background-color: #FFEBCD;}
-		</style>
 		<div sclass="fond" height="100%">
 			<listbox mold="paging" pageSize="10"
 				model="@bind(vm.listeReferentRh)" emptyMessage="Aucun élément">

@@ -1,5 +1,5 @@
 <zk>
-	<listbox>
+	<listbox selectedItem="@bind(vm.ficheCourante.saisies[0].primes)">
 		<listitem sclass="fondBlanc">
 			<listcell style="text-align:center;">
 				<label value="${vm.etatToString(each.idRefEtat)}" />
@@ -29,7 +29,7 @@
 		<listitem visible="${vm.nbIndemnites(each.typeSaisie)}"
 			sclass="fondBlanc">
 			<listcell>
-				<textbox width="100%" />
+				<textbox value="${each.quantite}" width="100%" />
 			</listcell>
 		</listitem>
 		<listitem sclass="fondBlanc">

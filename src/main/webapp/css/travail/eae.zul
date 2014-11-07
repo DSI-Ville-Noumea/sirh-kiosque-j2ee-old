@@ -5,15 +5,6 @@
 
 	.RHTitle2 { width: 170px; }
 
-	.z-row {background-color: #e3d2ad;}
-
-	.z-row:hover .z-row-inner { background:#ee7203; }
-
-	.z-row.z-grid-odd{background-color: #e6bb91;}
-
-	.z-grid-odd > .z-row-inner {background-color: #e6bb91;
-	background:none;}
-
 	.table { border-collapse: collapse; }
 
 	.z-column-content {background-color: #ab5420; color: #ffffff;}
