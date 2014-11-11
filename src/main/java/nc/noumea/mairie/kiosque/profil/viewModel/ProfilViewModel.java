@@ -70,6 +70,33 @@ public class ProfilViewModel {
 		setShowAdresse(result.getAdresse() != null);
 	}
 
+	public String getCodeGuichetToString(Integer codeGuichet) {
+		String code = lpad(codeGuichet.toString().trim(), 5, "0");
+		return code;
+	}
+
+	public String getRibToString(Integer rib) {
+		String code = lpad(rib.toString().trim(), 2, "0");
+		return code;
+	}
+
+	private String lpad(String pChaineSource, int pTailleChamp, String pCaractPading) {
+		if (pChaineSource == null)
+			pChaineSource = "";
+		int nbPading = pTailleChamp - pChaineSource.length();
+		String strOut = "";
+		char c = pCaractPading.charAt(0);
+		if (nbPading > 0) {
+			StringBuffer sb = new StringBuffer(nbPading);
+			for (int i = 0; i < nbPading; i++)
+				sb.append(c);
+			strOut = sb.toString();
+		}
+		strOut = strOut + pChaineSource;
+
+		return strOut;
+	}
+
 	public String getDateNaissance(Date dateNaissance) {
 		if (dateNaissance == null)
 			return "";

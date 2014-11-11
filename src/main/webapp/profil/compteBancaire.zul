@@ -11,7 +11,7 @@
 	</div>
 	<div>
 		<label sclass="name" value="R.I.B" />
-		<label sclass="value" value="@bind(vm.agentCourant.compte.rib)" />
+		<label sclass="value" value="@bind(vm.getRibToString(vm.agentCourant.compte.rib))" />
 	</div>
 	<div>
 		<label sclass="name" value="Banque" />
@@ -26,6 +26,6 @@
 	<div>
 		<label sclass="name" value="Code guichet" />
 		<label sclass="value"
-			value="@bind(vm.agentCourant.compte.codeGuichet)" />
+			value="@bind(vm.getCodeGuichetToString(vm.agentCourant.compte.codeGuichet))" />
 	</div>
 </zk>
