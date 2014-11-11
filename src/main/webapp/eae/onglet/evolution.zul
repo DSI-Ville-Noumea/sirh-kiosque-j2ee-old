@@ -1,9 +1,6 @@
 <zk>
 	<div sclass="RHTitle2Line" />
 	<separator />
-	<image visible="@bind(vm.hasTextChanged)" sclass="saveAction"
-		onClick="@command('engistreOnglet')" />
-	<separator />
 	<vlayout>
 		<label sclass="titre" value="VOTRE EVOLUTION PROFESSIONNELLE " />
 		<div sclass="blockSeparator" />
@@ -26,7 +23,7 @@
 							visible="@bind(not vm.modification)" value="@bind(each.souhait)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.souhait)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -34,7 +31,7 @@
 							value="@bind(each.suggestion)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.suggestion)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -57,7 +54,7 @@
 					<label value="Mobilité géographique" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChanged')"
+					<radiogroup onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteGeo)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -69,7 +66,7 @@
 					<label value="Au sein du service" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChanged')"
+					<radiogroup onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteService)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -83,7 +80,7 @@
 					<label value="Mobilité fonctionnelle" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChanged')"
+					<radiogroup onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteFonctionnelle)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -95,7 +92,7 @@
 					<label value="Au sein de la direction" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChanged')"
+					<radiogroup onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteDirection)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -109,7 +106,7 @@
 					<label value="Changement de métier" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChanged')"
+					<radiogroup onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.changementMetier)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -121,7 +118,7 @@
 					<label value="Au sein de la collectivité" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChanged')"
+					<radiogroup onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteCollectivite)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -131,7 +128,7 @@
 					<textbox rows="1"
 						disabled="@bind(not vm.modification || not vm.evolution.mobiliteCollectivite)"
 						value="@bind(vm.evolution.nomCollectivite)"
-						onChanging="@command('textChanged')" />
+						onChanging="@command('textChangedEvolution')" />
 				</div>
 			</hlayout>
 			<hlayout>
@@ -155,7 +152,7 @@
 					<label value="Dans une autre collectivité" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChanged')"
+					<radiogroup onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteAutre)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -171,13 +168,13 @@
 							label="concours - intitulé du concours ou de l'examen"
 							disabled="@bind(not vm.modification)"
 							checked="@bind(vm.evolution.concours)"
-							onCheck="@command('textChanged')" />
+							onCheck="@command('textChangedEvolution')" />
 					</div>
 					<div sclass="espace">
 						<textbox rows="1"
 							disabled="@bind(not vm.modification || not vm.evolution.concours)"
 							value="@bind(vm.evolution.nomConcours)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</div>
 				</hlayout>
 				<hlayout>
@@ -186,13 +183,13 @@
 							label="demande de VAE - intitulé du diplôme:"
 							disabled="@bind(not vm.modification)"
 							checked="@bind(vm.evolution.vae)"
-							onCheck="@command('textChanged')" />
+							onCheck="@command('textChangedEvolution')" />
 					</div>
 					<div sclass="espace">
 						<textbox rows="1"
 							disabled="@bind(not vm.modification || not vm.evolution.vae)"
 							value="@bind(vm.evolution.nomVae)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</div>
 				</hlayout>
 				<hlayout>
@@ -200,13 +197,13 @@
 						<checkbox sclass="bleu" label="temps partiel à"
 							disabled="@bind(not vm.modification)"
 							checked="@bind(vm.evolution.tempsPartiel)"
-							onCheck="@command('textChanged')" />
+							onCheck="@command('textChangedEvolution')" />
 					</div>
 					<div sclass="espace">
 						<combobox readonly="true" width="100%"
 							disabled="@bind(not vm.modification || not vm.evolution.tempsPartiel)"
 							selectedItem="@bind(vm.evolution.pourcentageTempsPartiel.courant)"
-							onChanging="@command('textChanged')">
+							onChanging="@command('textChangedEvolution')">
 							<zk
 								forEach="${vm.evolution.pourcentageTempsPartiel.liste}">
 								<comboitem label="${each.valeur}"
@@ -221,14 +218,14 @@
 							label="retraite départ prévu au "
 							disabled="@bind(not vm.modification)"
 							checked="@bind(vm.evolution.retraite)"
-							onCheck="@command('textChanged')" />
+							onCheck="@command('textChangedEvolution')" />
 					</div>
 					<div sclass="espace">
 						<datebox
 							disabled="@bind(not vm.modification || not vm.evolution.retraite)"
 							cols="14" format="dd/MM/yyyy"
 							value="@bind(vm.evolution.dateRetraite)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</div>
 				</hlayout>
 				<hlayout>
@@ -237,13 +234,13 @@
 							label="autre perspective (préciser) :"
 							disabled="@bind(not vm.modification)"
 							checked="@bind(vm.evolution.autrePerspective)"
-							onCheck="@command('textChanged')" />
+							onCheck="@command('textChangedEvolution')" />
 					</div>
 					<div sclass="espace">
 						<textbox rows="1"
 							disabled="@bind(not vm.modification || not vm.evolution.autrePerspective)"
 							value="@bind(vm.evolution.libelleAutrePerspective)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</div>
 				</hlayout>
 			</vlayout>
@@ -256,7 +253,7 @@
 			<textbox rows="4" width="100%"
 				visible="@bind(vm.modification)"
 				value="@bind(vm.evolution.commentaireEvolution)"
-				onChanging="@command('textChanged')" />
+				onChanging="@command('textChangedEvolution')" />
 		</vlayout>
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3"
@@ -282,7 +279,7 @@
 							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.libelle)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -290,7 +287,7 @@
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
 						<datebox visible="@bind(vm.modification)"
 							format="MM/yyyy" value="@bind(each.echeance)"
-							onChange="@command('textChanged')" />
+							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -299,7 +296,7 @@
 						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
 							selectedItem="@bind(each.priorisation)"
-							onChange="@command('textChanged')">
+							onChange="@command('textChangedEvolution')">
 							<zk
 								forEach="${vm.listePriorisationEvolution}">
 								<comboitem label="${each}"
@@ -341,7 +338,7 @@
 							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.libelle)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -349,7 +346,7 @@
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
 						<datebox visible="@bind(vm.modification)"
 							format="MM/yyyy" value="@bind(each.echeance)"
-							onChange="@command('textChanged')" />
+							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -358,7 +355,7 @@
 						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
 							selectedItem="@bind(each.priorisation)"
-							onChange="@command('textChanged')">
+							onChange="@command('textChangedEvolution')">
 							<zk
 								forEach="${vm.listePriorisationEvolution}">
 								<comboitem label="${each}"
@@ -401,7 +398,7 @@
 							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.libelle)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -409,7 +406,7 @@
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
 						<datebox visible="@bind(vm.modification)"
 							format="MM/yyyy" value="@bind(each.echeance)"
-							onChange="@command('textChanged')" />
+							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -418,7 +415,7 @@
 						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
 							selectedItem="@bind(each.priorisation)"
-							onChange="@command('textChanged')">
+							onChange="@command('textChangedEvolution')">
 							<zk
 								forEach="${vm.listePriorisationEvolution}">
 								<comboitem label="${each}"
@@ -459,7 +456,7 @@
 							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.libelle)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -467,7 +464,7 @@
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
 						<datebox visible="@bind(vm.modification)"
 							format="MM/yyyy" value="@bind(each.echeance)"
-							onChange="@command('textChanged')" />
+							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -476,7 +473,7 @@
 						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
 							selectedItem="@bind(each.priorisation)"
-							onChange="@command('textChanged')">
+							onChange="@command('textChangedEvolution')">
 							<zk
 								forEach="${vm.listePriorisationEvolution}">
 								<comboitem label="${each}"
@@ -517,7 +514,7 @@
 							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.libelle)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -525,7 +522,7 @@
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
 						<datebox visible="@bind(vm.modification)"
 							format="MM/yyyy" value="@bind(each.echeance)"
-							onChange="@command('textChanged')" />
+							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -534,7 +531,7 @@
 						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
 							selectedItem="@bind(each.priorisation)"
-							onChange="@command('textChanged')">
+							onChange="@command('textChangedEvolution')">
 							<zk
 								forEach="${vm.listePriorisationEvolution}">
 								<comboitem label="${each}"
@@ -576,7 +573,7 @@
 							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.libelle)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -584,7 +581,7 @@
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
 						<datebox visible="@bind(vm.modification)"
 							format="MM/yyyy" value="@bind(each.echeance)"
-							onChange="@command('textChanged')" />
+							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -593,7 +590,7 @@
 						<combobox readonly="true" width="100%"
 							visible="@bind(vm.modification)"
 							selectedItem="@bind(each.priorisation)"
-							onChange="@command('textChanged')">
+							onChange="@command('textChangedEvolution')">
 							<zk
 								forEach="${vm.listePriorisationEvolution}">
 								<comboitem label="${each}"
@@ -628,7 +625,7 @@
 				<textbox rows="4" width="100%"
 					visible="@bind(vm.modification)"
 					value="@bind(vm.evolution.commentaireEvalue)"
-					onChanging="@command('textChanged')" />
+					onChanging="@command('textChangedEvolution')" />
 			</div>
 			<div width="48%" style="float:right;">
 				<label value="De l'évaluateur"
@@ -640,7 +637,7 @@
 				<textbox rows="4" width="100%"
 					visible="@bind(vm.modification)"
 					value="@bind(vm.evolution.commentaireEvaluateur)"
-					onChanging="@command('textChanged')" />
+					onChanging="@command('textChangedEvolution')" />
 			</div>
 		</div>
 	</vlayout>

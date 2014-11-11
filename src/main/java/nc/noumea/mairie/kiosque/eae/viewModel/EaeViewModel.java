@@ -111,7 +111,14 @@ public class EaeViewModel {
 	private String modeSaisi;
 	private boolean isModification;
 	/* Pour savoir si on affiche la disquette de sauvegarde */
-	private boolean hasTextChanged;
+	private boolean hasTextChangedIdentification;
+	private boolean hasTextChangedFichePoste;
+	private boolean hasTextChangedResultat;
+	private boolean hasTextChangedAppreciation;
+	private boolean hasTextChangedEvaluation;
+	private boolean hasTextChangedAutoEvaluation;
+	private boolean hasTextChangedPlanAction;
+	private boolean hasTextChangedEvolution;
 
 	@Init
 	public void initEae(@ExecutionArgParam("eae") EaeListItemDto eae, @ExecutionArgParam("mode") String modeSaisi) {
@@ -215,8 +222,10 @@ public class EaeViewModel {
 
 	@GlobalCommand
 	@Command
-	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation",
-			"autoEvaluation", "planAction", "evolution" })
+	@NotifyChange({ "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation", "planAction",
+			"evolution", "hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation",
+			"hasTextChangedEvolution", "hasTextChangedFichePoste", "hasTextChangedIdentification",
+			"hasTextChangedPlanAction", "hasTextChangedResultat" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
@@ -259,7 +268,14 @@ public class EaeViewModel {
 		Executions.createComponents("/messages/returnMessage.zul", null, map);
 
 		if (listErreur.size() == 0) {
-			setHasTextChanged(false);
+			setHasTextChangedIdentification(false);
+			setHasTextChangedAppreciation(false);
+			setHasTextChangedAutoEvaluation(false);
+			setHasTextChangedEvaluation(false);
+			setHasTextChangedEvolution(false);
+			setHasTextChangedFichePoste(false);
+			setHasTextChangedPlanAction(false);
+			setHasTextChangedResultat(false);
 
 			// on recharge l'eae pour vider les eventuelles modifs
 			initEae(getEaeCourant(), getModeSaisi());
@@ -267,17 +283,17 @@ public class EaeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementExamensConcours(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementExamensConcours().contains(developpement)) {
 			getEvolution().getDeveloppementExamensConcours().remove(developpement);
 			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementExamensConcours() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
 		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
@@ -290,21 +306,21 @@ public class EaeViewModel {
 			getEvolution().setDeveloppementExamensConcours(liste);
 			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementPersonnel(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementPersonnel().contains(developpement)) {
 			getEvolution().getDeveloppementPersonnel().remove(developpement);
 			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementPersonnel() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
 		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
@@ -317,21 +333,21 @@ public class EaeViewModel {
 			getEvolution().setDeveloppementPersonnel(liste);
 			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementComportement(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementComportement().contains(developpement)) {
 			getEvolution().getDeveloppementComportement().remove(developpement);
 			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementComportement() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
 		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
@@ -344,21 +360,21 @@ public class EaeViewModel {
 			getEvolution().setDeveloppementComportement(liste);
 			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementFormateur(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementFormateur().contains(developpement)) {
 			getEvolution().getDeveloppementFormateur().remove(developpement);
 			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementFormateur() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
 		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
@@ -371,21 +387,21 @@ public class EaeViewModel {
 			getEvolution().setDeveloppementFormateur(liste);
 			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementCompetence(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementCompetences().contains(developpement)) {
 			getEvolution().getDeveloppementCompetences().remove(developpement);
 			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementCompetence() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
 		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
@@ -398,21 +414,21 @@ public class EaeViewModel {
 			getEvolution().setDeveloppementCompetences(liste);
 			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void supprimerLigneDeveloppementConnaissance(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementConnaissances().contains(developpement)) {
 			getEvolution().getDeveloppementConnaissances().remove(developpement);
 			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
 	public void ajouterLigneDeveloppementConnaissance() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
 		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
@@ -425,16 +441,16 @@ public class EaeViewModel {
 			getEvolution().setDeveloppementConnaissances(liste);
 			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "evolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution" })
 	public void supprimerLigneSouhaitSuggestion(@BindingParam("ref") EaeSouhaitDto souhait) {
 		if (getEvolution().getSouhaitsSuggestions().contains(souhait)) {
 			getEvolution().getSouhaitsSuggestions().remove(souhait);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
@@ -448,88 +464,88 @@ public class EaeViewModel {
 			liste.add(dto);
 			getEvolution().setSouhaitsSuggestions(liste);
 		}
-		textChanged();
+		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensAutres(@BindingParam("ref") EaeItemPlanActionDto moyensAutres) {
 		if (getPlanAction().getMoyensAutres().contains(moyensAutres)) {
 			getPlanAction().getMoyensAutres().remove(moyensAutres);
 		}
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensAutres() {
 		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
 		getPlanAction().getMoyensAutres().add(dto);
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensFinanciers(@BindingParam("ref") EaeItemPlanActionDto moyensFinanciers) {
 		if (getPlanAction().getMoyensFinanciers().contains(moyensFinanciers)) {
 			getPlanAction().getMoyensFinanciers().remove(moyensFinanciers);
 		}
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensFinanciers() {
 		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
 		getPlanAction().getMoyensFinanciers().add(dto);
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensMateriels(@BindingParam("ref") EaeItemPlanActionDto moyensMateriels) {
 		if (getPlanAction().getMoyensMateriels().contains(moyensMateriels)) {
 			getPlanAction().getMoyensMateriels().remove(moyensMateriels);
 		}
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensMateriels() {
 		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
 		getPlanAction().getMoyensMateriels().add(dto);
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneObjectifIndiv(@BindingParam("ref") EaeItemPlanActionDto objectifIndiv) {
 		if (getPlanAction().getObjectifsIndividuels().contains(objectifIndiv)) {
 			getPlanAction().getObjectifsIndividuels().remove(objectifIndiv);
 		}
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneObjectifIndiv() {
 		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
 		getPlanAction().getObjectifsIndividuels().add(dto);
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneObjectifPro(@BindingParam("ref") EaeObjectifProDto objectifPro) {
 		if (getPlanAction().getObjectifsProfessionnels().contains(objectifPro)) {
 			getPlanAction().getObjectifsProfessionnels().remove(objectifPro);
 		}
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "planAction" })
+	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneObjectifPro() {
 		EaeObjectifProDto dto = new EaeObjectifProDto();
 		if (getPlanAction().getObjectifsProfessionnels() != null) {
@@ -539,20 +555,20 @@ public class EaeViewModel {
 			liste.add(dto);
 			getPlanAction().setObjectifsProfessionnels(liste);
 		}
-		textChanged();
+		textChangedPlanAction();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "resultat" })
+	@NotifyChange({ "hasTextChangedResultat", "resultat" })
 	public void supprimerLigneIndiv(@BindingParam("ref") EaeObjectifDto objectifIndiv) {
 		if (getResultat().getObjectifsIndividuels().contains(objectifIndiv)) {
 			getResultat().getObjectifsIndividuels().remove(objectifIndiv);
 		}
-		textChanged();
+		textChangedResultat();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "resultat" })
+	@NotifyChange({ "hasTextChangedResultat", "resultat" })
 	public void ajouterLigneIndiv() {
 		EaeObjectifDto dto = new EaeObjectifDto();
 		if (getResultat().getObjectifsIndividuels() != null) {
@@ -562,20 +578,20 @@ public class EaeViewModel {
 			liste.add(dto);
 			getResultat().setObjectifsIndividuels(liste);
 		}
-		textChanged();
+		textChangedResultat();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "resultat" })
+	@NotifyChange({ "hasTextChangedResultat", "resultat" })
 	public void supprimerLignePro(@BindingParam("ref") EaeObjectifDto objectifPro) {
 		if (getResultat().getObjectifsProfessionnels().contains(objectifPro)) {
 			getResultat().getObjectifsProfessionnels().remove(objectifPro);
 		}
-		textChanged();
+		textChangedResultat();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "resultat" })
+	@NotifyChange({ "hasTextChangedResultat", "resultat" })
 	public void ajouterLignePro() {
 		EaeObjectifDto dto = new EaeObjectifDto();
 		if (getResultat().getObjectifsProfessionnels() != null) {
@@ -585,14 +601,23 @@ public class EaeViewModel {
 			liste.add(dto);
 			getResultat().setObjectifsProfessionnels(liste);
 		}
-		textChanged();
+		textChangedResultat();
 	}
 
 	@GlobalCommand
-	@NotifyChange({ "hasTextChanged", "identification", "resultat", "appreciationAnnee", "evaluation",
-			"autoEvaluation", "planAction", "evolution" })
+	@NotifyChange({ "hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation",
+			"hasTextChangedEvolution", "hasTextChangedFichePoste", "hasTextChangedIdentification",
+			"hasTextChangedPlanAction", "hasTextChangedResultat", "identification", "resultat", "appreciationAnnee",
+			"evaluation", "autoEvaluation", "planAction", "evolution" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
-		setHasTextChanged(false);
+		setHasTextChangedIdentification(false);
+		setHasTextChangedAppreciation(false);
+		setHasTextChangedAutoEvaluation(false);
+		setHasTextChangedEvaluation(false);
+		setHasTextChangedEvolution(false);
+		setHasTextChangedFichePoste(false);
+		setHasTextChangedPlanAction(false);
+		setHasTextChangedResultat(false);
 		setTabCourant(tab);
 		getTabboxCourant().setSelectedTab(getTabCourant());
 		// on recharge l'eae pour vider les eventuelles modifs
@@ -622,12 +647,66 @@ public class EaeViewModel {
 		}
 	}
 
+	private boolean isHasTextChanged() {
+		return isHasTextChangedAppreciation() || isHasTextChangedAutoEvaluation() || isHasTextChangedEvaluation()
+				|| isHasTextChangedEvolution() || isHasTextChangedFichePoste() || isHasTextChangedIdentification()
+				|| isHasTextChangedPlanAction() || isHasTextChangedResultat();
+	}
+
 	@Command
-	@NotifyChange({ "hasTextChanged" })
-	public void textChanged() {
+	@NotifyChange({ "hasTextChangedEvolution" })
+	public void textChangedEvolution() {
 		if (!isModification())
-			setHasTextChanged(false);
-		setHasTextChanged(true);
+			setHasTextChangedEvolution(false);
+		setHasTextChangedEvolution(true);
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChangedEvaluation" })
+	public void textChangedEvaluation() {
+		if (!isModification())
+			setHasTextChangedEvaluation(false);
+		setHasTextChangedEvaluation(true);
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChangedAutoEvaluation" })
+	public void textChangedAutoEvaluation() {
+		if (!isModification())
+			setHasTextChangedAutoEvaluation(false);
+		setHasTextChangedAutoEvaluation(true);
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChangedAppreciation" })
+	public void textChangedAppreciation() {
+		if (!isModification())
+			setHasTextChangedAppreciation(false);
+		setHasTextChangedAppreciation(true);
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChangedIdentification" })
+	public void textChangedIdentification() {
+		if (!isModification())
+			setHasTextChangedIdentification(false);
+		setHasTextChangedIdentification(true);
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChangedPlanAction" })
+	public void textChangedPlanAction() {
+		if (!isModification())
+			setHasTextChangedPlanAction(false);
+		setHasTextChangedPlanAction(true);
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChangedResultat" })
+	public void textChangedResultat() {
+		if (!isModification())
+			setHasTextChangedResultat(false);
+		setHasTextChangedResultat(true);
 	}
 
 	public String getDateToString(Date date) {
@@ -738,14 +817,6 @@ public class EaeViewModel {
 
 	public void setModification(boolean isModification) {
 		this.isModification = isModification;
-	}
-
-	public boolean isHasTextChanged() {
-		return hasTextChanged;
-	}
-
-	public void setHasTextChanged(boolean hasTextChanged) {
-		this.hasTextChanged = hasTextChanged;
 	}
 
 	public Tabbox getTabboxCourant() {
@@ -879,5 +950,69 @@ public class EaeViewModel {
 
 	public void setListePriorisationEvolution(List<Integer> listePriorisationEvolution) {
 		this.listePriorisationEvolution = listePriorisationEvolution;
+	}
+
+	public boolean isHasTextChangedIdentification() {
+		return hasTextChangedIdentification;
+	}
+
+	public void setHasTextChangedIdentification(boolean hasTextChangedIdentification) {
+		this.hasTextChangedIdentification = hasTextChangedIdentification;
+	}
+
+	public boolean isHasTextChangedFichePoste() {
+		return hasTextChangedFichePoste;
+	}
+
+	public void setHasTextChangedFichePoste(boolean hasTextChangedFichePoste) {
+		this.hasTextChangedFichePoste = hasTextChangedFichePoste;
+	}
+
+	public boolean isHasTextChangedResultat() {
+		return hasTextChangedResultat;
+	}
+
+	public void setHasTextChangedResultat(boolean hasTextChangedResultat) {
+		this.hasTextChangedResultat = hasTextChangedResultat;
+	}
+
+	public boolean isHasTextChangedAppreciation() {
+		return hasTextChangedAppreciation;
+	}
+
+	public void setHasTextChangedAppreciation(boolean hasTextChangedAppreciation) {
+		this.hasTextChangedAppreciation = hasTextChangedAppreciation;
+	}
+
+	public boolean isHasTextChangedEvaluation() {
+		return hasTextChangedEvaluation;
+	}
+
+	public void setHasTextChangedEvaluation(boolean hasTextChangedEvaluation) {
+		this.hasTextChangedEvaluation = hasTextChangedEvaluation;
+	}
+
+	public boolean isHasTextChangedAutoEvaluation() {
+		return hasTextChangedAutoEvaluation;
+	}
+
+	public void setHasTextChangedAutoEvaluation(boolean hasTextChangedAutoEvaluation) {
+		this.hasTextChangedAutoEvaluation = hasTextChangedAutoEvaluation;
+	}
+
+	public boolean isHasTextChangedPlanAction() {
+		return hasTextChangedPlanAction;
+	}
+
+	public void setHasTextChangedPlanAction(boolean hasTextChangedPlanAction) {
+		this.hasTextChangedPlanAction = hasTextChangedPlanAction;
+	}
+
+	public boolean isHasTextChangedEvolution() {
+		return hasTextChangedEvolution;
+	}
+
+	public void setHasTextChangedEvolution(boolean hasTextChangedEvolution) {
+		this.hasTextChangedEvolution = hasTextChangedEvolution;
 	}
 }

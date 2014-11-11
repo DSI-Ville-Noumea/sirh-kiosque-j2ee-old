@@ -16,7 +16,13 @@
 	.saveAction { background-image: url("img/Sprite.png");
 	background-position: -482px -164px; background-repeat: no-repeat;
 	cursor: pointer; height: 16px; margin: 0 0 0 3px;
-	vertical-align: middle; width: 16px; } ]]>
+	vertical-align: middle; width: 16px; } 
+	
+	.z-caption-content, .z-caption .z-label {
+	    line-height: 14px;
+	}
+	
+	]]>
 	
 	
 			

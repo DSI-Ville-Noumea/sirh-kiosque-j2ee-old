@@ -1,9 +1,6 @@
 <zk>
 	<div sclass="RHTitle2Line" />
 	<separator />
-	<image visible="@bind(vm.hasTextChanged)" sclass="saveAction"
-		onClick="@command('engistreOnglet')" />
-	<separator />
 	<vlayout>
 		<label sclass="titre" value="RESULTATS" />
 		<div sclass="blockSeparator" />
@@ -11,7 +8,7 @@
 		<separator />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.resultat.commentaireGeneral)"
-			onChanging="@command('textChanged')" />
+			onChanging="@command('textChangedResultat')" />
 		<div sclass="bleu">
 			<label visible="@bind(not vm.modification)"
 				value="@bind(vm.resultat.commentaireGeneral)" />
@@ -39,21 +36,21 @@
 							value="@bind(each.objectif)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.objectif)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell>
 						<label visible="@bind(not vm.modification)"
 							value="@bind(each.resultat)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.resultat)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell>
 						<label visible="@bind(not vm.modification)"
 							value="@bind(each.commentaire)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.commentaire)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -88,21 +85,21 @@
 							value="@bind(each.objectif)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.objectif)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell>
 						<label visible="@bind(not vm.modification)"
 							value="@bind(each.resultat)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.resultat)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell>
 						<label visible="@bind(not vm.modification)"
 							value="@bind(each.commentaire)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.commentaire)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"

@@ -1,9 +1,6 @@
 <zk>
 	<div sclass="RHTitle2Line" />
 	<separator />
-	<image visible="@bind(vm.hasTextChanged)" sclass="saveAction"
-		onClick="@command('engistreOnglet')" />
-	<separator />
 	<vlayout>
 		<label sclass="titre" value="EVALUATION" />
 		<div sclass="blockSeparator" />
@@ -14,7 +11,7 @@
 				value="@bind(vm.getInfoDureeEntretien(vm.evaluation))" />
 			<timebox format="HH:mm" visible="@bind(vm.modification)"
 				value="@bind(vm.dureeEntretien)"
-				onChanging="@command('textChanged')" />
+				onChanging="@command('textChangedEvaluation')" />
 		</hlayout>
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3"
@@ -23,7 +20,7 @@
 			value="@bind(vm.evaluation.commentaireEvaluateur)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.evaluation.commentaireEvaluateur)"
-			onChanging="@command('textChanged')" />
+			onChanging="@command('textChangedEvaluation')" />
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3" value="Résultats dans le poste, Note " />
 		<separator />
@@ -43,7 +40,7 @@
 			</radiogroup>
 			<radiogroup visible="@bind(vm.modification)"
 				selectedItem="@bind(vm.evaluation.niveau.courant)"
-				onCheck="@command('textChanged')">
+				onCheck="@command('textChangedEvaluation')">
 				<div sclass="bleu" width="100%">
 					<zk forEach="${vm.evaluation.niveau.liste}">
 						<radio label="${each.valeur}"
@@ -83,6 +80,6 @@
 			value="@bind(vm.evaluation.commentaireEvalue)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.evaluation.commentaireEvalue)"
-			onChanging="@command('textChanged')" />
+			onChanging="@command('textChangedEvaluation')" />
 	</vlayout>
 </zk>

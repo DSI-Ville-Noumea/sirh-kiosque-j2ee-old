@@ -14,21 +14,61 @@
 				onCreate="@command('changeVue',tabbox=tb, tab= self.getSelectedTab())">
 				<tabs id="tabs">
 					<tab id="IDENTIFICATION" label="Identification"
-						onClick="@command('changeVue',tabbox=tb,tab = IDENTIFICATION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = IDENTIFICATION)">
+						<caption label="Identification">
+							<image visible="@bind(vm.hasTextChangedIdentification)"
+								sclass="saveAction" onClick="@command('engistreOnglet')" />
+						</caption>
+					</tab>
 					<tab id="FICHEPOSTE" label="Fiche de poste"
-						onClick="@command('changeVue',tabbox=tb,tab = FICHEPOSTE)" />
+						onClick="@command('changeVue',tabbox=tb,tab = FICHEPOSTE)">
+						<caption label="Fiche de poste">
+							<image visible="@bind(vm.hasTextChangedFichePoste)"
+								sclass="saveAction" onClick="@command('engistreOnglet')" />
+						</caption>
+					</tab>
 					<tab id="RESULTAT" label="Résultat"
-						onClick="@command('changeVue',tabbox=tb,tab = RESULTAT)" />
-					<tab id="APPRECIATION" label="Appreciation"
-						onClick="@command('changeVue',tabbox=tb,tab = APPRECIATION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = RESULTAT)">
+						<caption label="Résultat">
+							<image visible="@bind(vm.hasTextChangedResultat)"
+								sclass="saveAction" onClick="@command('engistreOnglet')" />
+						</caption>
+					</tab>
+					<tab id="APPRECIATION" label="Appréciation"
+						onClick="@command('changeVue',tabbox=tb,tab = APPRECIATION)">
+						<caption label="Appréciation">
+							<image visible="@bind(vm.hasTextChangedAppreciation)"
+								sclass="saveAction" onClick="@command('engistreOnglet')" />
+						</caption>
+					</tab>
 					<tab id="EVALUATION" label="Evaluation"
-						onClick="@command('changeVue',tabbox=tb,tab = EVALUATION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = EVALUATION)">
+						<caption label="Evaluation">
+							<image visible="@bind(vm.hasTextChangedEvaluation)"
+								sclass="saveAction" onClick="@command('engistreOnglet')" />
+						</caption>
+					</tab>
 					<tab id="AUTOEVALUATION" label="Auto-évaluation"
-						onClick="@command('changeVue',tabbox=tb,tab = AUTOEVALUATION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = AUTOEVALUATION)">
+						<caption label="Auto-évaluation">
+							<image visible="@bind(vm.hasTextChangedAutoEvaluation)"
+								sclass="saveAction" onClick="@command('engistreOnglet')" />
+						</caption>
+					</tab>
 					<tab id="PLANACTION" label="Plan d'action"
-						onClick="@command('changeVue',tabbox=tb,tab = PLANACTION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = PLANACTION)">
+						<caption label="Plan d'action">
+							<image visible="@bind(vm.hasTextChangedPlanAction)"
+								sclass="saveAction" onClick="@command('engistreOnglet')" />
+						</caption>
+					</tab>
 					<tab id="EVOLUTION" label="Evolution"
-						onClick="@command('changeVue',tabbox=tb,tab = EVOLUTION)" />
+						onClick="@command('changeVue',tabbox=tb,tab = EVOLUTION)">
+						<caption label="Evolution">
+							<image visible="@bind(vm.hasTextChangedEvolution)"
+								sclass="saveAction" onClick="@command('engistreOnglet')" />
+						</caption>
+					</tab>
 				</tabs>
 				<tabpanels>
 					<tabpanel>

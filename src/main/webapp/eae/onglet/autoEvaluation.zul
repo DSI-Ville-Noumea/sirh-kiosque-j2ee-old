@@ -1,9 +1,6 @@
 <zk>
 	<div sclass="RHTitle2Line" />
 	<separator />
-	<image visible="@bind(vm.hasTextChanged)" sclass="saveAction"
-		onClick="@command('engistreOnglet')" />
-	<separator />
 	<vlayout>
 		<label sclass="titre" value="AUTO EVALUATION" />
 		<div sclass="blockSeparator" />
@@ -13,7 +10,7 @@
 			value="@bind(vm.autoEvaluation.particularites)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.autoEvaluation.particularites)"
-			onChanging="@command('textChanged')" />
+			onChanging="@command('textChangedAutoEvaluation')" />
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3"
 			value="OBJECTIFS ATTEINTS ET COMPETENCES ACQUISES DURANT L'ANNEE ECOULEE" />
@@ -21,7 +18,7 @@
 			value="@bind(vm.autoEvaluation.acquis)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.autoEvaluation.acquis)"
-			onChanging="@command('textChanged')" />
+			onChanging="@command('textChangedAutoEvaluation')" />
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3"
 			value="SUCCES OU DIFFICULTES EVENTUELLEMENT RENCONTRES" />
@@ -29,6 +26,6 @@
 			value="@bind(vm.autoEvaluation.succesDifficultes)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.autoEvaluation.succesDifficultes)"
-			onChanging="@command('textChanged')" />
+			onChanging="@command('textChangedAutoEvaluation')" />
 	</vlayout>
 </zk>

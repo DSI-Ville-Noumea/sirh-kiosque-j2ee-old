@@ -1,9 +1,6 @@
 <zk>
 	<div sclass="RHTitle2Line" />
 	<separator />
-	<image visible="@bind(vm.hasTextChanged)" sclass="saveAction"
-		onClick="@command('engistreOnglet')" />
-	<separator />
 	<vlayout>
 		<label sclass="titre" value="PLAN D'ACTION" />
 		<div sclass="blockSeparator" />
@@ -34,7 +31,7 @@
 							value="@bind(each.objectif)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.objectif)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedPlanAction')" />
 					</listcell>
 					<listcell>
 						<label sclass="bleu"
@@ -42,7 +39,7 @@
 							value="@bind(each.indicateur)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.indicateur)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedPlanAction')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -74,7 +71,7 @@
 							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.libelle)"
-							onChanging="@command('textChanged')" />
+							onChanging="@command('textChangedPlanAction')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
@@ -109,7 +106,7 @@
 								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
 								visible="@bind(vm.modification)" value="@bind(each.libelle)"
-								onChanging="@command('textChanged')" />
+								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
 							<image tooltiptext="Supprimer cette ligne"
@@ -141,7 +138,7 @@
 								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
 								visible="@bind(vm.modification)" value="@bind(each.libelle)"
-								onChanging="@command('textChanged')" />
+								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
 							<image tooltiptext="Supprimer cette ligne"
@@ -173,7 +170,7 @@
 								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
 								visible="@bind(vm.modification)" value="@bind(each.libelle)"
-								onChanging="@command('textChanged')" />
+								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
 							<image tooltiptext="Supprimer cette ligne"
