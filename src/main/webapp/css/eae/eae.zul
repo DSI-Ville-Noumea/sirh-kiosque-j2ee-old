@@ -1,6 +1,7 @@
 <style>
 
 
+
 	
 	<![CDATA[
 
@@ -15,14 +16,17 @@
 
 	.saveAction { background-image: url("img/Sprite.png");
 	background-position: -482px -164px; background-repeat: no-repeat;
-	cursor: pointer; height: 16px; margin: 0 0 0 3px;
-	vertical-align: middle; width: 16px; } 
+	cursor: pointer; height: 16px; margin: 0 0 0 3px; vertical-align:
+	middle; width: 16px; }
+
+	.z-caption-content, .z-caption .z-label { line-height: 14px; }
+
+	.z-auxheader {background: #ab5420;}
 	
-	.z-caption-content, .z-caption .z-label {
-	    line-height: 14px;
-	}
-	
+	.z-auxheader-content {color:white;}
+
 	]]>
+	
 	
 	
 			

@@ -155,13 +155,22 @@
 		</listbox>
 		<listbox>
 			<auxhead>
+				<auxheader colspan="6">
+					<checkbox label="Je suis un encadrant"
+						disabled="@bind(not vm.modification)"
+						checked="@bind(vm.appreciationAnnee.estEncadrant)" />
+				</auxheader>
+			</auxhead>
+			<auxhead
+				visible="@bind(vm.appreciationAnnee.estEncadrant)">
 				<auxheader label="" colspan="2" />
 				<auxheader align="center" label="Par l'évalué"
 					colspan="2" />
 				<auxheader align="center" label="Par l'évaluateur"
 					colspan="2" />
 			</auxhead>
-			<listhead>
+			<listhead
+				visible="@bind(vm.appreciationAnnee.estEncadrant)">
 				<listheader width="35px;" label="" sort="none" />
 				<listheader
 					label="CRITERES SUR LE PLAN MANAGERIAL (facultatif en fonction du poste)"
@@ -175,7 +184,8 @@
 				<listheader width="120px;" align="center"
 					label="@bind(vm.annee)" sort="none" />
 			</listhead>
-			<listitem>
+			<listitem
+				visible="@bind(vm.appreciationAnnee.estEncadrant)">
 				<listcell label="3-1" />
 				<listcell label="Capacité à animer une équipe" />
 				<listcell
@@ -187,7 +197,8 @@
 				<listcell
 					label="@bind(vm.appreciationAnnee.managerialEvaluateur[0])" />
 			</listitem>
-			<listitem>
+			<listitem
+				visible="@bind(vm.appreciationAnnee.estEncadrant)">
 				<listcell label="3-2" />
 				<listcell
 					label="Capacité à gérer des ressources (budget, RH, logistique)" />
@@ -200,7 +211,8 @@
 				<listcell
 					label="@bind(vm.appreciationAnnee.managerialEvaluateur[1])" />
 			</listitem>
-			<listitem>
+			<listitem
+				visible="@bind(vm.appreciationAnnee.estEncadrant)">
 				<listcell label="3-3" />
 				<listcell label="Capacité à conduire des projets" />
 				<listcell
@@ -212,7 +224,8 @@
 				<listcell
 					label="@bind(vm.appreciationAnnee.managerialEvaluateur[2])" />
 			</listitem>
-			<listitem>
+			<listitem
+				visible="@bind(vm.appreciationAnnee.estEncadrant)">
 				<listcell label="3-4" />
 				<listcell
 					label="Sens de la concertation et de la négociation dans l'activité de manager" />
