@@ -29,11 +29,6 @@
 					<tabpanel>
 						<div sclass="RHTitle2Line" />
 						<separator />
-						<div sclass="RHTitle2">
-							<label value="Mes Opérateurs" />
-						</div>
-						<div sclass="RHTitle2Line" />
-						<separator />
 						<include
 							src="/pointages/droits/tableauAgent.zul" />
 						<separator />
@@ -90,5 +85,7 @@
 				</tabpanels>
 			</tabbox>
 		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/pointages/gestionDroits.zul" />
 	</window>
 </zk>
