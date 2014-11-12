@@ -99,6 +99,10 @@
 	.z-listheader-content,.z-paging{background-color: #ab5420;color:
 	#ffffff;} 
 	
+	.z-listbox-header table th, .z-listbox-header table td {
+	    background: #ab5420;
+	}
+	
 	.z-paging-info,.z-paging-text {color: #ffffff;}
 
 	.z-listitem:hover > .z-listcell { background-color: #ee7203;}
