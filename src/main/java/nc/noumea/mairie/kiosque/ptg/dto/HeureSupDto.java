@@ -24,12 +24,20 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  * #L%
  */
 
-
 public class HeureSupDto extends PointageDto {
 
 	private boolean recuperee;
+	private boolean rappelService;
 
-	public boolean getRecuperee() {
+	public boolean isRappelService() {
+		return rappelService;
+	}
+
+	public void setRappelService(boolean rappelService) {
+		this.rappelService = rappelService;
+	}
+
+	public boolean isRecuperee() {
 		return recuperee;
 	}
 

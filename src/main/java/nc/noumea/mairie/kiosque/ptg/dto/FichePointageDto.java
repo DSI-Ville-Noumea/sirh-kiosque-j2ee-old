@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  * #L%
  */
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +35,7 @@ public class FichePointageDto {
 	private AgentWithServiceDto agent;
 	private String semaine;
 	private List<JourPointageDto> saisies;
+	private boolean isDPM;
 
 	public Date getDateLundi() {
 		return dateLundi;
@@ -67,5 +67,13 @@ public class FichePointageDto {
 
 	public void setSaisies(List<JourPointageDto> saisies) {
 		this.saisies = saisies;
+	}
+
+	public boolean isDPM() {
+		return isDPM;
+	}
+
+	public void setDPM(boolean isDPM) {
+		this.isDPM = isDPM;
 	}
 }
