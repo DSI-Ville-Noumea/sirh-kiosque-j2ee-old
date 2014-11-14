@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
  * #L%
  */
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -163,42 +162,28 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 
 	}
 
+	private void initSaisiePointage(AbsenceDto abs, Label labelEtat, Timebox boxHeureFin, Timebox boxHeureDebut,
+			Combobox comboType, Textbox boxMotif, Textbox boxCommentaire) {
+		labelEtat.setValue(abs.getIdRefEtat() == null ? "" : EtatPointageEnum.getEtatPointageEnum(abs.getIdRefEtat())
+				.getLibEtat());
+		boxHeureFin.setDisabled(false);
+		boxHeureDebut.setDisabled(false);
+		comboType.setDisabled(false);
+		boxMotif.setDisabled(false);
+		boxCommentaire.setDisabled(false);
+	}
+
 	private void addListCellListBox(final Listitem listitem, final AbsenceDto abs, final int jour, final int index) {
 		Listcell lc = new Listcell();
 		Listbox boxAbs = new Listbox();
 
-		// Ajout de la ligne etat
-		Listitem ligneEtat = new Listitem();
-		final Listcell celluleEtat = new Listcell();
-		celluleEtat.setSclass("alignCenter");
-		final Label labelEtat = new Label();
-		labelEtat.setId("etatAbs_" + jour + ":" + index);
-		labelEtat.setValue(abs.getIdRefEtat() == null ? "" : EtatPointageEnum.getEtatPointageEnum(abs.getIdRefEtat())
-				.getLibEtat());
-		Button buttonAddAbs = new Button();
-		buttonAddAbs.setId("buttonAbs_" + jour + ":" + index);
-		buttonAddAbs.setSclass("backSprite");
-		buttonAddAbs.addEventListener(Events.ON_CLICK, new EventListener<MouseEvent>() {
-			@Override
-			public void onEvent(MouseEvent ie) throws Exception {
-				Component target = ie.getTarget();
-				if (target instanceof Button) {
-					abs.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
-					labelEtat.setValue(abs.getIdRefEtat() == null ? "" : EtatPointageEnum.getEtatPointageEnum(
-							abs.getIdRefEtat()).getLibEtat());
-				}
-			}
-		});
-		celluleEtat.appendChild(buttonAddAbs);
-		celluleEtat.appendChild(labelEtat);
-		ligneEtat.appendChild(celluleEtat);
-		ligneEtat.setParent(boxAbs);
-		// fin ajout etat
-
 		// Ajout de la ligne heure debut/fin
 		Listitem ligneHeure = new Listitem();
 		Listcell celluleHeure = new Listcell();
-		Timebox boxHeureFin = new Timebox();
+		final Timebox boxHeureFin = new Timebox();
+		if (abs.getIdRefEtat() == null) {
+			boxHeureFin.setDisabled(true);
+		}
 		boxHeureFin.setId("finAbs_" + jour + ":" + index);
 		boxHeureFin.setFormat("HH:mm");
 		boxHeureFin.setValue(abs.getHeureFin());
@@ -211,7 +196,10 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 				}
 			}
 		});
-		Timebox boxHeureDebut = new Timebox();
+		final Timebox boxHeureDebut = new Timebox();
+		if (abs.getIdRefEtat() == null) {
+			boxHeureDebut.setDisabled(true);
+		}
 		boxHeureDebut.setId("debutAbs_" + jour + ":" + index);
 		boxHeureDebut.setFormat("HH:mm");
 		boxHeureDebut.setValue(abs.getHeureDebut());
@@ -224,16 +212,15 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 				}
 			}
 		});
-		celluleHeure.appendChild(boxHeureDebut);
-		celluleHeure.appendChild(boxHeureFin);
-		ligneHeure.appendChild(celluleHeure);
-		ligneHeure.setParent(boxAbs);
 		// fin ajout heure debut/fin
 
 		// Ajout de la ligne type absence
 		Listitem ligneType = new Listitem();
 		Listcell celluleType = new Listcell();
 		final Combobox comboType = new Combobox();
+		if (abs.getIdRefEtat() == null) {
+			comboType.setDisabled(true);
+		}
 		comboType.setId("typeAbs_" + jour + ":" + index);
 		comboType.setButtonVisible(true);
 		comboType.setModel(getModelTypeAbsence());
@@ -259,15 +246,15 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 				}
 			}
 		});
-		celluleType.appendChild(comboType);
-		ligneType.appendChild(celluleType);
-		ligneType.setParent(boxAbs);
 		// fin ajout type absence
 
 		// Ajout de la ligne motif
 		Listitem ligneMotif = new Listitem();
 		Listcell celluleMotif = new Listcell();
-		Textbox boxMotif = new Textbox();
+		final Textbox boxMotif = new Textbox();
+		if (abs.getIdRefEtat() == null) {
+			boxMotif.setDisabled(true);
+		}
 		boxMotif.setId("motifAbs_" + jour + ":" + index);
 		boxMotif.setValue(abs.getMotif());
 		boxMotif.addEventListener(Events.ON_CHANGE, new EventListener<InputEvent>() {
@@ -287,7 +274,10 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 		// Ajout de la ligne commentaire
 		Listitem ligneCommentaire = new Listitem();
 		Listcell celluleCommentaire = new Listcell();
-		Textbox boxCommentaire = new Textbox();
+		final Textbox boxCommentaire = new Textbox();
+		if (abs.getIdRefEtat() == null) {
+			boxCommentaire.setDisabled(true);
+		}
 		boxCommentaire.setId("commentaireAbs_" + jour + ":" + index);
 		boxCommentaire.setRows(4);
 		boxCommentaire.setValue(abs.getCommentaire());
@@ -300,10 +290,46 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 				}
 			}
 		});
+		// fin ajout commentaire
+
+		// Ajout de la ligne etat
+		Listitem ligneEtat = new Listitem();
+		final Listcell celluleEtat = new Listcell();
+		celluleEtat.setSclass("alignCenter");
+		final Label labelEtat = new Label();
+		labelEtat.setId("etatAbs_" + jour + ":" + index);
+		labelEtat.setValue(abs.getIdRefEtat() == null ? "" : EtatPointageEnum.getEtatPointageEnum(abs.getIdRefEtat())
+				.getLibEtat());
+		Button buttonAddAbs = new Button();
+		buttonAddAbs.setId("buttonAbs_" + jour + ":" + index);
+		buttonAddAbs.setSclass("backSprite");
+		buttonAddAbs.addEventListener(Events.ON_CLICK, new EventListener<MouseEvent>() {
+			@Override
+			public void onEvent(MouseEvent ie) throws Exception {
+				Component target = ie.getTarget();
+				if (target instanceof Button) {
+					abs.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+					initSaisiePointage(abs, labelEtat, boxHeureFin, boxHeureDebut, comboType, boxMotif, boxCommentaire);
+				}
+			}
+		});
+		// fin ajout etat
+
+		// on ajoute les lignes
+		celluleEtat.appendChild(buttonAddAbs);
+		celluleEtat.appendChild(labelEtat);
+		ligneEtat.appendChild(celluleEtat);
+		ligneEtat.setParent(boxAbs);
+		celluleHeure.appendChild(boxHeureDebut);
+		celluleHeure.appendChild(boxHeureFin);
+		ligneHeure.appendChild(celluleHeure);
+		ligneHeure.setParent(boxAbs);
+		celluleType.appendChild(comboType);
+		ligneType.appendChild(celluleType);
+		ligneType.setParent(boxAbs);
 		celluleCommentaire.appendChild(boxCommentaire);
 		ligneCommentaire.appendChild(celluleCommentaire);
 		ligneCommentaire.setParent(boxAbs);
-		// fin ajout commentaire
 
 		boxAbs.setParent(lc);
 		lc.setParent(listitem);
