@@ -26,6 +26,7 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -34,22 +35,100 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.ptg.dto.AbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.JourPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PrimeDto;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
+import nc.noumea.mairie.ws.SirhPtgWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.ListModel;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Textbox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class SaisieHebdomadaireViewModel {
+public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
+
+	private static final long serialVersionUID = 1L;
+
+	@Wire
+	Listbox absenceListBox;
+
+	@Command
+	public void save(@BindingParam("ref") Listbox boxAbs) {
+		System.out.println("ici");
+		List<Listitem> t = boxAbs.getItems();
+		for (Listitem a : t) {
+			for (Component dto : a.getChildren()) {
+				Listcell cell = (Listcell) dto;
+				for (Component dto2 : cell.getChildren()) {
+					try {
+						Textbox text = (Textbox) dto2;
+						System.out.println(" " + text.getValue());
+					} catch (Exception e) {
+						// on ne recupere pas les autres types
+						try {
+							Listbox box = (Listbox) dto2;
+							for (Listitem item : box.getItems()) {
+								for (Component cellBox : item.getChildren()) {
+									Listcell cellMotif = (Listcell) cellBox;
+									for (Component textBox : cellMotif.getChildren()) {
+										Textbox text = (Textbox) textBox;
+										if (text.getId().startsWith("motif")) {
+											System.out.println("motif " + text.getValue());
+										} else if (text.getId().startsWith("commentaire")) {
+											System.out.println("commentaire " + text.getValue());
+										}
+									}
+								}
+							}
+						} catch (Exception e2) {
+
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void doAfterCompose(Component comp) throws Exception {
+		super.doAfterCompose(comp);
+		SirhPtgWSConsumer consu = new SirhPtgWSConsumer();
+		consu.sirhPtgWsBaseUrl = "http://localhost:8090/sirh-ptg-ws/";
+		// on recupere la fiche
+		FichePointageDto result = consu.getFichePointageSaisie(9005138,
+				getLundi(new SimpleDateFormat("dd/MM/yyyy").parse("10/11/2014")), 9003041);
+		setFicheCourante(result);
+		setJourPointage(getFicheCourante().getSaisies().get(0));
+
+		// set models and render to listbox after comopsed
+		absenceListBox.setModel(getAbsenceModel(getFicheCourante().getSaisies()));
+		absenceListBox.setItemRenderer(new AbsenceListitemRenderer(getFicheCourante().getSaisies()));
+	}
+
+	public ListModel<AbsenceDto> getAbsenceModel(List<JourPointageDto> list) {
+		List<AbsenceDto> l = new ArrayList<AbsenceDto>();
+
+		l.add(new AbsenceDto());
+
+		return new ListModelList<AbsenceDto>(l);
+	}
 
 	@WireVariable
 	private ISirhPtgWSConsumer ptgWsConsumer;
@@ -77,6 +156,13 @@ public class SaisieHebdomadaireViewModel {
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		setDateFiltre("Semaine ... du ... au ...");
+	}
+
+	@Command
+	public void enregistreFiche() {
+		System.out.println("ici");
+		getJourPointage();
+		getFicheCourante();
 	}
 
 	@Command
@@ -272,5 +358,16 @@ public class SaisieHebdomadaireViewModel {
 
 	public void setJourPointage(JourPointageDto jourPointage) {
 		this.jourPointage = jourPointage;
+	}
+
+
+	
+	public PrimeDto getJour(Integer i) {
+		System.out.println("ici" + i);
+		Listitem p = new Listitem();
+		p.setValue(getFicheCourante().getSaisies().get(0).getPrimes().get(0));
+		getFicheCourante().getSaisies().get(0).getPrimes().get(0).setMotif("motif nono");
+		return getFicheCourante().getSaisies().get(0).getPrimes().get(0);
+		
 	}
 }

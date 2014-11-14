@@ -39,6 +39,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
@@ -55,7 +56,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 	@Autowired
 	@Qualifier("sirhPtgWsBaseUrl")
-	private String sirhPtgWsBaseUrl;
+	public String sirhPtgWsBaseUrl;
 
 	private static final String ptgFichePointageSaisieUrl = "saisie/fiche";
 
@@ -69,6 +70,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	private static final String ptgEtatPointageKiosqueUrl = "filtres/getEtats";
 	private static final String ptgTypePointageKiosqueUrl = "filtres/getTypes";
 	private static final String ptgAgentsKiosqueUrl = "filtres/agents";
+	private static final String sirhPtgTypeAbsence = "filtres/getTypesAbsence";
 
 	/* Droits */
 	private static final String ptgDroitsDroitsAgentUrl = "droits/listeDroitsAgent";
@@ -321,6 +323,13 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(ConsultPointageDto.class, res, url);
+	}
+
+	@Override
+	public List<RefTypeAbsenceDto> getListeRefTypeAbsence() {
+		String url = String.format(sirhPtgWsBaseUrl + sirhPtgTypeAbsence);
+		ClientResponse res = createAndFireGetRequest(new HashMap<String, String>(), url);
+		return readResponseAsList(RefTypeAbsenceDto.class, res, url);
 	}
 
 }

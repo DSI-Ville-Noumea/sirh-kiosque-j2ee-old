@@ -36,6 +36,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
 
 public interface ISirhPtgWSConsumer {
@@ -78,5 +79,8 @@ public interface ISirhPtgWSConsumer {
 	ReturnMessageDto changerEtatPointage(Integer idAgent, List<PointagesEtatChangeDto> listeChangeEtat);
 
 	List<ConsultPointageDto> getHistoriquePointage(Integer idAgent, Integer idPointage);
+
+	/* saisie DES pointages */
+	List<RefTypeAbsenceDto> getListeRefTypeAbsence();
 
 }

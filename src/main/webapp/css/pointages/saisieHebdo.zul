@@ -2,6 +2,9 @@
 
 
 
+
+
+
 	
 	<![CDATA[
 
@@ -26,7 +29,17 @@
 	cursor: pointer; height: 16px; margin: 0 0 0 3px; vertical-align:
 	middle; width: 16px; }
 
+
+	.z-listcell-content > .backSprite { background-repeat: no-repeat; cursor: pointer; display:
+	block; height: 16px; width: 16px; background-image:
+	url("img/Sprite.png");background-position: 0 -347px; }
+	
+	.alignCenter{text-align: center;}
+
 	]]>
+	
+	
+	
 	
 	
 	
