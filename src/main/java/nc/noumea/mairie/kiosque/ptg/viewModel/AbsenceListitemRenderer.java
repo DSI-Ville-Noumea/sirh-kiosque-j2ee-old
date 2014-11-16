@@ -266,9 +266,6 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 				}
 			}
 		});
-		celluleMotif.appendChild(boxMotif);
-		ligneMotif.appendChild(celluleMotif);
-		ligneMotif.setParent(boxAbs);
 		// fin ajout Motif
 
 		// Ajout de la ligne commentaire
@@ -327,6 +324,9 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 		celluleType.appendChild(comboType);
 		ligneType.appendChild(celluleType);
 		ligneType.setParent(boxAbs);
+		celluleMotif.appendChild(boxMotif);
+		ligneMotif.appendChild(celluleMotif);
+		ligneMotif.setParent(boxAbs);
 		celluleCommentaire.appendChild(boxCommentaire);
 		ligneCommentaire.appendChild(celluleCommentaire);
 		ligneCommentaire.setParent(boxAbs);
