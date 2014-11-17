@@ -27,6 +27,7 @@ package nc.noumea.mairie.ws;
 
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
@@ -60,5 +61,7 @@ public interface ISirhWSConsumer {
 	AgentWithServiceDto getAgent(Integer idAgentReferent);
 
 	List<AgentDto> getAgentsSubordonnes(Integer idAgent);
+
+	List<AccueilRhDto> getListeTexteAccueil();
 
 }

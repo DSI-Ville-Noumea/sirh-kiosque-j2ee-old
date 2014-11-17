@@ -9,34 +9,11 @@
 					value="Votre Kiosque RH" />
 				<separator />
 				<div style="padding-left:10px;">
-					<label
-						value="Ce nouveau service vous permet d'accéder à vos informations de Ressources Humaines." />
-					<separator />
-					<separator />
-					<separator />
-					<label
-						value="Dès aujourd’hui, vous pouvez consulter vos informations personnelles, votre fiche de poste et l'historique de vos congés." />
-					<separator />
-					<separator />
-					<separator />
-					<separator />
-					<separator />
-					<separator />
-					<label
-						value="Bientôt, de nouveaux services vous seront offerts concernant :" />
-					<separator />
-					<div style="padding-left:20px;">
-						<label
-							value="- la gestion de vos absences : congés, absences syndicales, repos compensateurs, récupération … 
-        une saisie directe par l’agent, une validation en ligne : gain de temps et économie de papier !" />
-						<separator />
-						<label
-							value="- le suivi des pointages : pour les agents concernés, la saisie et la validation facilitées ; " />
-					</div>
-					<separator />
-					<separator />
-					<separator />
-					<separator />
+					<zk forEach="${vm.listeTexteAccueil}">
+						<label multiline="true" >${each.texteAccueilKiosque}</label>
+						<separator/>
+					</zk>
+
 					<separator />
 					<separator />
 					<label
@@ -60,7 +37,6 @@
 				</div>
 			</vlayout>
 		</div>
-		<include id="includeStyleSoldeAgent"
-			src="/css/accueil.zul" />
+		<include id="includeStyleSoldeAgent" src="/css/accueil.zul" />
 	</window>
 </zk>

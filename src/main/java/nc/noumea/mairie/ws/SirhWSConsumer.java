@@ -24,10 +24,10 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
@@ -60,7 +60,8 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
 	private static final String sirhEstHabiliteEaeUrl = "eaes/estHabiliteEAE";
-	private static final String sirhReferentRHUrl = "referentRH/getListeReferentRH";
+	private static final String sirhReferentRHUrl = "kiosqueRH/getListeReferentRH";
+	private static final String sirhAccueilRHUrl = "kiosqueRH/getListeAccueilRH";
 	private static final String sirhAgentUrl = "agents/getAgent";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
@@ -186,6 +187,15 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);
+	}
+
+	@Override
+	public List<AccueilRhDto> getListeTexteAccueil() {
+		String url = String.format(sirhWsBaseUrl + sirhAccueilRHUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AccueilRhDto.class, res, url);
 	}
 
 }

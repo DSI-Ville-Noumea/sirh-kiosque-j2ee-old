@@ -24,20 +24,45 @@ package nc.noumea.mairie.kiosque.viewModel;
  * #L%
  */
 
+import java.util.List;
+
+import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
+import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class AccueilViewModel {
-	
+
+	@WireVariable
+	private ISirhWSConsumer sirhWsConsumer;
+
+	private List<AccueilRhDto> listeTexteAccueil;
+
+	@Init
+	public void initAccueil() {
+		List<AccueilRhDto> listeTexte = sirhWsConsumer.getListeTexteAccueil();
+		setListeTexteAccueil(listeTexte);
+	}
+
 	@Command
 	public void referentRH() {
-		
+
 		// create a window programmatically and use it as a modal dialog.
 		Window win = (Window) Executions.createComponents("referentRH.zul", null, null);
 		win.doModal();
+	}
+
+	public List<AccueilRhDto> getListeTexteAccueil() {
+		return listeTexteAccueil;
+	}
+
+	public void setListeTexteAccueil(List<AccueilRhDto> listeTexteAccueil) {
+		this.listeTexteAccueil = listeTexteAccueil;
 	}
 }
