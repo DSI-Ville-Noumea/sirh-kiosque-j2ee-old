@@ -27,14 +27,14 @@ package nc.noumea.mairie.kiosque.viewModel;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
+import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
-import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class AccueilViewModel {
@@ -42,20 +42,32 @@ public class AccueilViewModel {
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
 
+	private ProfilAgentDto currentUser;
+
 	private List<AccueilRhDto> listeTexteAccueil;
+
+	private ReferentRhDto refrentRh;
 
 	@Init
 	public void initAccueil() {
+
+		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+		// message d'accueil
 		List<AccueilRhDto> listeTexte = sirhWsConsumer.getListeTexteAccueil();
 		setListeTexteAccueil(listeTexte);
+		// refrent Rh de l'agent
+		ReferentRhDto referent = sirhWsConsumer.getReferentRH(currentUser.getAgent().getIdAgent());
+		setRefrentRh(referent);
+
 	}
 
-	@Command
-	public void referentRH() {
-
-		// create a window programmatically and use it as a modal dialog.
-		Window win = (Window) Executions.createComponents("referentRH.zul", null, null);
-		win.doModal();
+	public String getPrenomAgent(String prenom) {
+		if (!prenom.equals("")) {
+			String premierLettre = prenom.substring(0, 1).toUpperCase();
+			String reste = prenom.substring(1, prenom.length()).toLowerCase();
+			return premierLettre + reste;
+		}
+		return "";
 	}
 
 	public List<AccueilRhDto> getListeTexteAccueil() {
@@ -64,5 +76,13 @@ public class AccueilViewModel {
 
 	public void setListeTexteAccueil(List<AccueilRhDto> listeTexteAccueil) {
 		this.listeTexteAccueil = listeTexteAccueil;
+	}
+
+	public ReferentRhDto getRefrentRh() {
+		return refrentRh;
+	}
+
+	public void setRefrentRh(ReferentRhDto refrentRh) {
+		this.refrentRh = refrentRh;
 	}
 }

@@ -24,7 +24,6 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
@@ -56,7 +55,7 @@ public interface ISirhWSConsumer {
 
 	boolean estHabiliteEAE(Integer idAgent);
 
-	List<ReferentRhDto> getListeReferentRH();
+	ReferentRhDto getReferentRH(Integer idAgent);
 
 	AgentWithServiceDto getAgent(Integer idAgentReferent);
 

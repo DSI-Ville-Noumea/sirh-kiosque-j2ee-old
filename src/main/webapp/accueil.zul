@@ -10,8 +10,10 @@
 				<separator />
 				<div style="padding-left:10px;">
 					<zk forEach="${vm.listeTexteAccueil}">
-						<label multiline="true" >${each.texteAccueilKiosque}</label>
-						<separator/>
+						<label multiline="true">
+							${each.texteAccueilKiosque}
+						</label>
+						<separator />
 					</zk>
 
 					<separator />
@@ -28,11 +30,15 @@
 						<label value=" ;" />
 						<separator />
 						<label
-							value="- vos informations RH : contactez" />
-
-						<a onClick="@command('referentRH')">
-							votre référent R.H.
-						</a>
+							value="- vos informations RH : contactez votre référent RH " />
+						<label
+							visible="@bind(not empty vm.refrentRh.idReferentRh)"
+							value="@bind(vm.getPrenomAgent(vm.refrentRh.prenomAgentReferent))" />
+						<label
+							visible="@bind(not empty vm.refrentRh.idReferentRh)" value="au " />
+						<label
+							visible="@bind(not empty vm.refrentRh.idReferentRh)"
+							value="@bind(vm.refrentRh.numeroTelephone)" />
 					</div>
 				</div>
 			</vlayout>

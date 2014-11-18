@@ -27,6 +27,7 @@ package nc.noumea.mairie.kiosque.dto;
 
 public class ReferentRhDto {
 
+	private Integer idReferentRh;
 	private String servi;
 	private String sigleService;
 	private Integer idAgentReferent;
@@ -71,6 +72,14 @@ public class ReferentRhDto {
 
 	public void setPrenomAgentReferent(String prenomAgentReferent) {
 		this.prenomAgentReferent = prenomAgentReferent;
+	}
+
+	public Integer getIdReferentRh() {
+		return idReferentRh;
+	}
+
+	public void setIdReferentRh(Integer idReferentRh) {
+		this.idReferentRh = idReferentRh;
 	}
 
 
