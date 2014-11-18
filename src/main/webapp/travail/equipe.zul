@@ -47,10 +47,10 @@
 						<separator />
 						<div width="65%" style="float:left;">
 							<listbox id="resultGrid" sclass="RHTree"
-								emptyMessage="Veuillez selectionner un agent pour voir ses informations">
+								emptyMessage="Veuillez selectionner un agent pour voir ses informations" >
 								<template name="model">
 									<listitem>
-										<listcell>
+										<listcell style="cursor:default; border:none;">
 											<include
 												visible="${not empty each }"
 												src="/travail/fichePosteEquipe.zul" />

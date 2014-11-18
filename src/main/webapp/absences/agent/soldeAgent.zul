@@ -16,7 +16,7 @@
 				<div
 					visible="@bind(vm.soldeCourant.afficheSoldeConge)">
 					<div sclass="RHTitle2">
-						<label value="Mon solde de congés annuel" />
+						<label value="Mon solde de congés annuels" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
 					<div sclass="RHContent">

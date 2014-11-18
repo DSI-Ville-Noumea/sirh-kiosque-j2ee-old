@@ -122,40 +122,44 @@
 						<div sclass="RHContent">
 							<hlayout>
 								<div>
-									<label value="Savoir"
-										style="color: #d3711c;" />
+									<div>
+										<label value="Savoir"
+											style="color: #d3711c;" />
+										<separator />
+										<zk
+											forEach="${vm.ficheCourant.savoirs}">
+											<div>
+												<label sclass="value"
+													value="- ${each}" />
+											</div>
+										</zk>
+									</div>
 									<separator />
-									<zk
-										forEach="${vm.ficheCourant.savoirs}">
-										<div>
-											<label sclass="value"
-												value="- ${each}" />
-										</div>
-									</zk>
-								</div>
-								<div>
-									<label value="Savoir-faire"
-										style="color: #d3711c;" />
+									<div>
+										<label value="Savoir-faire"
+											style="color: #d3711c;" />
+										<separator />
+										<zk
+											forEach="${vm.ficheCourant.savoirsFaire}">
+											<div>
+												<label sclass="value"
+													value="- ${each}" />
+											</div>
+										</zk>
+									</div>
 									<separator />
-									<zk
-										forEach="${vm.ficheCourant.savoirsFaire}">
-										<div>
-											<label sclass="value"
-												value="- ${each}" />
-										</div>
-									</zk>
-								</div>
-								<div>
-									<label
-										value="Comportements professionnels" style="color: #d3711c;" />
-									<separator />
-									<zk
-										forEach="${vm.ficheCourant.comportementsProfessionnels}">
-										<div>
-											<label sclass="value"
-												value="- ${each}" />
-										</div>
-									</zk>
+									<div>
+										<label
+											value="Comportements professionnels" style="color: #d3711c;" />
+										<separator />
+										<zk
+											forEach="${vm.ficheCourant.comportementsProfessionnels}">
+											<div>
+												<label sclass="value"
+													value="- ${each}" />
+											</div>
+										</zk>
+									</div>
 								</div>
 							</hlayout>
 						</div>

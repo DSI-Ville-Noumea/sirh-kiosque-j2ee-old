@@ -18,8 +18,6 @@
 
 	.info { overflow: hidden; }
 
-	.clic { cursor: pointer; }
-
 	.deplInfo { background-image: url("img/Sprite.png");
 	background-repeat: no-repeat; cursor: pointer; height: 16px; margin:
 	0 auto; width: 16px; background-position: -483px -145px;}

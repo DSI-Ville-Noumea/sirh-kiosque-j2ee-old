@@ -98,7 +98,8 @@
 				<separator />
 				<div class="RHTitle3">Mission(s)</div>
 				<div sclass="RHContent">
-					<label value="${each.missions}" />
+					<label style="color:black;"
+						value="${each.missions}" />
 				</div>
 				<div sclass="RHTitle2Line" />
 				<separator />
