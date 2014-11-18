@@ -105,7 +105,7 @@
 	
 	.z-paging-info,.z-paging-text {color: #ffffff;}
 
-	.z-listitem:hover > .z-listcell { background-color: #ee7203;}
+	.z-listitem:hover > .z-listcell { background-color: #ee7203;background:#ee7203;}
 
 	.z-listitem:hover > .z-listcell > .z-listcell-content { background-color: #ee7203;}
 

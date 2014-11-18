@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
  * #L%
  */
 
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,12 +49,8 @@ import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
@@ -64,9 +59,7 @@ import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class DemandesAgentViewModel extends SelectorComposer<Component> {
-
-	private static final long serialVersionUID = 1L;
+public class DemandesAgentViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
@@ -182,8 +175,8 @@ public class DemandesAgentViewModel extends SelectorComposer<Component> {
 		setDateDemandeFiltre(null);
 	}
 
-	@Listen("onClick = #AJOUTER")
-	public void ajouterDemande(Event e) {
+	@Command
+	public void ajouterDemande() {
 		// create a window programmatically and use it as a modal dialog.
 		Window win = (Window) Executions.createComponents("/absences/agent/ajoutDemandeAgent.zul", null, null);
 		win.doModal();

@@ -1,6 +1,5 @@
 <zk>
-	<window
-		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.abs.agent.viewModel.DemandesAgentViewModel"
+	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.agent.viewModel.DemandesAgentViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
@@ -37,11 +36,6 @@
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
-			<div>
-				<div align="left">
-					<button id="AJOUTER" label="Ajouter" />
-				</div>
-			</div>
 		</div>
 	</window>
 </zk>
