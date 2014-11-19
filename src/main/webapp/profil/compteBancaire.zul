@@ -1,22 +1,13 @@
 <zk>
 	<div>
-		<label sclass="name" value="Intitulé du compte" />
-		<label sclass="value"
-			value="@bind(vm.agentCourant.compte.intituleCompte)" />
-	</div>
-	<div>
-		<label sclass="name" value="Numéro de compte" />
-		<label sclass="value"
-			value="@bind(vm.agentCourant.compte.numCompte)" />
-	</div>
-	<div>
-		<label sclass="name" value="R.I.B" />
-		<label sclass="value" value="@bind(vm.getRibToString(vm.agentCourant.compte.rib))" />
-	</div>
-	<div>
 		<label sclass="name" value="Banque" />
 		<label sclass="value"
 			value="@bind(vm.agentCourant.compte.libelleBanque)" />
+	</div>
+	<div>
+		<label sclass="name" value="Intitulé du compte" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.compte.intituleCompte)" />
 	</div>
 	<div>
 		<label sclass="name" value="Code banque" />
@@ -27,5 +18,14 @@
 		<label sclass="name" value="Code guichet" />
 		<label sclass="value"
 			value="@bind(vm.getCodeGuichetToString(vm.agentCourant.compte.codeGuichet))" />
+	</div>
+	<div>
+		<label sclass="name" value="Numéro de compte" />
+		<label sclass="value"
+			value="@bind(vm.agentCourant.compte.numCompte)" />
+	</div>
+	<div>
+		<label sclass="name" value="R.I.B" />
+		<label sclass="value" value="@bind(vm.getRibToString(vm.agentCourant.compte.rib))" />
 	</div>
 </zk>
