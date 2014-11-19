@@ -1,5 +1,7 @@
 <style>
 
+
+
 	
 	<![CDATA[
 
@@ -97,41 +99,45 @@
 	.z-listitem.z-listbox-odd { background-color: #FFEBCD;}
 
 	.z-listheader-content,.z-paging{background-color: #ab5420;color:
-	#ffffff;} 
-	
-	.z-listbox-header table th, .z-listbox-header table td {
-	    background: #ab5420;
-	}
-	
+	#ffffff;}
+
+	.z-listbox-header table th, .z-listbox-header table td { background:
+	#ab5420; }
+
 	.z-paging-info,.z-paging-text {color: #ffffff;}
 
-	.z-listitem:hover > .z-listcell { background-color: #ee7203;background:#ee7203;}
+	.z-listitem:hover > .z-listcell { background-color:
+	#ee7203;background:#ee7203;}
 
-	.z-listitem:hover > .z-listcell > .z-listcell-content { background-color: #ee7203;}
+	.z-listitem:hover > .z-listcell > .z-listcell-content {
+	background-color: #ee7203;}
 
-	.z-row {background-color: #e3d2ad;}
+	.z-row {background-color: #fed89c;}	
+	.z-row .z-detail-outer {background:none;}
 
 	.z-row:hover .z-row-inner { background:#ee7203; }
+	.z-row:hover .z-detail-outer { background:#ee7203; }
 
-	.z-row.z-grid-odd{background-color: #e6bb91;}
+	.z-row.z-grid-odd{background-color:  #FFEBCD;}
 
-	.z-grid-odd > .z-row-inner {background-color: #e6bb91;
-	background:none;}	
-
+	.z-grid-odd > .z-row-inner {background-color:  #FFEBCD;}
 
 	.fondRecherche{background-image: none; background-color: #ee7203;
 	border-radius: 12px 12px 0px 12px; -moz-border-radius: 12px 12px 0px
 	12px; -webkit-border-radius: 12px 12px 0px 12px; height: 30px;
 	padding-left: 14px; border-style:none; padding-top: 3px;color:
-	white;width: 600px; } 
-	
-	.z-listitem.z-listitem-selected > .z-listcell {
-	    background: none repeat scroll 0 0 transparent;}
-	
-	.z-listitem.z-listitem-selected:hover > .z-listcell {
-	    background: none repeat scroll 0 0 #ee7203;}
+	white;width: 600px; }
 
+	.z-listitem.z-listitem-selected > .z-listcell { background: none
+	repeat scroll 0 0 transparent;}
+
+	.z-listitem.z-listitem-selected:hover > .z-listcell { background:
+	none repeat scroll 0 0 #ee7203;}
+	
+	.z-column-content{background-color: #ab5420;color: #ffffff;}
 	]]>
+	
+	
 	
 	
 </style>

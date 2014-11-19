@@ -1,5 +1,6 @@
 <zk>
-	<window apply="org.zkoss.bind.BindComposer,nc.noumea.mairie.kiosque.ptg.droits.viewModel.DroitsAccesViewModel"
+	<window
+		apply="org.zkoss.bind.BindComposer,nc.noumea.mairie.kiosque.ptg.droits.viewModel.DroitsAccesViewModel"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.droits.viewModel.DroitsAccesViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
@@ -15,10 +16,11 @@
 				<tabs id="tabs">
 					<tab id="APPROBATEUR" label="Agents à approuver"
 						onClick="@command('changeVue',tab = APPROBATEUR)" />
-					<tab id="OPERATEUR" label="Opérateurs et délégataire"
+					<tab id="OPERATEUR"
+						label="Opérateurs et délégataire"
 						onClick="@command('changeVue',tab = OPERATEUR)" />
 				</tabs>
-						
+
 				<tabpanels>
 					<tabpanel>
 						<div sclass="RHTitle2Line" />
@@ -66,14 +68,14 @@
 									</listitem>
 								</template>
 							</listbox>
-							<div>
-								<div align="left">
-									<button label="Changer"
+							<div style="display:block;">
+								<div align="left"
+									style="display:inline-block;float:left;">
+									<button label="Ajouter"
 										onClick="@command('ajouterDelegataire')" />
 								</div>
-							</div>
-							<div>
-								<div align="right">
+								<div align="right"
+									style="display:inline-block;float:right;">
 									<button label="Exp. PDF"
 										onClick="@command('exportPDF', ref=delegataire)" />
 									<button label="Exp. Excel"

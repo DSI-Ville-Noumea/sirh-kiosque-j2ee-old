@@ -1,5 +1,5 @@
 <zk>
-	<grid style="margin-left: 200px;" sclass="inner-grid">
+	<grid style="margin-left: 200px;border:none;">
 		<columns visible="false">
 			<column label="Type HS" sort="none" />
 			<column label="Date" sort="auto('date')" />
