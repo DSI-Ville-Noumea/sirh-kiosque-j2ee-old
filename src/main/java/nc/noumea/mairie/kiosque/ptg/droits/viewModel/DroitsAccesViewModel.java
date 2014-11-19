@@ -95,7 +95,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 
 		setListeAgents(ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent()));
 
-		setTailleListe("5");
+		setTailleListe("10");
 	}
 
 	@Command

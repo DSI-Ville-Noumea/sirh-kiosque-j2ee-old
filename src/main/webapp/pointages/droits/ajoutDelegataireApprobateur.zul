@@ -16,10 +16,9 @@
 						Affichage de
 						<combobox width="50px"
 							selectedItem="@bind(vm.tailleListe)" readonly="true">
-							<comboitem value="5" label="5" />
 							<comboitem value="10" label="10" />
-							<comboitem value="15" label="15" />
 							<comboitem value="20" label="20" />
+							<comboitem value="50" label="50" />
 						</combobox>
 						agents par page
 						<space />
@@ -36,8 +35,8 @@
 						org.zkoss.zul.listbox.autoSort="true" />
 					<listhead>
 						<listheader label="Nom" sort="auto('nom')" />
-						<listheader label="Prénom" sort="auto('prenom')"
-							align="center" />
+						<listheader label="Prénom" sort="auto('prenom')" />
+						<listheader label="Service" sort="auto('service')" />
 					</listhead>
 
 					<template name="model">
@@ -45,6 +44,7 @@
 							selected="@bind(each.selectedDroitAbs)">
 							<listcell label="@bind(each.nom)" />
 							<listcell label="@bind(each.prenom)" />
+							<listcell label="@bind(each.service)" />
 						</listitem>
 					</template>
 				</listbox>

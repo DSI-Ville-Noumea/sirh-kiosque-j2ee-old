@@ -1,7 +1,23 @@
-<window width="80%" title="Session Timeout" border="normal">
-	<vbox>
-The page or component you request is no longer available.
-This is normally caused by timeout, opening too many Web pages, or rebooting
-the server.
-	</vbox>
+<window title="Session expirée" mode="modal"
+	action="show: slideDown;hide: slideUp" width="50%">
+	<style>
+		.z-window {background-color: #ee7203;}
+
+		.fond { background-color:#FFEBCD; padding-left: 10px;
+		padding-top: 10px; padding-bottom: 10px; padding-right: 10px; }
+
+		.z-button,.z-button:focus,.z-button:hover { background-color:
+		transparent; background-image: url("img/Sprite.png");
+		background-position: -90px top; background-repeat: no-repeat;
+		border: 0 none; color: #ffffff; cursor: pointer; font-weight:
+		bold; height: 18px; margin: 5px 0 0; width: 90px; min-height:
+		0px; text-shadow:none; font-size: 12px; }
+	</style>
+	<div sclass="fond" height="100%">
+		<vbox>Votre session a expirée</vbox>
+		<div align="center">
+			<button label="Retour" href="/" />
+		</div>
+	</div>
+
 </window>

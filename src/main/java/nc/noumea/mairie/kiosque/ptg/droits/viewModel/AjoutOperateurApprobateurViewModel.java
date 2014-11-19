@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.ptg.droits.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +60,7 @@ public class AjoutOperateurApprobateurViewModel {
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
 
-	private List<AgentDto> listeAgents;
+	private List<AgentWithServiceDto> listeAgents;
 
 	private List<AgentDto> listeAgentsExistants;
 
@@ -70,15 +69,15 @@ public class AjoutOperateurApprobateurViewModel {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
-	
+
 	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initAjoutOperateur(@ExecutionArgParam("operateursExistants") List<AgentDto> operateursExistants,
 			@ExecutionArgParam("delegataireExistants") AgentDto delegataireExistants) {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		// on sauvegarde qui sont les opérateurs de l'approbateur
 		setListeAgentsExistants(operateursExistants);
 		// on sauvegarde qui est le delegataire de l'approbateur
@@ -92,8 +91,8 @@ public class AjoutOperateurApprobateurViewModel {
 		viderZones();
 		// on charge tous les agents de la mairie
 		List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
-		setListeAgents(transformeListe(result));
-		setTailleListe("5");
+		setListeAgents(result);
+		setTailleListe("10");
 	}
 
 	@Command
@@ -138,9 +137,9 @@ public class AjoutOperateurApprobateurViewModel {
 	@Command
 	@NotifyChange({ "listeAgents" })
 	public void doSearch() {
-		List<AgentDto> list = new ArrayList<AgentDto>();
+		List<AgentWithServiceDto> list = new ArrayList<AgentWithServiceDto>();
 		if (getFilter() != null && !"".equals(getFilter())) {
-			for (AgentDto item : getListeAgents()) {
+			for (AgentWithServiceDto item : getListeAgents()) {
 				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))
 						list.add(item);
@@ -153,18 +152,8 @@ public class AjoutOperateurApprobateurViewModel {
 			setListeAgents(list);
 		} else {
 			List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
-			setListeAgents(transformeListe(result));
+			setListeAgents(result);
 		}
-	}
-
-	private List<AgentDto> transformeListe(List<AgentWithServiceDto> result) {
-		List<AgentDto> listFinale = new ArrayList<AgentDto>();
-		for (AgentWithServiceDto agDto : result) {
-			AgentDto dto = new AgentDto(agDto);
-			dto.setSelectedDroitAbs(getListeAgentsExistants().contains(dto));
-			listFinale.add(dto);
-		}
-		return listFinale;
 	}
 
 	@Command
@@ -176,11 +165,11 @@ public class AjoutOperateurApprobateurViewModel {
 		setListeAgents(null);
 	}
 
-	public List<AgentDto> getListeAgents() {
+	public List<AgentWithServiceDto> getListeAgents() {
 		return listeAgents;
 	}
 
-	public void setListeAgents(List<AgentDto> listeAgents) {
+	public void setListeAgents(List<AgentWithServiceDto> listeAgents) {
 		this.listeAgents = listeAgents;
 	}
 

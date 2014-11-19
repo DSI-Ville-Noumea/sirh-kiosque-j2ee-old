@@ -10,6 +10,14 @@
 
 	.z-loading { top: 50% !important; left: 45% !important; align:
 	center; vertical-align: middle; }
+	
+	.z-loading-indicator, .z-apply-loading-indicator {
+	    background: none repeat scroll 0 0 #ffebcd;}
+	
+	.z-loading, .z-apply-loading {
+	    background: none repeat scroll 0 0 #ee7203;
+	    border: 1px solid #ee7203;
+	}
 
 	.RHContent { margin-top: 10px; margin-bottom: 15px; }
 
@@ -48,7 +56,9 @@
 	background-position: -90px top; background-repeat: no-repeat;
 	border: 0 none; color: #ffffff; cursor: pointer; font-weight: bold;
 	height: 18px; margin: 5px 0 0; width: 90px; min-height: 0px;
-	text-shadow:none; font-size: 12px; } .z-tabs-content {
+	text-shadow:none; font-size: 12px; } 
+	
+	.z-tabs-content {
 	border-bottom: 0px solid #cfcfcf; display: table;}
 
 	.z-tabpanel { border-style: none none none; border-width: 0 0 0; }
