@@ -24,7 +24,6 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -116,7 +115,7 @@ public interface ISirhAbsWSConsumer {
 	/* GESTION DEMANDES */
 
 	List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
-			Integer idRefEtat, Integer idRefType, Integer idAgentRecherche);
+			Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche);
 
 	// pour les motifs de refus en auto complétion
 	List<MotifDto> getListeMotifsRefus();

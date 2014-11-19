@@ -92,7 +92,7 @@ public class DemandesAgentViewModel {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-		// on recharge les types d'absences pour les filtres
+		// on recharge les groupes d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
 		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
 

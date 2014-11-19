@@ -49,14 +49,14 @@
 				</listitem>
 			</template>
 		</listbox>
-		<div>
-			<div align="left">
+		<div style="display:block;">
+			<div align="left"
+				style="display:inline-block;float:left;">
 				<button label="Ajouter"
 					onClick="@command('ajouterAgent')" />
 			</div>
-		</div>
-		<div>
-			<div align="right">
+			<div align="right"
+				style="display:inline-block;float:right;">
 				<button label="Exp. PDF"
 					onClick="@command('exportPDF', ref=listeAgent)" />
 				<button label="Exp. Excel"

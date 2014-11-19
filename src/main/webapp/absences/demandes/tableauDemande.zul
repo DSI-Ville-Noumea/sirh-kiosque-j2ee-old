@@ -3,15 +3,28 @@
 	<separator />
 	<vlayout>
 		<hlayout>
-			<label value="Famille d'absence :" />
-			<combobox readonly="true" width="400px"
-				model="@bind(vm.listeTypeAbsenceFiltre)"
-				selectedItem="@bind(vm.typeAbsenceFiltre)">
+			<label value="Groupe d'absence :" />
+			<combobox readonly="true" width="250px"
+				model="@bind(vm.listeGroupeAbsenceFiltre)"
+				selectedItem="@bind(vm.groupeAbsenceFiltre)"
+				onSelect="@command('alimenteTypeFamilleAbsence')">
 				<template name="model">
-					<comboitem label="@bind(each.libelle)"
-						description="@bind(each.groupeAbsence.libelle)" />
+					<comboitem label="@bind(each.libelle)" />
 				</template>
 			</combobox>
+
+			<label value="Famille d'absence :" />
+			<combobox width="300px"
+				value="@bind(vm.typeAbsenceFiltre.libelle)"
+				model="@bind(vm.listeTypeAbsenceFiltre)"
+				selectedItem="@bind(vm.typeAbsenceFiltre)"
+				visible="@bind(not empty vm.listeTypeAbsenceFiltre)">
+				<template name="model">
+					<comboitem label="@bind(each.libelle)" />
+				</template>
+			</combobox>
+		</hlayout>
+		<hlayout>
 			<label value="Service :" />
 			<combobox width="200px" readonly="true"
 				model="@bind(vm.listeServicesFiltre)"
@@ -21,6 +34,7 @@
 					<comboitem label="@bind(each.service)" />
 				</template>
 			</combobox>
+
 			<label value="Agent :" />
 			<combobox width="200px" readonly="true"
 				model="@bind(vm.listeAgentsFiltre)"
@@ -28,6 +42,15 @@
 				<template name="model">
 					<comboitem
 						label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+				</template>
+			</combobox>
+
+			<label value="Etat :" />
+			<combobox readonly="true" width="100px"
+				model="@bind(vm.listeEtatAbsenceFiltre)"
+				selectedItem="@bind(vm.etatAbsenceFiltre)">
+				<template name="model">
+					<comboitem label="@bind(each.libelle)" />
 				</template>
 			</combobox>
 		</hlayout>
@@ -39,15 +62,6 @@
 			<label value="Date de fin : " />
 			<datebox cols="14" format="dd/MM/yyyy"
 				value="@bind(vm.dateFinFiltre)" />
-
-			<label value="Etat :" />
-			<combobox readonly="true" width="100px"
-				model="@bind(vm.listeEtatAbsenceFiltre)"
-				selectedItem="@bind(vm.etatAbsenceFiltre)">
-				<template name="model">
-					<comboitem label="@bind(each.libelle)" />
-				</template>
-			</combobox>
 
 			<label value="Date de la demande : " />
 			<datebox cols="14" format="dd/MM/yyyy"
@@ -91,8 +105,9 @@
 				<listheader label="Agent"
 					sort="auto('agentWithServiceDto.nom')" align="center" />
 				<listheader label="Date de début"
-					sort="auto('dateDebut')" align="center" />
-				<listheader label="Heure de début" sort="none" />
+					sort="auto('dateDebut')" align="center" width="100px" />
+				<listheader label="Heure de début" sort="none"
+					width="100px" align="center" />
 				<listheader label="Durée" sort="none" width="60px" />
 				<listheader width="40px">
 					<image
@@ -100,8 +115,8 @@
 						sclass="ListAction warn" />
 				</listheader>
 				<listheader label="Date de demande"
-					sort="auto('dateDemande')" align="center" />
-				<listheader label="Etat" sort="none" />
+					sort="auto('dateDemande')" align="center" width="120px" />
+				<listheader label="Etat" sort="none" width="80px" />
 				<listheader label="Avis du viseur" sort="auto('motif')" />
 				<listheader label="Avis de l'approbateur"
 					sort="auto('motif')" />
@@ -174,8 +189,14 @@
 				</listitem>
 			</template>
 		</listbox>
-		<div>
-			<div align="right">
+		<div style="display:block;">
+			<div style="display:inline-block;float:left;"
+				align="left">
+				<button label="Ajouter"
+					onClick="@command('ajouterDemande')" />
+			</div>
+			<div style="display:inline-block;float:right;"
+				align="right">
 				<button label="Exp. PDF"
 					onClick="@command('exportPDF', ref=listeDemande)" />
 				<button label="Exp. Excel"

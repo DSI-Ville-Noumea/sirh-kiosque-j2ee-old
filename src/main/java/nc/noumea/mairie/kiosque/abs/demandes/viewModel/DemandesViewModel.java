@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
  * #L%
  */
 
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ import java.util.Map;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
@@ -52,12 +52,8 @@ import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
@@ -66,9 +62,7 @@ import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class DemandesViewModel extends SelectorComposer<Component> {
-
-	private static final long serialVersionUID = 1L;
+public class DemandesViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
@@ -80,6 +74,8 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 	private Tab tabCourant;
 
 	/* POUR LES FILTRES */
+	private List<RefGroupeAbsenceDto> listeGroupeAbsenceFiltre;
+	private RefGroupeAbsenceDto groupeAbsenceFiltre;
 	private List<RefTypeAbsenceDto> listeTypeAbsenceFiltre;
 	private RefTypeAbsenceDto typeAbsenceFiltre;
 	private List<RefEtatAbsenceDto> listeEtatAbsenceFiltre;
@@ -103,9 +99,10 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-		// on charge tous les type d'absences
-		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getAllRefTypeAbsence();
-		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
+		// on recharge les groupes d'absences pour les filtres
+		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
+		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
+
 		// on charge les service pour les filtres
 		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
@@ -171,6 +168,20 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
+	@NotifyChange({ "listeTypeAbsenceFiltre", "typeAbsenceFiltre" })
+	public void alimenteTypeFamilleAbsence() {
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent()
+				.getIdAgent(), getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
+		if (filtreFamilleAbsence.size() == 1) {
+			setListeTypeAbsenceFiltre(null);
+			setTypeAbsenceFiltre(null);
+		} else {
+			setListeTypeAbsenceFiltre(filtreFamilleAbsence);
+			setTypeAbsenceFiltre(null);
+		}
+	}
+
+	@Command
 	@NotifyChange({ "listeDemandes", "listeEtatAbsenceFiltre" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
 		setListeDemandes(null);
@@ -196,6 +207,7 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
 				getEtatAbsenceFiltre() == null ? null : getEtatAbsenceFiltre().getIdRefEtat(),
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
+				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence(),
 				getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
 		setListeDemandes(result);
 	}
@@ -224,8 +236,8 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 		win.doModal();
 	}
 
-	@Listen("onClick = #AJOUTER")
-	public void ajouterDemande(Event e) {
+	@Command
+	public void ajouterDemande() {
 		// create a window programmatically and use it as a modal dialog.
 		Window win = (Window) Executions.createComponents("/absences/demandes/ajoutDemande.zul", null, null);
 		win.doModal();
@@ -462,6 +474,22 @@ public class DemandesViewModel extends SelectorComposer<Component> {
 
 	public void setAgentFiltre(AgentDto agentFiltre) {
 		this.agentFiltre = agentFiltre;
+	}
+
+	public List<RefGroupeAbsenceDto> getListeGroupeAbsenceFiltre() {
+		return listeGroupeAbsenceFiltre;
+	}
+
+	public void setListeGroupeAbsenceFiltre(List<RefGroupeAbsenceDto> listeGroupeAbsenceFiltre) {
+		this.listeGroupeAbsenceFiltre = listeGroupeAbsenceFiltre;
+	}
+
+	public RefGroupeAbsenceDto getGroupeAbsenceFiltre() {
+		return groupeAbsenceFiltre;
+	}
+
+	public void setGroupeAbsenceFiltre(RefGroupeAbsenceDto groupeAbsenceFiltre) {
+		this.groupeAbsenceFiltre = groupeAbsenceFiltre;
 	}
 
 }

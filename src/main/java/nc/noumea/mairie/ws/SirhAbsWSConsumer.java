@@ -24,7 +24,6 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -378,7 +377,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate,
-			Date dateDemande, Integer idRefEtat, Integer idRefType, Integer idAgentRecherche) {
+			Date dateDemande, Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
 
@@ -396,6 +395,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			params.put("etat", idRefEtat.toString());
 		if (idRefType != null)
 			params.put("type", idRefType.toString());
+		if (idRefGroupeAbsence != null)
+			params.put("groupe", idRefGroupeAbsence.toString());
 		if (idAgentRecherche != null)
 			params.put("idAgentRecherche", idAgentRecherche.toString());
 
