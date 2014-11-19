@@ -2,6 +2,7 @@
 	<window apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.compteurs.viewModel.CompteursViewModel')"
 		height="100%">
+		<style>.z-hlayout-inner { vertical-align: middle; }</style>
 		<div sclass="fond" height="100%">
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"

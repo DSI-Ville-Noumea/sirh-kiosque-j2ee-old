@@ -1,58 +1,66 @@
 <zk>
-	<window id="login" title="Authentification au Kiosque RH" mode="highlighted"
-			closable="false" width="400px"
-			apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
-			viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.ConnexionViewModel')"
-			validationMessages="@id('vmsgs')" >
+	<window id="login" title="Authentification au Kiosque RH"
+		mode="highlighted" closable="false" width="400px"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.ConnexionViewModel')"
+		validationMessages="@id('vmsgs')">
+		<style>.z-window {background-color: #ee7203;}</style>
 
-	    <zscript>
+		<zscript>
 		<![CDATA[
-			//Si on a demande une deconnexion          
-			if (Executions.getCurrent().getSession().getAttribute("logout") != null ) {
-				Sessions.getCurrent().setAttribute("currentUser", null);
-			//sinon on vérifie quel est le user en cours
-			} else {
-				// mettre cette ligne pour la redirection sinon BUG
-				Executions.getCurrent().setAttribute(org.zkoss.zk.ui.impl.Attributes.PAGE_CREATED, false);
-				Executions.forward("/index.zul");
-			}
-		]]>
+	//Si on a demande une deconnexion          
+	if (Executions.getCurrent().getSession().getAttribute("logout") != null) {
+		Sessions.getCurrent().setAttribute("currentUser", null);
+		//sinon on vérifie quel est le user en cours
+	} else {
+		// mettre cette ligne pour la redirection sinon BUG
+		Executions.getCurrent().setAttribute(org.zkoss.zk.ui.impl.Attributes.PAGE_CREATED, false);
+		Executions.forward("/index.zul");
+	}
+]]>
 		</zscript>
-		
+
 		<div align="center" style="margin-top:5px;">
-			<label class="error" value="@load(vm.errorMessage)" visible="@bind(not empty vm.errorMessage)" />
-        </div>
-        
-        <div sclass="fond" height="100%">
+			<label class="error" value="@load(vm.errorMessage)"
+				visible="@bind(not empty vm.errorMessage)" />
+		</div>
+
+		<div sclass="fond" height="100%">
 			<vlayout>
 				<hlayout>
 					<hlayout width="155px">
-						<label value="Nom d'utilisateur : " /> 
+						<label value="Nom d'utilisateur : " />
 					</hlayout>
-					<hlayout >
-						<textbox id="u" value="@bind(vm.userForm.user) @save(vm.userForm.user, before='connexion')" constraint="no empty" />
+					<hlayout>
+						<textbox id="u"
+							value="@bind(vm.userForm.user) @save(vm.userForm.user, before='connexion')"
+							constraint="no empty" />
 					</hlayout>
 				</hlayout>
-	         </vlayout>
-	         <vlayout>
+			</vlayout>
+			<vlayout>
 				<hlayout>
-		            <hlayout width="155px">
-		           		<label value="Mot de passe : " />
+					<hlayout width="155px">
+						<label value="Mot de passe : " />
 					</hlayout>
-		            <hlayout>
-		            	<textbox id="p" type="password" value="@bind(vm.userForm.password) @save(vm.userForm.password, before='connexion')" constraint="no empty" />
-		            </hlayout>
-	            </hlayout>
-	         </vlayout>
-	         
-	         <separator />
-	         
-	         <vlayout>
-		            <hlayout width="100%" style="text-align:center;" >
-						<button label="Connecter" type="submit" onClick="@command('connexion',win=login)" />
-	                    <button type="reset" label="Effacer" onClick="@command('reset',win=login)" />
-		            </hlayout>
-	        </vlayout>
+					<hlayout>
+						<textbox id="p" type="password"
+							value="@bind(vm.userForm.password) @save(vm.userForm.password, before='connexion')"
+							constraint="no empty" />
+					</hlayout>
+				</hlayout>
+			</vlayout>
+
+			<separator />
+
+			<vlayout>
+				<hlayout width="100%" style="text-align:center;">
+					<button label="Connecter" type="submit"
+						onClick="@command('connexion',win=login)" />
+					<button type="reset" label="Effacer"
+						onClick="@command('reset',win=login)" />
+				</hlayout>
+			</vlayout>
 		</div>
 		<include id="includeStyle" src="/css/login.zul" />
 	</window>
