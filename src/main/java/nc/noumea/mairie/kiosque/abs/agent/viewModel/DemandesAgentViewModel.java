@@ -103,11 +103,17 @@ public class DemandesAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeTypeAbsenceFiltre" })
+	@NotifyChange({ "listeTypeAbsenceFiltre", "typeAbsenceFiltre" })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent()
 				.getIdAgent(), getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
-		setListeTypeAbsenceFiltre(filtreFamilleAbsence);
+		if (filtreFamilleAbsence.size() == 1) {
+			setListeTypeAbsenceFiltre(null);
+			setTypeAbsenceFiltre(null);
+		} else {
+			setListeTypeAbsenceFiltre(filtreFamilleAbsence);
+			setTypeAbsenceFiltre(null);
+		}
 	}
 
 	@Command

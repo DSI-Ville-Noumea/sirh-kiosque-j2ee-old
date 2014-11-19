@@ -4,11 +4,7 @@
 		closable="true" action="hide: slideUp" sizable="true"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.validation.Validation')">
-		<style>
-			.fond { background-color: #FFEBCD; padding-left:
-			10px;padding-top: 10px; padding-bottom: 10px;padding-right:
-			10px; }
-			
+		<style>			
 			.z-listheader-content{background-color: #FFEBCD;} 
 			
 			.z-window {background-color: #ee7203;}

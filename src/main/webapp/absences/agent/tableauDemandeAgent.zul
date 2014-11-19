@@ -13,7 +13,7 @@
 				</template>
 			</combobox>
 			<label value="Famille d'absence :" />
-			<combobox width="300px"
+			<combobox width="300px" value="@bind(vm.typeAbsenceFiltre.libelle)"
 				model="@bind(vm.listeTypeAbsenceFiltre)"
 				selectedItem="@bind(vm.typeAbsenceFiltre)"
 				visible="@bind(not empty vm.listeTypeAbsenceFiltre)">
@@ -73,7 +73,7 @@
 		<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
 			model="@bind(vm.listeDemandes)"
 			selectedItem="@bind(vm.demandeCourant)" emptyMessage="Aucun élément"
-			id="listeAgent">
+			id="listeAgent" >
 			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 			<listhead>
 				<listheader label="Type de demande"
@@ -137,11 +137,13 @@
 			</template>
 		</listbox>
 		<div style="display:block;">
-			<div style="display:inline-block;float:left;" align="left">
+			<div style="display:inline-block;float:left;"
+				align="left">
 				<button label="Ajouter"
 					onClick="@command('ajouterDemande')" />
 			</div>
-			<div style="display:inline-block;float:right;" align="right">
+			<div style="display:inline-block;float:right;"
+				align="right">
 				<button label="Exp. PDF"
 					onClick="@command('exportPDF', ref=listeAgent)" />
 				<button label="Exp. Excel"

@@ -116,8 +116,7 @@
 	.z-row.z-grid-odd{background-color: #e6bb91;}
 
 	.z-grid-odd > .z-row-inner {background-color: #e6bb91;
-	background:none;}
-	
+	background:none;}	
 
 
 	.fondRecherche{background-image: none; background-color: #ee7203;
@@ -125,6 +124,12 @@
 	12px; -webkit-border-radius: 12px 12px 0px 12px; height: 30px;
 	padding-left: 14px; border-style:none; padding-top: 3px;color:
 	white;width: 600px; } 
+	
+	.z-listitem.z-listitem-selected > .z-listcell {
+	    background: none repeat scroll 0 0 transparent;}
+	
+	.z-listitem.z-listitem-selected:hover > .z-listcell {
+	    background: none repeat scroll 0 0 #ee7203;}
 
 	]]>
 	
