@@ -5,8 +5,6 @@
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.AnnulerDemandeViewModel')">
 		<style>
-			.z-listheader-content{background-color: #FFEBCD;}
-
 			.z-window {background-color: #ee7203;}
 		</style>
 		<div sclass="fond" height="100%">
