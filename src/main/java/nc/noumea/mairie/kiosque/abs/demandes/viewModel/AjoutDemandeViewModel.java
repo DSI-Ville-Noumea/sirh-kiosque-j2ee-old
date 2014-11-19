@@ -24,13 +24,13 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -64,8 +64,10 @@ public class AjoutDemandeViewModel {
 
 	private DemandeDto demandeCreation;
 
-	private List<RefTypeAbsenceDto> listeTypeAbsence;
+	private List<RefGroupeAbsenceDto> listeGroupeAbsence;
+	private RefGroupeAbsenceDto groupeAbsence;
 
+	private List<RefTypeAbsenceDto> listeTypeAbsence;
 	private RefTypeAbsenceDto typeAbsenceCourant;
 
 	private String etatDemandeCreation;
@@ -80,12 +82,12 @@ public class AjoutDemandeViewModel {
 	private String selectFinAM;
 
 	private ProfilAgentDto currentUser;
-	
+
 	@Init
 	public void initAjoutDemande() {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		// on vide
 		viderZones();
 		// on charge les service pour les filtres
@@ -97,11 +99,21 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeTypeAbsence" })
-	public void chargeFamille() {
-		// on recharge les types d'absences
-		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(getAgentFiltre().getIdAgent(), null);
-		setListeTypeAbsence(result);
+	@NotifyChange({ "listeGroupeAbsence" })
+	public void chargeGroupe() {
+		// on recharge les groupes d'absences pour les filtres
+		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
+		setListeGroupeAbsence(filtreGroupeFamille);
+	}
+
+	@Command
+	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant" })
+	public void alimenteTypeFamilleAbsence() {
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsence()
+				.getIdRefGroupeAbsence());
+
+		setListeTypeAbsence(filtreFamilleAbsence);
+		setTypeAbsenceCourant(null);
 	}
 
 	@Command
@@ -120,7 +132,8 @@ public class AjoutDemandeViewModel {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(), getServiceFiltre().getCodeService());
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
+				getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -170,7 +183,8 @@ public class AjoutDemandeViewModel {
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(), getDemandeCreation());
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+					getDemandeCreation());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -345,5 +359,21 @@ public class AjoutDemandeViewModel {
 
 	public void setAgentFiltre(AgentDto agentFiltre) {
 		this.agentFiltre = agentFiltre;
+	}
+
+	public List<RefGroupeAbsenceDto> getListeGroupeAbsence() {
+		return listeGroupeAbsence;
+	}
+
+	public void setListeGroupeAbsence(List<RefGroupeAbsenceDto> listeGroupeAbsence) {
+		this.listeGroupeAbsence = listeGroupeAbsence;
+	}
+
+	public RefGroupeAbsenceDto getGroupeAbsence() {
+		return groupeAbsence;
+	}
+
+	public void setGroupeAbsence(RefGroupeAbsenceDto groupeAbsence) {
+		this.groupeAbsence = groupeAbsence;
 	}
 }

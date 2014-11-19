@@ -24,13 +24,13 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -42,6 +42,7 @@ import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -56,8 +57,10 @@ public class AjoutDemandeAgentViewModel {
 
 	private DemandeDto demandeCreation;
 
-	private List<RefTypeAbsenceDto> listeTypeAbsence;
+	private List<RefGroupeAbsenceDto> listeGroupeAbsence;
+	private RefGroupeAbsenceDto groupeAbsence;
 
+	private List<RefTypeAbsenceDto> listeTypeAbsence;
 	private RefTypeAbsenceDto typeAbsenceCourant;
 
 	private String etatDemandeCreation;
@@ -79,10 +82,11 @@ public class AjoutDemandeAgentViewModel {
 		viderZones();
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		// on recharge les types d'absences
-		List<RefTypeAbsenceDto> result = absWsConsumer.getRefTypeAbsenceKiosque(currentUser.getAgent().getIdAgent(),
-				null);
-		setListeTypeAbsence(result);
+
+		// on recharge les groupes d'absences pour les filtres
+		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
+		setListeGroupeAbsence(filtreGroupeFamille);
+
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
 		setListeOrganisationsSyndicale(orga);
@@ -93,12 +97,24 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant"})
+	public void alimenteTypeFamilleAbsence() {
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsence()
+				.getIdRefGroupeAbsence());
+
+		setListeTypeAbsence(filtreFamilleAbsence);
+		setTypeAbsenceCourant(null);
+	}
+
+	@Command
 	public void cancelDemande(@BindingParam("win") Window window) {
 		window.detach();
 	}
 
 	private void viderZones() {
 		setDemandeCreation(null);
+		setListeGroupeAbsence(null);
+		setGroupeAbsence(null);
 		setListeTypeAbsence(null);
 		setTypeAbsenceCourant(null);
 		setEtatDemandeCreation(null);
@@ -277,5 +293,21 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setSelectFinAM(String selectFinAM) {
 		this.selectFinAM = selectFinAM;
+	}
+
+	public List<RefGroupeAbsenceDto> getListeGroupeAbsence() {
+		return listeGroupeAbsence;
+	}
+
+	public void setListeGroupeAbsence(List<RefGroupeAbsenceDto> listeGroupeAbsence) {
+		this.listeGroupeAbsence = listeGroupeAbsence;
+	}
+
+	public RefGroupeAbsenceDto getGroupeAbsence() {
+		return groupeAbsence;
+	}
+
+	public void setGroupeAbsence(RefGroupeAbsenceDto groupeAbsence) {
+		this.groupeAbsence = groupeAbsence;
 	}
 }

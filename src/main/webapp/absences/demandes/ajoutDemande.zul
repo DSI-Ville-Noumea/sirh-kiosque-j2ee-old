@@ -26,7 +26,7 @@
 					<combobox width="200px" readonly="true"
 						model="@bind(vm.listeAgentsFiltre)"
 						selectedItem="@bind(vm.agentFiltre)"
-						onSelect="@command('chargeFamille')">
+						onSelect="@command('chargeGroupe')">
 						<template name="model">
 							<comboitem
 								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
@@ -36,23 +36,40 @@
 				<separator />
 				<div sclass="RHTitle2Line" />
 				<separator />
-				<hlayout
-					visible="@bind(not empty vm.listeTypeAbsence)">
-					<hlayout width="150px">
-						<label value="Famille d'absence" />
-					</hlayout>
-					<hlayout>
-						<combobox readonly="true" width="400px"
-							model="@bind(vm.listeTypeAbsence)"
-							selectedItem="@bind(vm.typeAbsenceCourant)"
-							onSelect="@command('chargeFormulaire')">
+				<vlayout>
+					<hlayout
+						visible="@bind(not empty vm.listeGroupeAbsence)">
+						<hlayout width="150px">
+							<label value="Groupe d'absence :" />
+						</hlayout>
+						<combobox readonly="true" width="250px"
+							model="@bind(vm.listeGroupeAbsence)"
+							selectedItem="@bind(vm.groupeAbsence)"
+							onSelect="@command('alimenteTypeFamilleAbsence')">
 							<template name="model">
-								<comboitem label="@bind(each.libelle)"
-									description="@bind(each.groupeAbsence.libelle)" />
+								<comboitem label="@bind(each.libelle)" />
 							</template>
 						</combobox>
 					</hlayout>
-				</hlayout>
+					<hlayout
+						visible="@bind(not empty vm.listeTypeAbsence)">
+						<hlayout width="150px">
+							<label value="Famille d'absence" />
+						</hlayout>
+						<hlayout>
+							<combobox readonly="true" width="400px"
+							value="@bind(vm.typeAbsenceCourant.libelle)"
+								model="@bind(vm.listeTypeAbsence)"
+								selectedItem="@bind(vm.typeAbsenceCourant)"
+								onSelect="@command('chargeFormulaire')">
+								<template name="model">
+									<comboitem
+										label="@bind(each.libelle)" />
+								</template>
+							</combobox>
+						</hlayout>
+					</hlayout>
+				</vlayout>
 			</vlayout>
 			<div visible="@bind(not empty vm.typeAbsenceCourant) ">
 				<separator />

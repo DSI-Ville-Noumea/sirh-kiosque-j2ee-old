@@ -137,15 +137,23 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent, Integer idRefGroupeAbsence) {
+	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idRefGroupeAbsence) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhTypeAbsenceKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
-		params.put("idAgentConcerne", idAgent.toString());
 		if (idRefGroupeAbsence != null)
 			params.put("idRefGroupeAbsence", idRefGroupeAbsence.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(RefTypeAbsenceDto.class, res, url);
+	}
+
+	@Override
+	public List<RefGroupeAbsenceDto> getRefGroupeAbsence() {
+		String url = String.format(sirhAbsWsBaseUrl + sirhGroupeAbsenceUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefGroupeAbsenceDto.class, res, url);
 	}
 
 	@Override
@@ -214,15 +222,6 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		ClientResponse res = createAndFireRequest(params, url, false, null);
 
 		return readResponseWithFile(res, url);
-	}
-
-	@Override
-	public List<RefGroupeAbsenceDto> getRefGroupeAbsence() {
-		String url = String.format(sirhAbsWsBaseUrl + sirhGroupeAbsenceUrl);
-		HashMap<String, String> params = new HashMap<>();
-
-		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponseAsList(RefGroupeAbsenceDto.class, res, url);
 	}
 
 	@Override

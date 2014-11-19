@@ -58,7 +58,7 @@ public interface ISirhAbsWSConsumer {
 
 	/* FILTRES */
 
-	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idAgent, Integer idRefGroupeAbsence);
+	List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idRefGroupeAbsence);
 
 	List<RefTypeAbsenceDto> getAllRefTypeAbsence();
 
