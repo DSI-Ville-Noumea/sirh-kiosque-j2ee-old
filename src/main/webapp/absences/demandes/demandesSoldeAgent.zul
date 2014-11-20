@@ -89,7 +89,7 @@
 					</div>
 					<div>
 						<label sclass="value"
-							value="@bind(vm.soldeJour(vm.soldeCourant.soldeAsaA55))" />
+							value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaA55))" />
 					</div>
 				</hlayout>
 			</vlayout>
