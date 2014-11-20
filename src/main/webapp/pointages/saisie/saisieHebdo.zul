@@ -100,7 +100,7 @@
 					visible="@bind(vm.saisiePointageForm.afficheAjouterLigneHSup)" />
 			</div>
 			
-			<div class="barreTitreTypePointage" visible="@bind(not empty vm.saisiePointageForm)" onClick="containerSaisieHebdoAbsence.visible = !containerSaisieHebdoAbsence.visible">Absences</div> 
+			<div class="barreTitreTypePointage" visible="@bind(not empty vm.saisiePointageForm)" onClick="containerSaisieHebdoAbsence.visible = !containerSaisieHebdoAbsence.visible">Absences sans titre</div> 
 			
 			<div id="containerSaisieHebdoAbsence">
 				<listbox id="saisieHebdoAbsence"
