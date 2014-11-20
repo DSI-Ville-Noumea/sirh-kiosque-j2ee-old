@@ -2,6 +2,11 @@
 	<![CDATA[
 	
 	.z-column-content, .z-row-content, .z-group-content,
-	.z-groupfoot-content, .z-footer-content { padding: 1px 1px; } ]]>
+	.z-groupfoot-content, .z-footer-content { padding: 1px 1px; }
+	
+	.gras{font-weight: bold;}
+	
+	.z-row .z-row-inner .z-row-content .z-label{font-size:8pt;}
+	]]>
 	
 </style>

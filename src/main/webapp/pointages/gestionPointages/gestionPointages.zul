@@ -14,15 +14,16 @@
 			<separator />
 			<vlayout>
 				<hlayout>
-					<label value="Filtres obligatoires" />
-					<label value="du : " />
+					<label sclass="gras"
+						style="text-decoration:underline;" value="Filtres obligatoires" />
+					<label sclass="gras" value="du : " />
 					<datebox format="dd/MM/yyyy" weekOfYear="true"
 						value="@bind(vm.dateDebutFiltre)" />
-					<label value="au : " />
+					<label sclass="gras" value="au : " />
 					<datebox format="dd/MM/yyyy" weekOfYear="true"
 						value="@bind(vm.dateFinFiltre)" />
-					<label value="Service :" />
-					<combobox width="200px" readonly="true"
+					<label sclass="gras" value="Service :" />
+					<combobox width="400px" readonly="true"
 						model="@bind(vm.listeServicesFiltre)"
 						selectedItem="@bind(vm.serviceFiltre)"
 						onSelect="@command('afficheListeAgent')">
@@ -32,7 +33,8 @@
 					</combobox>
 				</hlayout>
 				<hlayout>
-					<label value="Filtres optionnels" />
+					<label style="text-decoration:underline;"
+						value="Filtres optionnels" />
 					<label value="Etat :" />
 					<combobox width="100px"
 						model="@bind(vm.listeEtatPointageFiltre)"
@@ -66,8 +68,6 @@
 							<comboitem label="@bind(each)" />
 						</template>
 					</combobox>
-				</hlayout>
-				<hlayout>
 					<button label="Vider"
 						onClick="@command('viderFiltre')" />
 					<button label="Filtrer"
@@ -83,10 +83,10 @@
 						Affichage de
 						<combobox width="50px"
 							selectedItem="@bind(vm.tailleListe)" readonly="true">
-							<comboitem value="5" label="5" />
 							<comboitem value="10" label="10" />
-							<comboitem value="15" label="15" />
-							<comboitem value="20" label="20" />
+							<comboitem value="25" label="25" />
+							<comboitem value="50" label="50" />
+							<comboitem value="100" label="100" />
 						</combobox>
 						pointages par page
 						<space />
@@ -95,15 +95,16 @@
 							onChange="@command('doSearch')" instant="true" />
 					</div>
 				</hlayout>
-				<separator />				
+				<separator />
 				<grid model="@bind(vm.listePointages)" mold="paging"
 					pageSize="@bind(vm.tailleListe)"
 					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
 					<columns>
 						<column width="30px" sort="none" />
-						<column label="Agent" sort="auto('agent.nom')" width="100px" />
-						<column label="Type"
-							sort="auto('typePointage')" width="100px"/>
+						<column label="Agent" sort="auto('agent.nom')"
+							width="100px" />
+						<column label="Type" sort="auto('typePointage')"
+							width="100px" />
 						<column label="Type HS" sort="none" />
 						<column label="Date" sort="auto('date')" />
 						<column label="Début" sort="auto('debut')" />

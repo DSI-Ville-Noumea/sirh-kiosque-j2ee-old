@@ -112,7 +112,7 @@ public class GestionPointagesViewModel {
 		listeTypeHS.add("Rappel en service");
 		setListeTypeHSupFiltre(listeTypeHS);
 		// on initialise la taille du tableau
-		setTailleListe("5");
+		setTailleListe("10");
 	}
 
 	public List<ConsultPointageDto> getHistoriquePointage(ConsultPointageDto ptg) {
