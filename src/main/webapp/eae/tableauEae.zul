@@ -22,10 +22,10 @@
 						Affichage de
 						<combobox width="50px"
 							selectedItem="@bind(vm.tailleListe)" readonly="true">
-							<comboitem value="5" label="5" />
 							<comboitem value="10" label="10" />
-							<comboitem value="15" label="15" />
-							<comboitem value="20" label="20" />
+							<comboitem value="25" label="25" />
+							<comboitem value="50" label="50" />
+							<comboitem value="100" label="100" />
 						</combobox>
 						EAE par page
 						<space />
@@ -35,7 +35,8 @@
 					</div>
 				</hlayout>
 				<separator />
-				<listbox model="@bind(vm.tableauEae)" width="100%">
+				<listbox id="listeEae" model="@bind(vm.tableauEae)"
+					width="100%">
 					<listhead>
 						<listheader width="280px">
 							<vlayout>
@@ -148,6 +149,13 @@
 						</listitem>
 					</template>
 				</listbox>
+				<div style="display:inline-block;float:right;"
+					align="right">
+					<button label="Exp. PDF"
+						onClick="@command('exportPDF', ref=listeEae)" />
+					<button label="Exp. Excel"
+						onClick="@command('exportExcel', ref=listeEae)" />
+				</div>
 			</vlayout>
 		</div>
 		<include id="includeStyleDroits" src="/css/eae/tableauEae.zul" />

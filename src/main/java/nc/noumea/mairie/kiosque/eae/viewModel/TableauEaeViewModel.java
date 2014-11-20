@@ -24,7 +24,7 @@ package nc.noumea.mairie.kiosque.eae.viewModel;
  * #L%
  */
 
-
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +34,8 @@ import java.util.Map;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.export.ExcelExporter;
+import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
@@ -43,12 +45,14 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Listbox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class TableauEaeViewModel {
@@ -75,7 +79,7 @@ public class TableauEaeViewModel {
 		setTableauEae(tableau);
 
 		// on initialise la taille du tableau
-		setTailleListe("5");
+		setTailleListe("10");
 	}
 
 	@Command
@@ -181,6 +185,30 @@ public class TableauEaeViewModel {
 			return "N/A";
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
+	}
+
+	@Command
+	public void exportPDF(@BindingParam("ref") Listbox listbox) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		PdfExporter exporter = new PdfExporter();
+		exporter.export(listbox, out);
+
+		AMedia amedia = new AMedia("listeEae.pdf", "pdf", "application/pdf", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
+	}
+
+	@Command
+	public void exportExcel(@BindingParam("ref") Listbox listbox) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		ExcelExporter exporter = new ExcelExporter();
+		exporter.export(listbox, out);
+
+		AMedia amedia = new AMedia("listeEae.xlsx", "xls", "application/file", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
 	}
 
 	public List<EaeListItemDto> getTableauEae() {
