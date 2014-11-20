@@ -64,77 +64,81 @@
 			</listbox>
 			
 			<div id="barreTitreTypePointageHSup" class="barreTitreTypePointage" visible="@bind(not empty vm.saisiePointageForm)" 
-				onClick="saisieHebdoHSup.visible = !saisieHebdoHSup.visible;">Heures supplémentaires</div>
+				onClick="containerSaisieHebdoHSup.visible = !containerSaisieHebdoHSup.visible;">Heures supplémentaires</div>
 			
-			<listbox id="saisieHebdoHSup"
-				visible="@bind(not empty vm.saisiePointageForm)"
-				model="@bind(vm.saisiePointageForm.mapAllHSup)" 
-				focus="false" 
-				emptyMessage="Aucune heure supplémentaire">
-				
-				<template name="model" var="lineHSup">
-					<listitem children="@bind(lineHSup.value)">
-						 <template name="children" var="cellHSup" selectedItem="@bind(vm.hSupCourante)" >
-						 	<listcell>
-						 		<div align="center">
-							 		<button zclass="boutonAdd" onClick="@command('ajouterHSup',ref=cellHSup)" visible="@bind(empty cellHSup.idRefEtat)" />
-							 		<button zclass="boutonRemove" onClick="@command('deleteHSup',ref=cellHSup)" visible="@bind(not empty cellHSup.idRefEtat)" />
-							 		<label value="${vm.etatToString(cellHSup.idRefEtat)}" visible="@bind(not empty cellHSup.idRefEtat)" />
+			<div id="containerSaisieHebdoHSup">
+				<listbox id="saisieHebdoHSup"
+					visible="@bind(not empty vm.saisiePointageForm)"
+					model="@bind(vm.saisiePointageForm.mapAllHSup)" 
+					focus="false" 
+					emptyMessage="Aucune heure supplémentaire">
+					
+					<template name="model" var="lineHSup">
+						<listitem children="@bind(lineHSup.value)">
+							 <template name="children" var="cellHSup" selectedItem="@bind(vm.hSupCourante)" >
+							 	<listcell>
+							 		<div align="center">
+								 		<button zclass="boutonAdd" onClick="@command('ajouterHSup',ref=cellHSup)" visible="@bind(empty cellHSup.idRefEtat)" />
+								 		<button zclass="boutonRemove" onClick="@command('deleteHSup',ref=cellHSup)" visible="@bind(not empty cellHSup.idRefEtat)" />
+								 		<label value="${vm.etatToString(cellHSup.idRefEtat)}" visible="@bind(not empty cellHSup.idRefEtat)" />
+								 		<separator />
+								 		<label value="Heures supp." style="font-weight: bold;" />
+							 		</div>
+							 		<timebox cols="14" format="HH:mm" value="@bind(cellHSup.heureDebut)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Heure de début *" />
+							 		<timebox cols="14" format="HH:mm" value="@bind(cellHSup.heureFin)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Heure de fin *" />
 							 		<separator />
-							 		<label value="Heures supp." style="font-weight: bold;" />
-						 		</div>
-						 		<timebox cols="14" format="HH:mm" value="@bind(cellHSup.heureDebut)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Heure de début *" />
-						 		<timebox cols="14" format="HH:mm" value="@bind(cellHSup.heureFin)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Heure de fin *" />
-						 		<separator />
-								<checkbox checked="@bind(cellHSup.recuperee)" label="A récupérer" disabled="@bind(empty cellHSup.idRefEtat)" />
-								<textbox width="100%" value="@bind(cellHSup.motif)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Motif *" />
-								<textbox width="100%" value="@bind(cellHSup.commentaire)" disabled="@bind(empty cellHSup.idRefEtat)" multiline="true" height="40px" placeholder="Commentaire" />
-							</listcell>
-						 </template>
-					</listitem>
-				</template>
-			</listbox>
-			
-			<button id="boutonAjouterHSup" label="Ajouter une ligne d'heures supplémentaires" onClick="@command('ajouterLigneHSup')" class="boutonAjouter" 
-				visible="@bind(vm.saisiePointageForm.afficheAjouterLigneHSup)" />
-								
-			<div class="barreTitreTypePointage" visible="@bind(not empty vm.saisiePointageForm)" onClick="saisieHebdoAbsence.visible = !saisieHebdoAbsence.visible">Absences</div> 
-			
-			<listbox id="saisieHebdoAbsence"
-				visible="@bind(not empty vm.saisiePointageForm)"
-				model="@bind(vm.saisiePointageForm.mapAllAbsence)" emptyMessage="Aucune absence" >
+									<checkbox checked="@bind(cellHSup.recuperee)" label="A récupérer" disabled="@bind(empty cellHSup.idRefEtat)" />
+									<textbox width="100%" value="@bind(cellHSup.motif)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Motif *" />
+									<textbox width="100%" value="@bind(cellHSup.commentaire)" disabled="@bind(empty cellHSup.idRefEtat)" multiline="true" height="40px" placeholder="Commentaire" />
+								</listcell>
+							 </template>
+						</listitem>
+					</template>
+				</listbox>
 				
-				<template name="model" var="line">
-					<listitem children="@bind(line.value)">
-						 <template name="children" var="cellAbsence">
-						 	<listcell>
-						 		<div align="center">
-							 		<button zclass="boutonAdd" onClick="@command('ajouterAbsence',ref=cellAbsence)" visible="@bind(empty cellAbsence.idRefEtat)" />
-							 		<button zclass="boutonRemove" onClick="@command('deleteAbsence',ref=cellAbsence)" visible="@bind(not empty cellAbsence.idRefEtat)" />
-							 		<label value="${vm.etatToString(cellAbsence.idRefEtat)}" visible="@bind(not empty cellAbsence.idRefEtat)" />
-							 		<separator />
-							 		<label value="Absence" style="font-weight: bold;" />
-						 		</div>
-						 		<timebox cols="14" format="HH:mm" value="@bind(cellAbsence.heureDebut)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Heure de début *"  />
-						 		<timebox cols="14" format="HH:mm" value="@bind(cellAbsence.heureFin)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Heure de fin *" />
-						 		<separator />
-								<combobox width="200px"
-									selectedItem="@bind(cellAbsence.idRefTypeAbsence)"
-									disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Type d'absence *">
-									<zk forEach="${vm.listeTypeAbsence}">
-										<comboitem label="${each.libelle}" value="${each.idRefTypeAbsence}" />
-									</zk>
-								</combobox>
-								<textbox width="100%" value="@bind(cellAbsence.motif)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Motif *" />
-								<textbox width="100%" value="@bind(cellAbsence.commentaire)" disabled="@bind(empty cellAbsence.idRefEtat)" multiline="true" height="40px" placeholder="Commentaire" />
-							</listcell>
-						 </template>
-					</listitem>
-				</template>
-			</listbox>
+				<button id="boutonAjouterHSup" label="Ajouter une ligne d'heures supplémentaires" onClick="@command('ajouterLigneHSup')" class="boutonAjouter" 
+					visible="@bind(vm.saisiePointageForm.afficheAjouterLigneHSup)" />
+			</div>
 			
-			<button id="boutonAjouterLigneAbs" label="Ajouter une ligne d'absences" onClick="@command('ajouterLigneAbsence')" class="boutonAjouter" 
-				visible="@bind(vm.saisiePointageForm.afficheAjouterLigneAbsence)" />
+			<div class="barreTitreTypePointage" visible="@bind(not empty vm.saisiePointageForm)" onClick="containerSaisieHebdoAbsence.visible = !containerSaisieHebdoAbsence.visible">Absences</div> 
+			
+			<div id="containerSaisieHebdoAbsence">
+				<listbox id="saisieHebdoAbsence"
+					visible="@bind(not empty vm.saisiePointageForm)"
+					model="@bind(vm.saisiePointageForm.mapAllAbsence)" emptyMessage="Aucune absence" >
+					
+					<template name="model" var="line">
+						<listitem children="@bind(line.value)">
+							 <template name="children" var="cellAbsence">
+							 	<listcell>
+							 		<div align="center">
+								 		<button zclass="boutonAdd" onClick="@command('ajouterAbsence',ref=cellAbsence)" visible="@bind(empty cellAbsence.idRefEtat)" />
+								 		<button zclass="boutonRemove" onClick="@command('deleteAbsence',ref=cellAbsence)" visible="@bind(not empty cellAbsence.idRefEtat)" />
+								 		<label value="${vm.etatToString(cellAbsence.idRefEtat)}" visible="@bind(not empty cellAbsence.idRefEtat)" />
+								 		<separator />
+								 		<label value="Absence" style="font-weight: bold;" />
+							 		</div>
+							 		<timebox cols="14" format="HH:mm" value="@bind(cellAbsence.heureDebut)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Heure de début *"  />
+							 		<timebox cols="14" format="HH:mm" value="@bind(cellAbsence.heureFin)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Heure de fin *" />
+							 		<separator />
+									<combobox width="200px"
+										selectedItem="@bind(cellAbsence.idRefTypeAbsence)"
+										disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Type d'absence *">
+										<zk forEach="${vm.listeTypeAbsence}">
+											<comboitem label="${each.libelle}" value="${each.idRefTypeAbsence}" />
+										</zk>
+									</combobox>
+									<textbox width="100%" value="@bind(cellAbsence.motif)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Motif *" />
+									<textbox width="100%" value="@bind(cellAbsence.commentaire)" disabled="@bind(empty cellAbsence.idRefEtat)" multiline="true" height="40px" placeholder="Commentaire" />
+								</listcell>
+							 </template>
+						</listitem>
+					</template>
+				</listbox>
+				
+				<button id="boutonAjouterLigneAbs" label="Ajouter une ligne d'absences" onClick="@command('ajouterLigneAbsence')" class="boutonAjouter" 
+					visible="@bind(vm.saisiePointageForm.afficheAjouterLigneAbsence)" />
+			</div>
 			
 			<div class="barreTitreTypePointage" 
 				visible="@bind(not empty vm.saisiePointageForm)" 
