@@ -166,7 +166,7 @@
 						</hlayout>
 						<vlayout>
 							<textbox rows="4" width="200px"
-								value="@bind(vm.demandeCreation.motif)" />
+								value="@bind(vm.demandeCreation.commentaire)" />
 							<label
 								value="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosComplementaires)" />
 						</vlayout>

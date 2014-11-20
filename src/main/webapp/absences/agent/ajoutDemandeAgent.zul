@@ -36,6 +36,12 @@
 					</hlayout>
 				</hlayout>
 			</vlayout>
+			<div visible="@bind(empty vm.typeAbsenceCourant) ">
+				<separator />
+				<separator />
+				<separator />
+				<separator />
+			</div>
 			<div visible="@bind(not empty vm.typeAbsenceCourant) ">
 				<separator />
 				<vlayout>
@@ -49,7 +55,8 @@
 								model="@bind(vm.listeOrganisationsSyndicale)"
 								selectedItem="@bind(vm.organisationsSyndicaleCourant)">
 								<template name="model">
-									<comboitem label="@bind(each.sigle)" />
+									<comboitem
+										label="@bind(each.sigle)" />
 								</template>
 							</combobox>
 						</hlayout>
@@ -128,7 +135,7 @@
 						</hlayout>
 						<vlayout>
 							<textbox rows="4" width="200px"
-								value="@bind(vm.demandeCreation.motif)" />
+								value="@bind(vm.demandeCreation.commentaire)" />
 							<label
 								value="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosComplementaires)" />
 						</vlayout>

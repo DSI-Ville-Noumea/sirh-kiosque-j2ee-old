@@ -109,7 +109,7 @@
 						</hlayout>
 						<vlayout>
 							<textbox rows="4" width="200px"
-								value="@bind(vm.demandeCourant.motif)" />
+								value="@bind(vm.demandeCourant.commentaire)" />
 							<label
 								value="@bind(vm.demandeCourant.typeSaisi.infosComplementaires)" />
 						</vlayout>
