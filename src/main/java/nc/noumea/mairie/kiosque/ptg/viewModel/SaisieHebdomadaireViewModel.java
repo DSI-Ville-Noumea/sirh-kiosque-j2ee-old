@@ -569,6 +569,12 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				int iJour = 0;
 				for(PrimeDto primeDto : listPrimes) {
 					if(null != primeDto.getIdRefEtat()) {
+						
+						if(periodeHeure(primeDto.getTypeSaisie())) {
+							primeDto.setHeureDebut(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(), primeDto.getHeureDebut()));
+							primeDto.setHeureFin(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(), primeDto.getHeureFin()));
+						}
+						
 						dto.getSaisies().get(iJour).getPrimes().add(primeDto);
 					}
 					iJour++;
