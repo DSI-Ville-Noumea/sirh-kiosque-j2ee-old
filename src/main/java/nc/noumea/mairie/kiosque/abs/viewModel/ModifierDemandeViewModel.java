@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -189,7 +188,7 @@ public class ModifierDemandeViewModel {
 
 		// MOTIF
 		if (typeSaisie.isMotif()) {
-			if (getDemandeCourant().getMotif() == null) {
+			if (getDemandeCourant().getCommentaire() == null) {
 				vList.add(new ValidationMessage("Le motif est obligatoire."));
 			}
 		}

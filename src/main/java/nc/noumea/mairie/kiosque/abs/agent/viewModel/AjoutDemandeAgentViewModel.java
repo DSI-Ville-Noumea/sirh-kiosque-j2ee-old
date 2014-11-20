@@ -217,7 +217,7 @@ public class AjoutDemandeAgentViewModel {
 
 		// MOTIF
 		if (refTypeAbsenceDto.getTypeSaisiDto().isMotif()) {
-			if (getDemandeCreation().getMotif() == null) {
+			if (getDemandeCreation().getCommentaire() == null) {
 				vList.add(new ValidationMessage("Le motif est obligatoire."));
 			}
 		}
