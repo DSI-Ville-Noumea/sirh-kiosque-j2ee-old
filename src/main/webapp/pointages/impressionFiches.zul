@@ -63,11 +63,11 @@
 							sort="auto('idAgent')" />
 						<listheader label="Agent" sort="auto('nom')" />
 						<listheader>
-							<label value="A éditer"
-								style="font-weight: bold;" />
 							<checkbox
 								visible="@bind(not empty vm.listeAgents)"
 								onClick="@command('checkAllImpressionFiche', checkbox=self)" />
+							<label value="A éditer"
+								style="font-weight: bold;" />
 						</listheader>
 					</listhead>
 
