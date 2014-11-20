@@ -294,6 +294,8 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 				typeHS = "R";
 			} else if (typeHS.equals("Rappel en service")) {
 				typeHS = "RS";
+			} else if (typeHS.equals("Payées")) {
+				typeHS = "AUTRE";
 			}
 			params.put("typeHS", typeHS);
 		}

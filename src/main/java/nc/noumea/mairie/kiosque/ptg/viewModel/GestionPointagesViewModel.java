@@ -108,6 +108,7 @@ public class GestionPointagesViewModel {
 		setListeTypePointageFiltre(filtreType);
 		// on recharge les types d'heures sup pour les filtres
 		ArrayList<String> listeTypeHS = new ArrayList<String>();
+		listeTypeHS.add("Payées");
 		listeTypeHS.add("Récupérées");
 		listeTypeHS.add("Rappel en service");
 		setListeTypeHSupFiltre(listeTypeHS);
