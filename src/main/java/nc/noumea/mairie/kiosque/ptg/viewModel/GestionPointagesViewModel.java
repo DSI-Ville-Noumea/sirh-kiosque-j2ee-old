@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
+import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;

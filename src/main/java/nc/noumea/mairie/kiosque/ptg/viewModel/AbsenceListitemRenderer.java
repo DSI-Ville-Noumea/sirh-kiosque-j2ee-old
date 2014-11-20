@@ -338,7 +338,7 @@ public class AbsenceListitemRenderer implements ListitemRenderer<Object> {
 
 	private ListModel<RefTypeAbsenceDto> getModelTypeAbsence() {
 		SirhPtgWSConsumer consu = new SirhPtgWSConsumer();
-		consu.sirhPtgWsBaseUrl = "http://localhost:8090/sirh-ptg-ws/";
+		consu.sirhPtgWsBaseUrl = "http://localhost:8080/sirh-ptg-ws/";
 		List<RefTypeAbsenceDto> listeTypeAbs = consu.getListeRefTypeAbsence();
 		List<String> res = new ArrayList<String>();
 		for (RefTypeAbsenceDto ref : listeTypeAbs) {

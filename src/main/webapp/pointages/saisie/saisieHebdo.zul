@@ -1,18 +1,9 @@
 <zk>
 	<window
-		apply="org.zkoss.bind.BindComposer,nc.noumea.mairie.kiosque.ptg.viewModel.SaisieHebdomadaireViewModel"
+		apply="org.zkoss.bind.BindComposer, nc.noumea.mairie.kiosque.ptg.viewModel.SaisieHebdomadaireViewModel"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.viewModel.SaisieHebdomadaireViewModel')"
 		height="100%">
 		<div sclass="fond" height="100%">
-			<label
-				value="listbox with Person in ListModel and ListitemRenderer, display person data without any problem" />
-			<div height="10px" />
-			<listbox id="primeListBox" />
-			<separator />
-			<image sclass="saveAction"
-				onClick="@command('save',ref=absenceListBox)" />
-			<listbox id="absenceListBox" />
-
 
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
@@ -55,205 +46,133 @@
 				</div>
 			</hlayout>
 			<separator />
-			<listbox id="saisieHebdo"
-				visible="@bind(not empty vm.ficheCourante)">
-				<listhead sclass="header">
-					<listheader sort="none" label="" width="180px"
-						sclass="contentHeader" />
-					<listheader sort="none" width="140px">
-						<label value="Lundi" sclass="contentHeader" />
-						<separator />
-						<label value="@bind(vm.lundi)"
-							sclass="contentHeader" />
-					</listheader>
-					<listheader sort="none" width="140px">
-						<label value="Mardi" sclass="contentHeader" />
-						<separator />
-						<label value="@bind(vm.mardi)"
-							sclass="contentHeader" />
-					</listheader>
-					<listheader sort="none" width="140px">
-						<label value="Mercredi" sclass="contentHeader" />
-						<separator />
-						<label value="@bind(vm.mercredi)"
-							sclass="contentHeader" />
-					</listheader>
-					<listheader sort="none" width="140px">
-						<label value="Jeudi" sclass="contentHeader" />
-						<separator />
-						<label value="@bind(vm.jeudi)"
-							sclass="contentHeader" />
-					</listheader>
-					<listheader sort="none" width="140px">
-						<label value="Vendredi" sclass="contentHeader" />
-						<separator />
-						<label value="@bind(vm.vendredi)"
-							sclass="contentHeader" />
-					</listheader>
-					<listheader sort="none" width="140px">
-						<label value="Samedi" sclass="contentHeader" />
-						<separator />
-						<label value="@bind(vm.samedi)"
-							sclass="contentHeader" />
-					</listheader>
-					<listheader sort="none" width="140px">
-						<label value="Dimanche" sclass="contentHeader" />
-						<separator />
-						<label value="@bind(vm.dimanche)"
-							sclass="contentHeader" />
-					</listheader>
+			<separator />
+			<separator />
+			
+			<div style="font-size: 18px; background-color: #E1A46E; color: #463D3D; width: 100%; padding: 5px; text-align: center;" visible="@bind(empty vm.saisiePointageForm)">
+				Veuillez sélectionner une date de début, de fin et un agent pour afficher les informations de pointage
+			</div>
+			
+			<listbox id="saisieHebdoDate"
+				visible="@bind(not empty vm.saisiePointageForm)"
+				model="@bind(vm.saisiePointageForm.listVide)" >
+				<listhead children="@bind(vm.saisiePointageForm.listDateJour)">
+					<template name="children">
+						<listheader label="@bind(each) @converter('formatedDate',format='EEEE dd/MM/yyyy')" align="center" />
+					</template>
 				</listhead>
 			</listbox>
-			<listbox id="entetePrime">
-				<listhead>
-					<listheader sort="none" sclass="headerEntete">
-						<label value="Primes" sclass="contentHeader" />
-					</listheader>
-				</listhead>
-			</listbox>
-			<listbox id="primes">
-				<listitem>
-					<listcell>
-						<listbox
-							model="@bind(vm.jourPointage.primes)">
-							<listhead>
-								<listheader width="180px"></listheader>
-								<listheader width="140px"></listheader>
-								<listheader width="140px"></listheader>
-								<listheader width="140px"></listheader>
-								<listheader width="140px"></listheader>
-								<listheader width="140px"></listheader>
-								<listheader width="140px"></listheader>
-								<listheader width="140px"></listheader>
-							</listhead>
-							<template name="model">
-								<listitem>
-									<listcell>
-										<listbox>
-											<listitem
-												sclass="fondBlanc">
-												<listcell>
-													<label
-														value="${each.titre}" />
-												</listcell>
-											</listitem>
-											<listitem
-												visible="${vm.periodeHeure(each.typeSaisie)}"
-												sclass="fondBlanc">
-												<listcell>
-													<label
-														value="Heure début / fin *" />
-												</listcell>
-											</listitem>
-											<listitem
-												visible="${vm.caseACocher(each.typeSaisie)}"
-												sclass="fondBlanc">
-												<listcell>
-													<label
-														value="Accordée ? *" />
-												</listcell>
-											</listitem>
-											<listitem
-												visible="${vm.nbHeures(each.typeSaisie)}"
-												sclass="fondBlanc">
-												<listcell>
-													<label
-														value="Nombre d'heures *" />
-												</listcell>
-											</listitem>
-											<listitem
-												visible="${vm.nbIndemnites(each.typeSaisie)}"
-												sclass="fondBlanc">
-												<listcell>
-													<label
-														value="Nombre d'indemnités *" />
-												</listcell>
-											</listitem>
-											<listitem
-												sclass="fondBlanc">
-												<listcell>
-													<label
-														value="Motif" />
-												</listcell>
-											</listitem>
-											<listitem
-												sclass="fondBlanc">
-												<listcell height="50px"
-													sclass="alignHaut">
-													<label
-														value="Commentaire" />
-												</listcell>
-											</listitem>
-										</listbox>
-									</listcell>
-									<listcell>
-												<include
-													src="/pointages/saisie/saisieJour2.zul" />
-									</listcell>
-									<listcell>
-										<include
-											src="/pointages/saisie/saisieJour.zul" />
-									</listcell>
-									<listcell>
-										<include
-											src="/pointages/saisie/saisieJour.zul" />
-									</listcell>
-									<listcell>
-										<include
-											src="/pointages/saisie/saisieJour.zul" />
-									</listcell>
-									<listcell>
-										<include
-											src="/pointages/saisie/saisieJour.zul" />
-									</listcell>
-									<listcell>
-										<include
-											src="/pointages/saisie/saisieJour.zul" />
-									</listcell>
-									<listcell>
-										<include
-											src="/pointages/saisie/saisieJour.zul" />
-									</listcell>
-								</listitem>
-							</template>
-						</listbox>
-					</listcell>
-				</listitem>
-			</listbox>
-			<listbox id="enteteHeuresSup">
-				<listhead>
-					<listheader sort="none" sclass="headerEntete">
-						<label value="Heures supplémentaires"
-							sclass="contentHeader" />
-					</listheader>
-				</listhead>
-			</listbox>
-			<listbox id="heuresSup"
-				model="@bind(vm.jourPointage.heuresSup)">
-				<template name="model">
-					<listitem>
-						<listcell label="${each.idPointage}" />
+			
+			<div id="barreTitreTypePointageHSup" class="barreTitreTypePointage" visible="@bind(not empty vm.saisiePointageForm)" 
+				onClick="saisieHebdoHSup.visible = !saisieHebdoHSup.visible;">Heures supplémentaires</div>
+			
+			<listbox id="saisieHebdoHSup"
+				visible="@bind(not empty vm.saisiePointageForm)"
+				model="@bind(vm.saisiePointageForm.mapAllHSup)" 
+				focus="false" 
+				emptyMessage="Aucune heure supplémentaire">
+				
+				<template name="model" var="lineHSup">
+					<listitem children="@bind(lineHSup.value)">
+						 <template name="children" var="cellHSup" selectedItem="@bind(vm.hSupCourante)" >
+						 	<listcell>
+						 		<div align="center">
+							 		<button zclass="boutonAdd" onClick="@command('ajouterHSup',ref=cellHSup)" visible="@bind(empty cellHSup.idRefEtat)" />
+							 		<button zclass="boutonRemove" onClick="@command('deleteHSup',ref=cellHSup)" visible="@bind(not empty cellHSup.idRefEtat)" />
+							 		<label value="${vm.etatToString(cellHSup.idRefEtat)}" visible="@bind(not empty cellHSup.idRefEtat)" />
+							 		<separator />
+							 		<label value="Heures supp." style="font-weight: bold;" />
+						 		</div>
+						 		<timebox cols="14" format="HH:mm" value="@bind(cellHSup.heureDebut)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Heure de début *" />
+						 		<timebox cols="14" format="HH:mm" value="@bind(cellHSup.heureFin)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Heure de fin *" />
+						 		<separator />
+								<checkbox checked="@bind(cellHSup.recuperee)" label="A récupérer" disabled="@bind(empty cellHSup.idRefEtat)" />
+								<textbox width="100%" value="@bind(cellHSup.motif)" disabled="@bind(empty cellHSup.idRefEtat)" placeholder="Motif *" />
+								<textbox width="100%" value="@bind(cellHSup.commentaire)" disabled="@bind(empty cellHSup.idRefEtat)" multiline="true" height="40px" placeholder="Commentaire" />
+							</listcell>
+						 </template>
 					</listitem>
 				</template>
 			</listbox>
-			<listbox id="enteteAbsences">
-				<listhead>
-					<listheader sort="none" sclass="headerEntete">
-						<label value="Absences" sclass="contentHeader" />
-					</listheader>
-				</listhead>
-			</listbox>
-			<listbox id="absences"
-				model="@bind(vm.jourPointage.absences)">
-				<template name="model">
-					<listitem>
-						<listcell label="${each.idRefTypeAbsence}" />
+			
+			<button id="boutonAjouterHSup" label="Ajouter une ligne d'heures supplémentaires" onClick="@command('ajouterLigneHSup')" class="boutonAjouter" 
+				visible="@bind(vm.saisiePointageForm.afficheAjouterLigneHSup)" />
+								
+			<div class="barreTitreTypePointage" visible="@bind(not empty vm.saisiePointageForm)" onClick="saisieHebdoAbsence.visible = !saisieHebdoAbsence.visible">Absences</div> 
+			
+			<listbox id="saisieHebdoAbsence"
+				visible="@bind(not empty vm.saisiePointageForm)"
+				model="@bind(vm.saisiePointageForm.mapAllAbsence)" emptyMessage="Aucune absence" >
+				
+				<template name="model" var="line">
+					<listitem children="@bind(line.value)">
+						 <template name="children" var="cellAbsence">
+						 	<listcell>
+						 		<div align="center">
+							 		<button zclass="boutonAdd" onClick="@command('ajouterAbsence',ref=cellAbsence)" visible="@bind(empty cellAbsence.idRefEtat)" />
+							 		<button zclass="boutonRemove" onClick="@command('deleteAbsence',ref=cellAbsence)" visible="@bind(not empty cellAbsence.idRefEtat)" />
+							 		<label value="${vm.etatToString(cellAbsence.idRefEtat)}" visible="@bind(not empty cellAbsence.idRefEtat)" />
+							 		<separator />
+							 		<label value="Absence" style="font-weight: bold;" />
+						 		</div>
+						 		<timebox cols="14" format="HH:mm" value="@bind(cellAbsence.heureDebut)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Heure de début *"  />
+						 		<timebox cols="14" format="HH:mm" value="@bind(cellAbsence.heureFin)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Heure de fin *" />
+						 		<separator />
+								<combobox width="200px"
+									selectedItem="@bind(cellAbsence.idRefTypeAbsence)"
+									disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Type d'absence *">
+									<zk forEach="${vm.listeTypeAbsence}">
+										<comboitem label="${each.libelle}" value="${each.idRefTypeAbsence}" />
+									</zk>
+								</combobox>
+								<textbox width="100%" value="@bind(cellAbsence.motif)" disabled="@bind(empty cellAbsence.idRefEtat)" placeholder="Motif *" />
+								<textbox width="100%" value="@bind(cellAbsence.commentaire)" disabled="@bind(empty cellAbsence.idRefEtat)" multiline="true" height="40px" placeholder="Commentaire" />
+							</listcell>
+						 </template>
 					</listitem>
 				</template>
 			</listbox>
+			
+			<button id="boutonAjouterLigneAbs" label="Ajouter une ligne d'absences" onClick="@command('ajouterLigneAbsence')" class="boutonAjouter" 
+				visible="@bind(vm.saisiePointageForm.afficheAjouterLigneAbsence)" />
+			
+			<div class="barreTitreTypePointage" 
+				visible="@bind(not empty vm.saisiePointageForm)" 
+				onClick="saisieHebdoPrimes.visible = !saisieHebdoPrimes.visible">
+				Primes
+			</div>
+			
+			<listbox id="saisieHebdoPrimes"
+				visible="@bind(not empty vm.saisiePointageForm)"
+				model="@bind(vm.saisiePointageForm.mapAllPrime)" emptyMessage="Aucune prime" >
+				
+				<template name="model" var="line">
+					<listitem children="@bind(line.value)" >
+						 <template name="children" var="cellPrime" >
+						 	<listcell>
+								<div align="center">
+							 		<button zclass="boutonAdd" onClick="@command('ajouterPrime',ref=cellPrime)" visible="@bind(empty cellPrime.idRefEtat)" />
+							 		<button zclass="boutonRemove" onClick="@command('deletePrime',ref=cellPrime)" visible="@bind(not empty cellPrime.idRefEtat)" />
+							 		<label value="${vm.etatToString(cellPrime.idRefEtat)}" visible="@bind(not empty cellPrime.idRefEtat)" />
+							 		<separator />
+							 		<label value="@bind(cellPrime.titre)" style="font-weight: bold;" />
+						 		</div>
+						 		<timebox cols="10" format="HH:mm" value="@bind(cellPrime.heureDebut)" disabled="@bind(empty cellPrime.idRefEtat)" placeholder="Heure de début *" visible="${vm.periodeHeure(cellPrime.typeSaisie)}" />
+						 		<timebox cols="10" format="HH:mm" value="@bind(cellPrime.heureFin)" disabled="@bind(empty cellPrime.idRefEtat)" placeholder="Heure de fin *" visible="${vm.periodeHeure(cellPrime.typeSaisie)}" />
+								<checkbox checked="${vm.checkCoche(cellPrime.quantite)}" disabled="@bind(empty cellPrime.idRefEtat)" onClick="@command('checkAccorde',prime=cellPrime, checkbox=self)" visible="${vm.caseACocher(cellPrime.typeSaisie)}" label="Accordée *" />
+								
+						 		<spinner width="100%" value="@bind(cellPrime.quantite)" disabled="@bind(empty cellPrime.idRefEtat)" placeholder="Nombre d'indemnités *" format="#" constraint="no empty, min 1" visible="${vm.nbIndemnites(cellPrime.typeSaisie)}" />
+						 		<spinner width="100%" value="@bind(cellPrime.quantite)" disabled="@bind(empty cellPrime.idRefEtat)" placeholder="Nombre d'heures *" format="#" constraint="no empty, min 1" visible="${vm.nbHeures(cellPrime.typeSaisie)}" />
+								<textbox width="100%" value="@bind(cellPrime.motif)" disabled="@bind(empty cellPrime.idRefEtat)" placeholder="Motif" />
+								<textbox width="100%" value="@bind(cellPrime.commentaire)" disabled="@bind(empty cellPrime.idRefEtat)" multiline="true" height="40px" placeholder="Commentaire" />
+							</listcell>
+						 </template>
+					</listitem>
+				</template>
+			</listbox>
+		
 		</div>
-		<include id="includeStyleSoldeAgent"
-			src="/css/pointages/saisieHebdo.zul" />
+		<include id="includeStyleSoldeAgent" src="/css/pointages/saisieHebdo.zul" />
 	</window>
 </zk>
 

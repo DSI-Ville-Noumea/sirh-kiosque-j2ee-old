@@ -29,8 +29,8 @@ public class EaeEvaluationDto {
 
 	private int idEae;
 	private int anneeAvancement;
-	private boolean avisChangementClasse;
-	private boolean avisRevalorisation;
+	private Boolean avisChangementClasse;
+	private Boolean avisRevalorisation;
 	private boolean cap;
 	private String commentaireAvctEvaluateur;
 	private String commentaireAvctEvalue;
@@ -62,19 +62,19 @@ public class EaeEvaluationDto {
 		this.anneeAvancement = anneeAvancement;
 	}
 
-	public boolean isAvisChangementClasse() {
+	public Boolean isAvisChangementClasse() {
 		return avisChangementClasse;
 	}
 
-	public void setAvisChangementClasse(boolean avisChangementClasse) {
+	public void setAvisChangementClasse(Boolean avisChangementClasse) {
 		this.avisChangementClasse = avisChangementClasse;
 	}
 
-	public boolean isAvisRevalorisation() {
+	public Boolean isAvisRevalorisation() {
 		return avisRevalorisation;
 	}
 
-	public void setAvisRevalorisation(boolean avisRevalorisation) {
+	public void setAvisRevalorisation(Boolean avisRevalorisation) {
 		this.avisRevalorisation = avisRevalorisation;
 	}
 

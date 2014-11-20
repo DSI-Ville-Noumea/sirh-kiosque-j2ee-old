@@ -30,7 +30,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
@@ -41,6 +40,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +94,20 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(FichePointageDto.class, res, url);
+	}
+	
+	@Override
+	public ReturnMessageDto setFichePointageSaisie(Integer idAgent, FichePointageDto fichePointageDto) {
+
+		String url = String.format(sirhPtgWsBaseUrl + ptgFichePointageSaisieUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class")
+				.transform(new MSDateTransformer(), Date.class).deepSerialize(fichePointageDto);
+		
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 	/**************************** Droits *******************************/

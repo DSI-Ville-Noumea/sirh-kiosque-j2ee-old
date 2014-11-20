@@ -27,7 +27,6 @@ package nc.noumea.mairie.ws;
 import java.util.Date;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
@@ -38,6 +37,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 
 public interface ISirhPtgWSConsumer {
 
@@ -82,5 +82,8 @@ public interface ISirhPtgWSConsumer {
 
 	/* saisie DES pointages */
 	List<RefTypeAbsenceDto> getListeRefTypeAbsence();
+
+	ReturnMessageDto setFichePointageSaisie(Integer idAgent,
+			FichePointageDto fichePointageDto);
 
 }
