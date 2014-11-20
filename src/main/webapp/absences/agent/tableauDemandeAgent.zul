@@ -13,7 +13,8 @@
 				</template>
 			</combobox>
 			<label value="Famille d'absence :" />
-			<combobox width="300px" value="@bind(vm.typeAbsenceFiltre.libelle)"
+			<combobox width="300px"
+				value="@bind(vm.typeAbsenceFiltre.libelle)"
 				model="@bind(vm.listeTypeAbsenceFiltre)"
 				selectedItem="@bind(vm.typeAbsenceFiltre)"
 				visible="@bind(not empty vm.listeTypeAbsenceFiltre)">
@@ -73,7 +74,7 @@
 		<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
 			model="@bind(vm.listeDemandes)"
 			selectedItem="@bind(vm.demandeCourant)" emptyMessage="Aucun élément"
-			id="listeAgent" >
+			id="listeAgent">
 			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 			<listhead>
 				<listheader label="Type de demande"
@@ -99,7 +100,7 @@
 					<listcell
 						label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
 					<listcell
-						label="@bind(vm.getHeureDebutToString(each.dateDebut))" />
+						label="@bind(vm.getHeureDebutToString(each))" />
 					<listcell
 						label="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
 					<listcell>

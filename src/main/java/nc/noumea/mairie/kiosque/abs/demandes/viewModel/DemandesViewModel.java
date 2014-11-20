@@ -320,9 +320,12 @@ public class DemandesViewModel {
 		return RefEtatEnum.getRefEtatEnum(idRefEtat).getLibEtat();
 	}
 
-	public String getHeureDebutToString(Date date) {
+	public String getHeureDebutToString(DemandeDto dto) {
+		if (dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+			return "";
+		}
 		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
-		return sf.format(date);
+		return sf.format(dto.getDateDebut());
 	}
 
 	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi) {

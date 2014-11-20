@@ -132,7 +132,7 @@
 					<listcell
 						label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
 					<listcell
-						label="@bind(vm.getHeureDebutToString(each.dateDebut))" />
+						label="@bind(vm.getHeureDebutToString(each))" />
 					<listcell
 						label="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
 					<listcell>
