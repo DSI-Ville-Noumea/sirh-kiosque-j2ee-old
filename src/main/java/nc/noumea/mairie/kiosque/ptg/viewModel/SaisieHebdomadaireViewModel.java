@@ -74,6 +74,9 @@ public class SaisieHebdomadaireViewModel {
 
 	private SaisiePointageForm saisiePointageForm;
 
+	/* Pour savoir si on affiche la disquette de sauvegarde */
+	private boolean hasTextChanged;
+
 	/* POUR LES FILTRES */
 	private Date dateLundi;
 	private List<AgentDto> listeAgentsFiltre;
@@ -101,6 +104,13 @@ public class SaisieHebdomadaireViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "hasTextChanged" })
+	public void textChanged() {
+		setHasTextChanged(true);
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged" })
 	public void enregistreFiche() {
 		setFicheCourante(transformFromSaisiePointageFormToFichePointageDto(getSaisiePointageForm()));
 		ReturnMessageDto result = ptgWsConsumer.setFichePointageSaisie(currentUser.getAgent().getIdAgent(),
@@ -110,8 +120,10 @@ public class SaisieHebdomadaireViewModel {
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 
-		if (result.getErrors().size() == 0)
+		if (result.getErrors().size() == 0) {
 			result.getInfos().add("La saisie a été enregistrée correctement.");
+			setHasTextChanged(false);
+		}
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -129,6 +141,7 @@ public class SaisieHebdomadaireViewModel {
 	@NotifyChange({ "*" })
 	public void ajouterHSup(@BindingParam("ref") HeureSupDto hsup) {
 		hsup.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+		setHasTextChanged(true);
 	}
 
 	@Command
@@ -142,12 +155,14 @@ public class SaisieHebdomadaireViewModel {
 		hsup.setRappelService(false);
 		hsup.setRecuperee(false);
 		hsup.setIdPointage(null);
+		setHasTextChanged(true);
 	}
 
 	@Command
 	@NotifyChange({ "*" })
 	public void ajouterAbsence(@BindingParam("ref") AbsenceDto absence) {
 		absence.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+		setHasTextChanged(true);
 	}
 
 	@Command
@@ -160,12 +175,14 @@ public class SaisieHebdomadaireViewModel {
 		absence.setHeureFin(null);
 		absence.setIdPointage(null);
 		absence.setIdRefTypeAbsence(null);
+		setHasTextChanged(true);
 	}
 
 	@Command
 	@NotifyChange({ "*" })
 	public void ajouterPrime(@BindingParam("ref") PrimeDto prime) {
 		prime.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+		setHasTextChanged(true);
 	}
 
 	@Command
@@ -178,11 +195,13 @@ public class SaisieHebdomadaireViewModel {
 		prime.setHeureFin(null);
 		prime.setIdPointage(null);
 		prime.setQuantite(null);
+		setHasTextChanged(true);
 	}
 
 	@Command
 	@NotifyChange({ "*" })
 	public void chargeFiche() throws ParseException {
+		setHasTextChanged(false);
 
 		if (null != getDateLundi() && null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
 			FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent().getIdAgent(),
@@ -208,12 +227,14 @@ public class SaisieHebdomadaireViewModel {
 
 			setDateFiltre("Semaine " + numSemaine + " du " + lundi + " au " + dimanche);
 		}
+		setHasTextChanged(false);
 		chargeFiche();
 	}
 
 	@Command
 	@NotifyChange({ "listeAgentsFiltre", "agentFiltre", "*" })
 	public void afficheListeAgent() {
+		setHasTextChanged(false);
 		setAgentFiltre(null);
 		// on charge les agents pour les filtres
 		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser.getAgent().getIdAgent(),
@@ -578,6 +599,14 @@ public class SaisieHebdomadaireViewModel {
 
 	public void setListeTypeAbsence(ListModel<RefTypeAbsenceDto> listeTypeAbsence) {
 		this.listeTypeAbsence = listeTypeAbsence;
+	}
+
+	public boolean isHasTextChanged() {
+		return hasTextChanged;
+	}
+
+	public void setHasTextChanged(boolean hasTextChanged) {
+		this.hasTextChanged = hasTextChanged;
 	}
 
 }
