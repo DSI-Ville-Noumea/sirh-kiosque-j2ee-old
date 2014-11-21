@@ -91,10 +91,6 @@ public class SaisieHebdomadaireViewModel {
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		setDateFiltre("Semaine ... du ... au ...");
-		// on recupere la fiche
-		FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(9005138, getLundi(new SimpleDateFormat(
-				"dd/MM/yyyy").parse("10/11/2014")), 9003041);
-		setFicheCourante(result);
 
 		setListeTypeAbsence(getModelTypeAbsence());
 	}
@@ -199,7 +195,7 @@ public class SaisieHebdomadaireViewModel {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void afficheSemaine() {
+	public void afficheSemaine() throws ParseException {
 		if (getDateLundi() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Calendar c = Calendar.getInstance();
@@ -212,10 +208,7 @@ public class SaisieHebdomadaireViewModel {
 
 			setDateFiltre("Semaine " + numSemaine + " du " + lundi + " au " + dimanche);
 		}
-
-		if (null != getDateLundi() && null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
-			setSaisiePointageForm(transformFromFichePointageDtoToSaisiePointageForm(getFicheCourante()));
-		}
+		chargeFiche();
 	}
 
 	@Command

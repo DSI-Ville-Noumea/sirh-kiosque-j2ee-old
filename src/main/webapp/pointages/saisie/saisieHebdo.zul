@@ -160,7 +160,7 @@
 											value="${vm.etatToString(cellAbsence.idRefEtat)}"
 											visible="@bind(not empty cellAbsence.idRefEtat)" />
 										<separator />
-										<label value="Absence"
+										<label value="Absence sans titre"
 											style="font-weight: bold;" />
 									</div>
 									<timebox cols="14" format="HH:mm"
