@@ -90,9 +90,20 @@
 										<button zclass="boutonAdd"
 											onClick="@command('ajouterHSup',ref=cellHSup)"
 											visible="@bind(empty cellHSup.idRefEtat)" />
-										<button zclass="boutonRemove"
-											onClick="@command('deleteHSup',ref=cellHSup)"
-											visible="@bind(not empty cellHSup.idRefEtat)" />
+										<hlayout>
+											<button
+												zclass="boutonDupliqueGauche"
+												onClick="@command('copieGaucheHSup',ref=cellHSup)"
+												visible="@bind(not empty cellHSup.idRefEtat)" />
+											<button
+												zclass="boutonRemove"
+												onClick="@command('deleteHSup',ref=cellHSup)"
+												visible="@bind(not empty cellHSup.idRefEtat)" />
+											<button
+												zclass="boutonDupliqueDroite"
+												onClick="@command('copieDroiteHSup',ref=cellHSup)"
+												visible="@bind(not empty cellHSup.idRefEtat)" />
+										</hlayout>
 										<label
 											value="${vm.etatToString(cellHSup.idRefEtat)}"
 											visible="@bind(not empty cellHSup.idRefEtat)" />
@@ -157,9 +168,20 @@
 										<button zclass="boutonAdd"
 											onClick="@command('ajouterAbsence',ref=cellAbsence)"
 											visible="@bind(empty cellAbsence.idRefEtat)" />
-										<button zclass="boutonRemove"
-											onClick="@command('deleteAbsence',ref=cellAbsence)"
-											visible="@bind(not empty cellAbsence.idRefEtat)" />
+										<hlayout>
+											<button
+												zclass="boutonDupliqueGauche"
+												onClick="@command('copieGaucheAbsence',ref=cellAbsence)"
+												visible="@bind(not empty cellAbsence.idRefEtat)" />
+											<button
+												zclass="boutonRemove"
+												onClick="@command('deleteAbsence',ref=cellAbsence)"
+												visible="@bind(not empty cellAbsence.idRefEtat)" />
+											<button
+												zclass="boutonDupliqueDroite"
+												onClick="@command('copieDroiteAbsence',ref=cellAbsence)"
+												visible="@bind(not empty cellAbsence.idRefEtat)" />
+										</hlayout>
 										<label
 											value="${vm.etatToString(cellAbsence.idRefEtat)}"
 											visible="@bind(not empty cellAbsence.idRefEtat)" />
@@ -229,9 +251,19 @@
 									<button zclass="boutonAdd"
 										onClick="@command('ajouterPrime',ref=cellPrime)"
 										visible="@bind(empty cellPrime.idRefEtat)" />
-									<button zclass="boutonRemove"
-										onClick="@command('deletePrime',ref=cellPrime)"
-										visible="@bind(not empty cellPrime.idRefEtat)" />
+									<hlayout>
+										<button
+											zclass="boutonDupliqueGauche"
+											onClick="@command('copieGauchePrime',ref=cellPrime)"
+											visible="@bind(not empty cellPrime.idRefEtat)" />
+										<button zclass="boutonRemove"
+											onClick="@command('deletePrime',ref=cellPrime)"
+											visible="@bind(not empty cellPrime.idRefEtat)" />
+										<button
+											zclass="boutonDupliqueDroite"
+											onClick="@command('copieDroitPrime',ref=cellPrime)"
+											visible="@bind(not empty cellPrime.idRefEtat)" />
+									</hlayout>
 									<label
 										value="${vm.etatToString(cellPrime.idRefEtat)}"
 										visible="@bind(not empty cellPrime.idRefEtat)" />

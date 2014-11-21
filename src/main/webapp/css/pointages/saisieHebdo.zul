@@ -52,6 +52,28 @@
 		width: 16px;
 		border: none;
 	}
+	.boutonDupliqueGauche { 
+		background-image: url("img/Sprite.png");
+		background-position: -251px -199px;
+		background-repeat: no-repeat;
+		cursor: pointer; 
+		height: 16px; 
+		margin: 0px; 
+		vertical-align: middle; 
+		width: 16px;
+		border: none;
+	}
+	.boutonDupliqueDroite { 
+		background-image: url("img/Sprite.png");
+		background-position: -235px -199px;
+		background-repeat: no-repeat;
+		cursor: pointer; 
+		height: 16px; 
+		margin: 0px; 
+		vertical-align: middle; 
+		width: 16px;
+		border: none;
+	}
 	
 	.z-listitem:hover > .z-listcell { background-color: none !important; background:none !important;}
 	.z-listitem:hover > .z-listcell > .z-listcell-content { background-color: none !important; background:none !important;}
