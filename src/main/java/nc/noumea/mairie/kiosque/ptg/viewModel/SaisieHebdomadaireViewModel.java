@@ -54,8 +54,10 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Checkbox;
@@ -64,7 +66,12 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listitem;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class SaisieHebdomadaireViewModel {
+public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@WireVariable
 	private ISirhPtgWSConsumer ptgWsConsumer;
@@ -288,7 +295,7 @@ public class SaisieHebdomadaireViewModel {
 	}
 	
 	public boolean estAgentDPM() {
-		return "DPM".equals(getFicheCourante().getAgent().getSigleService());
+		return getFicheCourante().isDPM();
 	}
 
 	public FichePointageDto getFicheCourante() {
