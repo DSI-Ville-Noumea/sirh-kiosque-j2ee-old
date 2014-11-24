@@ -743,4 +743,132 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return true;
 	}
 
+	@Command
+	@NotifyChange({ "*" })
+	public void copieDroiteAbsence(@BindingParam("ref") AbsenceDto absence) {
+		for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
+			if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
+				int indexPart2 = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).indexOf(absence);
+				AbsenceDto absSuiv = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i))
+						.get(indexPart2 + 1);
+				ajouterAbsence(absSuiv);
+				// on copie les données
+				absSuiv.setCommentaire(absence.getCommentaire());
+				absSuiv.setMotif(absence.getMotif());
+				absSuiv.setHeureDebut(absence.getHeureDebut());
+				absSuiv.setHeureFin(absence.getHeureFin());
+				absSuiv.setIdRefTypeAbsence(absence.getIdRefTypeAbsence());
+				setHasTextChanged(true);
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange({ "*" })
+	public void copieGaucheAbsence(@BindingParam("ref") AbsenceDto absence) {
+		for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
+			if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
+				int indexPart2 = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).indexOf(absence);
+				AbsenceDto absPrec = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i))
+						.get(indexPart2 - 1);
+				ajouterAbsence(absPrec);
+				// on copie les données
+				absPrec.setCommentaire(absence.getCommentaire());
+				absPrec.setMotif(absence.getMotif());
+				absPrec.setHeureDebut(absence.getHeureDebut());
+				absPrec.setHeureFin(absence.getHeureFin());
+				absPrec.setIdRefTypeAbsence(absence.getIdRefTypeAbsence());
+				setHasTextChanged(true);
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange({ "*" })
+	public void copieDroiteHSup(@BindingParam("ref") HeureSupDto hsup) {
+		for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
+			if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
+				int indexPart2 = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).indexOf(hsup);
+				HeureSupDto hsupSuiv = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i))
+						.get(indexPart2 + 1);
+				ajouterHSup(hsupSuiv);
+				// on copie les données
+				hsupSuiv.setCommentaire(hsup.getCommentaire());
+				hsupSuiv.setMotif(hsup.getMotif());
+				hsupSuiv.setHeureDebut(hsup.getHeureDebut());
+				hsupSuiv.setHeureFin(hsup.getHeureFin());
+				hsupSuiv.setRappelService(hsup.isRappelService());
+				hsupSuiv.setRecuperee(hsup.isRecuperee());
+				setHasTextChanged(true);
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange({ "*" })
+	public void copieGaucheHSup(@BindingParam("ref") HeureSupDto hsup) {
+		for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
+			if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
+				int indexPart2 = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).indexOf(hsup);
+				HeureSupDto hsupPrec = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i))
+						.get(indexPart2 - 1);
+				ajouterHSup(hsupPrec);
+				// on copie les données
+				hsupPrec.setCommentaire(hsup.getCommentaire());
+				hsupPrec.setMotif(hsup.getMotif());
+				hsupPrec.setHeureDebut(hsup.getHeureDebut());
+				hsupPrec.setHeureFin(hsup.getHeureFin());
+				hsupPrec.setRappelService(hsup.isRappelService());
+				hsupPrec.setRecuperee(hsup.isRecuperee());
+				setHasTextChanged(true);
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange({ "*" })
+	public void copieDroitePrime(@BindingParam("ref") PrimeDto prime) {
+		for (int i = 0; i < getFicheCourante().getSaisies().size(); i++) {
+			for (PrimeDto dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
+				if (getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString()) != null) {
+					int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
+							.indexOf(prime);
+					PrimeDto primeSuiv = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
+							.get(indexPart2 + 1);
+					ajouterPrime(primeSuiv);
+					// on copie les données
+					primeSuiv.setCommentaire(prime.getCommentaire());
+					primeSuiv.setMotif(prime.getMotif());
+					primeSuiv.setHeureDebut(prime.getHeureDebut());
+					primeSuiv.setHeureFin(prime.getHeureFin());
+					primeSuiv.setQuantite(prime.getQuantite());
+					setHasTextChanged(true);
+				}
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange({ "*" })
+	public void copieGauchePrime(@BindingParam("ref") PrimeDto prime) {
+		for (int i = 0; i < getFicheCourante().getSaisies().size(); i++) {
+			for (PrimeDto dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
+				if (getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString()) != null) {
+					int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
+							.indexOf(prime);
+					PrimeDto primePrec = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
+							.get(indexPart2 - 1);
+					ajouterPrime(primePrec);
+					// on copie les données
+					primePrec.setCommentaire(prime.getCommentaire());
+					primePrec.setMotif(prime.getMotif());
+					primePrec.setHeureDebut(prime.getHeureDebut());
+					primePrec.setHeureFin(prime.getHeureFin());
+					primePrec.setQuantite(prime.getQuantite());
+					setHasTextChanged(true);
+				}
+			}
+		}
+	}
+
 }
