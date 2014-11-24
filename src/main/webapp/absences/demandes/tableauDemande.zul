@@ -100,12 +100,12 @@
 			id="listeDemande">
 			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
 			<listhead>
-				<listheader label="Agent"
-					sort="auto('agentWithServiceDto.nom')" />
+				<listheader label="Agent" sortDirection="ascending"
+					sort="auto(agentWithServiceDto.nom,agentWithServiceDto.prenom)" />
 				<listheader label="Type de demande"
-					sort="auto('libelleTypeDemande')" />
-				<listheader label="Date de début"
-					sort="auto('dateDebut')" align="center" width="100px" />
+					sort="auto(libelleTypeDemande)" />
+				<listheader label="Date de début" sort="auto(dateDebut)"
+					align="center" width="100px" sortDirection="ascending" />
 				<listheader label="Heure de début" sort="none"
 					width="100px" align="center" />
 				<listheader label="Durée" sort="none" width="60px" />
@@ -115,7 +115,7 @@
 						sclass="ListAction warn" />
 				</listheader>
 				<listheader label="Date de demande"
-					sort="auto('dateDemande')" align="center" width="120px" />
+					sort="auto(dateDemande)" align="center" width="120px" />
 				<listheader label="Etat" sort="none" width="80px" />
 				<listheader label="" sort="none" width="150px" />
 			</listhead>
@@ -144,13 +144,13 @@
 						label="@bind(vm.getEtatToString(each.idRefEtat))" />
 					<listcell>
 						<hlayout>
-							<image tooltiptext="Viser favorablement la demande"
-								sclass="ListAction accept"
-								visible="@bind(each.modifierVisa)"
+							<image
+								tooltiptext="Viser favorablement la demande"
+								sclass="ListAction accept" visible="@bind(each.modifierVisa)"
 								onClick="@command('viserDemandeFavorable')" />
-							<image tooltiptext="Viser défavorablement la demande"
-								sclass="ListAction delete"
-								visible="@bind(each.modifierVisa)"
+							<image
+								tooltiptext="Viser défavorablement la demande"
+								sclass="ListAction delete" visible="@bind(each.modifierVisa)"
 								onClick="@command('viserDemandeDefavorable')" />
 						</hlayout>
 
