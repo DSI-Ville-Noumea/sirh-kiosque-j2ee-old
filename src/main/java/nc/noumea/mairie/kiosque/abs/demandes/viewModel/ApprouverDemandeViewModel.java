@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,7 +43,6 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
-import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -64,17 +62,17 @@ public class ApprouverDemandeViewModel {
 
 	private DemandeDto demandeCourant;
 
-	private String avisApprobateur;
-
 	private ProfilAgentDto currentUser;
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
 		// on recupere la demande selectionnée
 		setDemandeCourant(demande);
-		setAvisApprobateur(getDemandeCourant().getValeurApprobation() == null ? "1" : getDemandeCourant()
-				.getValeurApprobation() ? "1" : "0");
 		setMotifRefus(getDemandeCourant().getMotif());
+
+		// on recupere tous les motifs de refus
+		List<MotifDto> result = absWsConsumer.getListeMotifsRefus();
+		setListeMotifsRefus(result);
 	}
 
 	@Command
@@ -83,25 +81,12 @@ public class ApprouverDemandeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeMotifsRefus", "motifRefus" })
-	public void changeAvis() {
-		setListeMotifsRefus(null);
-		setMotifRefus(null);
-		if (getAvisApprobateur().equals("0")) {
-			// on recupere tous les motifs de refus
-			List<MotifDto> result = absWsConsumer.getListeMotifsRefus();
-			setListeMotifsRefus(result);
-		}
-	}
-
-	@Command
 	public void approuveDemande(@BindingParam("win") Window window) {
 		if (IsFormValid()) {
 
 			DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
 			dto.setIdDemande(getDemandeCourant().getIdDemande());
-			dto.setIdRefEtat(getAvisApprobateur().equals("0") ? RefEtatEnum.REFUSEE.getCodeEtat()
-					: RefEtatEnum.APPROUVEE.getCodeEtat());
+			dto.setIdRefEtat(RefEtatEnum.REFUSEE.getCodeEtat());
 			dto.setDateAvis(new Date());
 			dto.setMotif(getMotifRefus());
 
@@ -137,7 +122,7 @@ public class ApprouverDemandeViewModel {
 		List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
 
 		// Motif
-		if (getMotifRefus() == null && getAvisApprobateur().equals("0")) {
+		if (getMotifRefus() == null) {
 			vList.add(new ValidationMessage("Le motif est obligatoire."));
 		}
 
@@ -177,13 +162,5 @@ public class ApprouverDemandeViewModel {
 
 	public void setListeMotifsRefus(List<MotifDto> listeMotifsRefus) {
 		this.listeMotifsRefus = listeMotifsRefus;
-	}
-
-	public String getAvisApprobateur() {
-		return avisApprobateur;
-	}
-
-	public void setAvisApprobateur(String avisApprobateur) {
-		this.avisApprobateur = avisApprobateur;
 	}
 }

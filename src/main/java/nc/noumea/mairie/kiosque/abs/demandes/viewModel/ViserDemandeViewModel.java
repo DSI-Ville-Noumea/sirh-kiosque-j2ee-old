@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,7 +43,6 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
-import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -64,34 +62,22 @@ public class ViserDemandeViewModel {
 
 	private DemandeDto demandeCourant;
 
-	private String avisHierarchique;
-
 	private ProfilAgentDto currentUser;
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
 		// on recupere la demande selectionnée
 		setDemandeCourant(demande);
-		setAvisHierarchique(getDemandeCourant().getValeurVisa() == null ? "1"
-				: getDemandeCourant().getValeurVisa() ? "1" : "0");
 		setMotifRefus(getDemandeCourant().getMotif());
+
+		// on recupere tous les motifs de refus
+		List<MotifDto> result = absWsConsumer.getListeMotifsRefus();
+		setListeMotifsRefus(result);
 	}
 
 	@Command
 	public void saveMotif(@BindingParam("ref") Combobox combo) {
 		setMotifRefus(combo.getValue());
-	}
-
-	@Command
-	@NotifyChange({ "listeMotifsRefus", "motifRefus" })
-	public void changeAvis() {
-		setListeMotifsRefus(null);
-		setMotifRefus(null);
-		if (getAvisHierarchique().equals("0")) {
-			// on recupere tous les motifs de refus
-			List<MotifDto> result = absWsConsumer.getListeMotifsRefus();
-			setListeMotifsRefus(result);
-		}
 	}
 
 	@Command
@@ -102,8 +88,7 @@ public class ViserDemandeViewModel {
 
 			DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
 			dto.setIdDemande(getDemandeCourant().getIdDemande());
-			dto.setIdRefEtat(getAvisHierarchique().equals("0") ? RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat()
-					: RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
+			dto.setIdRefEtat(RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat());
 			dto.setDateAvis(new Date());
 			dto.setMotif(getMotifRefus());
 
@@ -137,7 +122,7 @@ public class ViserDemandeViewModel {
 		List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
 
 		// Motif
-		if (getMotifRefus() == null && getAvisHierarchique().equals("0")) {
+		if (getMotifRefus() == null) {
 			vList.add(new ValidationMessage("Le motif est obligatoire."));
 		}
 
@@ -169,14 +154,6 @@ public class ViserDemandeViewModel {
 
 	public void setDemandeCourant(DemandeDto demandeCourant) {
 		this.demandeCourant = demandeCourant;
-	}
-
-	public String getAvisHierarchique() {
-		return avisHierarchique;
-	}
-
-	public void setAvisHierarchique(String avisHierarchique) {
-		this.avisHierarchique = avisHierarchique;
 	}
 
 	public List<MotifDto> getListeMotifsRefus() {
