@@ -317,7 +317,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>ROTT##sirh-kiosque-j2ee-${maven.build.timestamp}-${project.version}</finalName>
+		<finalName>ROOT##sirh-kiosque-j2ee-${maven.build.timestamp}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
