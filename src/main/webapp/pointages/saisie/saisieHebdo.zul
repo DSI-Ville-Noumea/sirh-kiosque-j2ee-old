@@ -268,7 +268,7 @@
 											visible="@bind(not empty cellPrime.idRefEtat)" />
 										<button
 											zclass="boutonDupliqueDroite"
-											onClick="@command('copieDroitPrime',ref=cellPrime)"
+											onClick="@command('copieDroitePrime',ref=cellPrime)"
 												visible="@bind(vm.isAfficherDupliquerPrimeDroit(cellPrime))" />
 									</hlayout>
 									<label
@@ -278,13 +278,13 @@
 									<label
 										value="@bind(cellPrime.titre)" style="font-weight: bold;" />
 								</div>
-								<timebox cols="10" format="HH:mm"
+								<timebox cols="14" format="HH:mm"
 									value="@bind(cellPrime.heureDebut)"
 									disabled="@bind(empty cellPrime.idRefEtat)"
 									placeholder="Heure de début *"
 									visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
 									onChanging="@command('textChanged')" />
-								<timebox cols="10" format="HH:mm"
+								<timebox cols="14" format="HH:mm"
 									value="@bind(cellPrime.heureFin)"
 									disabled="@bind(empty cellPrime.idRefEtat)"
 									placeholder="Heure de fin *"
