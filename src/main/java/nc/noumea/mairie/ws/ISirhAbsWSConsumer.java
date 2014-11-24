@@ -117,6 +117,8 @@ public interface ISirhAbsWSConsumer {
 	List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
 			Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche);
 
+	List<DemandeDto> getHistoriqueAbsence(Integer idAgent, Integer idDemande);
+
 	// pour les motifs de refus en auto complétion
 	List<MotifDto> getListeMotifsRefus();
 

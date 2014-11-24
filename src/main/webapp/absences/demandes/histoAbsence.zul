@@ -1,0 +1,34 @@
+<zk>
+	<grid style="margin-left: 473px;border:none;">
+		<columns visible="false">
+			<column label="Date de début" width="100px" align="center" />
+			<column label="Heure de début" width="100px" align="center" />
+			<column label="Durée" width="60px" />
+			<column label="" width="40px" />
+			<column label="Date de demande" width="120px"
+				align="center" />
+			<column label="Etat" width="100px" />
+			<column label="Motif" width="150px" />
+		</columns>
+		<rows>
+			<zk forEach="${vm.getHistoriqueAbsence(arg.absence)}">
+				<row>
+					<label
+						value="${vm.getDateToString(each.dateDebut)}" />
+					<label value="${vm.getHeureDebutToString(each)}" />
+					<label
+						value="${vm.getDureeToString(each.duree,each.typeSaisi)}" />
+					<hlayout>
+						<label value="" />
+					</hlayout>
+					<label
+						value="${vm.getDateToString(each.dateDemande)}" />
+					<label
+						value="${vm.getEtatToString(each.idRefEtat)}" />
+					<label
+						value="${each.motif}" />
+				</row>
+			</zk>
+		</rows>
+	</grid>
+</zk>

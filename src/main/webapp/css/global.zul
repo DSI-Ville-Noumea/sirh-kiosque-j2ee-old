@@ -100,6 +100,8 @@
 
 	.ListAction.view { background-position: -267px -229px; }
 
+	.ListAction.help { background-position: -283px -229px; }
+
 	.ListAction { background-image: url("img/Sprite.png");
 	background-repeat: no-repeat; cursor: pointer; display:
 	inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }

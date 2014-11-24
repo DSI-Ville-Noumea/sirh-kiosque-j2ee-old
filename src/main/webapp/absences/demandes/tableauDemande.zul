@@ -81,10 +81,10 @@
 				Affichage de
 				<combobox width="50px"
 					selectedItem="@bind(vm.tailleListe)" readonly="true">
-					<comboitem value="5" label="5" />
 					<comboitem value="10" label="10" />
-					<comboitem value="15" label="15" />
-					<comboitem value="20" label="20" />
+					<comboitem value="25" label="25" />
+					<comboitem value="50" label="50" />
+					<comboitem value="100" label="100" />
 				</combobox>
 				demandes par page
 				<space />
@@ -94,100 +94,103 @@
 			</div>
 		</hlayout>
 		<separator />
-		<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
-			model="@bind(vm.listeDemandes)"
-			selectedItem="@bind(vm.demandeCourant)" emptyMessage="Aucun élément"
-			id="listeDemande">
-			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
-			<listhead>
-				<listheader label="Agent" sortDirection="ascending"
-					sort="auto(agentWithServiceDto.nom,agentWithServiceDto.prenom)" />
-				<listheader label="Type de demande"
-					sort="auto(libelleTypeDemande)" />
-				<listheader label="Date de début" sort="auto(dateDebut)"
-					align="center" width="100px" sortDirection="ascending" />
-				<listheader label="Heure de début" sort="none"
-					width="100px" align="center" />
-				<listheader label="Durée" sort="none" width="60px" />
-				<listheader width="40px">
+
+		<grid model="@bind(vm.listeDemandes)" mold="paging"
+			pageSize="@bind(vm.tailleListe)" emptyMessage="Aucun élément">
+			<columns>
+				<column width="30px" sort="none" />
+				<column label="Agent"
+					sort="auto('agentWithServiceDto.nom','agentWithServiceDto.prenom')" />
+				<column label="Type de demande"
+					sort="auto('libelleTypeDemande')" />
+				<column label="Date de début" sort="auto('dateDebut')"
+					align="center" width="100px" />
+				<column label="Heure de début" sort="none" width="100px"
+					align="center" />
+				<column label="Durée" sort="none" width="60px" />
+				<column width="40px">
 					<image
 						tooltiptext="Le seuil du compteur est dépassé pour cette demande."
 						sclass="ListAction warn" />
-				</listheader>
-				<listheader label="Date de demande"
-					sort="auto(dateDemande)" align="center" width="120px" />
-				<listheader label="Etat" sort="none" width="80px" />
-				<listheader label="" sort="none" width="150px" />
-			</listhead>
-
+				</column>
+				<column label="Date de demande"
+					sort="auto('dateDemande')" align="center" width="120px" />
+				<column label="Etat" sort="none" width="100px" />
+				<column label="" sort="none" width="150px" />
+			</columns>
 			<template name="model">
-				<listitem>
-					<listcell style="text-decoration: underline;"
+				<row>
+					<custom-attributes absence="${each}" />
+					<detail open="false" fulfill="onOpen">
+						<include
+							src="/absences/demandes/histoAbsence.zul" absence="${absence}" />
+					</detail>
+					<label sclass="clicable"
+						style="text-decoration: underline;"
 						onClick="@command('visuSoldeAgent',ref=each.agentWithServiceDto)"
-						label="@bind(vm.concatAgent(each.agentWithServiceDto.nom,each.agentWithServiceDto.prenom))" />
-					<listcell label="@bind(each.libelleTypeDemande)" />
-					<listcell
-						label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
-					<listcell
-						label="@bind(vm.getHeureDebutToString(each))" />
-					<listcell
-						label="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
-					<listcell>
+						value="@bind(vm.concatAgent(each.agentWithServiceDto.nom,each.agentWithServiceDto.prenom))" />
+					<label value="@bind(each.libelleTypeDemande)" />
+					<label
+						value="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
+					<label
+						value="@bind(vm.getHeureDebutToString(each))" />
+					<label
+						value="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
+					<hlayout>
 						<image
 							tooltiptext="Le seuil du compteur est dépassé pour cette demande."
 							sclass="ListAction warn"
 							visible="@bind(each.depassementCompteur)" />
-					</listcell>
-					<listcell
-						label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
-					<listcell
-						label="@bind(vm.getEtatToString(each.idRefEtat))" />
-					<listcell>
-						<hlayout>
-							<image
-								tooltiptext="Viser favorablement la demande"
-								sclass="ListAction accept" visible="@bind(each.modifierVisa)"
-								onClick="@command('viserDemandeFavorable')" />
-							<image
-								tooltiptext="Viser défavorablement la demande"
-								sclass="ListAction delete" visible="@bind(each.modifierVisa)"
-								onClick="@command('viserDemandeDefavorable')" />
-						</hlayout>
+					</hlayout>
+					<label
+						value="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
+					<hlayout>
+						<label
+							value="@bind(vm.getEtatToString(each.idRefEtat))" />
+						<image tooltiptext="@bind(each.motif)"
+							sclass="ListAction help" visible="@bind(not empty each.motif)" />
+					</hlayout>
 
-						<hlayout>
-							<image tooltiptext="Approuver la demande"
-								sclass="ListAction accept"
-								visible="@bind(each.modifierApprobation)"
-								onClick="@command('approuverDemande')" />
-							<image tooltiptext="Refuser la demande"
-								sclass="ListAction delete"
-								visible="@bind(each.modifierApprobation)"
-								onClick="@command('desapprouverDemande')" />
-						</hlayout>
-
-						<hlayout>
-							<image tooltiptext="Editer la demande"
-								sclass="ListAction edit"
-								visible="@bind(each.affichageBoutonModifier)"
-								onClick="@command('modifierDemande')" />
-							<image tooltiptext="Supprimer la demande"
-								sclass="ListAction delete"
-								visible="@bind(each.affichageBoutonSupprimer)"
-								onClick="@command('supprimerDemande')" />
-							<image tooltiptext="Annuler la demande"
-								sclass="ListAction delete"
-								visible="@bind(each.affichageBoutonAnnuler)"
-								onClick="@command('annulerDemande')" />
-							<image tooltiptext="Imprimer la demande"
-								sclass="ListAction print"
-								visible="@bind(each.affichageBoutonImprimer)"
-								onClick="@command('imprimerDemande')" />
-						</hlayout>
-					</listcell>
-
-				</listitem>
+					<hlayout>
+						<!-- Pour le viseur -->
+						<image
+							tooltiptext="Viser favorablement la demande"
+							sclass="ListAction accept" visible="@bind(each.modifierVisa)"
+							onClick="@command('viserDemandeFavorable',ref=each)" />
+						<image
+							tooltiptext="Viser défavorablement la demande"
+							sclass="ListAction delete" visible="@bind(each.modifierVisa)"
+							onClick="@command('viserDemandeDefavorable',ref=each)" />
+						<!-- Pour l'approbateur -->
+						<image tooltiptext="Approuver la demande"
+							sclass="ListAction accept"
+							visible="@bind(each.modifierApprobation)"
+							onClick="@command('approuverDemande',ref=each)" />
+						<image tooltiptext="Refuser la demande"
+							sclass="ListAction delete"
+							visible="@bind(each.modifierApprobation)"
+							onClick="@command('desapprouverDemande',ref=each)" />
+						<!-- Pour l'operateur -->
+						<image tooltiptext="Editer la demande"
+							sclass="ListAction edit"
+							visible="@bind(each.affichageBoutonModifier)"
+							onClick="@command('modifierDemande',ref=each)" />
+						<image tooltiptext="Supprimer la demande"
+							sclass="ListAction delete"
+							visible="@bind(each.affichageBoutonSupprimer)"
+							onClick="@command('supprimerDemande',ref=each)" />
+						<image tooltiptext="Annuler la demande"
+							sclass="ListAction delete"
+							visible="@bind(each.affichageBoutonAnnuler)"
+							onClick="@command('annulerDemande',ref=each)" />
+						<image tooltiptext="Imprimer la demande"
+							sclass="ListAction print"
+							visible="@bind(each.affichageBoutonImprimer)"
+							onClick="@command('imprimerDemande',ref=each)" />
+					</hlayout>
+				</row>
 			</template>
-		</listbox>
+		</grid>
 		<div style="display:block;">
 			<div style="display:inline-block;float:left;"
 				align="left">

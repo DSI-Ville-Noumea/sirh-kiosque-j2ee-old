@@ -72,8 +72,6 @@ public class DemandesViewModel {
 
 	private List<DemandeDto> listeDemandes;
 
-	private DemandeDto demandeCourant;
-
 	private Tab tabCourant;
 
 	/* POUR LES FILTRES */
@@ -115,7 +113,7 @@ public class DemandesViewModel {
 		// on recharge les états d'absences pour les filtres
 		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
 		setListeEtatAbsenceFiltre(filtreEtat);
-		setTailleListe("5");
+		setTailleListe("10");
 	}
 
 	@Command
@@ -223,9 +221,9 @@ public class DemandesViewModel {
 
 	@Command
 	@NotifyChange({ "listeDemandes" })
-	public void viserDemandeFavorable() {
+	public void viserDemandeFavorable(@BindingParam("ref") DemandeDto demande) {
 		DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
-		dto.setIdDemande(getDemandeCourant().getIdDemande());
+		dto.setIdDemande(demande.getIdDemande());
 		dto.setIdRefEtat(RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
 		dto.setDateAvis(new Date());
 
@@ -252,20 +250,20 @@ public class DemandesViewModel {
 	}
 
 	@Command
-	public void viserDemandeDefavorable() {
+	public void viserDemandeDefavorable(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/demandes/viserDemande.zul", null, args);
 		win.doModal();
 	}
 
 	@Command
 	@NotifyChange({ "listeDemandes" })
-	public void approuverDemande() {
+	public void approuverDemande(@BindingParam("ref") DemandeDto demande) {
 
 		DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
-		dto.setIdDemande(getDemandeCourant().getIdDemande());
+		dto.setIdDemande(demande.getIdDemande());
 		dto.setIdRefEtat(RefEtatEnum.APPROUVEE.getCodeEtat());
 		dto.setDateAvis(new Date());
 
@@ -294,10 +292,10 @@ public class DemandesViewModel {
 	}
 
 	@Command
-	public void desapprouverDemande() {
+	public void desapprouverDemande(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/demandes/approuverDemande.zul", null, args);
 		win.doModal();
 	}
@@ -310,38 +308,43 @@ public class DemandesViewModel {
 	}
 
 	@Command
-	public void imprimerDemande() {
+	public void imprimerDemande(@BindingParam("ref") DemandeDto demande) {
 		// on imprime la demande
-		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getAgent().getIdAgent(), getDemandeCourant()
-				.getIdDemande());
+		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getAgent().getIdAgent(), demande.getIdDemande());
 		Filedownload.save(resp, "application/pdf", "titreAbsence");
 	}
 
 	@Command
-	public void annulerDemande() {
+	public void annulerDemande(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/annulerDemande.zul", null, args);
 		win.doModal();
 	}
 
 	@Command
-	public void modifierDemande() {
+	public void modifierDemande(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/modifierDemande.zul", null, args);
 		win.doModal();
 	}
 
 	@Command
-	public void supprimerDemande() {
+	public void supprimerDemande(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/supprimerDemande.zul", null, args);
 		win.doModal();
+	}
+
+	public List<DemandeDto> getHistoriqueAbsence(DemandeDto abs) {
+		List<DemandeDto> result = absWsConsumer.getHistoriqueAbsence(currentUser.getAgent().getIdAgent(),
+				abs.getIdDemande());
+		return result;
 	}
 
 	@Command
@@ -384,6 +387,14 @@ public class DemandesViewModel {
 
 	public String getEtatToString(Integer idRefEtat) {
 		return RefEtatEnum.getRefEtatEnum(idRefEtat).getLibEtat();
+	}
+
+	public String getDateToString(Date date) {
+		if (date == null) {
+			return "";
+		}
+		SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+		return sf.format(date);
 	}
 
 	public String getHeureDebutToString(DemandeDto dto) {
@@ -503,14 +514,6 @@ public class DemandesViewModel {
 
 	public void setListeDemandes(List<DemandeDto> listeDemandes) {
 		this.listeDemandes = listeDemandes;
-	}
-
-	public DemandeDto getDemandeCourant() {
-		return demandeCourant;
-	}
-
-	public void setDemandeCourant(DemandeDto demandeCourant) {
-		this.demandeCourant = demandeCourant;
 	}
 
 	public List<ServiceDto> getListeServicesFiltre() {
