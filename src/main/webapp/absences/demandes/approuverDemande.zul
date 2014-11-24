@@ -6,18 +6,6 @@
 		<style>.z-window {background-color: #ee7203;}</style>
 		<div sclass="fond" height="100%">
 			<vlayout>
-				<hlayout>
-					<hlayout width="35px">
-						<label value="Avis : " />
-					</hlayout>
-					<radiogroup id="rg1"
-						selectedItem="@bind(vm.avisApprobateur)"
-						selectedIndex="@bind(vm.avisApprobateur)"
-						onCheck="@command('changeAvis')">
-						<radio label="Refusé" value="0" />
-						<radio label="Accepté" value="1" />
-					</radiogroup>
-				</hlayout>
 				<hlayout
 					visible="@bind(not empty vm.listeMotifsRefus)">
 					<hlayout width="35px">

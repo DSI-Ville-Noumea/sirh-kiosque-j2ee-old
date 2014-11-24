@@ -159,7 +159,7 @@
 								sclass="ListAction accept"
 								visible="@bind(each.modifierApprobation)"
 								onClick="@command('approuverDemande')" />
-							<image tooltiptext="Désapprouver la demande"
+							<image tooltiptext="Refuser la demande"
 								sclass="ListAction delete"
 								visible="@bind(each.modifierApprobation)"
 								onClick="@command('desapprouverDemande')" />
