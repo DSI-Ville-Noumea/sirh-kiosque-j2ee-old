@@ -62,6 +62,7 @@ public class DemandeDto {
 	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateSaisie;
 	private String motif;
+	private AgentWithServiceDto agentEtat;
 
 	// permet d'afficher ou non les icones correspondants
 	private boolean isAffichageBoutonModifier;
@@ -387,6 +388,14 @@ public class DemandeDto {
 
 	public void setDuree(Double duree) {
 		this.duree = duree;
+	}
+
+	public AgentWithServiceDto getAgentEtat() {
+		return agentEtat;
+	}
+
+	public void setAgentEtat(AgentWithServiceDto agentEtat) {
+		this.agentEtat = agentEtat;
 	}
 
 }

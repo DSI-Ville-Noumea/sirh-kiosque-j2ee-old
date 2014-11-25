@@ -256,6 +256,16 @@ public class DemandesAgentViewModel {
 		out.close();
 	}
 
+	public String dateSaisieToString(Date dateSaisie) {
+		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
+		return sdfJour.format(dateSaisie) + " à " + sdfHeure.format(dateSaisie);
+	}
+
+	public String concatAgent(String nom, String prenom) {
+		return nom + " " + prenom;
+	}
+
 	public String getDateToString(Date date) {
 		if (date == null) {
 			return "";

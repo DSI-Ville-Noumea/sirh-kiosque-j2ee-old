@@ -389,6 +389,13 @@ public class DemandesViewModel {
 		return RefEtatEnum.getRefEtatEnum(idRefEtat).getLibEtat();
 	}
 
+
+	public String dateSaisieToString(Date dateSaisie) {
+		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
+		return sdfJour.format(dateSaisie) + " à " + sdfHeure.format(dateSaisie);
+	}
+
 	public String getDateToString(Date date) {
 		if (date == null) {
 			return "";

@@ -107,15 +107,17 @@
 					align="center" width="100px" />
 				<column label="Heure de début" sort="none" width="100px"
 					align="center" />
-				<column label="Durée" sort="none" width="60px" align="center" />
+				<column label="Durée" sort="none" width="60px"
+					align="center" />
 				<column width="40px" align="center">
 					<image
 						tooltiptext="Le seuil du compteur est dépassé pour cette demande."
 						sclass="ListAction warn" />
 				</column>
-				<column label="Date de demande"
-					sort="auto('dateDemande')" align="center" width="120px" />
+				<column label="Opérateur" sort="none" width="150px" />
 				<column label="Etat" sort="none" width="100px" />
+				<column label="Date de saisie"
+					sort="auto('dateDemande')" align="center" width="120px" />
 				<column label="" sort="none" width="150px" />
 			</columns>
 			<template name="model">
@@ -142,14 +144,16 @@
 							sclass="ListAction warn"
 							visible="@bind(each.depassementCompteur)" />
 					</hlayout>
-					<label
-						value="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
+					<label 
+						value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
 					<hlayout>
 						<label
 							value="@bind(vm.getEtatToString(each.idRefEtat))" />
 						<image tooltiptext="@bind(each.motif)"
 							sclass="ListAction help" visible="@bind(not empty each.motif)" />
 					</hlayout>
+					<label
+						value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
 
 					<hlayout>
 						<!-- Pour le viseur -->
