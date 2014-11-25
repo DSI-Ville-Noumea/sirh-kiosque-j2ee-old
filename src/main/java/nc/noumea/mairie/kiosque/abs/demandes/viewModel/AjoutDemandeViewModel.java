@@ -117,6 +117,14 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "demandeCreation" })
+	public void alimenteDateFin() {
+		if(null == getDemandeCreation().getDateFin()) {
+			getDemandeCreation().setDateFin(getDemandeCreation().getDateDebut());
+		}
+	}
+	
+	@Command
 	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation" })
 	public void chargeFormulaire() {
 		// on recharge les oragnisations syndicales

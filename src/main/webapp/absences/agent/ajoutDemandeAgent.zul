@@ -68,9 +68,11 @@
 						</hlayout>
 						<hlayout>
 							<datebox
+								id="dateDebutCal"
 								visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateDebut)"
 								cols="14" format="dd/MM/yyyy"
-								value="@bind(vm.demandeCreation.dateDebut)" />
+								value="@bind(vm.demandeCreation.dateDebut)" 
+								onChange="@command('alimenteDateFin')" />
 							<radiogroup id="rg1"
 								visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateDebut)"
 								selectedItem="@bind(vm.selectDebutAM)">

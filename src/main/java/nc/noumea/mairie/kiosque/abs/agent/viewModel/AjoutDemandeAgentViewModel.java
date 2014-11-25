@@ -174,6 +174,14 @@ public class AjoutDemandeAgentViewModel {
 			}
 		}
 	}
+	
+	@Command
+	@NotifyChange({ "demandeCreation" })
+	public void alimenteDateFin() {
+		if(null == getDemandeCreation().getDateFin()) {
+			getDemandeCreation().setDateFin(getDemandeCreation().getDateDebut());
+		}
+	}
 
 	private boolean IsFormValid(RefTypeAbsenceDto refTypeAbsenceDto) {
 
