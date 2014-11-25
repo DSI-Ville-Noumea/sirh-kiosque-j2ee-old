@@ -36,7 +36,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
-import nc.noumea.mairie.kiosque.abs.dto.MotifDto;
+import nc.noumea.mairie.kiosque.abs.dto.MotifRefusDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
@@ -435,12 +435,12 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<MotifDto> getListeMotifsRefus() {
+	public List<MotifRefusDto> getListeMotifsRefus() {
 		String url = String.format(sirhAbsWsBaseUrl + sirhListeMotifsRefusUrl);
 		HashMap<String, String> params = new HashMap<>();
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponseAsList(MotifDto.class, res, url);
+		return readResponseAsList(MotifRefusDto.class, res, url);
 	}
 
 	@Override

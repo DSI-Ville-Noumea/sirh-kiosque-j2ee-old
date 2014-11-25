@@ -11,7 +11,7 @@
 					<hlayout width="35px">
 						<label value="Motif : " />
 					</hlayout>
-					<combobox width="500px" id="motifRefusCbx"
+					<combobox width="500px" id="motifRefusCbx" buttonVisible="false"
 						model="@bind(vm.listeMotifsRefus)" value="@bind(vm.motifRefus)"
 						selectedItem="@bind(vm.motifRefus)"
 						onChange="@command('saveMotif', ref=motifRefusCbx)"

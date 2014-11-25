@@ -31,7 +31,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
-import nc.noumea.mairie.kiosque.abs.dto.MotifDto;
+import nc.noumea.mairie.kiosque.abs.dto.MotifRefusDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -56,7 +56,7 @@ public class ViserDemandeViewModel {
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
-	private List<MotifDto> listeMotifsRefus;
+	private List<MotifRefusDto> listeMotifsRefus;
 
 	private String motifRefus;
 
@@ -71,7 +71,7 @@ public class ViserDemandeViewModel {
 		setMotifRefus(getDemandeCourant().getMotif());
 
 		// on recupere tous les motifs de refus
-		List<MotifDto> result = absWsConsumer.getListeMotifsRefus();
+		List<MotifRefusDto> result = absWsConsumer.getListeMotifsRefus();
 		setListeMotifsRefus(result);
 	}
 
@@ -156,11 +156,11 @@ public class ViserDemandeViewModel {
 		this.demandeCourant = demandeCourant;
 	}
 
-	public List<MotifDto> getListeMotifsRefus() {
+	public List<MotifRefusDto> getListeMotifsRefus() {
 		return listeMotifsRefus;
 	}
 
-	public void setListeMotifsRefus(List<MotifDto> listeMotifsRefus) {
+	public void setListeMotifsRefus(List<MotifRefusDto> listeMotifsRefus) {
 		this.listeMotifsRefus = listeMotifsRefus;
 	}
 }

@@ -25,12 +25,12 @@ package nc.noumea.mairie.kiosque.abs.dto;
  */
 
 
-public class MotifDto {
+public class MotifRefusDto {
 
 	private Integer idMotif;
 	private String libelle;
 
-	public MotifDto() {
+	public MotifRefusDto() {
 	}
 
 	public Integer getIdMotif() {

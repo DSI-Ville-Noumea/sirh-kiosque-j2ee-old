@@ -34,7 +34,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
-import nc.noumea.mairie.kiosque.abs.dto.MotifDto;
+import nc.noumea.mairie.kiosque.abs.dto.MotifRefusDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
@@ -120,6 +120,6 @@ public interface ISirhAbsWSConsumer {
 	List<DemandeDto> getHistoriqueAbsence(Integer idAgent, Integer idDemande);
 
 	// pour les motifs de refus en auto complétion
-	List<MotifDto> getListeMotifsRefus();
+	List<MotifRefusDto> getListeMotifsRefus();
 
 }
