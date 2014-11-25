@@ -64,6 +64,9 @@ public class EaeViewModel {
 		Collections.sort(res, new Comparator<SharepointDto>() {
 			@Override
 			public int compare(SharepointDto o1, SharepointDto o2) {
+				if(null == o2.getAnnee()) {
+					return 0;
+				}
 				return o2.getAnnee().compareTo(o1.getAnnee());
 			}
 

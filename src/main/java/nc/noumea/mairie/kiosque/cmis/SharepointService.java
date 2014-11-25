@@ -29,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import nc.noumea.mairie.ws.WSConsumerException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -83,18 +87,26 @@ public class SharepointService implements ISharepointService {
 	@Qualifier("sharepointHost")
 	private String sharepointHost;
 
+	private Logger logger = LoggerFactory.getLogger(SharepointService.class);
+	
 	@Override
 	public List<SharepointDto> getAllEae(Integer idAgent) throws Exception {
 		String xml = recupereEaeSharepoint(idAgent);
+		
+		// TODO penser a supprimer cette ligne lorsque l on abandonnera sharepoint
+		//probleme accents
+		xml = xml.replace("Ã©", "e").replace("Ã¨", "e").replace("Ã‰", "e").replace("é", "e").replace("è", "e");
+		
 		return transformeXmlEnListUrl(xml);
 	}
 
 	private List<SharepointDto> transformeXmlEnListUrl(String xml) {
 		List<SharepointDto> result = new ArrayList<SharepointDto>();
 		try {
-
+			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			logger.warn("defaultCharset : " + Charset.defaultCharset().displayName());
 			org.w3c.dom.Document doc = dBuilder.parse(new ByteArrayInputStream(xml.getBytes()));
 
 			// optional, but recommended
@@ -117,7 +129,7 @@ public class SharepointService implements ISharepointService {
 
 					if (nNode2.getNodeName().equals("d:ValeurDIDDeDocument")) {
 						dto.setId(sousListe.item(temp2).getTextContent());
-					} else if (nNode2.getNodeName().equals("d:AnnéeEAE")) {
+					} else if (nNode2.getNodeName().equals("d:AnneeEAE")) {
 						dto.setAnnee(sousListe.item(temp2).getTextContent());
 					} else if (nNode2.getNodeName().equals("d:Nom")) {
 						dto.setUrl(sousListe.item(temp2).getTextContent());
