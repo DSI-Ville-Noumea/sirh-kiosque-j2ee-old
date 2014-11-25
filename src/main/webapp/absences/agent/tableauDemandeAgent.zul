@@ -71,72 +71,78 @@
 			</div>
 		</hlayout>
 		<separator />
-		<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
-			model="@bind(vm.listeDemandes)"
-			selectedItem="@bind(vm.demandeCourant)" emptyMessage="Aucun élément"
-			id="listeAgent">
-			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
-			<listhead>
-				<listheader label="Type de demande"
-					sort="auto('libelleTypeDemande')" width="300px" />
-				<listheader label="Date de début"
-					sort="auto('dateDebut')" align="center" />
-				<listheader label="Heure de début" sort="none" />
-				<listheader label="Durée" sort="none" width="60px" />
-				<listheader width="40px">
+		<grid model="@bind(vm.listeDemandes)" mold="paging"
+			pageSize="@bind(vm.tailleListe)" emptyMessage="Aucun élément">
+			<columns>
+				<column width="30px" sort="none" />
+				<column label="Type de demande"
+					sort="auto('libelleTypeDemande')" />
+				<column label="Date de début" sort="auto('dateDebut')"
+					align="center" width="100px" />
+				<column label="Heure de début" sort="none" width="100px"
+					align="center" />
+				<column label="Durée" sort="none" width="60px"
+					align="center" />
+				<column width="40px" align="center">
 					<image
 						tooltiptext="Le seuil du compteur est dépassé pour cette demande."
 						sclass="ListAction warn" />
-				</listheader>
-				<listheader label="Date de demande"
-					sort="auto('dateDemande')" align="center" />
-				<listheader label="Etat" sort="none" />
-				<listheader label="" sort="none" />
-			</listhead>
-
+				</column>
+				<column label="Date de demande"
+					sort="auto('dateDemande')" align="center" width="120px" />
+				<column label="Etat" sort="none" width="100px" />
+				<column label="" sort="none" width="150px" />
+			</columns>
 			<template name="model">
-				<listitem>
-					<listcell label="@bind(each.libelleTypeDemande)" />
-					<listcell
-						label="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
-					<listcell
-						label="@bind(vm.getHeureDebutToString(each))" />
-					<listcell
-						label="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
-					<listcell>
+				<row>
+					<custom-attributes absence="${each}" />
+					<detail open="false" fulfill="onOpen">
+						<include
+							src="/absences/demandes/histoAbsence.zul" absence="${absence}" />
+					</detail>
+					<label value="@bind(each.libelleTypeDemande)" />
+					<label
+						value="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
+					<label
+						value="@bind(vm.getHeureDebutToString(each))" />
+					<label
+						value="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
+					<hlayout>
 						<image
 							tooltiptext="Le seuil du compteur est dépassé pour cette demande."
 							sclass="ListAction warn"
 							visible="@bind(each.depassementCompteur)" />
-					</listcell>
-					<listcell
-						label="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
-					<listcell
-						label="@bind(vm.getEtatToString(each.idRefEtat))" />
-					<listcell>
-						<hlayout>
-							<image tooltiptext="Editer la demande"
-								sclass="ListAction edit"
-								visible="@bind(each.affichageBoutonModifier)"
-								onClick="@command('modifierDemande')" />
-							<image tooltiptext="Supprimer la demande"
-								sclass="ListAction delete"
-								visible="@bind(each.affichageBoutonSupprimer)"
-								onClick="@command('supprimerDemande')" />
-							<image tooltiptext="Annuler la demande"
-								sclass="ListAction delete"
-								visible="@bind(each.affichageBoutonAnnuler)"
-								onClick="@command('annulerDemande')" />
-							<image tooltiptext="Imprimer la demande"
-								sclass="ListAction print"
-								visible="@bind(each.affichageBoutonImprimer)"
-								onClick="@command('imprimerDemande')" />
-						</hlayout>
-					</listcell>
+					</hlayout>
+					<label
+						value="@bind(each.dateDemande) @converter('formatedDate',format='dd/MM/yyyy')" />
+					<hlayout>
+						<label
+							value="@bind(vm.getEtatToString(each.idRefEtat))" />
+						<image tooltiptext="@bind(each.motif)"
+							sclass="ListAction help" visible="@bind(not empty each.motif)" />
+					</hlayout>
 
-				</listitem>
+					<hlayout>
+						<image tooltiptext="Editer la demande"
+							sclass="ListAction edit"
+							visible="@bind(each.affichageBoutonModifier)"
+							onClick="@command('modifierDemande',ref=each)" />
+						<image tooltiptext="Supprimer la demande"
+							sclass="ListAction delete"
+							visible="@bind(each.affichageBoutonSupprimer)"
+							onClick="@command('supprimerDemande',ref=each)" />
+						<image tooltiptext="Annuler la demande"
+							sclass="ListAction delete"
+							visible="@bind(each.affichageBoutonAnnuler)"
+							onClick="@command('annulerDemande',ref=each)" />
+						<image tooltiptext="Imprimer la demande"
+							sclass="ListAction print"
+							visible="@bind(each.affichageBoutonImprimer)"
+							onClick="@command('imprimerDemande',ref=each)" />
+					</hlayout>
+				</row>
 			</template>
-		</listbox>
+		</grid>
 		<div style="display:block;">
 			<div style="display:inline-block;float:left;"
 				align="left">

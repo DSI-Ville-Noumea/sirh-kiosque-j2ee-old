@@ -107,8 +107,8 @@
 					align="center" width="100px" />
 				<column label="Heure de début" sort="none" width="100px"
 					align="center" />
-				<column label="Durée" sort="none" width="60px" />
-				<column width="40px">
+				<column label="Durée" sort="none" width="60px" align="center" />
+				<column width="40px" align="center">
 					<image
 						tooltiptext="Le seuil du compteur est dépassé pour cette demande."
 						sclass="ListAction warn" />

@@ -66,8 +66,6 @@ public class DemandesAgentViewModel {
 
 	private List<DemandeDto> listeDemandes;
 
-	private DemandeDto demandeCourant;
-
 	private Tab tabCourant;
 
 	/* POUR LES FILTRES */
@@ -181,6 +179,12 @@ public class DemandesAgentViewModel {
 		setDateDemandeFiltre(null);
 	}
 
+	public List<DemandeDto> getHistoriqueAbsence(DemandeDto abs) {
+		List<DemandeDto> result = absWsConsumer.getHistoriqueAbsence(currentUser.getAgent().getIdAgent(),
+				abs.getIdDemande());
+		return result;
+	}
+
 	@Command
 	public void ajouterDemande() {
 		// create a window programmatically and use it as a modal dialog.
@@ -189,37 +193,36 @@ public class DemandesAgentViewModel {
 	}
 
 	@Command
-	public void modifierDemande() {
+	public void modifierDemande(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/modifierDemande.zul", null, args);
 		win.doModal();
 	}
 
 	@Command
-	public void supprimerDemande() {
+	public void supprimerDemande(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/supprimerDemande.zul", null, args);
 		win.doModal();
 	}
 
 	@Command
-	public void annulerDemande() {
+	public void annulerDemande(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
-		args.put("demandeCourant", getDemandeCourant());
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/annulerDemande.zul", null, args);
 		win.doModal();
 	}
 
 	@Command
-	public void imprimerDemande() {
+	public void imprimerDemande(@BindingParam("ref") DemandeDto demande) {
 		// on imprime la demande
-		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getAgent().getIdAgent(), getDemandeCourant()
-				.getIdDemande());
+		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getAgent().getIdAgent(), demande.getIdDemande());
 		Filedownload.save(resp, "application/pdf", "titreAbsence");
 	}
 
@@ -251,6 +254,14 @@ public class DemandesAgentViewModel {
 		AMedia amedia = new AMedia("mesDemandes.xlsx", "xls", "application/file", out.toByteArray());
 		Filedownload.save(amedia);
 		out.close();
+	}
+
+	public String getDateToString(Date date) {
+		if (date == null) {
+			return "";
+		}
+		SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+		return sf.format(date);
 	}
 
 	public String getEtatToString(Integer idRefEtat) {
@@ -294,14 +305,6 @@ public class DemandesAgentViewModel {
 
 	public void setListeDemandes(List<DemandeDto> listeDemandes) {
 		this.listeDemandes = listeDemandes;
-	}
-
-	public DemandeDto getDemandeCourant() {
-		return demandeCourant;
-	}
-
-	public void setDemandeCourant(DemandeDto demandeCourant) {
-		this.demandeCourant = demandeCourant;
 	}
 
 	public RefTypeAbsenceDto getTypeAbsenceFiltre() {

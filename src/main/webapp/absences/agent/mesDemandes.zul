@@ -37,6 +37,8 @@
 				</tabpanels>
 			</tabbox>
 		</div>
+		<include id="includeStyleDroits"
+			src="/css/absences/gestionDemandes.zul" />
 	</window>
 </zk>
 

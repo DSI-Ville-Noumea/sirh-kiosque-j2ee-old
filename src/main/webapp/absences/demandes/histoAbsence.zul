@@ -3,7 +3,7 @@
 		<columns visible="false">
 			<column label="Date de début" width="100px" align="center" />
 			<column label="Heure de début" width="100px" align="center" />
-			<column label="Durée" width="60px" />
+			<column label="Durée" width="60px" align="center" />
 			<column label="" width="40px" />
 			<column label="Date de demande" width="120px"
 				align="center" />
