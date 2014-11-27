@@ -24,6 +24,7 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
  * #L%
  */
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -55,8 +56,12 @@ public class HistoriqueSoldeAgentViewModel {
 	public void doAfterCompose(@ExecutionArgParam("agentCourant") Integer idAgent,
 			@ExecutionArgParam("codeTypeAbsence") Integer idTypeAbsence) {
 
-		Date dateDeb = new DateTime(Integer.valueOf(2014), 1, 1, 0, 0, 0).toDate();
-		Date dateFin = new DateTime(Integer.valueOf(2014), 12, 31, 23, 59, 59).toDate();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		Integer annee = cal.get(Calendar.YEAR);
+
+		Date dateDeb = new DateTime(annee, 1, 1, 0, 0, 0).toDate();
+		Date dateFin = new DateTime(annee, 12, 31, 23, 59, 59).toDate();
 		FiltreSoldeDto dto = new FiltreSoldeDto();
 		dto.setDateDebut(dateDeb);
 		dto.setDateFin(dateFin);
