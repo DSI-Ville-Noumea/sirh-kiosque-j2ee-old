@@ -15,7 +15,7 @@
 					<listheader label="Date"
 						sort="auto('dateModifcation')" />
 					<listheader label="Motif" sort="auto('libelle')" />
-					<listheader label="Texte"
+					<listheader label="Commentaire"
 						sort="auto('textModification')" />
 				</listhead>
 
