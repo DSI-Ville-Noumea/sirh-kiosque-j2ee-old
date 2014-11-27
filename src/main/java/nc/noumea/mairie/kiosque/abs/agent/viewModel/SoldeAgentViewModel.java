@@ -24,18 +24,23 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
  * #L%
  */
 
-
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class SoldeAgentViewModel {
@@ -45,16 +50,28 @@ public class SoldeAgentViewModel {
 
 	private SoldeDto soldeCourant;
 
+	private ProfilAgentDto currentUser;
+
 	@Init
 	public void initSoldeAgent() {
 
-		ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
 		FiltreSoldeDto filtreDto = new FiltreSoldeDto();
 		filtreDto.setDateDebut(new Date());
 		filtreDto.setDateFin(new Date());
 		SoldeDto result = absWsConsumer.getAgentSolde(currentUser.getAgent().getIdAgent(), filtreDto);
 		setSoldeCourant(result);
+	}
+
+	@Command
+	public void historiqueSolde(@BindingParam("ref") Integer typeConge) {		
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, Integer> args = new HashMap<String, Integer>();
+		args.put("agentCourant", currentUser.getAgent().getIdAgent());
+		args.put("codeTypeAbsence", typeConge);
+		Window win = (Window) Executions.createComponents("/absences/agent/historiqueSoldeAgent.zul", null, args);
+		win.doModal();
 	}
 
 	public String soldeJour(Double solde) {

@@ -34,6 +34,7 @@ import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
+import nc.noumea.mairie.kiosque.abs.dto.HistoriqueSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifRefusDto;
@@ -72,6 +73,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	/* Solde */
 	private static final String sirhAgentSoldeUrl = "solde/soldeAgent";
+	private static final String sirhHistoriqueCompteurAgentUrl = "solde/historiqueSolde";
 
 	/* Demandes */
 	private static final String sirhChangerEtatDemandesAgentUrl = "demandes/changerEtats";
@@ -452,5 +454,20 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(DemandeDto.class, res, url);
+	}
+
+	@Override
+	public List<HistoriqueSoldeDto> getHistoriqueCompteurAgent(Integer idAgent, Integer idTypeAbsence,
+			FiltreSoldeDto dto) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhHistoriqueCompteurAgentUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("codeRefTypeAbsence", idTypeAbsence.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(dto);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponseAsList(HistoriqueSoldeDto.class, res, url);
 	}
 }

@@ -1,0 +1,40 @@
+<zk>
+	<window id="histoSoldeAgentDialog" title="@bind(vm.title)"
+		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
+		width="70%" apply="org.zkoss.bind.BindComposer"
+		onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.agent.viewModel.HistoriqueSoldeAgentViewModel')">
+		<style>.z-window {background-color: #ee7203;}</style>
+		<div sclass="fond" height="100%">
+			<listbox mold="paging"
+				model="@bind(vm.listeHistoriqueSolde)" emptyMessage="Aucun élément"
+				id="listeHisto">
+				<custom-attributes
+					org.zkoss.zul.listbox.autoSort="true" />
+				<listhead>
+					<listheader label="Date"
+						sort="auto('dateModifcation')" />
+					<listheader label="Motif" sort="auto('libelle')" />
+					<listheader label="Texte"
+						sort="auto('textModification')" />
+				</listhead>
+
+				<template name="model">
+					<listitem>
+						<listcell
+							label="@bind(each.dateModifcation) @converter('formatedDate',format='dd/MM/yyyy')" />
+						<listcell label="@bind(each.motif.libelle)" />
+						<listcell label="@bind(each.textModification)" />
+					</listitem>
+				</template>
+			</listbox>
+
+			<div align="center">
+				<hlayout>
+					<button label="Annuler"
+						onClick="@command('cancelDemande',win=histoSoldeAgentDialog)" />
+				</hlayout>
+			</div>
+		</div>
+	</window>
+</zk>

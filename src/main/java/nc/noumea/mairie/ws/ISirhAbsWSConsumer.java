@@ -32,6 +32,7 @@ import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
+import nc.noumea.mairie.kiosque.abs.dto.HistoriqueSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifRefusDto;
@@ -55,6 +56,8 @@ public interface ISirhAbsWSConsumer {
 	/* SOLDE */
 
 	SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto);
+
+	List<HistoriqueSoldeDto> getHistoriqueCompteurAgent(Integer idAgent, Integer idTypeAbsence, FiltreSoldeDto dto);
 
 	/* FILTRES */
 

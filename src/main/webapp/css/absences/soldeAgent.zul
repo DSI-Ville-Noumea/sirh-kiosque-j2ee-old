@@ -5,6 +5,11 @@
 	.RHTitle2 { width: 225px;}
 
 	.fond .RHContent .name { width: 250px; }
+	
+	.historique {background-image: url("img/absence/histo.jpg");
+	background-position: left top; background-repeat: no-repeat; cursor:
+	pointer; display: inline-block; height: 16px; width: 16px;
+	}
 
 	]]>
 	
