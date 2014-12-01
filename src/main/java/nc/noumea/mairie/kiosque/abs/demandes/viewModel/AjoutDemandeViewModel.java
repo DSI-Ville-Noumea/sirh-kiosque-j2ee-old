@@ -71,6 +71,7 @@ public class AjoutDemandeViewModel {
 	private RefTypeAbsenceDto typeAbsenceCourant;
 
 	private String etatDemandeCreation;
+	private String dureeCongeAnnuel;
 
 	private List<OrganisationSyndicaleDto> listeOrganisationsSyndicale;
 
@@ -147,6 +148,30 @@ public class AjoutDemandeViewModel {
 
 	public String concatAgent(String nom, String prenom) {
 		return nom + " " + prenom;
+	}
+
+	public String getCalculDureeCongeAnnuel(String codeBaseHoraireAbsence, DemandeDto demandeDto) {
+		if (demandeDto.getDateDebut() != null && demandeDto.getDateFin() != null) {
+			demandeDto.setTypeSaisiCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto());
+			DemandeDto dureeDto = absWsConsumer.getDureeCongeAnnuel(demandeDto);
+			return dureeDto.getDuree().toString();
+		}
+		return null;
+	}
+
+	@Command
+	@NotifyChange({ "dureeCongeAnnuel" })
+	public void refreshDuree() {
+		getDemandeCreation().setDateDebutAM(
+				getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
+		getDemandeCreation().setDateDebutPM(
+				getSelectDebutAM() == null ? false : getSelectDebutAM().equals("PM") ? true : false);
+		getDemandeCreation().setDateFinAM(
+				getSelectFinAM() == null ? false : getSelectFinAM().equals("AM") ? true : false);
+		getDemandeCreation().setDateFinPM(
+				getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
+		setDureeCongeAnnuel(getCalculDureeCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto()
+				.getCodeBaseHoraireAbsence(), getDemandeCreation()));
 	}
 
 	@Command
@@ -265,10 +290,10 @@ public class AjoutDemandeViewModel {
 				}
 			}
 		} else if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto() != null) {
-
+			// TODO
 		} else {
 			vList.add(new ValidationMessage(
-					"Une erreur est survenue dans l'enregistrement de la demande.Merci de recommencer."));
+					"Une erreur est survenue dans l'enregistrement de la demande. Merci de recommencer."));
 		}
 
 		if (vList.size() > 0) {
@@ -390,5 +415,13 @@ public class AjoutDemandeViewModel {
 
 	public void setGroupeAbsence(RefGroupeAbsenceDto groupeAbsence) {
 		this.groupeAbsence = groupeAbsence;
+	}
+
+	public String getDureeCongeAnnuel() {
+		return dureeCongeAnnuel;
+	}
+
+	public void setDureeCongeAnnuel(String dureeCongeAnnuel) {
+		this.dureeCongeAnnuel = dureeCongeAnnuel;
 	}
 }

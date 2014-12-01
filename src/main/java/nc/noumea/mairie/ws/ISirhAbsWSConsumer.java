@@ -53,6 +53,8 @@ public interface ISirhAbsWSConsumer {
 
 	List<AgentDto> getAgentsAbsences(Integer idAgent, String codeService);
 
+	DemandeDto getDureeCongeAnnuel(DemandeDto demandeDto);
+
 	/* SOLDE */
 
 	SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto);

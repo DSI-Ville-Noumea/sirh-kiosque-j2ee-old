@@ -58,7 +58,7 @@
 						</hlayout>
 						<hlayout>
 							<combobox readonly="true" width="400px"
-							value="@bind(vm.typeAbsenceCourant.libelle)"
+								value="@bind(vm.typeAbsenceCourant.libelle)"
 								model="@bind(vm.listeTypeAbsence)"
 								selectedItem="@bind(vm.typeAbsenceCourant)"
 								onSelect="@command('chargeFormulaire')">
@@ -76,109 +76,177 @@
 				<div sclass="RHTitle2Line" />
 				<separator />
 				<vlayout>
-					<hlayout
-						visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.compteurCollectif)">
-						<hlayout width="150px">
-							<label value="Org. syndicale : " />
+					<vlayout
+						visible="@bind(not empty vm.typeAbsenceCourant.typeSaisiDto)">
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.compteurCollectif)">
+							<hlayout width="150px">
+								<label value="Org. syndicale : " />
+							</hlayout>
+							<hlayout>
+								<combobox width="400px"
+									model="@bind(vm.listeOrganisationsSyndicale)"
+									selectedItem="@bind(vm.organisationsSyndicaleCourant)">
+									<template name="model">
+										<comboitem
+											label="@bind(each.sigle)" description="@bind(each.libelle)" />
+									</template>
+								</combobox>
+							</hlayout>
 						</hlayout>
 						<hlayout>
-							<combobox width="400px"
-								model="@bind(vm.listeOrganisationsSyndicale)"
-								selectedItem="@bind(vm.organisationsSyndicaleCourant)">
-								<template name="model">
-									<comboitem label="@bind(each.sigle)"
-										description="@bind(each.libelle)" />
-								</template>
-							</combobox>
+							<hlayout width="150px"
+								visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateDebut)">
+								<label value="Date de début : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateDebut)"
+									cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCreation.dateDebut)"
+									onChange="@command('alimenteDateFin')" />
+								<radiogroup id="rg1"
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateDebut)"
+									selectedItem="@bind(vm.selectDebutAM)">
+									<radio label="M" value="AM" />
+									<radio label="AM" value="PM" />
+								</radiogroup>
+							</hlayout>
 						</hlayout>
-					</hlayout>
-					<hlayout>
-						<hlayout width="150px"
-							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateDebut)">
-							<label value="Date de début : " />
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarHeureDebut)">
+							<hlayout width="150px">
+								<label value="Heure de début : " />
+							</hlayout>
+							<hlayout>
+								<timebox cols="14" format="HH:mm"
+									value="@bind(vm.demandeCreation.dateDebut)" />
+							</hlayout>
 						</hlayout>
-						<hlayout>
-							<datebox
-								visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateDebut)"
-								cols="14" format="dd/MM/yyyy"
-								value="@bind(vm.demandeCreation.dateDebut)"
-								onChange="@command('alimenteDateFin')" />
-							<radiogroup id="rg1"
-								visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateDebut)"
-								selectedItem="@bind(vm.selectDebutAM)">
-								<radio label="M" value="AM" />
-								<radio label="AM" value="PM" />
-							</radiogroup>
-						</hlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarHeureDebut)">
-						<hlayout width="150px">
-							<label value="Heure de début : " />
-						</hlayout>
-						<hlayout>
-							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.demandeCreation.dateDebut)" />
-						</hlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.duree)">
-						<hlayout width="150px">
-							<label value="Durée : " />
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.duree)">
+							<hlayout width="150px">
+								<label value="Durée : " />
+							</hlayout>
+							<hlayout>
+								<textbox cols="14"
+									value="@bind(vm.demandeCreation.duree)" />
+								<label value="heures" />
+							</hlayout>
 						</hlayout>
 						<hlayout>
-							<textbox cols="14"
-								value="@bind(vm.demandeCreation.duree)" />
-							<label value="heures" />
+							<hlayout width="150px"
+								visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateFin)">
+								<label value="Date de fin : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateFin)"
+									cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCreation.dateFin)" />
+								<radiogroup id="rg2"
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateFin)"
+									selectedItem="@bind(vm.selectFinAM)">
+									<radio label="M" value="AM" />
+									<radio label="AM" value="PM" />
+								</radiogroup>
+							</hlayout>
 						</hlayout>
-					</hlayout>
-					<hlayout>
-						<hlayout width="150px"
-							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateFin)">
-							<label value="Date de fin : " />
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarHeureFin)">
+							<hlayout width="150px">
+								<label value="Heure de fin : " />
+							</hlayout>
+							<hlayout>
+								<timebox cols="14" format="HH:mm"
+									value="@bind(vm.demandeCreation.dateFin)" />
+							</hlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.motif)">
+							<hlayout width="150px">
+								<label value="Motif : " />
+							</hlayout>
+							<vlayout>
+								<textbox rows="4" width="200px"
+									value="@bind(vm.demandeCreation.commentaire)" />
+								<label
+									value="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosComplementaires)" />
+							</vlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.pieceJointe)">
+							<hlayout width="150px">
+								<label value="Pièce jointe : " />
+							</hlayout>
+							<hlayout></hlayout>
+						</hlayout>
+					</vlayout>
+					<!-- POUR LES CONGES ANNUELS -->
+					<vlayout
+						visible="@bind(not empty vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto)">
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.calendarDateDebut)">
+							<hlayout width="150px">
+								<label value="Date de début : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.calendarDateDebut)"
+									cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCreation.dateDebut)"
+									onChange="@command('alimenteDateFin')" />
+								<radiogroup
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.chkDateDebut)"
+									selectedItem="@bind(vm.selectDebutAM)"
+									onCheck="@command('refreshDuree')">
+									<radio label="M" value="AM" />
+									<radio label="AM" value="PM" />
+								</radiogroup>
+							</hlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.calendarDateFin)">
+							<hlayout width="150px">
+								<label value="Date de fin : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.calendarDateFin)"
+									cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCreation.dateFin)"
+									onChange="@command('refreshDuree')" />
+								<radiogroup
+									visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.chkDateFin)"
+									selectedItem="@bind(vm.selectFinAM)"
+									onCheck="@command('refreshDuree')">
+									<radio label="M" value="AM" />
+									<radio label="AM" value="PM" />
+								</radiogroup>
+							</hlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.calendarDateReprise)">
+							<hlayout width="150px">
+								<label value="Date de reprise : " />
+							</hlayout>
+							<hlayout>
+								<datebox cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCreation.dateReprise)"
+									onChange="@command('refreshDuree')" />
+							</hlayout>
 						</hlayout>
 						<hlayout>
-							<datebox
-								visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateFin)"
-								cols="14" format="dd/MM/yyyy"
-								value="@bind(vm.demandeCreation.dateFin)" />
-							<radiogroup id="rg2"
-								visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateFin)"
-								selectedItem="@bind(vm.selectFinAM)">
-								<radio label="M" value="AM" />
-								<radio label="AM" value="PM" />
-							</radiogroup>
+							<hlayout width="150px">
+								<label value="Durée : " />
+							</hlayout>
+							<hlayout>
+								<textbox cols="14" disabled="true"
+									value="@bind(vm.dureeCongeAnnuel)" />
+							</hlayout>
 						</hlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarHeureFin)">
-						<hlayout width="150px">
-							<label value="Heure de fin : " />
-						</hlayout>
-						<hlayout>
-							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.demandeCreation.dateFin)" />
-						</hlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.motif)">
-						<hlayout width="150px">
-							<label value="Motif : " />
-						</hlayout>
-						<vlayout>
-							<textbox rows="4" width="200px"
-								value="@bind(vm.demandeCreation.commentaire)" />
-							<label
-								value="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosComplementaires)" />
-						</vlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.pieceJointe)">
-						<hlayout width="150px">
-							<label value="Pièce jointe : " />
-						</hlayout>
-						<hlayout></hlayout>
-					</hlayout>
+					</vlayout>
+					<!-- FIN POUR LES CONGES ANNUELS -->
 					<hlayout>
 						<hlayout width="150px">
 							<label value="Etat de la demande : " />

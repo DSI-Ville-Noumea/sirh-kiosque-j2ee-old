@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
-
 import java.util.Date;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
@@ -56,6 +55,7 @@ public class DemandeDto {
 	private boolean isDateFinAM;
 	private boolean isDateFinPM;
 	private Double duree;
+	private Date dateReprise;
 
 	private Integer idRefEtat;
 	@JsonSerialize(using = JsonDateSerializer.class)
@@ -90,6 +90,7 @@ public class DemandeDto {
 	private String commentaire;
 
 	private RefTypeSaisiDto typeSaisi;
+	private RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel;
 
 	public DemandeDto() {
 	}
@@ -396,6 +397,22 @@ public class DemandeDto {
 
 	public void setAgentEtat(AgentWithServiceDto agentEtat) {
 		this.agentEtat = agentEtat;
+	}
+
+	public RefTypeSaisiCongeAnnuelDto getTypeSaisiCongeAnnuel() {
+		return typeSaisiCongeAnnuel;
+	}
+
+	public void setTypeSaisiCongeAnnuel(RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel) {
+		this.typeSaisiCongeAnnuel = typeSaisiCongeAnnuel;
+	}
+
+	public Date getDateReprise() {
+		return dateReprise;
+	}
+
+	public void setDateReprise(Date dateReprise) {
+		this.dateReprise = dateReprise;
 	}
 
 }

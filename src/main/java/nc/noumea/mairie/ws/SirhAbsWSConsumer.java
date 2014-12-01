@@ -84,6 +84,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhListeDemandesUrl = "demandes/listeDemandes";
 	private static final String sirhListeMotifsRefusUrl = "motif/getListeMotif";
 	private static final String sirhHistoriqueAbsenceUrl = "demandes/historique";
+	private static final String sirhDureeCongeAnnuelUrl = "demandes/dureeDemandeCongeAnnuel";
 
 	/* Filtres */
 	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
@@ -471,5 +472,17 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponseAsList(HistoriqueSoldeDto.class, res, url);
+	}
+
+	@Override
+	public DemandeDto getDureeCongeAnnuel(DemandeDto demandeDto) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhDureeCongeAnnuelUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(demandeDto);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(DemandeDto.class, res, url);
 	}
 }
