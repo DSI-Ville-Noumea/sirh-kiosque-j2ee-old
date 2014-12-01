@@ -140,11 +140,13 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idRefGroupeAbsence) {
+	public List<RefTypeAbsenceDto> getRefTypeAbsenceKiosque(Integer idRefGroupeAbsence, Integer idAgent) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhTypeAbsenceKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		if (idRefGroupeAbsence != null)
 			params.put("idRefGroupeAbsence", idRefGroupeAbsence.toString());
+		if (idAgent != null)
+			params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(RefTypeAbsenceDto.class, res, url);

@@ -172,7 +172,7 @@ public class DemandesViewModel {
 	@NotifyChange({ "listeTypeAbsenceFiltre", "typeAbsenceFiltre" })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsenceFiltre()
-				.getIdRefGroupeAbsence());
+				.getIdRefGroupeAbsence(), getAgentFiltre().getIdAgent());
 		if (filtreFamilleAbsence.size() == 1) {
 			setListeTypeAbsenceFiltre(null);
 			setTypeAbsenceFiltre(null);
@@ -388,7 +388,6 @@ public class DemandesViewModel {
 	public String getEtatToString(Integer idRefEtat) {
 		return RefEtatEnum.getRefEtatEnum(idRefEtat).getLibEtat();
 	}
-
 
 	public String dateSaisieToString(Date dateSaisie) {
 		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");

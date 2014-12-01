@@ -110,7 +110,7 @@ public class AjoutDemandeViewModel {
 	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant" })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsence()
-				.getIdRefGroupeAbsence());
+				.getIdRefGroupeAbsence(), getAgentFiltre().getIdAgent());
 
 		setListeTypeAbsence(filtreFamilleAbsence);
 		setTypeAbsenceCourant(null);
@@ -119,11 +119,11 @@ public class AjoutDemandeViewModel {
 	@Command
 	@NotifyChange({ "demandeCreation" })
 	public void alimenteDateFin() {
-		if(null == getDemandeCreation().getDateFin()) {
+		if (null == getDemandeCreation().getDateFin()) {
 			getDemandeCreation().setDateFin(getDemandeCreation().getDateDebut());
 		}
 	}
-	
+
 	@Command
 	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation" })
 	public void chargeFormulaire() {
@@ -225,43 +225,50 @@ public class AjoutDemandeViewModel {
 		if (getDemandeCreation().getDateDebut() == null) {
 			vList.add(new ValidationMessage("La date de début est obligatoire."));
 		}
-		if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateDebut()) {
-			if (getSelectDebutAM() == null) {
-				vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+		if (refTypeAbsenceDto.getTypeSaisiDto() != null) {
+			if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateDebut()) {
+				if (getSelectDebutAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+				}
 			}
-		}
 
-		// OS
-		if (refTypeAbsenceDto.getTypeSaisiDto().isCompteurCollectif()) {
-			if (getOrganisationsSyndicaleCourant() == null) {
-				vList.add(new ValidationMessage("L'organisation syndicale est obligatoire."));
+			// OS
+			if (refTypeAbsenceDto.getTypeSaisiDto().isCompteurCollectif()) {
+				if (getOrganisationsSyndicaleCourant() == null) {
+					vList.add(new ValidationMessage("L'organisation syndicale est obligatoire."));
+				}
 			}
-		}
 
-		// DUREE
-		if (refTypeAbsenceDto.getTypeSaisiDto().isDuree()) {
-			if (getDemandeCreation().getDuree() == null || getDemandeCreation().getDuree() == 0) {
-				vList.add(new ValidationMessage("La durée est obligatoire."));
+			// DUREE
+			if (refTypeAbsenceDto.getTypeSaisiDto().isDuree()) {
+				if (getDemandeCreation().getDuree() == null || getDemandeCreation().getDuree() == 0) {
+					vList.add(new ValidationMessage("La durée est obligatoire."));
+				}
 			}
-		}
 
-		// DATE FIN
-		if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarDateFin()) {
-			if (getDemandeCreation().getDateFin() == null) {
-				vList.add(new ValidationMessage("La date de fin est obligatoire."));
+			// DATE FIN
+			if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarDateFin()) {
+				if (getDemandeCreation().getDateFin() == null) {
+					vList.add(new ValidationMessage("La date de fin est obligatoire."));
+				}
 			}
-		}
-		if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateFin()) {
-			if (getSelectFinAM() == null) {
-				vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+			if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateFin()) {
+				if (getSelectFinAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+				}
 			}
-		}
 
-		// MOTIF
-		if (refTypeAbsenceDto.getTypeSaisiDto().isMotif()) {
-			if (getDemandeCreation().getCommentaire() == null) {
-				vList.add(new ValidationMessage("Le motif est obligatoire."));
+			// MOTIF
+			if (refTypeAbsenceDto.getTypeSaisiDto().isMotif()) {
+				if (getDemandeCreation().getCommentaire() == null) {
+					vList.add(new ValidationMessage("Le motif est obligatoire."));
+				}
 			}
+		} else if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto() != null) {
+
+		} else {
+			vList.add(new ValidationMessage(
+					"Une erreur est survenue dans l'enregistrement de la demande.Merci de recommencer."));
 		}
 
 		if (vList.size() > 0) {

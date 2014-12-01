@@ -24,13 +24,13 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
-
 public class RefTypeAbsenceDto {
 
 	private Integer idRefTypeAbsence;
 	private String libelle;
 	private RefGroupeAbsenceDto groupeAbsence;
 	private RefTypeSaisiDto typeSaisiDto;
+	private RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuelDto;
 
 	public RefTypeAbsenceDto() {
 	}
@@ -65,6 +65,14 @@ public class RefTypeAbsenceDto {
 
 	public void setGroupeAbsence(RefGroupeAbsenceDto groupeAbsence) {
 		this.groupeAbsence = groupeAbsence;
+	}
+
+	public RefTypeSaisiCongeAnnuelDto getTypeSaisiCongeAnnuelDto() {
+		return typeSaisiCongeAnnuelDto;
+	}
+
+	public void setTypeSaisiCongeAnnuelDto(RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuelDto) {
+		this.typeSaisiCongeAnnuelDto = typeSaisiCongeAnnuelDto;
 	}
 
 }
