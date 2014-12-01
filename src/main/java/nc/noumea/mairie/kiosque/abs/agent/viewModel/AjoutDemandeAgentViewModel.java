@@ -160,6 +160,7 @@ public class AjoutDemandeAgentViewModel {
 			getDemandeCreation().setIdTypeDemande(getTypeAbsenceCourant().getIdRefTypeAbsence());
 			getDemandeCreation().setGroupeAbsence(getTypeAbsenceCourant().getGroupeAbsence());
 			getDemandeCreation().setTypeSaisi(getTypeAbsenceCourant().getTypeSaisiDto());
+			getDemandeCreation().setTypeSaisiCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto());
 			getDemandeCreation().setAgentWithServiceDto(agentWithServiceDto);
 			getDemandeCreation().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
 			getDemandeCreation().setDateDebutAM(
@@ -170,7 +171,8 @@ public class AjoutDemandeAgentViewModel {
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("AM") ? true : false);
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
-			if (getDemandeCreation().getTypeSaisi().getUniteDecompte().equals("minutes")) {
+			if (getDemandeCreation().getTypeSaisi() != null
+					&& getDemandeCreation().getTypeSaisi().getUniteDecompte().equals("minutes")) {
 				getDemandeCreation().setDuree(getDemandeCreation().getDuree() * 60);
 			}
 
@@ -257,7 +259,30 @@ public class AjoutDemandeAgentViewModel {
 				}
 			}
 		} else if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto() != null) {
-			// TODO
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isChkDateDebut()) {
+				if (getSelectDebutAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+				}
+			}
+
+			// DATE FIN
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isCalendarDateFin()) {
+				if (getDemandeCreation().getDateFin() == null) {
+					vList.add(new ValidationMessage("La date de fin est obligatoire."));
+				}
+			}
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isChkDateFin()) {
+				if (getSelectFinAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+				}
+			}
+
+			// DATE REPRISE
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isCalendarDateReprise()) {
+				if (getDemandeCreation().getDateFin() == null) {
+					vList.add(new ValidationMessage("La date de reprise est obligatoire."));
+				}
+			}
 		} else {
 			vList.add(new ValidationMessage(
 					"Une erreur est survenue dans l'enregistrement de la demande. Merci de recommencer."));
