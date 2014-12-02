@@ -279,7 +279,7 @@ public class AjoutDemandeAgentViewModel {
 
 			// DATE REPRISE
 			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isCalendarDateReprise()) {
-				if (getDemandeCreation().getDateFin() == null) {
+				if (getDemandeCreation().getDateReprise() == null) {
 					vList.add(new ValidationMessage("La date de reprise est obligatoire."));
 				}
 			}

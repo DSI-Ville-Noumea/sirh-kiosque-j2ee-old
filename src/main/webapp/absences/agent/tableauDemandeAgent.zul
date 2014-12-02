@@ -107,7 +107,7 @@
 					<label
 						value="@bind(vm.getHeureDebutToString(each))" />
 					<label
-						value="@bind(vm.getDureeToString(each.duree,each.typeSaisi))" />
+						value="@bind(vm.getDureeToString(each.duree,each.typeSaisi,each.typeSaisiCongeAnnuel))" />
 					<hlayout>
 						<image
 							tooltiptext="Le seuil du compteur est dépassé pour cette demande."

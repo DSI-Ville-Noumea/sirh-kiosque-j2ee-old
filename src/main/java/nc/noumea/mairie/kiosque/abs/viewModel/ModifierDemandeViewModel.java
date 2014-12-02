@@ -30,6 +30,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -41,6 +42,7 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -64,6 +66,7 @@ public class ModifierDemandeViewModel {
 	// pour savoir si la date de fin est le matin
 	private String selectFinAM;
 	private Double dureeDemande;
+	private String dureeCongeAnnuel;
 	private String etatDemande;
 
 	@AfterCompose
@@ -81,15 +84,44 @@ public class ModifierDemandeViewModel {
 		setSelectFinAM(getDemandeCourant().isDateFinAM() ? "AM" : "PM");
 
 		// durée
-		setDureeDemande(getDureeHeureMinutes(getDemandeCourant().getDuree(), getDemandeCourant().getTypeSaisi()
-				.getUniteDecompte()));
+		setDureeDemande(getDureeHeureMinutes(getDemandeCourant().getDuree(), getDemandeCourant().getTypeSaisi(),
+				getDemandeCourant().getTypeSaisiCongeAnnuel()));
+		setDureeCongeAnnuel(getDureeHeureMinutes(getDemandeCourant().getDuree(), getDemandeCourant().getTypeSaisi(),
+				getDemandeCourant().getTypeSaisiCongeAnnuel()).toString());
 		// etat
 		setEtatDemande(getDemandeCourant().getIdRefEtat().toString());
 	}
 
-	private Double getDureeHeureMinutes(Double duree, String uniteDecompte) {
-		if (uniteDecompte.equals("minutes")) {
+	@Command
+	@NotifyChange({ "dureeCongeAnnuel" })
+	public void refreshDuree() {
+		getDemandeCourant().setDateDebutAM(
+				getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
+		getDemandeCourant().setDateDebutPM(
+				getSelectDebutAM() == null ? false : getSelectDebutAM().equals("PM") ? true : false);
+		getDemandeCourant().setDateFinAM(
+				getSelectFinAM() == null ? false : getSelectFinAM().equals("AM") ? true : false);
+		getDemandeCourant().setDateFinPM(
+				getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
+		setDureeCongeAnnuel(getCalculDureeCongeAnnuel(getDemandeCourant().getTypeSaisiCongeAnnuel()
+				.getCodeBaseHoraireAbsence(), getDemandeCourant()));
+	}
+
+	public String getCalculDureeCongeAnnuel(String codeBaseHoraireAbsence, DemandeDto demandeDto) {
+		if (demandeDto.getDateDebut() != null && demandeDto.getDateFin() != null) {
+			DemandeDto dureeDto = absWsConsumer.getDureeCongeAnnuel(demandeDto);
+			return dureeDto.getDuree().toString();
+		}
+		return null;
+	}
+
+	private Double getDureeHeureMinutes(Double duree, RefTypeSaisiDto typeSaisi,
+			RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel) {
+		if (typeSaisi != null && typeSaisi.getUniteDecompte().equals("minutes")) {
 			return duree / 60;
+		}
+		if (typeSaisiCongeAnnuel != null) {
+			return duree;
 		}
 		return (double) 0;
 	}
@@ -154,43 +186,73 @@ public class ModifierDemandeViewModel {
 		if (getDemandeCourant().getDateDebut() == null) {
 			vList.add(new ValidationMessage("La date de début est obligatoire."));
 		}
-		if (typeSaisie.isChkDateDebut()) {
-			if (getSelectDebutAM() == null) {
-				vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+		if (getDemandeCourant().getTypeSaisi() != null) {
+			if (typeSaisie.isChkDateDebut()) {
+				if (getSelectDebutAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+				}
 			}
-		}
 
-		// OS
-		if (typeSaisie.isCompteurCollectif()) {
-			if (getOrganisationsSyndicaleCourant() == null) {
-				vList.add(new ValidationMessage("L'organisation syndicale est obligatoire."));
+			// OS
+			if (typeSaisie.isCompteurCollectif()) {
+				if (getOrganisationsSyndicaleCourant() == null) {
+					vList.add(new ValidationMessage("L'organisation syndicale est obligatoire."));
+				}
 			}
-		}
 
-		// DUREE
-		if (typeSaisie.isDuree()) {
-			if (getDureeDemande() == null || getDureeDemande() == 0) {
-				vList.add(new ValidationMessage("La durée est obligatoire."));
+			// DUREE
+			if (typeSaisie.isDuree()) {
+				if (getDureeDemande() == null || getDureeDemande() == 0) {
+					vList.add(new ValidationMessage("La durée est obligatoire."));
+				}
 			}
-		}
 
-		// DATE FIN
-		if (typeSaisie.isCalendarDateFin()) {
-			if (getDemandeCourant().getDateFin() == null) {
-				vList.add(new ValidationMessage("La date de fin est obligatoire."));
+			// DATE FIN
+			if (typeSaisie.isCalendarDateFin()) {
+				if (getDemandeCourant().getDateFin() == null) {
+					vList.add(new ValidationMessage("La date de fin est obligatoire."));
+				}
 			}
-		}
-		if (typeSaisie.isChkDateFin()) {
-			if (getSelectFinAM() == null) {
-				vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+			if (typeSaisie.isChkDateFin()) {
+				if (getSelectFinAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+				}
 			}
-		}
 
-		// MOTIF
-		if (typeSaisie.isMotif()) {
-			if (getDemandeCourant().getCommentaire() == null) {
-				vList.add(new ValidationMessage("Le motif est obligatoire."));
+			// MOTIF
+			if (typeSaisie.isMotif()) {
+				if (getDemandeCourant().getCommentaire() == null) {
+					vList.add(new ValidationMessage("Le motif est obligatoire."));
+				}
 			}
+		} else if (getDemandeCourant().getTypeSaisiCongeAnnuel() != null) {
+			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isChkDateDebut()) {
+				if (getSelectDebutAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+				}
+			}
+
+			// DATE FIN
+			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isCalendarDateFin()) {
+				if (getDemandeCourant().getDateFin() == null) {
+					vList.add(new ValidationMessage("La date de fin est obligatoire."));
+				}
+			}
+			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isChkDateFin()) {
+				if (getSelectFinAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+				}
+			}
+
+			// DATE REPRISE
+			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isCalendarDateReprise()) {
+				if (getDemandeCourant().getDateReprise() == null) {
+					vList.add(new ValidationMessage("La date de reprise est obligatoire."));
+				}
+			}
+		} else {
+			vList.add(new ValidationMessage(
+					"Une erreur est survenue dans l'enregistrement de la demande. Merci de recommencer."));
 		}
 
 		if (vList.size() > 0) {
@@ -256,5 +318,13 @@ public class ModifierDemandeViewModel {
 
 	public void setEtatDemande(String etatDemande) {
 		this.etatDemande = etatDemande;
+	}
+
+	public String getDureeCongeAnnuel() {
+		return dureeCongeAnnuel;
+	}
+
+	public void setDureeCongeAnnuel(String dureeCongeAnnuel) {
+		this.dureeCongeAnnuel = dureeCongeAnnuel;
 	}
 }

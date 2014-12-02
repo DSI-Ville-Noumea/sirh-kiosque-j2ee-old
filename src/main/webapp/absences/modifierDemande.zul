@@ -3,9 +3,7 @@
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.ModifierDemandeViewModel')">
-		<style>
-			.z-window {background-color: #ee7203;}
-		</style>
+		<style>.z-window {background-color: #ee7203;}</style>
 		<div sclass="fond" height="100%">
 			<hlayout>
 				<hlayout width="150px">
@@ -19,108 +17,176 @@
 			<div>
 				<separator />
 				<vlayout>
-					<hlayout
-						visible="@bind(vm.demandeCourant.typeSaisi.compteurCollectif)">
-						<hlayout width="150px">
-							<label value="Org. syndicale : " />
+					<vlayout
+						visible="@bind(not empty vm.demandeCourant.typeSaisi)">
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.compteurCollectif)">
+							<hlayout width="150px">
+								<label value="Org. syndicale : " />
+							</hlayout>
+							<hlayout>
+								<combobox width="400px"
+									model="@bind(vm.listeOrganisationsSyndicale)"
+									selectedItem="@bind(vm.organisationsSyndicaleCourant)">
+									<template name="model">
+										<comboitem
+											label="@bind(each.sigle)" description="@bind(each.libelle)" />
+									</template>
+								</combobox>
+							</hlayout>
 						</hlayout>
 						<hlayout>
-							<combobox width="400px"
-								model="@bind(vm.listeOrganisationsSyndicale)"
-								selectedItem="@bind(vm.organisationsSyndicaleCourant)">
-								<template name="model">
-									<comboitem label="@bind(each.sigle)"
-										description="@bind(each.libelle)" />
-								</template>
-							</combobox>
+							<hlayout width="150px"
+								visible="@bind(vm.demandeCourant.typeSaisi.calendarDateDebut)">
+								<label value="Date de début : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.demandeCourant.typeSaisi.calendarDateDebut)"
+									cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCourant.dateDebut)" />
+								<radiogroup id="rg1"
+									visible="@bind(vm.demandeCourant.typeSaisi.chkDateDebut)"
+									selectedItem="@bind(vm.selectDebutAM)">
+									<radio label="M" value="AM" />
+									<radio label="AM" value="PM" />
+								</radiogroup>
+							</hlayout>
 						</hlayout>
-					</hlayout>
-					<hlayout>
-						<hlayout width="150px"
-							visible="@bind(vm.demandeCourant.typeSaisi.calendarDateDebut)">
-							<label value="Date de début : " />
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.calendarHeureDebut)">
+							<hlayout width="150px">
+								<label value="Heure de début : " />
+							</hlayout>
+							<hlayout>
+								<timebox cols="14" format="HH:mm"
+									value="@bind(vm.demandeCourant.dateDebut)" />
+							</hlayout>
 						</hlayout>
-						<hlayout>
-							<datebox
-								visible="@bind(vm.demandeCourant.typeSaisi.calendarDateDebut)"
-								cols="14" format="dd/MM/yyyy"
-								value="@bind(vm.demandeCourant.dateDebut)" />
-							<radiogroup id="rg1"
-								visible="@bind(vm.demandeCourant.typeSaisi.chkDateDebut)"
-								selectedItem="@bind(vm.selectDebutAM)">
-								<radio label="M" value="AM" />
-								<radio label="AM" value="PM" />
-							</radiogroup>
-						</hlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.demandeCourant.typeSaisi.calendarHeureDebut)">
-						<hlayout width="150px">
-							<label value="Heure de début : " />
-						</hlayout>
-						<hlayout>
-							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.demandeCourant.dateDebut)" />
-						</hlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.demandeCourant.typeSaisi.duree)">
-						<hlayout width="150px">
-							<label value="Durée : " />
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.duree)">
+							<hlayout width="150px">
+								<label value="Durée : " />
+							</hlayout>
+							<hlayout>
+								<textbox cols="14"
+									value="@bind(vm.dureeDemande)" />
+								<label value="heures" />
+							</hlayout>
 						</hlayout>
 						<hlayout>
-							<textbox cols="14"
-								value="@bind(vm.dureeDemande)" />
-							<label value="heures" />
+							<hlayout width="150px"
+								visible="@bind(vm.demandeCourant.typeSaisi.calendarDateFin)">
+								<label value="Date de fin : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.demandeCourant.typeSaisi.calendarDateFin)"
+									cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCourant.dateFin)" />
+								<radiogroup id="rg2"
+									visible="@bind(vm.demandeCourant.typeSaisi.chkDateFin)"
+									selectedItem="@bind(vm.selectFinAM)">
+									<radio label="M" value="AM" />
+									<radio label="AM" value="PM" />
+								</radiogroup>
+							</hlayout>
 						</hlayout>
-					</hlayout>
-					<hlayout>
-						<hlayout width="150px"
-							visible="@bind(vm.demandeCourant.typeSaisi.calendarDateFin)">
-							<label value="Date de fin : " />
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.calendarHeureFin)">
+							<hlayout width="150px">
+								<label value="Heure de fin : " />
+							</hlayout>
+							<hlayout>
+								<timebox cols="14" format="HH:mm"
+									value="@bind(vm.demandeCourant.dateFin)" />
+							</hlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.motif)">
+							<hlayout width="150px">
+								<label value="Motif : " />
+							</hlayout>
+							<vlayout>
+								<textbox rows="4" width="200px"
+									value="@bind(vm.demandeCourant.commentaire)" />
+								<label
+									value="@bind(vm.demandeCourant.typeSaisi.infosComplementaires)" />
+							</vlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)">
+							<hlayout width="150px">
+								<label value="Pièce jointe : " />
+							</hlayout>
+							<hlayout></hlayout>
+						</hlayout>
+					</vlayout>
+					<!-- POUR LES CONGES ANNUELS -->
+					<vlayout
+						visible="@bind(not empty vm.demandeCourant.typeSaisiCongeAnnuel)">
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.calendarDateDebut)">
+							<hlayout width="150px">
+								<label value="Date de début : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.calendarDateDebut)"
+									cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCourant.dateDebut)"
+									onChange="@command('alimenteDateFin')" />
+								<radiogroup
+									visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.chkDateDebut)"
+									selectedItem="@bind(vm.selectDebutAM)"
+									onCheck="@command('refreshDuree')">
+									<radio label="M" value="AM" />
+									<radio label="AM" value="PM" />
+								</radiogroup>
+							</hlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.calendarDateFin)">
+							<hlayout width="150px">
+								<label value="Date de fin : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.calendarDateFin)"
+									cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCourant.dateFin)"
+									onChange="@command('refreshDuree')" />
+								<radiogroup
+									visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.chkDateFin)"
+									selectedItem="@bind(vm.selectFinAM)"
+									onCheck="@command('refreshDuree')">
+									<radio label="M" value="AM" />
+									<radio label="AM" value="PM" />
+								</radiogroup>
+							</hlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.calendarDateReprise)">
+							<hlayout width="150px">
+								<label value="Date de reprise : " />
+							</hlayout>
+							<hlayout>
+								<datebox cols="14" format="dd/MM/yyyy"
+									value="@bind(vm.demandeCourant.dateReprise)"
+									onChange="@command('refreshDuree')" />
+							</hlayout>
 						</hlayout>
 						<hlayout>
-							<datebox
-								visible="@bind(vm.demandeCourant.typeSaisi.calendarDateFin)"
-								cols="14" format="dd/MM/yyyy"
-								value="@bind(vm.demandeCourant.dateFin)" />
-							<radiogroup id="rg2"
-								visible="@bind(vm.demandeCourant.typeSaisi.chkDateFin)"
-								selectedItem="@bind(vm.selectFinAM)">
-								<radio label="M" value="AM" />
-								<radio label="AM" value="PM" />
-							</radiogroup>
+							<hlayout width="150px">
+								<label value="Durée : " />
+							</hlayout>
+							<hlayout>
+								<textbox cols="14" disabled="true"
+									value="@bind(vm.dureeCongeAnnuel)" />
+							</hlayout>
 						</hlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.demandeCourant.typeSaisi.calendarHeureFin)">
-						<hlayout width="150px">
-							<label value="Heure de fin : " />
-						</hlayout>
-						<hlayout>
-							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.demandeCourant.dateFin)" />
-						</hlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.demandeCourant.typeSaisi.motif)">
-						<hlayout width="150px">
-							<label value="Motif : " />
-						</hlayout>
-						<vlayout>
-							<textbox rows="4" width="200px"
-								value="@bind(vm.demandeCourant.commentaire)" />
-							<label
-								value="@bind(vm.demandeCourant.typeSaisi.infosComplementaires)" />
-						</vlayout>
-					</hlayout>
-					<hlayout
-						visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)">
-						<hlayout width="150px">
-							<label value="Pièce jointe : " />
-						</hlayout>
-						<hlayout></hlayout>
-					</hlayout>
+					</vlayout>
+					<!-- FIN POUR LES CONGES ANNUELS -->
 					<hlayout>
 						<hlayout width="150px">
 							<label value="Etat de la demande : " />

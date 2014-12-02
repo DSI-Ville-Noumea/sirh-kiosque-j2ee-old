@@ -37,6 +37,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
@@ -279,20 +280,26 @@ public class DemandesAgentViewModel {
 	}
 
 	public String getHeureDebutToString(DemandeDto dto) {
-		if (dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+		if (dto.getTypeSaisi() != null && dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+			return "";
+		}
+		if (dto.getTypeSaisiCongeAnnuel() != null) {
 			return "";
 		}
 		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
 		return sf.format(dto.getDateDebut());
 	}
 
-	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi) {
+	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi,RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel) {
 		if (typeSaisi != null) {
 			if (typeSaisi.getUniteDecompte().equals("jours")) {
 				return duree + " j";
 			} else {
 				return getHeureMinute(duree.intValue());
 			}
+		}
+		if (typeSaisiCongeAnnuel != null) {
+				return duree + " j";			
 		}
 		return "";
 	}
