@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.cmis;
  * #L%
  */
 
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -88,22 +87,23 @@ public class SharepointService implements ISharepointService {
 	private String sharepointHost;
 
 	private Logger logger = LoggerFactory.getLogger(SharepointService.class);
-	
+
 	@Override
 	public List<SharepointDto> getAllEae(Integer idAgent) throws Exception {
 		String xml = recupereEaeSharepoint(idAgent);
-		
-		// TODO penser a supprimer cette ligne lorsque l on abandonnera sharepoint
-		//probleme accents
+
+		// TODO penser a supprimer cette ligne lorsque l on abandonnera
+		// sharepoint
+		// probleme accents
 		xml = xml.replace("Ã©", "e").replace("Ã¨", "e").replace("Ã‰", "e").replace("é", "e").replace("è", "e");
-		
+		logger.debug("xmlRecu apres transformation : " + xml);
 		return transformeXmlEnListUrl(xml);
 	}
 
 	private List<SharepointDto> transformeXmlEnListUrl(String xml) {
 		List<SharepointDto> result = new ArrayList<SharepointDto>();
 		try {
-			
+
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			logger.warn("defaultCharset : " + Charset.defaultCharset().displayName());
