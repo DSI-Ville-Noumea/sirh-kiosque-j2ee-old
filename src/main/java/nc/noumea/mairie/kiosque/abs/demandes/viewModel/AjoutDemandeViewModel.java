@@ -290,7 +290,30 @@ public class AjoutDemandeViewModel {
 				}
 			}
 		} else if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto() != null) {
-			// TODO
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isChkDateDebut()) {
+				if (getSelectDebutAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+				}
+			}
+
+			// DATE FIN
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isCalendarDateFin()) {
+				if (getDemandeCreation().getDateFin() == null) {
+					vList.add(new ValidationMessage("La date de fin est obligatoire."));
+				}
+			}
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isChkDateFin()) {
+				if (getSelectFinAM() == null) {
+					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+				}
+			}
+
+			// DATE REPRISE
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isCalendarDateReprise()) {
+				if (getDemandeCreation().getDateReprise() == null) {
+					vList.add(new ValidationMessage("La date de reprise est obligatoire."));
+				}
+			}
 		} else {
 			vList.add(new ValidationMessage(
 					"Une erreur est survenue dans l'enregistrement de la demande. Merci de recommencer."));
