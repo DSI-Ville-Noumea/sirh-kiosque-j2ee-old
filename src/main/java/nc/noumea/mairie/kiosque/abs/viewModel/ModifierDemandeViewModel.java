@@ -137,7 +137,7 @@ public class ModifierDemandeViewModel {
 		if (IsFormValid(getDemandeCourant().getTypeSaisi())) {
 
 			getDemandeCourant().setIdRefEtat(Integer.valueOf(getEtatDemande()));
-			if (getDemandeCourant().getTypeSaisi().getUniteDecompte().equals("minutes")) {
+			if (getDemandeCourant().getTypeSaisi()!=null && getDemandeCourant().getTypeSaisi().getUniteDecompte().equals("minutes")) {
 				getDemandeCourant().setDuree(getDureeDemande() * 60);
 			}
 			getDemandeCourant().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());

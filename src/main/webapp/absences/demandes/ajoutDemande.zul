@@ -245,6 +245,17 @@
 									value="@bind(vm.dureeCongeAnnuel)" />
 							</hlayout>
 						</hlayout>
+						<hlayout>
+							<hlayout width="150px">
+								<label value="Commentaire : " />
+							</hlayout>
+							<vlayout>
+								<textbox rows="4" width="300px"
+									value="@bind(vm.demandeCreation.commentaire)" />
+								<label
+									value="Précisez si vous êtes joingnable ou non durant votre congé." />
+							</vlayout>
+						</hlayout>
 					</vlayout>
 					<!-- FIN POUR LES CONGES ANNUELS -->
 					<hlayout>
