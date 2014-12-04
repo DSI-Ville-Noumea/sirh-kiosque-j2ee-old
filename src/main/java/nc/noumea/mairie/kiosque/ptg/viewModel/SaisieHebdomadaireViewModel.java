@@ -124,28 +124,119 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	@NotifyChange({ "hasTextChanged" })
 	public void enregistreFiche() {
 		setFicheCourante(transformFromSaisiePointageFormToFichePointageDto(getSaisiePointageForm()));
-		ReturnMessageDto result = ptgWsConsumer.setFichePointageSaisie(currentUser.getAgent().getIdAgent(),
-				getFicheCourante());
+		ReturnMessageDto result = isFormValid(getFicheCourante());
+		if (result.getErrors().size() > 0) {
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
-		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+			for (String error : result.getErrors()) {
+				ValidationMessage vm = new ValidationMessage(error);
+				listErreur.add(vm);
+			}
+			map.put("errors", listErreur);
+			map.put("infos", listInfo);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+		} else {
 
-		if (result.getErrors().size() == 0) {
-			result.getInfos().add("La saisie a été enregistrée correctement.");
-			setHasTextChanged(false);
+			result = ptgWsConsumer.setFichePointageSaisie(currentUser.getAgent().getIdAgent(), getFicheCourante());
+
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+
+			if (result.getErrors().size() == 0) {
+				result.getInfos().add("La saisie a été enregistrée correctement.");
+				setHasTextChanged(false);
+			}
+			for (String error : result.getErrors()) {
+				ValidationMessage vm = new ValidationMessage(error);
+				listErreur.add(vm);
+			}
+			for (String info : result.getInfos()) {
+				ValidationMessage vm = new ValidationMessage(info);
+				listInfo.add(vm);
+			}
+			map.put("errors", listErreur);
+			map.put("infos", listInfo);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
 		}
-		for (String error : result.getErrors()) {
-			ValidationMessage vm = new ValidationMessage(error);
-			listErreur.add(vm);
+	}
+
+	private ReturnMessageDto isFormValid(FichePointageDto ficheCourante) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		ReturnMessageDto result = new ReturnMessageDto();
+		for (JourPointageDto dtoJour : ficheCourante.getSaisies()) {
+			// absence
+			for (AbsenceDto absDto : dtoJour.getAbsences()) {
+				if (absDto.getMotif() == null || absDto.getMotif().equals("")) {
+					result.getErrors()
+							.add(String.format("Le motif de l'absence du %s est obligatoire.",
+									sdf.format(dtoJour.getDate())));
+				}
+				if (absDto.getHeureDebut() == null) {
+					result.getErrors().add(
+							String.format("L'heure de début de l'absence du %s est obligatoire.",
+									sdf.format(dtoJour.getDate())));
+				}
+				if (absDto.getHeureFin() == null) {
+					result.getErrors().add(
+							String.format("L'heure de fin de l'absence du %s est obligatoire.",
+									sdf.format(dtoJour.getDate())));
+				}
+				if (absDto.getIdRefTypeAbsence() == null) {
+					result.getErrors().add(
+							String.format("Le type d'absence de l'absence du %s est obligatoire.",
+									sdf.format(dtoJour.getDate())));
+				}
+			}
+			// heure sup
+			for (HeureSupDto hsupDto : dtoJour.getHeuresSup()) {
+				if (hsupDto.getMotif() == null || hsupDto.getMotif().equals("")) {
+					result.getErrors().add(
+							String.format("Le motif de l'heure supplémentaire du %s est obligatoire.",
+									sdf.format(dtoJour.getDate())));
+				}
+				if (hsupDto.getHeureDebut() == null) {
+					result.getErrors().add(
+							String.format("L'heure de début de l'heure supplémentaire du %s est obligatoire.",
+									sdf.format(dtoJour.getDate())));
+				}
+				if (hsupDto.getHeureFin() == null) {
+					result.getErrors().add(
+							String.format("L'heure de fin de l'heure supplémentaire du %s est obligatoire.",
+									sdf.format(dtoJour.getDate())));
+				}
+			}
+			// primes
+			for (PrimeDto primeDto : dtoJour.getPrimes()) {
+				if (periodeHeure(primeDto.getTypeSaisie())) {
+					if (primeDto.getHeureDebut() == null) {
+						result.getErrors().add(
+								String.format("L'heure de début de la prime %s du %s est obligatoire.",
+										primeDto.getTitre(), sdf.format(dtoJour.getDate())));
+					}
+					if (primeDto.getHeureFin() == null) {
+						result.getErrors().add(
+								String.format("L'heure de fin de la prime %s du %s est obligatoire.",
+										primeDto.getTitre(), sdf.format(dtoJour.getDate())));
+					}
+				} else if (nbHeures(primeDto.getTypeSaisie())) {
+					if (primeDto.getQuantite() == null || primeDto.getQuantite() == 0) {
+						result.getErrors().add(
+								String.format("Le nombre d'heures de la prime %s du %s est obligatoire.",
+										primeDto.getTitre(), sdf.format(dtoJour.getDate())));
+					}
+				} else if (nbIndemnites(primeDto.getTypeSaisie())) {
+					if (primeDto.getQuantite() == null || primeDto.getQuantite() == 0) {
+						result.getErrors().add(
+								String.format("Le nombre d'indemnité de la prime %s du %s est obligatoire.",
+										primeDto.getTitre(), sdf.format(dtoJour.getDate())));
+					}
+				}
+			}
 		}
-		for (String info : result.getInfos()) {
-			ValidationMessage vm = new ValidationMessage(info);
-			listInfo.add(vm);
-		}
-		map.put("errors", listErreur);
-		map.put("infos", listInfo);
-		Executions.createComponents("/messages/returnMessage.zul", null, map);
+		return result;
 	}
 
 	@Command
@@ -193,6 +284,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	@NotifyChange({ "*" })
 	public void ajouterPrime(@BindingParam("ref") PrimeDto prime) {
 		prime.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+		if (caseACocher(prime.getTypeSaisie())) {
+			prime.setQuantite(1);
+		}
 		setHasTextChanged(true);
 	}
 
@@ -477,8 +571,11 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	private Date calculDateEtHeureSaisie(Date dateJour, Date heureSaisie) {
-		DateTime result = new DateTime(dateJour);
-		return result.plusMinutes(new DateTime(heureSaisie).getMinuteOfDay()).toDate();
+		if (heureSaisie != null) {
+			DateTime result = new DateTime(dateJour);
+			return result.plusMinutes(new DateTime(heureSaisie).getMinuteOfDay()).toDate();
+		}
+		return null;
 	}
 
 	private HeureSupDto setHSupARecupererForDPM(HeureSupDto hSupDto) {
@@ -644,13 +741,15 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		if (prime.getIdRefEtat() == null) {
 			return false;
 		}
-		for (int i = 0; i < getFicheCourante().getSaisies().size(); i++) {
-			for (PrimeDto dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
-				if (getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString()) != null) {
-					int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
-							.indexOf(prime);
-					if (indexPart2 == 0) {
-						return false;
+		if (getSaisiePointageForm() != null) {
+			for (int i = 0; i < getFicheCourante().getSaisies().size(); i++) {
+				for (PrimeDto dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
+					if (getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString()) != null) {
+						int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
+								.indexOf(prime);
+						if (indexPart2 == 0) {
+							return false;
+						}
 					}
 				}
 			}
@@ -683,11 +782,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		if (absence.getIdRefEtat() == null) {
 			return false;
 		}
-		for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
-			if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
-				int indexPart2 = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).indexOf(absence);
-				if (indexPart2 == 0) {
-					return false;
+		if (getSaisiePointageForm() != null) {
+			for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
+				if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
+					int indexPart2 = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).indexOf(absence);
+					if (indexPart2 == 0) {
+						return false;
+					}
 				}
 			}
 		}
@@ -700,11 +801,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			return false;
 		}
 
-		for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
-			if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
-				int indexPart2 = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).indexOf(absence);
-				if (indexPart2 == (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).size() - 1)) {
-					return false;
+		if (getSaisiePointageForm() != null) {
+			for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
+				if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
+					int indexPart2 = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).indexOf(absence);
+					if (indexPart2 == (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).size() - 1)) {
+						return false;
+					}
 				}
 			}
 		}
@@ -715,11 +818,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		if (hsup.getIdRefEtat() == null) {
 			return false;
 		}
-		for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
-			if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
-				int indexPart2 = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).indexOf(hsup);
-				if (indexPart2 == 0) {
-					return false;
+		if (getSaisiePointageForm() != null) {
+			for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
+				if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
+					int indexPart2 = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).indexOf(hsup);
+					if (indexPart2 == 0) {
+						return false;
+					}
 				}
 			}
 		}
@@ -732,11 +837,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			return false;
 		}
 
-		for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
-			if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
-				int indexPart2 = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).indexOf(hsup);
-				if (indexPart2 == (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).size() - 1)) {
-					return false;
+		if (getSaisiePointageForm() != null) {
+			for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
+				if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
+					int indexPart2 = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).indexOf(hsup);
+					if (indexPart2 == (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).size() - 1)) {
+						return false;
+					}
 				}
 			}
 		}
