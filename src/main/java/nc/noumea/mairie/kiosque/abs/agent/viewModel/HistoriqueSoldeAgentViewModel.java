@@ -27,6 +27,7 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.HistoriqueSoldeDto;
@@ -57,6 +58,7 @@ public class HistoriqueSoldeAgentViewModel {
 			@ExecutionArgParam("codeTypeAbsence") Integer idTypeAbsence) {
 
 		Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 		cal.setTime(new Date());
 		Integer annee = cal.get(Calendar.YEAR);
 

@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -323,6 +324,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		if (getDateLundi() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Calendar c = Calendar.getInstance();
+			c.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 			c.setTime(getDateLundi());
 			String numSemaine = String.valueOf(c.get(Calendar.WEEK_OF_YEAR));
 			c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -402,6 +404,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	private Date getLundi(Date dateLundi) {
 		Calendar c = Calendar.getInstance();
+		c.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 		c.setTime(dateLundi);
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		return c.getTime();

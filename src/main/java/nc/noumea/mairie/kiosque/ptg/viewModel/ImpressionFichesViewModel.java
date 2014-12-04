@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -108,6 +109,7 @@ public class ImpressionFichesViewModel {
 		if (getDateLundi() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Calendar c = Calendar.getInstance();
+			c.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 			c.setTime(getDateLundi());
 			String numSemaine = String.valueOf(c.get(Calendar.WEEK_OF_YEAR));
 			c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -162,6 +164,7 @@ public class ImpressionFichesViewModel {
 
 	private Date getLundi(Date dateLundi) {
 		Calendar c = Calendar.getInstance();
+		c.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 		c.setTime(dateLundi);
 		c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		return c.getTime();
