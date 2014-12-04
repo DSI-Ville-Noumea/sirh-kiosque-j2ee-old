@@ -25,8 +25,10 @@ package nc.noumea.mairie.kiosque.abs.viewModel;
  */
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
@@ -176,6 +178,26 @@ public class ModifierDemandeViewModel {
 				}
 			}
 		}
+	}
+
+
+	@Command
+	@NotifyChange({ "demandeCourant", "dureeCongeAnnuel" })
+	public void alimenteDateFin() {
+		if (null == getDemandeCourant().getDateFin()
+				&& getDemandeCourant().getTypeSaisiCongeAnnuel().isCalendarDateFin()) {
+			getDemandeCourant().setDateFin(getDemandeCourant().getDateDebut());
+		}
+		if (null == getDemandeCourant().getDateFin()
+				&& getDemandeCourant().getTypeSaisiCongeAnnuel().isCalendarDateReprise()) {
+			Calendar calReprise = Calendar.getInstance();
+			calReprise.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+			calReprise.setTime(getDemandeCourant().getDateDebut());
+			calReprise.add(Calendar.DAY_OF_MONTH, 1);
+			getDemandeCourant().setDateReprise(calReprise.getTime());
+			getDemandeCourant().setDateFin(calReprise.getTime());
+		}
+		refreshDuree();
 	}
 
 	private boolean IsFormValid(RefTypeSaisiDto typeSaisie) {

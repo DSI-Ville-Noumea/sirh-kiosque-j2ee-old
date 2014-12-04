@@ -25,8 +25,10 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
  */
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
@@ -120,9 +122,23 @@ public class AjoutDemandeViewModel {
 	@Command
 	@NotifyChange({ "demandeCreation" })
 	public void alimenteDateFin() {
-		if (null == getDemandeCreation().getDateFin()) {
+		getDemandeCreation().setTypeSaisi(getTypeAbsenceCourant().getTypeSaisiDto());
+		getDemandeCreation().setTypeSaisiCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto());
+
+		if (null == getDemandeCreation().getDateFin()
+				&& getDemandeCreation().getTypeSaisiCongeAnnuel().isCalendarDateFin()) {
 			getDemandeCreation().setDateFin(getDemandeCreation().getDateDebut());
 		}
+		if (null == getDemandeCreation().getDateFin()
+				&& getDemandeCreation().getTypeSaisiCongeAnnuel().isCalendarDateReprise()) {
+			Calendar calReprise = Calendar.getInstance();
+			calReprise.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+			calReprise.setTime(getDemandeCreation().getDateDebut());
+			calReprise.add(Calendar.DAY_OF_MONTH, 1);
+			getDemandeCreation().setDateReprise(calReprise.getTime());
+			getDemandeCreation().setDateFin(calReprise.getTime());
+		}
+		refreshDuree();
 	}
 
 	@Command
