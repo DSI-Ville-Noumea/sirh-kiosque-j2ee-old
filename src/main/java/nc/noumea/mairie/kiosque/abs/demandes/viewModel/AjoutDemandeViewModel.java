@@ -169,6 +169,9 @@ public class AjoutDemandeViewModel {
 	public String getCalculDureeCongeAnnuel(String codeBaseHoraireAbsence, DemandeDto demandeDto) {
 		if (demandeDto.getDateDebut() != null && demandeDto.getDateFin() != null) {
 			demandeDto.setTypeSaisiCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto());
+			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
+			agentWithServiceDto.setIdAgent(getAgentFiltre().getIdAgent());
+			demandeDto.setAgentWithServiceDto(agentWithServiceDto);
 			DemandeDto dureeDto = absWsConsumer.getDureeCongeAnnuel(demandeDto);
 			return dureeDto.getDuree().toString();
 		}
