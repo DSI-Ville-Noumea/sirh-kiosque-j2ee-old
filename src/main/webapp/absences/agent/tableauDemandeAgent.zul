@@ -84,8 +84,7 @@
 				<column label="Durée" sort="none" width="60px"
 					align="center" />
 				<column width="40px" align="center">
-					<image
-						tooltiptext="Le seuil du compteur est dépassé pour cette demande."
+					<image tooltiptext="Alertes"
 						sclass="ListAction warn" />
 				</column>
 				<column label="Opérateur" sort="none" width="150px" />
@@ -108,13 +107,17 @@
 						value="@bind(vm.getHeureDebutToString(each))" />
 					<label
 						value="@bind(vm.getDureeToString(each.duree,each.typeSaisi,each.typeSaisiCongeAnnuel))" />
-					<hlayout>
+					<vlayout>
 						<image
 							tooltiptext="Le seuil du compteur est dépassé pour cette demande."
-							sclass="ListAction warn"
+							sclass="seuilDepassement"
 							visible="@bind(each.depassementCompteur)" />
-					</hlayout>
-					<label 
+						<image
+							tooltiptext="Cette demande n'est pas un multiple."
+							sclass="seuilMultiple"
+							visible="@bind(each.depassementMultiple)" />
+					</vlayout>
+					<label
 						value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
 					<hlayout>
 						<label

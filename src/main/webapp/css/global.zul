@@ -106,6 +106,14 @@
 	background-repeat: no-repeat; cursor: pointer; display:
 	inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }
 
+	.seuilDepassement { background-image: url("img/absence/seuil.png");
+	background-repeat: no-repeat; cursor: pointer; display:
+	inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }
+
+	.seuilMultiple { background-image: url("img/absence/multiple.jpg");
+	background-repeat: no-repeat; cursor: pointer; display:
+	inline-block; height: 16px; margin: 2px 5px 0; width: 16px; }
+
 	.z-listitem {background-color: #fed89c;}
 
 	.z-listitem.z-listbox-odd { background-color: #FFEBCD;}

@@ -141,7 +141,7 @@ public class DemandesAgentViewModel {
 				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
 				getEtatAbsenceFiltre() == null ? null : getEtatAbsenceFiltre().getIdRefEtat(),
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
-				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
+				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());		
 		setListeDemandes(result);
 	}
 
