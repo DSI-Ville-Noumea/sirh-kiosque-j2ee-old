@@ -24,14 +24,14 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
-
 import java.util.List;
 
 public enum RefEtatEnum {
 
 	PROVISOIRE(0, "Provisoire"), SAISIE(1, "Saisie"), VISEE_FAVORABLE(2, "Visée favorable"), VISEE_DEFAVORABLE(3,
 			"Visée défavorable"), APPROUVEE(4, "Approuvée"), REFUSEE(5, "Refusée"), PRISE(6, "Prise"), ANNULEE(7,
-			"Annulée"), VALIDEE(8, "Validée"), REJETE(9, "Rejetée"), EN_ATTENTE(10, "En attente");
+			"Annulée"), VALIDEE(8, "Validée"), REJETE(9, "Rejetée"), EN_ATTENTE(10, "En attente"), A_VALIDER(11,
+			"A valider");
 
 	private int codeEtat;
 	private String libEtat;
@@ -73,6 +73,8 @@ public enum RefEtatEnum {
 				return REJETE;
 			case 10:
 				return EN_ATTENTE;
+			case 11:
+				return A_VALIDER;
 			default:
 				return null;
 		}
