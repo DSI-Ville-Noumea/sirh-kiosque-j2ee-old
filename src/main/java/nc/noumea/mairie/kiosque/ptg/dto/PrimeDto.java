@@ -31,6 +31,7 @@ public class PrimeDto extends PointageDto {
 	private Integer quantite;
 	private Integer numRubrique;
 	private Integer idRefPrime;
+	private String aide;
 
 	public String getTitre() {
 		return titre;
@@ -70,6 +71,14 @@ public class PrimeDto extends PointageDto {
 
 	public void setIdRefPrime(Integer idRefPrime) {
 		this.idRefPrime = idRefPrime;
+	}
+
+	public String getAide() {
+		return aide;
+	}
+
+	public void setAide(String aide) {
+		this.aide = aide;
 	}
 
 }

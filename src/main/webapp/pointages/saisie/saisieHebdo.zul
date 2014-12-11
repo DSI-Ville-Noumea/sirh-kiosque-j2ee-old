@@ -278,7 +278,7 @@
 									<label
 										value="@bind(cellPrime.titre)" style="font-weight: bold;" />
 									<image sclass="aidePointage"
-										tooltiptext="nono" />
+										tooltiptext="@bind(cellPrime.aide)" />
 								</div>
 								<timebox cols="14" format="HH:mm"
 									value="@bind(cellPrime.heureDebut)"
