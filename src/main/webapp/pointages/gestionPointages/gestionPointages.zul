@@ -101,23 +101,26 @@
 					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
 					<columns>
 						<column width="30px" sort="none" />
-						<column label="Agent" sort="auto('agent.nom')"
-							width="100px" />
-						<column label="Type" sort="auto('typePointage')"
-							width="100px" />
-						<column label="Type HS" sort="none" />
-						<column label="Date" sort="auto('date')" />
-						<column label="Début" sort="auto('debut')" />
-						<column label="Fin" sort="auto('fin')" />
-						<column label="Quantité"
-							sort="auto('quantite')" />
-						<column label="Motif - Commentaires"
-							sort="none" />
-						<column label="Opérateur"
+						<column label="Agent" sort="auto('agent.nom')" />
+						<column label="Type"
+							sort="auto('typePointage')" />
+						<column label="Type HS" sort="none"
+							width="50px" />
+						<column align="center" label="Date"
+							sort="auto('date')" width="80px" />
+						<column align="center" label="Début"
+							sort="auto('debut')" width="40px" />
+						<column align="center" label="Fin"
+							sort="auto('fin')" width="40px" />
+						<column align="center" width="55px"
+							label="Quantité" sort="auto('quantite')" />
+						<column label="Motif - Commentaires" sort="none"
+							width="150px" />
+						<column label="Opérateur" width="140px"
 							sort="auto('operateur.nom')" />
-						<column label="Etat" sort="none" />
-						<column label="Date de saisie"
-							sort="auto('dateSaisie')" />
+						<column width="80px" label="Etat" sort="none" />
+						<column align="center" label="Date de saisie"
+							width="100px" sort="auto('dateSaisie')" />
 						<column width="90px"
 							visible="@bind(vm.droitsPointage.approbation)">
 							<hlayout>

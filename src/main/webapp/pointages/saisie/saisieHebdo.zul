@@ -17,7 +17,7 @@
 				<div>
 					<label value="@bind(vm.dateFiltre)" />
 					<datebox value="@bind(vm.dateLundi)" id="db"
-						weekOfYear="true" format="dd/MM/yyyy" locale="fr"
+						cols="1" weekOfYear="true" format="dd/MM/yyyy" locale="fr"
 						onChange="@command('afficheSemaine')" />
 					<space />
 					<label value="Service :" />
@@ -94,7 +94,7 @@
 											<button
 												zclass="boutonDupliqueGauche"
 												onClick="@command('copieGaucheHSup',ref=cellHSup)"
-												visible="@bind(vm.isAfficherDupliquerHSupGauche(cellHSup))"/>
+												visible="@bind(vm.isAfficherDupliquerHSupGauche(cellHSup))" />
 											<button
 												zclass="boutonRemove"
 												onClick="@command('deleteHSup',ref=cellHSup)"
@@ -262,14 +262,14 @@
 										<button
 											zclass="boutonDupliqueGauche"
 											onClick="@command('copieGauchePrime',ref=cellPrime)"
-												visible="@bind(vm.isAfficherDupliquerPrimeGauche(cellPrime))" />
+											visible="@bind(vm.isAfficherDupliquerPrimeGauche(cellPrime))" />
 										<button zclass="boutonRemove"
 											onClick="@command('deletePrime',ref=cellPrime)"
 											visible="@bind(not empty cellPrime.idRefEtat)" />
 										<button
 											zclass="boutonDupliqueDroite"
 											onClick="@command('copieDroitePrime',ref=cellPrime)"
-												visible="@bind(vm.isAfficherDupliquerPrimeDroit(cellPrime))" />
+											visible="@bind(vm.isAfficherDupliquerPrimeDroit(cellPrime))" />
 									</hlayout>
 									<label
 										value="${vm.etatToString(cellPrime.idRefEtat)}"
