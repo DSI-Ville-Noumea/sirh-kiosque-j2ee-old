@@ -319,10 +319,6 @@
 									constraint="no empty, min 1"
 									visible="${vm.nbHeures(cellPrime.typeSaisie)}" />
 								<textbox width="100%"
-									value="@bind(cellPrime.motif)"
-									disabled="@bind(empty cellPrime.idRefEtat)" placeholder="Motif"
-									onChanging="@command('textChanged')" />
-								<textbox width="100%"
 									value="@bind(cellPrime.commentaire)"
 									disabled="@bind(empty cellPrime.idRefEtat)" multiline="true"
 									height="40px" placeholder="Commentaire"
