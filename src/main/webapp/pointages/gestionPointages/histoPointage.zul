@@ -29,8 +29,10 @@
 					<label value="${each.quantite}" />
 					<vlayout>
 						<label value="${each.motif}" />
-						<separator />
-						<label value="${each.commentaire}" />
+						<separator
+							visible="@bind(not empty each.commentaire)" />
+						<label value="${each.commentaire}"
+							visible="@bind(not empty each.commentaire)" />
 					</vlayout>
 					<label
 						value="${vm.concatAgentNomatr(each.operateur)}" />

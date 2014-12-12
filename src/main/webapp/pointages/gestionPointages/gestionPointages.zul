@@ -163,8 +163,8 @@
 							<label value="@bind(each.quantite)" />
 							<vlayout>
 								<label value="@bind(each.motif)" />
-								<separator />
-								<label value="@bind(each.commentaire)" />
+								<separator visible="@bind(not empty each.commentaire)" />
+								<label value="@bind(each.commentaire)"  visible="@bind(not empty each.commentaire)"/>
 							</vlayout>
 							<label
 								value="@bind(vm.concatAgentNomatr(each.operateur))" />
