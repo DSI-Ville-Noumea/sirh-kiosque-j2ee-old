@@ -36,6 +36,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
@@ -71,6 +72,9 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	private static final String ptgTypePointageKiosqueUrl = "filtres/getTypes";
 	private static final String ptgAgentsKiosqueUrl = "filtres/agents";
 	private static final String sirhPtgTypeAbsence = "filtres/getTypesAbsence";
+	private static final String sirhPtgMotifHsup = "filtres/getMotifHsup";
+	
+	
 
 	/* Droits */
 	private static final String ptgDroitsDroitsAgentUrl = "droits/listeDroitsAgent";
@@ -346,6 +350,13 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		String url = String.format(sirhPtgWsBaseUrl + sirhPtgTypeAbsence);
 		ClientResponse res = createAndFireGetRequest(new HashMap<String, String>(), url);
 		return readResponseAsList(RefTypeAbsenceDto.class, res, url);
+	}
+
+	@Override
+	public List<MotifHeureSupDto> getListeMotifHsup() {
+		String url = String.format(sirhPtgWsBaseUrl + sirhPtgMotifHsup);
+		ClientResponse res = createAndFireGetRequest(new HashMap<String, String>(), url);
+		return readResponseAsList(MotifHeureSupDto.class, res, url);
 	}
 
 }

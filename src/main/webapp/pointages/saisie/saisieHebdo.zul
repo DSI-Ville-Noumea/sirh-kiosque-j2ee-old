@@ -132,11 +132,18 @@
 										label="Rappel en service"
 										disabled="@bind(empty cellHSup.idRefEtat)"
 										visible="${vm.estAgentDPM()}"
-										onCheck="@command('textChanged')" />
-									<textbox width="100%"
-										value="@bind(cellHSup.motif)"
+										onCheck="@command('textChanged')" />										
+									<combobox width="100%"
+										selectedItem="@bind(cellHSup.idMotifHsup)"
 										disabled="@bind(empty cellHSup.idRefEtat)"
-										placeholder="Motif *" onChanging="@command('textChanged')" />
+										placeholder="Motif *"
+										onChange="@command('textChanged')">
+										<zk
+											forEach="${vm.listeMotifHsup}">
+											<comboitem
+												label="${each.libelle}" value="${each.idMotifHsup}" />
+										</zk>
+									</combobox>
 									<textbox width="100%"
 										value="@bind(cellHSup.commentaire)"
 										disabled="@bind(empty cellHSup.idRefEtat)" multiline="true"
@@ -275,10 +282,10 @@
 										value="${vm.etatToString(cellPrime.idRefEtat)}"
 										visible="@bind(not empty cellPrime.idRefEtat)" />
 									<separator />
-									<label
-										value="@bind(cellPrime.titre)" style="font-weight: bold;" />
 									<image sclass="aidePointage"
 										tooltiptext="@bind(cellPrime.aide)" />
+									<label
+										value="@bind(cellPrime.titre)" style="font-weight: bold;" />
 								</div>
 								<timebox cols="14" format="HH:mm"
 									value="@bind(cellPrime.heureDebut)"

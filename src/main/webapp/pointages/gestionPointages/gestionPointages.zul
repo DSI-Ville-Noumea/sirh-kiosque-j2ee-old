@@ -96,14 +96,14 @@
 					</div>
 				</hlayout>
 				<separator />
-				<grid model="@bind(vm.listePointages)" mold="paging"
+				<grid model="@bind(vm.listePointages)" mold="paging" width="1180px"
 					pageSize="@bind(vm.tailleListe)"
 					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
 					<columns>
 						<column width="30px" sort="none" />
-						<column label="Agent" sort="auto('agent.nom')" />
+						<column label="Agent" sort="auto('agent.nom')"  width="200px"/>
 						<column label="Type"
-							sort="auto('typePointage')" />
+							sort="auto('typePointage')"  width="110px"/>
 						<column label="Type HS" sort="none"
 							width="50px" />
 						<column align="center" label="Date"
@@ -121,7 +121,7 @@
 						<column width="80px" label="Etat" sort="none" />
 						<column align="center" label="Date de saisie"
 							width="100px" sort="auto('dateSaisie')" />
-						<column width="90px"
+						<column
 							visible="@bind(vm.droitsPointage.approbation)">
 							<hlayout>
 								<image
@@ -161,11 +161,11 @@
 							<label
 								value="@bind(each.fin) @converter('formatedDate',format='HH:mm')" />
 							<label value="@bind(each.quantite)" />
-							<hlayout>
+							<vlayout>
 								<label value="@bind(each.motif)" />
-								<label value=" - " />
+								<separator />
 								<label value="@bind(each.commentaire)" />
-							</hlayout>
+							</vlayout>
 							<label
 								value="@bind(vm.concatAgentNomatr(each.operateur))" />
 							<label

@@ -33,6 +33,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
@@ -83,7 +84,8 @@ public interface ISirhPtgWSConsumer {
 	/* saisie DES pointages */
 	List<RefTypeAbsenceDto> getListeRefTypeAbsence();
 
-	ReturnMessageDto setFichePointageSaisie(Integer idAgent,
-			FichePointageDto fichePointageDto);
+	List<MotifHeureSupDto> getListeMotifHsup();
+
+	ReturnMessageDto setFichePointageSaisie(Integer idAgent, FichePointageDto fichePointageDto);
 
 }

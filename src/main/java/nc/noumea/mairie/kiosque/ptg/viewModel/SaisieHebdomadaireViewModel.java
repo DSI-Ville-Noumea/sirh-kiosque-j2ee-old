@@ -42,6 +42,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.HeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.JourPointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PrimeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
@@ -98,6 +99,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	private String dateFiltre;
 
 	private ListModel<RefTypeAbsenceDto> listeTypeAbsence;
+	private ListModel<MotifHeureSupDto> listeMotifHsup;
 
 	@Init
 	public void initSaisieFichePointage() throws ParseException {
@@ -108,6 +110,12 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		setDateFiltre("Semaine ... du ... au ...");
 
 		setListeTypeAbsence(getModelTypeAbsence());
+		setListeMotifHsup(getModelMotifHsup());
+	}
+
+	private ListModel<MotifHeureSupDto> getModelMotifHsup() {
+
+		return new ListModelList<MotifHeureSupDto>(ptgWsConsumer.getListeMotifHsup());
 	}
 
 	private ListModel<RefTypeAbsenceDto> getModelTypeAbsence() {
@@ -193,7 +201,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			}
 			// heure sup
 			for (HeureSupDto hsupDto : dtoJour.getHeuresSup()) {
-				if (hsupDto.getMotif() == null || hsupDto.getMotif().equals("")) {
+				if (hsupDto.getIdMotifHsup() == null) {
 					result.getErrors().add(
 							String.format("Le motif de l'heure supplémentaire du %s est obligatoire.",
 									sdf.format(dtoJour.getDate())));
@@ -252,7 +260,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	public void deleteHSup(@BindingParam("ref") HeureSupDto hsup) {
 		hsup.setIdRefEtat(null);
 		hsup.setCommentaire(null);
-		hsup.setMotif(null);
+		hsup.setIdMotifHsup(null);
 		hsup.setHeureDebut(null);
 		hsup.setHeureFin(null);
 		hsup.setRappelService(false);
@@ -909,7 +917,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					ajouterHSup(hsupSuiv);
 					// on copie les données
 					hsupSuiv.setCommentaire(hsup.getCommentaire());
-					hsupSuiv.setMotif(hsup.getMotif());
+					hsupSuiv.setIdMotifHsup(hsup.getIdMotifHsup());
 					hsupSuiv.setHeureDebut(hsup.getHeureDebut());
 					hsupSuiv.setHeureFin(hsup.getHeureFin());
 					hsupSuiv.setRappelService(hsup.isRappelService());
@@ -932,7 +940,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					ajouterHSup(hsupPrec);
 					// on copie les données
 					hsupPrec.setCommentaire(hsup.getCommentaire());
-					hsupPrec.setMotif(hsup.getMotif());
+					hsupPrec.setIdMotifHsup(hsup.getIdMotifHsup());
 					hsupPrec.setHeureDebut(hsup.getHeureDebut());
 					hsupPrec.setHeureFin(hsup.getHeureFin());
 					hsupPrec.setRappelService(hsup.isRappelService());
@@ -981,6 +989,14 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			setHasTextChanged(true);
 		}
 
+	}
+
+	public ListModel<MotifHeureSupDto> getListeMotifHsup() {
+		return listeMotifHsup;
+	}
+
+	public void setListeMotifHsup(ListModel<MotifHeureSupDto> listeMotifHsup) {
+		this.listeMotifHsup = listeMotifHsup;
 	}
 
 }

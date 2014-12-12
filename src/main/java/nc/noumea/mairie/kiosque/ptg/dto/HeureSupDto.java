@@ -28,6 +28,7 @@ public class HeureSupDto extends PointageDto {
 
 	private boolean recuperee;
 	private boolean rappelService;
+	private Integer idMotifHsup;
 
 	public boolean isRappelService() {
 		return rappelService;
@@ -43,5 +44,13 @@ public class HeureSupDto extends PointageDto {
 
 	public void setRecuperee(boolean recuperee) {
 		this.recuperee = recuperee;
+	}
+
+	public Integer getIdMotifHsup() {
+		return idMotifHsup;
+	}
+
+	public void setIdMotifHsup(Integer idMotifHsup) {
+		this.idMotifHsup = idMotifHsup;
 	}
 }
