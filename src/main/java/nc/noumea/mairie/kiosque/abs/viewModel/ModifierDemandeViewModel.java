@@ -139,6 +139,7 @@ public class ModifierDemandeViewModel {
 		if (IsFormValid(getDemandeCourant().getTypeSaisi())) {
 
 			getDemandeCourant().setIdRefEtat(Integer.valueOf(getEtatDemande()));
+			getDemandeCourant().setDuree(getDureeDemande());
 			getDemandeCourant().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
 			getDemandeCourant().setDateDebutAM(
 					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);

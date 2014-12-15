@@ -27,6 +27,7 @@
 							<hlayout>
 								<combobox width="400px"
 									model="@bind(vm.listeOrganisationsSyndicale)"
+									value="@bind(vm.organisationsSyndicaleCourant.sigle)"
 									selectedItem="@bind(vm.organisationsSyndicaleCourant)">
 									<template name="model">
 										<comboitem
