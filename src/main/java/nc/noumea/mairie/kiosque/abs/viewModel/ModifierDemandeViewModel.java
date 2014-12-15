@@ -139,9 +139,6 @@ public class ModifierDemandeViewModel {
 		if (IsFormValid(getDemandeCourant().getTypeSaisi())) {
 
 			getDemandeCourant().setIdRefEtat(Integer.valueOf(getEtatDemande()));
-			if (getDemandeCourant().getTypeSaisi()!=null && getDemandeCourant().getTypeSaisi().getUniteDecompte().equals("minutes")) {
-				getDemandeCourant().setDuree(getDureeDemande() * 60);
-			}
 			getDemandeCourant().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
 			getDemandeCourant().setDateDebutAM(
 					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
@@ -179,7 +176,6 @@ public class ModifierDemandeViewModel {
 			}
 		}
 	}
-
 
 	@Command
 	@NotifyChange({ "demandeCourant", "dureeCongeAnnuel" })

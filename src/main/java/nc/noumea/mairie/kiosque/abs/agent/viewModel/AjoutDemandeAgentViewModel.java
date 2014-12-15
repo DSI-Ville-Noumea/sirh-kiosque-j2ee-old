@@ -176,10 +176,6 @@ public class AjoutDemandeAgentViewModel {
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("AM") ? true : false);
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
-			if (getDemandeCreation().getTypeSaisi() != null
-					&& getDemandeCreation().getTypeSaisi().getUniteDecompte().equals("minutes")) {
-				getDemandeCreation().setDuree(getDemandeCreation().getDuree() * 60);
-			}
 
 			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
 					getDemandeCreation());
@@ -212,12 +208,12 @@ public class AjoutDemandeAgentViewModel {
 	public void alimenteDateFin() {
 		getDemandeCreation().setTypeSaisi(getTypeAbsenceCourant().getTypeSaisiDto());
 		getDemandeCreation().setTypeSaisiCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto());
-		if(getDemandeCreation().getTypeSaisiCongeAnnuel() != null){
-			if (null == getDemandeCreation().getDateFin() 
+		if (getDemandeCreation().getTypeSaisiCongeAnnuel() != null) {
+			if (null == getDemandeCreation().getDateFin()
 					&& getDemandeCreation().getTypeSaisiCongeAnnuel().isCalendarDateFin()) {
 				getDemandeCreation().setDateFin(getDemandeCreation().getDateDebut());
 			}
-			if (null == getDemandeCreation().getDateFin() 
+			if (null == getDemandeCreation().getDateFin()
 					&& getDemandeCreation().getTypeSaisiCongeAnnuel().isCalendarDateReprise()) {
 				Calendar calReprise = Calendar.getInstance();
 				calReprise.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
