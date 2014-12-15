@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.compteurs.viewModel;
  * #L%
  */
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -332,8 +331,11 @@ public class CompteursViewModel {
 			getCompteurACreer().setDateFin(null);
 			getCompteurACreer().setAnneePrecedente(false);
 			getCompteurACreer().setIdAgent(getAgentFiltre().getIdAgent());
-			getCompteurACreer().setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
-			getCompteurACreer().setIdOrganisationSyndicale(null);
+
+			MotifCompteurDto motifDto = new MotifCompteurDto();
+			motifDto.setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
+			getCompteurACreer().setMotifCompteurDto(motifDto);
+			getCompteurACreer().setOrganisationSyndicaleDto(null);
 
 			ReturnMessageDto result = absWsConsumer.saveCompteurRecup(currentUser.getAgent().getIdAgent(),
 					getCompteurACreer());
@@ -376,8 +378,11 @@ public class CompteursViewModel {
 			getCompteurACreer().setDateFin(null);
 			getCompteurACreer().setAnneePrecedente(compteurAnneePrec());
 			getCompteurACreer().setIdAgent(getAgentFiltre().getIdAgent());
-			getCompteurACreer().setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
-			getCompteurACreer().setIdOrganisationSyndicale(null);
+
+			MotifCompteurDto motifDto = new MotifCompteurDto();
+			motifDto.setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
+			getCompteurACreer().setMotifCompteurDto(motifDto);
+			getCompteurACreer().setOrganisationSyndicaleDto(null);
 
 			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(currentUser.getAgent().getIdAgent(),
 					getCompteurACreer());
