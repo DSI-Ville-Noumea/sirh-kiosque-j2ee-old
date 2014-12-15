@@ -124,21 +124,22 @@ public class AjoutDemandeViewModel {
 	public void alimenteDateFin() {
 		getDemandeCreation().setTypeSaisi(getTypeAbsenceCourant().getTypeSaisiDto());
 		getDemandeCreation().setTypeSaisiCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto());
-
-		if (null == getDemandeCreation().getDateFin()
-				&& getDemandeCreation().getTypeSaisiCongeAnnuel().isCalendarDateFin()) {
-			getDemandeCreation().setDateFin(getDemandeCreation().getDateDebut());
+		if (getDemandeCreation().getTypeSaisiCongeAnnuel() != null) {
+			if (null == getDemandeCreation().getDateFin()
+					&& getDemandeCreation().getTypeSaisiCongeAnnuel().isCalendarDateFin()) {
+				getDemandeCreation().setDateFin(getDemandeCreation().getDateDebut());
+			}
+			if (null == getDemandeCreation().getDateFin()
+					&& getDemandeCreation().getTypeSaisiCongeAnnuel().isCalendarDateReprise()) {
+				Calendar calReprise = Calendar.getInstance();
+				calReprise.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+				calReprise.setTime(getDemandeCreation().getDateDebut());
+				calReprise.add(Calendar.DAY_OF_MONTH, 1);
+				getDemandeCreation().setDateReprise(calReprise.getTime());
+				getDemandeCreation().setDateFin(calReprise.getTime());
+			}
+			refreshDuree();
 		}
-		if (null == getDemandeCreation().getDateFin()
-				&& getDemandeCreation().getTypeSaisiCongeAnnuel().isCalendarDateReprise()) {
-			Calendar calReprise = Calendar.getInstance();
-			calReprise.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
-			calReprise.setTime(getDemandeCreation().getDateDebut());
-			calReprise.add(Calendar.DAY_OF_MONTH, 1);
-			getDemandeCreation().setDateReprise(calReprise.getTime());
-			getDemandeCreation().setDateFin(calReprise.getTime());
-		}
-		refreshDuree();
 	}
 
 	@Command
