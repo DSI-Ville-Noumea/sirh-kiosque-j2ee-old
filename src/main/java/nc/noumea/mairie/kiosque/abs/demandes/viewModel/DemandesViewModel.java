@@ -173,7 +173,7 @@ public class DemandesViewModel {
 	@NotifyChange({ "listeTypeAbsenceFiltre", "typeAbsenceFiltre" })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsenceFiltre()
-				.getIdRefGroupeAbsence(), getAgentFiltre().getIdAgent());
+				.getIdRefGroupeAbsence(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
 		if (filtreFamilleAbsence.size() == 1) {
 			setListeTypeAbsenceFiltre(null);
 			setTypeAbsenceFiltre(null);
@@ -415,7 +415,8 @@ public class DemandesViewModel {
 		return sf.format(dto.getDateDebut());
 	}
 
-	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi,RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel) {
+	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi,
+			RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel) {
 		if (typeSaisi != null) {
 			if (typeSaisi.getUniteDecompte().equals("jours")) {
 				return duree + " j";
@@ -424,7 +425,7 @@ public class DemandesViewModel {
 			}
 		}
 		if (typeSaisiCongeAnnuel != null) {
-				return duree + " j";			
+			return duree + " j";
 		}
 		return "";
 	}

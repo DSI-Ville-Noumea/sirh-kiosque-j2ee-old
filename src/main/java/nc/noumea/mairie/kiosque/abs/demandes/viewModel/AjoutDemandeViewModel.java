@@ -113,7 +113,7 @@ public class AjoutDemandeViewModel {
 	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant" })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsence()
-				.getIdRefGroupeAbsence(), getAgentFiltre().getIdAgent());
+				.getIdRefGroupeAbsence(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
 
 		setListeTypeAbsence(filtreFamilleAbsence);
 		setTypeAbsenceCourant(null);
