@@ -99,7 +99,7 @@
 						<div
 							visible="@bind(vm.soldeCourant.afficheSoldeAsaA55)">
 							<label sclass="name"
-								value="Délégation (DP)" />
+								value="Délégation DP" />
 							<label sclass="value"
 								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaA55))" />
 						</div>
