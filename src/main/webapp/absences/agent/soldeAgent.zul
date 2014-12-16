@@ -78,7 +78,7 @@
 				</div>
 				<div visible="@bind(vm.soldeCourant.afficheSoldeAsa)">
 					<div sclass="RHTitle2">
-						<label value="Mon solde ASA" />
+						<label value="Mon solde d'absence syndicale" />
 					</div>
 					<div sclass="RHTitle2Line"></div>
 					<div sclass="RHContent">
