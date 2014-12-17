@@ -28,7 +28,8 @@
 						<combobox readonly="true" width="400px"
 							value="@bind(vm.typeAbsenceCourant.libelle)"
 							model="@bind(vm.listeTypeAbsence)"
-							selectedItem="@bind(vm.typeAbsenceCourant)">
+							selectedItem="@bind(vm.typeAbsenceCourant)"
+							onSelect="@command('alimenteOrganisation')">
 							<template name="model">
 								<comboitem label="@bind(each.libelle)" />
 							</template>

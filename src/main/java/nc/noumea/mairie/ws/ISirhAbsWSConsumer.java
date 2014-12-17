@@ -69,7 +69,7 @@ public interface ISirhAbsWSConsumer {
 
 	List<RefEtatAbsenceDto> getEtatAbsenceKiosque(String onglet);
 
-	List<OrganisationSyndicaleDto> getListOrganisationSyndicale();
+	List<OrganisationSyndicaleDto> getListOrganisationSyndicale(Integer idAgent, Integer idRefTypeAbsence);
 
 	List<RefGroupeAbsenceDto> getRefGroupeAbsence();
 

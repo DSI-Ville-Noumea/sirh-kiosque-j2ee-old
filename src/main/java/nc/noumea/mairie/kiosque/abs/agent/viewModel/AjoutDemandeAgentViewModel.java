@@ -89,10 +89,6 @@ public class AjoutDemandeAgentViewModel {
 		// on recharge les groupes d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
 		setListeGroupeAbsence(filtreGroupeFamille);
-
-		// on recharge les oragnisations syndicales
-		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
-		setListeOrganisationsSyndicale(orga);
 		// on positionne la selection du statut Provisoire/Définitif
 		setEtatDemandeCreation("0");
 		// on initialise la demande
@@ -107,6 +103,18 @@ public class AjoutDemandeAgentViewModel {
 
 		setListeTypeAbsence(filtreFamilleAbsence);
 		setTypeAbsenceCourant(null);
+	}
+
+	@Command
+	@NotifyChange({ "listeOrganisationsSyndicale" })
+	public void alimenteOrganisation() {
+		if (getTypeAbsenceCourant() != null && getTypeAbsenceCourant().getTypeSaisiDto() != null
+				&& getTypeAbsenceCourant().getTypeSaisiDto().isCompteurCollectif()) {
+			// on recharge les organisations syndicales
+			List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(currentUser.getAgent()
+					.getIdAgent(),getTypeAbsenceCourant().getIdRefTypeAbsence());
+			setListeOrganisationsSyndicale(orga);
+		}
 	}
 
 	public String getCalculDureeCongeAnnuel(String codeBaseHoraireAbsence, DemandeDto demandeDto) {

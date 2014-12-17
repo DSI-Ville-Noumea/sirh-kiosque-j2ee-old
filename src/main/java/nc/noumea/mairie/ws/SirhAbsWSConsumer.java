@@ -177,9 +177,11 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<OrganisationSyndicaleDto> getListOrganisationSyndicale() {
+	public List<OrganisationSyndicaleDto> getListOrganisationSyndicale(Integer idAgent, Integer idRefTypeAbsence) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhListOrganisationUrl);
 		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idRefTypeAbsence", idRefTypeAbsence.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(OrganisationSyndicaleDto.class, res, url);
@@ -480,8 +482,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		HashMap<String, String> params = new HashMap<>();
 
 		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.signature")
-				.exclude("*.position").exclude("*.selectedDroitAbs")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(demandeDto);
+				.exclude("*.position").exclude("*.selectedDroitAbs").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(demandeDto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(DemandeDto.class, res, url);

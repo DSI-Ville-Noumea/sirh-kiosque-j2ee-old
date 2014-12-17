@@ -146,7 +146,8 @@ public class AjoutDemandeViewModel {
 	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation" })
 	public void chargeFormulaire() {
 		// on recharge les oragnisations syndicales
-		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale();
+		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(getAgentFiltre().getIdAgent(),
+				getTypeAbsenceCourant().getIdRefTypeAbsence());
 		setListeOrganisationsSyndicale(orga);
 		// on positionne la selection du statut Provisoire/Définitif
 		setEtatDemandeCreation("0");
