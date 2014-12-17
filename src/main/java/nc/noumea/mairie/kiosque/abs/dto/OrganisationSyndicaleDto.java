@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
+import java.util.List;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -24,13 +26,13 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
-
 public class OrganisationSyndicaleDto {
 
 	private Integer idOrganisation;
 	private String libelle;
 	private String sigle;
 	private boolean actif;
+	private List<AgentOrganisationSyndicaleDto> listeAgents;
 
 	public OrganisationSyndicaleDto() {
 	}
@@ -65,6 +67,14 @@ public class OrganisationSyndicaleDto {
 
 	public void setActif(boolean actif) {
 		this.actif = actif;
+	}
+
+	public List<AgentOrganisationSyndicaleDto> getListeAgents() {
+		return listeAgents;
+	}
+
+	public void setListeAgents(List<AgentOrganisationSyndicaleDto> listeAgents) {
+		this.listeAgents = listeAgents;
 	}
 
 }

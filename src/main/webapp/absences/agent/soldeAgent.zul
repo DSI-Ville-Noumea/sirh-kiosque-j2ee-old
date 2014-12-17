@@ -103,6 +103,13 @@
 							<label sclass="value"
 								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaA55))" />
 						</div>
+						<div
+							visible="@bind(vm.soldeCourant.afficheSoldeAsaA52)">
+							<label sclass="name"
+								value="Décharge de service CTP" />
+							<label sclass="value"
+								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaA52))" />
+						</div>
 					</div>
 				</div>
 			</div>
