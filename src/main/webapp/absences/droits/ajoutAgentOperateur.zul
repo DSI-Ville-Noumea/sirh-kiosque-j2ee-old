@@ -30,19 +30,23 @@
 				</hlayout>
 				<separator />
 				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
-					model="@bind(vm.listeAgents)" multiple="true" checkmark="true"
+					model="@bind(vm.listeAgents)"
 					emptyMessage="Aucun élément" id="listeAgent">
 					<custom-attributes
 						org.zkoss.zul.listbox.autoSort="true" />
 					<listhead>
+						<listheader label="" sort="none" width="30px" />
 						<listheader label="Nom" sort="auto('nom')" />
 						<listheader label="Prénom" sort="auto('prenom')"
 							align="center" />
 					</listhead>
 
 					<template name="model">
-						<listitem
-							selected="@bind(each.selectedDroitAbs)">
+						<listitem>
+							<listcell>
+								<checkbox onCheck="@command('doChecked',ref=each)"
+									checked="@bind(each.selectedDroitAbs)" />
+							</listcell>
 							<listcell label="@bind(each.nom)" />
 							<listcell label="@bind(each.prenom)" />
 						</listitem>
@@ -52,7 +56,7 @@
 				<div align="center">
 					<hlayout>
 						<button label="Valider"
-							onClick="@command('saveAgent',win=ajoutDialog,listBox=listeAgent)" />
+							onClick="@command('saveAgent',win=ajoutDialog)" />
 						<button label="Annuler"
 							onClick="@command('cancelDemande',win=ajoutDialog)" />
 					</hlayout>

@@ -47,8 +47,6 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -96,16 +94,21 @@ public class AjoutOperateurApprobateurViewModel {
 	}
 
 	@Command
-	public void saveAgent(@BindingParam("win") Window window, @BindingParam("listBox") Listbox listAgent) {
-		// on récupère les agents selectionnés
-		List<Listitem> t = listAgent.getItems();
-		List<AgentDto> listSelect = new ArrayList<AgentDto>();
-		for (Listitem a : t) {
-			if (a.isSelected())
-				listSelect.add((AgentDto) a.getValue());
+	public void doChecked(@BindingParam("ref") AgentDto dto) {
+		if (dto.isSelectedDroitAbs()) {
+			if (!getListeAgentsExistants().contains(dto))
+				getListeAgentsExistants().add(dto);
+		} else {
+			if (getListeAgentsExistants().contains(dto))
+				getListeAgentsExistants().remove(dto);
 		}
+
+	}
+
+	@Command
+	public void saveAgent(@BindingParam("win") Window window) {
 		DelegatorAndOperatorsDto dto = new DelegatorAndOperatorsDto();
-		dto.setSaisisseurs(listSelect);
+		dto.setSaisisseurs(getListeAgentsExistants());
 		dto.setDelegataire(getListeDelegataireExistants() == null || getListeDelegataireExistants().size() == 0 ? null
 				: getListeDelegataireExistants().get(0));
 		ReturnMessageDto result = ptgWsConsumer.saveDelegateAndOperator(currentUser.getAgent().getIdAgent(), dto);

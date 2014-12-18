@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.ptg.droits.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,8 +42,6 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -88,17 +85,21 @@ public class AjoutAgentOperateurViewModel {
 	}
 
 	@Command
-	public void saveAgent(@BindingParam("win") Window window, @BindingParam("listBox") Listbox listAgent) {
-		// on récupère les agents selectionnés
-		List<Listitem> t = listAgent.getItems();
-		List<AgentDto> listSelect = new ArrayList<AgentDto>();
-		for (Listitem a : t) {
-			if (a.isSelected())
-				listSelect.add((AgentDto) a.getValue());
+	public void doChecked(@BindingParam("ref") AgentDto dto) {
+		if (dto.isSelectedDroitAbs()) {
+			if (!getListeAgentsExistants().contains(dto))
+				getListeAgentsExistants().add(dto);
+		} else {
+			if (getListeAgentsExistants().contains(dto))
+				getListeAgentsExistants().remove(dto);
 		}
 
-		ReturnMessageDto result = ptgWsConsumer.saveAgentsSaisisOperateur(getApprobateur().getIdAgent(),
-				getOperateur().getIdAgent(), listSelect);
+	}
+
+	@Command
+	public void saveAgent(@BindingParam("win") Window window) {
+		ReturnMessageDto result = ptgWsConsumer.saveAgentsSaisisOperateur(getApprobateur().getIdAgent(), getOperateur()
+				.getIdAgent(), getListeAgentsExistants());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

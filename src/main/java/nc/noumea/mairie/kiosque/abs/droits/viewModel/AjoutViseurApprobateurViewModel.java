@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.droits.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,8 +46,6 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -86,16 +83,21 @@ public class AjoutViseurApprobateurViewModel {
 	}
 
 	@Command
-	public void saveAgent(@BindingParam("win") Window window, @BindingParam("listBox") Listbox listAgent) {
-		// on récupère les agents selectionnés
-		List<Listitem> t = listAgent.getItems();
-		List<AgentDto> listSelect = new ArrayList<AgentDto>();
-		for (Listitem a : t) {
-			if (a.isSelected())
-				listSelect.add((AgentDto) a.getValue());
+	public void doChecked(@BindingParam("ref") AgentDto dto) {
+		if (dto.isSelectedDroitAbs()) {
+			if (!getListeAgentsExistants().contains(dto))
+				getListeAgentsExistants().add(dto);
+		} else {
+			if (getListeAgentsExistants().contains(dto))
+				getListeAgentsExistants().remove(dto);
 		}
+
+	}
+
+	@Command
+	public void saveAgent(@BindingParam("win") Window window) {
 		ViseursDto dto = new ViseursDto();
-		dto.setViseurs(listSelect);
+		dto.setViseurs(getListeAgentsExistants());
 		ReturnMessageDto result = absWsConsumer.saveViseursApprobateur(currentUser.getAgent().getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();

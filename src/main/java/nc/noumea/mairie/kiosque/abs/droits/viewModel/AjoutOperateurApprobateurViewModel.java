@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.droits.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,8 +47,6 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -70,15 +67,15 @@ public class AjoutOperateurApprobateurViewModel {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
-	
+
 	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initAjoutOperateur(@ExecutionArgParam("operateursExistants") List<AgentDto> operateursExistants,
 			@ExecutionArgParam("delegataireExistants") AgentDto delegataireExistants) {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		// on sauvegarde qui sont les opérateurs de l'approbateur
 		setListeAgentsExistants(operateursExistants);
 		// on sauvegarde qui est le delegataire de l'approbateur
@@ -97,19 +94,26 @@ public class AjoutOperateurApprobateurViewModel {
 	}
 
 	@Command
-	public void saveAgent(@BindingParam("win") Window window, @BindingParam("listBox") Listbox listAgent) {
-		// on récupère les agents selectionnés
-		List<Listitem> t = listAgent.getItems();
-		List<AgentDto> listSelect = new ArrayList<AgentDto>();
-		for (Listitem a : t) {
-			if (a.isSelected())
-				listSelect.add((AgentDto) a.getValue());
+	public void doChecked(@BindingParam("ref") AgentDto dto) {
+		if (dto.isSelectedDroitAbs()) {
+			if (!getListeAgentsExistants().contains(dto))
+				getListeAgentsExistants().add(dto);
+		} else {
+			if (getListeAgentsExistants().contains(dto))
+				getListeAgentsExistants().remove(dto);
 		}
+
+	}
+
+	@Command
+	public void saveAgent(@BindingParam("win") Window window) {
+
 		InputterDto dto = new InputterDto();
-		dto.setOperateurs(listSelect);
+		dto.setOperateurs(getListeAgentsExistants());
 		dto.setDelegataire(getListeDelegataireExistants() == null || getListeDelegataireExistants().size() == 0 ? null
 				: getListeDelegataireExistants().get(0));
-		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
+				.getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
