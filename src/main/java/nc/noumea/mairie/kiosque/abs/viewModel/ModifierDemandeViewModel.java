@@ -79,6 +79,12 @@ public class ModifierDemandeViewModel {
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(getDemandeCourant()
 				.getAgentWithServiceDto().getIdAgent(), getDemandeCourant().getIdTypeDemande());
+		if(orga.size()==0){
+			OrganisationSyndicaleDto dto = new OrganisationSyndicaleDto();
+			dto.setLibelle("L'agent n'est affecté à ausune organisation syndicale");
+			dto.setSigle("ERREUR");
+			orga.add(dto);
+		}
 		setListeOrganisationsSyndicale(orga);
 		setOrganisationsSyndicaleCourant(getDemandeCourant().getOrganisationSyndicale());
 

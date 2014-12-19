@@ -113,6 +113,12 @@ public class AjoutDemandeAgentViewModel {
 			// on recharge les organisations syndicales
 			List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(currentUser.getAgent()
 					.getIdAgent(),getTypeAbsenceCourant().getIdRefTypeAbsence());
+			if(orga.size()==0){
+				OrganisationSyndicaleDto dto = new OrganisationSyndicaleDto();
+				dto.setLibelle("L'agent n'est affecté à ausune organisation syndicale");
+				dto.setSigle("ERREUR");
+				orga.add(dto);
+			}
 			setListeOrganisationsSyndicale(orga);
 		}
 	}
