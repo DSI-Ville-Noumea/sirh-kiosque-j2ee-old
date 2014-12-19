@@ -59,7 +59,7 @@
 									selectedItem="@bind(vm.organisationsSyndicaleCourant)">
 									<template name="model">
 										<comboitem
-											label="@bind(each.sigle)" />
+											label="@bind(each.sigle)" description="@bind(each.libelle)" />
 									</template>
 								</combobox>
 							</hlayout>
