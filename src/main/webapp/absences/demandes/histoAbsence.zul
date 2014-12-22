@@ -1,5 +1,5 @@
 <zk>
-	<grid style="margin-left: 323px;border:none;">
+	<grid style="margin-left: 963px;border:none;">
 		<columns visible="false">
 			<column label="Date de début" width="100px" align="center" />
 			<column label="Heure de début" width="100px" align="center" />
