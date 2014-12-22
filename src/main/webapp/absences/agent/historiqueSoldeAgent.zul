@@ -31,7 +31,7 @@
 
 			<div align="center">
 				<hlayout>
-					<button label="Annuler"
+					<button label="Fermer"
 						onClick="@command('cancelDemande',win=histoSoldeAgentDialog)" />
 				</hlayout>
 			</div>
