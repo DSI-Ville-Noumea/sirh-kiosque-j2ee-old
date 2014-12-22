@@ -106,7 +106,7 @@
 						<div
 							visible="@bind(vm.soldeCourant.afficheSoldeAsaA52)">
 							<label sclass="name"
-								value="Décharge de service CTP" />
+								value="@bind(vm.libelleA52)" />
 							<label sclass="value"
 								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaA52))" />
 						</div>

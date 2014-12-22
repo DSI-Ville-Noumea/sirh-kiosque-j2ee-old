@@ -52,6 +52,8 @@ public class SoldeAgentViewModel {
 
 	private ProfilAgentDto currentUser;
 
+	private String libelleA52;
+
 	@Init
 	public void initSoldeAgent() {
 
@@ -62,10 +64,15 @@ public class SoldeAgentViewModel {
 		filtreDto.setDateFin(new Date());
 		SoldeDto result = absWsConsumer.getAgentSolde(currentUser.getAgent().getIdAgent(), filtreDto);
 		setSoldeCourant(result);
+		if (getSoldeCourant().getOrganisationA52() != null) {
+			setLibelleA52("Décharge de service CTP - " + getSoldeCourant().getOrganisationA52().getSigle());
+		} else {
+			setLibelleA52("Décharge de service CTP");
+		}
 	}
 
 	@Command
-	public void historiqueSolde(@BindingParam("ref") Integer typeConge) {		
+	public void historiqueSolde(@BindingParam("ref") Integer typeConge) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, Integer> args = new HashMap<String, Integer>();
 		args.put("agentCourant", currentUser.getAgent().getIdAgent());
@@ -104,5 +111,13 @@ public class SoldeAgentViewModel {
 
 	public void setSoldeCourant(SoldeDto soldeCourant) {
 		this.soldeCourant = soldeCourant;
+	}
+
+	public String getLibelleA52() {
+		return libelleA52;
+	}
+
+	public void setLibelleA52(String libelleA52) {
+		this.libelleA52 = libelleA52;
 	}
 }
