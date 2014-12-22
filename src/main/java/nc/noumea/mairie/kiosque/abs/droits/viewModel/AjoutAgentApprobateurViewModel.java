@@ -45,6 +45,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -79,6 +80,21 @@ public class AjoutAgentApprobateurViewModel {
 		List<AgentDto> result = sirhWsConsumer.getAgentsSubordonnes(currentUser.getAgent().getIdAgent());
 		setListeAgents(transformeListe(result));
 		setTailleListe("5");
+	}
+
+	@Command
+	@NotifyChange({"listeAgents"})
+	public void doCheckedAll(@BindingParam("ref") List<AgentDto> listDto, @BindingParam("box") Checkbox box) {
+		for (AgentDto dto : getListeAgents()) {
+			if (box.isChecked()) {
+				dto.setSelectedDroitAbs(true);
+				doChecked(dto);
+			} else {
+				dto.setSelectedDroitAbs(false);
+				doChecked(dto);
+			}
+		}
+
 	}
 
 	@Command

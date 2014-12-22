@@ -42,6 +42,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -82,6 +83,21 @@ public class AjoutAgentOperateurViewModel {
 		setTailleListe("5");
 		setTitle("Sélection des agents affectés à l'opérateur " + getOperateur().getNom() + " "
 				+ getOperateur().getPrenom());
+	}
+
+	@Command
+	@NotifyChange({"listeAgents"})
+	public void doCheckedAll(@BindingParam("ref") List<AgentDto> listDto, @BindingParam("box") Checkbox box) {
+		for (AgentDto dto : getListeAgents()) {
+			if (box.isChecked()) {
+				dto.setSelectedDroitAbs(true);
+				doChecked(dto);
+			} else {
+				dto.setSelectedDroitAbs(false);
+				doChecked(dto);
+			}
+		}
+
 	}
 
 	@Command

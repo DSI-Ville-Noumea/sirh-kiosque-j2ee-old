@@ -35,7 +35,10 @@
 					<custom-attributes
 						org.zkoss.zul.listbox.autoSort="true" />
 					<listhead>
-						<listheader label="" sort="none" width="30px" />
+						<listheader label="" sort="none" width="30px">
+							<checkbox id="checkAll"
+								onCheck="@command('doCheckedAll',ref=listeAgents,box=self)" />
+						</listheader>
 						<listheader label="Nom" sort="auto('nom')" />
 						<listheader label="Prénom" sort="auto('prenom')"
 							align="center" />
