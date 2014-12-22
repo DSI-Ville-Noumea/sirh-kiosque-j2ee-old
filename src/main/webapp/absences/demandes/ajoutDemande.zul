@@ -84,7 +84,7 @@
 								<label value="Org. syndicale : " />
 							</hlayout>
 							<hlayout>
-								<combobox width="400px"
+								<combobox width="400px" readonly="true" value="@bind(vm.organisationsSyndicaleCourant)"
 									model="@bind(vm.listeOrganisationsSyndicale)"
 									selectedItem="@bind(vm.organisationsSyndicaleCourant)">
 									<template name="model">

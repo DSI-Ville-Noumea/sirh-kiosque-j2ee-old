@@ -55,7 +55,8 @@
 							</hlayout>
 							<hlayout>
 								<combobox width="400px"
-									model="@bind(vm.listeOrganisationsSyndicale)"
+									value="@bind(vm.organisationsSyndicaleCourant)"
+									readonly="true" model="@bind(vm.listeOrganisationsSyndicale)"
 									selectedItem="@bind(vm.organisationsSyndicaleCourant)">
 									<template name="model">
 										<comboitem

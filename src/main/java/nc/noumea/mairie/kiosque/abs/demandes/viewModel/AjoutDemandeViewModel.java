@@ -143,17 +143,20 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation" })
+	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation",
+			"organisationsSyndicaleCourant" })
 	public void chargeFormulaire() {
 		// on recharge les oragnisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(getAgentFiltre().getIdAgent(),
 				getTypeAbsenceCourant().getIdRefTypeAbsence());
-		if(orga.size()==0){
+		if (orga.size() == 0) {
 			OrganisationSyndicaleDto dto = new OrganisationSyndicaleDto();
-			dto.setLibelle("L'agent n'est affecté à ausune organisation syndicale");
+			dto.setLibelle("L'agent n'est affecté à aucune organisation syndicale");
 			dto.setSigle("ERREUR");
 			orga.add(dto);
 		}
+		setOrganisationsSyndicaleCourant(orga.get(0));
+
 		setListeOrganisationsSyndicale(orga);
 		// on positionne la selection du statut Provisoire/Définitif
 		setEtatDemandeCreation("0");

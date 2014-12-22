@@ -106,19 +106,21 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeOrganisationsSyndicale" })
+	@NotifyChange({ "listeOrganisationsSyndicale","organisationsSyndicaleCourant" })
 	public void alimenteOrganisation() {
 		if (getTypeAbsenceCourant() != null && getTypeAbsenceCourant().getTypeSaisiDto() != null
 				&& getTypeAbsenceCourant().getTypeSaisiDto().isCompteurCollectif()) {
 			// on recharge les organisations syndicales
 			List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(currentUser.getAgent()
-					.getIdAgent(),getTypeAbsenceCourant().getIdRefTypeAbsence());
-			if(orga.size()==0){
+					.getIdAgent(), getTypeAbsenceCourant().getIdRefTypeAbsence());
+			if (orga.size() == 0) {
 				OrganisationSyndicaleDto dto = new OrganisationSyndicaleDto();
-				dto.setLibelle("L'agent n'est affecté à ausune organisation syndicale");
+				dto.setLibelle("L'agent n'est affecté à aucune organisation syndicale");
 				dto.setSigle("ERREUR");
 				orga.add(dto);
 			}
+			setOrganisationsSyndicaleCourant(orga.get(0));
+
 			setListeOrganisationsSyndicale(orga);
 		}
 	}
