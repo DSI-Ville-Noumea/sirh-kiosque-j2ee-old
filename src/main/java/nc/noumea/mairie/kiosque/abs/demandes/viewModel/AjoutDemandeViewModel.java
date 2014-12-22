@@ -110,13 +110,19 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant" })
+	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant", "listeOrganisationsSyndicale", "etatDemandeCreation",
+			"demandeCreation", "organisationsSyndicaleCourant" })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsence()
 				.getIdRefGroupeAbsence(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
 
 		setListeTypeAbsence(filtreFamilleAbsence);
-		setTypeAbsenceCourant(null);
+		if (getListeTypeAbsence().size() == 1) {
+			setTypeAbsenceCourant(getListeTypeAbsence().get(0));
+			chargeFormulaire();
+		} else {
+			setTypeAbsenceCourant(null);
+		}
 	}
 
 	@Command

@@ -102,7 +102,11 @@ public class AjoutDemandeAgentViewModel {
 				.getIdRefGroupeAbsence(), currentUser.getAgent().getIdAgent());
 
 		setListeTypeAbsence(filtreFamilleAbsence);
-		setTypeAbsenceCourant(null);
+		if(getListeTypeAbsence().size()==1){
+			setTypeAbsenceCourant(getListeTypeAbsence().get(0));			
+		}else{
+			setTypeAbsenceCourant(null);
+		}
 	}
 
 	@Command
