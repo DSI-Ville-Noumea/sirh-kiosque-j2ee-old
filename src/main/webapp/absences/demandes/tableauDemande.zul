@@ -110,8 +110,7 @@
 				<column label="Durée" sort="none" width="60px"
 					align="center" />
 				<column width="40px" align="center">
-					<image
-						tooltiptext="Alertes"
+					<image tooltiptext="Alertes"
 						sclass="ListAction warn" />
 				</column>
 				<column label="Opérateur" sort="none" width="150px" />
@@ -145,10 +144,9 @@
 							visible="@bind(each.depassementCompteur)" />
 						<image
 							tooltiptext="Cette demande n'est pas un multiple."
-							sclass="seuilMultiple"
-							visible="@bind(each.depassementMultiple)" />
+							sclass="seuilMultiple" visible="@bind(each.depassementMultiple)" />
 					</vlayout>
-					<label 
+					<label
 						value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
 					<hlayout>
 						<label

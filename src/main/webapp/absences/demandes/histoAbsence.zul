@@ -1,5 +1,5 @@
 <zk>
-	<grid style="margin-left: 963px;border:none;">
+	<grid style="margin-left: 963px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
 		<columns visible="false">
 			<column label="Date de début" width="100px" align="center" />
 			<column label="Heure de début" width="100px" align="center" />
@@ -12,7 +12,7 @@
 		</columns>
 		<rows>
 			<zk forEach="${vm.getHistoriqueAbsence(arg.absence)}">
-				<row>
+				<row style="background-color:#ee7203 !important;background:#ee7203 !important;">
 					<label
 						value="${vm.getDateToString(each.dateDebut)}" />
 					<label value="${vm.getHeureDebutToString(each)}" />
