@@ -84,7 +84,11 @@
 
 	.ListAction.edit { background-position: -235px -229px; }
 
-	.ListAction.delete { background-position: -251px -229px; }
+	.ListAction.delete { background-image: url("img/absence/Corbeille.png");
+	background-repeat: no-repeat; cursor: pointer; display:
+	inline-block; height: 20px; margin: 2px 5px 0; width: 20px;  }
+
+	.ListAction.cancel { background-position: -251px -229px; }
 
 	.ListAction.print { background-position: -299px -229px; }
 

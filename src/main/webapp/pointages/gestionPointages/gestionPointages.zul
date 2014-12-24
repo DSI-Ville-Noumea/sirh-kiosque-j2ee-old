@@ -131,7 +131,7 @@
 									onClick="@command('approuverAllPointage')" />
 								<image
 									tooltiptext="Refuser tous les pointages"
-									sclass="ListAction delete"
+									sclass="ListAction cancel"
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('refuserAllPointage')" />
 								<image
@@ -179,7 +179,7 @@
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('approuverPointage',ref=each)" />
 								<image tooltiptext="Refuser le pointage"
-									sclass="ListAction delete"
+									sclass="ListAction cancel"
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('refuserPointage',ref=each)" />
 								<image

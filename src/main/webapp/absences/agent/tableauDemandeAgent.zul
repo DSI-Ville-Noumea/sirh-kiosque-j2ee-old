@@ -138,7 +138,7 @@
 							visible="@bind(each.affichageBoutonSupprimer)"
 							onClick="@command('supprimerDemande',ref=each)" />
 						<image tooltiptext="Annuler la demande"
-							sclass="ListAction delete"
+							sclass="ListAction cancel"
 							visible="@bind(each.affichageBoutonAnnuler)"
 							onClick="@command('annulerDemande',ref=each)" />
 						<image tooltiptext="Imprimer la demande"
