@@ -1,5 +1,5 @@
 <zk>
-	<grid style="margin-left: 963px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
+	<grid style="margin-left: 699px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
 		<columns visible="false">
 			<column label="Date de début" width="100px" align="center" />
 			<column label="Heure de début" width="100px" align="center" />
@@ -8,7 +8,7 @@
 			<column label="Opérateur" sort="none" width="150px" />
 			<column label="Etat" width="100px" />
 			<column label="Date de saisie" width="120px" align="center" />
-			<column label="Motif" width="150px" />
+			<column label="Motif" width="148px" />
 		</columns>
 		<rows>
 			<zk forEach="${vm.getHistoriqueAbsence(arg.absence)}">

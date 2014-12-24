@@ -96,12 +96,13 @@
 		<separator />
 
 		<grid model="@bind(vm.listeDemandes)" mold="paging"
-			pageSize="@bind(vm.tailleListe)" emptyMessage="Aucun élément">
+			width="1552px" pageSize="@bind(vm.tailleListe)"
+			emptyMessage="Aucun élément">
 			<columns>
 				<column width="30px" sort="none" />
-				<column label="Agent"
+				<column label="Agent" width="300px"
 					sort="auto('agentWithServiceDto.nom','agentWithServiceDto.prenom')" />
-				<column label="Type de demande"
+				<column label="Type de demande" width="400px"
 					sort="auto('libelleTypeDemande')" />
 				<column label="Date de début" sort="auto('dateDebut')"
 					align="center" width="100px" />
@@ -123,8 +124,10 @@
 				<row>
 					<custom-attributes absence="${each}" />
 					<detail open="false" fulfill="onOpen">
-						<include
-							src="/absences/demandes/histoAbsence.zul" absence="${absence}" />
+						<hbox>
+							<include
+								src="/absences/demandes/histoAbsence.zul" absence="${absence}" />
+						</hbox>
 					</detail>
 					<label sclass="clicable"
 						style="text-decoration: underline;"
@@ -197,7 +200,7 @@
 				</row>
 			</template>
 		</grid>
-		<div style="display:block;">
+		<div style="display:block;" width="1552px">
 			<div style="display:inline-block;float:left;"
 				align="left">
 				<button label="Ajouter"
