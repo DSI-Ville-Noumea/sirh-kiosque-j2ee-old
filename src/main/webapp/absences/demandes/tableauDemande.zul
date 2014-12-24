@@ -124,10 +124,8 @@
 				<row>
 					<custom-attributes absence="${each}" />
 					<detail open="false" fulfill="onOpen">
-						<hbox>
-							<include
-								src="/absences/demandes/histoAbsence.zul" absence="${absence}" />
-						</hbox>
+						<include
+							src="/absences/demandes/histoAbsence.zul" absence="${absence}" />
 					</detail>
 					<label sclass="clicable"
 						style="text-decoration: underline;"

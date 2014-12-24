@@ -72,10 +72,11 @@
 		</hlayout>
 		<separator />
 		<grid model="@bind(vm.listeDemandes)" mold="paging"
-			pageSize="@bind(vm.tailleListe)" emptyMessage="Aucun élément">
+			width="1252px" pageSize="@bind(vm.tailleListe)"
+			emptyMessage="Aucun élément">
 			<columns>
 				<column width="30px" sort="none" />
-				<column label="Type de demande"
+				<column label="Type de demande" width="400px"
 					sort="auto('libelleTypeDemande')" />
 				<column label="Date de début" sort="auto('dateDebut')"
 					align="center" width="100px" />
@@ -98,7 +99,7 @@
 					<custom-attributes absence="${each}" />
 					<detail open="false" fulfill="onOpen">
 						<include
-							src="/absences/demandes/histoAbsence.zul" absence="${absence}" />
+							src="/absences/agent/histoAbsence.zul" absence="${absence}" />
 					</detail>
 					<label value="@bind(each.libelleTypeDemande)" />
 					<label
@@ -114,8 +115,7 @@
 							visible="@bind(each.depassementCompteur)" />
 						<image
 							tooltiptext="Cette demande n'est pas un multiple."
-							sclass="seuilMultiple"
-							visible="@bind(each.depassementMultiple)" />
+							sclass="seuilMultiple" visible="@bind(each.depassementMultiple)" />
 					</vlayout>
 					<label
 						value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
@@ -149,7 +149,7 @@
 				</row>
 			</template>
 		</grid>
-		<div style="display:block;">
+		<div style="display:block;" width="1252px">
 			<div style="display:inline-block;float:left;"
 				align="left">
 				<button label="Ajouter"

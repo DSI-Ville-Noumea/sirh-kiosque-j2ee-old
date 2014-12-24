@@ -1,0 +1,35 @@
+<zk>
+	<grid style="margin-left: 399px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
+		<columns visible="false">
+			<column label="Date de début" width="100px" align="center" />
+			<column label="Heure de début" width="100px" align="center" />
+			<column label="Durée" width="60px" align="center" />
+			<column label="" width="40px" />
+			<column label="Opérateur" sort="none" width="150px" />
+			<column label="Etat" width="100px" />
+			<column label="Date de saisie" width="120px" align="center" />
+			<column label="Motif" width="148px" />
+		</columns>
+		<rows>
+			<zk forEach="${vm.getHistoriqueAbsence(arg.absence)}">
+				<row style="background-color:#ee7203 !important;background:#ee7203 !important;">
+					<label
+						value="${vm.getDateToString(each.dateDebut)}" />
+					<label value="${vm.getHeureDebutToString(each)}" />
+					<label
+						value="${vm.getDureeToString(each.duree,each.typeSaisi,each.typeSaisiCongeAnnuel)}" />
+					<hlayout>
+						<label value="" />
+					</hlayout>
+					<label
+						value="${vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom)}" />
+					<label
+						value="${vm.getEtatToString(each.idRefEtat)}" />
+					<label
+						value="${vm.dateSaisieToString(each.dateSaisie)}" />
+					<label value="${each.motif}" />
+				</row>
+			</zk>
+		</rows>
+	</grid>
+</zk>
