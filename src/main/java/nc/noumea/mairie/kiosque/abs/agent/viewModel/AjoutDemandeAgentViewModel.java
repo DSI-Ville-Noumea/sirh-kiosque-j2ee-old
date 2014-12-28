@@ -24,6 +24,7 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
  * #L%
  */
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.BindUtils;
@@ -79,6 +81,13 @@ public class AjoutDemandeAgentViewModel {
 
 	private ProfilAgentDto currentUser;
 
+	private List<String> listeHeures;
+
+	private List<String> listeMinutes;
+
+	private String heureDebut;
+	private String minuteDebut;
+
 	@Init
 	public void initAjoutDemandeAgent() {
 		// on vide
@@ -93,6 +102,11 @@ public class AjoutDemandeAgentViewModel {
 		setEtatDemandeCreation("0");
 		// on initialise la demande
 		setDemandeCreation(new DemandeDto());
+
+		// minutes et heures
+		TimePicker timePicker = new TimePicker();
+		setListeMinutes(timePicker.getListeMinutes());
+		setListeHeures(timePicker.getListeHeures());
 	}
 
 	@Command
@@ -102,15 +116,15 @@ public class AjoutDemandeAgentViewModel {
 				.getIdRefGroupeAbsence(), currentUser.getAgent().getIdAgent());
 
 		setListeTypeAbsence(filtreFamilleAbsence);
-		if(getListeTypeAbsence().size()==1){
-			setTypeAbsenceCourant(getListeTypeAbsence().get(0));			
-		}else{
+		if (getListeTypeAbsence().size() == 1) {
+			setTypeAbsenceCourant(getListeTypeAbsence().get(0));
+		} else {
 			setTypeAbsenceCourant(null);
 		}
 	}
 
 	@Command
-	@NotifyChange({ "listeOrganisationsSyndicale","organisationsSyndicaleCourant" })
+	@NotifyChange({ "listeOrganisationsSyndicale", "organisationsSyndicaleCourant" })
 	public void alimenteOrganisation() {
 		if (getTypeAbsenceCourant() != null && getTypeAbsenceCourant().getTypeSaisiDto() != null
 				&& getTypeAbsenceCourant().getTypeSaisiDto().isCompteurCollectif()) {
@@ -122,8 +136,9 @@ public class AjoutDemandeAgentViewModel {
 				dto.setLibelle("L'agent n'est affecté à aucune organisation syndicale");
 				dto.setSigle("ERREUR");
 				orga.add(dto);
+			} else if (orga.size() == 1) {
+				setOrganisationsSyndicaleCourant(orga.get(0));
 			}
-			setOrganisationsSyndicaleCourant(orga.get(0));
 
 			setListeOrganisationsSyndicale(orga);
 		}
@@ -175,9 +190,24 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
-	public void saveDemande(@BindingParam("win") Window window) {
+	public void saveDemande(@BindingParam("win") Window window) throws ParseException {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
+
+			if (getTypeAbsenceCourant().getTypeSaisiDto() != null) {
+				if (getTypeAbsenceCourant().getTypeSaisiDto().isCalendarHeureDebut()) {
+					// recup heure debut
+					Calendar calDebut = Calendar.getInstance();
+					calDebut.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+					calDebut.setTime(getDemandeCreation().getDateDebut());
+					calDebut.set(Calendar.HOUR, Integer.valueOf(getHeureDebut()));
+					calDebut.set(Calendar.MINUTE, Integer.valueOf(getMinuteDebut()));
+					calDebut.set(Calendar.SECOND, 0);
+
+					getDemandeCreation().setDateDebut(calDebut.getTime());
+				}
+			}
+
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
 			agentWithServiceDto.setIdAgent(currentUser.getAgent().getIdAgent());
 
@@ -258,6 +288,12 @@ public class AjoutDemandeAgentViewModel {
 			if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
 					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+				}
+			}
+			// heure debut
+			if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarHeureDebut()) {
+				if (getHeureDebut() == null || getMinuteDebut() == null) {
+					vList.add(new ValidationMessage("Merci de choisir une heure de début."));
 				}
 			}
 
@@ -418,5 +454,37 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setDureeCongeAnnuel(String dureeCongeAnnuel) {
 		this.dureeCongeAnnuel = dureeCongeAnnuel;
+	}
+
+	public List<String> getListeHeures() {
+		return listeHeures;
+	}
+
+	public void setListeHeures(List<String> listeHeures) {
+		this.listeHeures = listeHeures;
+	}
+
+	public List<String> getListeMinutes() {
+		return listeMinutes;
+	}
+
+	public void setListeMinutes(List<String> listeMinutes) {
+		this.listeMinutes = listeMinutes;
+	}
+
+	public String getHeureDebut() {
+		return heureDebut;
+	}
+
+	public void setHeureDebut(String heureDebut) {
+		this.heureDebut = heureDebut;
+	}
+
+	public String getMinuteDebut() {
+		return minuteDebut;
+	}
+
+	public void setMinuteDebut(String minuteDebut) {
+		this.minuteDebut = minuteDebut;
 	}
 }

@@ -55,8 +55,8 @@
 							</hlayout>
 							<hlayout>
 								<combobox width="400px"
-									value="@bind(vm.organisationsSyndicaleCourant)"
-									readonly="true" model="@bind(vm.listeOrganisationsSyndicale)"
+									value="@bind(vm.organisationsSyndicaleCourant)" readonly="true"
+									model="@bind(vm.listeOrganisationsSyndicale)"
 									selectedItem="@bind(vm.organisationsSyndicaleCourant)">
 									<template name="model">
 										<comboitem
@@ -90,8 +90,24 @@
 								<label value="Heure de début : " />
 							</hlayout>
 							<hlayout>
-								<timebox cols="14" format="HH:mm"
-									value="@bind(vm.demandeCreation.dateDebut)" />
+								<combobox model="@bind(vm.listeHeures)"
+									readonly="true" selectedItem="@bind(vm.heureDebut)" cols="2">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+
+								<combobox model="@bind(vm.listeMinutes)"
+									readonly="true" selectedItem="@bind(vm.minuteDebut)"
+									cols="2">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
 							</hlayout>
 						</hlayout>
 						<hlayout

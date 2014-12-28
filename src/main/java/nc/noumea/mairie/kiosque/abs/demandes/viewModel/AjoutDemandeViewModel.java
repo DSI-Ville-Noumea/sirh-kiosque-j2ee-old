@@ -160,8 +160,9 @@ public class AjoutDemandeViewModel {
 			dto.setLibelle("L'agent n'est affecté à aucune organisation syndicale");
 			dto.setSigle("ERREUR");
 			orga.add(dto);
+		}else if(orga.size() == 1){
+			setOrganisationsSyndicaleCourant(orga.get(0));
 		}
-		setOrganisationsSyndicaleCourant(orga.get(0));
 
 		setListeOrganisationsSyndicale(orga);
 		// on positionne la selection du statut Provisoire/Définitif
