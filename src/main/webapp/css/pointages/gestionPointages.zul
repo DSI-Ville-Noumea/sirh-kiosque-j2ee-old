@@ -1,12 +1,30 @@
 <style>
-	<![CDATA[
+
+
+
+
+
 	
+	<![CDATA[
+
 	.z-column-content, .z-row-content, .z-group-content,
 	.z-groupfoot-content, .z-footer-content { padding: 1px 1px; }
-	
-	.gras{font-weight: bold;}
-	
+
 	.z-row .z-row-inner .z-row-content .z-label{font-size:8pt;}
-	]]>
+
+	.filter{background-image: url("img/Sprite.png");
+	background-position: -485px -73px; background-repeat: no-repeat;
+	height: 25px; padding-left: 14px;}
+
+	.filter2{background-image: url("img/SpriteH.png");
+	background-repeat: no-repeat; display: inline-block; padding-right:
+	14px; background-position: right -19px;height: 25px; padding-top:
+	0.5px;color: #ffffff;width: 890px;} ]]>
+	
+	
+	
+	
+	
+	
 	
 </style>

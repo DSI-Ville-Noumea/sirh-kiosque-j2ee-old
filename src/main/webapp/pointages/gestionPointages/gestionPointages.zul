@@ -13,65 +13,67 @@
 			<div sclass="RHTitle2Line" />
 			<separator />
 			<vlayout>
-				<hlayout>
-					<label sclass="gras"
-						style="text-decoration:underline;" value="Filtres obligatoires" />
-					<label sclass="gras" value="du : " />
-					<datebox format="dd/MM/yyyy" weekOfYear="true"
-						value="@bind(vm.dateDebutFiltre)" />
-					<label sclass="gras" value="au : " />
-					<datebox format="dd/MM/yyyy" weekOfYear="true"
-						value="@bind(vm.dateFinFiltre)" />
-					<label sclass="gras" value="Service :" />
-					<combobox width="400px" readonly="true"
-						model="@bind(vm.listeServicesFiltre)"
-						selectedItem="@bind(vm.serviceFiltre)"
-						onSelect="@command('afficheListeAgent')">
-						<template name="model">
-							<comboitem label="@bind(each.service)" />
-						</template>
-					</combobox>
+				<hlayout sclass="filter">
+					<div sclass="filter2">
+						<label style="font-weight: bold;"
+							value="Filtres obligatoires" />
+						<label value="du : " />
+						<datebox format="dd/MM/yyyy" weekOfYear="true"
+							value="@bind(vm.dateDebutFiltre)" />
+						<label value="au : " />
+						<datebox format="dd/MM/yyyy" weekOfYear="true"
+							value="@bind(vm.dateFinFiltre)" />
+						<label value="Service :" />
+						<combobox width="400px" readonly="true"
+							model="@bind(vm.listeServicesFiltre)"
+							selectedItem="@bind(vm.serviceFiltre)"
+							onSelect="@command('afficheListeAgent')">
+							<template name="model">
+								<comboitem label="@bind(each.service)" />
+							</template>
+						</combobox>
+					</div>
 				</hlayout>
-				<hlayout>
-					<label style="text-decoration:underline;"
-						value="Filtres optionnels" />
-					<label value="Etat :" />
-					<combobox width="100px"
-						model="@bind(vm.listeEtatPointageFiltre)"
-						selectedItem="@bind(vm.etatPointageFiltre)">
-						<template name="model">
-							<comboitem label="@bind(each.libelle)" />
-						</template>
-					</combobox>
-					<label value="Type :" />
-					<combobox width="100px"
-						model="@bind(vm.listeTypePointageFiltre)"
-						selectedItem="@bind(vm.typePointageFiltre)">
-						<template name="model">
-							<comboitem label="@bind(each.libelle)" />
-						</template>
-					</combobox>
-					<label value="Agent :" />
-					<combobox width="200px"
-						model="@bind(vm.listeAgentsFiltre)"
-						selectedItem="@bind(vm.agentFiltre)">
-						<template name="model">
-							<comboitem
-								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
-						</template>
-					</combobox>
-					<label value="Type HS :" />
-					<combobox width="100px"
-						model="@bind(vm.listeTypeHSupFiltre)"
-						selectedItem="@bind(vm.typeHSupFiltre)">
-						<template name="model">
-							<comboitem label="@bind(each)" />
-						</template>
-					</combobox>
-					<button label="Vider"
-						onClick="@command('viderFiltre')" />
-					<button label="Filtrer"
-						onClick="@command('filtrer')" />
+				<hlayout sclass="filter">
+					<div sclass="filter2">
+						<label style="font-weight: bold;"
+							value="Filtres optionnels" />
+						<label value="Etat :" />
+						<combobox width="100px"
+							model="@bind(vm.listeEtatPointageFiltre)"
+							selectedItem="@bind(vm.etatPointageFiltre)">
+							<template name="model">
+								<comboitem label="@bind(each.libelle)" />
+							</template>
+						</combobox>
+						<label value="Type :" />
+						<combobox width="100px"
+							model="@bind(vm.listeTypePointageFiltre)"
+							selectedItem="@bind(vm.typePointageFiltre)">
+							<template name="model">
+								<comboitem label="@bind(each.libelle)" />
+							</template>
+						</combobox>
+						<label value="Agent :" />
+						<combobox width="200px"
+							model="@bind(vm.listeAgentsFiltre)"
+							selectedItem="@bind(vm.agentFiltre)">
+							<template name="model">
+								<comboitem
+									label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+							</template>
+						</combobox>
+						<label value="Type HS :" />
+						<combobox width="100px"
+							model="@bind(vm.listeTypeHSupFiltre)"
+							selectedItem="@bind(vm.typeHSupFiltre)">
+							<template name="model">
+								<comboitem label="@bind(each)" />
+							</template>
+						</combobox>
+						<button style="margin: 0 0 0 5px;"
+							label="Afficher" onClick="@command('filtrer')" />
+					</div>
 				</hlayout>
 			</vlayout>
 			<separator />
@@ -96,14 +98,15 @@
 					</div>
 				</hlayout>
 				<separator />
-				<grid model="@bind(vm.listePointages)" mold="paging" width="1180px"
-					pageSize="@bind(vm.tailleListe)"
+				<grid model="@bind(vm.listePointages)" mold="paging"
+					width="1180px" pageSize="@bind(vm.tailleListe)"
 					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
 					<columns>
 						<column width="30px" sort="none" />
-						<column label="Agent" sort="auto('agent.nom')"  width="200px"/>
-						<column label="Type"
-							sort="auto('typePointage')"  width="110px"/>
+						<column label="Agent" sort="auto('agent.nom')"
+							width="200px" />
+						<column label="Type" sort="auto('typePointage')"
+							width="110px" />
 						<column label="Type HS" sort="none"
 							width="50px" />
 						<column align="center" label="Date"
@@ -163,8 +166,10 @@
 							<label value="@bind(each.quantite)" />
 							<vlayout>
 								<label value="@bind(each.motif)" />
-								<separator visible="@bind(not empty each.commentaire)" />
-								<label value="@bind(each.commentaire)"  visible="@bind(not empty each.commentaire)"/>
+								<separator
+									visible="@bind(not empty each.commentaire)" />
+								<label value="@bind(each.commentaire)"
+									visible="@bind(not empty each.commentaire)" />
 							</vlayout>
 							<label
 								value="@bind(vm.concatAgentNomatr(each.operateur))" />

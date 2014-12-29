@@ -163,20 +163,6 @@ public class GestionPointagesViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "serviceFiltre", "dateDebutFiltre", "dateFinFiltre", "etatPointageFiltre", "typePointageFiltre",
-			"listeAgentsFiltre", "agentFiltre", "typeHSupFiltre" })
-	public void viderFiltre() {
-		setServiceFiltre(null);
-		setDateDebutFiltre(null);
-		setDateFinFiltre(null);
-		setEtatPointageFiltre(null);
-		setTypePointageFiltre(null);
-		setListeAgentsFiltre(null);
-		setAgentFiltre(null);
-		setTypeHSupFiltre(null);
-	}
-
-	@Command
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void afficheListeAgent() {
 		// on charge les agents pour les filtres
