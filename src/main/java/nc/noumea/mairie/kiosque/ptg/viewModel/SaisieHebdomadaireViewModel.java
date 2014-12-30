@@ -63,6 +63,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listitem;
@@ -997,6 +998,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	public void setListeMotifHsup(ListModel<MotifHeureSupDto> listeMotifHsup) {
 		this.listeMotifHsup = listeMotifHsup;
+	}
+
+	@Command
+	@NotifyChange({ "*" })
+	public void changeStyle(@BindingParam("contenu") Div contenu, @BindingParam("titre") Div titre) {
+		if (contenu != null && titre != null) {
+			if (contenu.isVisible()) {
+				titre.setClass("barreTitreTypePointage");
+				contenu.setVisible(false);
+			} else {
+				titre.setClass("barreTitreTypePointage-selected");
+				contenu.setVisible(true);
+			}
+		}
+
 	}
 
 }

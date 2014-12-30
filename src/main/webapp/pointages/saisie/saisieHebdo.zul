@@ -70,9 +70,9 @@
 			</listbox>
 
 			<div id="barreTitreTypePointageHSup"
-				class="barreTitreTypePointage"
+				class="barreTitreTypePointage-selected"
 				visible="@bind(not empty vm.saisiePointageForm)"
-				onClick="containerSaisieHebdoHSup.visible = !containerSaisieHebdoHSup.visible;">
+				onClick="@command('changeStyle',contenu=containerSaisieHebdoHSup,titre=barreTitreTypePointageHSup)">
 				Heures supplémentaires
 			</div>
 
@@ -132,12 +132,11 @@
 										label="Rappel en service"
 										disabled="@bind(empty cellHSup.idRefEtat)"
 										visible="${vm.estAgentDPM()}"
-										onCheck="@command('textChanged')" />										
+										onCheck="@command('textChanged')" />
 									<combobox width="100%"
 										selectedItem="@bind(cellHSup.idMotifHsup)"
 										disabled="@bind(empty cellHSup.idRefEtat)"
-										placeholder="Motif *"
-										onChange="@command('textChanged')">
+										placeholder="Motif *" onChange="@command('textChanged')">
 										<zk
 											forEach="${vm.listeMotifHsup}">
 											<comboitem
@@ -161,9 +160,10 @@
 					visible="@bind(vm.saisiePointageForm.afficheAjouterLigneHSup)" />
 			</div>
 
-			<div class="barreTitreTypePointage"
+			<div id="barreTitreTypePointageAbs"
+				class="barreTitreTypePointage-selected"
 				visible="@bind(not empty vm.saisiePointageForm)"
-				onClick="containerSaisieHebdoAbsence.visible = !containerSaisieHebdoAbsence.visible">
+				onClick="@command('changeStyle',contenu=containerSaisieHebdoAbsence,titre=barreTitreTypePointageAbs)">
 				Absences sans titre
 			</div>
 
@@ -246,89 +246,92 @@
 					visible="@bind(vm.saisiePointageForm.afficheAjouterLigneAbsence)" />
 			</div>
 
-			<div class="barreTitreTypePointage"
+			<div id="barreTitreTypePointagePrime"
+				class="barreTitreTypePointage-selected"
 				visible="@bind(not empty vm.saisiePointageForm)"
-				onClick="saisieHebdoPrimes.visible = !saisieHebdoPrimes.visible">
+				onClick="@command('changeStyle',contenu=containerSaisieHebdoPrime,titre=barreTitreTypePointagePrime)">
 				Primes
 			</div>
 
-			<listbox id="saisieHebdoPrimes"
-				visible="@bind(not empty vm.saisiePointageForm)"
-				model="@bind(vm.saisiePointageForm.mapAllPrime)"
-				emptyMessage="Aucune prime">
+			<div id="containerSaisieHebdoPrime">
+				<listbox id="saisieHebdoPrimes"
+					visible="@bind(not empty vm.saisiePointageForm)"
+					model="@bind(vm.saisiePointageForm.mapAllPrime)"
+					emptyMessage="Aucune prime">
 
-				<template name="model" var="line">
-					<listitem children="@bind(line.value)">
-						<template name="children" var="cellPrime">
-							<listcell>
-								<div align="center">
-									<button zclass="boutonAdd"
-										onClick="@command('ajouterPrime',ref=cellPrime)"
-										visible="@bind(empty cellPrime.idRefEtat)" />
-									<hlayout>
-										<button
-											zclass="boutonDupliqueGauche"
-											onClick="@command('copieGauchePrime',ref=cellPrime)"
-											visible="@bind(vm.isAfficherDupliquerPrimeGauche(cellPrime))" />
-										<button zclass="boutonRemove"
-											onClick="@command('deletePrime',ref=cellPrime)"
+					<template name="model" var="line">
+						<listitem children="@bind(line.value)">
+							<template name="children" var="cellPrime">
+								<listcell>
+									<div align="center">
+										<button zclass="boutonAdd"
+											onClick="@command('ajouterPrime',ref=cellPrime)"
+											visible="@bind(empty cellPrime.idRefEtat)" />
+										<hlayout>
+											<button
+												zclass="boutonDupliqueGauche"
+												onClick="@command('copieGauchePrime',ref=cellPrime)"
+												visible="@bind(vm.isAfficherDupliquerPrimeGauche(cellPrime))" />
+											<button
+												zclass="boutonRemove"
+												onClick="@command('deletePrime',ref=cellPrime)"
+												visible="@bind(not empty cellPrime.idRefEtat)" />
+											<button
+												zclass="boutonDupliqueDroite"
+												onClick="@command('copieDroitePrime',ref=cellPrime)"
+												visible="@bind(vm.isAfficherDupliquerPrimeDroit(cellPrime))" />
+										</hlayout>
+										<label
+											value="${vm.etatToString(cellPrime.idRefEtat)}"
 											visible="@bind(not empty cellPrime.idRefEtat)" />
-										<button
-											zclass="boutonDupliqueDroite"
-											onClick="@command('copieDroitePrime',ref=cellPrime)"
-											visible="@bind(vm.isAfficherDupliquerPrimeDroit(cellPrime))" />
-									</hlayout>
-									<label
-										value="${vm.etatToString(cellPrime.idRefEtat)}"
-										visible="@bind(not empty cellPrime.idRefEtat)" />
-									<separator />
-									<image sclass="aidePointage"
-										tooltiptext="@bind(cellPrime.aide)" />
-									<label
-										value="@bind(cellPrime.titre)" style="font-weight: bold;" />
-								</div>
-								<timebox cols="14" format="HH:mm"
-									value="@bind(cellPrime.heureDebut)"
-									disabled="@bind(empty cellPrime.idRefEtat)"
-									placeholder="Heure de début *"
-									visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
-									onChanging="@command('textChanged')" />
-								<timebox cols="14" format="HH:mm"
-									value="@bind(cellPrime.heureFin)"
-									disabled="@bind(empty cellPrime.idRefEtat)"
-									placeholder="Heure de fin *"
-									visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
-									onChanging="@command('textChanged')" />
-								<checkbox
-									checked="${vm.checkCoche(cellPrime.quantite)}"
-									disabled="@bind(empty cellPrime.idRefEtat)"
-									onClick="@command('checkAccorde',prime=cellPrime, checkbox=self)"
-									visible="${vm.caseACocher(cellPrime.typeSaisie)}"
-									label="Accordée *" onCheck="@command('textChanged')" />
+										<separator />
+										<image sclass="aidePointage"
+											tooltiptext="@bind(cellPrime.aide)" />
+										<label
+											value="@bind(cellPrime.titre)" style="font-weight: bold;" />
+									</div>
+									<timebox cols="14" format="HH:mm"
+										value="@bind(cellPrime.heureDebut)"
+										disabled="@bind(empty cellPrime.idRefEtat)"
+										placeholder="Heure de début *"
+										visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+										onChanging="@command('textChanged')" />
+									<timebox cols="14" format="HH:mm"
+										value="@bind(cellPrime.heureFin)"
+										disabled="@bind(empty cellPrime.idRefEtat)"
+										placeholder="Heure de fin *"
+										visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+										onChanging="@command('textChanged')" />
+									<checkbox
+										checked="${vm.checkCoche(cellPrime.quantite)}"
+										disabled="@bind(empty cellPrime.idRefEtat)"
+										onClick="@command('checkAccorde',prime=cellPrime, checkbox=self)"
+										visible="${vm.caseACocher(cellPrime.typeSaisie)}"
+										label="Accordée *" onCheck="@command('textChanged')" />
 
-								<spinner width="100%"
-									value="@bind(cellPrime.quantite)"
-									disabled="@bind(empty cellPrime.idRefEtat)"
-									placeholder="Nombre d'indemnités *" format="#"
-									constraint="no empty, min 1"
-									visible="${vm.nbIndemnites(cellPrime.typeSaisie)}" />
-								<spinner width="100%"
-									value="@bind(cellPrime.quantite)"
-									disabled="@bind(empty cellPrime.idRefEtat)"
-									placeholder="Nombre d'heures *" format="#"
-									constraint="no empty, min 1"
-									visible="${vm.nbHeures(cellPrime.typeSaisie)}" />
-								<textbox width="100%"
-									value="@bind(cellPrime.commentaire)"
-									disabled="@bind(empty cellPrime.idRefEtat)" multiline="true"
-									height="40px" placeholder="Commentaire"
-									onChanging="@command('textChanged')" />
-							</listcell>
-						</template>
-					</listitem>
-				</template>
-			</listbox>
-
+									<spinner width="100%"
+										value="@bind(cellPrime.quantite)"
+										disabled="@bind(empty cellPrime.idRefEtat)"
+										placeholder="Nombre d'indemnités *" format="#"
+										constraint="no empty, min 1"
+										visible="${vm.nbIndemnites(cellPrime.typeSaisie)}" />
+									<spinner width="100%"
+										value="@bind(cellPrime.quantite)"
+										disabled="@bind(empty cellPrime.idRefEtat)"
+										placeholder="Nombre d'heures *" format="#"
+										constraint="no empty, min 1"
+										visible="${vm.nbHeures(cellPrime.typeSaisie)}" />
+									<textbox width="100%"
+										value="@bind(cellPrime.commentaire)"
+										disabled="@bind(empty cellPrime.idRefEtat)" multiline="true"
+										height="40px" placeholder="Commentaire"
+										onChanging="@command('textChanged')" />
+								</listcell>
+							</template>
+						</listitem>
+					</template>
+				</listbox>
+			</div>
 		</div>
 		<include id="includeStyleSoldeAgent"
 			src="/css/pointages/saisieHebdo.zul" />

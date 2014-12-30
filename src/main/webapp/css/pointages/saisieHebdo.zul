@@ -1,6 +1,7 @@
 <style>
 
 
+
 	
 	<![CDATA[
 
@@ -42,48 +43,71 @@
 	.boutonAdd { background-image: url("img/Sprite.png");
 	background-position: 0px -347px; background-repeat: no-repeat;
 	cursor: pointer; height: 16px; margin: 0px; vertical-align: middle;
-	width: 16px; border: none; } .boutonRemove { background-image:
-	url("img/Sprite.png"); background-position: -219px -199px;
-	background-repeat: no-repeat; cursor: pointer; height: 16px; margin:
-	0px; vertical-align: middle; width: 16px; border: none; }
+	width: 16px; border: none; }
+
+	.boutonRemove { background-image: url("img/Sprite.png");
+	background-position: -219px -199px; background-repeat: no-repeat;
+	cursor: pointer; height: 16px; margin: 0px; vertical-align: middle;
+	width: 16px; border: none; }
+
+
 	.boutonDupliqueGauche { background-image: url("img/Sprite.png");
 	background-position: -251px -199px; background-repeat: no-repeat;
 	cursor: pointer; height: 16px; margin: 0px; vertical-align: middle;
-	width: 16px; border: none; } .boutonDupliqueDroite {
-	background-image: url("img/Sprite.png"); background-position: -235px
-	-199px; background-repeat: no-repeat; cursor: pointer; height: 16px;
-	margin: 0px; vertical-align: middle; width: 16px; border: none; }
+	width: 16px; border: none; }
+
+
+	.boutonDupliqueDroite { background-image: url("img/Sprite.png");
+	background-position: -235px -199px; background-repeat: no-repeat;
+	cursor: pointer; height: 16px; margin: 0px; vertical-align: middle;
+	width: 16px; border: none; }
 
 	.z-listitem:hover > .z-listcell { background-color: none !important;
-	background:none !important;} .z-listitem:hover > .z-listcell >
-	.z-listcell-content { background-color: none !important;
-	background:none !important;} .z-listitem > .z-listitem-selected {
+	background:none !important;}
+
+	.z-listitem:hover > .z-listcell > .z-listcell-content {
 	background-color: none !important; background:none !important;}
+
+	.z-listitem > .z-listitem-selected { background-color: none
+	!important; background:none !important;}
+
+
 	.z-listitem.z-listitem-selected:hover > .z-listcell {
 	background-color: none !important; background:none !important;}
+
+
 	.z-listitem.z-listitem-selected:hover > .z-listcell.z-listitem-focus
 	{ background-color !important: none; background:none !important;}
 
 	.z-listitem:hover > .z-listcell:hover { background-color: #ee7203
-	!important; background: #ee7203 !important;} .z-listitem:hover >
-	.z-listcell:hover > .z-listcell-content { background-color: #ee7203
-	!important; background: #ee7203 !important;} .z-listitem >
-	.z-listitem-selected { background-color: #ee7203 !important;
-	background: #ee7203 !important;} .z-listitem.z-listitem-selected >
-	.z-listcell:hover { background-color: #ee7203 !important;
-	background: #ee7203 !important;} .z-listitem.z-listitem-selected >
-	.z-listcell.z-listitem-focus:hover { background-color: #ee7203
 	!important; background: #ee7203 !important;}
+
+	.z-listitem:hover > .z-listcell:hover > .z-listcell-content {
+	background-color: #ee7203 !important; background: #ee7203
+	!important;}
+
+	.z-listitem > .z-listitem-selected { background-color: #ee7203
+	!important; background: #ee7203 !important;}
+
+	.z-listitem.z-listitem-selected > .z-listcell:hover {
+	background-color: #ee7203 !important; background: #ee7203
+	!important;}
+
+	.z-listitem.z-listitem-selected > .z-listcell.z-listitem-focus:hover
+	{ background-color: #ee7203 !important; background: #ee7203
+	!important;}
 
 	.barreTitreTypePointage { font-size: 18px; background-color:
 	#004f9f; color: #FFFFFF; width: 100%; padding: 5px; padding-left:
 	20px; cursor: pointer; margin-top:1px; background-image:
 	url("img/Sprite.png"); background-position: -483px -213px;
-	background-repeat: no-repeat; } .barreTitreTypePointage-selected {
-	font-size: 18px; background-color: #004f9f; color: #FFFFFF; width:
-	100%; padding: 5px; padding-left: 20px; cursor: pointer;
-	margin-top:1px; background-image: url("img/Sprite.png");
-	background-position: -481px -239px; background-repeat: no-repeat; }
+	background-repeat: no-repeat; }
+
+	.barreTitreTypePointage-selected { font-size: 18px;
+	background-color: #004f9f; color: #FFFFFF; width: 100%; padding:
+	5px; padding-left: 20px; cursor: pointer; margin-top:1px;
+	background-image: url("img/Sprite.png"); background-position: -481px
+	-239px; background-repeat: no-repeat; }
 
 	.boutonAjouter { background-image: none !important;
 	background-color: #004e9e !important; margin-bottom: 5px !important;
@@ -94,6 +118,7 @@
 	!important; }
 
 	]]>
+	
 	
 	
 
