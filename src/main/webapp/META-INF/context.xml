@@ -80,7 +80,7 @@
 	<!-- -->
 	<!-- WS RADI -->
 	<!-- -->
-	<Environment name="SIRH_RADI_WS_URL" type="java.lang.String"
+	<Environment name="RADI_WS_URL" type="java.lang.String"
 		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8085/radi/"
 		override="false" />
 
