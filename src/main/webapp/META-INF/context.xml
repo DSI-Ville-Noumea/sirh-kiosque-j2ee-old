@@ -53,28 +53,28 @@
 	<!-- WS SIRH-ABS-WS -->
 	<!-- -->
 	<Environment name="SIRH_ABS_WS_URL" type="java.lang.String"
-		description="SIRH ABS WS endpoint url" value="http://localhost:8090/sirh-abs-ws/"
+		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8085/sirh-abs-ws/"
 		override="false" />
 
 	<!-- -->
 	<!-- WS SIRH-WS -->
 	<!-- -->
 	<Environment name="SIRH_WS_URL" type="java.lang.String"
-		description="SIRH WS endpoint url" value="http://localhost:8090/sirhws/"
+		description="SIRH WS endpoint url" value="http://svi-tomcat0:8085/sirhws/"
 		override="false" />
 
 	<!-- -->
 	<!-- WS SIRH-PTG-WS -->
 	<!-- -->
 	<Environment name="SIRH_PTG_WS_URL" type="java.lang.String"
-		description="SIRH ABS WS endpoint url" value="http://localhost:8090/sirh-ptg-ws/"
+		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8085/sirh-ptg-ws/"
 		override="false" />
 
 	<!-- -->
 	<!-- WS SIRH-EAE-WS -->
 	<!-- -->
 	<Environment name="SIRH_EAE_WS_URL" type="java.lang.String"
-		description="SIRH EAE WS endpoint url" value="http://localhost:8090/sirh-eae-ws/"
+		description="SIRH EAE WS endpoint url" value="http://svi-tomcat0:8085/sirh-eae-ws/"
 		override="false" />
 
 	<!-- -->
