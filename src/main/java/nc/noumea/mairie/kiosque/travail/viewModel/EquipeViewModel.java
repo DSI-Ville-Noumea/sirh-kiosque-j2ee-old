@@ -122,9 +122,10 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		// pour ouvrir l'arbre
 		ServiceTreeNode node = getArbre().getChild(getArbre().getRoot(), 0);
 		for (ServiceTreeNode enfant : node.getChildren()) {
-			((Openable) getArbre()).addOpenObject(enfant);
+
+			((Openable<ServiceTreeNode>) getArbre()).addOpenObject(enfant);
 		}
-		((Openable) getArbre()).addOpenObject(node);
+		((Openable<ServiceTreeNode>) getArbre()).addOpenObject(node);
 	}
 
 	public String concatAgent(AgentWithServiceDto ag) {
