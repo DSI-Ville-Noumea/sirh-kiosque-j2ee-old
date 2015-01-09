@@ -134,6 +134,113 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
+	@NotifyChange({ "hasTextChanged", "*" })
+	public void textChangedAbs(@BindingParam("ref") AbsenceDtoKiosque dtoAbs,
+			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
+			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
+		setHasTextChanged(true);
+		FichePointageDtoKiosque dto = getFicheCourante();
+		// les absences
+		if (null != getSaisiePointageForm().getMapAllAbsence()) {
+			Map<String, List<AbsenceDtoKiosque>> mapAllAbsence = getSaisiePointageForm().getMapAllAbsence();
+			// 1ere saisie (1ere ligne)
+			int iJour = 0;
+			if (0 < mapAllAbsence.size()) {
+				for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("0")) {
+					if (null != absenceDto.getIdRefEtat()) {
+						if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+								heureFin, minuteFin)) {
+							dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
+						} else {
+							dtoAbs.setSaisieJ1(null);
+						}
+					}
+					iJour++;
+				}
+			}
+			// 2e saisie (2e ligne)
+			if (1 < mapAllAbsence.size()) {
+				iJour = 0;
+				for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("1")) {
+					if (null != absenceDto.getIdRefEtat()) {
+						if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+								heureFin, minuteFin)) {
+							dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
+						} else {
+							dtoAbs.setSaisieJ1(null);
+						}
+					}
+					iJour++;
+				}
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "*" })
+	public void textChangedHSup(@BindingParam("ref") HeureSupDtoKiosque dtoHsup,
+			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
+			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
+		setHasTextChanged(true);
+		FichePointageDtoKiosque dto = getFicheCourante();
+		// les heures supp
+		if (null != getSaisiePointageForm().getMapAllHSup()) {
+			Map<String, List<HeureSupDtoKiosque>> mapAllHSup = getSaisiePointageForm().getMapAllHSup();
+			// 1ere saisie (1ere ligne)
+			int iJour = 0;
+			if (0 < mapAllHSup.size()) {
+				for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("0")) {
+					if (null != hSupDto.getIdRefEtat()) {
+						if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+								heureFin, minuteFin)) {
+							dtoHsup.setSaisieJ1("Attention fin de saisie j+1");
+						} else {
+							dtoHsup.setSaisieJ1(null);
+						}
+					}
+					iJour++;
+				}
+			}
+			// 2e saisie (2e ligne)
+			if (1 < mapAllHSup.size()) {
+				iJour = 0;
+				for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("1")) {
+					if (null != hSupDto.getIdRefEtat()) {
+						if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+								heureFin, minuteFin)) {
+							dtoHsup.setSaisieJ1("Attention fin de saisie j+1");
+						} else {
+							dtoHsup.setSaisieJ1(null);
+						}
+
+					}
+					iJour++;
+				}
+			}
+		}
+	}
+
+	private boolean isHeureFinLendemain(Date dateJour, String heureDebut, String minuteDebut, String heureFin,
+			String minuteFin) {
+		if (dateJour != null && heureDebut != null && minuteDebut != null && heureFin != null && minuteFin != null) {
+			Calendar calFin = Calendar.getInstance();
+			calFin.setTime(dateJour);
+			calFin.add(Calendar.HOUR_OF_DAY, Integer.valueOf(heureFin));
+			calFin.add(Calendar.MINUTE, Integer.valueOf(minuteFin));
+			Calendar calDebut = Calendar.getInstance();
+			calDebut.setTime(dateJour);
+			calDebut.add(Calendar.HOUR_OF_DAY, Integer.valueOf(heureDebut));
+			calDebut.add(Calendar.MINUTE, Integer.valueOf(minuteDebut));
+			// si date de debut sup a la date de fin alors alerte
+			if (calFin.before(calDebut)) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	@Command
 	@NotifyChange({ "hasTextChanged" })
 	public void enregistreFiche() {
 		setFicheCourante(transformFromSaisiePointageFormToFichePointageDto(getSaisiePointageForm()));
@@ -596,10 +703,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return true;
 	}
 
-	private Date calculDateEtHeureSaisie(Date dateJour, String heureSaisie, String minuteSaisie) {
+	private Date calculDateEtHeureSaisie(Date dateJour, String heureSaisie, String minuteSaisie, String saisieJ1) {
 		if (heureSaisie != null && minuteSaisie != null) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(dateJour);
+			if (saisieJ1 != null) {
+				cal.add(Calendar.DAY_OF_MONTH, 1);
+			}
 			cal.add(Calendar.HOUR_OF_DAY, new Integer(heureSaisie));
 			cal.add(Calendar.MINUTE, new Integer(minuteSaisie));
 			return cal.getTime();
@@ -628,9 +738,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					dto.getSaisies().get(iJour).getAbsences().clear();
 					if (null != absenceDto.getIdRefEtat()) {
 						absenceDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								absenceDto.getHeureDebut(), absenceDto.getMinuteDebut()));
+								absenceDto.getHeureDebut(), absenceDto.getMinuteDebut(), null));
 						absenceDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								absenceDto.getHeureFin(), absenceDto.getMinuteFin()));
+								absenceDto.getHeureFin(), absenceDto.getMinuteFin(), absenceDto.getSaisieJ1()));
 
 						dto.getSaisies().get(iJour).getAbsences().add(absenceDto);
 					}
@@ -643,9 +753,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("1")) {
 					if (null != absenceDto.getIdRefEtat()) {
 						absenceDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								absenceDto.getHeureDebut(), absenceDto.getMinuteDebut()));
+								absenceDto.getHeureDebut(), absenceDto.getMinuteDebut(), null));
 						absenceDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								absenceDto.getHeureFin(), absenceDto.getMinuteFin()));
+								absenceDto.getHeureFin(), absenceDto.getMinuteFin(), absenceDto.getSaisieJ1()));
 
 						dto.getSaisies().get(iJour).getAbsences().add(absenceDto);
 					}
@@ -664,9 +774,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					dto.getSaisies().get(iJour).getHeuresSup().clear();
 					if (null != hSupDto.getIdRefEtat()) {
 						hSupDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								hSupDto.getHeureDebut(), hSupDto.getMinuteDebut()));
+								hSupDto.getHeureDebut(), hSupDto.getMinuteDebut(), null));
 						hSupDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								hSupDto.getHeureFin(), hSupDto.getMinuteFin()));
+								hSupDto.getHeureFin(), hSupDto.getMinuteFin(), hSupDto.getSaisieJ1()));
 
 						dto.getSaisies().get(iJour).getHeuresSup().add(hSupDto);
 					}
@@ -679,9 +789,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("1")) {
 					if (null != hSupDto.getIdRefEtat()) {
 						hSupDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								hSupDto.getHeureDebut(), hSupDto.getMinuteDebut()));
+								hSupDto.getHeureDebut(), hSupDto.getMinuteDebut(), null));
 						hSupDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								hSupDto.getHeureFin(), hSupDto.getMinuteFin()));
+								hSupDto.getHeureFin(), hSupDto.getMinuteFin(), hSupDto.getSaisieJ1()));
 
 						dto.getSaisies().get(iJour).getHeuresSup().add(hSupDto);
 					}
@@ -707,9 +817,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 						if (periodeHeure(primeDto.getTypeSaisie())) {
 							primeDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-									primeDto.getHeureDebut(), primeDto.getMinuteDebut()));
+									primeDto.getHeureDebut(), primeDto.getMinuteDebut(), null));
 							primeDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-									primeDto.getHeureFin(), primeDto.getMinuteFin()));
+									primeDto.getHeureFin(), primeDto.getMinuteFin(), primeDto.getSaisieJ1()));
 						}
 
 						dto.getSaisies().get(iJour).getPrimes().add(primeDto);

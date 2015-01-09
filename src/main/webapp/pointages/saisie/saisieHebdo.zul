@@ -116,8 +116,8 @@
 										<combobox
 											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
 											readonly="true" selectedItem="@bind(cellHSup.heureDebut)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellHSup.idRefEtat)">
+											onChange="@command('textChangedHSup',ref=cellHSup,heureDebut=cellHSup.heureDebut,minuteDebut=cellHSup.minuteDebut,heureFin=cellHSup.heureFin,minuteFin=cellHSup.minuteFin)"
+											cols="2" disabled="@bind(empty cellHSup.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -129,8 +129,8 @@
 											placeholder="Minute de début *"
 											model="@bind(vm.listeMinutes)" readonly="true"
 											selectedItem="@bind(cellHSup.minuteDebut)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellHSup.idRefEtat)">
+											onChange="@command('textChangedHSup',ref=cellHSup,heureDebut=cellHSup.heureDebut,minuteDebut=cellHSup.minuteDebut,heureFin=cellHSup.heureFin,minuteFin=cellHSup.minuteFin)"
+											cols="2" disabled="@bind(empty cellHSup.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -143,8 +143,8 @@
 										<combobox
 											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
 											readonly="true" selectedItem="@bind(cellHSup.heureFin)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellHSup.idRefEtat)">
+											onChange="@command('textChangedHSup',ref=cellHSup,heureDebut=cellHSup.heureDebut,minuteDebut=cellHSup.minuteDebut,heureFin=cellHSup.heureFin,minuteFin=cellHSup.minuteFin)"
+											cols="2" disabled="@bind(empty cellHSup.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -155,8 +155,8 @@
 										<combobox
 											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
 											readonly="true" selectedItem="@bind(cellHSup.minuteFin)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellHSup.idRefEtat)">
+											onChange="@command('textChangedHSup',ref=cellHSup,heureDebut=cellHSup.heureDebut,minuteDebut=cellHSup.minuteDebut,heureFin=cellHSup.heureFin,minuteFin=cellHSup.minuteFin)"
+											cols="2" disabled="@bind(empty cellHSup.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -164,7 +164,10 @@
 											</template>
 										</combobox>
 									</hlayout>
-
+									<label style="color:red;font-weight: bold;"
+										value="@bind(cellHSup.saisieJ1)"
+										visible="@bind(not empty cellHSup.saisieJ1)" />
+									<separator />
 									<checkbox
 										checked="@bind(cellHSup.recuperee)" label="A récupérer"
 										disabled="${vm.estCheckboxHSupARecupererDisabled(cellHSup)}"
@@ -251,8 +254,8 @@
 										<combobox
 											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
 											readonly="true" selectedItem="@bind(cellAbsence.heureDebut)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellAbsence.idRefEtat)">
+											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
+											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -264,8 +267,8 @@
 											placeholder="Minute de début *"
 											model="@bind(vm.listeMinutes)" readonly="true"
 											selectedItem="@bind(cellAbsence.minuteDebut)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellAbsence.idRefEtat)">
+											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
+											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -278,8 +281,8 @@
 										<combobox
 											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
 											readonly="true" selectedItem="@bind(cellAbsence.heureFin)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellAbsence.idRefEtat)">
+											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
+											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -290,8 +293,8 @@
 										<combobox
 											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
 											readonly="true" selectedItem="@bind(cellAbsence.minuteFin)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellAbsence.idRefEtat)">
+											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
+											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -299,6 +302,9 @@
 											</template>
 										</combobox>
 									</hlayout>
+									<label style="color:red;font-weight: bold;"
+										value="@bind(cellAbsence.saisieJ1)"
+										visible="@bind(not empty cellAbsence.saisieJ1)" />
 									<separator />
 									<combobox width="100%"
 										selectedItem="@bind(cellAbsence.idRefTypeAbsence)"

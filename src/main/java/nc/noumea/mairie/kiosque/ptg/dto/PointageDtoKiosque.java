@@ -39,6 +39,7 @@ public abstract class PointageDtoKiosque {
 	private String commentaire;
 	private Integer idRefEtat;
 	private boolean aSupprimer;
+	private String saisieJ1;
 
 	public Integer getIdPointage() {
 		return idPointage;
@@ -126,5 +127,13 @@ public abstract class PointageDtoKiosque {
 
 	public void setHeureFinDate(Date heureFinDate) {
 		this.heureFinDate = heureFinDate;
+	}
+
+	public String getSaisieJ1() {
+		return saisieJ1;
+	}
+
+	public void setSaisieJ1(String saisieJ1) {
+		this.saisieJ1 = saisieJ1;
 	}
 }

@@ -196,8 +196,10 @@
 						</row>
 					</template>
 				</grid>
-				<div>
-					<div align="right">
+
+				<div style="display:block;" width="1180px">
+					<div style="display:inline-block;float:right;"
+						align="right">
 						<button label="Exp. PDF"
 							onClick="@command('exportPDF', ref=listePointages)" />
 						<button label="Exp. Excel"
