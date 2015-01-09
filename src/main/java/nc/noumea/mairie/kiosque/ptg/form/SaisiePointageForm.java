@@ -31,25 +31,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nc.noumea.mairie.kiosque.ptg.dto.AbsenceDto;
-import nc.noumea.mairie.kiosque.ptg.dto.HeureSupDto;
-import nc.noumea.mairie.kiosque.ptg.dto.PrimeDto;
+import nc.noumea.mairie.kiosque.ptg.dto.AbsenceDtoKiosque;
+import nc.noumea.mairie.kiosque.ptg.dto.HeureSupDtoKiosque;
+import nc.noumea.mairie.kiosque.ptg.dto.PrimeDtoKiosque;
 
 public class SaisiePointageForm {
 	
 	List<Date> listDateJour;
 	List<String> listVide;
 	
-	Map<String, List<PrimeDto>> mapAllPrime;
-	Map<String, List<AbsenceDto>> mapAllAbsence;
-	Map<String, List<HeureSupDto>> mapAllHSup;
+	Map<String, List<PrimeDtoKiosque>> mapAllPrime;
+	Map<String, List<AbsenceDtoKiosque>> mapAllAbsence;
+	Map<String, List<HeureSupDtoKiosque>> mapAllHSup;
 	
 	public SaisiePointageForm() {
 		listDateJour = new ArrayList<Date>();
 		listVide = new ArrayList<String>();
-		mapAllPrime = new HashMap<String, List<PrimeDto>>();
-		mapAllAbsence = new HashMap<String, List<AbsenceDto>>();
-		mapAllHSup = new HashMap<String, List<HeureSupDto>>();
+		mapAllPrime = new HashMap<String, List<PrimeDtoKiosque>>();
+		mapAllAbsence = new HashMap<String, List<AbsenceDtoKiosque>>();
+		mapAllHSup = new HashMap<String, List<HeureSupDtoKiosque>>();
 	}
 	
 	public List<Date> getListDateJour() {
@@ -59,27 +59,27 @@ public class SaisiePointageForm {
 		this.listDateJour = listDateJour;
 	}
 
-	public Map<String, List<PrimeDto>> getMapAllPrime() {
+	public Map<String, List<PrimeDtoKiosque>> getMapAllPrime() {
 		return mapAllPrime;
 	}
 
-	public void setMapAllPrime(Map<String, List<PrimeDto>> mapAllPrime) {
+	public void setMapAllPrime(Map<String, List<PrimeDtoKiosque>> mapAllPrime) {
 		this.mapAllPrime = mapAllPrime;
 	}
 
-	public Map<String, List<AbsenceDto>> getMapAllAbsence() {
+	public Map<String, List<AbsenceDtoKiosque>> getMapAllAbsence() {
 		return mapAllAbsence;
 	}
 
-	public void setMapAllAbsence(Map<String, List<AbsenceDto>> mapAllAbsence) {
+	public void setMapAllAbsence(Map<String, List<AbsenceDtoKiosque>> mapAllAbsence) {
 		this.mapAllAbsence = mapAllAbsence;
 	}
 
-	public Map<String, List<HeureSupDto>> getMapAllHSup() {
+	public Map<String, List<HeureSupDtoKiosque>> getMapAllHSup() {
 		return mapAllHSup;
 	}
 
-	public void setMapAllHSup(Map<String, List<HeureSupDto>> mapAllHSup) {
+	public void setMapAllHSup(Map<String, List<HeureSupDtoKiosque>> mapAllHSup) {
 		this.mapAllHSup = mapAllHSup;
 	}
 

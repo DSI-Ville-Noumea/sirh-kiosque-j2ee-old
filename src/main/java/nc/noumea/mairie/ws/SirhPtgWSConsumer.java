@@ -35,7 +35,7 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
-import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
@@ -87,7 +87,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	private static final String ptgPrintFichesPointagesUrl = "edition/downloadFichesPointage";
 
 	@Override
-	public FichePointageDto getFichePointageSaisie(Integer idAgent, Date date, Integer idAgentConcerne) {
+	public FichePointageDtoKiosque getFichePointageSaisie(Integer idAgent, Date date, Integer idAgentConcerne) {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
 
 		String url = String.format(sirhPtgWsBaseUrl + ptgFichePointageSaisieUrl);
@@ -97,11 +97,11 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		params.put("agent", idAgentConcerne.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponse(FichePointageDto.class, res, url);
+		return readResponse(FichePointageDtoKiosque.class, res, url);
 	}
 	
 	@Override
-	public ReturnMessageDto setFichePointageSaisie(Integer idAgent, FichePointageDto fichePointageDto) {
+	public ReturnMessageDto setFichePointageSaisie(Integer idAgent, FichePointageDtoKiosque fichePointageDto) {
 
 		String url = String.format(sirhPtgWsBaseUrl + ptgFichePointageSaisieUrl);
 		HashMap<String, String> params = new HashMap<>();

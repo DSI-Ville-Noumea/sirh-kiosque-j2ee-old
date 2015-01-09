@@ -24,7 +24,7 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  * #L%
  */
 
-public class HeureSupDto extends PointageDto {
+public class HeureSupDtoKiosque extends PointageDtoKiosque {
 
 	private boolean recuperee;
 	private boolean rappelService;

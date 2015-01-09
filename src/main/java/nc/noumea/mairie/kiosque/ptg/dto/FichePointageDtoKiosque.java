@@ -29,12 +29,12 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 
-public class FichePointageDto {
+public class FichePointageDtoKiosque {
 
 	private Date dateLundi;
 	private AgentWithServiceDto agent;
 	private String semaine;
-	private List<JourPointageDto> saisies;
+	private List<JourPointageDtoKiosque> saisies;
 	private boolean isDPM;
 
 	public Date getDateLundi() {
@@ -61,11 +61,11 @@ public class FichePointageDto {
 		this.agent = agent;
 	}
 
-	public List<JourPointageDto> getSaisies() {
+	public List<JourPointageDtoKiosque> getSaisies() {
 		return saisies;
 	}
 
-	public void setSaisies(List<JourPointageDto> saisies) {
+	public void setSaisies(List<JourPointageDtoKiosque> saisies) {
 		this.saisies = saisies;
 	}
 

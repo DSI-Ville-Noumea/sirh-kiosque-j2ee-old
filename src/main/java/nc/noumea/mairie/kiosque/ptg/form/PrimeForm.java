@@ -27,9 +27,9 @@ package nc.noumea.mairie.kiosque.ptg.form;
 
 import java.util.Date;
 
-import nc.noumea.mairie.kiosque.ptg.dto.PrimeDto;
+import nc.noumea.mairie.kiosque.ptg.dto.PrimeDtoKiosque;
 
-public class PrimeForm extends PrimeDto {
+public class PrimeForm extends PrimeDtoKiosque {
 	
 	private Date dateJour;
 

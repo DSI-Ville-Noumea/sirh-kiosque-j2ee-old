@@ -32,7 +32,7 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
-import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
@@ -42,7 +42,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 
 public interface ISirhPtgWSConsumer {
 
-	FichePointageDto getFichePointageSaisie(Integer idAgent, Date date, Integer idAgentConcerne);
+	FichePointageDtoKiosque getFichePointageSaisie(Integer idAgent, Date date, Integer idAgentConcerne);
 
 	/* FILTRES */
 	List<ServiceDto> getServicesPointages(Integer idAgent);
@@ -86,6 +86,6 @@ public interface ISirhPtgWSConsumer {
 
 	List<MotifHeureSupDto> getListeMotifHsup();
 
-	ReturnMessageDto setFichePointageSaisie(Integer idAgent, FichePointageDto fichePointageDto);
+	ReturnMessageDto setFichePointageSaisie(Integer idAgent, FichePointageDtoKiosque fichePointageDto);
 
 }

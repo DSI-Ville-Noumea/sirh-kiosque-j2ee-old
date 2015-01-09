@@ -111,17 +111,60 @@
 										<label value="Heures supp."
 											style="font-weight: bold;" />
 									</div>
-									<timebox cols="14" format="HH:mm"
-										value="@bind(cellHSup.heureDebut)"
-										disabled="@bind(empty cellHSup.idRefEtat)"
-										placeholder="Heure de début *"
-										onChanging="@command('textChanged')" />
-									<timebox cols="14" format="HH:mm"
-										value="@bind(cellHSup.heureFin)"
-										disabled="@bind(empty cellHSup.idRefEtat)"
-										placeholder="Heure de fin *"
-										onChanging="@command('textChanged')" />
+
+									<hlayout>
+										<combobox
+											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
+											readonly="true" selectedItem="@bind(cellHSup.heureDebut)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellHSup.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+
+										<combobox
+											placeholder="Minute de début *"
+											model="@bind(vm.listeMinutes)" readonly="true"
+											selectedItem="@bind(cellHSup.minuteDebut)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellHSup.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+									</hlayout>
 									<separator />
+									<hlayout>
+										<combobox
+											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
+											readonly="true" selectedItem="@bind(cellHSup.heureFin)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellHSup.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+
+										<combobox
+											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
+											readonly="true" selectedItem="@bind(cellHSup.minuteFin)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellHSup.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+									</hlayout>
+
 									<checkbox
 										checked="@bind(cellHSup.recuperee)" label="A récupérer"
 										disabled="${vm.estCheckboxHSupARecupererDisabled(cellHSup)}"
@@ -203,16 +246,59 @@
 										<label
 											value="Absence sans titre" style="font-weight: bold;" />
 									</div>
-									<timebox cols="14" format="HH:mm"
-										value="@bind(cellAbsence.heureDebut)"
-										disabled="@bind(empty cellAbsence.idRefEtat)"
-										placeholder="Heure de début *"
-										onChanging="@command('textChanged')" />
-									<timebox cols="14" format="HH:mm"
-										value="@bind(cellAbsence.heureFin)"
-										disabled="@bind(empty cellAbsence.idRefEtat)"
-										placeholder="Heure de fin *"
-										onChanging="@command('textChanged')" />
+
+									<hlayout>
+										<combobox
+											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
+											readonly="true" selectedItem="@bind(cellAbsence.heureDebut)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellAbsence.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+
+										<combobox
+											placeholder="Minute de début *"
+											model="@bind(vm.listeMinutes)" readonly="true"
+											selectedItem="@bind(cellAbsence.minuteDebut)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellAbsence.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+									</hlayout>
+									<separator />
+									<hlayout>
+										<combobox
+											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
+											readonly="true" selectedItem="@bind(cellAbsence.heureFin)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellAbsence.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+
+										<combobox
+											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
+											readonly="true" selectedItem="@bind(cellAbsence.minuteFin)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellAbsence.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+									</hlayout>
 									<separator />
 									<combobox width="100%"
 										selectedItem="@bind(cellAbsence.idRefTypeAbsence)"
@@ -290,18 +376,64 @@
 										<label
 											value="@bind(cellPrime.titre)" style="font-weight: bold;" />
 									</div>
-									<timebox cols="14" format="HH:mm"
-										value="@bind(cellPrime.heureDebut)"
-										disabled="@bind(empty cellPrime.idRefEtat)"
-										placeholder="Heure de début *"
-										visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
-										onChanging="@command('textChanged')" />
-									<timebox cols="14" format="HH:mm"
-										value="@bind(cellPrime.heureFin)"
-										disabled="@bind(empty cellPrime.idRefEtat)"
-										placeholder="Heure de fin *"
-										visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
-										onChanging="@command('textChanged')" />
+
+									<hlayout>
+										<combobox
+											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
+											readonly="true" selectedItem="@bind(cellPrime.heureDebut)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellPrime.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+
+										<combobox
+											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+											placeholder="Minute de début *"
+											model="@bind(vm.listeMinutes)" readonly="true"
+											selectedItem="@bind(cellPrime.minuteDebut)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellPrime.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+									</hlayout>
+									<separator />
+									<hlayout>
+										<combobox
+											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
+											readonly="true" selectedItem="@bind(cellPrime.heureFin)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellPrime.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+
+										<combobox
+											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
+											readonly="true" selectedItem="@bind(cellPrime.minuteFin)"
+											onChange="@command('textChanged')" cols="2"
+											disabled="@bind(empty cellPrime.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+									</hlayout>
+
 									<checkbox
 										checked="${vm.checkCoche(cellPrime.quantite)}"
 										disabled="@bind(empty cellPrime.idRefEtat)"

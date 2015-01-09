@@ -28,34 +28,34 @@ package nc.noumea.mairie.kiosque.ptg.dto;
 import java.util.Date;
 import java.util.List;
 
-public class JourPointageDto {
+public class JourPointageDtoKiosque {
 
 	private Date date;
-	private List<PrimeDto> primes;
-	private List<HeureSupDto> heuresSup;
-	private List<AbsenceDto> absences;
+	private List<PrimeDtoKiosque> primes;
+	private List<HeureSupDtoKiosque> heuresSup;
+	private List<AbsenceDtoKiosque> absences;
 
-	public List<PrimeDto> getPrimes() {
+	public List<PrimeDtoKiosque> getPrimes() {
 		return primes;
 	}
 
-	public void setPrimes(List<PrimeDto> primes) {
+	public void setPrimes(List<PrimeDtoKiosque> primes) {
 		this.primes = primes;
 	}
 
-	public List<HeureSupDto> getHeuresSup() {
+	public List<HeureSupDtoKiosque> getHeuresSup() {
 		return heuresSup;
 	}
 
-	public void setHeuresSup(List<HeureSupDto> heuresSup) {
+	public void setHeuresSup(List<HeureSupDtoKiosque> heuresSup) {
 		this.heuresSup = heuresSup;
 	}
 
-	public List<AbsenceDto> getAbsences() {
+	public List<AbsenceDtoKiosque> getAbsences() {
 		return absences;
 	}
 
-	public void setAbsences(List<AbsenceDto> absences) {
+	public void setAbsences(List<AbsenceDtoKiosque> absences) {
 		this.absences = absences;
 	}
 

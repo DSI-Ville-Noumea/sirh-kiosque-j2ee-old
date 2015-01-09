@@ -24,7 +24,7 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  * #L%
  */
 
-public class PrimeDto extends PointageDto {
+public class PrimeDtoKiosque extends PointageDtoKiosque {
 
 	private String titre;
 	private String typeSaisie;

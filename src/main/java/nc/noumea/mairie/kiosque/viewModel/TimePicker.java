@@ -34,6 +34,10 @@ public class TimePicker {
 
 	private List<String> listeHeures;
 
+	private List<String> listeMinutesPointage;
+
+	private List<String> listeHeuresPointage;
+
 	public List<String> getListeMinutes() {
 		listeMinutes = new ArrayList<>();
 		listeMinutes.add("00");
@@ -89,6 +93,52 @@ public class TimePicker {
 
 	public void setListeHeures(List<String> listeHeures) {
 		this.listeHeures = listeHeures;
+	}
+
+	public List<String> getListeMinutesPointage() {
+		listeMinutesPointage = new ArrayList<>();
+		listeMinutesPointage.add("00");
+		listeMinutesPointage.add("15");
+		listeMinutesPointage.add("30");
+		listeMinutesPointage.add("45");
+		return listeMinutesPointage;
+	}
+
+	public void setListeMinutesPointage(List<String> listeMinutesPointage) {
+		this.listeMinutesPointage = listeMinutesPointage;
+	}
+
+	public List<String> getListeHeuresPointage() {
+		listeHeuresPointage = new ArrayList<>();
+		listeHeuresPointage.add("00");
+		listeHeuresPointage.add("01");
+		listeHeuresPointage.add("02");
+		listeHeuresPointage.add("03");
+		listeHeuresPointage.add("04");
+		listeHeuresPointage.add("05");
+		listeHeuresPointage.add("06");
+		listeHeuresPointage.add("07");
+		listeHeuresPointage.add("08");
+		listeHeuresPointage.add("09");
+		listeHeuresPointage.add("10");
+		listeHeuresPointage.add("11");
+		listeHeuresPointage.add("12");
+		listeHeuresPointage.add("13");
+		listeHeuresPointage.add("14");
+		listeHeuresPointage.add("15");
+		listeHeuresPointage.add("16");
+		listeHeuresPointage.add("17");
+		listeHeuresPointage.add("18");
+		listeHeuresPointage.add("19");
+		listeHeuresPointage.add("20");
+		listeHeuresPointage.add("21");
+		listeHeuresPointage.add("22");
+		listeHeuresPointage.add("23");
+		return listeHeuresPointage;
+	}
+
+	public void setListeHeuresPointage(List<String> listeHeuresPointage) {
+		this.listeHeuresPointage = listeHeuresPointage;
 	}
 
 }

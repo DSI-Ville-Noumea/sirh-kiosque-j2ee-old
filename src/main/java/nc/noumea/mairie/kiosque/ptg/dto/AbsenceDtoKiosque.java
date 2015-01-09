@@ -25,7 +25,7 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  */
 
 
-public class AbsenceDto extends PointageDto {
+public class AbsenceDtoKiosque extends PointageDtoKiosque {
 
 	private Integer idRefTypeAbsence;
 

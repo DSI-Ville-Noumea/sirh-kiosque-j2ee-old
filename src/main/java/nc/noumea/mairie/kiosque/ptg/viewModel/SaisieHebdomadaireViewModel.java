@@ -37,21 +37,21 @@ import java.util.TimeZone;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.ptg.dto.AbsenceDto;
+import nc.noumea.mairie.kiosque.ptg.dto.AbsenceDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
-import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDto;
-import nc.noumea.mairie.kiosque.ptg.dto.HeureSupDto;
-import nc.noumea.mairie.kiosque.ptg.dto.JourPointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDtoKiosque;
+import nc.noumea.mairie.kiosque.ptg.dto.HeureSupDtoKiosque;
+import nc.noumea.mairie.kiosque.ptg.dto.JourPointageDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
-import nc.noumea.mairie.kiosque.ptg.dto.PrimeDto;
+import nc.noumea.mairie.kiosque.ptg.dto.PrimeDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.ptg.form.SaisiePointageForm;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
-import org.joda.time.DateTime;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -84,7 +84,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	private ProfilAgentDto currentUser;
 
-	private FichePointageDto ficheCourante;
+	private FichePointageDtoKiosque ficheCourante;
 
 	private SaisiePointageForm saisiePointageForm;
 
@@ -101,6 +101,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	private ListModel<RefTypeAbsenceDto> listeTypeAbsence;
 	private ListModel<MotifHeureSupDto> listeMotifHsup;
+
+	private List<String> listeHeures;
+	private List<String> listeMinutes;
 
 	@Init
 	public void initSaisieFichePointage() throws ParseException {
@@ -173,23 +176,23 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		}
 	}
 
-	private ReturnMessageDto isFormValid(FichePointageDto ficheCourante) {
+	private ReturnMessageDto isFormValid(FichePointageDtoKiosque ficheCourante) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		ReturnMessageDto result = new ReturnMessageDto();
-		for (JourPointageDto dtoJour : ficheCourante.getSaisies()) {
+		for (JourPointageDtoKiosque dtoJour : ficheCourante.getSaisies()) {
 			// absence
-			for (AbsenceDto absDto : dtoJour.getAbsences()) {
+			for (AbsenceDtoKiosque absDto : dtoJour.getAbsences()) {
 				if (absDto.getMotif() == null || absDto.getMotif().equals("")) {
 					result.getErrors()
 							.add(String.format("Le motif de l'absence du %s est obligatoire.",
 									sdf.format(dtoJour.getDate())));
 				}
-				if (absDto.getHeureDebut() == null) {
+				if (absDto.getHeureDebut() == null || absDto.getMinuteDebut() == null) {
 					result.getErrors().add(
 							String.format("L'heure de début de l'absence du %s est obligatoire.",
 									sdf.format(dtoJour.getDate())));
 				}
-				if (absDto.getHeureFin() == null) {
+				if (absDto.getHeureFin() == null || absDto.getMinuteFin() == null) {
 					result.getErrors().add(
 							String.format("L'heure de fin de l'absence du %s est obligatoire.",
 									sdf.format(dtoJour.getDate())));
@@ -201,7 +204,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				}
 			}
 			// heure sup
-			for (HeureSupDto hsupDto : dtoJour.getHeuresSup()) {
+			for (HeureSupDtoKiosque hsupDto : dtoJour.getHeuresSup()) {
 				if (hsupDto.getIdMotifHsup() == null) {
 					result.getErrors().add(
 							String.format("Le motif de l'heure supplémentaire du %s est obligatoire.",
@@ -219,7 +222,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				}
 			}
 			// primes
-			for (PrimeDto primeDto : dtoJour.getPrimes()) {
+			for (PrimeDtoKiosque primeDto : dtoJour.getPrimes()) {
 				if (periodeHeure(primeDto.getTypeSaisie())) {
 					if (primeDto.getHeureDebut() == null) {
 						result.getErrors().add(
@@ -251,19 +254,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void ajouterHSup(@BindingParam("ref") HeureSupDto hsup) {
+	public void ajouterHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		hsup.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 		setHasTextChanged(true);
 	}
 
 	@Command
 	@NotifyChange({ "*" })
-	public void deleteHSup(@BindingParam("ref") HeureSupDto hsup) {
+	public void deleteHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		hsup.setIdRefEtat(null);
 		hsup.setCommentaire(null);
 		hsup.setIdMotifHsup(null);
 		hsup.setHeureDebut(null);
+		hsup.setMinuteDebut(null);
 		hsup.setHeureFin(null);
+		hsup.setMinuteFin(null);
 		hsup.setRappelService(false);
 		hsup.setIdPointage(null);
 
@@ -272,19 +277,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void ajouterAbsence(@BindingParam("ref") AbsenceDto absence) {
+	public void ajouterAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		absence.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 		setHasTextChanged(true);
 	}
 
 	@Command
 	@NotifyChange({ "*" })
-	public void deleteAbsence(@BindingParam("ref") AbsenceDto absence) {
+	public void deleteAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		absence.setIdRefEtat(null);
 		absence.setCommentaire(null);
 		absence.setMotif(null);
 		absence.setHeureDebut(null);
+		absence.setMinuteDebut(null);
 		absence.setHeureFin(null);
+		absence.setMinuteFin(null);
 		absence.setIdPointage(null);
 		absence.setIdRefTypeAbsence(null);
 		setHasTextChanged(true);
@@ -292,7 +299,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void ajouterPrime(@BindingParam("ref") PrimeDto prime) {
+	public void ajouterPrime(@BindingParam("ref") PrimeDtoKiosque prime) {
 		prime.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 		if (caseACocher(prime.getTypeSaisie())) {
 			prime.setQuantite(1);
@@ -302,12 +309,14 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void deletePrime(@BindingParam("ref") PrimeDto prime) {
+	public void deletePrime(@BindingParam("ref") PrimeDtoKiosque prime) {
 		prime.setIdRefEtat(null);
 		prime.setCommentaire(null);
 		prime.setMotif(null);
 		prime.setHeureDebut(null);
+		prime.setMinuteDebut(null);
 		prime.setHeureFin(null);
+		prime.setMinuteFin(null);
 		prime.setIdPointage(null);
 		prime.setQuantite(null);
 		setHasTextChanged(true);
@@ -319,9 +328,14 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		setHasTextChanged(false);
 
 		if (null != getDateLundi() && null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
-			FichePointageDto result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent().getIdAgent(),
+			FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent().getIdAgent(),
 					getLundi(getDateLundi()), getAgentFiltre().getIdAgent());
 			setFicheCourante(result);
+
+			// minutes et heures
+			TimePicker timePicker = new TimePicker();
+			setListeMinutes(timePicker.getListeMinutesPointage());
+			setListeHeures(timePicker.getListeHeuresPointage());
 
 			setSaisiePointageForm(transformFromFichePointageDtoToSaisiePointageForm(getFicheCourante()));
 		}
@@ -367,7 +381,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "ficheCourante" })
-	public void checkAccorde(@BindingParam("prime") PrimeDto prime, @BindingParam("checkbox") Checkbox checkbox) {
+	public void checkAccorde(@BindingParam("prime") PrimeDtoKiosque prime, @BindingParam("checkbox") Checkbox checkbox) {
 		prime.setQuantite(checkbox.isChecked() ? 1 : null);
 	}
 
@@ -403,11 +417,11 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return getFicheCourante().isDPM();
 	}
 
-	public FichePointageDto getFicheCourante() {
+	public FichePointageDtoKiosque getFicheCourante() {
 		return ficheCourante;
 	}
 
-	public void setFicheCourante(FichePointageDto ficheCourante) {
+	public void setFicheCourante(FichePointageDtoKiosque ficheCourante) {
 		this.ficheCourante = ficheCourante;
 	}
 
@@ -467,7 +481,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		this.agentFiltre = agentFiltre;
 	}
 
-	public PrimeDto getJour(Integer i) {
+	public PrimeDtoKiosque getJour(Integer i) {
 		Listitem p = new Listitem();
 		p.setValue(getFicheCourante().getSaisies().get(0).getPrimes().get(0));
 		getFicheCourante().getSaisies().get(0).getPrimes().get(0).setMotif("motif nono");
@@ -483,20 +497,20 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		this.saisiePointageForm = saisiePointageForm;
 	}
 
-	private SaisiePointageForm transformFromFichePointageDtoToSaisiePointageForm(FichePointageDto dto) {
+	private SaisiePointageForm transformFromFichePointageDtoToSaisiePointageForm(FichePointageDtoKiosque dto) {
 
 		SaisiePointageForm form = new SaisiePointageForm();
 
-		Map<String, List<PrimeDto>> mapAllPrime = new HashMap<String, List<PrimeDto>>();
-		Map<String, List<AbsenceDto>> mapAllAbsence = new HashMap<String, List<AbsenceDto>>();
-		Map<String, List<HeureSupDto>> mapAllHSup = new HashMap<String, List<HeureSupDto>>();
+		Map<String, List<PrimeDtoKiosque>> mapAllPrime = new HashMap<String, List<PrimeDtoKiosque>>();
+		Map<String, List<AbsenceDtoKiosque>> mapAllAbsence = new HashMap<String, List<AbsenceDtoKiosque>>();
+		Map<String, List<HeureSupDtoKiosque>> mapAllHSup = new HashMap<String, List<HeureSupDtoKiosque>>();
 
 		if (null != dto.getSaisies()) {
 
 			int nbrLigneAbsence = 1;
 			int nbrLigneHSup = 1;
 
-			for (JourPointageDto jour : dto.getSaisies()) {
+			for (JourPointageDtoKiosque jour : dto.getSaisies()) {
 				// on determine une ou deux lignes pour les absences
 				if (null != jour.getAbsences() && 2 == jour.getAbsences().size()) {
 					nbrLigneAbsence = 2;
@@ -506,17 +520,17 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					nbrLigneHSup = 2;
 				}
 			}
-			for (JourPointageDto jour : dto.getSaisies()) {
+			for (JourPointageDtoKiosque jour : dto.getSaisies()) {
 
 				if (!form.getListDateJour().contains(jour.getDate())) {
 					form.getListDateJour().add(jour.getDate());
 				}
 
-				for (PrimeDto prime : jour.getPrimes()) {
+				for (PrimeDtoKiosque prime : jour.getPrimes()) {
 					if (mapAllPrime.containsKey(prime.getNumRubrique().toString())) {
 						mapAllPrime.get(prime.getNumRubrique().toString()).add(prime);
 					} else {
-						List<PrimeDto> newListPrime = new ArrayList<PrimeDto>();
+						List<PrimeDtoKiosque> newListPrime = new ArrayList<PrimeDtoKiosque>();
 						newListPrime.add(prime);
 						mapAllPrime.put(prime.getNumRubrique().toString(), newListPrime);
 					}
@@ -524,20 +538,20 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 				for (int i = 0; i < nbrLigneAbsence; i++) {
 					if (i < jour.getAbsences().size()) {
-						AbsenceDto absence = jour.getAbsences().get(i);
+						AbsenceDtoKiosque absence = jour.getAbsences().get(i);
 						if (mapAllAbsence.containsKey(new Integer(i).toString())) {
 							mapAllAbsence.get(new Integer(i).toString()).add(absence);
 						} else {
-							List<AbsenceDto> newListAbsence = new ArrayList<AbsenceDto>();
+							List<AbsenceDtoKiosque> newListAbsence = new ArrayList<AbsenceDtoKiosque>();
 							newListAbsence.add(absence);
 							mapAllAbsence.put(new Integer(i).toString(), newListAbsence);
 						}
 					} else {
 						if (mapAllAbsence.containsKey(new Integer(i).toString())) {
-							mapAllAbsence.get(new Integer(i).toString()).add(new AbsenceDto());
+							mapAllAbsence.get(new Integer(i).toString()).add(new AbsenceDtoKiosque());
 						} else {
-							List<AbsenceDto> newListAbsence = new ArrayList<AbsenceDto>();
-							newListAbsence.add(new AbsenceDto());
+							List<AbsenceDtoKiosque> newListAbsence = new ArrayList<AbsenceDtoKiosque>();
+							newListAbsence.add(new AbsenceDtoKiosque());
 							mapAllAbsence.put(new Integer(i).toString(), newListAbsence);
 						}
 					}
@@ -545,21 +559,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 				for (int i = 0; i < nbrLigneHSup; i++) {
 					if (i < jour.getHeuresSup().size()) {
-						HeureSupDto hsup = jour.getHeuresSup().get(i);
+						HeureSupDtoKiosque hsup = jour.getHeuresSup().get(i);
 						hsup = setHSupARecupererForDPM(hsup);
 						if (mapAllHSup.containsKey(new Integer(i).toString())) {
 							mapAllHSup.get(new Integer(i).toString()).add(hsup);
 						} else {
-							List<HeureSupDto> newListHSup = new ArrayList<HeureSupDto>();
+							List<HeureSupDtoKiosque> newListHSup = new ArrayList<HeureSupDtoKiosque>();
 							newListHSup.add(hsup);
 							mapAllHSup.put(new Integer(i).toString(), newListHSup);
 						}
 					} else {
-						HeureSupDto newHsupDtp = setHSupARecupererForDPM(new HeureSupDto());
+						HeureSupDtoKiosque newHsupDtp = setHSupARecupererForDPM(new HeureSupDtoKiosque());
 						if (mapAllHSup.containsKey(new Integer(i).toString())) {
 							mapAllHSup.get(new Integer(i).toString()).add(newHsupDtp);
 						} else {
-							List<HeureSupDto> newListHsup = new ArrayList<HeureSupDto>();
+							List<HeureSupDtoKiosque> newListHsup = new ArrayList<HeureSupDtoKiosque>();
 							newListHsup.add(newHsupDtp);
 							mapAllHSup.put(new Integer(i).toString(), newListHsup);
 						}
@@ -575,45 +589,48 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return form;
 	}
 
-	public boolean estCheckboxHSupARecupererDisabled(HeureSupDto hSupDto) {
+	public boolean estCheckboxHSupARecupererDisabled(HeureSupDtoKiosque hSupDto) {
 		if (null != hSupDto.getIdRefEtat() && !estAgentDPM()) {
 			return false;
 		}
 		return true;
 	}
 
-	private Date calculDateEtHeureSaisie(Date dateJour, Date heureSaisie) {
-		if (heureSaisie != null) {
-			DateTime result = new DateTime(dateJour);
-			return result.plusMinutes(new DateTime(heureSaisie).getMinuteOfDay()).toDate();
+	private Date calculDateEtHeureSaisie(Date dateJour, String heureSaisie, String minuteSaisie) {
+		if (heureSaisie != null && minuteSaisie != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(dateJour);
+			cal.add(Calendar.HOUR_OF_DAY, new Integer(heureSaisie));
+			cal.add(Calendar.MINUTE, new Integer(minuteSaisie));
+			return cal.getTime();
 		}
 		return null;
 	}
 
-	private HeureSupDto setHSupARecupererForDPM(HeureSupDto hSupDto) {
+	private HeureSupDtoKiosque setHSupARecupererForDPM(HeureSupDtoKiosque hSupDto) {
 		if (estAgentDPM())
 			hSupDto.setRecuperee(true);
 
 		return hSupDto;
 	}
 
-	private FichePointageDto transformFromSaisiePointageFormToFichePointageDto(SaisiePointageForm form) {
+	private FichePointageDtoKiosque transformFromSaisiePointageFormToFichePointageDto(SaisiePointageForm form) {
 
-		FichePointageDto dto = getFicheCourante();
+		FichePointageDtoKiosque dto = getFicheCourante();
 
 		// les absences
 		if (null != form.getMapAllAbsence()) {
-			Map<String, List<AbsenceDto>> mapAllAbsence = form.getMapAllAbsence();
+			Map<String, List<AbsenceDtoKiosque>> mapAllAbsence = form.getMapAllAbsence();
 			// 1ere saisie (1ere ligne)
 			int iJour = 0;
 			if (0 < mapAllAbsence.size()) {
-				for (AbsenceDto absenceDto : mapAllAbsence.get("0")) {
+				for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("0")) {
 					dto.getSaisies().get(iJour).getAbsences().clear();
 					if (null != absenceDto.getIdRefEtat()) {
-						absenceDto.setHeureDebut(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								absenceDto.getHeureDebut()));
-						absenceDto.setHeureFin(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								absenceDto.getHeureFin()));
+						absenceDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+								absenceDto.getHeureDebut(), absenceDto.getMinuteDebut()));
+						absenceDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+								absenceDto.getHeureFin(), absenceDto.getMinuteFin()));
 
 						dto.getSaisies().get(iJour).getAbsences().add(absenceDto);
 					}
@@ -623,12 +640,12 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			// 2e saisie (2e ligne)
 			if (1 < mapAllAbsence.size()) {
 				iJour = 0;
-				for (AbsenceDto absenceDto : mapAllAbsence.get("1")) {
+				for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("1")) {
 					if (null != absenceDto.getIdRefEtat()) {
-						absenceDto.setHeureDebut(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								absenceDto.getHeureDebut()));
-						absenceDto.setHeureFin(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								absenceDto.getHeureFin()));
+						absenceDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+								absenceDto.getHeureDebut(), absenceDto.getMinuteDebut()));
+						absenceDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+								absenceDto.getHeureFin(), absenceDto.getMinuteFin()));
 
 						dto.getSaisies().get(iJour).getAbsences().add(absenceDto);
 					}
@@ -639,17 +656,17 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 		// les heures supp
 		if (null != form.getMapAllHSup()) {
-			Map<String, List<HeureSupDto>> mapAllHSup = form.getMapAllHSup();
+			Map<String, List<HeureSupDtoKiosque>> mapAllHSup = form.getMapAllHSup();
 			// 1ere saisie (1ere ligne)
 			int iJour = 0;
 			if (0 < mapAllHSup.size()) {
-				for (HeureSupDto hSupDto : mapAllHSup.get("0")) {
+				for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("0")) {
 					dto.getSaisies().get(iJour).getHeuresSup().clear();
 					if (null != hSupDto.getIdRefEtat()) {
-						hSupDto.setHeureDebut(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								hSupDto.getHeureDebut()));
-						hSupDto.setHeureFin(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								hSupDto.getHeureFin()));
+						hSupDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+								hSupDto.getHeureDebut(), hSupDto.getMinuteDebut()));
+						hSupDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+								hSupDto.getHeureFin(), hSupDto.getMinuteFin()));
 
 						dto.getSaisies().get(iJour).getHeuresSup().add(hSupDto);
 					}
@@ -659,12 +676,12 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			// 2e saisie (2e ligne)
 			if (1 < mapAllHSup.size()) {
 				iJour = 0;
-				for (HeureSupDto hSupDto : mapAllHSup.get("1")) {
+				for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("1")) {
 					if (null != hSupDto.getIdRefEtat()) {
-						hSupDto.setHeureDebut(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								hSupDto.getHeureDebut()));
-						hSupDto.setHeureFin(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-								hSupDto.getHeureFin()));
+						hSupDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+								hSupDto.getHeureDebut(), hSupDto.getMinuteDebut()));
+						hSupDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+								hSupDto.getHeureFin(), hSupDto.getMinuteFin()));
 
 						dto.getSaisies().get(iJour).getHeuresSup().add(hSupDto);
 					}
@@ -675,24 +692,24 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 		// les primes
 		// on nettoie l'existant
-		for (JourPointageDto jourPtg : dto.getSaisies()) {
+		for (JourPointageDtoKiosque jourPtg : dto.getSaisies()) {
 			jourPtg.getPrimes().clear();
 		}
 		// on mappe
 		if (null != form.getMapAllPrime()) {
-			Map<String, List<PrimeDto>> mapAllPrime = form.getMapAllPrime();
+			Map<String, List<PrimeDtoKiosque>> mapAllPrime = form.getMapAllPrime();
 
 			for (String key : mapAllPrime.keySet()) {
-				List<PrimeDto> listPrimes = mapAllPrime.get(key);
+				List<PrimeDtoKiosque> listPrimes = mapAllPrime.get(key);
 				int iJour = 0;
-				for (PrimeDto primeDto : listPrimes) {
+				for (PrimeDtoKiosque primeDto : listPrimes) {
 					if (null != primeDto.getIdRefEtat()) {
 
 						if (periodeHeure(primeDto.getTypeSaisie())) {
-							primeDto.setHeureDebut(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-									primeDto.getHeureDebut()));
-							primeDto.setHeureFin(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
-									primeDto.getHeureFin()));
+							primeDto.setHeureDebutDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+									primeDto.getHeureDebut(), primeDto.getMinuteDebut()));
+							primeDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
+									primeDto.getHeureFin(), primeDto.getMinuteFin()));
 						}
 
 						dto.getSaisies().get(iJour).getPrimes().add(primeDto);
@@ -710,9 +727,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	public void ajouterLigneHSup() {
 		if (null != getSaisiePointageForm().getMapAllHSup() && 2 > getSaisiePointageForm().getMapAllHSup().size()) {
 
-			List<HeureSupDto> newListHsup = new ArrayList<HeureSupDto>();
+			List<HeureSupDtoKiosque> newListHsup = new ArrayList<HeureSupDtoKiosque>();
 			for (int i = 0; i < 7; i++) {
-				newListHsup.add(new HeureSupDto());
+				newListHsup.add(new HeureSupDtoKiosque());
 			}
 
 			getSaisiePointageForm().getMapAllHSup().put(new Integer(1).toString(), newListHsup);
@@ -724,9 +741,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	public void ajouterLigneAbsence() {
 		if (null != getSaisiePointageForm().getMapAllAbsence() && 2 > getSaisiePointageForm().getMapAllAbsence().size()) {
 
-			List<AbsenceDto> newListAbsence = new ArrayList<AbsenceDto>();
+			List<AbsenceDtoKiosque> newListAbsence = new ArrayList<AbsenceDtoKiosque>();
 			for (int i = 0; i < 7; i++) {
-				newListAbsence.add(new AbsenceDto());
+				newListAbsence.add(new AbsenceDtoKiosque());
 			}
 
 			getSaisiePointageForm().getMapAllAbsence().put(new Integer(1).toString(), newListAbsence);
@@ -749,13 +766,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		this.hasTextChanged = hasTextChanged;
 	}
 
-	public boolean isAfficherDupliquerPrimeGauche(PrimeDto prime) {
+	public boolean isAfficherDupliquerPrimeGauche(PrimeDtoKiosque prime) {
 		if (prime.getIdRefEtat() == null) {
 			return false;
 		}
 		if (getSaisiePointageForm() != null) {
 			for (int i = 0; i < getFicheCourante().getSaisies().size(); i++) {
-				for (PrimeDto dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
+				for (PrimeDtoKiosque dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
 					if (getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString()) != null) {
 						int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
 								.indexOf(prime);
@@ -770,13 +787,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return true;
 	}
 
-	public boolean isAfficherDupliquerPrimeDroit(PrimeDto prime) {
+	public boolean isAfficherDupliquerPrimeDroit(PrimeDtoKiosque prime) {
 		if (prime.getIdRefEtat() == null) {
 			return false;
 		}
 
 		for (int i = 0; i < getSaisiePointageForm().getMapAllPrime().size(); i++) {
-			for (PrimeDto dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
+			for (PrimeDtoKiosque dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
 				if (getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString()) != null) {
 					int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
 							.indexOf(prime);
@@ -790,7 +807,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return true;
 	}
 
-	public boolean isAfficherDupliquerAbsenceGauche(AbsenceDto absence) {
+	public boolean isAfficherDupliquerAbsenceGauche(AbsenceDtoKiosque absence) {
 		if (absence.getIdRefEtat() == null) {
 			return false;
 		}
@@ -808,7 +825,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return true;
 	}
 
-	public boolean isAfficherDupliquerAbsenceDroit(AbsenceDto absence) {
+	public boolean isAfficherDupliquerAbsenceDroit(AbsenceDtoKiosque absence) {
 		if (absence.getIdRefEtat() == null) {
 			return false;
 		}
@@ -826,7 +843,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return true;
 	}
 
-	public boolean isAfficherDupliquerHSupGauche(HeureSupDto hsup) {
+	public boolean isAfficherDupliquerHSupGauche(HeureSupDtoKiosque hsup) {
 		if (hsup.getIdRefEtat() == null) {
 			return false;
 		}
@@ -844,7 +861,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return true;
 	}
 
-	public boolean isAfficherDupliquerHSupDroit(HeureSupDto hsup) {
+	public boolean isAfficherDupliquerHSupDroit(HeureSupDtoKiosque hsup) {
 		if (hsup.getIdRefEtat() == null) {
 			return false;
 		}
@@ -864,19 +881,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void copieDroiteAbsence(@BindingParam("ref") AbsenceDto absence) {
+	public void copieDroiteAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
 			if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
 				int indexPart2 = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).indexOf(absence);
 				if (indexPart2 != -1) {
-					AbsenceDto absSuiv = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i))
+					AbsenceDtoKiosque absSuiv = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i))
 							.get(indexPart2 + 1);
 					ajouterAbsence(absSuiv);
 					// on copie les données
 					absSuiv.setCommentaire(absence.getCommentaire());
 					absSuiv.setMotif(absence.getMotif());
 					absSuiv.setHeureDebut(absence.getHeureDebut());
+					absSuiv.setMinuteDebut(absence.getMinuteDebut());
 					absSuiv.setHeureFin(absence.getHeureFin());
+					absSuiv.setMinuteFin(absence.getMinuteFin());
 					absSuiv.setIdRefTypeAbsence(absence.getIdRefTypeAbsence());
 					setHasTextChanged(true);
 				}
@@ -886,19 +905,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void copieGaucheAbsence(@BindingParam("ref") AbsenceDto absence) {
+	public void copieGaucheAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
 			if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
 				int indexPart2 = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)).indexOf(absence);
 				if (indexPart2 != -1) {
-					AbsenceDto absPrec = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i))
+					AbsenceDtoKiosque absPrec = getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i))
 							.get(indexPart2 - 1);
 					ajouterAbsence(absPrec);
 					// on copie les données
 					absPrec.setCommentaire(absence.getCommentaire());
 					absPrec.setMotif(absence.getMotif());
 					absPrec.setHeureDebut(absence.getHeureDebut());
+					absPrec.setMinuteDebut(absence.getMinuteDebut());
 					absPrec.setHeureFin(absence.getHeureFin());
+					absPrec.setMinuteFin(absence.getMinuteFin());
 					absPrec.setIdRefTypeAbsence(absence.getIdRefTypeAbsence());
 					setHasTextChanged(true);
 				}
@@ -908,19 +929,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void copieDroiteHSup(@BindingParam("ref") HeureSupDto hsup) {
+	public void copieDroiteHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
 			if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
 				int indexPart2 = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).indexOf(hsup);
 				if (indexPart2 != -1) {
-					HeureSupDto hsupSuiv = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i))
+					HeureSupDtoKiosque hsupSuiv = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i))
 							.get(indexPart2 + 1);
 					ajouterHSup(hsupSuiv);
 					// on copie les données
 					hsupSuiv.setCommentaire(hsup.getCommentaire());
 					hsupSuiv.setIdMotifHsup(hsup.getIdMotifHsup());
 					hsupSuiv.setHeureDebut(hsup.getHeureDebut());
+					hsupSuiv.setMinuteDebut(hsup.getMinuteDebut());
 					hsupSuiv.setHeureFin(hsup.getHeureFin());
+					hsupSuiv.setMinuteFin(hsup.getMinuteFin());
 					hsupSuiv.setRappelService(hsup.isRappelService());
 					hsupSuiv.setRecuperee(hsup.isRecuperee());
 					setHasTextChanged(true);
@@ -931,19 +954,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void copieGaucheHSup(@BindingParam("ref") HeureSupDto hsup) {
+	public void copieGaucheHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
 			if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
 				int indexPart2 = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)).indexOf(hsup);
 				if (indexPart2 != -1) {
-					HeureSupDto hsupPrec = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i))
+					HeureSupDtoKiosque hsupPrec = getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i))
 							.get(indexPart2 - 1);
 					ajouterHSup(hsupPrec);
 					// on copie les données
 					hsupPrec.setCommentaire(hsup.getCommentaire());
 					hsupPrec.setIdMotifHsup(hsup.getIdMotifHsup());
 					hsupPrec.setHeureDebut(hsup.getHeureDebut());
+					hsupPrec.setMinuteDebut(hsup.getMinuteDebut());
 					hsupPrec.setHeureFin(hsup.getHeureFin());
+					hsupPrec.setMinuteFin(hsup.getMinuteFin());
 					hsupPrec.setRappelService(hsup.isRappelService());
 					hsupPrec.setRecuperee(hsup.isRecuperee());
 					setHasTextChanged(true);
@@ -954,18 +979,20 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void copieDroitePrime(@BindingParam("ref") PrimeDto prime) {
+	public void copieDroitePrime(@BindingParam("ref") PrimeDtoKiosque prime) {
 		if (getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString()) != null) {
 			int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString())
 					.indexOf(prime);
-			PrimeDto primeSuiv = getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString())
+			PrimeDtoKiosque primeSuiv = getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString())
 					.get(indexPart2 + 1);
 			ajouterPrime(primeSuiv);
 			// on copie les données
 			primeSuiv.setCommentaire(prime.getCommentaire());
 			primeSuiv.setMotif(prime.getMotif());
 			primeSuiv.setHeureDebut(prime.getHeureDebut());
+			primeSuiv.setMinuteDebut(prime.getMinuteDebut());
 			primeSuiv.setHeureFin(prime.getHeureFin());
+			primeSuiv.setMinuteFin(prime.getMinuteFin());
 			primeSuiv.setQuantite(prime.getQuantite());
 			setHasTextChanged(true);
 		}
@@ -974,18 +1001,20 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void copieGauchePrime(@BindingParam("ref") PrimeDto prime) {
+	public void copieGauchePrime(@BindingParam("ref") PrimeDtoKiosque prime) {
 		if (getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString()) != null) {
 			int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString())
 					.indexOf(prime);
-			PrimeDto primePrec = getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString())
+			PrimeDtoKiosque primePrec = getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString())
 					.get(indexPart2 - 1);
 			ajouterPrime(primePrec);
 			// on copie les données
 			primePrec.setCommentaire(prime.getCommentaire());
 			primePrec.setMotif(prime.getMotif());
 			primePrec.setHeureDebut(prime.getHeureDebut());
+			primePrec.setMinuteDebut(prime.getMinuteDebut());
 			primePrec.setHeureFin(prime.getHeureFin());
+			primePrec.setMinuteFin(prime.getMinuteFin());
 			primePrec.setQuantite(prime.getQuantite());
 			setHasTextChanged(true);
 		}
@@ -1013,6 +1042,22 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			}
 		}
 
+	}
+
+	public List<String> getListeHeures() {
+		return listeHeures;
+	}
+
+	public void setListeHeures(List<String> listeHeures) {
+		this.listeHeures = listeHeures;
+	}
+
+	public List<String> getListeMinutes() {
+		return listeMinutes;
+	}
+
+	public void setListeMinutes(List<String> listeMinutes) {
+		this.listeMinutes = listeMinutes;
 	}
 
 }
