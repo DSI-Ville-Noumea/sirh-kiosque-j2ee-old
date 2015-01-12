@@ -115,13 +115,13 @@
 									value="@bind(vm.demandeCourant.typeSaisi.infosComplementaires)" />
 							</vlayout>
 						</hlayout>
-						<hlayout
-							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)">
-							<hlayout width="150px">
-								<label value="Pièce jointe : " />
-							</hlayout>
-							<hlayout></hlayout>
-						</hlayout>
+<!-- 						<hlayout -->
+<!-- 							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)"> -->
+<!-- 							<hlayout width="150px"> -->
+<!-- 								<label value="Pièce jointe : " /> -->
+<!-- 							</hlayout> -->
+<!-- 							<hlayout></hlayout> -->
+<!-- 						</hlayout> -->
 					</vlayout>
 					<!-- POUR LES CONGES ANNUELS -->
 					<vlayout

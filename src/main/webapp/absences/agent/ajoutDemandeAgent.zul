@@ -161,13 +161,13 @@
 									value="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosComplementaires)" />
 							</vlayout>
 						</hlayout>
-						<hlayout
-							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.pieceJointe)">
-							<hlayout width="150px">
-								<label value="Pièce jointe : " />
-							</hlayout>
-							<hlayout></hlayout>
-						</hlayout>
+<!-- 						<hlayout -->
+<!-- 							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.pieceJointe)"> -->
+<!-- 							<hlayout width="150px"> -->
+<!-- 								<label value="Pièce jointe : " /> -->
+<!-- 							</hlayout> -->
+<!-- 							<hlayout></hlayout> -->
+<!-- 						</hlayout> -->
 					</vlayout>
 					<!-- POUR LES CONGES ANNUELS -->
 					<vlayout
