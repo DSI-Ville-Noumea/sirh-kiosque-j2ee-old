@@ -135,6 +135,39 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "hasTextChanged", "*" })
+	public void textChangedPrime(@BindingParam("ref") PrimeDtoKiosque dtoAbs,
+			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
+			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
+		setHasTextChanged(true);
+		FichePointageDtoKiosque dto = getFicheCourante();
+		// les primes
+		// on mappe
+		if (null != getSaisiePointageForm().getMapAllPrime()) {
+			Map<String, List<PrimeDtoKiosque>> mapAllPrime = getSaisiePointageForm().getMapAllPrime();
+
+			for (String key : mapAllPrime.keySet()) {
+				List<PrimeDtoKiosque> listPrimes = mapAllPrime.get(key);
+				int iJour = 0;
+				for (PrimeDtoKiosque primeDto : listPrimes) {
+					if (null != primeDto.getIdRefEtat()) {
+						if (periodeHeure(primeDto.getTypeSaisie())) {
+							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+									heureFin, minuteFin)) {
+								dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
+							} else {
+								dtoAbs.setSaisieJ1(null);
+							}
+						}
+
+					}
+					iJour++;
+				}
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChanged", "*" })
 	public void textChangedAbs(@BindingParam("ref") AbsenceDtoKiosque dtoAbs,
 			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {

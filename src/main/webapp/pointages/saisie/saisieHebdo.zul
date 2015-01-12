@@ -164,7 +164,8 @@
 											</template>
 										</combobox>
 									</hlayout>
-									<label style="color:red;font-weight: bold;"
+									<label
+										style="color:red;font-weight: bold;"
 										value="@bind(cellHSup.saisieJ1)"
 										visible="@bind(not empty cellHSup.saisieJ1)" />
 									<separator />
@@ -302,7 +303,8 @@
 											</template>
 										</combobox>
 									</hlayout>
-									<label style="color:red;font-weight: bold;"
+									<label
+										style="color:red;font-weight: bold;"
 										value="@bind(cellAbsence.saisieJ1)"
 										visible="@bind(not empty cellAbsence.saisieJ1)" />
 									<separator />
@@ -388,8 +390,8 @@
 											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
 											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
 											readonly="true" selectedItem="@bind(cellPrime.heureDebut)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellPrime.idRefEtat)">
+											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -402,8 +404,8 @@
 											placeholder="Minute de début *"
 											model="@bind(vm.listeMinutes)" readonly="true"
 											selectedItem="@bind(cellPrime.minuteDebut)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellPrime.idRefEtat)">
+											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -417,8 +419,8 @@
 											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
 											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
 											readonly="true" selectedItem="@bind(cellPrime.heureFin)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellPrime.idRefEtat)">
+											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -430,8 +432,8 @@
 											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
 											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
 											readonly="true" selectedItem="@bind(cellPrime.minuteFin)"
-											onChange="@command('textChanged')" cols="2"
-											disabled="@bind(empty cellPrime.idRefEtat)">
+											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -439,6 +441,11 @@
 											</template>
 										</combobox>
 									</hlayout>
+									<label
+										style="color:red;font-weight: bold;"
+										value="@bind(cellPrime.saisieJ1)"
+										visible="@bind(not empty cellPrime.saisieJ1)" />
+									<separator />
 
 									<checkbox
 										checked="${vm.checkCoche(cellPrime.quantite)}"
