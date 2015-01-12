@@ -134,7 +134,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "*" })
+	@NotifyChange({ "hasTextChanged", "saisiePointageForm" })
 	public void textChangedPrime(@BindingParam("ref") PrimeDtoKiosque dtoAbs,
 			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
@@ -167,7 +167,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "*" })
+	@NotifyChange({ "hasTextChanged", "saisiePointageForm" })
 	public void textChangedAbs(@BindingParam("ref") AbsenceDtoKiosque dtoAbs,
 			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
@@ -210,7 +210,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "*" })
+	@NotifyChange({ "hasTextChanged", "saisiePointageForm" })
 	public void textChangedHSup(@BindingParam("ref") HeureSupDtoKiosque dtoHsup,
 			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
