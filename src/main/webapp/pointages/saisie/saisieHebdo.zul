@@ -183,7 +183,7 @@
 										disabled="@bind(empty cellHSup.idRefEtat)"
 										visible="${vm.estAgentDPM()}"
 										onCheck="@command('textChanged')" />
-									<combobox width="100%"
+									<combobox width="100%" readonly="true"
 										selectedItem="@bind(cellHSup.idMotifHsup)"
 										disabled="@bind(empty cellHSup.idRefEtat)"
 										placeholder="Motif *" onChange="@command('textChanged')">
@@ -314,7 +314,7 @@
 										value="@bind(cellAbsence.saisieJ1)"
 										visible="@bind(not empty cellAbsence.saisieJ1)" />
 									<separator />
-									<combobox width="100%"
+									<combobox width="100%" readonly="true"
 										selectedItem="@bind(cellAbsence.idRefTypeAbsence)"
 										disabled="@bind(empty cellAbsence.idRefEtat)"
 										placeholder="Type d'absence *"
