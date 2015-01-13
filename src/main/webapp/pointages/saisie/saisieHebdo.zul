@@ -113,24 +113,25 @@
 									</div>
 
 									<hlayout>
-										<combobox
-											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
+										<div width="50px">
+											<label value="Début *" />
+										</div>
+										<combobox placeholder="Heure"
+											model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellHSup.heureDebut)"
 											onChange="@command('textChangedHSup',ref=cellHSup,heureDebut=cellHSup.heureDebut,minuteDebut=cellHSup.minuteDebut,heureFin=cellHSup.heureFin,minuteFin=cellHSup.minuteFin)"
-											cols="3" disabled="@bind(empty cellHSup.idRefEtat)">
+											cols="2" disabled="@bind(empty cellHSup.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
 												</comboitem>
 											</template>
 										</combobox>
-
-										<combobox
-											placeholder="Minute de début *"
+										<combobox placeholder="Minute"
 											model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellHSup.minuteDebut)"
 											onChange="@command('textChangedHSup',ref=cellHSup,heureDebut=cellHSup.heureDebut,minuteDebut=cellHSup.minuteDebut,heureFin=cellHSup.heureFin,minuteFin=cellHSup.minuteFin)"
-											cols="3" disabled="@bind(empty cellHSup.idRefEtat)">
+											cols="2" disabled="@bind(empty cellHSup.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -140,23 +141,25 @@
 									</hlayout>
 									<separator />
 									<hlayout>
-										<combobox
-											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
+										<div width="50px">
+											<label value="Fin *" />
+										</div>
+										<combobox placeholder="Heure*"
+											model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellHSup.heureFin)"
 											onChange="@command('textChangedHSup',ref=cellHSup,heureDebut=cellHSup.heureDebut,minuteDebut=cellHSup.minuteDebut,heureFin=cellHSup.heureFin,minuteFin=cellHSup.minuteFin)"
-											cols="3" disabled="@bind(empty cellHSup.idRefEtat)">
+											cols="2" disabled="@bind(empty cellHSup.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
 												</comboitem>
 											</template>
 										</combobox>
-
-										<combobox
-											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
+										<combobox placeholder="Minute"
+											model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellHSup.minuteFin)"
 											onChange="@command('textChangedHSup',ref=cellHSup,heureDebut=cellHSup.heureDebut,minuteDebut=cellHSup.minuteDebut,heureFin=cellHSup.heureFin,minuteFin=cellHSup.minuteFin)"
-											cols="3" disabled="@bind(empty cellHSup.idRefEtat)">
+											cols="2" disabled="@bind(empty cellHSup.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -252,24 +255,25 @@
 									</div>
 
 									<hlayout>
-										<combobox
-											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
+										<div width="50px">
+											<label value="Début *" />
+										</div>
+										<combobox placeholder="Heure"
+											model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellAbsence.heureDebut)"
 											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
-											cols="3" disabled="@bind(empty cellAbsence.idRefEtat)">
+											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
 												</comboitem>
 											</template>
 										</combobox>
-
-										<combobox
-											placeholder="Minute de début *"
+										<combobox placeholder="Minute"
 											model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellAbsence.minuteDebut)"
 											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
-											cols="3" disabled="@bind(empty cellAbsence.idRefEtat)">
+											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -279,23 +283,25 @@
 									</hlayout>
 									<separator />
 									<hlayout>
-										<combobox
-											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
+										<div width="50px">
+											<label value="Fin *" />
+										</div>
+										<combobox placeholder="Heure"
+											model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellAbsence.heureFin)"
 											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
-											cols="3" disabled="@bind(empty cellAbsence.idRefEtat)">
+											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
 												</comboitem>
 											</template>
 										</combobox>
-
-										<combobox
-											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
+										<combobox placeholder="Minute"
+											model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellAbsence.minuteFin)"
 											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
-											cols="3" disabled="@bind(empty cellAbsence.idRefEtat)">
+											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -386,26 +392,27 @@
 									</div>
 
 									<hlayout>
+										<div width="50px">
+											<label value="Début *" />
+										</div>
 										<combobox
 											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
-											placeholder="Heure de début *" model="@bind(vm.listeHeures)"
+											placeholder="Heure" model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellPrime.heureDebut)"
 											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
-											cols="3" disabled="@bind(empty cellPrime.idRefEtat)">
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
 												</comboitem>
 											</template>
 										</combobox>
-
 										<combobox
 											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
-											placeholder="Minute de début *"
-											model="@bind(vm.listeMinutes)"
+											placeholder="Minute" model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellPrime.minuteDebut)"
 											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
-											cols="3" disabled="@bind(empty cellPrime.idRefEtat)">
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -415,25 +422,27 @@
 									</hlayout>
 									<separator />
 									<hlayout>
+										<div width="50px">
+											<label value="Fin *" />
+										</div>
 										<combobox
 											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
-											placeholder="Heure de fin *" model="@bind(vm.listeHeures)"
+											placeholder="Heure" model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellPrime.heureFin)"
 											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
-											cols="3" disabled="@bind(empty cellPrime.idRefEtat)">
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
 												</comboitem>
 											</template>
 										</combobox>
-
 										<combobox
 											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
-											placeholder="Minute de fin *" model="@bind(vm.listeMinutes)"
+											placeholder="Minute" model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellPrime.minuteFin)"
 											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
-											cols="3" disabled="@bind(empty cellPrime.idRefEtat)">
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">

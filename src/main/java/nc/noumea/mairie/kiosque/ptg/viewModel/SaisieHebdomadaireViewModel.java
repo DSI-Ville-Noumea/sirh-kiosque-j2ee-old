@@ -140,27 +140,30 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
 		setHasTextChanged(true);
 		FichePointageDtoKiosque dto = getFicheCourante();
-		// les primes
-		// on mappe
-		if (null != getSaisiePointageForm().getMapAllPrime()) {
-			Map<String, List<PrimeDtoKiosque>> mapAllPrime = getSaisiePointageForm().getMapAllPrime();
+		if (heureDebut != null && minuteDebut != null && heureFin != null && minuteFin != null) {
+			// les primes
+			// on mappe
+			if (null != getSaisiePointageForm().getMapAllPrime()) {
+				Map<String, List<PrimeDtoKiosque>> mapAllPrime = getSaisiePointageForm().getMapAllPrime();
 
-			for (String key : mapAllPrime.keySet()) {
-				List<PrimeDtoKiosque> listPrimes = mapAllPrime.get(key);
-				int iJour = 0;
-				for (PrimeDtoKiosque primeDto : listPrimes) {
-					if (null != primeDto.getIdRefEtat()) {
-						if (periodeHeure(primeDto.getTypeSaisie())) {
-							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
-									heureFin, minuteFin)) {
-								dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
-							} else {
-								dtoAbs.setSaisieJ1(null);
+				for (String key : mapAllPrime.keySet()) {
+					List<PrimeDtoKiosque> listPrimes = mapAllPrime.get(key);
+					int iJour = 0;
+					for (PrimeDtoKiosque primeDto : listPrimes) {
+						if (null != primeDto.getIdRefEtat()) {
+							if (periodeHeure(primeDto.getTypeSaisie())) {
+								if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+										heureFin, minuteFin)) {
+									dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
+									break;
+								} else {
+									dtoAbs.setSaisieJ1(null);
+									break;
+								}
 							}
 						}
-
+						iJour++;
 					}
-					iJour++;
 				}
 			}
 		}
@@ -173,37 +176,43 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
 		setHasTextChanged(true);
 		FichePointageDtoKiosque dto = getFicheCourante();
-		// les absences
-		if (null != getSaisiePointageForm().getMapAllAbsence()) {
-			Map<String, List<AbsenceDtoKiosque>> mapAllAbsence = getSaisiePointageForm().getMapAllAbsence();
-			// 1ere saisie (1ere ligne)
-			int iJour = 0;
-			if (0 < mapAllAbsence.size()) {
-				for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("0")) {
-					if (null != absenceDto.getIdRefEtat()) {
-						if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
-								heureFin, minuteFin)) {
-							dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
-						} else {
-							dtoAbs.setSaisieJ1(null);
+		if (heureDebut != null && minuteDebut != null && heureFin != null && minuteFin != null) {
+			// les absences
+			if (null != getSaisiePointageForm().getMapAllAbsence()) {
+				Map<String, List<AbsenceDtoKiosque>> mapAllAbsence = getSaisiePointageForm().getMapAllAbsence();
+				// 1ere saisie (1ere ligne)
+				int iJour = 0;
+				if (0 < mapAllAbsence.size()) {
+					for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("0")) {
+						if (null != absenceDto.getIdRefEtat()) {
+							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+									heureFin, minuteFin)) {
+								dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
+								break;
+							} else {
+								dtoAbs.setSaisieJ1(null);
+								break;
+							}
 						}
+						iJour++;
 					}
-					iJour++;
 				}
-			}
-			// 2e saisie (2e ligne)
-			if (1 < mapAllAbsence.size()) {
-				iJour = 0;
-				for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("1")) {
-					if (null != absenceDto.getIdRefEtat()) {
-						if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
-								heureFin, minuteFin)) {
-							dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
-						} else {
-							dtoAbs.setSaisieJ1(null);
+				// 2e saisie (2e ligne)
+				if (1 < mapAllAbsence.size()) {
+					iJour = 0;
+					for (AbsenceDtoKiosque absenceDto : mapAllAbsence.get("1")) {
+						if (null != absenceDto.getIdRefEtat()) {
+							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+									heureFin, minuteFin)) {
+								dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
+								break;
+							} else {
+								dtoAbs.setSaisieJ1(null);
+								break;
+							}
 						}
+						iJour++;
 					}
-					iJour++;
 				}
 			}
 		}
@@ -216,38 +225,43 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
 		setHasTextChanged(true);
 		FichePointageDtoKiosque dto = getFicheCourante();
-		// les heures supp
-		if (null != getSaisiePointageForm().getMapAllHSup()) {
-			Map<String, List<HeureSupDtoKiosque>> mapAllHSup = getSaisiePointageForm().getMapAllHSup();
-			// 1ere saisie (1ere ligne)
-			int iJour = 0;
-			if (0 < mapAllHSup.size()) {
-				for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("0")) {
-					if (null != hSupDto.getIdRefEtat()) {
-						if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
-								heureFin, minuteFin)) {
-							dtoHsup.setSaisieJ1("Attention fin de saisie j+1");
-						} else {
-							dtoHsup.setSaisieJ1(null);
+		if (heureDebut != null && minuteDebut != null && heureFin != null && minuteFin != null) {
+			// les heures supp
+			if (null != getSaisiePointageForm().getMapAllHSup()) {
+				Map<String, List<HeureSupDtoKiosque>> mapAllHSup = getSaisiePointageForm().getMapAllHSup();
+				// 1ere saisie (1ere ligne)
+				int iJour = 0;
+				if (0 < mapAllHSup.size()) {
+					for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("0")) {
+						if (null != hSupDto.getIdRefEtat()) {
+							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+									heureFin, minuteFin)) {
+								dtoHsup.setSaisieJ1("Attention fin de saisie j+1");
+								break;
+							} else {
+								dtoHsup.setSaisieJ1(null);
+								break;
+							}
 						}
+						iJour++;
 					}
-					iJour++;
 				}
-			}
-			// 2e saisie (2e ligne)
-			if (1 < mapAllHSup.size()) {
-				iJour = 0;
-				for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("1")) {
-					if (null != hSupDto.getIdRefEtat()) {
-						if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
-								heureFin, minuteFin)) {
-							dtoHsup.setSaisieJ1("Attention fin de saisie j+1");
-						} else {
-							dtoHsup.setSaisieJ1(null);
+				// 2e saisie (2e ligne)
+				if (1 < mapAllHSup.size()) {
+					iJour = 0;
+					for (HeureSupDtoKiosque hSupDto : mapAllHSup.get("1")) {
+						if (null != hSupDto.getIdRefEtat()) {
+							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
+									heureFin, minuteFin)) {
+								dtoHsup.setSaisieJ1("Attention fin de saisie j+1");
+								break;
+							} else {
+								dtoHsup.setSaisieJ1(null);
+								break;
+							}
 						}
-
+						iJour++;
 					}
-					iJour++;
 				}
 			}
 		}
