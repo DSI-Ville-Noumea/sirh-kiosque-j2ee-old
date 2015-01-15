@@ -240,7 +240,104 @@
 					</div>
 				</div>
 			</hlayout>
+
+			<separator />
+
+			<div visible="@bind(vm.droitsAbsence.saisieRepos)"
+				style="width:100%;">
+				<vlayout>
+					<label style="font-size: 18px;color: #004f9f;"
+						value="Gestion des repos" />
+				</vlayout>
+
+				<separator />
+
+				<div sclass="RHTitle2Line" />
+
+				<separator />
+
+				<hlayout>
+					<label value="Mois :" />
+					<combobox width="200px"
+						onSelect="@command('chargeListSaisieRepos')"
+						model="@bind(vm.listeMoisFiltre)"
+						selectedItem="@bind(vm.moisFiltre)">
+						<template name="model">
+							<comboitem
+								label="@bind(each) @converter('formatedDate',format='MMMM yyyy')" />
+						</template>
+					</combobox>
+				</hlayout>
+
+				<separator /><separator />
+
+				<div
+					visible="@bind(empty vm.saisieRepos.joursFerieHeader and not empty vm.moisFiltre)"
+					align="center" style="width:100%;text-align:center;">
+					<label value="Aucun jour férié / chomé sur ce mois"
+						style="font-weight:bold;" />
+				</div>
+				<div visible="@bind(not empty vm.saisieRepos.joursFerieHeader)">
+				
+				
+				<listbox model="@bind(vm.saisieRepos.listAgentAvecRepos)"
+					emptyMessage="Aucun élément" style="width:20%;float:left;margin-top:35px;"> 
+					<template name="model">
+						<listitem>
+							<listcell>
+								<label sclass="bleu" value="@bind(each.agent.prenom)" />
+								<label sclass="bleu" value="@bind(each.agent.nom)" />
+								(<label sclass="bleu" value="@bind(each.agent.idAgent)" />)
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+					
+					<listbox id="saisieDateReposHeader"
+						visible="@bind(not empty vm.saisieRepos.joursFerieHeader)"
+						model="@bind(vm.listVide)" style="width:70%;float:left;">
+						<listhead
+							children="@bind(vm.saisieRepos.joursFerieHeader)">
+							<template name="children">
+								<listheader
+									label="@bind(each.jour) @converter('formatedDate',format='EEEE dd/MM/yyyy')"
+									align="center" />
+							</template>
+						</listhead>
+					</listbox>
+
+					<listbox id="saisieDateRepos"
+						visible="@bind(not empty vm.saisieRepos)"
+						model="@bind(vm.saisieRepos.listAgentAvecRepos)" focus="false"  
+						emptyMessage="Aucun agent" style="width:70%;">
+
+						<template name="model" var="lineReposAgent">
+							<listitem
+								children="@bind(lineReposAgent.joursFeriesEnRepos)"> 
+								<template name="children" var="cellReposAgent">
+									<listcell>
+										<checkbox
+											checked="@bind(cellReposAgent.check)" label="En repos" />
+									</listcell>
+								</template>
+							</listitem>
+						</template>
+					</listbox>
+					
+					<separator />
+				
+					<div align="center">
+						<hlayout>
+							<button label="Valider"
+								onClick="@command('saveSaisieRepos')" />
+							<button label="Annuler"
+								onClick="@command('chargeListSaisieRepos')" />
+						</hlayout>
+					</div>
+				</div>
+
+			</div>
 		</div>
+
 	</window>
 </zk>
-

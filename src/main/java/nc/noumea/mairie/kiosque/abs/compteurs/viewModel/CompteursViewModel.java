@@ -30,11 +30,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.SaisieReposDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -43,6 +45,7 @@ import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.joda.time.DateTime;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -91,6 +94,16 @@ public class CompteursViewModel {
 	private AgentDto agentFiltre;
 
 	private ProfilAgentDto currentUser;
+	
+	private List<Date> listeMoisFiltre;
+	
+	private Date moisFiltre;
+	
+	private AccessRightsAbsDto droitsAbsence;
+	
+	private SaisieReposDto saisieRepos;
+
+	List<String> listVide = new ArrayList<String>();
 
 	@Init
 	public void initCompteurs() {
@@ -106,6 +119,61 @@ public class CompteursViewModel {
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service
 		setListeAgentsFiltre(null);
+		// on recupere les droits afin d afficher ou non la saisie des jours de repos
+		setDroitsAbsence(absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent()));
+		if(getDroitsAbsence().isSaisieRepos()) {
+			List<Date> listeDate = new ArrayList<Date>();
+			listeDate.add(getFirstDayOfCurrentMonth().toDate());
+			listeDate.add(getFirstDayOfCurrentMonth().plusMonths(1).toDate());
+			listeDate.add(getFirstDayOfCurrentMonth().plusMonths(2).toDate());
+			setListeMoisFiltre(listeDate);
+		}
+	}
+	
+	@Command
+	@NotifyChange({ "saisieRepos" })
+	public void chargeListSaisieRepos() {
+		
+		Date dateDebutMois = getMoisFiltre();
+		DateTime dateFin = new DateTime(getMoisFiltre());
+		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
+		
+		if(getDroitsAbsence().isSaisieRepos()) {
+			setSaisieRepos(absWsConsumer.getListAgentsWithJoursFeriesEnRepos(currentUser.getAgent().getIdAgent(), "", dateDebutMois, dateFinMois));
+		}
+	}
+	
+	@Command
+	@NotifyChange({ "saisieRepos" })
+	public void saveSaisieRepos() {
+		Date dateDebutMois = getMoisFiltre();
+		DateTime dateFin = new DateTime(getMoisFiltre());
+		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
+		
+		if(getDroitsAbsence().isSaisieRepos()) {
+			ReturnMessageDto result = absWsConsumer.setListAgentsWithJoursFeriesEnRepos(
+					currentUser.getAgent().getIdAgent(), dateDebutMois, dateFinMois, getSaisieRepos().getListAgentAvecRepos());
+			
+			setSaisieRepos(absWsConsumer.getListAgentsWithJoursFeriesEnRepos(currentUser.getAgent().getIdAgent(), "", dateDebutMois, dateFinMois));
+			
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+			if (result.getErrors().size() == 0)
+				result.getInfos().add(
+						"Les jours de repos des agents ont été enregistrés correctement.");
+			for (String error : result.getErrors()) {
+				ValidationMessage vm = new ValidationMessage(error);
+				listErreur.add(vm);
+			}
+			for (String info : result.getInfos()) {
+				ValidationMessage vm = new ValidationMessage(info);
+				listInfo.add(vm);
+			}
+			map.put("errors", listErreur);
+			map.put("infos", listInfo);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+		}
 	}
 
 	@Command
@@ -461,6 +529,13 @@ public class CompteursViewModel {
 		setAgentFiltre(null);
 		setServiceFiltre(null);
 	}
+	
+	public DateTime getFirstDayOfCurrentMonth() {
+		DateTime date = new DateTime().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+		
+		return date.dayOfMonth()       // Accès à la propriété 'Jour du Mois'
+		 .withMinimumValue();
+	}
 
 	public List<RefTypeAbsenceDto> getListeTypeAbsenceFiltre() {
 		return listeTypeAbsenceFiltre;
@@ -582,4 +657,44 @@ public class CompteursViewModel {
 		this.anneePrec = anneePrec;
 	}
 
+	public AccessRightsAbsDto getDroitsAbsence() {
+		return droitsAbsence;
+	}
+
+	public void setDroitsAbsence(AccessRightsAbsDto droitsAbsence) {
+		this.droitsAbsence = droitsAbsence;
+	}
+
+	public SaisieReposDto getSaisieRepos() {
+		return saisieRepos;
+	}
+
+	public void setSaisieRepos(SaisieReposDto saisieRepos) {
+		this.saisieRepos = saisieRepos;
+	}
+
+	public List<Date> getListeMoisFiltre() {
+		return listeMoisFiltre;
+	}
+
+	public void setListeMoisFiltre(List<Date> listeMoisFiltre) {
+		this.listeMoisFiltre = listeMoisFiltre;
+	}
+
+	public Date getMoisFiltre() {
+		return moisFiltre;
+	}
+
+	public void setMoisFiltre(Date moisFiltre) {
+		this.moisFiltre = moisFiltre;
+	}
+
+	public List<String> getListVide() {
+		return listVide;
+	}
+
+	public void setListVide(List<String> listVide) {
+		this.listVide = listVide;
+	}
+	
 }

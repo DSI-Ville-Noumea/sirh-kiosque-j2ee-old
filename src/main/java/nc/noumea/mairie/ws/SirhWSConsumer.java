@@ -198,5 +198,4 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(ReferentRhDto.class, res, url);
 	}
-
 }
