@@ -60,8 +60,23 @@
 								<label value="Heure de début : " />
 							</hlayout>
 							<hlayout>
-								<timebox cols="14" format="HH:mm"
-									value="@bind(vm.demandeCourant.dateDebut)" />
+								<combobox model="@bind(vm.listeHeures)"
+									selectedItem="@bind(vm.heureDebut)" cols="2">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+
+								<combobox model="@bind(vm.listeMinutes)"
+									selectedItem="@bind(vm.minuteDebut)" cols="2">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
 							</hlayout>
 						</hlayout>
 						<hlayout
@@ -99,8 +114,23 @@
 								<label value="Heure de fin : " />
 							</hlayout>
 							<hlayout>
-								<timebox cols="14" format="HH:mm"
-									value="@bind(vm.demandeCourant.dateFin)" />
+								<combobox model="@bind(vm.listeHeures)"
+									selectedItem="@bind(vm.heureDebut)" cols="2">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+
+								<combobox model="@bind(vm.listeMinutes)"
+									selectedItem="@bind(vm.minuteDebut)" cols="2">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
 							</hlayout>
 						</hlayout>
 						<hlayout
@@ -115,13 +145,13 @@
 									value="@bind(vm.demandeCourant.typeSaisi.infosComplementaires)" />
 							</vlayout>
 						</hlayout>
-<!-- 						<hlayout -->
-<!-- 							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)"> -->
-<!-- 							<hlayout width="150px"> -->
-<!-- 								<label value="Pièce jointe : " /> -->
-<!-- 							</hlayout> -->
-<!-- 							<hlayout></hlayout> -->
-<!-- 						</hlayout> -->
+						<!-- 						<hlayout -->
+						<!-- 							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)"> -->
+						<!-- 							<hlayout width="150px"> -->
+						<!-- 								<label value="Pièce jointe : " /> -->
+						<!-- 							</hlayout> -->
+						<!-- 							<hlayout></hlayout> -->
+						<!-- 						</hlayout> -->
 					</vlayout>
 					<!-- POUR LES CONGES ANNUELS -->
 					<vlayout

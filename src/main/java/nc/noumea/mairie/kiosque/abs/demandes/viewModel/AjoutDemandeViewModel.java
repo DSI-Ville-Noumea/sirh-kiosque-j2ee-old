@@ -40,6 +40,7 @@ import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.BindUtils;
@@ -86,6 +87,15 @@ public class AjoutDemandeViewModel {
 
 	private ProfilAgentDto currentUser;
 
+	// POUR LA GESTION DES HEURES
+	private List<String> listeHeures;
+	private List<String> listeMinutes;
+
+	private String heureDebut;
+	private String minuteDebut;
+	private String heureFin;
+	private String minuteFin;
+
 	@Init
 	public void initAjoutDemande() {
 
@@ -99,6 +109,11 @@ public class AjoutDemandeViewModel {
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service
 		setListeAgentsFiltre(null);
+
+		// minutes et heures
+		TimePicker timePicker = new TimePicker();
+		setListeMinutes(timePicker.getListeMinutes());
+		setListeHeures(timePicker.getListeHeures());
 	}
 
 	@Command
@@ -235,6 +250,31 @@ public class AjoutDemandeViewModel {
 	public void saveDemande(@BindingParam("win") Window window) {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
+
+			if (getTypeAbsenceCourant().getTypeSaisiDto() != null) {
+				if (getTypeAbsenceCourant().getTypeSaisiDto().isCalendarHeureDebut()) {
+					// recup heure debut
+					Calendar calDebut = Calendar.getInstance();
+					calDebut.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+					calDebut.setTime(getDemandeCreation().getDateDebut());
+					calDebut.set(Calendar.HOUR, Integer.valueOf(getHeureDebut()));
+					calDebut.set(Calendar.MINUTE, Integer.valueOf(getMinuteDebut()));
+					calDebut.set(Calendar.SECOND, 0);
+
+					getDemandeCreation().setDateDebut(calDebut.getTime());
+				}
+				if (getTypeAbsenceCourant().getTypeSaisiDto().isCalendarHeureFin()) {
+					// recup heure fin
+					Calendar calFin = Calendar.getInstance();
+					calFin.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+					calFin.setTime(getDemandeCreation().getDateDebut());
+					calFin.set(Calendar.HOUR, Integer.valueOf(getHeureFin()));
+					calFin.set(Calendar.MINUTE, Integer.valueOf(getMinuteFin()));
+					calFin.set(Calendar.SECOND, 0);
+
+					getDemandeCreation().setDateFin(calFin.getTime());
+				}
+			}
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
 			agentWithServiceDto.setIdAgent(getAgentFiltre().getIdAgent());
 
@@ -291,6 +331,18 @@ public class AjoutDemandeViewModel {
 			if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
 					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+				}
+			}
+			// heure debut
+			if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarHeureDebut()) {
+				if (getHeureDebut() == null || getMinuteDebut() == null) {
+					vList.add(new ValidationMessage("Merci de choisir une heure de début."));
+				}
+			}
+			// heure fin
+			if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarHeureFin()) {
+				if (getHeureFin() == null || getMinuteFin() == null) {
+					vList.add(new ValidationMessage("Merci de choisir une heure de fin."));
 				}
 			}
 
@@ -483,5 +535,53 @@ public class AjoutDemandeViewModel {
 
 	public void setDureeCongeAnnuel(String dureeCongeAnnuel) {
 		this.dureeCongeAnnuel = dureeCongeAnnuel;
+	}
+
+	public List<String> getListeHeures() {
+		return listeHeures;
+	}
+
+	public void setListeHeures(List<String> listeHeures) {
+		this.listeHeures = listeHeures;
+	}
+
+	public List<String> getListeMinutes() {
+		return listeMinutes;
+	}
+
+	public void setListeMinutes(List<String> listeMinutes) {
+		this.listeMinutes = listeMinutes;
+	}
+
+	public String getHeureDebut() {
+		return heureDebut;
+	}
+
+	public void setHeureDebut(String heureDebut) {
+		this.heureDebut = heureDebut;
+	}
+
+	public String getMinuteDebut() {
+		return minuteDebut;
+	}
+
+	public void setMinuteDebut(String minuteDebut) {
+		this.minuteDebut = minuteDebut;
+	}
+
+	public String getHeureFin() {
+		return heureFin;
+	}
+
+	public void setHeureFin(String heureFin) {
+		this.heureFin = heureFin;
+	}
+
+	public String getMinuteFin() {
+		return minuteFin;
+	}
+
+	public void setMinuteFin(String minuteFin) {
+		this.minuteFin = minuteFin;
 	}
 }

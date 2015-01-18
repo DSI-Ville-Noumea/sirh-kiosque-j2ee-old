@@ -81,12 +81,14 @@ public class AjoutDemandeAgentViewModel {
 
 	private ProfilAgentDto currentUser;
 
+	// POUR LA GESTION DES HEURES
 	private List<String> listeHeures;
-
 	private List<String> listeMinutes;
 
 	private String heureDebut;
 	private String minuteDebut;
+	private String heureFin;
+	private String minuteFin;
 
 	@Init
 	public void initAjoutDemandeAgent() {
@@ -206,6 +208,17 @@ public class AjoutDemandeAgentViewModel {
 
 					getDemandeCreation().setDateDebut(calDebut.getTime());
 				}
+				if (getTypeAbsenceCourant().getTypeSaisiDto().isCalendarHeureFin()) {
+					// recup heure fin
+					Calendar calFin = Calendar.getInstance();
+					calFin.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+					calFin.setTime(getDemandeCreation().getDateDebut());
+					calFin.set(Calendar.HOUR, Integer.valueOf(getHeureFin()));
+					calFin.set(Calendar.MINUTE, Integer.valueOf(getMinuteFin()));
+					calFin.set(Calendar.SECOND, 0);
+
+					getDemandeCreation().setDateFin(calFin.getTime());
+				}
 			}
 
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
@@ -294,6 +307,12 @@ public class AjoutDemandeAgentViewModel {
 			if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarHeureDebut()) {
 				if (getHeureDebut() == null || getMinuteDebut() == null) {
 					vList.add(new ValidationMessage("Merci de choisir une heure de début."));
+				}
+			}
+			// heure fin
+			if (refTypeAbsenceDto.getTypeSaisiDto().isCalendarHeureFin()) {
+				if (getHeureFin() == null || getMinuteFin() == null) {
+					vList.add(new ValidationMessage("Merci de choisir une heure de fin."));
 				}
 			}
 
@@ -486,5 +505,21 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setMinuteDebut(String minuteDebut) {
 		this.minuteDebut = minuteDebut;
+	}
+
+	public String getHeureFin() {
+		return heureFin;
+	}
+
+	public void setHeureFin(String heureFin) {
+		this.heureFin = heureFin;
+	}
+
+	public String getMinuteFin() {
+		return minuteFin;
+	}
+
+	public void setMinuteFin(String minuteFin) {
+		this.minuteFin = minuteFin;
 	}
 }

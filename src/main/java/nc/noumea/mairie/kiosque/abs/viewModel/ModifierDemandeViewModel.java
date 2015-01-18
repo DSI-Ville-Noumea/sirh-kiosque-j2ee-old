@@ -24,6 +24,7 @@ package nc.noumea.mairie.kiosque.abs.viewModel;
  * #L%
  */
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.zkoss.bind.BindUtils;
@@ -71,6 +73,15 @@ public class ModifierDemandeViewModel {
 	private String dureeCongeAnnuel;
 	private String etatDemande;
 
+	// POUR LA GESTION DES HEURES
+	private List<String> listeHeures;
+	private List<String> listeMinutes;
+
+	private String heureDebut;
+	private String minuteDebut;
+	private String heureFin;
+	private String minuteFin;
+
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
 		// on recupere la demande selectionnée
@@ -79,7 +90,7 @@ public class ModifierDemandeViewModel {
 		// on recharge les organisations syndicales
 		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(getDemandeCourant()
 				.getAgentWithServiceDto().getIdAgent(), getDemandeCourant().getIdTypeDemande());
-		if(orga.size()==0){
+		if (orga.size() == 0) {
 			OrganisationSyndicaleDto dto = new OrganisationSyndicaleDto();
 			dto.setLibelle("L'agent n'est affecté à ausune organisation syndicale");
 			dto.setSigle("ERREUR");
@@ -99,6 +110,24 @@ public class ModifierDemandeViewModel {
 				getDemandeCourant().getTypeSaisiCongeAnnuel()).toString());
 		// etat
 		setEtatDemande(getDemandeCourant().getIdRefEtat().toString());
+
+		// minutes et heures
+		TimePicker timePicker = new TimePicker();
+		setListeMinutes(timePicker.getListeMinutes());
+		setListeHeures(timePicker.getListeHeures());
+
+		if (getDemandeCourant().getTypeSaisi() != null) {
+			SimpleDateFormat heure = new SimpleDateFormat("HH");
+			SimpleDateFormat minute = new SimpleDateFormat("mm");
+			if (getDemandeCourant().getTypeSaisi().isCalendarHeureDebut()) {
+				setHeureDebut(heure.format(getDemandeCourant().getDateDebut()));
+				setMinuteDebut(minute.format(getDemandeCourant().getDateDebut()));
+			}
+			if (getDemandeCourant().getTypeSaisi().isCalendarHeureFin()) {
+				setHeureFin(heure.format(getDemandeCourant().getDateFin()));
+				setMinuteFin(minute.format(getDemandeCourant().getDateFin()));
+			}
+		}
 	}
 
 	@Command
@@ -144,6 +173,31 @@ public class ModifierDemandeViewModel {
 	public void saveDemande(@BindingParam("win") Window window) {
 
 		if (IsFormValid(getDemandeCourant().getTypeSaisi())) {
+
+			if (getDemandeCourant().getTypeSaisi() != null) {
+				if (getDemandeCourant().getTypeSaisi().isCalendarHeureDebut()) {
+					// recup heure debut
+					Calendar calDebut = Calendar.getInstance();
+					calDebut.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+					calDebut.setTime(getDemandeCourant().getDateDebut());
+					calDebut.set(Calendar.HOUR, Integer.valueOf(getHeureDebut()));
+					calDebut.set(Calendar.MINUTE, Integer.valueOf(getMinuteDebut()));
+					calDebut.set(Calendar.SECOND, 0);
+
+					getDemandeCourant().setDateDebut(calDebut.getTime());
+				}
+				if (getDemandeCourant().getTypeSaisi().isCalendarHeureFin()) {
+					// recup heure fin
+					Calendar calFin = Calendar.getInstance();
+					calFin.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+					calFin.setTime(getDemandeCourant().getDateDebut());
+					calFin.set(Calendar.HOUR, Integer.valueOf(getHeureFin()));
+					calFin.set(Calendar.MINUTE, Integer.valueOf(getMinuteFin()));
+					calFin.set(Calendar.SECOND, 0);
+
+					getDemandeCourant().setDateFin(calFin.getTime());
+				}
+			}
 
 			getDemandeCourant().setIdRefEtat(Integer.valueOf(getEtatDemande()));
 			getDemandeCourant().setDuree(getDureeDemande());
@@ -216,6 +270,18 @@ public class ModifierDemandeViewModel {
 			if (typeSaisie.isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
 					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+				}
+			}
+			// heure debut
+			if (typeSaisie.isCalendarHeureDebut()) {
+				if (getHeureDebut() == null || getMinuteDebut() == null) {
+					vList.add(new ValidationMessage("Merci de choisir une heure de début."));
+				}
+			}
+			// heure fin
+			if (typeSaisie.isCalendarHeureFin()) {
+				if (getHeureFin() == null || getMinuteFin() == null) {
+					vList.add(new ValidationMessage("Merci de choisir une heure de fin."));
 				}
 			}
 
@@ -352,5 +418,53 @@ public class ModifierDemandeViewModel {
 
 	public void setDureeCongeAnnuel(String dureeCongeAnnuel) {
 		this.dureeCongeAnnuel = dureeCongeAnnuel;
+	}
+
+	public List<String> getListeHeures() {
+		return listeHeures;
+	}
+
+	public void setListeHeures(List<String> listeHeures) {
+		this.listeHeures = listeHeures;
+	}
+
+	public List<String> getListeMinutes() {
+		return listeMinutes;
+	}
+
+	public void setListeMinutes(List<String> listeMinutes) {
+		this.listeMinutes = listeMinutes;
+	}
+
+	public String getHeureDebut() {
+		return heureDebut;
+	}
+
+	public void setHeureDebut(String heureDebut) {
+		this.heureDebut = heureDebut;
+	}
+
+	public String getMinuteDebut() {
+		return minuteDebut;
+	}
+
+	public void setMinuteDebut(String minuteDebut) {
+		this.minuteDebut = minuteDebut;
+	}
+
+	public String getHeureFin() {
+		return heureFin;
+	}
+
+	public void setHeureFin(String heureFin) {
+		this.heureFin = heureFin;
+	}
+
+	public String getMinuteFin() {
+		return minuteFin;
+	}
+
+	public void setMinuteFin(String minuteFin) {
+		this.minuteFin = minuteFin;
 	}
 }
