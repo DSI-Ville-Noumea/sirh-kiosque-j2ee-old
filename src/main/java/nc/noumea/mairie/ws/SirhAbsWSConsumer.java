@@ -107,6 +107,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhGetListAgentsWithJoursFeriesEnReposUrl = "joursFeriesRepos/getListAgentsWithJoursFeriesEnRepos";
 	private static final String sirhSetListAgentsWithJoursFeriesEnReposUrl = "joursFeriesRepos/setListAgentsWithJoursFeriesEnRepos";
 
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentSoldeUrl);
@@ -123,8 +125,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	@Override
 	public List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet, Date fromDate, Date toDate,
 			Date dateDemande, Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence) {
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
-
+		
 		String url = String.format(sirhAbsWsBaseUrl + sirhDemandesAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -392,8 +393,6 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	public List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate,
 			Date dateDemande, Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche) {
 
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
-
 		String url = String.format(sirhAbsWsBaseUrl + sirhListeDemandesUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -499,8 +498,6 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	public SaisieReposDto getListAgentsWithJoursFeriesEnRepos(
 			Integer idAgent, String codeService, Date dateDebut, Date dateFin) {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
-		
 		String url = String.format(sirhAbsWsBaseUrl + sirhGetListAgentsWithJoursFeriesEnReposUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -516,8 +513,6 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	public ReturnMessageDto setListAgentsWithJoursFeriesEnRepos(
 			Integer idAgent, Date dateDebut, Date dateFin,
 			List<AgentJoursFeriesReposDto> listDto) {
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
 		
 		String url = String.format(sirhAbsWsBaseUrl + sirhSetListAgentsWithJoursFeriesEnReposUrl);
 		HashMap<String, String> params = new HashMap<>();

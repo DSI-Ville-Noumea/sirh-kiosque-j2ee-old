@@ -86,10 +86,11 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	private static final String ptgFichesPointagesUrl = "edition/listeFiches";
 	private static final String ptgPrintFichesPointagesUrl = "edition/downloadFichesPointage";
 
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	
 	@Override
 	public FichePointageDtoKiosque getFichePointageSaisie(Integer idAgent, Date date, Integer idAgentConcerne) {
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
-
+		
 		String url = String.format(sirhPtgWsBaseUrl + ptgFichePointageSaisieUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -290,8 +291,6 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	@Override
 	public List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate,
 			String codeService, Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS) {
-
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
 
 		String url = String.format(sirhPtgWsBaseUrl + ptgListePointagesUrl);
 		HashMap<String, String> params = new HashMap<>();
