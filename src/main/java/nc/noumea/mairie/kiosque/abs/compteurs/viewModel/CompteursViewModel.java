@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.compteurs.viewModel;
  * #L%
  */
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,6 +42,7 @@ import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.joda.time.DateTime;
@@ -94,16 +94,25 @@ public class CompteursViewModel {
 	private AgentDto agentFiltre;
 
 	private ProfilAgentDto currentUser;
-	
+
 	private List<Date> listeMoisFiltre;
-	
+
 	private Date moisFiltre;
-	
+
 	private AccessRightsAbsDto droitsAbsence;
-	
+
 	private SaisieReposDto saisieRepos;
 
 	List<String> listVide = new ArrayList<String>();
+
+	// POUR LA GESTION DES HEURES
+	private List<String> listeHeures;
+	private List<String> listeMinutes;
+
+	private String heureAjout;
+	private String minuteAjout;
+	private String heureRetrait;
+	private String minuteRetrait;
 
 	@Init
 	public void initCompteurs() {
@@ -119,49 +128,56 @@ public class CompteursViewModel {
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service
 		setListeAgentsFiltre(null);
-		// on recupere les droits afin d afficher ou non la saisie des jours de repos
+		// on recupere les droits afin d afficher ou non la saisie des jours de
+		// repos
 		setDroitsAbsence(absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent()));
-		if(getDroitsAbsence().isSaisieRepos()) {
+		if (getDroitsAbsence().isSaisieRepos()) {
 			List<Date> listeDate = new ArrayList<Date>();
 			listeDate.add(getFirstDayOfCurrentMonth().toDate());
 			listeDate.add(getFirstDayOfCurrentMonth().plusMonths(1).toDate());
 			listeDate.add(getFirstDayOfCurrentMonth().plusMonths(2).toDate());
 			setListeMoisFiltre(listeDate);
 		}
+
+		// minutes et heures
+		TimePicker timePicker = new TimePicker();
+		setListeMinutes(timePicker.getListeMinutes());
+		setListeHeures(timePicker.getListeHeures());
 	}
-	
+
 	@Command
 	@NotifyChange({ "saisieRepos" })
 	public void chargeListSaisieRepos() {
-		
+
 		Date dateDebutMois = getMoisFiltre();
 		DateTime dateFin = new DateTime(getMoisFiltre());
 		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
-		
-		if(getDroitsAbsence().isSaisieRepos()) {
-			setSaisieRepos(absWsConsumer.getListAgentsWithJoursFeriesEnRepos(currentUser.getAgent().getIdAgent(), "", dateDebutMois, dateFinMois));
+
+		if (getDroitsAbsence().isSaisieRepos()) {
+			setSaisieRepos(absWsConsumer.getListAgentsWithJoursFeriesEnRepos(currentUser.getAgent().getIdAgent(), "",
+					dateDebutMois, dateFinMois));
 		}
 	}
-	
+
 	@Command
 	@NotifyChange({ "saisieRepos" })
 	public void saveSaisieRepos() {
 		Date dateDebutMois = getMoisFiltre();
 		DateTime dateFin = new DateTime(getMoisFiltre());
 		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
-		
-		if(getDroitsAbsence().isSaisieRepos()) {
-			ReturnMessageDto result = absWsConsumer.setListAgentsWithJoursFeriesEnRepos(
-					currentUser.getAgent().getIdAgent(), dateDebutMois, dateFinMois, getSaisieRepos().getListAgentAvecRepos());
-			
-			setSaisieRepos(absWsConsumer.getListAgentsWithJoursFeriesEnRepos(currentUser.getAgent().getIdAgent(), "", dateDebutMois, dateFinMois));
-			
+
+		if (getDroitsAbsence().isSaisieRepos()) {
+			ReturnMessageDto result = absWsConsumer.setListAgentsWithJoursFeriesEnRepos(currentUser.getAgent()
+					.getIdAgent(), dateDebutMois, dateFinMois, getSaisieRepos().getListAgentAvecRepos());
+
+			setSaisieRepos(absWsConsumer.getListAgentsWithJoursFeriesEnRepos(currentUser.getAgent().getIdAgent(), "",
+					dateDebutMois, dateFinMois));
+
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 			if (result.getErrors().size() == 0)
-				result.getInfos().add(
-						"Les jours de repos des agents ont été enregistrés correctement.");
+				result.getInfos().add("Les jours de repos des agents ont été enregistrés correctement.");
 			for (String error : result.getErrors()) {
 				ValidationMessage vm = new ValidationMessage(error);
 				listErreur.add(vm);
@@ -215,7 +231,7 @@ public class CompteursViewModel {
 	@Command
 	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
 			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
-			"nouveauSoldeAnneePrec" })
+			"nouveauSoldeAnneePrec", "minuteAjout", "heureAjout", "minuteRetrait", "heureRetrait" })
 	public void chargeFormulaire() {
 		videFormulaireSansType();
 		if (getTypeAbsenceFiltre().getIdRefTypeAbsence() == RefTypeAbsenceEnum.RECUP.getValue()) {
@@ -259,27 +275,20 @@ public class CompteursViewModel {
 	public void actualiseNouveauSoldeRecup(@BindingParam("ref") String texte) {
 		setNouveauSolde(null);
 		setNouveauSoldeAnneePrec(null);
-		if (texte != null && texte.equals("ajouter")) {
-			// on recupere la durée
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-			String dureeAjout = getCompteurACreer().getDateDebut() == null ? "00:00" : sdf.format(getCompteurACreer()
-					.getDateDebut());
-			// on transforme ce temps en minute
-			String heures = dureeAjout.substring(0, dureeAjout.indexOf(":"));
-			String minutes = dureeAjout.substring(dureeAjout.indexOf(":") + 1, dureeAjout.length());
+		if (texte != null && texte.equals("ajouter") && getHeureAjout() != null && getMinuteAjout() != null) {
+			// on recupere la durée et on transforme ce temps en minute
+			String heures = getHeureAjout();
+			String minutes = getMinuteAjout();
 			// on rempli le DTO avec la valeur
 			Double dureeAj = (double) ((Integer.valueOf(heures) * 60) + Integer.valueOf(minutes));
 			getCompteurACreer().setDureeAAjouter(dureeAj == 0 ? null : dureeAj);
 			// on affiche le nouveau solde
 			setNouveauSolde(getHeureMinute(getSoldeCourant().getSoldeRecup(), getCompteurACreer()));
-		} else if (texte != null && texte.equals("retrancher")) {
-			// on recupere la durée
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-			String dureeRetranche = getCompteurACreer().getDateFin() == null ? "00:00" : sdf.format(getCompteurACreer()
-					.getDateFin());
-			// on transforme ce temps en minute
-			String heures = dureeRetranche.substring(0, dureeRetranche.indexOf(":"));
-			String minutes = dureeRetranche.substring(dureeRetranche.indexOf(":") + 1, dureeRetranche.length());
+		} else if (texte != null && texte.equals("retrancher") && getHeureRetrait() != null
+				&& getMinuteRetrait() != null) {
+			// on recupere la durée et on transforme ce temps en minute
+			String heures = getHeureRetrait();
+			String minutes = getMinuteRetrait();
 			// on rempli le DTO avec la valeur
 			Double dureeRetr = (double) ((Integer.valueOf(heures) * 60) + Integer.valueOf(minutes));
 			getCompteurACreer().setDureeARetrancher(dureeRetr == 0 ? null : dureeRetr);
@@ -310,14 +319,10 @@ public class CompteursViewModel {
 
 			setNouveauSolde(null);
 			setNouveauSoldeAnneePrec(null);
-			if (texte != null && texte.equals("ajouter")) {
-				// on recupere la durée
-				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-				String dureeAjout = getCompteurACreer().getDateDebut() == null ? "00:00" : sdf
-						.format(getCompteurACreer().getDateDebut());
-				// on transforme ce temps en minute
-				String heures = dureeAjout.substring(0, dureeAjout.indexOf(":"));
-				String minutes = dureeAjout.substring(dureeAjout.indexOf(":") + 1, dureeAjout.length());
+			if (texte != null && texte.equals("ajouter") && getHeureAjout() != null && getMinuteAjout() != null) {
+				// on recupere la durée et on transforme ce temps en minute
+				String heures = getHeureAjout();
+				String minutes = getMinuteAjout();
 				// on rempli le DTO avec la valeur
 				Double dureeAj = (double) ((Integer.valueOf(heures) * 60) + Integer.valueOf(minutes));
 				getCompteurACreer().setDureeAAjouter(dureeAj == 0 ? null : dureeAj);
@@ -327,14 +332,11 @@ public class CompteursViewModel {
 							getCompteurACreer()));
 				else
 					setNouveauSolde(getHeureMinute(getSoldeCourant().getSoldeReposCompAnnee(), getCompteurACreer()));
-			} else if (texte != null && texte.equals("retrancher")) {
-				// on recupere la durée
-				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-				String dureeRetranche = getCompteurACreer().getDateFin() == null ? "00:00" : sdf
-						.format(getCompteurACreer().getDateFin());
-				// on transforme ce temps en minute
-				String heures = dureeRetranche.substring(0, dureeRetranche.indexOf(":"));
-				String minutes = dureeRetranche.substring(dureeRetranche.indexOf(":") + 1, dureeRetranche.length());
+			} else if (texte != null && texte.equals("retrancher") && getHeureRetrait() != null
+					&& getMinuteRetrait() != null) {
+				// on recupere la durée et on transforme ce temps en minute
+				String heures = getHeureRetrait();
+				String minutes = getMinuteRetrait();
 				// on rempli le DTO avec la valeur
 				Double dureeRetr = (double) ((Integer.valueOf(heures) * 60) + Integer.valueOf(minutes));
 				getCompteurACreer().setDureeARetrancher(dureeRetr == 0 ? null : dureeRetr);
@@ -381,6 +383,8 @@ public class CompteursViewModel {
 				+ (compteurACreer.getDureeAAjouter() == null ? 0 : compteurACreer.getDureeAAjouter()) - (compteurACreer
 				.getDureeARetrancher() == null ? 0 : compteurACreer.getDureeARetrancher()));
 
+		if (nombreMinute == 0)
+			return "aucun";
 		return getHeureMinute(nombreMinute);
 	}
 
@@ -391,7 +395,7 @@ public class CompteursViewModel {
 	@Command
 	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
 			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
-			"nouveauSoldeAnneePrec" })
+			"nouveauSoldeAnneePrec", "minuteAjout", "heureAjout", "minuteRetrait", "heureRetrait" })
 	public void saveCompteurRecup() {
 
 		if (IsFormValid(getCompteurACreer())) {
@@ -438,7 +442,7 @@ public class CompteursViewModel {
 	@Command
 	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
 			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
-			"nouveauSoldeAnneePrec" })
+			"nouveauSoldeAnneePrec", "minuteAjout", "heureAjout", "minuteRetrait", "heureRetrait" })
 	public void saveCompteurReposComp() {
 
 		if (IsFormValid(getCompteurACreer())) {
@@ -528,13 +532,17 @@ public class CompteursViewModel {
 		setCompteurACreer(null);
 		setAgentFiltre(null);
 		setServiceFiltre(null);
+		setHeureAjout(null);
+		setMinuteAjout(null);
+		setHeureRetrait(null);
+		setMinuteRetrait(null);
 	}
-	
+
 	public DateTime getFirstDayOfCurrentMonth() {
 		DateTime date = new DateTime().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
-		
-		return date.dayOfMonth()       // Accès à la propriété 'Jour du Mois'
-		 .withMinimumValue();
+
+		return date.dayOfMonth() // Accès à la propriété 'Jour du Mois'
+				.withMinimumValue();
 	}
 
 	public List<RefTypeAbsenceDto> getListeTypeAbsenceFiltre() {
@@ -696,5 +704,53 @@ public class CompteursViewModel {
 	public void setListVide(List<String> listVide) {
 		this.listVide = listVide;
 	}
-	
+
+	public List<String> getListeHeures() {
+		return listeHeures;
+	}
+
+	public void setListeHeures(List<String> listeHeures) {
+		this.listeHeures = listeHeures;
+	}
+
+	public List<String> getListeMinutes() {
+		return listeMinutes;
+	}
+
+	public void setListeMinutes(List<String> listeMinutes) {
+		this.listeMinutes = listeMinutes;
+	}
+
+	public String getHeureAjout() {
+		return heureAjout;
+	}
+
+	public void setHeureAjout(String heureAjout) {
+		this.heureAjout = heureAjout;
+	}
+
+	public String getMinuteAjout() {
+		return minuteAjout;
+	}
+
+	public void setMinuteAjout(String minuteAjout) {
+		this.minuteAjout = minuteAjout;
+	}
+
+	public String getHeureRetrait() {
+		return heureRetrait;
+	}
+
+	public void setHeureRetrait(String heureRetrait) {
+		this.heureRetrait = heureRetrait;
+	}
+
+	public String getMinuteRetrait() {
+		return minuteRetrait;
+	}
+
+	public void setMinuteRetrait(String minuteRetrait) {
+		this.minuteRetrait = minuteRetrait;
+	}
+
 }

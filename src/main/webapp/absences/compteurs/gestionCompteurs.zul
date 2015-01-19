@@ -66,18 +66,54 @@
 								style="text-align:right;">
 								<label value="Durée à ajouter" />
 							</hlayout>
-							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.compteurACreer.dateDebut)"
-								onChange="@command('actualiseNouveauSoldeRecup',ref='ajouter')" />
+							<hlayout>
+								<combobox model="@bind(vm.listeHeures)"
+									selectedItem="@bind(vm.heureAjout)" cols="2"
+									onSelect="@command('actualiseNouveauSoldeRecup',ref='ajouter')">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+
+								<combobox model="@bind(vm.listeMinutes)"
+									selectedItem="@bind(vm.minuteAjout)" cols="2"
+									onSelect="@command('actualiseNouveauSoldeRecup',ref='ajouter')">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+							</hlayout>
 						</hlayout>
 						<hlayout>
 							<hlayout width="400px"
 								style="text-align:right;">
 								<label value="Durée à retrancher" />
 							</hlayout>
-							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.compteurACreer.dateFin)"
-								onChange="@command('actualiseNouveauSoldeRecup',ref='retrancher')" />
+							<hlayout>
+								<combobox model="@bind(vm.listeHeures)"
+									selectedItem="@bind(vm.heureRetrait)" cols="2"
+									onSelect="@command('actualiseNouveauSoldeRecup',ref='retrancher')">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+
+								<combobox model="@bind(vm.listeMinutes)"
+									selectedItem="@bind(vm.minuteRetrait)" cols="2"
+									onSelect="@command('actualiseNouveauSoldeRecup',ref='retrancher')">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+							</hlayout>
 						</hlayout>
 						<hlayout>
 							<hlayout width="400px"
@@ -85,6 +121,7 @@
 								<label value="Motif" />
 							</hlayout>
 							<combobox width="200px" readonly="true"
+								value="@bind(vm.motifCompteur.libelle)"
 								model="@bind(vm.listeMotifsCompteur)"
 								selectedItem="@bind(vm.motifCompteur)">
 								<template name="model">
@@ -170,18 +207,54 @@
 								style="text-align:right;">
 								<label value="Durée à ajouter" />
 							</hlayout>
-							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.compteurACreer.dateDebut)"
-								onChange="@command('actualiseNouveauSoldeReposComp',ref='ajouter')" />
+							<hlayout>
+								<combobox model="@bind(vm.listeHeures)"
+									selectedItem="@bind(vm.heureAjout)" cols="2"
+									onSelect="@command('actualiseNouveauSoldeReposComp',ref='ajouter')">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+
+								<combobox model="@bind(vm.listeMinutes)"
+									selectedItem="@bind(vm.minuteAjout)" cols="2"
+									onSelect="@command('actualiseNouveauSoldeReposComp',ref='ajouter')">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+							</hlayout>
 						</hlayout>
 						<hlayout>
 							<hlayout width="400px"
 								style="text-align:right;">
 								<label value="Durée à retrancher" />
 							</hlayout>
-							<timebox cols="14" format="HH:mm"
-								value="@bind(vm.compteurACreer.dateFin)"
-								onChange="@command('actualiseNouveauSoldeReposComp',ref='retrancher')" />
+							<hlayout>
+								<combobox model="@bind(vm.listeHeures)"
+									selectedItem="@bind(vm.heureRetrait)" cols="2"
+									onSelect="@command('actualiseNouveauSoldeReposComp',ref='retrancher')">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+
+								<combobox model="@bind(vm.listeMinutes)"
+									selectedItem="@bind(vm.minuteRetrait)" cols="2"
+									onSelect="@command('actualiseNouveauSoldeReposComp',ref='retrancher')">
+									<template name="model">
+										<comboitem
+											label="@bind(each)">
+										</comboitem>
+									</template>
+								</combobox>
+							</hlayout>
 						</hlayout>
 						<hlayout>
 							<hlayout width="400px"
@@ -190,6 +263,7 @@
 							</hlayout>
 							<combobox width="200px" readonly="true"
 								model="@bind(vm.listeMotifsCompteur)"
+								value="@bind(vm.motifCompteur.libelle)"
 								selectedItem="@bind(vm.motifCompteur)">
 								<template name="model">
 									<comboitem
@@ -269,7 +343,8 @@
 					</combobox>
 				</hlayout>
 
-				<separator /><separator />
+				<separator />
+				<separator />
 
 				<div
 					visible="@bind(empty vm.saisieRepos.joursFerieHeader and not empty vm.moisFiltre)"
@@ -277,22 +352,30 @@
 					<label value="Aucun jour férié / chomé sur ce mois"
 						style="font-weight:bold;" />
 				</div>
-				<div visible="@bind(not empty vm.saisieRepos.joursFerieHeader)">
-				
-				
-				<listbox model="@bind(vm.saisieRepos.listAgentAvecRepos)"
-					emptyMessage="Aucun élément" style="width:20%;float:left;margin-top:35px;"> 
-					<template name="model">
-						<listitem>
-							<listcell>
-								<label sclass="bleu" value="@bind(each.agent.prenom)" />
-								<label sclass="bleu" value="@bind(each.agent.nom)" />
-								(<label sclass="bleu" value="@bind(each.agent.idAgent)" />)
-							</listcell>
-						</listitem>
-					</template>
-				</listbox>
-					
+				<div
+					visible="@bind(not empty vm.saisieRepos.joursFerieHeader)">
+
+
+					<listbox
+						model="@bind(vm.saisieRepos.listAgentAvecRepos)"
+						emptyMessage="Aucun élément"
+						style="width:20%;float:left;margin-top:35px;">
+						<template name="model">
+							<listitem>
+								<listcell>
+									<label sclass="bleu"
+										value="@bind(each.agent.prenom)" />
+									<label sclass="bleu"
+										value="@bind(each.agent.nom)" />
+									(
+									<label sclass="bleu"
+										value="@bind(each.agent.idAgent)" />
+									)
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+
 					<listbox id="saisieDateReposHeader"
 						visible="@bind(not empty vm.saisieRepos.joursFerieHeader)"
 						model="@bind(vm.listVide)" style="width:70%;float:left;">
@@ -308,13 +391,14 @@
 
 					<listbox id="saisieDateRepos"
 						visible="@bind(not empty vm.saisieRepos)"
-						model="@bind(vm.saisieRepos.listAgentAvecRepos)" focus="false"  
+						model="@bind(vm.saisieRepos.listAgentAvecRepos)" focus="false"
 						emptyMessage="Aucun agent" style="width:70%;">
 
 						<template name="model" var="lineReposAgent">
 							<listitem
-								children="@bind(lineReposAgent.joursFeriesEnRepos)"> 
-								<template name="children" var="cellReposAgent">
+								children="@bind(lineReposAgent.joursFeriesEnRepos)">
+								<template name="children"
+									var="cellReposAgent">
 									<listcell>
 										<checkbox
 											checked="@bind(cellReposAgent.check)" label="En repos" />
@@ -323,9 +407,9 @@
 							</listitem>
 						</template>
 					</listbox>
-					
+
 					<separator />
-				
+
 					<div align="center">
 						<hlayout>
 							<button label="Valider"
