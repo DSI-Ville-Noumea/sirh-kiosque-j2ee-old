@@ -325,16 +325,14 @@
 				</vlayout>
 
 				<separator />
-
 				<div sclass="RHTitle2Line" />
-
 				<separator />
 
 				<hlayout>
 					<label value="Mois :" />
 					<combobox width="200px"
 						onSelect="@command('chargeListSaisieRepos')"
-						model="@bind(vm.listeMoisFiltre)"
+						model="@bind(vm.listeMoisFiltre)" readonly="true"
 						selectedItem="@bind(vm.moisFiltre)">
 						<template name="model">
 							<comboitem
@@ -354,8 +352,6 @@
 				</div>
 				<div
 					visible="@bind(not empty vm.saisieRepos.joursFerieHeader)">
-
-
 					<listbox
 						model="@bind(vm.saisieRepos.listAgentAvecRepos)"
 						emptyMessage="Aucun élément"
@@ -367,10 +363,8 @@
 										value="@bind(each.agent.prenom)" />
 									<label sclass="bleu"
 										value="@bind(each.agent.nom)" />
-									(
 									<label sclass="bleu"
-										value="@bind(each.agent.idAgent)" />
-									)
+										value="@bind(vm.getNomatrAgent(each.agent.idAgent))" />
 								</listcell>
 							</listitem>
 						</template>
@@ -392,7 +386,7 @@
 					<listbox id="saisieDateRepos"
 						visible="@bind(not empty vm.saisieRepos)"
 						model="@bind(vm.saisieRepos.listAgentAvecRepos)" focus="false"
-						emptyMessage="Aucun agent" style="width:70%;">
+						emptyMessage="Aucun agent" style="width:70%; float: left;">
 
 						<template name="model" var="lineReposAgent">
 							<listitem
@@ -409,14 +403,15 @@
 					</listbox>
 
 					<separator />
-
-					<div align="center">
-						<hlayout>
+					<separator />
+					<div style="display:block;">
+						<div style="display:inline-block;float:left;"
+							align="right">
 							<button label="Valider"
 								onClick="@command('saveSaisieRepos')" />
 							<button label="Annuler"
 								onClick="@command('chargeListSaisieRepos')" />
-						</hlayout>
+						</div>
 					</div>
 				</div>
 

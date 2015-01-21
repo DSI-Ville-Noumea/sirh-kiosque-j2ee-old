@@ -753,4 +753,8 @@ public class CompteursViewModel {
 		this.minuteRetrait = minuteRetrait;
 	}
 
+	public String getNomatrAgent(Integer idAgent) {
+		return "("+idAgent.toString().substring(3, idAgent.toString().length())+")";
+	}
+
 }
