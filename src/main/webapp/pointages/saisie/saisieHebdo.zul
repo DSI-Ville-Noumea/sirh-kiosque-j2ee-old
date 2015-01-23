@@ -391,7 +391,7 @@
 											value="@bind(cellPrime.titre)" style="font-weight: bold;" />
 									</div>
 
-									<hlayout>
+									<hlayout visible="${vm.periodeHeure(cellPrime.typeSaisie)}">
 										<div width="50px">
 											<label value="Début *" />
 										</div>
@@ -421,7 +421,7 @@
 										</combobox>
 									</hlayout>
 									<separator />
-									<hlayout>
+									<hlayout visible="${vm.periodeHeure(cellPrime.typeSaisie)}">
 										<div width="50px">
 											<label value="Fin *" />
 										</div>
