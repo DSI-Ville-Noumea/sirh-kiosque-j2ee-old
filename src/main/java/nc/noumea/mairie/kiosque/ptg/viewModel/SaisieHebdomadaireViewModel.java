@@ -111,6 +111,11 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		// on charge les service pour les filtres
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
+		//si 1 seul service alors on le selectionne
+		if(getListeServicesFiltre()!=null &&  getListeServicesFiltre().size()==1){
+			setServiceFiltre(getListeServicesFiltre().get(0));
+			afficheListeAgent();
+		}
 		setDateFiltre("Semaine ... du ... au ...");
 
 		setListeTypeAbsence(getModelTypeAbsence());
@@ -517,7 +522,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	@Command
 	@NotifyChange({ "listeAgentsFiltre", "agentFiltre", "*" })
-	public void afficheListeAgent() {
+	public void afficheListeAgent() throws ParseException {
 		setHasTextChanged(false);
 		setAgentFiltre(null);
 		// on charge les agents pour les filtres
@@ -526,6 +531,10 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		setListeAgentsFiltre(filtreAgent);
 		if (getAgentFiltre() == null) {
 			setSaisiePointageForm(null);
+		}
+		if(getListeAgentsFiltre()!=null && getListeAgentsFiltre().size()==1){
+			setAgentFiltre(getListeAgentsFiltre().get(0));
+			chargeFiche();
 		}
 	}
 

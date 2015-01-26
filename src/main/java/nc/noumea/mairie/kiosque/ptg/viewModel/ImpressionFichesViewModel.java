@@ -24,23 +24,25 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
  * #L%
  */
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -156,10 +158,21 @@ public class ImpressionFichesViewModel {
 
 	@Command
 	public void imprimerFiches() {
-		// on imprime la demande
-		byte[] resp = ptgWsConsumer.imprimerFiches(currentUser.getAgent().getIdAgent(), getLundi(getDateLundi()),
-				getListeIdAgentsToPrint());
-		Filedownload.save(resp, "application/pdf", "fichesPointage");
+		if (getListeIdAgentsToPrint() == null || getListeIdAgentsToPrint().size() == 0) {
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+			ValidationMessage vm = new ValidationMessage("Veuillez cocher au moins une fiche de pointage à éditer");
+			listErreur.add(vm);
+			map.put("errors", listErreur);
+			map.put("infos", listInfo);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+		} else {
+			// on imprime la/les demande(s)
+			byte[] resp = ptgWsConsumer.imprimerFiches(currentUser.getAgent().getIdAgent(), getLundi(getDateLundi()),
+					getListeIdAgentsToPrint());
+			Filedownload.save(resp, "application/pdf", "fichesPointage");
+		}
 	}
 
 	private Date getLundi(Date dateLundi) {

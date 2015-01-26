@@ -24,11 +24,11 @@ package nc.noumea.mairie.kiosque.travail.viewModel;
  * #L%
  */
 
-
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Sessions;
@@ -44,21 +44,26 @@ public class FichePosteViewModel {
 
 	private FichePosteDto ficheCourant;
 
+	private FichePosteDto ficheSecondaireCourant;
+
 	private ProfilAgentDto currentUser;
-	
+
 	@Init
 	public void initFichePosteAgent() {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		FichePosteDto result = sirhWsConsumer.getFichePoste(currentUser.getAgent().getIdAgent());
 		setFicheCourant(result);
+
+		FichePosteDto resultSecondaire = sirhWsConsumer.getFichePosteSecondaire(currentUser.getAgent().getIdAgent());
+		setFicheSecondaireCourant(resultSecondaire);
 	}
 
 	@Command
-	public void imprimeFDP() {
+	public void imprimeFDP(@BindingParam("ref") FichePosteDto fdp) {
 		// on imprime la FDP de l'agent
-		byte[] resp = sirhWsConsumer.imprimerFDP(getFicheCourant().getIdFichePoste());
+		byte[] resp = sirhWsConsumer.imprimerFDP(fdp.getIdFichePoste());
 		Filedownload.save(resp, "application/pdf", "fichePoste");
 	}
 
@@ -68,5 +73,13 @@ public class FichePosteViewModel {
 
 	public void setFicheCourant(FichePosteDto ficheCourant) {
 		this.ficheCourant = ficheCourant;
+	}
+
+	public FichePosteDto getFicheSecondaireCourant() {
+		return ficheSecondaireCourant;
+	}
+
+	public void setFicheSecondaireCourant(FichePosteDto ficheSecondaireCourant) {
+		this.ficheSecondaireCourant = ficheSecondaireCourant;
 	}
 }

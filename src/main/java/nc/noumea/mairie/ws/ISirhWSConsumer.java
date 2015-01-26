@@ -41,6 +41,8 @@ public interface ISirhWSConsumer {
 
 	FichePosteDto getFichePoste(Integer idAgent);
 
+	FichePosteDto getFichePosteSecondaire(Integer idAgent);
+
 	AgentWithServiceDto getSuperieurHierarchique(Integer idAgent);
 
 	List<ServiceTreeDto> getArbreServiceAgent(Integer idAgent);

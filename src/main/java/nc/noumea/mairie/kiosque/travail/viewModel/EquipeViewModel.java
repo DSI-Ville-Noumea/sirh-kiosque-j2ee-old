@@ -215,7 +215,13 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 			}
 
 		});
-		setListeUrlEae(res);
+
+		// on ne garde que les 3 dernieres EAEs
+		if (res != null && res.size() > 3) {
+			setListeUrlEae(res.subList(0, 3));
+		} else {
+			setListeUrlEae(res);
+		}
 	}
 
 	@Command

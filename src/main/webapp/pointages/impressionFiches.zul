@@ -54,7 +54,8 @@
 				</hlayout>
 				<separator />
 				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
-					model="@bind(vm.listeAgents)" emptyMessage="Aucun élément"
+					model="@bind(vm.listeAgents)"
+					emptyMessage="Veuillez sélectionner une semaine à l'aide du calendrier et un service pour afficher les éditions des pointages"
 					id="listeAgent">
 					<custom-attributes
 						org.zkoss.zul.listbox.autoSort="true" />
@@ -91,7 +92,7 @@
 			<separator />
 			<div>
 				<div align="left">
-					<button label="Editer"
+					<button label="Editer" visible="@bind(not empty vm.listeAgents)"
 						onClick="@command('imprimerFiches')" />
 				</div>
 			</div>

@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.travail.viewModel;
  * #L%
  */
 
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -64,14 +63,20 @@ public class EaeViewModel {
 		Collections.sort(res, new Comparator<SharepointDto>() {
 			@Override
 			public int compare(SharepointDto o1, SharepointDto o2) {
-				if(null == o2.getAnnee()) {
+				if (null == o2.getAnnee()) {
 					return 0;
 				}
 				return o2.getAnnee().compareTo(o1.getAnnee());
 			}
 
 		});
-		setListeUrlEae(res);
+
+		// on ne garde que les 3 dernieres EAEs
+		if (res != null && res.size() > 3) {
+			setListeUrlEae(res.subList(0, 3));
+		} else {
+			setListeUrlEae(res);
+		}
 	}
 
 	@Command

@@ -22,6 +22,8 @@
 					<space />
 					<label value="Service :" />
 					<combobox width="300px" readonly="true"
+						placeholder="Sélectionnez un service"
+						value="@bind(vm.serviceFiltre.service)"
 						model="@bind(vm.listeServicesFiltre)"
 						selectedItem="@bind(vm.serviceFiltre)"
 						onSelect="@command('afficheListeAgent')">
@@ -31,7 +33,8 @@
 					</combobox>
 					<space />
 					<label value="Agent :" />
-					<combobox width="200px"
+					<combobox width="200px" readonly="true"
+						placeholder="Sélectionnez un agent"
 						value="@load(vm.concatAgent(vm.agentFiltre.nom,vm.agentFiltre.prenom))"
 						model="@bind(vm.listeAgentsFiltre)"
 						selectedItem="@bind(vm.agentFiltre)"
@@ -52,8 +55,9 @@
 			<div
 				style="font-size: 18px; background-color: #E1A46E; color: #463D3D; width: 100%; padding: 5px; text-align: center;"
 				visible="@bind(empty vm.saisiePointageForm)">
-				Veuillez sélectionner une date de début, de fin et un
-				agent pour afficher les informations de pointage
+				Veuillez sélectionner une semaine, un service et un
+				agent pour afficher les informations de saisie de
+				pointage
 			</div>
 
 			<listbox id="saisieHebdoDate"
@@ -183,8 +187,8 @@
 										disabled="@bind(empty cellHSup.idRefEtat)"
 										visible="${vm.estAgentDPM()}"
 										onCheck="@command('textChanged')" />
-									<combobox width="100%" readonly="true"
-										selectedItem="@bind(cellHSup.idMotifHsup)"
+									<combobox width="100%"
+										readonly="true" selectedItem="@bind(cellHSup.idMotifHsup)"
 										disabled="@bind(empty cellHSup.idRefEtat)"
 										placeholder="Motif *" onChange="@command('textChanged')">
 										<zk
@@ -314,7 +318,8 @@
 										value="@bind(cellAbsence.saisieJ1)"
 										visible="@bind(not empty cellAbsence.saisieJ1)" />
 									<separator />
-									<combobox width="100%" readonly="true"
+									<combobox width="100%"
+										readonly="true"
 										selectedItem="@bind(cellAbsence.idRefTypeAbsence)"
 										disabled="@bind(empty cellAbsence.idRefEtat)"
 										placeholder="Type d'absence *"
@@ -391,7 +396,8 @@
 											value="@bind(cellPrime.titre)" style="font-weight: bold;" />
 									</div>
 
-									<hlayout visible="${vm.periodeHeure(cellPrime.typeSaisie)}">
+									<hlayout
+										visible="${vm.periodeHeure(cellPrime.typeSaisie)}">
 										<div width="50px">
 											<label value="Début *" />
 										</div>
@@ -421,7 +427,8 @@
 										</combobox>
 									</hlayout>
 									<separator />
-									<hlayout visible="${vm.periodeHeure(cellPrime.typeSaisie)}">
+									<hlayout
+										visible="${vm.periodeHeure(cellPrime.typeSaisie)}">
 										<div width="50px">
 											<label value="Fin *" />
 										</div>
@@ -486,6 +493,16 @@
 					</template>
 				</listbox>
 			</div>
+			<separator />
+			<separator />
+			<hlayout width="55px" sclass="fondRecherche"
+				visible="@bind(vm.hasTextChanged)">
+				<image visible="@bind(vm.hasTextChanged)"
+					style="vertical-align: text-bottom; display: inline-block;margin-top: 3px;margin-left: 5px;"
+					sclass="saveAction" onClick="@command('enregistreFiche')" />
+			</hlayout>
+			<separator />
+			<separator />
 		</div>
 		<include id="includeStyleSoldeAgent"
 			src="/css/pointages/saisieHebdo.zul" />
