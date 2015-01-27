@@ -159,6 +159,8 @@
 	none repeat scroll 0 0 #ee7203;}
 	
 	.z-column-content{background-color: #ab5420;color: #ffffff;}
+
+	.z-window {background-color: #ee7203;}
 	]]>
 	
 	

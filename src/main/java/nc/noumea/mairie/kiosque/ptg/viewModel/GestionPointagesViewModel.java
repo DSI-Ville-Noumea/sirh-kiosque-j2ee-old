@@ -27,11 +27,11 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
@@ -43,9 +43,11 @@ import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -53,10 +55,13 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Messagebox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class GestionPointagesViewModel {
@@ -228,93 +233,117 @@ public class GestionPointagesViewModel {
 		out.close();
 	}
 
+	private void doChangeEtat(List<ConsultPointageDto> listePointages, EtatPointageEnum etatPointage) {
+		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
+		for (ConsultPointageDto ptg : listePointages) {
+			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+			dto.setIdPointage(ptg.getIdPointage());
+			dto.setIdRefEtat(etatPointage.getCodeEtat());
+			listeChangeEtat.add(dto);
+		}
+		sauvegardeEtatPointage(listeChangeEtat);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	@NotifyChange({ "listePointages" })
 	public void approuverAllPointage() {
-		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
-		for (ConsultPointageDto ptg : getListePointages()) {
-			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
-			dto.setIdPointage(ptg.getIdPointage());
-			dto.setIdRefEtat(EtatPointageEnum.APPROUVE.getCodeEtat());
-			listeChangeEtat.add(dto);
+		if (getListePointages() == null || getListePointages().size() == 0) {
+			String message = "Il n'y a aucun pointage à accepter.";
+			Messagebox.show(message, "Erreur", Messagebox.OK, "");
+		} else if (getListePointages().size() == 1) {
+			doChangeEtat(getListePointages(), EtatPointageEnum.APPROUVE);
+			filtrer();
+			BindUtils.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
+		} else {
+			// on ouvre une popup de confirmation
+			Messagebox.show("Voulez-vous accepter les " + getListePointages().size() + " pointage(s) ?",
+					"Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+						@Override
+						public void onEvent(Event evt) throws InterruptedException {
+							if (evt.getName().equals("onOK")) {
+								doChangeEtat(getListePointages(), EtatPointageEnum.APPROUVE);
+								filtrer();
+								BindUtils
+										.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
+							}
+						}
+					});
 		}
-
-		sauvegardeEtatPointage(listeChangeEtat);
-
-		filtrer();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	@NotifyChange({ "listePointages" })
 	public void refuserAllPointage() {
-		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
-		for (ConsultPointageDto ptg : getListePointages()) {
-			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
-			dto.setIdPointage(ptg.getIdPointage());
-			dto.setIdRefEtat(EtatPointageEnum.REFUSE.getCodeEtat());
-			listeChangeEtat.add(dto);
+		if (getListePointages() == null || getListePointages().size() == 0) {
+			String message = "Il n'y a aucun pointage à refuser.";
+			Messagebox.show(message, "Erreur", Messagebox.OK, "");
+		} else if (getListePointages().size() == 1) {
+			doChangeEtat(getListePointages(), EtatPointageEnum.REFUSE);
+			filtrer();
+			BindUtils.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
+		} else {
+			// on ouvre une popup de confirmation
+			Messagebox.show("Voulez-vous refuser les " + getListePointages().size() + " pointage(s) ?", "Confirmation",
+					Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+						@Override
+						public void onEvent(Event evt) throws InterruptedException {
+							if (evt.getName().equals("onOK")) {
+								doChangeEtat(getListePointages(), EtatPointageEnum.REFUSE);
+								filtrer();
+								BindUtils
+										.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
+							}
+						}
+					});
 		}
-
-		sauvegardeEtatPointage(listeChangeEtat);
-
-		filtrer();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	@NotifyChange({ "listePointages" })
 	public void attenteAllPointage() {
-		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
-		for (ConsultPointageDto ptg : getListePointages()) {
-			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
-			dto.setIdPointage(ptg.getIdPointage());
-			dto.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
-			listeChangeEtat.add(dto);
+		if (getListePointages() == null || getListePointages().size() == 0) {
+			String message = "Il n'y a aucun pointage à re-mettre en saisie.";
+			Messagebox.show(message, "Erreur", Messagebox.OK, "");
+		} else if (getListePointages().size() == 1) {
+			doChangeEtat(getListePointages(), EtatPointageEnum.SAISI);
+			filtrer();
+			BindUtils.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
+		} else {
+			// on ouvre une popup de confirmation
+			Messagebox.show("Voulez-vous re-mettre en saisie les " + getListePointages().size() + " pointage(s) ?",
+					"Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+						@Override
+						public void onEvent(Event evt) throws InterruptedException {
+							if (evt.getName().equals("onOK")) {
+								doChangeEtat(getListePointages(), EtatPointageEnum.SAISI);
+								filtrer();
+								BindUtils
+										.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
+							}
+						}
+					});
 		}
-
-		sauvegardeEtatPointage(listeChangeEtat);
-
-		filtrer();
 	}
 
 	@Command
 	@NotifyChange({ "listePointages" })
 	public void approuverPointage(@BindingParam("ref") ConsultPointageDto pointage) {
-		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
-		PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
-		dto.setIdPointage(pointage.getIdPointage());
-		dto.setIdRefEtat(EtatPointageEnum.APPROUVE.getCodeEtat());
-		listeChangeEtat.add(dto);
-
-		sauvegardeEtatPointage(listeChangeEtat);
-
+		doChangeEtat(Arrays.asList(pointage), EtatPointageEnum.APPROUVE);
 		filtrer();
 	}
 
 	@Command
 	@NotifyChange({ "listePointages" })
 	public void refuserPointage(@BindingParam("ref") ConsultPointageDto pointage) {
-		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
-		PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
-		dto.setIdPointage(pointage.getIdPointage());
-		dto.setIdRefEtat(EtatPointageEnum.REFUSE.getCodeEtat());
-		listeChangeEtat.add(dto);
-
-		sauvegardeEtatPointage(listeChangeEtat);
-
+		doChangeEtat(Arrays.asList(pointage), EtatPointageEnum.REFUSE);
 		filtrer();
 	}
 
 	@Command
 	@NotifyChange({ "listePointages" })
 	public void attentePointage(@BindingParam("ref") ConsultPointageDto pointage) {
-		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
-		PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
-		dto.setIdPointage(pointage.getIdPointage());
-		dto.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
-		listeChangeEtat.add(dto);
-
-		sauvegardeEtatPointage(listeChangeEtat);
-
+		doChangeEtat(Arrays.asList(pointage), EtatPointageEnum.SAISI);
 		filtrer();
 	}
 
