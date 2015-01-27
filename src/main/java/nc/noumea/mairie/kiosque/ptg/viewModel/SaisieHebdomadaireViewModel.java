@@ -52,6 +52,7 @@ import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -59,6 +60,8 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
@@ -67,6 +70,7 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Messagebox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
@@ -111,8 +115,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		// on charge les service pour les filtres
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
-		//si 1 seul service alors on le selectionne
-		if(getListeServicesFiltre()!=null &&  getListeServicesFiltre().size()==1){
+		// si 1 seul service alors on le selectionne
+		if (getListeServicesFiltre() != null && getListeServicesFiltre().size() == 1) {
 			setServiceFiltre(getListeServicesFiltre().get(0));
 			afficheListeAgent();
 		}
@@ -481,60 +485,150 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		setHasTextChanged(true);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	@NotifyChange({ "*" })
 	public void chargeFiche() throws ParseException {
-		setHasTextChanged(false);
+		if (isHasTextChanged()) {
+			// on ouvre une popup de confirmation
+			Messagebox
+					.show("Vous avez effectué des modifications sur les pointages sans les enregistrer, si vous continuez, vous allez perdre ces modifications. Voulez-vous continuer ?",
+							"Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+								@Override
+								public void onEvent(Event evt) throws InterruptedException, ParseException {
+									if (evt.getName().equals("onOK")) {
+										setHasTextChanged(false);
 
-		if (null != getDateLundi() && null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
-			FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent().getIdAgent(),
-					getLundi(getDateLundi()), getAgentFiltre().getIdAgent());
-			setFicheCourante(result);
+										if (null != getDateLundi() && null != getAgentFiltre()
+												&& null != getAgentFiltre().getIdAgent()) {
+											FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(
+													currentUser.getAgent().getIdAgent(), getLundi(getDateLundi()),
+													getAgentFiltre().getIdAgent());
+											setFicheCourante(result);
 
-			// minutes et heures
-			TimePicker timePicker = new TimePicker();
-			setListeMinutes(timePicker.getListeMinutesPointage());
-			setListeHeures(timePicker.getListeHeuresPointage());
+											// minutes et heures
+											TimePicker timePicker = new TimePicker();
+											setListeMinutes(timePicker.getListeMinutesPointage());
+											setListeHeures(timePicker.getListeHeuresPointage());
 
-			setSaisiePointageForm(transformFromFichePointageDtoToSaisiePointageForm(getFicheCourante()));
+											setSaisiePointageForm(transformFromFichePointageDtoToSaisiePointageForm(getFicheCourante()));
+										}
+										BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.this, "*");
+									}
+								}
+							});
+		} else {
+			setHasTextChanged(false);
+
+			if (null != getDateLundi() && null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
+				FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent()
+						.getIdAgent(), getLundi(getDateLundi()), getAgentFiltre().getIdAgent());
+				setFicheCourante(result);
+
+				// minutes et heures
+				TimePicker timePicker = new TimePicker();
+				setListeMinutes(timePicker.getListeMinutesPointage());
+				setListeHeures(timePicker.getListeHeuresPointage());
+
+				setSaisiePointageForm(transformFromFichePointageDtoToSaisiePointageForm(getFicheCourante()));
+			}
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	@NotifyChange({ "*" })
 	public void afficheSemaine() throws ParseException {
-		if (getDateLundi() != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			Calendar c = Calendar.getInstance();
-			c.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
-			c.setTime(getDateLundi());
-			String numSemaine = String.valueOf(c.get(Calendar.WEEK_OF_YEAR));
-			c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-			String lundi = sdf.format(c.getTime());
-			c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-			String dimanche = sdf.format(c.getTime());
+		if (isHasTextChanged()) {
+			// on ouvre une popup de confirmation
+			Messagebox
+					.show("Vous avez effectué des modifications sur les pointages sans les enregistrer, si vous continuez, vous allez perdre ces modifications. Voulez-vous continuer ?",
+							"Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+								@Override
+								public void onEvent(Event evt) throws InterruptedException, ParseException {
+									if (evt.getName().equals("onOK")) {
+										if (getDateLundi() != null) {
+											SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+											Calendar c = Calendar.getInstance();
+											c.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+											c.setTime(getDateLundi());
+											String numSemaine = String.valueOf(c.get(Calendar.WEEK_OF_YEAR));
+											c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+											String lundi = sdf.format(c.getTime());
+											c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+											String dimanche = sdf.format(c.getTime());
 
-			setDateFiltre("Semaine " + numSemaine + " du " + lundi + " au " + dimanche);
+											setDateFiltre("Semaine " + numSemaine + " du " + lundi + " au " + dimanche);
+										}
+										setHasTextChanged(false);
+										chargeFiche();
+										BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.this, "*");
+									}
+								}
+							});
+		} else {
+			if (getDateLundi() != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Calendar c = Calendar.getInstance();
+				c.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+				c.setTime(getDateLundi());
+				String numSemaine = String.valueOf(c.get(Calendar.WEEK_OF_YEAR));
+				c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				String lundi = sdf.format(c.getTime());
+				c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+				String dimanche = sdf.format(c.getTime());
+
+				setDateFiltre("Semaine " + numSemaine + " du " + lundi + " au " + dimanche);
+			}
+			setHasTextChanged(false);
+			chargeFiche();
+			BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.this, "*");
 		}
-		setHasTextChanged(false);
-		chargeFiche();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	@NotifyChange({ "listeAgentsFiltre", "agentFiltre", "*" })
 	public void afficheListeAgent() throws ParseException {
-		setHasTextChanged(false);
-		setAgentFiltre(null);
-		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser.getAgent().getIdAgent(),
-				getServiceFiltre().getCodeService());
-		setListeAgentsFiltre(filtreAgent);
-		if (getAgentFiltre() == null) {
-			setSaisiePointageForm(null);
-		}
-		if(getListeAgentsFiltre()!=null && getListeAgentsFiltre().size()==1){
-			setAgentFiltre(getListeAgentsFiltre().get(0));
-			chargeFiche();
+		if (isHasTextChanged()) {
+			// on ouvre une popup de confirmation
+			Messagebox
+					.show("Vous avez effectué des modifications sur les pointages sans les enregistrer, si vous continuez, vous allez perdre ces modifications. Voulez-vous continuer ?",
+							"Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+								@Override
+								public void onEvent(Event evt) throws InterruptedException, ParseException {
+									if (evt.getName().equals("onOK")) {
+										setHasTextChanged(false);
+										setAgentFiltre(null);
+										// on charge les agents pour les filtres
+										List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser
+												.getAgent().getIdAgent(), getServiceFiltre().getCodeService());
+										setListeAgentsFiltre(filtreAgent);
+										if (getAgentFiltre() == null) {
+											setSaisiePointageForm(null);
+										}
+										if (getListeAgentsFiltre() != null && getListeAgentsFiltre().size() == 1) {
+											setAgentFiltre(getListeAgentsFiltre().get(0));
+											chargeFiche();
+										}
+										BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.this, "*");
+									}
+								}
+							});
+		} else {
+			setHasTextChanged(false);
+			setAgentFiltre(null);
+			// on charge les agents pour les filtres
+			List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser.getAgent().getIdAgent(),
+					getServiceFiltre().getCodeService());
+			setListeAgentsFiltre(filtreAgent);
+			if (getAgentFiltre() == null) {
+				setSaisiePointageForm(null);
+			}
+			if (getListeAgentsFiltre() != null && getListeAgentsFiltre().size() == 1) {
+				setAgentFiltre(getListeAgentsFiltre().get(0));
+				chargeFiche();
+			}
+			BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.this, "*");
 		}
 	}
 
