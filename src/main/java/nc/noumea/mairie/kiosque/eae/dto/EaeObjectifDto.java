@@ -24,13 +24,19 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 public class EaeObjectifDto {
 
 	private String commentaire;
 	private Integer idEaeResultat;
 	private String objectif;
 	private String resultat;
+
+	public EaeObjectifDto() {
+		super();
+		this.commentaire = "";
+		this.objectif = "";
+		this.resultat = "";
+	}
 
 	public String getCommentaire() {
 		return commentaire;

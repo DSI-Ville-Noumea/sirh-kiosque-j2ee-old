@@ -2,9 +2,9 @@
 	<div sclass="RHTitle2Line" />
 	<separator />
 	<vlayout>
-		<label sclass="titre" value="POSTE"
+		<label sclass="titre" style="font-size: 24px;" value="POSTE"
 			visible="@bind(empty vm.fichePosteSecondaire)" />
-		<label sclass="titre" value="POSTE N°1"
+		<label sclass="titre" style="font-size: 24px;" value="POSTE N°1"
 			visible="@bind(not empty vm.fichePosteSecondaire)" />
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3" value="IDENTIFICATION DU POSTE" />
@@ -119,7 +119,10 @@
 			</zk>
 		</vlayout>
 		<div visible="@bind(not empty vm.fichePosteSecondaire)">
-			<label sclass="titre" value="POSTE N°2" />
+			<separator />
+			<div sclass="blockSeparator" />
+			<label sclass="titre" style="font-size: 24px;"
+				value="POSTE N°2" />
 			<div sclass="blockSeparator" />
 			<label sclass="RHTitle3" value="IDENTIFICATION DU POSTE" />
 			<separator />

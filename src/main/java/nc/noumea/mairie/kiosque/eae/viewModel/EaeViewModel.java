@@ -199,6 +199,22 @@ public class EaeViewModel {
 	private void initResultat() {
 		EaeResultatDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent()
 				.getIdAgent());
+		for (EaeObjectifDto objIndi : resultat.getObjectifsIndividuels()) {
+			if (objIndi.getCommentaire() == null)
+				objIndi.setCommentaire("");
+			if (objIndi.getObjectif() == null)
+				objIndi.setObjectif("");
+			if (objIndi.getResultat() == null)
+				objIndi.setResultat("");
+		}
+		for (EaeObjectifDto objPro : resultat.getObjectifsProfessionnels()) {
+			if (objPro.getCommentaire() == null)
+				objPro.setCommentaire("");
+			if (objPro.getObjectif() == null)
+				objPro.setObjectif("");
+			if (objPro.getResultat() == null)
+				objPro.setResultat("");
+		}
 		setResultat(resultat);
 	}
 
@@ -230,11 +246,17 @@ public class EaeViewModel {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
 		if (getTabCourant().getId().equals("IDENTIFICATION")) {
-			result = eaeWsConsumer.saveIdentification(getIdentification().getIdEae(), currentUser.getAgent()
-					.getIdAgent(), getIdentification());
+			result = isFormIdentificationValid(result, getIdentification());
+			if (result.getErrors().size() == 0) {
+				result = eaeWsConsumer.saveIdentification(getIdentification().getIdEae(), currentUser.getAgent()
+						.getIdAgent(), getIdentification());
+			}
 		} else if (getTabCourant().getId().equals("RESULTAT")) {
-			result = eaeWsConsumer.saveResultat(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-					getResultat());
+			result = isFormResultatValid(result, getResultat());
+			if (result.getErrors().size() == 0) {
+				result = eaeWsConsumer.saveResultat(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+						getResultat());
+			}
 		} else if (getTabCourant().getId().equals("APPRECIATION")) {
 			result = eaeWsConsumer.saveAppreciation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getAppreciationAnnee());
@@ -280,6 +302,30 @@ public class EaeViewModel {
 			// on recharge l'eae pour vider les eventuelles modifs
 			initEae(getEaeCourant(), getModeSaisi());
 		}
+	}
+
+	private ReturnMessageDto isFormResultatValid(ReturnMessageDto result, EaeResultatDto resultatDto) {
+		for (EaeObjectifDto objIndiv : resultatDto.getObjectifsIndividuels()) {
+			if ((!objIndiv.getResultat().equals("") || !objIndiv.getCommentaire().equals(""))
+					&& objIndiv.getObjectif().equals("")) {
+				result.getErrors().add("L'objectif de progrès individuel est obligatoire.");
+			}
+		}
+		for (EaeObjectifDto objPro : resultatDto.getObjectifsProfessionnels()) {
+			if ((!objPro.getResultat().equals("") || !objPro.getCommentaire().equals(""))
+					&& objPro.getObjectif().equals("")) {
+				result.getErrors().add("L'objectif professionnel est obligatoire.");
+			}
+		}
+		return result;
+	}
+
+	private ReturnMessageDto isFormIdentificationValid(ReturnMessageDto result,
+			EaeIdentificationDto eaeIdentificationDto) {
+		if (eaeIdentificationDto.getDateEntretien() == null) {
+			result.getErrors().add("La date de l'entretien annuel d'échange ne doit pas être vide.");
+		}
+		return result;
 	}
 
 	@Command
