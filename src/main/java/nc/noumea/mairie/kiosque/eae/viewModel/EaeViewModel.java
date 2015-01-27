@@ -168,6 +168,12 @@ public class EaeViewModel {
 	private void initPlanAction() {
 		EaePlanActionDto plan = eaeWsConsumer.getPlanActionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
 				.getIdAgent());
+		for (EaeObjectifProDto objPro : plan.getObjectifsProfessionnels()) {
+			if (objPro.getIndicateur() == null)
+				objPro.setIndicateur("");
+			if (objPro.getObjectif() == null)
+				objPro.setObjectif("");
+		}
 		setPlanAction(plan);
 	}
 
@@ -267,8 +273,11 @@ public class EaeViewModel {
 			result = eaeWsConsumer.saveAutoEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getAutoEvaluation());
 		} else if (getTabCourant().getId().equals("PLANACTION")) {
-			result = eaeWsConsumer.savePlanAction(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-					getPlanAction());
+			result = isFormPlanActionValid(result, getPlanAction());
+			if (result.getErrors().size() == 0) {
+				result = eaeWsConsumer.savePlanAction(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+						getPlanAction());
+			}
 		} else if (getTabCourant().getId().equals("EVOLUTION")) {
 			result = eaeWsConsumer.saveEvolution(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getEvolution());
@@ -302,6 +311,15 @@ public class EaeViewModel {
 			// on recharge l'eae pour vider les eventuelles modifs
 			initEae(getEaeCourant(), getModeSaisi());
 		}
+	}
+
+	private ReturnMessageDto isFormPlanActionValid(ReturnMessageDto result, EaePlanActionDto planAction) {
+		for (EaeObjectifProDto objPro : planAction.getObjectifsProfessionnels()) {
+			if (!objPro.getIndicateur().equals("") && objPro.getObjectif().equals("")) {
+				result.getErrors().add("L'objectif professionnel est obligatoire.");
+			}
+		}
+		return result;
 	}
 
 	private ReturnMessageDto isFormResultatValid(ReturnMessageDto result, EaeResultatDto resultatDto) {

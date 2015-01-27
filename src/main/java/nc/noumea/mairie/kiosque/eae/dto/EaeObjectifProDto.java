@@ -24,11 +24,16 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 public class EaeObjectifProDto {
 
 	private String indicateur;
 	private String objectif;
+
+	public EaeObjectifProDto() {
+		super();
+		this.indicateur = "";
+		this.objectif = "";
+	}
 
 	public String getIndicateur() {
 		return indicateur;
