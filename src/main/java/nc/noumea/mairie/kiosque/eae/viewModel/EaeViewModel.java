@@ -279,8 +279,11 @@ public class EaeViewModel {
 						getPlanAction());
 			}
 		} else if (getTabCourant().getId().equals("EVOLUTION")) {
-			result = eaeWsConsumer.saveEvolution(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-					getEvolution());
+			result = isFormEvolutionValid(result, getEvolution());
+			if (result.getErrors().size() == 0) {
+				result = eaeWsConsumer.saveEvolution(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+						getEvolution());
+			}
 		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -311,6 +314,52 @@ public class EaeViewModel {
 			// on recharge l'eae pour vider les eventuelles modifs
 			initEae(getEaeCourant(), getModeSaisi());
 		}
+	}
+
+	private ReturnMessageDto isFormEvolutionValid(ReturnMessageDto result, EaeEvolutionDto evolution) {
+		for (EaeDeveloppementDto conn : evolution.getDeveloppementConnaissances()) {
+			if (conn.getEcheance() == null || conn.getLibelle() == null || conn.getPriorisation() == null) {
+				String message = "Veuillez remplir tous les champs pour vos besoins en formation.";
+				if (!result.getErrors().contains(message))
+					result.getErrors().add(message);
+			}
+		}
+		for (EaeDeveloppementDto conn : evolution.getDeveloppementCompetences()) {
+			if (conn.getEcheance() == null || conn.getLibelle() == null || conn.getPriorisation() == null) {
+				String message = "Veuillez remplir tous les champs pour vos besoins en formation.";
+				if (!result.getErrors().contains(message))
+					result.getErrors().add(message);
+			}
+		}
+		for (EaeDeveloppementDto conn : evolution.getDeveloppementExamensConcours()) {
+			if (conn.getEcheance() == null || conn.getLibelle() == null || conn.getPriorisation() == null) {
+				String message = "Veuillez remplir tous les champs pour vos besoins en formation.";
+				if (!result.getErrors().contains(message))
+					result.getErrors().add(message);
+			}
+		}
+		for (EaeDeveloppementDto conn : evolution.getDeveloppementPersonnel()) {
+			if (conn.getEcheance() == null || conn.getLibelle() == null || conn.getPriorisation() == null) {
+				String message = "Veuillez remplir tous les champs pour vos besoins en formation.";
+				if (!result.getErrors().contains(message))
+					result.getErrors().add(message);
+			}
+		}
+		for (EaeDeveloppementDto conn : evolution.getDeveloppementComportement()) {
+			if (conn.getEcheance() == null || conn.getLibelle() == null || conn.getPriorisation() == null) {
+				String message = "Veuillez remplir tous les champs pour vos besoins en formation.";
+				if (!result.getErrors().contains(message))
+					result.getErrors().add(message);
+			}
+		}
+		for (EaeDeveloppementDto conn : evolution.getDeveloppementFormateur()) {
+			if (conn.getEcheance() == null || conn.getLibelle() == null || conn.getPriorisation() == null) {
+				String message = "Veuillez remplir tous les champs pour vos besoins en formation.";
+				if (!result.getErrors().contains(message))
+					result.getErrors().add(message);
+			}
+		}
+		return result;
 	}
 
 	private ReturnMessageDto isFormPlanActionValid(ReturnMessageDto result, EaePlanActionDto planAction) {
@@ -723,6 +772,20 @@ public class EaeViewModel {
 		if (!isModification())
 			setHasTextChangedEvolution(false);
 		setHasTextChangedEvolution(true);
+	}
+
+	@Command
+	@NotifyChange({ "hasTextChangedEvolution", "evolution" })
+	public void textChangedEvolutionDelai() {
+		if (!isModification())
+			setHasTextChangedEvolution(false);
+		setHasTextChangedEvolution(true);
+		if (getEvolution().isChangementMetier() || getEvolution().isMobiliteGeo()
+				|| getEvolution().isMobiliteFonctionnelle()) {
+			getEvolution().getDelaiEnvisage().setCourant("MOINS1AN");
+		} else {
+			getEvolution().getDelaiEnvisage().setCourant(null);
+		}
 	}
 
 	@Command

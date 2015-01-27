@@ -4,8 +4,13 @@
 	<vlayout>
 		<label sclass="titre" value="APPRECIATIONS" />
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3"
-			value="APPRECIATION DES COMPETENCES MISES EN OEUVRE SUR LE POSTE DE TRAVAIL " />
+		<hlayout>
+			<label sclass="RHTitle3"
+				value="APPRECIATION DES COMPETENCES MISES EN OEUVRE SUR LE POSTE DE TRAVAIL " />
+			<image
+				tooltiptext="Chaque critère est apprécié selon une échelle de 4 notes de A (maitrisé) à D (non maitrisé). Choisissez NA (non applicable) quand le critère ne concerne pas l’agent."
+				sclass="ListAction help" />
+		</hlayout>
 		<separator />
 		<listbox>
 			<auxhead>

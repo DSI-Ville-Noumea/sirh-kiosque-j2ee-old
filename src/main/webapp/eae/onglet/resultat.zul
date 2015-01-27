@@ -4,7 +4,12 @@
 	<vlayout>
 		<label sclass="titre" value="RESULTATS" />
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3" value="TENUE ET MAITRISE DU POSTE" />
+		<hlayout>
+			<label sclass="RHTitle3" value="TENUE ET MAITRISE DU POSTE" />
+			<image
+				tooltiptext="Ecarts observés avec les attendus de la fiche de poste."
+				sclass="ListAction help" />
+		</hlayout>
 		<separator />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.resultat.commentaireGeneral)"

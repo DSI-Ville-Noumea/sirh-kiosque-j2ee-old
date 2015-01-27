@@ -2,16 +2,35 @@
 	<div sclass="RHTitle2Line" />
 	<separator />
 	<vlayout>
-		<label sclass="titre" value="VOTRE EVOLUTION PROFESSIONNELLE " />
+		<hlayout>
+			<label sclass="titre"
+				value="VOTRE EVOLUTION PROFESSIONNELLE " />
+			<image
+				tooltiptext="Vous êtes invités à vous exprimer librement sur votre activité professionelle ainsi que sur les orientations que souhaitez donner à votre carrière."
+				sclass="ListAction help" />
+		</hlayout>
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3" value="SOUHAITS ET SUGGESTIONS " />
+		<hlayout>
+			<label sclass="RHTitle3" value="SOUHAITS ET SUGGESTIONS " />
+			<image
+				tooltiptext="Les souhaits et suggestions concernent votre environnement professionnel."
+				sclass="ListAction help" />
+		</hlayout>
 		<listbox model="@bind(vm.evolution.souhaitsSuggestions)"
 			emptyMessage="Aucun élément">
 			<listhead>
 				<listheader width="50%" label="Vos souhaits "
-					sort="none" />
+					sort="none">
+					<image
+						tooltiptext="Quels sont vos souhaits concernant le contenu et l'environnement professionnel de votre travail (évolution des tâches, charge de travail, organisation)."
+						sclass="ListAction help" />
+				</listheader>
 				<listheader width="50%" label="Vos suggestions "
-					sort="none" />
+					sort="none">
+					<image
+						tooltiptext="Quelles sont vos suggestions pour améliorer ceux-ci ?."
+						sclass="ListAction help" />
+				</listheader>
 				<listheader width="50px"
 					visible="@bind(vm.modification)" align="center" label=""
 					sort="none" />
@@ -47,14 +66,20 @@
 				onClick="@command('ajouterLigneSouhaitSuggestion')" />
 		</div>
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3" value="PERSPECTIVES" />
+		<hlayout>
+			<label sclass="RHTitle3" value="PERSPECTIVES" />
+			<image
+				tooltiptext="Les perspectives concernent votre évolution professionelle."
+				sclass="ListAction help" />
+		</hlayout>
 		<vlayout>
 			<hlayout>
 				<div sclass="espace">
 					<label value="Mobilité géographique" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChangedEvolution')"
+					<radiogroup
+						onCheck="@command('textChangedEvolutionDelai')"
 						selectedItem="@bind(vm.evolution.mobiliteGeo)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -66,7 +91,8 @@
 					<label value="Au sein du service" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChangedEvolution')"
+					<radiogroup
+						onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteService)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -80,7 +106,8 @@
 					<label value="Mobilité fonctionnelle" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChangedEvolution')"
+					<radiogroup
+						onCheck="@command('textChangedEvolutionDelai')"
 						selectedItem="@bind(vm.evolution.mobiliteFonctionnelle)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -92,7 +119,8 @@
 					<label value="Au sein de la direction" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChangedEvolution')"
+					<radiogroup
+						onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteDirection)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -106,7 +134,8 @@
 					<label value="Changement de métier" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChangedEvolution')"
+					<radiogroup
+						onCheck="@command('textChangedEvolutionDelai')"
 						selectedItem="@bind(vm.evolution.changementMetier)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -118,7 +147,8 @@
 					<label value="Au sein de la collectivité" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChangedEvolution')"
+					<radiogroup
+						onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteCollectivite)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -136,14 +166,24 @@
 					<label value="Délai envisagé" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup
+					<radiogroup visible="@bind(not vm.modification)"
+						selectedItem="@bind(vm.evolution.delaiEnvisage.courant)">
+						<div sclass="bleu" width="100%">
+							<zk
+								forEach="${vm.evolution.delaiEnvisage.liste}">
+								<radio disabled="true"
+									label="${each.valeur}" value="${each.code}" />
+							</zk>
+						</div>
+					</radiogroup>
+					<radiogroup visible="@bind(vm.modification)"
 						selectedItem="@bind(vm.evolution.delaiEnvisage.courant)">
 						<div sclass="bleu" width="100%">
 							<zk
 								forEach="${vm.evolution.delaiEnvisage.liste}">
 								<radio
-									disabled="@bind(not vm.modification)" label="${each.valeur}"
-									value="${each.code}" />
+									disabled="@bind(empty vm.evolution.delaiEnvisage.courant)"
+									label="${each.valeur}" value="${each.code}" />
 							</zk>
 						</div>
 					</radiogroup>
@@ -152,7 +192,8 @@
 					<label value="Dans une autre collectivité" />
 				</div>
 				<div sclass="bleu">
-					<radiogroup onCheck="@command('textChangedEvolution')"
+					<radiogroup
+						onCheck="@command('textChangedEvolution')"
 						selectedItem="@bind(vm.evolution.mobiliteAutre)">
 						<radio label="Oui"
 							disabled="@bind(not vm.modification)" value="${true}" />
@@ -256,8 +297,13 @@
 				onChanging="@command('textChangedEvolution')" />
 		</vlayout>
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3"
-			value="BESOINS EN FORMATION GEREES PAR VOTRE COLLECTIVITE " />
+		<hlayout>
+			<label sclass="RHTitle3"
+				value="BESOINS EN FORMATION GEREES PAR VOTRE COLLECTIVITE " />
+			<image
+				tooltiptext="Les besoins en formation sont gérés par votre collectivité et concernent le développement de vos compétences."
+				sclass="ListAction help" />
+		</hlayout>
 		<listbox model="@bind(vm.evolution.developpementConnaissances)"
 			emptyMessage="Aucun élément">
 			<listhead>
@@ -612,7 +658,12 @@
 				onClick="@command('ajouterLigneDeveloppementFormateur')" />
 		</div>
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3" value="OBSERVATIONS " />
+		<hlayout>
+			<label sclass="RHTitle3" value="OBSERVATIONS " />
+			<image
+				tooltiptext="Les observations concernent l'entretien annuel d'échange dans sa généralité."
+				sclass="ListAction help" />
+		</hlayout>
 		<separator />
 		<div width="100%">
 			<div width="48%" style="float:left;">

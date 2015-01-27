@@ -24,7 +24,6 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +63,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	private static final String eaeTableauEaeUrl = "eaes/listEaesByAgent";
 	private static final String eaeImpressionEaeUrl = "reporting/eae";
 	private static final String eaeInitialiserEaeUrl = "eaes/initialiserEae";
+	private static final String eaeSaveDelegataireUrl = "eaes/affecterDelegataire";
 	/* Pour les onglets */
 	private static final String eaeIdentificationUrl = "evaluation/eaeIdentification";
 	private static final String eaeFichePosteUrl = "evaluation/eaeFichePoste";
@@ -332,6 +332,26 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
 		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto saveDelegataire(Integer idEae, Integer idAgent, Integer idDelegataire) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeSaveDelegataireUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idEae", idEae.toString());
+		params.put("idAgent", idAgent.toString());
+		params.put("idDelegataire", idDelegataire.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde du délégataire.");
+			return dto;
+		}
+		String result = readResponse(String.class, res, url);
+		dto.getInfos().add(result);
+		return dto;
 	}
 
 }

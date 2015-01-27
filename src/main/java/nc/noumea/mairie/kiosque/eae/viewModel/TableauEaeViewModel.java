@@ -43,6 +43,7 @@ import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
@@ -53,6 +54,7 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class TableauEaeViewModel {
@@ -74,12 +76,19 @@ public class TableauEaeViewModel {
 	public void initTableauEae(@ExecutionArgParam("div") Div div) {
 		setDivDepart(div);
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		// on recupère les info du tableau des EAEs
-		List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
-		setTableauEae(tableau);
 
 		// on initialise la taille du tableau
 		setTailleListe("10");
+filtrer();
+	}
+
+	@Command
+	public void changerDelegataire(@BindingParam("ref") EaeListItemDto eae) {
+		// create a window programmatically and use it as a modal dialog.
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("eae", eae);
+		Window win = (Window) Executions.createComponents("/eae/changerDelegataire.zul", null, map);
+		win.doModal();
 	}
 
 	@Command
@@ -170,6 +179,8 @@ public class TableauEaeViewModel {
 		}
 	}
 
+	@GlobalCommand
+	@NotifyChange({ "tableauEae" })
 	public void filtrer() {
 		// on recupère les info du tableau des EAEs
 		List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());

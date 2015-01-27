@@ -101,14 +101,21 @@
 									</zk>
 								</vlayout>
 							</listcell>
+							<!-- cas du délégataire -->
 							<listcell
-								label="@bind(vm.concatAgent(each.agentDelegataire.nom,each.agentDelegataire.prenom))" />
+								label="@bind(vm.concatAgent(each.agentDelegataire.nom,each.agentDelegataire.prenom))"
+								onClick="@command('changerDelegataire',ref=each)"
+								visible="@bind(each.droitDemarrer)" />
+							<listcell
+								label="@bind(vm.concatAgent(each.agentDelegataire.nom,each.agentDelegataire.prenom))"
+								visible="@bind(not each.droitDemarrer)" />
+							<!-- fin cas du délégataire -->
 							<listcell label="@bind(each.etat)" />
 							<listcell>
-								<image sclass="cap"
+								<image sclass="cap" tooltiptext="oui"
 									visible="@bind(each.cap)" />
 								<image visible="@bind(not each.cap)"
-									sclass="cap disabled" />
+									tooltiptext="non" sclass="cap disabled" />
 							</listcell>
 							<listcell label="@bind(each.avisShd)" />
 							<listcell>

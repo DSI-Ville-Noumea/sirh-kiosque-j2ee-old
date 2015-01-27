@@ -65,4 +65,6 @@ public interface ISirhWSConsumer {
 
 	List<AccueilRhDto> getListeTexteAccueil();
 
+	List<AgentDto> getListDelegataire(Integer idAgent);
+
 }

@@ -24,7 +24,6 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -85,5 +84,7 @@ public interface ISirhEaeWSConsumer {
 	EaeEvolutionDto getEvolutionEae(Integer idEae, Integer idAgent);
 
 	ReturnMessageDto saveEvolution(Integer idEae, Integer idAgent, EaeEvolutionDto evolution);
+
+	ReturnMessageDto saveDelegataire(Integer idEae, Integer idAgent, Integer idDelegataire);
 
 }

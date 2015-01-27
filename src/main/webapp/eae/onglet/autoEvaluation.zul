@@ -4,16 +4,26 @@
 	<vlayout>
 		<label sclass="titre" value="AUTO EVALUATION" />
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3"
-			value="VOTRE ACTIVITE SUR LA PERIODE ECOULEE" />
+		<hlayout>
+			<label sclass="RHTitle3"
+				value="VOTRE ACTIVITE SUR LA PERIODE ECOULEE" />
+			<image
+				tooltiptext="Particularités ou éléments nouveaux depuis l'entretien précédent (notamment évolution ou changement du poste occupé ou de son contenu)."
+				sclass="ListAction help" />
+		</hlayout>
 		<label sclass="bleu" visible="@bind(not vm.modification)"
 			value="@bind(vm.autoEvaluation.particularites)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.autoEvaluation.particularites)"
 			onChanging="@command('textChangedAutoEvaluation')" />
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3"
-			value="OBJECTIFS ATTEINTS ET COMPETENCES ACQUISES DURANT L'ANNEE ECOULEE" />
+		<hlayout>
+			<label sclass="RHTitle3"
+				value="OBJECTIFS ATTEINTS ET COMPETENCES ACQUISES DURANT L'ANNEE ECOULEE" />
+			<image
+				tooltiptext="A préparer par l'évalué, préalablement à l'entretien."
+				sclass="ListAction help" />
+		</hlayout>
 		<label sclass="bleu" visible="@bind(not vm.modification)"
 			value="@bind(vm.autoEvaluation.acquis)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
