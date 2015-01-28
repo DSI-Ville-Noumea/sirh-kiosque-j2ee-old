@@ -437,9 +437,27 @@ public class EaeViewModel {
 				&& (evolution.getLibelleAutrePerspective() == null || evolution.getLibelleAutrePerspective().equals(""))) {
 			result.getErrors().add("Le champ 'autres perspective' doit être renseigné.");
 		}
-		
-		//TODO reste à checker les priorités
-		
+
+		// TODO reste à checker les priorités
+		// on regroupe tous les types de besoin en formation pour checker les
+		// priorités
+		List<EaeDeveloppementDto> listeBesoinFormation = new ArrayList<EaeDeveloppementDto>();
+		listeBesoinFormation.addAll(evolution.getDeveloppementConnaissances());
+		listeBesoinFormation.addAll(evolution.getDeveloppementCompetences());
+		listeBesoinFormation.addAll(evolution.getDeveloppementExamensConcours());
+		listeBesoinFormation.addAll(evolution.getDeveloppementPersonnel());
+		listeBesoinFormation.addAll(evolution.getDeveloppementComportement());
+		listeBesoinFormation.addAll(evolution.getDeveloppementFormateur());
+		for (EaeDeveloppementDto besoinF : listeBesoinFormation) {
+			for (EaeDeveloppementDto besoinF2 : listeBesoinFormation) {
+				if (besoinF2.getPriorisation() == besoinF.getPriorisation() && besoinF2 != besoinF) {
+					String message = "Attention, plusieurs besoins en formation ont la même priorité. Veuillez rectifier les priorités de vos besoins en formation avant d'enregistrer.";
+					if (!result.getErrors().contains(message))
+						result.getErrors().add(message);
+					break;
+				}
+			}
+		}
 
 		return result;
 	}
