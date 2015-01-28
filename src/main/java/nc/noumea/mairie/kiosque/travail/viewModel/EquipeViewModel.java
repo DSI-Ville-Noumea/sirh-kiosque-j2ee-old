@@ -178,6 +178,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, String> args = new HashMap<String, String>();
 		args.put("url", url);
+		args.put("type", "");
 		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
 		win.doModal();
 	}

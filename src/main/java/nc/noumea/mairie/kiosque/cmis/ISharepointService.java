@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.cmis;
  * #L%
  */
 
-
 import java.util.List;
 
 public interface ISharepointService {
@@ -36,4 +35,6 @@ public interface ISharepointService {
 	String getUrlTableauBordApprobateur();
 
 	String getUrlDocumentEAE();
+
+	String getUrlDocumentEAESharepoint();
 }

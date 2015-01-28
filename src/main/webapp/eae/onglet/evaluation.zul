@@ -36,7 +36,8 @@
 			value="@bind(vm.evaluation.commentaireEvaluateur)"
 			onChanging="@command('textChangedEvaluation')" />
 		<div sclass="blockSeparator" />
-		<label sclass="RHTitle3" value="Résultats dans le poste, Note " />
+		<label sclass="RHTitle3"
+			value="@bind(vm.getTitreResultatEvaluation(vm.evaluation.statut))" />
 		<separator />
 		<hlayout>
 			<div width="100px">
@@ -73,7 +74,7 @@
 			</listhead>
 			<listitem>
 				<listcell>
-					<label value="Evaluation chifrée" />
+					<label value="Evaluation chiffrée" />
 				</listcell>
 				<listcell>
 					<label value="@bind(vm.evaluation.noteAnneeN1)" />
@@ -86,6 +87,32 @@
 				</listcell>
 			</listitem>
 		</listbox>
+		<hlayout
+			visible="@bind(vm.isContractuelConvention(vm.evaluation.statut))">
+			<separator />
+			<label
+				value="Dans l'hypothèse d'une revalorisation de salaire (pour contractuels) ou d'une reclassification (si convention collective), j'emets un avis: " />
+			<div sclass="bleu">
+				<radiogroup
+					visible="@bind(vm.isChangementClasse(vm.evaluation.typeAvct))"
+					onCheck="@command('textChangedEvaluation')"
+					selectedItem="@bind(vm.evaluation.avisChangementClasse)">
+					<radio label="Favorable"
+						disabled="@bind(not vm.modification)" value="${true}" />
+					<radio label="Défavorable"
+						disabled="@bind(not vm.modification)" value="${false}" />
+				</radiogroup>
+				<radiogroup
+					visible="@bind(vm.isRevalorisation(vm.evaluation.typeAvct))"
+					onCheck="@command('textChangedEvaluation')"
+					selectedItem="@bind(vm.evaluation.avisRevalorisation)">
+					<radio label="Favorable"
+						disabled="@bind(not vm.modification)" value="${true}" />
+					<radio label="Défavorable"
+						disabled="@bind(not vm.modification)" value="${false}" />
+				</radiogroup>
+			</div>
+		</hlayout>
 		<separator />
 		<label
 			value="Commentaires éventuels de l'évalué concernant l'appréciation"
@@ -95,5 +122,77 @@
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
 			value="@bind(vm.evaluation.commentaireEvalue)"
 			onChanging="@command('textChangedEvaluation')" />
+		<separator />
+		<div sclass="blockSeparator" />
+		<separator />
+		<vlayout
+			visible="@bind(vm.isAfficherTitreFonctionnaireEvaluation(vm.evaluation.statut,vm.evaluation.typeAvct,vm.evaluation.cap))">
+			<hlayout>
+				<label sclass="RHTitle3"
+					value="@bind(vm.getTitreFonctionnaireEvaluation(vm.evaluation))" />
+				<image
+					tooltiptext="par l'évaluateur, en coordination avec l'autorité territoriale ou son représentant."
+					sclass="ListAction help" />
+			</hlayout>
+			<separator />
+			<hlayout
+				visible="@bind(vm.isChangementClasse(vm.evaluation.typeAvct))">
+				<label
+					value="Dans le cadre d'un changement de classe, j'emets un avis" />
+				<radiogroup onCheck="@command('textChangedEvaluation')"
+					selectedItem="@bind(vm.evaluation.avisChangementClasse)">
+					<radio label="Favorable"
+						disabled="@bind(not vm.modification)" value="${true}" />
+					<radio label="Défavorable"
+						disabled="@bind(not vm.modification)" value="${false}" />
+				</radiogroup>
+			</hlayout>
+			<vlayout
+				visible="@bind(vm.isAvancementDifferencieCAP(vm.evaluation.typeAvct,vm.evaluation.cap))">
+				<label
+					value="Dans le cadre de l'avancement différencié (pour les agents du CAG, de l'OPT, du cadre socio-éducatif, du cadre de la santé..), les résultats professionnels obtenus par l'agent depuis son dernier avancement d'échelon, au regard des objectifs assignés et des conditions d'organisation et de fonctionnement du service dont il relève, font que je sollicite un avancement d'échelon à la " />
+				<div align="center">
+					<radiogroup orient="horizontal"
+						selectedItem="@bind(vm.evaluation.propositionAvancement.courant)">
+						<hlayout>
+							<zk
+								forEach="${vm.evaluation.propositionAvancement.liste}">
+								<div sclass="bleu">
+									<radio
+										disabled="@bind(not vm.modification)" label="${each.valeur}"
+										value="${each.code}" />
+								</div>
+							</zk>
+						</hlayout>
+					</radiogroup>
+				</div>
+			</vlayout>
+			<separator />
+			<label
+				visible="@bind(vm.isAvancementDifferencieCAP(vm.evaluation.typeAvct,vm.evaluation.cap))"
+				value="Rapport circonstancié pour les demandes d'avancement d'échelon à la durée minimale ou maximale (obligatoire)"
+				style="color: #d3711c;font-weight: bold;" />
+			<label
+				visible="@bind(vm.isChangementClasse(vm.evaluation.typeAvct))"
+				value="Rapport circonstancié pour les changements de classe défavorable"
+				style="color: #d3711c;font-weight: bold;" />
+			<label sclass="bleu" visible="@bind(not vm.modification)"
+				value="@bind(vm.evaluation.commentaireAvctEvaluateur)" />
+			<textbox rows="4" width="100%"
+				visible="@bind(vm.modification)"
+				value="@bind(vm.evaluation.commentaireAvctEvaluateur)"
+				onChanging="@command('textChangedEvaluation')" />
+			<separator />
+			<label
+				value="Commentaires éventuels de l'évalué concernant la proposition"
+				style="color: #d3711c;font-weight: bold;" />
+			<label sclass="bleu" visible="@bind(not vm.modification)"
+				value="@bind(vm.evaluation.commentaireAvctEvalue)" />
+			<textbox rows="4" width="100%"
+				visible="@bind(vm.modification)"
+				value="@bind(vm.evaluation.commentaireAvctEvalue)"
+				onChanging="@command('textChangedEvaluation')" />
+			<separator />
+		</vlayout>
 	</vlayout>
 </zk>

@@ -79,7 +79,7 @@ public class TableauEaeViewModel {
 
 		// on initialise la taille du tableau
 		setTailleListe("10");
-filtrer();
+		filtrer();
 	}
 
 	@Command
@@ -114,8 +114,27 @@ filtrer();
 	@Command
 	public void imprimerEae(@BindingParam("ref") EaeListItemDto eae) {
 		// on imprime l'EAE de l'agent
-		byte[] resp = eaeWsConsumer.imprimerEAE(eae.getIdEae());
-		Filedownload.save(resp, "application/pdf", "eae_" + eae.getIdEae());
+		byte[] resp = eaeWsConsumer.imprimerEAE(eae.getIdEae(), eae.isEstDetache());
+		if (eae.isEstDetache()) {
+			Filedownload.save(resp, "application/docx", "eae_" + eae.getIdEae());
+		} else {
+			Filedownload.save(resp, "application/pdf", "eae_" + eae.getIdEae());
+		}
+
+	}
+
+	@Command
+	public void telechargerEae(@BindingParam("ref") EaeListItemDto eae) {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, String> args = new HashMap<String, String>();
+		args.put("url", eae.getIdDocumentGed());
+		if (eae.getIdDocumentGed().startsWith("EAE_")) {
+			args.put("type", "");
+		} else {
+			args.put("type", "SP");
+		}
+		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
+		win.doModal();
 	}
 
 	@Command

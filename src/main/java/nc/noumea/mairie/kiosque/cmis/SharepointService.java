@@ -41,7 +41,6 @@ import nc.noumea.mairie.ws.WSConsumerException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -231,5 +230,10 @@ public class SharepointService implements ISharepointService {
 	@Override
 	public String getUrlDocumentEAE() {
 		return sharepointBaseUrl + "kiosque-rh/EAE/";
+	}
+
+	@Override
+	public String getUrlDocumentEAESharepoint() {
+		return sharepointBaseUrl + "kiosque-rh/_layouts/DocIdRedir.aspx?ID=";
 	}
 }

@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.travail.viewModel;
  * #L%
  */
 
-
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 
 import org.zkoss.bind.annotation.AfterCompose;
@@ -41,8 +40,12 @@ public class VisuEaeViewModel {
 	private ISharepointService sharepointConsumer;
 
 	@AfterCompose
-	public void doAfterCompose(@ExecutionArgParam("url") String url) {
-		setUrl(sharepointConsumer.getUrlDocumentEAE() + url);
+	public void doAfterCompose(@ExecutionArgParam("url") String url, @ExecutionArgParam("type") String type) {
+		if (type.equals("SP")) {
+			setUrl(sharepointConsumer.getUrlDocumentEAESharepoint() + url);
+		} else {
+			setUrl(sharepointConsumer.getUrlDocumentEAE() + url);
+		}
 	}
 
 	public String getUrl() {

@@ -95,10 +95,12 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	}
 
 	@Override
-	public byte[] imprimerEAE(Integer idEae) {
+	public byte[] imprimerEAE(Integer idEae, boolean isDetache) {
 		String url = String.format(sirhEaeWsBaseUrl + eaeImpressionEaeUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idEae", idEae.toString());
+		params.put("format", isDetache ? "DOCX" : "PDF");
+
 		ClientResponse res = createAndFireRequest(params, url, false, null);
 
 		return readResponseWithFile(res, url);

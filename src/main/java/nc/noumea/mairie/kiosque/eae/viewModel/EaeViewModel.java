@@ -355,6 +355,22 @@ public class EaeViewModel {
 		} else if (getHeureDuree().equals("00") && getMinuteDuree().equals("00")) {
 			result.getErrors().add("La durée de l'entretien annuel d'échange ne doit pas être égale à zéro.");
 		}
+		// Si statut = F et type AD alors le rapport circonstancié obligatoire
+		// si mini ou maxi si moyen alors il doit être vide.
+		if (evaluation.getStatut().equals("F") && evaluation.getTypeAvct().equals("AD")) {
+			if ((evaluation.getPropositionAvancement().getCourant().equals("MINI") || evaluation
+					.getPropositionAvancement().getCourant().equals("MAXI"))
+					&& (evaluation.getCommentaireAvctEvaluateur() == null || evaluation.getCommentaireAvctEvaluateur()
+							.equals(""))) {
+				result.getErrors()
+						.add("Le contenu du rapport circonstancié ne doit pas être vide pour une durée d'avancement minimum ou maximum.");
+			} else if (evaluation.getPropositionAvancement().getCourant().equals("MOY")
+					&& evaluation.getCommentaireAvctEvaluateur() != null) {
+				result.getErrors()
+						.add("Le contenu du rapport circonstancié ne doit pas être rempli pour une durée d'avancement moyenne.");
+			}
+
+		}
 		return result;
 	}
 
@@ -401,6 +417,30 @@ public class EaeViewModel {
 					result.getErrors().add(message);
 			}
 		}
+		if (evolution.isMobiliteCollectivite()
+				&& (evolution.getNomCollectivite() == null || evolution.getNomCollectivite().equals(""))) {
+			result.getErrors().add("Le champ de mobilité au sein de la collectivité doit être rempli.");
+		}
+		if (evolution.getConcours() && (evolution.getNomConcours() == null || evolution.getNomConcours().equals(""))) {
+			result.getErrors().add("L'intitulé du concours ou de l'examen doit être rempli.");
+		}
+		if (evolution.getVae() && (evolution.getNomVae() == null || evolution.getNomVae().equals(""))) {
+			result.getErrors().add("L'intitulé du diplôme doit être rempli.");
+		}
+		if (evolution.getTempsPartiel() && evolution.getPourcentageTempsPartiel().getCourant() == null) {
+			result.getErrors().add("Le pourcentage de temps partiel doit être rempli.");
+		}
+		if (evolution.getRetraite() && evolution.getDateRetraite() == null) {
+			result.getErrors().add("La date de départ en retraite doit être remplie.");
+		}
+		if (evolution.getAutrePerspective()
+				&& (evolution.getLibelleAutrePerspective() == null || evolution.getLibelleAutrePerspective().equals(""))) {
+			result.getErrors().add("Le champ 'autres perspective' doit être renseigné.");
+		}
+		
+		//TODO reste à checker les priorités
+		
+
 		return result;
 	}
 
@@ -1202,5 +1242,58 @@ public class EaeViewModel {
 
 	public void setMinuteDuree(String minuteDuree) {
 		this.minuteDuree = minuteDuree;
+	}
+
+	public String getTitreResultatEvaluation(String statut) {
+		String res = "Résultats dans le poste, Note";
+
+		if (statut != null && (statut.equals("C") || statut.equals("CC"))) {
+			res += ", revalorisation ou reclassification";
+		}
+		return res;
+	}
+
+	public boolean isContractuelConvention(String statut) {
+		if (statut != null && (statut.equals("C") || statut.equals("CC"))) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isChangementClasse(String typeAvct) {
+		// changement de classe = PROMO
+		if (typeAvct != null && typeAvct.equals("PROMO")) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isRevalorisation(String typeAvct) {
+		if (typeAvct != null && typeAvct.equals("REVA")) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isAvancementDifferencieCAP(String typeAvct, boolean cap) {
+		if (typeAvct != null && typeAvct.equals("AD") && cap) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isAfficherTitreFonctionnaireEvaluation(String statut, String typeAvct, boolean cap) {
+		if (statut != null && statut.equals("F")) {
+			if (typeAvct != null && typeAvct.equals("PROMO")) {
+				return true;
+			} else if (typeAvct != null && typeAvct.equals("AD") && cap) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public String getTitreFonctionnaireEvaluation(EaeEvaluationDto evaluation) {
+		return "Changement d'échelon ou de classe pour les agents promouvable en " + evaluation.getAnneeAvancement();
 	}
 }

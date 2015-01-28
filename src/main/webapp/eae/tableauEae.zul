@@ -151,6 +151,10 @@
 										tooltiptext="Télécharger l'EAE" sclass="ListAction print"
 										visible="@bind(each.droitImprimerBirt)"
 										onClick="@command('imprimerEae', ref=each)" />
+									<image
+										tooltiptext="Télécharger l'EAE" sclass="ListAction print"
+										visible="@bind(each.droitImprimerGed)"
+										onClick="@command('telechargerEae', ref=each)" />
 								</hlayout>
 							</listcell>
 						</listitem>

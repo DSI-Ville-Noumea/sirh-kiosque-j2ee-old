@@ -50,7 +50,7 @@ public interface ISirhEaeWSConsumer {
 
 	List<EaeListItemDto> getTableauEae(Integer idAgent);
 
-	byte[] imprimerEAE(Integer idEae);
+	byte[] imprimerEAE(Integer idEae, boolean detache);
 
 	ReturnMessageDto initialiseEae(Integer idAgent, Integer idAgentEvalue);
 
