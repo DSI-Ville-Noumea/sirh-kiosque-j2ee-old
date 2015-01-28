@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.DureeDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDeveloppementDto;
@@ -47,9 +48,9 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeSouhaitDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 
-import org.joda.time.DateTime;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
@@ -97,8 +98,6 @@ public class EaeViewModel {
 
 	private EaeEvaluationDto evaluation;
 
-	private Date dureeEntretien;
-
 	private EaeAutoEvaluationDto autoEvaluation;
 
 	private EaePlanActionDto planAction;
@@ -106,6 +105,13 @@ public class EaeViewModel {
 	private EaeEvolutionDto evolution;
 
 	private List<Integer> listePriorisationEvolution;
+
+	// POUR LA GESTION DE LA DUREE DE L'ENTRETIEN
+	private List<String> listeHeures;
+	private List<String> listeMinutes;
+
+	private String heureDuree;
+	private String minuteDuree;
 
 	/* Pour savoir si on est en modif ou en visu */
 	private String modeSaisi;
@@ -187,6 +193,25 @@ public class EaeViewModel {
 		EaeEvaluationDto evaluation = eaeWsConsumer.getEvaluationEae(getEaeCourant().getIdEae(), currentUser.getAgent()
 				.getIdAgent());
 		setEvaluation(evaluation);
+
+		// minutes et heures
+		TimePicker timePicker = new TimePicker();
+		setListeMinutes(timePicker.getListeMinutes());
+		setListeHeures(timePicker.getListeHeuresEaeDureeEntretien());
+		if (getEvaluation().getDureeEntretien() != null) {
+			if (getEvaluation().getDureeEntretien() != null) {
+				String heure = "" + getEvaluation().getDureeEntretien().getHeures();
+				String minute = "" + getEvaluation().getDureeEntretien().getMinutes();
+				if (heure.length() == 1) {
+					heure = "0" + heure;
+				}
+				if (minute.length() == 1) {
+					minute = "0" + minute;
+				}
+				setHeureDuree(heure);
+				setMinuteDuree(minute);
+			}
+		}
 	}
 
 	private void initAppreciation() {
@@ -267,8 +292,16 @@ public class EaeViewModel {
 			result = eaeWsConsumer.saveAppreciation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getAppreciationAnnee());
 		} else if (getTabCourant().getId().equals("EVALUATION")) {
-			result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-					getEvaluation());
+			result = isFormEvaluationValid(result, getEvaluation());
+			if (result.getErrors().size() == 0) {
+				// on construit la durée de l'entretien
+				DureeDto dureeDto = new DureeDto();
+				dureeDto.setHeures(Integer.valueOf(getHeureDuree()));
+				dureeDto.setMinutes(Integer.valueOf(getMinuteDuree()));
+				getEvaluation().setDureeEntretien(dureeDto);
+				result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
+						getEvaluation());
+			}
 		} else if (getTabCourant().getId().equals("AUTOEVALUATION")) {
 			result = eaeWsConsumer.saveAutoEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
 					getAutoEvaluation());
@@ -314,6 +347,15 @@ public class EaeViewModel {
 			// on recharge l'eae pour vider les eventuelles modifs
 			initEae(getEaeCourant(), getModeSaisi());
 		}
+	}
+
+	private ReturnMessageDto isFormEvaluationValid(ReturnMessageDto result, EaeEvaluationDto evaluation) {
+		if (getHeureDuree() == null || getMinuteDuree() == null) {
+			result.getErrors().add("La durée de l'entretien annuel d'échange ne doit pas être vide.");
+		} else if (getHeureDuree().equals("00") && getMinuteDuree().equals("00")) {
+			result.getErrors().add("La durée de l'entretien annuel d'échange ne doit pas être égale à zéro.");
+		}
+		return result;
 	}
 
 	private ReturnMessageDto isFormEvolutionValid(ReturnMessageDto result, EaeEvolutionDto evolution) {
@@ -1034,19 +1076,6 @@ public class EaeViewModel {
 		this.evaluation = evaluation;
 	}
 
-	public Date getDureeEntretien() {
-		if (dureeEntretien == null && getEvaluation().getDureeEntretien() != null) {
-			DateTime t = new DateTime(2014, 01, 01, getEvaluation().getDureeEntretien().getHeures(), getEvaluation()
-					.getDureeEntretien().getMinutes());
-			return t.toDate();
-		}
-		return dureeEntretien;
-	}
-
-	public void setDureeEntretien(Date dureeEntretien) {
-		this.dureeEntretien = dureeEntretien;
-	}
-
 	public EaeAutoEvaluationDto getAutoEvaluation() {
 		return autoEvaluation;
 	}
@@ -1141,5 +1170,37 @@ public class EaeViewModel {
 
 	public void setHasTextChangedEvolution(boolean hasTextChangedEvolution) {
 		this.hasTextChangedEvolution = hasTextChangedEvolution;
+	}
+
+	public List<String> getListeHeures() {
+		return listeHeures;
+	}
+
+	public void setListeHeures(List<String> listeHeures) {
+		this.listeHeures = listeHeures;
+	}
+
+	public List<String> getListeMinutes() {
+		return listeMinutes;
+	}
+
+	public void setListeMinutes(List<String> listeMinutes) {
+		this.listeMinutes = listeMinutes;
+	}
+
+	public String getHeureDuree() {
+		return heureDuree;
+	}
+
+	public void setHeureDuree(String heureDuree) {
+		this.heureDuree = heureDuree;
+	}
+
+	public String getMinuteDuree() {
+		return minuteDuree;
+	}
+
+	public void setMinuteDuree(String minuteDuree) {
+		this.minuteDuree = minuteDuree;
 	}
 }

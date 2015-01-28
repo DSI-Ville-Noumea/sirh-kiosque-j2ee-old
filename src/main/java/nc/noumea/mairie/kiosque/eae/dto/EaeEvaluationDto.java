@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 public class EaeEvaluationDto {
 
 	private int idEae;

@@ -9,9 +9,23 @@
 			<label value="Durée de l'entretien" />
 			<label sclass="bleu" visible="@bind(not vm.modification)"
 				value="@bind(vm.getInfoDureeEntretien(vm.evaluation))" />
-			<timebox format="HH:mm" visible="@bind(vm.modification)"
-				value="@bind(vm.dureeEntretien)"
-				onChanging="@command('textChangedEvaluation')" />
+			<combobox model="@bind(vm.listeHeures)"
+				onSelect="@command('textChangedEvaluation')"
+				visible="@bind(vm.modification)" selectedItem="@bind(vm.heureDuree)"
+				cols="2">
+				<template name="model">
+					<comboitem label="@bind(each)"></comboitem>
+				</template>
+			</combobox>
+
+			<combobox model="@bind(vm.listeMinutes)"
+				onSelect="@command('textChangedEvaluation')"
+				visible="@bind(vm.modification)"
+				selectedItem="@bind(vm.minuteDuree)" cols="2">
+				<template name="model">
+					<comboitem label="@bind(each)"></comboitem>
+				</template>
+			</combobox>
 		</hlayout>
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3"

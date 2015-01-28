@@ -38,6 +38,8 @@ public class TimePicker {
 
 	private List<String> listeHeuresPointage;
 
+	private List<String> listeHeuresEaeDureeEntretien;
+
 	public List<String> getListeMinutes() {
 		listeMinutes = new ArrayList<>();
 		listeMinutes.add("00");
@@ -139,6 +141,29 @@ public class TimePicker {
 
 	public void setListeHeuresPointage(List<String> listeHeuresPointage) {
 		this.listeHeuresPointage = listeHeuresPointage;
+	}
+
+	public List<String> getListeHeuresEaeDureeEntretien() {
+		listeHeuresEaeDureeEntretien = new ArrayList<>();
+		listeHeuresEaeDureeEntretien.add("00");
+		listeHeuresEaeDureeEntretien.add("01");
+		listeHeuresEaeDureeEntretien.add("02");
+		listeHeuresEaeDureeEntretien.add("03");
+		listeHeuresEaeDureeEntretien.add("04");
+		listeHeuresEaeDureeEntretien.add("05");
+		listeHeuresEaeDureeEntretien.add("06");
+		listeHeuresEaeDureeEntretien.add("07");
+		listeHeuresEaeDureeEntretien.add("08");
+		listeHeuresEaeDureeEntretien.add("09");
+		listeHeuresEaeDureeEntretien.add("10");
+		listeHeuresEaeDureeEntretien.add("11");
+		listeHeuresEaeDureeEntretien.add("12");
+
+		return listeHeuresEaeDureeEntretien;
+	}
+
+	public void setListeHeuresEaeDureeEntretien(List<String> listeHeuresEaeDureeEntretien) {
+		this.listeHeuresEaeDureeEntretien = listeHeuresEaeDureeEntretien;
 	}
 
 }
