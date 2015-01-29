@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -50,6 +51,7 @@ import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
@@ -59,6 +61,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -94,9 +97,14 @@ public class GestionPointagesViewModel {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
+	
+
+
+	private Div divDepart;
 
 	@Init
-	public void initGestionPointages() {
+	public void initGestionPointages(@ExecutionArgParam("div") Div div) {
+		setDivDepart(div);
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		/* Pour les pointages */
 		AccessRightsPtgDto droitsPointage = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
@@ -347,6 +355,17 @@ public class GestionPointagesViewModel {
 		filtrer();
 	}
 
+	@Command
+	public void modifierPointage(@BindingParam("ref") ConsultPointageDto pointage) {
+		//TODO on fait appel à la page saisie ptg en remplissant les param
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("pointage", pointage);
+		getDivDepart().getChildren().clear();
+		Executions.createComponents("/pointages/saisie/saisieHebdo.zul", getDivDepart(), args);
+		
+	}
+
 	private void sauvegardeEtatPointage(List<PointagesEtatChangeDto> listeChangeEtat) {
 		ReturnMessageDto result = ptgWsConsumer.changerEtatPointage(currentUser.getAgent().getIdAgent(),
 				listeChangeEtat);
@@ -504,5 +523,13 @@ public class GestionPointagesViewModel {
 
 	public void setTypeHSupFiltre(String typeHSupFiltre) {
 		this.typeHSupFiltre = typeHSupFiltre;
+	}
+
+	public Div getDivDepart() {
+		return divDepart;
+	}
+
+	public void setDivDepart(Div divDepart) {
+		this.divDepart = divDepart;
 	}
 }

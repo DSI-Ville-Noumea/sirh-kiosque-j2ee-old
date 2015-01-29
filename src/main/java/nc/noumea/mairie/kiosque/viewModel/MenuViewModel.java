@@ -112,7 +112,9 @@ public class MenuViewModel {
 	@Command
 	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
 		div.getChildren().clear();
-		Executions.createComponents(page + ".zul", div, null);
+		Map<String, Div> args = new HashMap<String, Div>();
+		args.put("div", div);
+		Executions.createComponents(page + ".zul", div, args);
 	}
 
 	@Command

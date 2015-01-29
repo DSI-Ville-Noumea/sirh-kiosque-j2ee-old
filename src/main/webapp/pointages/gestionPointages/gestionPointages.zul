@@ -99,7 +99,7 @@
 				</hlayout>
 				<separator />
 				<grid model="@bind(vm.listePointages)" mold="paging"
-					width="1180px" pageSize="@bind(vm.tailleListe)"
+					width="1230px" pageSize="@bind(vm.tailleListe)"
 					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
 					<columns>
 						<column width="30px" sort="none" />
@@ -124,6 +124,10 @@
 						<column width="80px" label="Etat" sort="none" />
 						<column align="center" label="Date de saisie"
 							width="100px" sort="auto('dateSaisie')" />
+						<column width="50px" align="center"
+							visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)">
+							<!-- Moficication -->
+						</column>
 						<column
 							visible="@bind(vm.droitsPointage.approbation)">
 							<hlayout>
@@ -177,6 +181,10 @@
 								value="@bind(vm.etatToString(each.idRefEtat))" />
 							<label
 								value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
+							<image tooltiptext="Modifier le pointage"
+								sclass="ListAction edit"
+								visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)"
+								onClick="@command('modifierPointage',ref=each)" />
 							<hlayout
 								visible="@bind(vm.droitsPointage.approbation)">
 								<image
@@ -197,7 +205,7 @@
 					</template>
 				</grid>
 
-				<div style="display:block;" width="1180px">
+				<div style="display:block;" width="1230px">
 					<div style="display:inline-block;float:right;"
 						align="right">
 						<button label="Exp. PDF"

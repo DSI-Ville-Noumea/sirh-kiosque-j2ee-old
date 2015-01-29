@@ -35,9 +35,11 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AbsenceDtoKiosque;
+import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.HeureSupDtoKiosque;
@@ -55,6 +57,7 @@ import nc.noumea.mairie.ws.ISirhWSConsumer;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
@@ -110,7 +113,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	private List<String> listeMinutes;
 
 	@Init
-	public void initSaisieFichePointage() throws ParseException {
+	public void initSaisieFichePointage(@ExecutionArgParam("pointage") ConsultPointageDto pointage)
+			throws ParseException {
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		// on charge les service pour les filtres
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
@@ -124,6 +128,20 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 		setListeTypeAbsence(getModelTypeAbsence());
 		setListeMotifHsup(getModelMotifHsup());
+
+		if (pointage != null) {
+			// c'est qu'on vient de l'ecran de visu des pointages
+			setDateLundi(pointage.getDate());
+			afficheSemaine();
+			AgentWithServiceDto agent = sirhWsConsumer.getAgentService(pointage.getAgent().getIdAgent(),getDateLundi());
+			ServiceDto servAgent = new ServiceDto();
+			servAgent.setCodeService(agent.getCodeService());
+			servAgent.setService(agent.getService());
+			setServiceFiltre(servAgent);
+			afficheListeAgent();
+			setAgentFiltre(pointage.getAgent());
+			chargeFiche();
+		}
 	}
 
 	private ListModel<MotifHeureSupDto> getModelMotifHsup() {

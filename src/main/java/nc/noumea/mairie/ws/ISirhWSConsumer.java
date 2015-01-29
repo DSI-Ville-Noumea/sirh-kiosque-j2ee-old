@@ -24,6 +24,7 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
+import java.util.Date;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
@@ -66,5 +67,7 @@ public interface ISirhWSConsumer {
 	List<AccueilRhDto> getListeTexteAccueil();
 
 	List<AgentDto> getListDelegataire(Integer idAgent);
+
+	AgentWithServiceDto getAgentService(Integer idAgent, Date date);
 
 }
