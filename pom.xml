@@ -71,7 +71,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<spring.version>4.0.6.RELEASE</spring.version>
-		<zk.version>7.0.3.1</zk.version>
+		<zk.version>7.0.4</zk.version>
 		<tomcat.version>7.0.55</tomcat.version>
 	</properties>
 
@@ -173,7 +173,7 @@
 		<dependency>
 			<groupId>org.zkoss.poi</groupId>
 			<artifactId>zpoi</artifactId>
-			<version>3.8.1</version>
+			<version>3.9.3</version>
 			<!-- dependance en doublon dans chemistry-opencmis-commons-impl -->
 			<exclusions>
 				<exclusion>
@@ -185,7 +185,7 @@
 		<dependency>
 			<groupId>org.zkoss.poi</groupId>
 			<artifactId>zpoiex</artifactId>
-			<version>3.8.1</version>
+			<version>3.9.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.lowagie</groupId>
