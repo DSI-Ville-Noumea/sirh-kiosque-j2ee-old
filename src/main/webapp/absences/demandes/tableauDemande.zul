@@ -115,7 +115,7 @@
 						sclass="ListAction warn" />
 				</column>
 				<column label="Opérateur" sort="none" width="150px" />
-				<column label="Etat" sort="none" width="100px" />
+				<column label="Etat" sort="none" width="115px" />
 				<column label="Date de saisie"
 					sort="auto('dateDemande')" align="center" width="120px" />
 				<column label="" sort="none" width="150px" />
