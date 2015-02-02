@@ -3,7 +3,6 @@
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.ModifierDemandeViewModel')">
-		<style>.z-window {background-color: #ee7203;}</style>
 		<div sclass="fond" height="100%">
 			<hlayout>
 				<hlayout width="150px">
@@ -213,6 +212,7 @@
 							</hlayout>
 							<hlayout>
 								<textbox cols="14" disabled="true"
+									style="font-weight:bold;color:#ee7203 !important;"
 									value="@bind(vm.dureeCongeAnnuel)" />
 							</hlayout>
 						</hlayout>

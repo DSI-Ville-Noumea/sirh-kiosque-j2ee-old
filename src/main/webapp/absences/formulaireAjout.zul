@@ -196,6 +196,7 @@
 					</hlayout>
 					<hlayout>
 						<textbox cols="14" disabled="true"
+							style="font-weight:bold;color:#ee7203 !important;"
 							value="@bind(vm.dureeCongeAnnuel)" />
 					</hlayout>
 				</hlayout>
