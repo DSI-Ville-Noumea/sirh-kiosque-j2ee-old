@@ -1,5 +1,6 @@
 <zk>
-	<grid style="margin-left: 309px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
+	<grid
+		style="margin-left: 449px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
 		<columns visible="false">
 			<column label="Type HS" sort="none" width="50px" />
 			<column label="Date" sort="auto('date')" width="80px"
@@ -21,16 +22,16 @@
 		</columns>
 		<rows>
 			<zk forEach="${vm.getHistoriquePointage(arg.pointage)}">
-				<row style="background-color:#ee7203 !important;background:#ee7203 !important;">
+				<row
+					style="background-color:#ee7203 !important;background:#ee7203 !important;">
 					<label value="${vm.typeHSup(each)}" />
 					<label value="${vm.dateToString(each.date)}" />
 					<label value="${vm.heureToString(each.debut)}" />
 					<label value="${vm.heureToString(each.fin)}" />
 					<label value="${each.quantite}" />
 					<vlayout>
-						<label value="${each.motif}" />
-						<separator
-							visible="@bind(not empty each.commentaire)" />
+						<label value="${each.motif}"
+							visible="@bind(not empty each.motif)" />
 						<label value="${each.commentaire}"
 							visible="@bind(not empty each.commentaire)" />
 					</vlayout>

@@ -189,13 +189,20 @@ public class GestionPointagesViewModel {
 	}
 
 	public String dateToString(Date date) {
-		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
-		return sdfJour.format(date);
+		if (date != null) {
+			SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
+			return sdfJour.format(date);
+		}
+		return null;
+
 	}
 
 	public String heureToString(Date date) {
-		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
-		return sdfHeure.format(date);
+		if (date != null) {
+			SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
+			return sdfHeure.format(date);
+		}
+		return null;
 	}
 
 	public String etatToString(Integer idRefEtat) {

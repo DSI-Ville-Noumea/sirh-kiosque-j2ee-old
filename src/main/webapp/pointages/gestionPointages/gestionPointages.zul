@@ -99,14 +99,14 @@
 				</hlayout>
 				<separator />
 				<grid model="@bind(vm.listePointages)" mold="paging"
-					width="1230px" pageSize="@bind(vm.tailleListe)"
+					width="1370px" pageSize="@bind(vm.tailleListe)"
 					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
 					<columns>
 						<column width="30px" sort="none" />
 						<column label="Agent" sort="auto('agent.nom')"
 							width="200px" />
 						<column label="Type" sort="auto('typePointage')"
-							width="110px" />
+							width="250px" />
 						<column label="Type HS" sort="none"
 							width="50px" />
 						<column align="center" label="Date"
@@ -169,9 +169,9 @@
 								value="@bind(each.fin) @converter('formatedDate',format='HH:mm')" />
 							<label value="@bind(each.quantite)" />
 							<vlayout>
-								<label value="@bind(each.motif)" />
-								<separator
-									visible="@bind(not empty each.commentaire)" />
+								<label
+									visible="@bind(not empty each.motif)"
+									value="@bind(each.motif)" />
 								<label value="@bind(each.commentaire)"
 									visible="@bind(not empty each.commentaire)" />
 							</vlayout>
@@ -205,7 +205,7 @@
 					</template>
 				</grid>
 
-				<div style="display:block;" width="1230px">
+				<div style="display:block;" width="1370px">
 					<div style="display:inline-block;float:right;"
 						align="right">
 						<button label="Exp. PDF"

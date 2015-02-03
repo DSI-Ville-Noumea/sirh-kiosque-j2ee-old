@@ -1,9 +1,4 @@
 <style>
-
-
-
-
-
 	
 	<![CDATA[
 
@@ -19,12 +14,12 @@
 	.filter2{background-image: url("img/SpriteH.png");
 	background-repeat: no-repeat; display: inline-block; padding-right:
 	14px; background-position: right -19px;height: 25px; padding-top:
-	0.5px;color: #ffffff;width: 890px;} ]]>
-	
-	
-	
-	
-	
-	
+	0.5px;color: #ffffff;width: 890px;}
+
+	.z-row{padding: 0px 0px;}
+
+	.z-row .z-detail-outer {padding: 0px 0px; vertical-align: middle;}
+
+	.z-detail {height: 20px;} ]]>
 	
 </style>
