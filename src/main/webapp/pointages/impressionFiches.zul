@@ -17,7 +17,7 @@
 			<separator />
 			<hlayout>
 				<label value="@bind(vm.dateFiltre)" />
-				<datebox value="@bind(vm.dateLundi)" id="db"
+				<datebox value="@bind(vm.dateLundi)" id="db" maxlength="10"
 					weekOfYear="true" format="dd/MM/yyyy" locale="fr"
 					onChange="@command('afficheListeFiche')" />
 				<space />

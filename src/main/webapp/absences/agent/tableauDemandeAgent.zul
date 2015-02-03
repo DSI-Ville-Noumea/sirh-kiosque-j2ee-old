@@ -25,11 +25,11 @@
 		</hlayout>
 		<hlayout>
 			<label value="Date de début : " />
-			<datebox cols="14" format="dd/MM/yyyy"
+			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
 				value="@bind(vm.dateDebutFiltre)" />
 
 			<label value="Date de fin : " />
-			<datebox cols="14" format="dd/MM/yyyy"
+			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
 				value="@bind(vm.dateFinFiltre)" />
 
 			<label value="Etat :" />
@@ -42,7 +42,7 @@
 			</combobox>
 
 			<label value="Date de la demande : " />
-			<datebox cols="14" format="dd/MM/yyyy"
+			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
 				value="@bind(vm.dateDemandeFiltre)" />
 
 			<button label="Vider" onClick="@command('viderFiltre')" />

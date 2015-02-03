@@ -19,10 +19,10 @@
 							value="Filtres obligatoires" />
 						<label value="du : " />
 						<datebox format="dd/MM/yyyy" weekOfYear="true"
-							value="@bind(vm.dateDebutFiltre)" />
+							maxlength="10" readonly="true" value="@bind(vm.dateDebutFiltre)" />
 						<label value="au : " />
 						<datebox format="dd/MM/yyyy" weekOfYear="true"
-							value="@bind(vm.dateFinFiltre)" />
+							maxlength="10" readonly="true" value="@bind(vm.dateFinFiltre)" />
 						<label value="Service :" />
 						<combobox width="400px" readonly="true"
 							model="@bind(vm.listeServicesFiltre)"

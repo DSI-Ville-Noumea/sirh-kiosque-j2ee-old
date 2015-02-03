@@ -43,7 +43,7 @@
 							<hlayout>
 								<datebox
 									visible="@bind(vm.demandeCourant.typeSaisi.calendarDateDebut)"
-									cols="14" format="dd/MM/yyyy"
+									cols="14" format="dd/MM/yyyy" maxlength="10"
 									value="@bind(vm.demandeCourant.dateDebut)" />
 								<radiogroup id="rg1"
 									visible="@bind(vm.demandeCourant.typeSaisi.chkDateDebut)"
@@ -97,7 +97,7 @@
 							<hlayout>
 								<datebox
 									visible="@bind(vm.demandeCourant.typeSaisi.calendarDateFin)"
-									cols="14" format="dd/MM/yyyy"
+									cols="14" format="dd/MM/yyyy" maxlength="10"
 									value="@bind(vm.demandeCourant.dateFin)" />
 								<radiogroup id="rg2"
 									visible="@bind(vm.demandeCourant.typeSaisi.chkDateFin)"
@@ -163,7 +163,7 @@
 							<hlayout>
 								<datebox
 									visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.calendarDateDebut)"
-									cols="14" format="dd/MM/yyyy"
+									cols="14" format="dd/MM/yyyy" maxlength="10"
 									value="@bind(vm.demandeCourant.dateDebut)"
 									onChange="@command('alimenteDateFin')" />
 								<radiogroup
@@ -183,7 +183,7 @@
 							<hlayout>
 								<datebox
 									visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.calendarDateFin)"
-									cols="14" format="dd/MM/yyyy"
+									cols="14" format="dd/MM/yyyy" maxlength="10"
 									value="@bind(vm.demandeCourant.dateFin)"
 									onChange="@command('refreshDuree')" />
 								<radiogroup
@@ -201,7 +201,7 @@
 								<label value="Date de reprise : " />
 							</hlayout>
 							<hlayout>
-								<datebox cols="14" format="dd/MM/yyyy"
+								<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
 									value="@bind(vm.demandeCourant.dateReprise)"
 									onChange="@command('refreshDuree')" />
 							</hlayout>

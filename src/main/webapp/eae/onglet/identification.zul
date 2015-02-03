@@ -10,7 +10,7 @@
 			<div sclass="bleu">
 				<label visible="@bind(not vm.modification)"
 					value="@bind(vm.identification.dateEntretien) @converter('formatedDate',format='dd/MM/yyyy')" />
-				<datebox visible="@bind(vm.modification)"
+				<datebox visible="@bind(vm.modification)" maxlength="10"
 					format="dd/MM/yyyy" value="@bind(vm.identification.dateEntretien)"
 					onChange="@command('textChangedIdentification')" />
 			</div>
@@ -57,7 +57,7 @@
 					<div sclass="bleu">
 						<label visible="@bind(not vm.modification)"
 							value="${vm.getDateToString(each.dateEntreeService)}" />
-						<datebox visible="@bind(vm.modification)"
+						<datebox visible="@bind(vm.modification)" maxlength="10"
 							format="dd/MM/yyyy" value="${each.dateEntreeService}"
 							onChange="@command('textChangedIdentification')" />
 					</div>
@@ -67,7 +67,7 @@
 					<div sclass="bleu">
 						<label visible="@bind(not vm.modification)"
 							value="${vm.getDateToString(each.dateEntreeFonction)}" />
-						<datebox visible="@bind(vm.modification)"
+						<datebox visible="@bind(vm.modification)" maxlength="10"
 							format="dd/MM/yyyy" value="${each.dateEntreeFonction}"
 							onChange="@command('textChangedIdentification')" />
 					</div>
@@ -166,7 +166,7 @@
 				<label visible="@bind(not vm.modification)"
 					value="@bind(vm.identification.situation.dateEntreeFonctionnaire) @converter('formatedDate',format='dd/MM/yyyy')" />
 				<datebox visible="@bind(vm.modification)"
-					format="dd/MM/yyyy"
+					format="dd/MM/yyyy" maxlength="10"
 					value="@bind(vm.identification.situation.dateEntreeFonctionnaire)"
 					onChange="@command('textChangedIdentification')" />
 			</div>
@@ -177,7 +177,7 @@
 				<label visible="@bind(not vm.modification)"
 					value="@bind(vm.identification.situation.dateEntreeAdministration) @converter('formatedDate',format='dd/MM/yyyy')" />
 				<datebox visible="@bind(vm.modification)"
-					format="dd/MM/yyyy"
+					format="dd/MM/yyyy" maxlength="10"
 					value="@bind(vm.identification.situation.dateEntreeAdministration)"
 					onChange="@command('textChangedIdentification')" />
 			</div>
@@ -197,7 +197,7 @@
 				<label visible="@bind(not vm.modification)"
 					value="@bind(vm.identification.situation.dateEntreeFonction) @converter('formatedDate',format='dd/MM/yyyy')" />
 				<datebox visible="@bind(vm.modification)"
-					format="dd/MM/yyyy"
+					format="dd/MM/yyyy" maxlength="10"
 					value="@bind(vm.identification.situation.dateEntreeFonction)"
 					onChange="@command('textChangedIdentification')" />
 			</div>

@@ -264,7 +264,7 @@
 					<div sclass="espace">
 						<datebox
 							disabled="@bind(not vm.modification || not vm.evolution.retraite)"
-							cols="14" format="dd/MM/yyyy"
+							cols="14" format="dd/MM/yyyy" maxlength="10"
 							value="@bind(vm.evolution.dateRetraite)"
 							onChanging="@command('textChangedEvolution')" />
 					</div>
@@ -331,7 +331,7 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)"
+						<datebox visible="@bind(vm.modification)" maxlength="7"
 							format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
@@ -390,7 +390,7 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)"
+						<datebox visible="@bind(vm.modification)" maxlength="7"
 							format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
@@ -450,7 +450,7 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)"
+						<datebox visible="@bind(vm.modification)" maxlength="7"
 							format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
@@ -508,7 +508,7 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)"
+						<datebox visible="@bind(vm.modification)" maxlength="7"
 							format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
@@ -566,7 +566,7 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)"
+						<datebox visible="@bind(vm.modification)" maxlength="7"
 							format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
@@ -625,7 +625,7 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)"
+						<datebox visible="@bind(vm.modification)" maxlength="7"
 							format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>

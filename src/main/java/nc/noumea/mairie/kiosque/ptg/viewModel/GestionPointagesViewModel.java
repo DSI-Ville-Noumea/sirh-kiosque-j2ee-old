@@ -97,8 +97,6 @@ public class GestionPointagesViewModel {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
-	
-
 
 	private Div divDepart;
 
@@ -357,13 +355,13 @@ public class GestionPointagesViewModel {
 
 	@Command
 	public void modifierPointage(@BindingParam("ref") ConsultPointageDto pointage) {
-		//TODO on fait appel à la page saisie ptg en remplissant les param
+		// on fait appel à la page saisie ptg en remplissant les param
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("pointage", pointage);
 		getDivDepart().getChildren().clear();
 		Executions.createComponents("/pointages/saisie/saisieHebdo.zul", getDivDepart(), args);
-		
+
 	}
 
 	private void sauvegardeEtatPointage(List<PointagesEtatChangeDto> listeChangeEtat) {
