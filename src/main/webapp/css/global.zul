@@ -92,9 +92,13 @@
 
 	.ListAction.print { background-position: -299px -229px; }
 
-	.ListAction.accept {background-position: -315px -229px;}
+	.ListAction.accept {background-image: url("img/pouce_vert.png");
+	background-repeat: no-repeat; cursor: pointer; display:
+	inline-block; height: 16px; margin: 2px 5px 0; width: 16px;}
 
-	.ListAction.delay { background-position: 0 -315px; }
+	.ListAction.delay { background-image: url("img/pouce_rouge.png");
+	background-repeat: no-repeat; cursor: pointer; display:
+	inline-block; height: 16px; margin: 2px 5px 0; width: 16px}
 
 	.ListAction.warn { background-position: 0 -363px; }
 

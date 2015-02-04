@@ -138,12 +138,12 @@
 									onClick="@command('approuverAllPointage')" />
 								<image
 									tooltiptext="Refuser tous les pointages"
-									sclass="ListAction cancel"
+									sclass="ListAction delay"
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('refuserAllPointage')" />
 								<image
 									tooltiptext="Re-mettre en saisie tous les pointages"
-									sclass="ListAction delay"
+									sclass="ListAction cancel"
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('attenteAllPointage')" />
 							</hlayout>
@@ -192,12 +192,12 @@
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('approuverPointage',ref=each)" />
 								<image tooltiptext="Refuser le pointage"
-									sclass="ListAction cancel"
+									sclass="ListAction delay"
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('refuserPointage',ref=each)" />
 								<image
 									tooltiptext="Re-mettre en saisie le pointage"
-									sclass="ListAction delay"
+									sclass="ListAction cancel"
 									visible="@bind(vm.droitsPointage.approbation)"
 									onClick="@command('attentePointage',ref=each)" />
 							</hlayout>

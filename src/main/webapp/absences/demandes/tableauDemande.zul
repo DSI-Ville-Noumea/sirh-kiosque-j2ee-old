@@ -166,7 +166,7 @@
 							onClick="@command('viserDemandeFavorable',ref=each)" />
 						<image
 							tooltiptext="Viser défavorablement la demande"
-							sclass="ListAction cancel" visible="@bind(each.modifierVisa)"
+							sclass="ListAction delay" visible="@bind(each.modifierVisa)"
 							onClick="@command('viserDemandeDefavorable',ref=each)" />
 						<!-- Pour l'approbateur -->
 						<image tooltiptext="Approuver la demande"
@@ -174,7 +174,7 @@
 							visible="@bind(each.modifierApprobation)"
 							onClick="@command('approuverDemande',ref=each)" />
 						<image tooltiptext="Refuser la demande"
-							sclass="ListAction cancel"
+							sclass="ListAction delay"
 							visible="@bind(each.modifierApprobation)"
 							onClick="@command('desapprouverDemande',ref=each)" />
 						<!-- Pour l'operateur -->
