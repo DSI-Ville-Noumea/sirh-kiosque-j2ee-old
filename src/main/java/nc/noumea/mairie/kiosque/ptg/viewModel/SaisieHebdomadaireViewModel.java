@@ -133,7 +133,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			// c'est qu'on vient de l'ecran de visu des pointages
 			setDateLundi(pointage.getDate());
 			afficheSemaine();
-			AgentWithServiceDto agent = sirhWsConsumer.getAgentService(pointage.getAgent().getIdAgent(),getDateLundi());
+			AgentWithServiceDto agent = sirhWsConsumer
+					.getAgentService(pointage.getAgent().getIdAgent(), getDateLundi());
 			ServiceDto servAgent = new ServiceDto();
 			servAgent.setCodeService(agent.getCodeService());
 			servAgent.setService(agent.getService());
@@ -161,8 +162,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "saisiePointageForm" })
-	public void textChangedPrime(@BindingParam("ref") PrimeDtoKiosque dtoAbs,
+	public void textChangedPrime(@BindingParam("ref") PrimeDtoKiosque dtoPrime,
 			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
 		setHasTextChanged(true);
@@ -181,12 +181,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 							if (periodeHeure(primeDto.getTypeSaisie())) {
 								if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
 										heureFin, minuteFin)) {
-									dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
-									break;
+									dtoPrime.setSaisieJ1("Attention fin de saisie j+1");
 								} else {
-									dtoAbs.setSaisieJ1(null);
-									break;
+									dtoPrime.setSaisieJ1(null);
 								}
+
+								BindUtils.postNotifyChange(null, null, dtoPrime, "saisieJ1");
+								break;
 							}
 						}
 						iJour++;
@@ -194,10 +195,10 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				}
 			}
 		}
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "saisiePointageForm" })
 	public void textChangedAbs(@BindingParam("ref") AbsenceDtoKiosque dtoAbs,
 			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
@@ -215,11 +216,12 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
 									heureFin, minuteFin)) {
 								dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
-								break;
 							} else {
 								dtoAbs.setSaisieJ1(null);
-								break;
 							}
+
+							BindUtils.postNotifyChange(null, null, dtoAbs, "saisieJ1");
+							break;
 						}
 						iJour++;
 					}
@@ -232,21 +234,22 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
 									heureFin, minuteFin)) {
 								dtoAbs.setSaisieJ1("Attention fin de saisie j+1");
-								break;
 							} else {
 								dtoAbs.setSaisieJ1(null);
-								break;
 							}
+
+							BindUtils.postNotifyChange(null, null, dtoAbs, "saisieJ1");
+							break;
 						}
 						iJour++;
 					}
 				}
 			}
 		}
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged", "saisiePointageForm" })
 	public void textChangedHSup(@BindingParam("ref") HeureSupDtoKiosque dtoHsup,
 			@BindingParam("heureDebut") String heureDebut, @BindingParam("minuteDebut") String minuteDebut,
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
@@ -264,11 +267,12 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
 									heureFin, minuteFin)) {
 								dtoHsup.setSaisieJ1("Attention fin de saisie j+1");
-								break;
 							} else {
 								dtoHsup.setSaisieJ1(null);
-								break;
 							}
+
+							BindUtils.postNotifyChange(null, null, dtoHsup, "saisieJ1");
+							break;
 						}
 						iJour++;
 					}
@@ -281,17 +285,19 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 							if (isHeureFinLendemain(dto.getSaisies().get(iJour).getDate(), heureDebut, minuteDebut,
 									heureFin, minuteFin)) {
 								dtoHsup.setSaisieJ1("Attention fin de saisie j+1");
-								break;
 							} else {
 								dtoHsup.setSaisieJ1(null);
-								break;
 							}
+
+							BindUtils.postNotifyChange(null, null, dtoHsup, "saisieJ1");
+							break;
 						}
 						iJour++;
 					}
 				}
 			}
 		}
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 	}
 
 	private boolean isHeureFinLendemain(Date dateJour, String heureDebut, String minuteDebut, String heureFin,
@@ -434,14 +440,15 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void ajouterHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		hsup.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 		setHasTextChanged(true);
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, hsup, "*");
+		BindUtils.postNotifyChange(null, null, hsup, ".");
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void deleteHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		hsup.setIdRefEtat(null);
 		hsup.setCommentaire(null);
@@ -454,17 +461,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		hsup.setIdPointage(null);
 
 		hsup = setHSupARecupererForDPM(hsup);
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, hsup, "*");
+		BindUtils.postNotifyChange(null, null, hsup, ".");
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void ajouterAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		absence.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 		setHasTextChanged(true);
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, absence, "*");
+		BindUtils.postNotifyChange(null, null, absence, ".");
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void deleteAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		absence.setIdRefEtat(null);
 		absence.setCommentaire(null);
@@ -476,20 +487,25 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		absence.setIdPointage(null);
 		absence.setIdRefTypeAbsence(null);
 		setHasTextChanged(true);
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, absence, "*");
+		BindUtils.postNotifyChange(null, null, absence, ".");
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void ajouterPrime(@BindingParam("ref") PrimeDtoKiosque prime) {
 		prime.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 		if (caseACocher(prime.getTypeSaisie())) {
 			prime.setQuantite(1);
 		}
 		setHasTextChanged(true);
+
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, prime, "*");
+		BindUtils.postNotifyChange(null, null, prime, ".");
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void deletePrime(@BindingParam("ref") PrimeDtoKiosque prime) {
 		prime.setIdRefEtat(null);
 		prime.setCommentaire(null);
@@ -501,6 +517,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		prime.setIdPointage(null);
 		prime.setQuantite(null);
 		setHasTextChanged(true);
+		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, prime, "*");
+		BindUtils.postNotifyChange(null, null, prime, ".");
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -1158,7 +1177,6 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void copieDroiteAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
 			if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
@@ -1176,13 +1194,15 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					absSuiv.setMinuteFin(absence.getMinuteFin());
 					absSuiv.setIdRefTypeAbsence(absence.getIdRefTypeAbsence());
 					setHasTextChanged(true);
+					BindUtils.postNotifyChange(null, null, absence, "*");
+					BindUtils.postNotifyChange(null, null, absence, ".");
+					BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 				}
 			}
 		}
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void copieGaucheAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		for (int i = 0; i < getSaisiePointageForm().getMapAllAbsence().size(); i++) {
 			if (getSaisiePointageForm().getMapAllAbsence().get(String.valueOf(i)) != null) {
@@ -1200,13 +1220,15 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					absPrec.setMinuteFin(absence.getMinuteFin());
 					absPrec.setIdRefTypeAbsence(absence.getIdRefTypeAbsence());
 					setHasTextChanged(true);
+					BindUtils.postNotifyChange(null, null, absence, "*");
+					BindUtils.postNotifyChange(null, null, absence, ".");
+					BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 				}
 			}
 		}
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void copieDroiteHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
 			if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
@@ -1225,13 +1247,15 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					hsupSuiv.setRappelService(hsup.isRappelService());
 					hsupSuiv.setRecuperee(hsup.isRecuperee());
 					setHasTextChanged(true);
+					BindUtils.postNotifyChange(null, null, hsup, "*");
+					BindUtils.postNotifyChange(null, null, hsup, ".");
+					BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 				}
 			}
 		}
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void copieGaucheHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		for (int i = 0; i < getSaisiePointageForm().getMapAllHSup().size(); i++) {
 			if (getSaisiePointageForm().getMapAllHSup().get(String.valueOf(i)) != null) {
@@ -1250,13 +1274,15 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					hsupPrec.setRappelService(hsup.isRappelService());
 					hsupPrec.setRecuperee(hsup.isRecuperee());
 					setHasTextChanged(true);
+					BindUtils.postNotifyChange(null, null, hsup, "*");
+					BindUtils.postNotifyChange(null, null, hsup, ".");
+					BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 				}
 			}
 		}
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void copieDroitePrime(@BindingParam("ref") PrimeDtoKiosque prime) {
 		if (getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString()) != null) {
 			int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString())
@@ -1273,12 +1299,14 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			primeSuiv.setMinuteFin(prime.getMinuteFin());
 			primeSuiv.setQuantite(prime.getQuantite());
 			setHasTextChanged(true);
+			BindUtils.postNotifyChange(null, null, prime, "*");
+			BindUtils.postNotifyChange(null, null, prime, ".");
+			BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 		}
 
 	}
 
 	@Command
-	@NotifyChange({ "*" })
 	public void copieGauchePrime(@BindingParam("ref") PrimeDtoKiosque prime) {
 		if (getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString()) != null) {
 			int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(prime.getNumRubrique().toString())
@@ -1295,6 +1323,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			primePrec.setMinuteFin(prime.getMinuteFin());
 			primePrec.setQuantite(prime.getQuantite());
 			setHasTextChanged(true);
+			BindUtils.postNotifyChange(null, null, prime, "*");
+			BindUtils.postNotifyChange(null, null, prime, ".");
+			BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
 		}
 
 	}

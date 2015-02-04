@@ -16,9 +16,9 @@
 			<hlayout width="100%" sclass="fondRecherche">
 				<div>
 					<label value="@bind(vm.dateFiltre)" />
-					<datebox value="@bind(vm.dateLundi)" id="db" maxlength="10"
-						cols="1" weekOfYear="true" format="dd/MM/yyyy" locale="fr"
-						onChange="@command('afficheSemaine')" />
+					<datebox value="@bind(vm.dateLundi)" id="db"
+						maxlength="10" cols="1" weekOfYear="true" format="dd/MM/yyyy"
+						locale="fr" onChange="@command('afficheSemaine')" />
 					<space />
 					<label value="Service :" />
 					<combobox width="300px" readonly="true"
