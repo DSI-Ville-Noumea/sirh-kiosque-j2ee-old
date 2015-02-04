@@ -109,7 +109,7 @@
 												visible="@bind(vm.isAfficherDupliquerHSupDroit(cellHSup))" />
 										</hlayout>
 										<label
-											value="${vm.etatToString(cellHSup.idRefEtat)}"
+											value="@bind(vm.etatToString(cellHSup.idRefEtat))"
 											visible="@bind(not empty cellHSup.idRefEtat)" />
 										<separator />
 										<label value="Heures supp."
@@ -178,14 +178,14 @@
 									<separator />
 									<checkbox
 										checked="@bind(cellHSup.recuperee)" label="A récupérer"
-										disabled="${vm.estCheckboxHSupARecupererDisabled(cellHSup)}"
+										disabled="@bind(vm.estCheckboxHSupARecupererDisabled(cellHSup))"
 										onCheck="@command('textChanged')" />
 									<separator />
 									<checkbox
 										checked="@bind(cellHSup.rappelService)"
 										label="Rappel en service"
 										disabled="@bind(empty cellHSup.idRefEtat)"
-										visible="${vm.estAgentDPM()}"
+										visible="@bind(vm.estAgentDPM())"
 										onCheck="@command('textChanged')" />
 									<combobox width="100%"
 										readonly="true" selectedItem="@bind(cellHSup.idMotifHsup)"
@@ -251,7 +251,7 @@
 												visible="@bind(vm.isAfficherDupliquerAbsenceDroit(cellAbsence))" />
 										</hlayout>
 										<label
-											value="${vm.etatToString(cellAbsence.idRefEtat)}"
+											value="@bind(vm.etatToString(cellAbsence.idRefEtat))"
 											visible="@bind(not empty cellAbsence.idRefEtat)" />
 										<separator />
 										<label
@@ -387,7 +387,7 @@
 												visible="@bind(vm.isAfficherDupliquerPrimeDroit(cellPrime))" />
 										</hlayout>
 										<label
-											value="${vm.etatToString(cellPrime.idRefEtat)}"
+											value="@bind(vm.etatToString(cellPrime.idRefEtat))"
 											visible="@bind(not empty cellPrime.idRefEtat)" />
 										<separator />
 										<image sclass="aidePointage"
@@ -397,12 +397,12 @@
 									</div>
 
 									<hlayout
-										visible="${vm.periodeHeure(cellPrime.typeSaisie)}">
+										visible="@bind(vm.periodeHeure(cellPrime.typeSaisie))">
 										<div width="50px">
 											<label value="Début *" />
 										</div>
 										<combobox
-											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+											visible="@bind(vm.periodeHeure(cellPrime.typeSaisie))"
 											placeholder="Heure" model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellPrime.heureDebut)"
 											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
@@ -414,7 +414,7 @@
 											</template>
 										</combobox>
 										<combobox
-											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+											visible="@bind(vm.periodeHeure(cellPrime.typeSaisie))"
 											placeholder="Minute" model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellPrime.minuteDebut)"
 											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
@@ -428,12 +428,12 @@
 									</hlayout>
 									<separator />
 									<hlayout
-										visible="${vm.periodeHeure(cellPrime.typeSaisie)}">
+										visible="@bind(vm.periodeHeure(cellPrime.typeSaisie))">
 										<div width="50px">
 											<label value="Fin *" />
 										</div>
 										<combobox
-											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+											visible="@bind(vm.periodeHeure(cellPrime.typeSaisie))"
 											placeholder="Heure" model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellPrime.heureFin)"
 											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
@@ -445,7 +445,7 @@
 											</template>
 										</combobox>
 										<combobox
-											visible="${vm.periodeHeure(cellPrime.typeSaisie)}"
+											visible="@bind(vm.periodeHeure(cellPrime.typeSaisie))"
 											placeholder="Minute" model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellPrime.minuteFin)"
 											onChange="@command('textChangedPrime',ref=cellPrime,heureDebut=cellPrime.heureDebut,minuteDebut=cellPrime.minuteDebut,heureFin=cellPrime.heureFin,minuteFin=cellPrime.minuteFin)"
@@ -464,10 +464,10 @@
 									<separator />
 
 									<checkbox
-										checked="${vm.checkCoche(cellPrime.quantite)}"
+										checked="@bind(vm.checkCoche(cellPrime.quantite))"
 										disabled="@bind(empty cellPrime.idRefEtat)"
 										onClick="@command('checkAccorde',prime=cellPrime, checkbox=self)"
-										visible="${vm.caseACocher(cellPrime.typeSaisie)}"
+										visible="@bind(vm.caseACocher(cellPrime.typeSaisie))"
 										label="Accordée *" onCheck="@command('textChanged')" />
 
 									<spinner width="100%"
@@ -475,13 +475,13 @@
 										disabled="@bind(empty cellPrime.idRefEtat)"
 										placeholder="Nombre d'indemnités *" format="#"
 										constraint="no empty, min 1"
-										visible="${vm.nbIndemnites(cellPrime.typeSaisie)}" />
+										visible="@bind(vm.nbIndemnites(cellPrime.typeSaisie))" />
 									<spinner width="100%"
 										value="@bind(cellPrime.quantite)"
 										disabled="@bind(empty cellPrime.idRefEtat)"
 										placeholder="Nombre d'heures *" format="#"
 										constraint="no empty, min 1"
-										visible="${vm.nbHeures(cellPrime.typeSaisie)}" />
+										visible="@bind(vm.nbHeures(cellPrime.typeSaisie))" />
 									<textbox width="100%"
 										value="@bind(cellPrime.commentaire)"
 										disabled="@bind(empty cellPrime.idRefEtat)" multiline="true"

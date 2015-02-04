@@ -1193,6 +1193,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					absSuiv.setHeureFin(absence.getHeureFin());
 					absSuiv.setMinuteFin(absence.getMinuteFin());
 					absSuiv.setIdRefTypeAbsence(absence.getIdRefTypeAbsence());
+					absSuiv.setSaisieJ1(absence.getSaisieJ1());
 					setHasTextChanged(true);
 					BindUtils.postNotifyChange(null, null, absence, "*");
 					BindUtils.postNotifyChange(null, null, absence, ".");
@@ -1219,6 +1220,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					absPrec.setHeureFin(absence.getHeureFin());
 					absPrec.setMinuteFin(absence.getMinuteFin());
 					absPrec.setIdRefTypeAbsence(absence.getIdRefTypeAbsence());
+					absPrec.setSaisieJ1(absence.getSaisieJ1());
 					setHasTextChanged(true);
 					BindUtils.postNotifyChange(null, null, absence, "*");
 					BindUtils.postNotifyChange(null, null, absence, ".");
@@ -1246,6 +1248,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					hsupSuiv.setMinuteFin(hsup.getMinuteFin());
 					hsupSuiv.setRappelService(hsup.isRappelService());
 					hsupSuiv.setRecuperee(hsup.isRecuperee());
+					hsupSuiv.setSaisieJ1(hsup.getSaisieJ1());
 					setHasTextChanged(true);
 					BindUtils.postNotifyChange(null, null, hsup, "*");
 					BindUtils.postNotifyChange(null, null, hsup, ".");
@@ -1273,6 +1276,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					hsupPrec.setMinuteFin(hsup.getMinuteFin());
 					hsupPrec.setRappelService(hsup.isRappelService());
 					hsupPrec.setRecuperee(hsup.isRecuperee());
+					hsupPrec.setSaisieJ1(hsup.getSaisieJ1());
 					setHasTextChanged(true);
 					BindUtils.postNotifyChange(null, null, hsup, "*");
 					BindUtils.postNotifyChange(null, null, hsup, ".");
@@ -1298,6 +1302,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			primeSuiv.setHeureFin(prime.getHeureFin());
 			primeSuiv.setMinuteFin(prime.getMinuteFin());
 			primeSuiv.setQuantite(prime.getQuantite());
+			primeSuiv.setSaisieJ1(prime.getSaisieJ1());
 			setHasTextChanged(true);
 			BindUtils.postNotifyChange(null, null, prime, "*");
 			BindUtils.postNotifyChange(null, null, prime, ".");
@@ -1322,6 +1327,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			primePrec.setHeureFin(prime.getHeureFin());
 			primePrec.setMinuteFin(prime.getMinuteFin());
 			primePrec.setQuantite(prime.getQuantite());
+			primePrec.setSaisieJ1(prime.getSaisieJ1());
 			setHasTextChanged(true);
 			BindUtils.postNotifyChange(null, null, prime, "*");
 			BindUtils.postNotifyChange(null, null, prime, ".");
