@@ -6,7 +6,7 @@
 			<column label="Durée" width="60px" align="center" />
 			<column label="" width="40px" />
 			<column label="Opérateur" sort="none" width="150px" />
-			<column label="Etat" width="100px" />
+			<column label="Etat" width="115px" />
 			<column label="Date de saisie" width="120px" align="center" />
 			<column label="Motif" width="148px" />
 		</columns>

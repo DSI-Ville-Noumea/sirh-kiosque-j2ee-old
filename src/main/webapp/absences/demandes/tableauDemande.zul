@@ -96,7 +96,7 @@
 		<separator />
 
 		<grid model="@bind(vm.listeDemandes)" mold="paging"
-			width="1552px" pageSize="@bind(vm.tailleListe)"
+			width="1568px" pageSize="@bind(vm.tailleListe)"
 			emptyMessage="Aucun élément">
 			<columns>
 				<column width="30px" sort="none" />
@@ -198,7 +198,7 @@
 				</row>
 			</template>
 		</grid>
-		<div style="display:block;" width="1552px">
+		<div style="display:block;" width="1568px">
 			<div style="display:inline-block;float:left;"
 				align="left">
 				<button label="Ajouter"

@@ -10,7 +10,12 @@
 	.z-row .z-row-inner .z-row-content .z-label{font-size:8pt;}
 
 	.clicable {	cursor: pointer;  }
+	
+	.z-row{padding: 0px 0px;}
 
+	.z-row .z-detail-outer {padding: 0px 0px; vertical-align: middle;}
+
+	.z-detail {height: 20px;}
 
 	]]>
 	
