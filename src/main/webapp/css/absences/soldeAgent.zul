@@ -6,7 +6,7 @@
 
 	.fond .RHContent .name { width: 250px; }
 	
-	.historique {background-image: url("img/absence/histo.jpg");
+	.historique {background-image: url("img/absence/historique.png");
 	background-position: left top; background-repeat: no-repeat; cursor:
 	pointer; display: inline-block; height: 16px; width: 16px;
 	}
