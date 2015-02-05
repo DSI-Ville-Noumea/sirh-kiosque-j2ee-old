@@ -710,6 +710,10 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	public boolean estAgentDPM() {
 		return getFicheCourante().isDPM();
 	}
+	
+	public boolean estINASuperieur315() {
+		return getFicheCourante().isINASuperieur315();
+	}
 
 	public FichePointageDtoKiosque getFicheCourante() {
 		return ficheCourante;
@@ -884,7 +888,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	public boolean estCheckboxHSupARecupererDisabled(HeureSupDtoKiosque hSupDto) {
-		if (null != hSupDto.getIdRefEtat() && !estAgentDPM()) {
+		if (null != hSupDto.getIdRefEtat() && !estAgentDPM() && !estINASuperieur315()) {
 			return false;
 		}
 		return true;
@@ -905,7 +909,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	private HeureSupDtoKiosque setHSupARecupererForDPM(HeureSupDtoKiosque hSupDto) {
-		if (estAgentDPM())
+		if (estAgentDPM() || estINASuperieur315())
 			hSupDto.setRecuperee(true);
 
 		return hSupDto;
