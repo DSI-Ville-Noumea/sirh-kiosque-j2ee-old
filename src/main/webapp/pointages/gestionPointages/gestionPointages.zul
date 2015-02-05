@@ -98,113 +98,116 @@
 					</div>
 				</hlayout>
 				<separator />
-				<grid model="@bind(vm.listePointages)" mold="paging"
-					width="1370px" pageSize="@bind(vm.tailleListe)"
-					emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
-					<columns>
-						<column width="30px" sort="none" />
-						<column label="Agent" sort="auto('agent.nom')"
-							width="200px" />
-						<column label="Type" sort="auto('typePointage')"
-							width="250px" />
-						<column label="Type HS" sort="none"
-							width="50px" />
-						<column align="center" label="Date"
-							sort="auto('date')" width="80px" />
-						<column align="center" label="Début"
-							sort="auto('debut')" width="40px" />
-						<column align="center" label="Fin"
-							sort="auto('fin')" width="40px" />
-						<column align="center" width="55px"
-							label="Quantité" sort="auto('quantite')" />
-						<column label="Motif - Commentaires" sort="none"
-							width="150px" />
-						<column label="Opérateur" width="140px"
-							sort="auto('operateur.nom')" />
-						<column width="80px" label="Etat" sort="none" />
-						<column align="center" label="Date de saisie"
-							width="100px" sort="auto('dateSaisie')" />
-						<column width="50px" align="center"
-							visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)">
-							<!-- Moficication -->
-						</column>
-						<column
-							visible="@bind(vm.droitsPointage.approbation)">
-							<hlayout>
-								<image
-									tooltiptext="Accepter tous les pointages"
-									sclass="ListAction accept"
-									visible="@bind(vm.droitsPointage.approbation)"
-									onClick="@command('approuverAllPointage')" />
-								<image
-									tooltiptext="Refuser tous les pointages"
-									sclass="ListAction delay"
-									visible="@bind(vm.droitsPointage.approbation)"
-									onClick="@command('refuserAllPointage')" />
-								<image
-									tooltiptext="Re-mettre en saisie tous les pointages"
-									sclass="ListAction cancel"
-									visible="@bind(vm.droitsPointage.approbation)"
-									onClick="@command('attenteAllPointage')" />
-							</hlayout>
-						</column>
-					</columns>
-					<template name="model">
-						<row>
-							<custom-attributes pointage="${each}" />
-							<detail open="false" fulfill="onOpen">
-								<include
-									src="/pointages/gestionPointages/histoPointage.zul"
-									pointage="${pointage}" />
-							</detail>
-							<label
-								value="@bind(vm.concatAgentNomatr(each.agent))" />
-							<label value="@bind(each.typePointage)" />
-							<label value="@bind(vm.typeHSup(each))" />
-							<label
-								value="@bind(each.date) @converter('formatedDate',format='dd/MM/yyyy')" />
-							<label
-								value="@bind(each.debut) @converter('formatedDate',format='HH:mm')" />
-							<label
-								value="@bind(each.fin) @converter('formatedDate',format='HH:mm')" />
-							<label value="@bind(each.quantite)" />
-							<vlayout>
-								<label
-									visible="@bind(not empty each.motif)"
-									value="@bind(each.motif)" />
-								<label value="@bind(each.commentaire)"
-									visible="@bind(not empty each.commentaire)" />
-							</vlayout>
-							<label
-								value="@bind(vm.concatAgentNomatr(each.operateur))" />
-							<label
-								value="@bind(vm.etatToString(each.idRefEtat))" />
-							<label
-								value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
-							<image tooltiptext="Modifier le pointage"
-								sclass="ListAction edit"
-								visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)"
-								onClick="@command('modifierPointage',ref=each)" />
-							<hlayout
+				<div style="overflow:auto;">
+					<grid model="@bind(vm.listePointages)" mold="paging"
+						width="1370px" pageSize="@bind(vm.tailleListe)"
+						emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
+						<columns>
+							<column width="30px" sort="none" />
+							<column label="Agent"
+								sort="auto('agent.nom')" width="200px" />
+							<column label="Type"
+								sort="auto('typePointage')" width="250px" />
+							<column label="Type HS" sort="none"
+								width="50px" />
+							<column align="center" label="Date"
+								sort="auto('date')" width="80px" />
+							<column align="center" label="Début"
+								sort="auto('debut')" width="40px" />
+							<column align="center" label="Fin"
+								sort="auto('fin')" width="40px" />
+							<column align="center" width="55px"
+								label="Quantité" sort="auto('quantite')" />
+							<column label="Motif - Commentaires"
+								sort="none" width="150px" />
+							<column label="Opérateur" width="140px"
+								sort="auto('operateur.nom')" />
+							<column width="80px" label="Etat"
+								sort="none" />
+							<column align="center"
+								label="Date de saisie" width="100px" sort="auto('dateSaisie')" />
+							<column width="50px" align="center"
+								visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)">
+								<!-- Moficication -->
+							</column>
+							<column
 								visible="@bind(vm.droitsPointage.approbation)">
+								<hlayout>
+									<image
+										tooltiptext="Accepter tous les pointages"
+										sclass="ListAction accept"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('approuverAllPointage')" />
+									<image
+										tooltiptext="Refuser tous les pointages"
+										sclass="ListAction delay"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('refuserAllPointage')" />
+									<image
+										tooltiptext="Re-mettre en saisie tous les pointages"
+										sclass="ListAction cancel"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('attenteAllPointage')" />
+								</hlayout>
+							</column>
+						</columns>
+						<template name="model">
+							<row>
+								<custom-attributes pointage="${each}" />
+								<detail open="false" fulfill="onOpen">
+									<include
+										src="/pointages/gestionPointages/histoPointage.zul"
+										pointage="${pointage}" />
+								</detail>
+								<label
+									value="@bind(vm.concatAgentNomatr(each.agent))" />
+								<label value="@bind(each.typePointage)" />
+								<label value="@bind(vm.typeHSup(each))" />
+								<label
+									value="@bind(each.date) @converter('formatedDate',format='dd/MM/yyyy')" />
+								<label
+									value="@bind(each.debut) @converter('formatedDate',format='HH:mm')" />
+								<label
+									value="@bind(each.fin) @converter('formatedDate',format='HH:mm')" />
+								<label value="@bind(each.quantite)" />
+								<vlayout>
+									<label
+										visible="@bind(not empty each.motif)"
+										value="@bind(each.motif)" />
+									<label
+										value="@bind(each.commentaire)"
+										visible="@bind(not empty each.commentaire)" />
+								</vlayout>
+								<label
+									value="@bind(vm.concatAgentNomatr(each.operateur))" />
+								<label
+									value="@bind(vm.etatToString(each.idRefEtat))" />
+								<label
+									value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
 								<image
-									tooltiptext="Accepter le pointage" sclass="ListAction accept"
-									visible="@bind(vm.droitsPointage.approbation)"
-									onClick="@command('approuverPointage',ref=each)" />
-								<image tooltiptext="Refuser le pointage"
-									sclass="ListAction delay"
-									visible="@bind(vm.droitsPointage.approbation)"
-									onClick="@command('refuserPointage',ref=each)" />
-								<image
-									tooltiptext="Re-mettre en saisie le pointage"
-									sclass="ListAction cancel"
-									visible="@bind(vm.droitsPointage.approbation)"
-									onClick="@command('attentePointage',ref=each)" />
-							</hlayout>
-						</row>
-					</template>
-				</grid>
-
+									tooltiptext="Modifier le pointage" sclass="ListAction edit"
+									visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)"
+									onClick="@command('modifierPointage',ref=each)" />
+								<hlayout
+									visible="@bind(vm.droitsPointage.approbation)">
+									<image
+										tooltiptext="Accepter le pointage" sclass="ListAction accept"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('approuverPointage',ref=each)" />
+									<image
+										tooltiptext="Refuser le pointage" sclass="ListAction delay"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('refuserPointage',ref=each)" />
+									<image
+										tooltiptext="Re-mettre en saisie le pointage"
+										sclass="ListAction cancel"
+										visible="@bind(vm.droitsPointage.approbation)"
+										onClick="@command('attentePointage',ref=each)" />
+								</hlayout>
+							</row>
+						</template>
+					</grid>
+				</div>
 				<div style="display:block;" width="1370px">
 					<div style="display:inline-block;float:right;"
 						align="right">
