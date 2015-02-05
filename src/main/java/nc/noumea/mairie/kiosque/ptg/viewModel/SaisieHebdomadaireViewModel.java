@@ -195,7 +195,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				}
 			}
 		}
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 	}
 
 	@Command
@@ -246,7 +246,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				}
 			}
 		}
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 	}
 
 	@Command
@@ -297,7 +297,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				}
 			}
 		}
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 	}
 
 	private boolean isHeureFinLendemain(Date dateJour, String heureDebut, String minuteDebut, String heureFin,
@@ -443,7 +443,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	public void ajouterHSup(@BindingParam("ref") HeureSupDtoKiosque hsup) {
 		hsup.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 		setHasTextChanged(true);
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		BindUtils.postNotifyChange(null, null, hsup, "*");
 		BindUtils.postNotifyChange(null, null, hsup, ".");
 	}
@@ -461,7 +461,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		hsup.setIdPointage(null);
 
 		hsup = setHSupARecupererForDPM(hsup);
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		BindUtils.postNotifyChange(null, null, hsup, "*");
 		BindUtils.postNotifyChange(null, null, hsup, ".");
 	}
@@ -470,7 +470,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	public void ajouterAbsence(@BindingParam("ref") AbsenceDtoKiosque absence) {
 		absence.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 		setHasTextChanged(true);
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		BindUtils.postNotifyChange(null, null, absence, "*");
 		BindUtils.postNotifyChange(null, null, absence, ".");
 	}
@@ -487,7 +487,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		absence.setIdPointage(null);
 		absence.setIdRefTypeAbsence(null);
 		setHasTextChanged(true);
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		BindUtils.postNotifyChange(null, null, absence, "*");
 		BindUtils.postNotifyChange(null, null, absence, ".");
 	}
@@ -500,7 +500,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		}
 		setHasTextChanged(true);
 
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		BindUtils.postNotifyChange(null, null, prime, "*");
 		BindUtils.postNotifyChange(null, null, prime, ".");
 	}
@@ -517,7 +517,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		prime.setIdPointage(null);
 		prime.setQuantite(null);
 		setHasTextChanged(true);
-		BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		BindUtils.postNotifyChange(null, null, prime, "*");
 		BindUtils.postNotifyChange(null, null, prime, ".");
 	}
@@ -1197,7 +1197,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					setHasTextChanged(true);
 					BindUtils.postNotifyChange(null, null, absence, "*");
 					BindUtils.postNotifyChange(null, null, absence, ".");
-					BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+					BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 				}
 			}
 		}
@@ -1224,7 +1224,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					setHasTextChanged(true);
 					BindUtils.postNotifyChange(null, null, absence, "*");
 					BindUtils.postNotifyChange(null, null, absence, ".");
-					BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+					BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 				}
 			}
 		}
@@ -1252,7 +1252,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					setHasTextChanged(true);
 					BindUtils.postNotifyChange(null, null, hsup, "*");
 					BindUtils.postNotifyChange(null, null, hsup, ".");
-					BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+					BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 				}
 			}
 		}
@@ -1280,7 +1280,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 					setHasTextChanged(true);
 					BindUtils.postNotifyChange(null, null, hsup, "*");
 					BindUtils.postNotifyChange(null, null, hsup, ".");
-					BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+					BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 				}
 			}
 		}
@@ -1306,7 +1306,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			setHasTextChanged(true);
 			BindUtils.postNotifyChange(null, null, prime, "*");
 			BindUtils.postNotifyChange(null, null, prime, ".");
-			BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+			BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		}
 
 	}
@@ -1331,7 +1331,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			setHasTextChanged(true);
 			BindUtils.postNotifyChange(null, null, prime, "*");
 			BindUtils.postNotifyChange(null, null, prime, ".");
-			BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.class, "hasTextChanged");
+			BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		}
 
 	}
