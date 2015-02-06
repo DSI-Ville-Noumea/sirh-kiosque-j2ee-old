@@ -22,7 +22,7 @@
 					<div width="70px">
 						<label value="Agent :" />
 					</div>
-					<combobox width="200px" readonly="true"
+					<combobox width="200px" readonly="true" 
 						model="@bind(vm.listeAgentsFiltre)"
 						selectedItem="@bind(vm.agentFiltre)"
 						onSelect="@command('chargeGroupe')">
@@ -44,6 +44,7 @@
 						<combobox readonly="true" width="250px"
 							model="@bind(vm.listeGroupeAbsence)"
 							selectedItem="@bind(vm.groupeAbsence)"
+							value="@bind(vm.groupeAbsence.libelle)"
 							onSelect="@command('alimenteTypeFamilleAbsence')">
 							<template name="model">
 								<comboitem label="@bind(each.libelle)" />

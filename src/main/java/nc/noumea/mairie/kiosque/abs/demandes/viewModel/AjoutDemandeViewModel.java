@@ -117,16 +117,19 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeGroupeAbsence" })
+	@NotifyChange({ "listeGroupeAbsence", "typeAbsenceCourant", "groupeAbsence", "listeTypeAbsence" })
 	public void chargeGroupe() {
 		// on recharge les groupes d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
 		setListeGroupeAbsence(filtreGroupeFamille);
+		setTypeAbsenceCourant(null);
+		setGroupeAbsence(null);
+		setListeTypeAbsence(null);
 	}
 
 	@Command
 	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant", "listeOrganisationsSyndicale", "etatDemandeCreation",
-			"demandeCreation", "organisationsSyndicaleCourant" })
+			"demandeCreation", "organisationsSyndicaleCourant","." })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsence()
 				.getIdRefGroupeAbsence(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
@@ -165,34 +168,48 @@ public class AjoutDemandeViewModel {
 
 	@Command
 	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation",
-			"organisationsSyndicaleCourant" })
+			"organisationsSyndicaleCourant","." })
 	public void chargeFormulaire() {
-		// on recharge les oragnisations syndicales
-		List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(getAgentFiltre().getIdAgent(),
-				getTypeAbsenceCourant().getIdRefTypeAbsence());
-		if (orga.size() == 0) {
-			OrganisationSyndicaleDto dto = new OrganisationSyndicaleDto();
-			dto.setLibelle("L'agent n'est affecté à aucune organisation syndicale");
-			dto.setSigle("ERREUR");
-			orga.add(dto);
-		}else if(orga.size() == 1){
-			setOrganisationsSyndicaleCourant(orga.get(0));
-		}
+		if (getTypeAbsenceCourant() != null) {
+			// on recharge les oragnisations syndicales
+			List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(getAgentFiltre()
+					.getIdAgent(), getTypeAbsenceCourant().getIdRefTypeAbsence());
+			if (orga.size() == 0) {
+				OrganisationSyndicaleDto dto = new OrganisationSyndicaleDto();
+				dto.setLibelle("L'agent n'est affecté à aucune organisation syndicale");
+				dto.setSigle("ERREUR");
+				orga.add(dto);
+			} else if (orga.size() == 1) {
+				setOrganisationsSyndicaleCourant(orga.get(0));
+			}
 
-		setListeOrganisationsSyndicale(orga);
-		// on positionne la selection du statut Provisoire/Définitif
-		setEtatDemandeCreation("0");
-		// on initialise la demande
-		setDemandeCreation(new DemandeDto());
+			setListeOrganisationsSyndicale(orga);
+			// on positionne la selection du statut Provisoire/Définitif
+			setEtatDemandeCreation("0");
+			// on initialise la demande
+			setDemandeCreation(new DemandeDto());
+		} else {
+			setOrganisationsSyndicaleCourant(null);
+			setEtatDemandeCreation(null);
+			setDemandeCreation(null);
+		}
 	}
 
 	@Command
-	@NotifyChange({ "listeAgentsFiltre" })
+	@NotifyChange({ "listeAgentsFiltre", "typeAbsenceCourant", "agentFiltre", "listeGroupeAbsence", "groupeAbsence",
+			"listeTypeAbsence", "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation",
+			"organisationsSyndicaleCourant" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
 		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
 				getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
+		setTypeAbsenceCourant(null);
+		setAgentFiltre(null);
+		setGroupeAbsence(null);
+		setListeGroupeAbsence(null);
+		setListeTypeAbsence(null);
+		chargeFormulaire();
 	}
 
 	public String concatAgent(String nom, String prenom) {
@@ -583,5 +600,15 @@ public class AjoutDemandeViewModel {
 
 	public void setMinuteFin(String minuteFin) {
 		this.minuteFin = minuteFin;
+	}
+
+	public boolean getAfficherValider() {
+		if (getTypeAbsenceCourant() == null) {
+			return false;
+		} else if (getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto() == null
+				&& getTypeAbsenceCourant().getTypeSaisiDto() == null) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -224,7 +224,7 @@
 								<textbox rows="4" width="300px"
 									value="@bind(vm.demandeCourant.commentaire)" />
 								<label
-									value="Précisez si vous êtes joingnable ou non durant votre congé." />
+									value="Précisez si vous êtes joignable ou non durant votre congé." />
 							</vlayout>
 						</hlayout>
 					</vlayout>

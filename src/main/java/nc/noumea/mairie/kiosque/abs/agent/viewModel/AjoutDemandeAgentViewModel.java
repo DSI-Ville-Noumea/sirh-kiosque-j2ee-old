@@ -522,4 +522,14 @@ public class AjoutDemandeAgentViewModel {
 	public void setMinuteFin(String minuteFin) {
 		this.minuteFin = minuteFin;
 	}
+
+	public boolean getAfficherValider() {
+		if (getTypeAbsenceCourant() == null) {
+			return false;
+		} else if (getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto() == null
+				&& getTypeAbsenceCourant().getTypeSaisiDto() == null) {
+			return false;
+		}
+		return true;
+	}
 }

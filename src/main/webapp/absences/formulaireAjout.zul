@@ -208,7 +208,7 @@
 						<textbox rows="4" width="300px"
 							value="@bind(vm.demandeCreation.commentaire)" />
 						<label
-							value="Précisez si vous êtes joingnable ou non durant votre congé." />
+							value="Précisez si vous êtes joignable ou non durant votre congé." />
 					</vlayout>
 				</hlayout>
 			</vlayout>
@@ -228,7 +228,7 @@
 			<separator />
 			<div align="center">
 				<hlayout>
-					<button label="Valider"
+					<button label="Valider" visible="@bind(vm.getAfficherValider())"
 						onClick="@command('saveDemande',win=ajoutDialog)" />
 					<button label="Annuler"
 						onClick="@command('cancelDemande',win=ajoutDialog)" />
