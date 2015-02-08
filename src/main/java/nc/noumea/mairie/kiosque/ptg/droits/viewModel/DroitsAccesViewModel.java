@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.ptg.droits.viewModel;
  * #L%
  */
 
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -330,7 +329,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			supprimerDelegataireApprobateurs(agentDelegataireASupprimer);
 		}
 	}
-	
+
 	@Command
 	public void exportPDF(@BindingParam("ref") Listbox listbox) throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -401,6 +400,27 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 
 	public void setListeDelegataire(List<AgentDto> listeDelegataire) {
 		this.listeDelegataire = listeDelegataire;
+	}
+
+	@Command
+	@NotifyChange({ "listeAgents" })
+	public void doSearch() {
+		List<AgentDto> list = new ArrayList<AgentDto>();
+		if (getFilter() != null && !"".equals(getFilter())) {
+			for (AgentDto item : getListeAgents()) {
+				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getPrenom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+			}
+			setListeAgents(list);
+		} else {
+			setListeAgents(ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent()));
+		}
 	}
 
 }
