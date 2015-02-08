@@ -406,9 +406,19 @@ public class DemandesViewModel {
 
 	public String getHeureDebutToString(DemandeDto dto) {
 		if (dto.getTypeSaisi() != null && dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+			if (dto.isDateDebutAM()) {
+				return "M";
+			} else if (dto.isDateDebutPM()) {
+				return "AM";
+			}
 			return "";
 		}
 		if (dto.getTypeSaisiCongeAnnuel() != null) {
+			if (dto.isDateDebutAM()) {
+				return "M";
+			} else if (dto.isDateDebutPM()) {
+				return "AM";
+			}
 			return "";
 		}
 		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");

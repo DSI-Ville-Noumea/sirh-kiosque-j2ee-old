@@ -141,7 +141,7 @@ public class DemandesAgentViewModel {
 				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
 				getEtatAbsenceFiltre() == null ? null : getEtatAbsenceFiltre().getIdRefEtat(),
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
-				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());		
+				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeDemandes(result);
 	}
 
@@ -281,16 +281,27 @@ public class DemandesAgentViewModel {
 
 	public String getHeureDebutToString(DemandeDto dto) {
 		if (dto.getTypeSaisi() != null && dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+			if (dto.isDateDebutAM()) {
+				return "M";
+			} else if (dto.isDateDebutPM()) {
+				return "AM";
+			}
 			return "";
 		}
 		if (dto.getTypeSaisiCongeAnnuel() != null) {
+			if (dto.isDateDebutAM()) {
+				return "M";
+			} else if (dto.isDateDebutPM()) {
+				return "AM";
+			}
 			return "";
 		}
 		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
 		return sf.format(dto.getDateDebut());
 	}
 
-	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi,RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel) {
+	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi,
+			RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel) {
 		if (typeSaisi != null) {
 			if (typeSaisi.getUniteDecompte().equals("jours")) {
 				return duree + " j";
@@ -299,7 +310,7 @@ public class DemandesAgentViewModel {
 			}
 		}
 		if (typeSaisiCongeAnnuel != null) {
-				return duree + " j";			
+			return duree + " j";
 		}
 		return "";
 	}
