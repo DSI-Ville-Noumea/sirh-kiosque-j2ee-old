@@ -69,7 +69,8 @@ public class ModifierDemandeViewModel {
 	private String selectDebutAM;
 	// pour savoir si la date de fin est le matin
 	private String selectFinAM;
-	private Double dureeDemande;
+	private String dureeHeureDemande;
+	private String dureeMinuteDemande;
 	private String dureeCongeAnnuel;
 	private String etatDemande;
 
@@ -103,9 +104,7 @@ public class ModifierDemandeViewModel {
 		setSelectDebutAM(getDemandeCourant().isDateDebutAM() ? "AM" : "PM");
 		setSelectFinAM(getDemandeCourant().isDateFinAM() ? "AM" : "PM");
 
-		// durée
-		setDureeDemande(getDureeHeureMinutes(getDemandeCourant().getDuree(), getDemandeCourant().getTypeSaisi(),
-				getDemandeCourant().getTypeSaisiCongeAnnuel()));
+		// durée congé annuel
 		setDureeCongeAnnuel(getDureeHeureMinutes(getDemandeCourant().getDuree(), getDemandeCourant().getTypeSaisi(),
 				getDemandeCourant().getTypeSaisiCongeAnnuel()).toString());
 		// etat
@@ -126,6 +125,14 @@ public class ModifierDemandeViewModel {
 			if (getDemandeCourant().getTypeSaisi().isCalendarHeureFin()) {
 				setHeureFin(heure.format(getDemandeCourant().getDateFin()));
 				setMinuteFin(minute.format(getDemandeCourant().getDateFin()));
+			}
+			// duree
+			if (getDemandeCourant().getTypeSaisi().isDuree()) {
+				int heureDuree = getDemandeCourant().getDuree().intValue() / 60;
+				int minuteDuree = getDemandeCourant().getDuree().intValue() % 60;
+
+				setDureeHeureDemande(String.valueOf(heureDuree));
+				setDureeMinuteDemande(String.valueOf(minuteDuree));
 			}
 		}
 	}
@@ -197,10 +204,13 @@ public class ModifierDemandeViewModel {
 
 					getDemandeCourant().setDateFin(calFin.getTime());
 				}
+				if (getDemandeCourant().getTypeSaisi().isDuree()) {
+					String dureeTotale = getDureeHeureDemande() + "." + getDureeMinuteDemande();
+					getDemandeCourant().setDuree(Double.valueOf(dureeTotale));
+				}
 			}
 
 			getDemandeCourant().setIdRefEtat(Integer.valueOf(getEtatDemande()));
-			getDemandeCourant().setDuree(getDureeDemande());
 			getDemandeCourant().setOrganisationSyndicale(getOrganisationsSyndicaleCourant());
 			getDemandeCourant().setDateDebutAM(
 					getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
@@ -294,7 +304,7 @@ public class ModifierDemandeViewModel {
 
 			// DUREE
 			if (typeSaisie.isDuree()) {
-				if (getDureeDemande() == null || getDureeDemande() == 0) {
+				if (getDureeHeureDemande() == null || getDureeMinuteDemande() == null) {
 					vList.add(new ValidationMessage("La durée est obligatoire."));
 				}
 			}
@@ -396,14 +406,6 @@ public class ModifierDemandeViewModel {
 		this.selectFinAM = selectFinAM;
 	}
 
-	public Double getDureeDemande() {
-		return dureeDemande;
-	}
-
-	public void setDureeDemande(Double dureeDemande) {
-		this.dureeDemande = dureeDemande;
-	}
-
 	public String getEtatDemande() {
 		return etatDemande;
 	}
@@ -466,5 +468,21 @@ public class ModifierDemandeViewModel {
 
 	public void setMinuteFin(String minuteFin) {
 		this.minuteFin = minuteFin;
+	}
+
+	public String getDureeHeureDemande() {
+		return dureeHeureDemande;
+	}
+
+	public void setDureeHeureDemande(String dureeHeureDemande) {
+		this.dureeHeureDemande = dureeHeureDemande;
+	}
+
+	public String getDureeMinuteDemande() {
+		return dureeMinuteDemande;
+	}
+
+	public void setDureeMinuteDemande(String dureeMinuteDemande) {
+		this.dureeMinuteDemande = dureeMinuteDemande;
 	}
 }

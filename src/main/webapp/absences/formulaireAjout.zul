@@ -70,9 +70,12 @@
 						<label value="Durée : " />
 					</hlayout>
 					<hlayout>
-						<textbox cols="14"
-							value="@bind(vm.demandeCreation.duree)" />
+						<textbox cols="2" maxlength="2"
+							value="@bind(vm.dureeHeureDemande)" />
 						<label value="heures" />
+						<textbox cols="2" maxlength="2"
+							value="@bind(vm.dureeMinuteDemande)" />
+						<label value="minutes" />
 					</hlayout>
 				</hlayout>
 				<hlayout>
@@ -185,8 +188,8 @@
 						<label value="Date de reprise : " />
 					</hlayout>
 					<hlayout>
-						<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
-							value="@bind(vm.demandeCreation.dateReprise)"
+						<datebox cols="14" format="dd/MM/yyyy"
+							maxlength="10" value="@bind(vm.demandeCreation.dateReprise)"
 							onChange="@command('refreshDuree')" />
 					</hlayout>
 				</hlayout>
@@ -228,7 +231,8 @@
 			<separator />
 			<div align="center">
 				<hlayout>
-					<button label="Valider" visible="@bind(vm.getAfficherValider())"
+					<button label="Valider"
+						visible="@bind(vm.getAfficherValider())"
 						onClick="@command('saveDemande',win=ajoutDialog)" />
 					<button label="Annuler"
 						onClick="@command('cancelDemande',win=ajoutDialog)" />

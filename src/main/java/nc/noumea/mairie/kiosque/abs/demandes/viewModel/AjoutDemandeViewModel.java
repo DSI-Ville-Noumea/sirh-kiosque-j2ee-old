@@ -95,6 +95,8 @@ public class AjoutDemandeViewModel {
 	private String minuteDebut;
 	private String heureFin;
 	private String minuteFin;
+	private String dureeHeureDemande;
+	private String dureeMinuteDemande;
 
 	@Init
 	public void initAjoutDemande() {
@@ -129,7 +131,7 @@ public class AjoutDemandeViewModel {
 
 	@Command
 	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant", "listeOrganisationsSyndicale", "etatDemandeCreation",
-			"demandeCreation", "organisationsSyndicaleCourant","." })
+			"demandeCreation", "organisationsSyndicaleCourant", "." })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsence()
 				.getIdRefGroupeAbsence(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
@@ -168,7 +170,7 @@ public class AjoutDemandeViewModel {
 
 	@Command
 	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation", "demandeCreation",
-			"organisationsSyndicaleCourant","." })
+			"organisationsSyndicaleCourant", ".", "dureeHeureDemande", "dureeMinuteDemande" })
 	public void chargeFormulaire() {
 		if (getTypeAbsenceCourant() != null) {
 			// on recharge les oragnisations syndicales
@@ -188,10 +190,14 @@ public class AjoutDemandeViewModel {
 			setEtatDemandeCreation("0");
 			// on initialise la demande
 			setDemandeCreation(new DemandeDto());
+			setDureeHeureDemande(null);
+			setDureeMinuteDemande(null);
 		} else {
 			setOrganisationsSyndicaleCourant(null);
 			setEtatDemandeCreation(null);
 			setDemandeCreation(null);
+			setDureeHeureDemande(null);
+			setDureeMinuteDemande(null);
 		}
 	}
 
@@ -291,6 +297,11 @@ public class AjoutDemandeViewModel {
 
 					getDemandeCreation().setDateFin(calFin.getTime());
 				}
+				// duree
+				if (getTypeAbsenceCourant().getTypeSaisiDto().isDuree()) {
+					String dureeTotale = getDureeHeureDemande() + "." + getDureeMinuteDemande();
+					getDemandeCreation().setDuree(Double.valueOf(dureeTotale));
+				}
 			}
 			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
 			agentWithServiceDto.setIdAgent(getAgentFiltre().getIdAgent());
@@ -372,7 +383,7 @@ public class AjoutDemandeViewModel {
 
 			// DUREE
 			if (refTypeAbsenceDto.getTypeSaisiDto().isDuree()) {
-				if (getDemandeCreation().getDuree() == null || getDemandeCreation().getDuree() == 0) {
+				if (getDureeHeureDemande() == null || getDureeMinuteDemande() == null) {
 					vList.add(new ValidationMessage("La durée est obligatoire."));
 				}
 			}
@@ -610,5 +621,21 @@ public class AjoutDemandeViewModel {
 			return false;
 		}
 		return true;
+	}
+
+	public String getDureeHeureDemande() {
+		return dureeHeureDemande;
+	}
+
+	public void setDureeHeureDemande(String dureeHeureDemande) {
+		this.dureeHeureDemande = dureeHeureDemande;
+	}
+
+	public String getDureeMinuteDemande() {
+		return dureeMinuteDemande;
+	}
+
+	public void setDureeMinuteDemande(String dureeMinuteDemande) {
+		this.dureeMinuteDemande = dureeMinuteDemande;
 	}
 }

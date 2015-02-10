@@ -84,9 +84,12 @@
 								<label value="Durée : " />
 							</hlayout>
 							<hlayout>
-								<textbox cols="14"
-									value="@bind(vm.dureeDemande)" />
+								<textbox cols="2" maxlength="2"
+									value="@bind(vm.dureeHeureDemande)" />
 								<label value="heures" />
+								<textbox cols="2" maxlength="2"
+									value="@bind(vm.dureeMinuteDemande)" />
+								<label value="minutes" />
 							</hlayout>
 						</hlayout>
 						<hlayout>
