@@ -93,6 +93,12 @@ public class SoldeAgentViewModel {
 		return getHeureMinute(solde.intValue());
 	}
 
+	public String getTextSamediOffert(boolean solde) {
+		if (solde)
+			return "pris";
+		return "non pris";
+	}
+
 	private static String getHeureMinute(int nombreMinute) {
 		int heure = nombreMinute / 60;
 		int minute = nombreMinute % 60;

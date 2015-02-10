@@ -114,7 +114,7 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant", "dureeHeureDemande", "dureeMinuteDemande" })
+	@NotifyChange({ "listeTypeAbsence", "typeAbsenceCourant", "dureeHeureDemande", "dureeMinuteDemande", "." })
 	public void alimenteTypeFamilleAbsence() {
 		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsence()
 				.getIdRefGroupeAbsence(), currentUser.getAgent().getIdAgent());
@@ -132,7 +132,7 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeOrganisationsSyndicale", "organisationsSyndicaleCourant","." })
+	@NotifyChange({ "listeOrganisationsSyndicale", "organisationsSyndicaleCourant", "." })
 	public void alimenteOrganisation() {
 		if (getTypeAbsenceCourant() != null && getTypeAbsenceCourant().getTypeSaisiDto() != null
 				&& getTypeAbsenceCourant().getTypeSaisiDto().isCompteurCollectif()) {

@@ -34,6 +34,12 @@
 							<label sclass="value"
 								value="@bind(vm.soldeJour(vm.soldeCourant.soldeCongeAnnee))" />
 						</div>
+						<div>
+							<label sclass="name"
+								value="Samedi offert" />
+							<label sclass="value"
+								value="@bind(vm.getTextSamediOffert(vm.soldeCourant.samediOffert))" />
+						</div>
 					</div>
 				</div>
 				<div
