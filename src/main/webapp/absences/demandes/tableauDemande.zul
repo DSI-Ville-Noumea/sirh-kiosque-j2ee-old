@@ -96,7 +96,7 @@
 		<separator />
 		<div style="overflow:auto;">
 			<grid model="@bind(vm.listeDemandes)" mold="paging"
-				width="1568px" pageSize="@bind(vm.tailleListe)"
+				id="tabDemande" width="1568px" pageSize="@bind(vm.tailleListe)"
 				emptyMessage="Aucun élément">
 				<columns>
 					<column width="30px" sort="none" />
@@ -118,7 +118,21 @@
 					<column label="Etat" sort="none" width="115px" />
 					<column label="Date de saisie"
 						sort="auto('dateDemande')" align="center" width="120px" />
-					<column label="" sort="none" width="150px" />
+					<column label="" sort="none" width="150px">
+						<hlayout>
+							<!-- Pour le viseur -->
+							<image
+								tooltiptext="Viser favorablement toutes les demandes"
+								sclass="ListAction accept"
+								visible="@bind(vm.droitsAbsence.viserModif)"
+								onClick="@command('viserAllDemandeFavorable',ref=tabDemande)" />
+							<!-- Pour l'approbateur -->
+							<image tooltiptext="Approuver toutes les demandes"
+								sclass="ListAction accept"
+								visible="@bind(vm.droitsAbsence.approuverModif)"
+								onClick="@command('approuverAllDemande',ref=tabDemande)" />
+						</hlayout>
+					</column>
 				</columns>
 				<template name="model">
 					<row>

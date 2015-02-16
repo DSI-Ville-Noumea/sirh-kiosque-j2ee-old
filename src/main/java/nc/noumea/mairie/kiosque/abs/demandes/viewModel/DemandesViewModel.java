@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
@@ -61,6 +62,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
@@ -96,6 +98,8 @@ public class DemandesViewModel {
 
 	private ProfilAgentDto currentUser;
 
+	private AccessRightsAbsDto droitsAbsence;
+
 	@Init
 	public void initDemandes() {
 
@@ -115,6 +119,10 @@ public class DemandesViewModel {
 		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
 		setListeEtatAbsenceFiltre(filtreEtat);
 		setTailleListe("10");
+
+		// on recupere les droits
+		AccessRightsAbsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
+		setDroitsAbsence(droitsAbsence);
 	}
 
 	@Command
@@ -251,6 +259,54 @@ public class DemandesViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "listeDemandes" })
+	public void viserAllDemandeFavorable(@BindingParam("ref") Grid tab) {
+		List<DemandeDto> listeDemandeAffichee = getListeDemandes().subList(
+				tab.getActivePage() * Integer.valueOf(getTailleListe()),
+				tab.getActivePage()
+						* Integer.valueOf(getTailleListe())
+						+ (Integer.valueOf(getTailleListe()) > getListeDemandes().size() ? getListeDemandes().size()
+								: Integer.valueOf(getTailleListe())));
+
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		for (DemandeDto demande : listeDemandeAffichee) {
+			if (demande.getIdRefEtat() == RefEtatEnum.SAISIE.getCodeEtat()
+					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_FAVORABLE.getCodeEtat()
+					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat()) {
+
+				DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
+				dto.setIdDemande(demande.getIdDemande());
+				dto.setIdRefEtat(RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
+				dto.setDateAvis(new Date());
+
+				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getAgent().getIdAgent(),
+						dto);
+
+				if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
+					for (String error : result.getErrors()) {
+						ValidationMessage vm = new ValidationMessage(error);
+						listErreur.add(vm);
+					}
+					for (String info : result.getInfos()) {
+						ValidationMessage vm = new ValidationMessage(info);
+						listInfo.add(vm);
+					}
+				}
+			}
+		}
+
+		if (listErreur.size() > 0 || listInfo.size() > 0) {
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("errors", listErreur);
+			map.put("infos", listInfo);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+		}
+
+		filtrer();
+	}
+
+	@Command
 	public void viserDemandeDefavorable(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
@@ -284,6 +340,56 @@ public class DemandesViewModel {
 				ValidationMessage vm = new ValidationMessage(info);
 				listInfo.add(vm);
 			}
+			map.put("errors", listErreur);
+			map.put("infos", listInfo);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+		}
+
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listeDemandes" })
+	public void approuverAllDemande(@BindingParam("ref") Grid tab) {
+		List<DemandeDto> listeDemandeAffichee = getListeDemandes().subList(
+				tab.getActivePage() * Integer.valueOf(getTailleListe()),
+				tab.getActivePage()
+						* Integer.valueOf(getTailleListe())
+						+ (Integer.valueOf(getTailleListe()) > getListeDemandes().size() ? getListeDemandes().size()
+								: Integer.valueOf(getTailleListe())));
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		for (DemandeDto demande : listeDemandeAffichee) {
+			if (demande.getIdRefEtat() == RefEtatEnum.SAISIE.getCodeEtat()
+					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_FAVORABLE.getCodeEtat()
+					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat()
+					|| demande.getIdRefEtat() == RefEtatEnum.APPROUVEE.getCodeEtat()
+					|| demande.getIdRefEtat() == RefEtatEnum.REFUSEE.getCodeEtat()) {
+				DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
+				dto.setIdDemande(demande.getIdDemande());
+				dto.setIdRefEtat(RefEtatEnum.APPROUVEE.getCodeEtat());
+				dto.setDateAvis(new Date());
+
+				currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+
+				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getAgent().getIdAgent(),
+						dto);
+
+				if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
+					for (String error : result.getErrors()) {
+						ValidationMessage vm = new ValidationMessage(error);
+						listErreur.add(vm);
+					}
+					for (String info : result.getInfos()) {
+						ValidationMessage vm = new ValidationMessage(info);
+						listInfo.add(vm);
+					}
+				}
+			}
+		}
+
+		if (listErreur.size() > 0 || listInfo.size() > 0) {
+			final HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("errors", listErreur);
 			map.put("infos", listInfo);
 			Executions.createComponents("/messages/returnMessage.zul", null, map);
@@ -603,6 +709,14 @@ public class DemandesViewModel {
 
 	public void setGroupeAbsenceFiltre(RefGroupeAbsenceDto groupeAbsenceFiltre) {
 		this.groupeAbsenceFiltre = groupeAbsenceFiltre;
+	}
+
+	public AccessRightsAbsDto getDroitsAbsence() {
+		return droitsAbsence;
+	}
+
+	public void setDroitsAbsence(AccessRightsAbsDto droitsAbsence) {
+		this.droitsAbsence = droitsAbsence;
 	}
 
 }
