@@ -105,9 +105,9 @@
 					<column label="Type de demande" width="400px"
 						sort="auto('libelleTypeDemande')" />
 					<column label="Date de début"
-						sort="auto('dateDebut')" align="center" width="100px" />
-					<column label="Heure de début" sort="none"
-						width="100px" align="center" />
+						sort="auto('dateDebut')" align="left" width="100px" />
+					<column label="Date de fin" sort="auto('dateFin')"
+						width="100px" align="left" />
 					<column label="Durée" sort="none" width="60px"
 						align="center" />
 					<column width="40px" align="center">
@@ -133,9 +133,9 @@
 							value="@bind(vm.concatAgent(each.agentWithServiceDto.nom,each.agentWithServiceDto.prenom))" />
 						<label value="@bind(each.libelleTypeDemande)" />
 						<label
-							value="@bind(each.dateDebut) @converter('formatedDate',format='dd/MM/yyyy')" />
+							value="@bind(vm.getDateDebutToString(each))" />
 						<label
-							value="@bind(vm.getHeureDebutToString(each))" />
+							value="@bind(vm.getDateFinToString(each))" />
 						<label
 							value="@bind(vm.getDureeToString(each.duree,each.typeSaisi,each.typeSaisiCongeAnnuel))" />
 						<vlayout>

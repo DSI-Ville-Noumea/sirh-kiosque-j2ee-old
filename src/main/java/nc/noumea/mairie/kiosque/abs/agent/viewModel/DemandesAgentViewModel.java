@@ -267,37 +267,54 @@ public class DemandesAgentViewModel {
 		return nom + " " + prenom;
 	}
 
-	public String getDateToString(Date date) {
-		if (date == null) {
-			return "";
-		}
-		SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
-		return sf.format(date);
-	}
-
 	public String getEtatToString(Integer idRefEtat) {
 		return RefEtatEnum.getRefEtatEnum(idRefEtat).getLibEtat();
 	}
 
-	public String getHeureDebutToString(DemandeDto dto) {
+	public String getDateDebutToString(DemandeDto dto) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String res = sdf.format(dto.getDateDebut());
 		if (dto.getTypeSaisi() != null && dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
 			if (dto.isDateDebutAM()) {
-				return "M";
+				res += " - M";
 			} else if (dto.isDateDebutPM()) {
-				return "AM";
+				res += " - AM";
 			}
-			return "";
+			return res;
 		}
 		if (dto.getTypeSaisiCongeAnnuel() != null) {
 			if (dto.isDateDebutAM()) {
-				return "M";
+				res += " - M";
 			} else if (dto.isDateDebutPM()) {
-				return "AM";
+				res += " - AM";
 			}
-			return "";
+			return res;
 		}
 		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
-		return sf.format(dto.getDateDebut());
+		return res + " - " + sf.format(dto.getDateDebut());
+	}
+
+	public String getDateFinToString(DemandeDto dto) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String res = sdf.format(dto.getDateFin());
+		if (dto.getTypeSaisi() != null && dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+			if (dto.isDateFinAM()) {
+				res += " - M";
+			} else if (dto.isDateFinPM()) {
+				res += " - AM";
+			}
+			return res;
+		}
+		if (dto.getTypeSaisiCongeAnnuel() != null) {
+			if (dto.isDateFinAM()) {
+				res += " - M";
+			} else if (dto.isDateFinPM()) {
+				res += " - AM";
+			}
+			return res;
+		}
+		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
+		return res + " - " + sf.format(dto.getDateFin());
 	}
 
 	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi,
