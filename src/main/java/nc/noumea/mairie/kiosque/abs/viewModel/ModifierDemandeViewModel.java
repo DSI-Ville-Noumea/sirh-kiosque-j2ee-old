@@ -205,7 +205,10 @@ public class ModifierDemandeViewModel {
 					getDemandeCourant().setDateFin(calFin.getTime());
 				}
 				if (getDemandeCourant().getTypeSaisi().isDuree()) {
-					String dureeTotale = getDureeHeureDemande() + "." + getDureeMinuteDemande();
+					String dureeTotale = getDureeHeureDemande()
+							+ "."
+							+ (getDureeMinuteDemande().length() == 1 ? "0" + getDureeMinuteDemande()
+									: getDureeMinuteDemande());
 					getDemandeCourant().setDuree(Double.valueOf(dureeTotale));
 				}
 			}

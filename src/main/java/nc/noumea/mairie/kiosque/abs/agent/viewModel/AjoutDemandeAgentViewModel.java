@@ -229,7 +229,10 @@ public class AjoutDemandeAgentViewModel {
 				}
 				// duree
 				if (getTypeAbsenceCourant().getTypeSaisiDto().isDuree()) {
-					String dureeTotale = getDureeHeureDemande() + "." + getDureeMinuteDemande();
+					String dureeTotale = getDureeHeureDemande()
+							+ "."
+							+ (getDureeMinuteDemande().length() == 1 ? "0" + getDureeMinuteDemande()
+									: getDureeMinuteDemande());
 					getDemandeCreation().setDuree(Double.valueOf(dureeTotale));
 				}
 			}
