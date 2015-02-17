@@ -204,8 +204,8 @@
 								<label value="Date de reprise : " />
 							</hlayout>
 							<hlayout>
-								<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
-									value="@bind(vm.demandeCourant.dateReprise)"
+								<datebox cols="14" format="dd/MM/yyyy"
+									maxlength="10" value="@bind(vm.demandeCourant.dateReprise)"
 									onChange="@command('refreshDuree')" />
 							</hlayout>
 						</hlayout>
@@ -218,6 +218,8 @@
 									style="font-weight:bold;color:#ee7203 !important;"
 									value="@bind(vm.dureeCongeAnnuel)" />
 							</hlayout>
+							<label
+								value="@bind(vm.samediOffertCongeAnnuel)" />
 						</hlayout>
 						<hlayout>
 							<hlayout width="150px">

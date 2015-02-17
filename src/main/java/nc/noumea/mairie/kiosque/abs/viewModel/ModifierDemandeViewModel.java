@@ -72,6 +72,7 @@ public class ModifierDemandeViewModel {
 	private String dureeHeureDemande;
 	private String dureeMinuteDemande;
 	private String dureeCongeAnnuel;
+	private String samediOffertCongeAnnuel;
 	private String etatDemande;
 
 	// POUR LA GESTION DES HEURES
@@ -107,6 +108,9 @@ public class ModifierDemandeViewModel {
 		// durée congé annuel
 		setDureeCongeAnnuel(getDureeHeureMinutes(getDemandeCourant().getDuree(), getDemandeCourant().getTypeSaisi(),
 				getDemandeCourant().getTypeSaisiCongeAnnuel()).toString());
+		// samedi offert
+		setSamediOffertCongeAnnuel(getDemandeCourant().isSamediOffert() ? "Samedi offert : pris"
+				: "Samedi offert : non pris");
 		// etat
 		setEtatDemande(getDemandeCourant().getIdRefEtat().toString());
 
@@ -138,7 +142,7 @@ public class ModifierDemandeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "dureeCongeAnnuel" })
+	@NotifyChange({ "dureeCongeAnnuel", "samediOffertCongeAnnuel" })
 	public void refreshDuree() {
 		getDemandeCourant().setDateDebutAM(
 				getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
@@ -150,6 +154,9 @@ public class ModifierDemandeViewModel {
 				getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 		setDureeCongeAnnuel(getCalculDureeCongeAnnuel(getDemandeCourant().getTypeSaisiCongeAnnuel()
 				.getCodeBaseHoraireAbsence(), getDemandeCourant()));
+
+		setSamediOffertCongeAnnuel(getSamediOffertDureeCongeAnnuel(getDemandeCourant().getTypeSaisiCongeAnnuel()
+				.getCodeBaseHoraireAbsence(), getDemandeCourant()));
 	}
 
 	public String getCalculDureeCongeAnnuel(String codeBaseHoraireAbsence, DemandeDto demandeDto) {
@@ -158,6 +165,17 @@ public class ModifierDemandeViewModel {
 			return dureeDto.getDuree().toString();
 		}
 		return null;
+	}
+
+	private String getSamediOffertDureeCongeAnnuel(String codeBaseHoraireAbsence, DemandeDto demandeDto) {
+		if (demandeDto.getDateDebut() != null && demandeDto.getDateFin() != null) {
+			DemandeDto dureeDto = absWsConsumer.getDureeCongeAnnuel(demandeDto);
+			if (dureeDto.isSamediOffert())
+				return "Samedi offert : pris";
+			else
+				return "Samedi offert : non pris";
+		}
+		return "Samedi offert : non pris";
 	}
 
 	private Double getDureeHeureMinutes(Double duree, RefTypeSaisiDto typeSaisi,
@@ -487,5 +505,13 @@ public class ModifierDemandeViewModel {
 
 	public void setDureeMinuteDemande(String dureeMinuteDemande) {
 		this.dureeMinuteDemande = dureeMinuteDemande;
+	}
+
+	public String getSamediOffertCongeAnnuel() {
+		return samediOffertCongeAnnuel;
+	}
+
+	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
+		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
 	}
 }

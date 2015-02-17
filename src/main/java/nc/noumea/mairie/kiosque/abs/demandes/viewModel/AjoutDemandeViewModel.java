@@ -75,6 +75,7 @@ public class AjoutDemandeViewModel {
 
 	private String etatDemandeCreation;
 	private String dureeCongeAnnuel;
+	private String samediOffertCongeAnnuel;
 
 	private List<OrganisationSyndicaleDto> listeOrganisationsSyndicale;
 
@@ -234,8 +235,23 @@ public class AjoutDemandeViewModel {
 		return null;
 	}
 
+	private String getSamediOffertDureeCongeAnnuel(String codeBaseHoraireAbsence, DemandeDto demandeDto) {
+		if (demandeDto.getDateDebut() != null && demandeDto.getDateFin() != null) {
+			demandeDto.setTypeSaisiCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto());
+			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
+			agentWithServiceDto.setIdAgent(currentUser.getAgent().getIdAgent());
+			demandeDto.setAgentWithServiceDto(agentWithServiceDto);
+			DemandeDto dureeDto = absWsConsumer.getDureeCongeAnnuel(demandeDto);
+			if (dureeDto.isSamediOffert())
+				return "Samedi offert : pris";
+			else
+				return "Samedi offert : non pris";
+		}
+		return "Samedi offert : non pris";
+	}
+
 	@Command
-	@NotifyChange({ "dureeCongeAnnuel" })
+	@NotifyChange({ "dureeCongeAnnuel", "samediOffertCongeAnnuel" })
 	public void refreshDuree() {
 		getDemandeCreation().setDateDebutAM(
 				getSelectDebutAM() == null ? false : getSelectDebutAM().equals("AM") ? true : false);
@@ -246,6 +262,9 @@ public class AjoutDemandeViewModel {
 		getDemandeCreation().setDateFinPM(
 				getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 		setDureeCongeAnnuel(getCalculDureeCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto()
+				.getCodeBaseHoraireAbsence(), getDemandeCreation()));
+
+		setSamediOffertCongeAnnuel(getSamediOffertDureeCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto()
 				.getCodeBaseHoraireAbsence(), getDemandeCreation()));
 	}
 
@@ -640,5 +659,13 @@ public class AjoutDemandeViewModel {
 
 	public void setDureeMinuteDemande(String dureeMinuteDemande) {
 		this.dureeMinuteDemande = dureeMinuteDemande;
+	}
+
+	public String getSamediOffertCongeAnnuel() {
+		return samediOffertCongeAnnuel;
+	}
+
+	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
+		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
 	}
 }

@@ -55,6 +55,7 @@ public class DemandeDto {
 	private boolean isDateFinAM;
 	private boolean isDateFinPM;
 	private Double duree;
+	private boolean isSamediOffert;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateReprise;
@@ -424,6 +425,14 @@ public class DemandeDto {
 
 	public void setDepassementMultiple(boolean isDepassementMultiple) {
 		this.isDepassementMultiple = isDepassementMultiple;
+	}
+
+	public boolean isSamediOffert() {
+		return isSamediOffert;
+	}
+
+	public void setSamediOffert(boolean isSamediOffert) {
+		this.isSamediOffert = isSamediOffert;
 	}
 
 }
