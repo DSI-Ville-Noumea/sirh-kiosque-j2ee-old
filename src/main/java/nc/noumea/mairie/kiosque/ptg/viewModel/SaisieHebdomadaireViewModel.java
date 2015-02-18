@@ -461,6 +461,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		hsup.setIdPointage(null);
 
 		hsup = setHSupARecupererForDPM(hsup);
+		setHasTextChanged(true);
 		BindUtils.postNotifyChange(null, null, this, "hasTextChanged");
 		BindUtils.postNotifyChange(null, null, hsup, "*");
 		BindUtils.postNotifyChange(null, null, hsup, ".");
@@ -710,7 +711,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	public boolean estAgentDPM() {
 		return getFicheCourante().isDPM();
 	}
-	
+
 	public boolean estINASuperieur315() {
 		return getFicheCourante().isINASuperieur315();
 	}
