@@ -261,12 +261,12 @@ public class DemandesViewModel {
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void viserAllDemandeFavorable(@BindingParam("ref") Grid tab) {
-		List<DemandeDto> listeDemandeAffichee = getListeDemandes().subList(
-				tab.getActivePage() * Integer.valueOf(getTailleListe()),
-				tab.getActivePage()
-						* Integer.valueOf(getTailleListe())
-						+ (Integer.valueOf(getTailleListe()) > getListeDemandes().size() ? getListeDemandes().size()
-								: Integer.valueOf(getTailleListe())));
+		List<DemandeDto> listeDemandeAffichee = getListeDemandes()
+				.subList(
+						tab.getActivePage() * Integer.valueOf(getTailleListe()),
+						(tab.getActivePage() * Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())) > getListeDemandes()
+								.size() ? getListeDemandes().size() : (tab.getActivePage()
+								* Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())));
 
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
@@ -351,12 +351,12 @@ public class DemandesViewModel {
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void approuverAllDemande(@BindingParam("ref") Grid tab) {
-		List<DemandeDto> listeDemandeAffichee = getListeDemandes().subList(
-				tab.getActivePage() * Integer.valueOf(getTailleListe()),
-				tab.getActivePage()
-						* Integer.valueOf(getTailleListe())
-						+ (Integer.valueOf(getTailleListe()) > getListeDemandes().size() ? getListeDemandes().size()
-								: Integer.valueOf(getTailleListe())));
+		List<DemandeDto> listeDemandeAffichee = getListeDemandes()
+				.subList(
+						tab.getActivePage() * Integer.valueOf(getTailleListe()),
+						(tab.getActivePage() * Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())) > getListeDemandes()
+								.size() ? getListeDemandes().size() : (tab.getActivePage()
+								* Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())));
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		for (DemandeDto demande : listeDemandeAffichee) {
