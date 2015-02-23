@@ -455,13 +455,15 @@ public class DemandesViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "typeAbsenceFiltre", "etatAbsenceFiltre", "dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre",
-			"listeAgentsFiltre", "agentFiltre", "serviceFiltre" })
+	@NotifyChange({ "groupeAbsenceFiltre", "typeAbsenceFiltre", "listeTypeAbsenceFiltre", "etatAbsenceFiltre", "dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre",
+		 "agentFiltre", "listeAgentsFiltre", "serviceFiltre" })
 	public void viderFiltre() {
+		setGroupeAbsenceFiltre(null);
+		setAgentFiltre(null);
 		setListeAgentsFiltre(null);
 		setServiceFiltre(null);
-		setAgentFiltre(null);
 		setTypeAbsenceFiltre(null);
+		setListeTypeAbsenceFiltre(null);
 		setEtatAbsenceFiltre(null);
 		setDateDebutFiltre(null);
 		setDateFinFiltre(null);
