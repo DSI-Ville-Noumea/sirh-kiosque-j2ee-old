@@ -72,4 +72,37 @@ public enum RefTypeAbsenceEnum {
 				return null;
 		}
 	}
+
+	public static String getLibelleRefTypeAbsenceEnum(Integer type) {
+
+		if (type == null)
+			return "";
+
+		switch (type) {
+			case 1:
+				return "Congés annuels";
+			case 2:
+				return "Repos compensateur";
+			case 3:
+				return "Récupérations";
+			case 6:
+				return "Maladies";
+			case 7:
+				return "Réunion des membres du bureau directeur";
+			case 8:
+				return "Congrès et conseil syndical";
+			case 9:
+				return "Délégation DP";
+			case 10:
+				return "Décharge de service CTP";
+			case 11:
+				return "Formation syndicale";
+			case 12:
+				return "Participation à une réunion syndicale";
+			case 13:
+				return "Activité institutionnelle";
+			default:
+				return "";
+		}
+	}
 }

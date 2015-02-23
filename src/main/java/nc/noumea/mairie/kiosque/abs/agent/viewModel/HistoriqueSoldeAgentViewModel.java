@@ -71,7 +71,7 @@ public class HistoriqueSoldeAgentViewModel {
 		List<HistoriqueSoldeDto> listeHisto = absWsConsumer.getHistoriqueCompteurAgent(idAgent, idTypeAbsence, dto);
 		setListeHistoriqueSolde(listeHisto);
 
-		setTitle("Historique d'alimentation du solde de " + RefTypeAbsenceEnum.getRefTypeAbsenceEnum(idTypeAbsence));
+		setTitle("Historique d'alimentation du solde de " + RefTypeAbsenceEnum.getLibelleRefTypeAbsenceEnum(idTypeAbsence));
 	}
 
 	@Command
