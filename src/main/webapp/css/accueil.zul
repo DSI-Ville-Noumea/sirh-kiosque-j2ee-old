@@ -1,15 +1,39 @@
 <style>
 
-	
 	<![CDATA[
 
-	.imageAccueil { background-color: #f3e6d5; background-image:
-	url("img/menu/backgroundBase.png"); background-position: right
-	bottom; background-repeat: no-repeat;padding-left: 10px;padding-top:
-	10px; padding-bottom: 10px;padding-right: 10px;color: #00395e;}
+	.imageAccueil { 
+		background-color: #f3e6d5; 
+		background-image: url("img/menu/backgroundBase.png");
+		background-position: right bottom; 
+		background-repeat: no-repeat;
+		background-attachment: fixed; 
+		padding-left: 10px;padding-top:
+		10px; padding-bottom: 10px;padding-right: 10px;color: #00395e;
+	}
 
+	.z-a { color: #0072bc; text-decoration: none; } 
+	
+	.titre1 { font-size: 28px; color: #EE7203; line-height: 28px; text-align: center; }
+	
+	.titre2 { font-size: 20px; color: #EE7203; line-height: 20px; margin-bottom : 20px; }
+	
+	.titre3 { font-size: 16px; color: #004f9f; line-height: 16px; margin-left: 15px; margin-bottom : 10px; }
 
-	.z-a { color: #0072bc; text-decoration: none; } ]]>
-			
+	.titreRouge { font-size: 20px; color: red; line-height: 20px; text-align: center;  margin-bottom: 10px; height: auto; }
+	
+	.italique { font-style: italic; }
+	
+	.contenuAccueil { margin-left:30px; color: #00395e; } 
+	
+	.headerAccueil { width:80%; margin-left: 10%; margin-right: 10%; margin-top: 10px; margin-bottom: 10px; height: auto; }
+	
+	.leftAccueil { width:40%; margin-left: 5%; margin-right: 5%; float:left; margin-top: 10px; margin-bottom: 10px; height: auto;  }
+	
+	.rightAccueil { width:40%; margin-left: 5%; margin-right: 5%; float:left; margin-top: 10px; margin-bottom: 10px; height: auto;  }
+	
+	.footerAccueil { width:80%; margin-left: 10%; margin-right: 10%; margin-top: 30px; margin-bottom: 10px; height: auto; float: left; }
+	
+	]]>
 	
 </style>
