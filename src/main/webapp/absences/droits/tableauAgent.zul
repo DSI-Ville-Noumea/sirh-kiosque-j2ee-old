@@ -26,7 +26,11 @@
 				<listheader label="Nom" sort="auto('nom')" />
 				<listheader label="Prénom" sort="auto('prenom')"
 					align="center" />
-				<listheader label="" sort="none" />
+				<listheader label="" sort="none">
+					<image tooltiptext="Supprimer tous les agents"
+								sclass="ListAction delete"
+								onClick="@command('supprimerTousLesAgents')" />
+				</listheader>
 			</listhead>
 
 			<template name="model">

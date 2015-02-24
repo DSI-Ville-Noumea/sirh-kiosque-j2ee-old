@@ -39,6 +39,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
@@ -48,11 +49,14 @@ import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
@@ -221,6 +225,37 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	public void supprimerTousLesAgents() {
+		// on regarde dans quel onglet on est
+		if (getTabCourant().getId().equals("APPROBATEUR")) {
+			// on ouvre une popup de confirmation
+			Messagebox.show("Voulez-vous supprimer tous les agents à approuver?", "Confirmation",
+				Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+					@Override
+					public void onEvent(Event evt) throws InterruptedException {
+						if (evt.getName().equals("onOK")) {
+							supprimerTousLesAgentsApprobateurs();
+							BindUtils.postNotifyChange(null, null, DroitsAccesViewModel.this, "listeAgents");
+						}
+					}
+				});
+		} else if (getTabCourant().getId().equals("OPERATEUR")) {
+			// on ouvre une popup de confirmation
+			Messagebox.show("Voulez-vous supprimer tous les opérateurs?", "Confirmation",
+				Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+					@Override
+					public void onEvent(Event evt) throws InterruptedException {
+						if (evt.getName().equals("onOK")) {
+							supprimerTousLesOperateursApprobateurs();
+							BindUtils.postNotifyChange(null, null, DroitsAccesViewModel.this, "listeAgents");
+						}
+					}
+				});
+		}
+	}
+
 	private void supprimerDelegataireApprobateurs(AgentDto agentDelegataireASupprimer) {
 		// on recupere tous les delegataire de l'approbateurs et on supprime
 		// l'entree
@@ -239,6 +274,36 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
 			result.getInfos().add("Le délégataire a été enregistré correctement.");
+		for (String error : result.getErrors()) {
+			ValidationMessage vm = new ValidationMessage(error);
+			listErreur.add(vm);
+		}
+		for (String info : result.getInfos()) {
+			ValidationMessage vm = new ValidationMessage(info);
+			listInfo.add(vm);
+		}
+		map.put("errors", listErreur);
+		map.put("infos", listInfo);
+		Executions.createComponents("/messages/returnMessage.zul", null, map);
+		if (listErreur.size() == 0) {
+			refreshListeAgent();
+		}
+	}
+
+	private void supprimerTousLesOperateursApprobateurs() {
+
+		DelegatorAndOperatorsDto dto = new DelegatorAndOperatorsDto();
+		dto.setSaisisseurs(new ArrayList<AgentDto>());
+		dto.setDelegataire(getListeDelegataire() == null || getListeDelegataire().size() == 0 ? null
+				: getListeDelegataire().get(0));
+		ReturnMessageDto result = ptgWsConsumer.saveDelegateAndOperator(currentUser.getAgent().getIdAgent(), dto);
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		// ici la liste info est toujours vide alors on ajoute un message
+		if (result.getErrors().size() == 0)
+			result.getInfos().add("Les opérateurs ont été enregistrés correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -288,6 +353,31 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		if (listErreur.size() == 0) {
 			refreshListeAgent();
 		}
+	}
+	
+	private void supprimerTousLesAgentsApprobateurs() {
+		ReturnMessageDto result = ptgWsConsumer.saveApprovedAgents(currentUser.getAgent().getIdAgent(),
+				new ArrayList<AgentDto>());
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		// ici la liste info est toujours vide alors on ajoute un message
+		if (result.getErrors().size() == 0)
+			result.getInfos().add("Les agents à approuver ont été enregistrés correctement.");
+		for (String error : result.getErrors()) {
+			ValidationMessage vm = new ValidationMessage(error);
+			listErreur.add(vm);
+		}
+		for (String info : result.getInfos()) {
+			ValidationMessage vm = new ValidationMessage(info);
+			listInfo.add(vm);
+		}
+		map.put("errors", listErreur);
+		map.put("infos", listInfo);
+		Executions.createComponents("/messages/returnMessage.zul", null, map);
+		
+		refreshListeAgent();
 	}
 
 	private void supprimerAgentsApprobateurs(AgentDto agentASupprimer) {
