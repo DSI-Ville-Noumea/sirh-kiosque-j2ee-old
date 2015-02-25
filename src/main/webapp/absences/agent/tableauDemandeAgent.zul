@@ -73,6 +73,7 @@
 		<separator />
 		<grid model="@bind(vm.listeDemandes)" mold="paging"
 			width="1252px" pageSize="@bind(vm.tailleListe)"
+			id="listeDemandesId"
 			emptyMessage="Aucun élément">
 			<columns>
 				<column width="30px" sort="none" />
@@ -156,9 +157,9 @@
 			<div style="display:inline-block;float:right;"
 				align="right">
 				<button label="Exp. PDF"
-					onClick="@command('exportPDF', ref=listeAgent)" />
+					onClick="@command('exportPDF', ref=listeDemandesId)" />
 				<button label="Exp. Excel"
-					onClick="@command('exportExcel', ref=listeAgent)" />
+					onClick="@command('exportExcel', ref=listeDemandesId)" />
 			</div>
 		</div>
 	</vlayout>

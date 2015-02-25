@@ -223,9 +223,9 @@
 			<div style="display:inline-block;float:right;"
 				align="right">
 				<button label="Exp. PDF"
-					onClick="@command('exportPDF', ref=listeDemande)" />
+					onClick="@command('exportPDF', ref=tabDemande)" />
 				<button label="Exp. Excel"
-					onClick="@command('exportExcel', ref=listeDemande)" />
+					onClick="@command('exportExcel', ref=tabDemande)" />
 			</div>
 		</div>
 	</vlayout>

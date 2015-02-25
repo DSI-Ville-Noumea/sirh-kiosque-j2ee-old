@@ -54,7 +54,7 @@ public class CellValueSetterImpl implements CellValueSetter<Component> {
 	private void setCellValue(String value, Cell cell) {
 		if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
 			cell.setCellValue(Boolean.valueOf(value));
-		} else {
+		} else if(null != value) {
 			parseAndSetCellValueToDoubleDateOrString(value, cell);
 		}
 	}

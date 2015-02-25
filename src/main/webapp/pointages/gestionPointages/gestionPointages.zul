@@ -101,7 +101,8 @@
 				<div style="overflow:auto;">
 					<grid model="@bind(vm.listePointages)" mold="paging"
 						width="1370px" pageSize="@bind(vm.tailleListe)"
-						emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage">
+						emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage"
+						id="listePointagesId" >
 						<columns>
 							<column width="30px" sort="none" />
 							<column label="Agent"
@@ -212,9 +213,9 @@
 					<div style="display:inline-block;float:right;"
 						align="right">
 						<button label="Exp. PDF"
-							onClick="@command('exportPDF', ref=listePointages)" />
+							onClick="@command('exportPDF', ref=listePointagesId)" />
 						<button label="Exp. Excel"
-							onClick="@command('exportExcel', ref=listePointages)" />
+							onClick="@command('exportExcel', ref=listePointagesId)" />
 					</div>
 				</div>
 			</vlayout>

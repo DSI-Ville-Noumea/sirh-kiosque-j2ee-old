@@ -63,7 +63,7 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
-import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -223,11 +223,11 @@ public class GestionPointagesViewModel {
 	}
 
 	@Command
-	public void exportPDF(@BindingParam("ref") Listbox listbox) throws Exception {
+	public void exportPDF(@BindingParam("ref") Grid grid) throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		PdfExporter exporter = new PdfExporter();
-		exporter.export(listbox, out);
+		exporter.export(grid, out);
 
 		AMedia amedia = new AMedia("gestionPointages.pdf", "pdf", "application/pdf", out.toByteArray());
 		Filedownload.save(amedia);
@@ -235,11 +235,11 @@ public class GestionPointagesViewModel {
 	}
 
 	@Command
-	public void exportExcel(@BindingParam("ref") Listbox listbox) throws Exception {
+	public void exportExcel(@BindingParam("ref") Grid grid) throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		ExcelExporter exporter = new ExcelExporter();
-		exporter.export(listbox, out);
+		exporter.export(grid, out);
 
 		AMedia amedia = new AMedia("gestionPointages.xlsx", "xls", "application/file", out.toByteArray());
 		Filedownload.save(amedia);
