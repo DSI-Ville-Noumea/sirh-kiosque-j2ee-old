@@ -7,7 +7,7 @@
 			<vlayout>
 				<hlayout>
 					<hlayout width="150px">
-						<label value="Groupe d'absence :" />
+						<label value="Groupe d'absences :" />
 					</hlayout>
 					<combobox readonly="true" width="250px"
 						model="@bind(vm.listeGroupeAbsence)"

@@ -3,7 +3,7 @@
 	<separator />
 	<vlayout>
 		<hlayout>
-			<label value="Groupe d'absence :" />
+			<label value="Groupe d'absences :" />
 			<combobox readonly="true" width="250px"
 				model="@bind(vm.listeGroupeAbsenceFiltre)"
 				selectedItem="@bind(vm.groupeAbsenceFiltre)"
