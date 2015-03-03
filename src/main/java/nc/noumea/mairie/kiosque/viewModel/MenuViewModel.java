@@ -119,27 +119,27 @@ public class MenuViewModel {
 
 	@Command
 	public void eaeSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
-		if (currentUser.getAgent().getIdAgent() == 9005138 || currentUser.getAgent().getIdAgent() == 9005131) {
-			Map<String, Div> args = new HashMap<String, Div>();
-			args.put("div", div);
-
-			div.getChildren().clear();
-			Executions.createComponents(page + ".zul", div, args);
-		} else {
+//		if (currentUser.getAgent().getIdAgent() == 9005138 || currentUser.getAgent().getIdAgent() == 9005131) {
+//			Map<String, Div> args = new HashMap<String, Div>();
+//			args.put("div", div);
+//
+//			div.getChildren().clear();
+//			Executions.createComponents(page + ".zul", div, args);
+//		} else {
 			div.getChildren().clear();
 			Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlEaeApprobateur(), "_blank");
-		}
+//		}
 	}
 
 	@Command
 	public void tableauBordSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
-		if (currentUser.getAgent().getIdAgent() == 9005138 || currentUser.getAgent().getIdAgent() == 9005131) {
-			div.getChildren().clear();
-			Executions.createComponents(page + ".zul", div, null);
-		} else {
+//		if (currentUser.getAgent().getIdAgent() == 9005138 || currentUser.getAgent().getIdAgent() == 9005131) {
+//			div.getChildren().clear();
+//			Executions.createComponents(page + ".zul", div, null);
+//		} else {
 			div.getChildren().clear();
 			Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlTableauBordApprobateur(), "_blank");
-		}
+//		}
 	}
 
 	public AccessRightsAbsDto getDroitsAbsence() {
