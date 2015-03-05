@@ -84,8 +84,9 @@
 				
 				<div zclass="footerAccueil">
 					<div zclass="titreRouge"><label zclass="titreRouge" value="EN CAS D’ANOMALIE OU DE MESSAGE D’ERREUR" /></div>
-					<div zclass="titre3"><label zclass="titre3" value="&#8594; Faites l’image écran de l’anomalie ou du message d’erreur (CTRL-ALP- IMP ECR) " /></div>
-					<div zclass="titre3"><label zclass="titre3" value="&#8594; Faites l’image écran de ce que vous saisissiez (CTRL-ALP- IMP ECR). Sur le message d’erreur précédent faites OK, normalement vous devriez retrouver votre saisie. " /></div>
+					<div zclass="titre3"><label zclass="titre3" value="&#8594; Faites l’image écran de l’anomalie ou du message d’erreur (CTRL-ALT- IMP ECR)" /></div>
+					<div zclass="titre3"><label zclass="italique" value="Puis ouvrez un mail, placez-vous dans le corps du message et faites CTRL-V pour récupérer l’image écran." /></div>
+					<div zclass="titre3"><label zclass="titre3" value="&#8594; Faites l’image écran de ce que vous saisissiez (CTRL-ALT- IMP ECR). Sur le message d’erreur précédent faites OK, normalement vous devriez retrouver votre saisie. " /></div>
 					<div zclass="titre3"><label zclass="titre3" value="&#8594; Envoyez le tout  à votre référent RH (voir ci-dessous)" /></div>
 					<div zclass="titre3" style="text-align:center;"><label zclass="titre3" value="Merci de votre collaboration." /></div>
 					<div zclass="titre3" style="text-align:center;"><label zclass="titre3" value="Michel LAURIENT" /></div>
