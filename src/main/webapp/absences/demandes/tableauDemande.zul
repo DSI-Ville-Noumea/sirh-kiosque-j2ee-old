@@ -119,7 +119,7 @@
 					<column label="Date de saisie"
 						sort="auto('dateDemande')" align="center" width="120px" />
 					<column label="" sort="none" width="150px">
-						<hlayout>
+						<hlayout style="min-height:24px;">
 							<!-- Pour le viseur -->
 							<image
 								tooltiptext="Viser favorablement toutes les demandes"
