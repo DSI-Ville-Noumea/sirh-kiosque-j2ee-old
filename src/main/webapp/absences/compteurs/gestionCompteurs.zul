@@ -76,7 +76,7 @@
 										</comboitem>
 									</template>
 								</combobox>
-
+								<label value="heures" />
 								<combobox model="@bind(vm.listeMinutes)"
 									selectedItem="@bind(vm.minuteAjout)" cols="2"
 									onSelect="@command('actualiseNouveauSoldeRecup',ref='ajouter')">
@@ -86,6 +86,7 @@
 										</comboitem>
 									</template>
 								</combobox>
+								<label value="minutes" />
 							</hlayout>
 						</hlayout>
 						<hlayout>
@@ -103,7 +104,7 @@
 										</comboitem>
 									</template>
 								</combobox>
-
+								<label value="heures" />
 								<combobox model="@bind(vm.listeMinutes)"
 									selectedItem="@bind(vm.minuteRetrait)" cols="2"
 									onSelect="@command('actualiseNouveauSoldeRecup',ref='retrancher')">
@@ -113,6 +114,7 @@
 										</comboitem>
 									</template>
 								</combobox>
+								<label value="minutes" />
 							</hlayout>
 						</hlayout>
 						<hlayout>
@@ -217,7 +219,7 @@
 										</comboitem>
 									</template>
 								</combobox>
-
+								<label value="heures" />
 								<combobox model="@bind(vm.listeMinutes)"
 									selectedItem="@bind(vm.minuteAjout)" cols="2"
 									onSelect="@command('actualiseNouveauSoldeReposComp',ref='ajouter')">
@@ -227,6 +229,7 @@
 										</comboitem>
 									</template>
 								</combobox>
+								<label value="minutes" />
 							</hlayout>
 						</hlayout>
 						<hlayout>
@@ -244,7 +247,7 @@
 										</comboitem>
 									</template>
 								</combobox>
-
+								<label value="heures" />
 								<combobox model="@bind(vm.listeMinutes)"
 									selectedItem="@bind(vm.minuteRetrait)" cols="2"
 									onSelect="@command('actualiseNouveauSoldeReposComp',ref='retrancher')">
@@ -254,6 +257,7 @@
 										</comboitem>
 									</template>
 								</combobox>
+								<label value="minutes" />
 							</hlayout>
 						</hlayout>
 						<hlayout>
