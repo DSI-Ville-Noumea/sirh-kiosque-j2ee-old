@@ -129,7 +129,12 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	}
 
 	public String concatAgent(AgentWithServiceDto ag) {
-		return ag.getCivilite() + " " + ag.getNom() + " " + transformPrenom(ag.getPrenom()) + " - " + ag.getPosition();
+		if (ag != null) {
+			return ag.getCivilite() + " " + ag.getNom() + " " + transformPrenom(ag.getPrenom()) + " - "
+					+ ag.getPosition();
+		} else {
+			return "aucun";
+		}
 	}
 
 	public String concatAgentSansCivilite(AgentWithServiceDto ag) {
