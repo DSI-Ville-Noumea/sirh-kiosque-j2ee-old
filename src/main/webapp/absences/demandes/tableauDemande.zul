@@ -151,7 +151,7 @@
 						<label
 							value="@bind(vm.getDateFinToString(each))" />
 						<label
-							value="@bind(vm.getDureeToString(each.duree,each.typeSaisi,each.typeSaisiCongeAnnuel))" />
+							value="@bind(vm.getDureeToString(each)" />
 						<vlayout>
 							<image
 								tooltiptext="Le seuil du compteur est dépassé pour cette demande."

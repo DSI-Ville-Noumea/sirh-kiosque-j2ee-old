@@ -37,8 +37,6 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -317,17 +315,16 @@ public class DemandesAgentViewModel {
 		return res + " - " + sf.format(dto.getDateFin());
 	}
 
-	public String getDureeToString(Double duree, RefTypeSaisiDto typeSaisi,
-			RefTypeSaisiCongeAnnuelDto typeSaisiCongeAnnuel) {
-		if (typeSaisi != null) {
-			if (typeSaisi.getUniteDecompte().equals("jours")) {
-				return duree + " j";
+	public String getDureeToString(DemandeDto dto) {
+		if (dto.getTypeSaisi() != null) {
+			if (dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+				return dto.getDuree() + " j";
 			} else {
-				return getHeureMinute(duree.intValue());
+				return getHeureMinute(dto.getDuree().intValue());
 			}
 		}
-		if (typeSaisiCongeAnnuel != null) {
-			return duree + " j";
+		if (dto.getTypeSaisiCongeAnnuel() != null) {
+			return dto.getDuree() + " j" + (dto.isSamediOffert() ? " +S" : "");
 		}
 		return "";
 	}

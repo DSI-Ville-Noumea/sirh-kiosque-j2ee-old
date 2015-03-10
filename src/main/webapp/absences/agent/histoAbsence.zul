@@ -18,7 +18,7 @@
 					<label value="${vm.getDateDebutToString(each)}" />
 					<label value="${vm.getDateFinToString(each)}" />
 					<label
-						value="${vm.getDureeToString(each.duree,each.typeSaisi,each.typeSaisiCongeAnnuel)}" />
+						value="${vm.getDureeToString(each)}" />
 					<hlayout>
 						<label value="" />
 					</hlayout>
