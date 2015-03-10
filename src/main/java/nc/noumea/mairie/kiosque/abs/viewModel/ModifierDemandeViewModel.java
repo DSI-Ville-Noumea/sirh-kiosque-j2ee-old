@@ -300,7 +300,7 @@ public class ModifierDemandeViewModel {
 		if (getDemandeCourant().getTypeSaisi() != null) {
 			if (typeSaisie.isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
-					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de début."));
 				}
 			}
 			// heure debut
@@ -338,7 +338,7 @@ public class ModifierDemandeViewModel {
 			}
 			if (typeSaisie.isChkDateFin()) {
 				if (getSelectFinAM() == null) {
-					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de fin."));
 				}
 			}
 
@@ -351,7 +351,7 @@ public class ModifierDemandeViewModel {
 		} else if (getDemandeCourant().getTypeSaisiCongeAnnuel() != null) {
 			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
-					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de début."));
 				}
 			}
 
@@ -363,7 +363,7 @@ public class ModifierDemandeViewModel {
 			}
 			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isChkDateFin()) {
 				if (getSelectFinAM() == null) {
-					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de fin."));
 				}
 			}
 

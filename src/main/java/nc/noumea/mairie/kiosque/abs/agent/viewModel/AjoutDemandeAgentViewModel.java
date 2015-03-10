@@ -335,7 +335,7 @@ public class AjoutDemandeAgentViewModel {
 		if (refTypeAbsenceDto.getTypeSaisiDto() != null) {
 			if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
-					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de début."));
 				}
 			}
 			// heure debut
@@ -373,7 +373,7 @@ public class AjoutDemandeAgentViewModel {
 			}
 			if (refTypeAbsenceDto.getTypeSaisiDto().isChkDateFin()) {
 				if (getSelectFinAM() == null) {
-					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de fin."));
 				}
 			}
 
@@ -386,7 +386,7 @@ public class AjoutDemandeAgentViewModel {
 		} else if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto() != null) {
 			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
-					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de début."));
+					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de début."));
 				}
 			}
 
@@ -398,7 +398,7 @@ public class AjoutDemandeAgentViewModel {
 			}
 			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isChkDateFin()) {
 				if (getSelectFinAM() == null) {
-					vList.add(new ValidationMessage("Merci de choisir M/AM pour la date de fin."));
+					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de fin."));
 				}
 			}
 

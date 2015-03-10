@@ -510,7 +510,7 @@ public class DemandesViewModel {
 			if (dto.isDateDebutAM()) {
 				res += " - M";
 			} else if (dto.isDateDebutPM()) {
-				res += " - AM";
+				res += " - A";
 			}
 			return res;
 		}
@@ -518,7 +518,7 @@ public class DemandesViewModel {
 			if (dto.isDateDebutAM()) {
 				res += " - M";
 			} else if (dto.isDateDebutPM()) {
-				res += " - AM";
+				res += " - A";
 			}
 			return res;
 		}
@@ -533,7 +533,7 @@ public class DemandesViewModel {
 			if (dto.isDateFinAM()) {
 				res += " - M";
 			} else if (dto.isDateFinPM()) {
-				res += " - AM";
+				res += " - A";
 			}
 			return res;
 		}
@@ -541,7 +541,7 @@ public class DemandesViewModel {
 			if (dto.isDateFinAM()) {
 				res += " - M";
 			} else if (dto.isDateFinPM()) {
-				res += " - AM";
+				res += " - A";
 			}
 			return res;
 		}

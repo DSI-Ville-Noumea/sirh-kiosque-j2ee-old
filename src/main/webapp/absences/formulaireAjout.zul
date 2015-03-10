@@ -37,7 +37,7 @@
 							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateDebut)"
 							selectedItem="@bind(vm.selectDebutAM)">
 							<radio label="M" value="AM" />
-							<radio label="AM" value="PM" />
+							<radio label="A" value="PM" />
 						</radiogroup>
 					</hlayout>
 				</hlayout>
@@ -92,7 +92,7 @@
 							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateFin)"
 							selectedItem="@bind(vm.selectFinAM)">
 							<radio label="M" value="AM" />
-							<radio label="AM" value="PM" />
+							<radio label="A" value="PM" />
 						</radiogroup>
 					</hlayout>
 				</hlayout>
@@ -158,7 +158,7 @@
 							selectedItem="@bind(vm.selectDebutAM)"
 							onCheck="@command('refreshDuree')">
 							<radio label="M" value="AM" />
-							<radio label="AM" value="PM" />
+							<radio label="A" value="PM" />
 						</radiogroup>
 					</hlayout>
 				</hlayout>
@@ -178,7 +178,7 @@
 							selectedItem="@bind(vm.selectFinAM)"
 							onCheck="@command('refreshDuree')">
 							<radio label="M" value="AM" />
-							<radio label="AM" value="PM" />
+							<radio label="A" value="PM" />
 						</radiogroup>
 					</hlayout>
 				</hlayout>
