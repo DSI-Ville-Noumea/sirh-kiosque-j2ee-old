@@ -171,11 +171,11 @@ public class ModifierDemandeViewModel {
 		if (demandeDto.getDateDebut() != null && demandeDto.getDateFin() != null) {
 			DemandeDto dureeDto = absWsConsumer.getDureeCongeAnnuel(demandeDto);
 			if (dureeDto.isSamediOffert())
-				return "Samedi offert : pris";
+				return "Samedi offert";
 			else
-				return "Samedi offert : non pris";
+				return null;
 		}
-		return "Samedi offert : non pris";
+		return null;
 	}
 
 	private Double getDureeHeureMinutes(Double duree, RefTypeSaisiDto typeSaisi,

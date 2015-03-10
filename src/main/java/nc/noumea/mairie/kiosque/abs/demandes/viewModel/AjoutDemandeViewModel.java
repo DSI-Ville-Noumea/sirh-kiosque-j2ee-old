@@ -243,11 +243,11 @@ public class AjoutDemandeViewModel {
 			demandeDto.setAgentWithServiceDto(agentWithServiceDto);
 			DemandeDto dureeDto = absWsConsumer.getDureeCongeAnnuel(demandeDto);
 			if (dureeDto.isSamediOffert())
-				return "Samedi offert : pris";
+				return "Samedi offert";
 			else
-				return "Samedi offert : non pris";
+				return null;
 		}
-		return "Samedi offert : non pris";
+		return null;
 	}
 
 	@Command
