@@ -172,6 +172,8 @@ public class EaeViewModel {
 	}
 
 	private void initPlanAction() {
+		//pour le moment ca plante car on a developé des nouveaux DTO qui ne sont pas encore en place en intégration/recette/prod
+		//cd redmine #13840
 		EaePlanActionDto plan = eaeWsConsumer.getPlanActionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
 				.getIdAgent());
 		for (EaeObjectifProDto objPro : plan.getObjectifsProfessionnels()) {
