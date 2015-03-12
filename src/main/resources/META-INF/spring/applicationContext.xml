@@ -80,6 +80,9 @@
 	<jee:jndi-lookup id="radiWsBaseUrl" jndi-name="RADI_WS_URL"
 		expected-type="java.lang.String" />
 
+	<jee:jndi-lookup id="environnement" jndi-name="TYPE_ENV"
+		expected-type="java.lang.String" />
+
 	<!-- Pour sharepoint -->
 	<jee:jndi-lookup id="sharepointBaseUrl" jndi-name="SHAREPOINT_BASE_URL"
 		expected-type="java.lang.String" />

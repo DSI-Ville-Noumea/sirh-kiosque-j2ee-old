@@ -31,6 +31,8 @@ import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -38,6 +40,10 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class AccueilViewModel {
+
+	@Autowired
+	@Qualifier("environnement")
+	private String environnement;
 
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
@@ -47,6 +53,8 @@ public class AccueilViewModel {
 	private List<AccueilRhDto> listeTexteAccueil;
 
 	private ReferentRhDto refrentRh;
+
+	private boolean isRecette;
 
 	@Init
 	public void initAccueil() {
@@ -58,6 +66,12 @@ public class AccueilViewModel {
 		// refrent Rh de l'agent
 		ReferentRhDto referent = sirhWsConsumer.getReferentRH(currentUser.getAgent().getIdAgent());
 		setRefrentRh(referent);
+
+		if (environnement.equals("RECETTE")) {
+			setRecette(true);
+		} else {
+			setRecette(false);
+		}
 
 	}
 
@@ -84,5 +98,13 @@ public class AccueilViewModel {
 
 	public void setRefrentRh(ReferentRhDto refrentRh) {
 		this.refrentRh = refrentRh;
+	}
+
+	public boolean isRecette() {
+		return isRecette;
+	}
+
+	public void setRecette(boolean isRecette) {
+		this.isRecette = isRecette;
 	}
 }
