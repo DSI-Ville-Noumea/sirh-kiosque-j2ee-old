@@ -1,193 +1,179 @@
 <zk>
 	<window height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.AccueilViewModel')">
-		<div width="100%">
-			<vlayout  sclass="imageAccueil" vflex="1">
+		<div width="100%" sclass="imageAccueil"
+			visible="@bind(vm.recette)">
+			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
 					value="Accueil" />
 				<label style="font-size: 18px;color: #004f9f;"
 					value="Votre Kiosque RH" />
 				<separator />
-				<div zclass="headerAccueil"
-					visible="@bind(vm.recette)">
+				<div zclass="headerAccueil">
 					<label
 						value="Vous êtes l’élément essentiel à la mise en place des pointages et des absences. 
 					Nous avons besoin de vous pour vérifier le bon fonctionnement de ces outils. 
 					Nous avons besoin de votre retour. Alors voilà  ce que vous devez faire :" />
 				</div>
-				<div visible="@bind(vm.recette)">
-					<div zclass="leftAccueil">
-						<div zclass="titre1">
-							<label zclass="titre1" value="POINTAGES" />
-						</div>
-
-						<div zclass="titre2">
-							<label zclass="titre2"
-								value="VOUS ETES APPROBATEUR :" />
-							<div zclass="titre3">
-								<label zclass="titre3"
-									value="DROITS D’ACCES" />
-								<label zclass="italique"
-									value="(ils seront repris lors de la mise en production)" />
-								<div zclass="contenuAccueil">
-									<label
-										value="Vérifier et ajuster : Les agents à approuver doivent être ceux de votre équipe" />
-								</div>
-								<div zclass="contenuAccueil">
-									<label
-										value="Vérifier et ajuster les opérateurs et la liste des agents qu’ils doivent saisir" />
-								</div>
-								<div zclass="contenuAccueil">
-									<label
-										value="Ajouter un délégataire" />
-								</div>
-							</div>
-							<div zclass="titre3">
-								<label zclass="titre3"
-									value="VISUALISATION / VALIDATION" />
-								<div zclass="contenuAccueil">
-									<label
-										value="Valider les éléments à l’état « saisie » (saisie par l’opérateur)" />
-								</div>
-							</div>
-						</div>
-
-						<div zclass="titre2">
-							<label zclass="titre2"
-								value="VOUS ETES OPERATEUR :" />
-							<div zclass="titre3">
-								<label zclass="titre3"
-									value="SAISIE HEBDOMADAIRE" />
-								<div zclass="contenuAccueil">
-									<label
-										value="Saisissez les éléments de pointage que vous envoyez à la DRH (note de service) ou que vous saisissez aujourd’hui sur AS400" />
-								</div>
-							</div>
-						</div>
+				<div zclass="leftAccueil">
+					<div zclass="titre1">
+						<label zclass="titre1" value="POINTAGES" />
 					</div>
 
-					<div zclass="rightAccueil">
-						<div zclass="titre1">
-							<label zclass="titre1" value="ABSENCES" />
-						</div>
-
-						<div zclass="titre2">
-							<label zclass="titre2"
-								value="VOUS ETES APPROBATEUR :" />
-							<div zclass="titre3">
-								<label zclass="titre3"
-									value="DROITS D’ACCES" />
-								<label zclass="italique"
-									value="(ils seront repris lors de la mise en production)" />
-								<div zclass="contenuAccueil">
-									<label
-										value="Vérifier et ajuster : Les agents à approuver doivent être ceux de votre équipe" />
-								</div>
-								<div zclass="contenuAccueil">
-									<label
-										value="Vérifier et ajuster les opérateurs et la liste des agents qu’ils doivent saisir" />
-								</div>
-								<div zclass="contenuAccueil">
-									<label
-										value="Ajouter un délégataire" />
-								</div>
-								<div zclass="contenuAccueil">
-									<label
-										value="Optionnel : Ajouter un viseur et la liste d’agents en vérification. Le viseur donne simplement un avis consultatif sur la demande" />
-								</div>
-							</div>
-							<div zclass="titre3">
-								<label zclass="titre3"
-									value="GESTION DES DEMANDES" />
-								<div zclass="contenuAccueil">
-									<label
-										value="Valider les éléments à l’état « saisie » (saisie par l’opérateur, ou l’agent)" />
-								</div>
-							</div>
-						</div>
-
-						<div zclass="titre2">
-							<label zclass="titre2"
-								value="VOUS ETES OPERATEUR :" />
-							<div zclass="titre3">
-								<label zclass="titre3"
-									value="GESTION DES DEMANDES" />
-								<div zclass="contenuAccueil">
-									<label
-										value="Saisissez les demandes d’absence que vous envoyez à la DRH (note de service) ou que vous saisissez aujourd’hui sur AS400" />
-								</div>
-							</div>
-						</div>
-
-						<div zclass="titre2">
-							<label zclass="titre2"
-								value="VOUS ETES VISEUR :" />
-							<div zclass="titre3">
-								<label zclass="titre3"
-									value="GESTION DES DEMANDES" />
-								<div zclass="contenuAccueil">
-									<label
-										value="Donnez votre avis sur  les éléments à l’état « saisie » (saisie par l’opérateur, ou l’agent)" />
-								</div>
-							</div>
-						</div>
-
-						<div zclass="titre2">
-							<label zclass="titre2"
-								value="VOUS ETES UN AGENT  :" />
-							<div zclass="titre3">
-								<label zclass="titre3"
-									value="MES DEMANDES" />
-								<div zclass="contenuAccueil">
-									<label
-										value="Faites saisir par vos agents des demandes d’absence" />
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div zclass="footerAccueil">
-						<div zclass="titreRouge">
-							<label zclass="titreRouge"
-								value="EN CAS D’ANOMALIE OU DE MESSAGE D’ERREUR" />
-						</div>
+					<div zclass="titre2">
+						<label zclass="titre2"
+							value="VOUS ETES APPROBATEUR :" />
 						<div zclass="titre3">
 							<label zclass="titre3"
-								value="&#8594; Faites l’image écran de l’anomalie ou du message d’erreur (CTRL-ALT- IMP ECR)" />
-						</div>
-						<div zclass="titre3">
+								value="DROITS D’ACCES" />
 							<label zclass="italique"
-								value="Puis ouvrez un mail, placez-vous dans le corps du message et faites CTRL-V pour récupérer l’image écran." />
+								value="(ils seront repris lors de la mise en production)" />
+							<div zclass="contenuAccueil">
+								<label
+									value="Vérifier et ajuster : Les agents à approuver doivent être ceux de votre équipe" />
+							</div>
+							<div zclass="contenuAccueil">
+								<label
+									value="Vérifier et ajuster les opérateurs et la liste des agents qu’ils doivent saisir" />
+							</div>
+							<div zclass="contenuAccueil">
+								<label value="Ajouter un délégataire" />
+							</div>
 						</div>
 						<div zclass="titre3">
 							<label zclass="titre3"
-								value="&#8594; Faites l’image écran de ce que vous saisissiez (CTRL-ALT- IMP ECR). Sur le message d’erreur précédent faites OK, normalement vous devriez retrouver votre saisie. " />
+								value="VISUALISATION / VALIDATION" />
+							<div zclass="contenuAccueil">
+								<label
+									value="Valider les éléments à l’état « saisie » (saisie par l’opérateur)" />
+							</div>
+						</div>
+					</div>
+
+					<div zclass="titre2">
+						<label zclass="titre2"
+							value="VOUS ETES OPERATEUR :" />
+						<div zclass="titre3">
+							<label zclass="titre3"
+								value="SAISIE HEBDOMADAIRE" />
+							<div zclass="contenuAccueil">
+								<label
+									value="Saisissez les éléments de pointage que vous envoyez à la DRH (note de service) ou que vous saisissez aujourd’hui sur AS400" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div zclass="rightAccueil">
+					<div zclass="titre1">
+						<label zclass="titre1" value="ABSENCES" />
+					</div>
+
+					<div zclass="titre2">
+						<label zclass="titre2"
+							value="VOUS ETES APPROBATEUR :" />
+						<div zclass="titre3">
+							<label zclass="titre3"
+								value="DROITS D’ACCES" />
+							<label zclass="italique"
+								value="(ils seront repris lors de la mise en production)" />
+							<div zclass="contenuAccueil">
+								<label
+									value="Vérifier et ajuster : Les agents à approuver doivent être ceux de votre équipe" />
+							</div>
+							<div zclass="contenuAccueil">
+								<label
+									value="Vérifier et ajuster les opérateurs et la liste des agents qu’ils doivent saisir" />
+							</div>
+							<div zclass="contenuAccueil">
+								<label value="Ajouter un délégataire" />
+							</div>
+							<div zclass="contenuAccueil">
+								<label
+									value="Optionnel : Ajouter un viseur et la liste d’agents en vérification. Le viseur donne simplement un avis consultatif sur la demande" />
+							</div>
 						</div>
 						<div zclass="titre3">
 							<label zclass="titre3"
-								value="&#8594; Envoyez le tout  à votre référent RH (voir ci-dessous)" />
+								value="GESTION DES DEMANDES" />
+							<div zclass="contenuAccueil">
+								<label
+									value="Valider les éléments à l’état « saisie » (saisie par l’opérateur, ou l’agent)" />
+							</div>
 						</div>
-						<div zclass="titre3"
-							style="text-align:center;">
+					</div>
+
+					<div zclass="titre2">
+						<label zclass="titre2"
+							value="VOUS ETES OPERATEUR :" />
+						<div zclass="titre3">
 							<label zclass="titre3"
-								value="Merci de votre collaboration." />
+								value="GESTION DES DEMANDES" />
+							<div zclass="contenuAccueil">
+								<label
+									value="Saisissez les demandes d’absence que vous envoyez à la DRH (note de service) ou que vous saisissez aujourd’hui sur AS400" />
+							</div>
 						</div>
-						<div zclass="titre3"
-							style="text-align:center;">
+					</div>
+
+					<div zclass="titre2">
+						<label zclass="titre2"
+							value="VOUS ETES VISEUR :" />
+						<div zclass="titre3">
 							<label zclass="titre3"
-								value="Michel LAURIENT" />
+								value="GESTION DES DEMANDES" />
+							<div zclass="contenuAccueil">
+								<label
+									value="Donnez votre avis sur  les éléments à l’état « saisie » (saisie par l’opérateur, ou l’agent)" />
+							</div>
 						</div>
+					</div>
+
+					<div zclass="titre2">
+						<label zclass="titre2"
+							value="VOUS ETES UN AGENT  :" />
+						<div zclass="titre3">
+							<label zclass="titre3" value="MES DEMANDES" />
+							<div zclass="contenuAccueil">
+								<label
+									value="Faites saisir par vos agents des demandes d’absence" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div zclass="footerAccueil">
+					<div zclass="titreRouge">
+						<label zclass="titreRouge"
+							value="EN CAS D’ANOMALIE OU DE MESSAGE D’ERREUR" />
+					</div>
+					<div zclass="titre3">
+						<label zclass="titre3"
+							value="&#8594; Faites l’image écran de l’anomalie ou du message d’erreur (CTRL-ALT- IMP ECR)" />
+					</div>
+					<div zclass="titre3">
+						<label zclass="italique"
+							value="Puis ouvrez un mail, placez-vous dans le corps du message et faites CTRL-V pour récupérer l’image écran." />
+					</div>
+					<div zclass="titre3">
+						<label zclass="titre3"
+							value="&#8594; Faites l’image écran de ce que vous saisissiez (CTRL-ALT- IMP ECR). Sur le message d’erreur précédent faites OK, normalement vous devriez retrouver votre saisie. " />
+					</div>
+					<div zclass="titre3">
+						<label zclass="titre3"
+							value="&#8594; Envoyez le tout  à votre référent RH (voir ci-dessous)" />
+					</div>
+					<div zclass="titre3" style="text-align:center;">
+						<label zclass="titre3"
+							value="Merci de votre collaboration." />
+					</div>
+					<div zclass="titre3" style="text-align:center;">
+						<label zclass="titre3" value="Michel LAURIENT" />
 					</div>
 				</div>
 
 				<div
 					style="float:left; margin-top:30px;margin-left: 10%;">
-					<zk forEach="${vm.listeTexteAccueil}">
-						<label multiline="true">
-							${each.texteAccueilKiosque}
-						</label>
-						<separator />
-					</zk>
 
 					<separator />
 					<separator />
@@ -217,6 +203,46 @@
 					<separator />
 				</div>
 			</vlayout>
+		</div>
+
+		<div height="100%" width="100%" sclass="imageAccueil"
+			visible="@bind( not vm.recette)">
+			<div
+				style="float:left; margin-top:30px;margin-left: 10px;">
+				<zk forEach="${vm.listeTexteAccueil}">
+					<label multiline="true">
+						${each.texteAccueilKiosque}
+					</label>
+					<separator />
+				</zk>
+
+				<separator />
+				<separator />
+				<label zclass="titre3"
+					value="La DRH est à votre écoute pour toute demande concernant :" />
+				<separator />
+				<div style="padding-left:20px;">
+					<label
+						value="- votre outil KIOSQUE RH : contactez " />
+					<a href="mailto:kiosque-rh@ville-noumea.nc">
+						kiosque-rh@ville-noumea.nc
+					</a>
+					<label value=" ;" />
+					<separator />
+					<label
+						value="- vos informations RH : contactez votre référent RH " />
+					<label
+						visible="@bind(not empty vm.refrentRh.idReferentRh)"
+						value="@bind(vm.getPrenomAgent(vm.refrentRh.prenomAgentReferent))" />
+					<label
+						visible="@bind(not empty vm.refrentRh.idReferentRh)" value="au " />
+					<label
+						visible="@bind(not empty vm.refrentRh.idReferentRh)"
+						value="@bind(vm.refrentRh.numeroTelephone)" />
+				</div>
+				<separator />
+				<separator />
+			</div>
 		</div>
 		<include id="includeStyleSoldeAgent" src="/css/accueil.zul" />
 	</window>
