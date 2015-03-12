@@ -1,8 +1,8 @@
 <zk>
 	<window height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.AccueilViewModel')">
-		<div height="100%" width="100%" sclass="imageAccueil">
-			<vlayout>
+		<div height="100%" width="100%">
+			<vlayout  sclass="imageAccueil" vflex="1">
 				<label style="font-size: 28px;color: #EE7203;"
 					value="Accueil" />
 				<label style="font-size: 18px;color: #004f9f;"
