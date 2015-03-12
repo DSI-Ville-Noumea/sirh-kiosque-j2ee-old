@@ -1,21 +1,21 @@
 <zk>
 	<window height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.viewModel.AccueilViewModel')">
-		<div width="100%" sclass="imageAccueil">
+		<div height="100%" width="100%" sclass="imageAccueil">
 			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
 					value="Accueil" />
 				<label style="font-size: 18px;color: #004f9f;"
 					value="Votre Kiosque RH" />
 				<separator />
-				<div visible="@bind(vm.recette)">
-					<div zclass="headerAccueil">
-						<label
-							value="Vous êtes l’élément essentiel à la mise en place des pointages et des absences. 
+				<div zclass="headerAccueil"
+					visible="@bind(vm.recette)">
+					<label
+						value="Vous êtes l’élément essentiel à la mise en place des pointages et des absences. 
 					Nous avons besoin de vous pour vérifier le bon fonctionnement de ces outils. 
 					Nous avons besoin de votre retour. Alors voilà  ce que vous devez faire :" />
-					</div>
-
+				</div>
+				<div visible="@bind(vm.recette)">
 					<div zclass="leftAccueil">
 						<div zclass="titre1">
 							<label zclass="titre1" value="POINTAGES" />
@@ -179,7 +179,6 @@
 						</div>
 					</div>
 				</div>
-
 
 				<div
 					style="float:left; margin-top:30px;margin-left: 10%;">

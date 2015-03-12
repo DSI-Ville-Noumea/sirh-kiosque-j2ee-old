@@ -26,13 +26,12 @@ package nc.noumea.mairie.kiosque.viewModel;
 
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.authentification.IAccueilService;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -41,12 +40,11 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class AccueilViewModel {
 
-	@Autowired
-	@Qualifier("environnement")
-	private String environnement;
-
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
+
+	@WireVariable
+	private IAccueilService accueilService;
 
 	private ProfilAgentDto currentUser;
 
@@ -67,7 +65,7 @@ public class AccueilViewModel {
 		ReferentRhDto referent = sirhWsConsumer.getReferentRH(currentUser.getAgent().getIdAgent());
 		setRefrentRh(referent);
 
-		if (environnement.equals("RECETTE")) {
+		if (accueilService.getEnvironnement().equals("RECETTE")) {
 			setRecette(true);
 		} else {
 			setRecette(false);
