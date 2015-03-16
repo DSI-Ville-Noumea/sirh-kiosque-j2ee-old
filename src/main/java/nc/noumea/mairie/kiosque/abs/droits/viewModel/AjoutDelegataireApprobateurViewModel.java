@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.droits.viewModel;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,15 +69,15 @@ public class AjoutDelegataireApprobateurViewModel {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
-	
+
 	private ProfilAgentDto currentUser;
 
 	@Init
 	public void initAjoutDelegataire(@ExecutionArgParam("operateursExistants") List<AgentDto> operateursExistants,
 			@ExecutionArgParam("delegataireExistants") AgentDto delegataireExistants) {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		// on sauvegarde qui sont les opérateurs de l'approbateur
 		setListeOperateursExistants(operateursExistants);
 		// on sauvegarde qui est le delegataire de l'approbateur
@@ -108,7 +107,8 @@ public class AjoutDelegataireApprobateurViewModel {
 		InputterDto dto = new InputterDto();
 		dto.setOperateurs(getListeOperateursExistants());
 		dto.setDelegataire(listSelect);
-		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
+				.getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -138,7 +138,7 @@ public class AjoutDelegataireApprobateurViewModel {
 	@NotifyChange({ "listeAgents" })
 	public void doSearch() {
 		List<AgentDto> list = new ArrayList<AgentDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getListeAgents() != null) {
 			for (AgentDto item : getListeAgents()) {
 				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))

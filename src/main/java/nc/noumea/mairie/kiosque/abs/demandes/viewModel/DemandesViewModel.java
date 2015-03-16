@@ -39,8 +39,6 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
@@ -151,7 +149,7 @@ public class DemandesViewModel {
 	public void doSearch() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<DemandeDto> list = new ArrayList<DemandeDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getListeDemandes() != null) {
 			for (DemandeDto item : getListeDemandes()) {
 				if (item.getLibelleTypeDemande().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))

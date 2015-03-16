@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.abs.droits.viewModel;
  * #L%
  */
 
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,12 +81,12 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 	private String tailleListe;
 
 	private ProfilAgentDto currentUser;
-	
+
 	@Init
 	public void initDroits() {
-		
+
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
+
 		// on recupere les agents de l'approbateur
 		List<AgentDto> result = absWsConsumer.getAgentsApprobateur(currentUser.getAgent().getIdAgent());
 		setListeAgents(result);
@@ -138,15 +137,20 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("operateursExistants", absWsConsumer.getOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent()).getOperateurs());
-			map.put("delegataireExistants", absWsConsumer.getOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent()).getDelegataire());
+			map.put("operateursExistants",
+					absWsConsumer.getOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent())
+							.getOperateurs());
+			map.put("delegataireExistants",
+					absWsConsumer.getOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent())
+							.getDelegataire());
 			Window win = (Window) Executions.createComponents("/absences/droits/ajoutOperateurApprobateur.zul", null,
 					map);
 			win.doModal();
 		} else if (getTabCourant().getId().equals("VISEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("viseursExistants", absWsConsumer.getViseursApprobateur(currentUser.getAgent().getIdAgent()).getViseurs());
+			map.put("viseursExistants", absWsConsumer.getViseursApprobateur(currentUser.getAgent().getIdAgent())
+					.getViseurs());
 			Window win = (Window) Executions.createComponents("/absences/droits/ajoutViseurApprobateur.zul", null, map);
 			win.doModal();
 		}
@@ -158,7 +162,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		if (getTabCourant().getId().equals("OPERATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("agentsExistants", absWsConsumer.getAgentsOperateursOrViseur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
+			map.put("agentsExistants",
+					absWsConsumer.getAgentsOperateursOrViseur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
 			map.put("operateur", agent);
 			AgentDto approbateur = new AgentDto();
 			approbateur.setIdAgent(currentUser.getAgent().getIdAgent());
@@ -168,7 +173,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		} else if (getTabCourant().getId().equals("VISEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("agentsExistants", absWsConsumer.getAgentsOperateursOrViseur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
+			map.put("agentsExistants",
+					absWsConsumer.getAgentsOperateursOrViseur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
 			map.put("viseur", agent);
 			AgentDto approbateur = new AgentDto();
 			approbateur.setIdAgent(currentUser.getAgent().getIdAgent());
@@ -184,8 +190,12 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		if (getTabCourant().getId().equals("OPERATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("operateursExistants", absWsConsumer.getOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent()).getOperateurs());
-			map.put("delegataireExistants", absWsConsumer.getOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent()).getDelegataire());
+			map.put("operateursExistants",
+					absWsConsumer.getOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent())
+							.getOperateurs());
+			map.put("delegataireExistants",
+					absWsConsumer.getOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent())
+							.getDelegataire());
 			Window win = (Window) Executions.createComponents("/absences/droits/ajoutDelegataireApprobateur.zul", null,
 					map);
 			win.doModal();
@@ -198,40 +208,40 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous supprimer tous les agents à approuver?", "Confirmation",
-				Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
-					@Override
-					public void onEvent(Event evt) throws InterruptedException {
-						if (evt.getName().equals("onOK")) {
-							supprimerTousLesAgentsApprobateurs();
-							BindUtils.postNotifyChange(null, null, DroitsViewModel.this, "listeAgents");
-						}
+			Messagebox.show("Voulez-vous supprimer tous les agents à approuver?", "Confirmation", Messagebox.CANCEL
+					| Messagebox.OK, "", new EventListener() {
+				@Override
+				public void onEvent(Event evt) throws InterruptedException {
+					if (evt.getName().equals("onOK")) {
+						supprimerTousLesAgentsApprobateurs();
+						BindUtils.postNotifyChange(null, null, DroitsViewModel.this, "listeAgents");
 					}
-				});
+				}
+			});
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous supprimer tous les opérateurs?", "Confirmation",
-				Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
-					@Override
-					public void onEvent(Event evt) throws InterruptedException {
-						if (evt.getName().equals("onOK")) {
-							supprimerTousLesOperateursApprobateurs();
-							BindUtils.postNotifyChange(null, null, DroitsViewModel.this, "listeAgents");
-						}
+			Messagebox.show("Voulez-vous supprimer tous les opérateurs?", "Confirmation", Messagebox.CANCEL
+					| Messagebox.OK, "", new EventListener() {
+				@Override
+				public void onEvent(Event evt) throws InterruptedException {
+					if (evt.getName().equals("onOK")) {
+						supprimerTousLesOperateursApprobateurs();
+						BindUtils.postNotifyChange(null, null, DroitsViewModel.this, "listeAgents");
 					}
-				});
+				}
+			});
 		} else if (getTabCourant().getId().equals("VISEUR")) {
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous supprimer tous les viseurs?", "Confirmation",
-				Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
-					@Override
-					public void onEvent(Event evt) throws InterruptedException {
-						if (evt.getName().equals("onOK")) {
-							supprimerTousLesViseursApprobateurs();
-							BindUtils.postNotifyChange(null, null, DroitsViewModel.this, "listeAgents");
-						}
+			Messagebox.show("Voulez-vous supprimer tous les viseurs?", "Confirmation", Messagebox.CANCEL
+					| Messagebox.OK, "", new EventListener() {
+				@Override
+				public void onEvent(Event evt) throws InterruptedException {
+					if (evt.getName().equals("onOK")) {
+						supprimerTousLesViseursApprobateurs();
+						BindUtils.postNotifyChange(null, null, DroitsViewModel.this, "listeAgents");
 					}
-				});
+				}
+			});
 		}
 	}
 
@@ -267,7 +277,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		InputterDto dto = new InputterDto();
 		dto.setOperateurs(getListeAgents());
 		dto.setDelegataire(getListeDelegataire().size() == 0 ? null : getListeDelegataire().get(0));
-		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
+				.getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -358,7 +369,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		dto.setOperateurs(new ArrayList<AgentDto>());
 		dto.setDelegataire(getListeDelegataire() == null || getListeDelegataire().size() == 0 ? null
 				: getListeDelegataire().get(0));
-		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
+				.getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -393,7 +405,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		dto.setOperateurs(getListeAgents());
 		dto.setDelegataire(getListeDelegataire() == null || getListeDelegataire().size() == 0 ? null
 				: getListeDelegataire().get(0));
-		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
+				.getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -419,7 +432,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 
 	private void supprimerTousLesAgentsApprobateurs() {
 
-		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getAgent().getIdAgent(), new ArrayList<AgentDto>());
+		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getAgent().getIdAgent(),
+				new ArrayList<AgentDto>());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -449,7 +463,8 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 			getListeAgents().remove(agentASupprimer);
 		}
 
-		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getAgent().getIdAgent(), getListeAgents());
+		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getAgent().getIdAgent(),
+				getListeAgents());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -477,7 +492,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 	@NotifyChange({ "listeAgents", "listeDelegataire" })
 	public void doSearch() {
 		List<AgentDto> list = new ArrayList<AgentDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getListeAgents() != null) {
 			for (AgentDto item : getListeAgents()) {
 				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))

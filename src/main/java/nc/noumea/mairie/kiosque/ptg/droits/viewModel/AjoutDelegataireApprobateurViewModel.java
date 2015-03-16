@@ -137,7 +137,7 @@ public class AjoutDelegataireApprobateurViewModel {
 	@NotifyChange({ "listeAgents" })
 	public void doSearch() {
 		List<AgentWithServiceDto> list = new ArrayList<AgentWithServiceDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getListeAgents() != null) {
 			for (AgentWithServiceDto item : getListeAgents()) {
 				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))

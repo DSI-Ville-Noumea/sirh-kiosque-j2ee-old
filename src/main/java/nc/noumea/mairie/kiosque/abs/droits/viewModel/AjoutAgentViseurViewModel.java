@@ -85,7 +85,7 @@ public class AjoutAgentViseurViewModel {
 	}
 
 	@Command
-	@NotifyChange({"listeAgents"})
+	@NotifyChange({ "listeAgents" })
 	public void doCheckedAll(@BindingParam("ref") List<AgentDto> listDto, @BindingParam("box") Checkbox box) {
 		for (AgentDto dto : getListeAgents()) {
 			if (box.isChecked()) {
@@ -145,7 +145,7 @@ public class AjoutAgentViseurViewModel {
 	@NotifyChange({ "listeAgents" })
 	public void doSearch() {
 		List<AgentDto> list = new ArrayList<AgentDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getListeAgents() != null) {
 			for (AgentDto item : getListeAgents()) {
 				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))

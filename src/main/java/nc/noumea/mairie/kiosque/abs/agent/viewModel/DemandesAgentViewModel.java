@@ -148,7 +148,7 @@ public class DemandesAgentViewModel {
 	public void doSearch() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		List<DemandeDto> list = new ArrayList<DemandeDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getListeDemandes() != null) {
 			for (DemandeDto item : getListeDemandes()) {
 				if (item.getLibelleTypeDemande().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))

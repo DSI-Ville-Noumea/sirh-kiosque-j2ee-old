@@ -537,4 +537,37 @@ public class GestionPointagesViewModel {
 	public void setDivDepart(Div divDepart) {
 		this.divDepart = divDepart;
 	}
+
+	@Command
+	@NotifyChange({ "listePointages" })
+	public void doSearch() {
+		List<ConsultPointageDto> list = new ArrayList<ConsultPointageDto>();
+		if (getFilter() != null && !"".equals(getFilter()) && getListePointages() != null) {
+			for (ConsultPointageDto item : getListePointages()) {
+				if (item.getAgent().getNom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getAgent().getPrenom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getOperateur().getNom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getOperateur().getPrenom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getTypePointage().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+			}
+			setListePointages(list);
+		} else {
+			filtrer();
+		}
+	}
 }

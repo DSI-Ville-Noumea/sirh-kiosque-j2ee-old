@@ -143,7 +143,7 @@ public class AjoutOperateurApprobateurViewModel {
 	@NotifyChange({ "listeAgents" })
 	public void doSearch() {
 		List<AgentDto> list = new ArrayList<AgentDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getListeAgents() != null) {
 			for (AgentDto item : getListeAgents()) {
 				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))

@@ -166,7 +166,7 @@ public class TableauEaeViewModel {
 	@NotifyChange({ "tableauEae" })
 	public void doSearch() {
 		List<EaeListItemDto> list = new ArrayList<EaeListItemDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getTableauEae() != null) {
 			for (EaeListItemDto item : getTableauEae()) {
 				// agent
 				if (item.getAgentEvalue().getNom().toLowerCase().contains(getFilter().toLowerCase())) {

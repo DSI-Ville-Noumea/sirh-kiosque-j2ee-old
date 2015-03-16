@@ -231,28 +231,28 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous supprimer tous les agents à approuver?", "Confirmation",
-				Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
-					@Override
-					public void onEvent(Event evt) throws InterruptedException {
-						if (evt.getName().equals("onOK")) {
-							supprimerTousLesAgentsApprobateurs();
-							BindUtils.postNotifyChange(null, null, DroitsAccesViewModel.this, "listeAgents");
-						}
+			Messagebox.show("Voulez-vous supprimer tous les agents à approuver?", "Confirmation", Messagebox.CANCEL
+					| Messagebox.OK, "", new EventListener() {
+				@Override
+				public void onEvent(Event evt) throws InterruptedException {
+					if (evt.getName().equals("onOK")) {
+						supprimerTousLesAgentsApprobateurs();
+						BindUtils.postNotifyChange(null, null, DroitsAccesViewModel.this, "listeAgents");
 					}
-				});
+				}
+			});
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous supprimer tous les opérateurs?", "Confirmation",
-				Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
-					@Override
-					public void onEvent(Event evt) throws InterruptedException {
-						if (evt.getName().equals("onOK")) {
-							supprimerTousLesOperateursApprobateurs();
-							BindUtils.postNotifyChange(null, null, DroitsAccesViewModel.this, "listeAgents");
-						}
+			Messagebox.show("Voulez-vous supprimer tous les opérateurs?", "Confirmation", Messagebox.CANCEL
+					| Messagebox.OK, "", new EventListener() {
+				@Override
+				public void onEvent(Event evt) throws InterruptedException {
+					if (evt.getName().equals("onOK")) {
+						supprimerTousLesOperateursApprobateurs();
+						BindUtils.postNotifyChange(null, null, DroitsAccesViewModel.this, "listeAgents");
 					}
-				});
+				}
+			});
 		}
 	}
 
@@ -354,7 +354,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			refreshListeAgent();
 		}
 	}
-	
+
 	private void supprimerTousLesAgentsApprobateurs() {
 		ReturnMessageDto result = ptgWsConsumer.saveApprovedAgents(currentUser.getAgent().getIdAgent(),
 				new ArrayList<AgentDto>());
@@ -376,7 +376,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		map.put("errors", listErreur);
 		map.put("infos", listInfo);
 		Executions.createComponents("/messages/returnMessage.zul", null, map);
-		
+
 		refreshListeAgent();
 	}
 
@@ -496,7 +496,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	@NotifyChange({ "listeAgents" })
 	public void doSearch() {
 		List<AgentDto> list = new ArrayList<AgentDto>();
-		if (getFilter() != null && !"".equals(getFilter())) {
+		if (getFilter() != null && !"".equals(getFilter()) && getListeAgents() != null) {
 			for (AgentDto item : getListeAgents()) {
 				if (item.getNom().toLowerCase().contains(getFilter().toLowerCase())) {
 					if (!list.contains(item))
