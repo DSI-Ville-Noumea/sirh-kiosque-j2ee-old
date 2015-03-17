@@ -42,7 +42,6 @@ import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.joda.time.DateTime;
@@ -106,9 +105,6 @@ public class CompteursViewModel {
 	List<String> listVide = new ArrayList<String>();
 
 	// POUR LA GESTION DES HEURES
-	private List<String> listeHeures;
-	private List<String> listeMinutes;
-
 	private String heureAjout;
 	private String minuteAjout;
 	private String heureRetrait;
@@ -138,11 +134,6 @@ public class CompteursViewModel {
 			listeDate.add(getFirstDayOfCurrentMonth().plusMonths(2).toDate());
 			setListeMoisFiltre(listeDate);
 		}
-
-		// minutes et heures
-		TimePicker timePicker = new TimePicker();
-		setListeMinutes(timePicker.getListeMinutes());
-		setListeHeures(timePicker.getListeHeures());
 	}
 
 	@Command
@@ -705,22 +696,6 @@ public class CompteursViewModel {
 		this.listVide = listVide;
 	}
 
-	public List<String> getListeHeures() {
-		return listeHeures;
-	}
-
-	public void setListeHeures(List<String> listeHeures) {
-		this.listeHeures = listeHeures;
-	}
-
-	public List<String> getListeMinutes() {
-		return listeMinutes;
-	}
-
-	public void setListeMinutes(List<String> listeMinutes) {
-		this.listeMinutes = listeMinutes;
-	}
-
 	public String getHeureAjout() {
 		return heureAjout;
 	}
@@ -754,7 +729,7 @@ public class CompteursViewModel {
 	}
 
 	public String getNomatrAgent(Integer idAgent) {
-		return "("+idAgent.toString().substring(3, idAgent.toString().length())+")";
+		return "(" + idAgent.toString().substring(3, idAgent.toString().length()) + ")";
 	}
 
 }

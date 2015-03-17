@@ -67,25 +67,13 @@
 								<label value="Durée à ajouter" />
 							</hlayout>
 							<hlayout>
-								<combobox model="@bind(vm.listeHeures)"
-									selectedItem="@bind(vm.heureAjout)" cols="2"
-									onSelect="@command('actualiseNouveauSoldeRecup',ref='ajouter')">
-									<template name="model">
-										<comboitem
-											label="@bind(each)">
-										</comboitem>
-									</template>
-								</combobox>
+								<textbox cols="3" maxlength="3"
+									value="@bind(vm.heureAjout)"
+									onChange="@command('actualiseNouveauSoldeRecup',ref='ajouter')" />
 								<label value="heures" />
-								<combobox model="@bind(vm.listeMinutes)"
-									selectedItem="@bind(vm.minuteAjout)" cols="2"
-									onSelect="@command('actualiseNouveauSoldeRecup',ref='ajouter')">
-									<template name="model">
-										<comboitem
-											label="@bind(each)">
-										</comboitem>
-									</template>
-								</combobox>
+								<textbox cols="2" maxlength="2"
+									value="@bind(vm.minuteAjout)"
+									onChange="@command('actualiseNouveauSoldeRecup',ref='ajouter')" />
 								<label value="minutes" />
 							</hlayout>
 						</hlayout>
@@ -95,25 +83,13 @@
 								<label value="Durée à retrancher" />
 							</hlayout>
 							<hlayout>
-								<combobox model="@bind(vm.listeHeures)"
-									selectedItem="@bind(vm.heureRetrait)" cols="2"
-									onSelect="@command('actualiseNouveauSoldeRecup',ref='retrancher')">
-									<template name="model">
-										<comboitem
-											label="@bind(each)">
-										</comboitem>
-									</template>
-								</combobox>
+								<textbox cols="3" maxlength="3"
+									value="@bind(vm.heureRetrait)"
+									onChange="@command('actualiseNouveauSoldeRecup',ref='retrancher')" />
 								<label value="heures" />
-								<combobox model="@bind(vm.listeMinutes)"
-									selectedItem="@bind(vm.minuteRetrait)" cols="2"
-									onSelect="@command('actualiseNouveauSoldeRecup',ref='retrancher')">
-									<template name="model">
-										<comboitem
-											label="@bind(each)">
-										</comboitem>
-									</template>
-								</combobox>
+								<textbox cols="2" maxlength="2"
+									value="@bind(vm.minuteRetrait)"
+									onChange="@command('actualiseNouveauSoldeRecup',ref='retrancher')" />
 								<label value="minutes" />
 							</hlayout>
 						</hlayout>
@@ -210,25 +186,13 @@
 								<label value="Durée à ajouter" />
 							</hlayout>
 							<hlayout>
-								<combobox model="@bind(vm.listeHeures)"
-									selectedItem="@bind(vm.heureAjout)" cols="2"
-									onSelect="@command('actualiseNouveauSoldeReposComp',ref='ajouter')">
-									<template name="model">
-										<comboitem
-											label="@bind(each)">
-										</comboitem>
-									</template>
-								</combobox>
+								<textbox cols="3" maxlength="3"
+									value="@bind(vm.heureAjout)"
+									onChange="@command('actualiseNouveauSoldeReposComp',ref='ajouter')" />
 								<label value="heures" />
-								<combobox model="@bind(vm.listeMinutes)"
-									selectedItem="@bind(vm.minuteAjout)" cols="2"
-									onSelect="@command('actualiseNouveauSoldeReposComp',ref='ajouter')">
-									<template name="model">
-										<comboitem
-											label="@bind(each)">
-										</comboitem>
-									</template>
-								</combobox>
+								<textbox cols="2" maxlength="2"
+									value="@bind(vm.minuteAjout)"
+									onChange="@command('actualiseNouveauSoldeReposComp',ref='ajouter')" />
 								<label value="minutes" />
 							</hlayout>
 						</hlayout>
@@ -238,25 +202,13 @@
 								<label value="Durée à retrancher" />
 							</hlayout>
 							<hlayout>
-								<combobox model="@bind(vm.listeHeures)"
-									selectedItem="@bind(vm.heureRetrait)" cols="2"
-									onSelect="@command('actualiseNouveauSoldeReposComp',ref='retrancher')">
-									<template name="model">
-										<comboitem
-											label="@bind(each)">
-										</comboitem>
-									</template>
-								</combobox>
+								<textbox cols="3" maxlength="3"
+									value="@bind(vm.heureRetrait)"
+									onChange="@command('actualiseNouveauSoldeReposComp',ref='retrancher')" />
 								<label value="heures" />
-								<combobox model="@bind(vm.listeMinutes)"
-									selectedItem="@bind(vm.minuteRetrait)" cols="2"
-									onSelect="@command('actualiseNouveauSoldeReposComp',ref='retrancher')">
-									<template name="model">
-										<comboitem
-											label="@bind(each)">
-										</comboitem>
-									</template>
-								</combobox>
+								<textbox cols="2" maxlength="2"
+									value="@bind(vm.minuteRetrait)"
+									onChange="@command('actualiseNouveauSoldeReposComp',ref='retrancher')" />
 								<label value="minutes" />
 							</hlayout>
 						</hlayout>
