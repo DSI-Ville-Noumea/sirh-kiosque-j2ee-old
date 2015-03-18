@@ -249,10 +249,12 @@ public class GestionPointagesViewModel {
 	private void doChangeEtat(List<ConsultPointageDto> listePointages, EtatPointageEnum etatPointage) {
 		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
 		for (ConsultPointageDto ptg : listePointages) {
-			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
-			dto.setIdPointage(ptg.getIdPointage());
-			dto.setIdRefEtat(etatPointage.getCodeEtat());
-			listeChangeEtat.add(dto);
+			if(ptg.isApprobation()) {
+				PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+				dto.setIdPointage(ptg.getIdPointage());
+				dto.setIdRefEtat(etatPointage.getCodeEtat());
+				listeChangeEtat.add(dto);
+			}
 		}
 		sauvegardeEtatPointage(listeChangeEtat);
 	}

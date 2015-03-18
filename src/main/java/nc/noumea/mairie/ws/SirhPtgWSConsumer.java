@@ -295,7 +295,9 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		String url = String.format(sirhPtgWsBaseUrl + ptgListePointagesUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgentConnecte.toString());
-		params.put("codeService", codeService);
+		if(null != codeService) {
+			params.put("codeService", codeService);
+		}
 		if (fromDate != null)
 			params.put("from", sdf.format(fromDate));
 		if (toDate != null)

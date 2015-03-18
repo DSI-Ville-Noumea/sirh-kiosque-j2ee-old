@@ -75,7 +75,7 @@ public class AjoutAgentOperateurViewModel {
 		setApprobateur(approbateur);
 		// on sauvegarde qui est l'operateur
 		setOperateur(operateur);
-		// on sauvegarde les agnts dejà affectés à l'operateur
+		// on sauvegarde les agents dejà affectés à l'operateur
 		setListeAgentsExistants(agentsExistants);
 		// on charge tous les agents de l'approbateur
 		List<AgentDto> result = ptgWsConsumer.getApprovedAgents(approbateur.getIdAgent());

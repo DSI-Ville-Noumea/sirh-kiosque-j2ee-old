@@ -46,6 +46,8 @@ public class ConsultPointageDto {
 	private boolean heuresSupRecuperees;
 	private boolean heuresSupRappelEnService;
 
+	private boolean isApprobation;
+
 	public Integer getIdPointage() {
 		return idPointage;
 	}
@@ -156,6 +158,14 @@ public class ConsultPointageDto {
 
 	public void setHeuresSupRappelEnService(boolean heuresSupRappelEnService) {
 		this.heuresSupRappelEnService = heuresSupRappelEnService;
+	}
+
+	public boolean isApprobation() {
+		return isApprobation;
+	}
+
+	public void setApprobation(boolean isApprobation) {
+		this.isApprobation = isApprobation;
 	}
 
 }

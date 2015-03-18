@@ -131,9 +131,8 @@
 								visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)">
 								<!-- Moficication -->
 							</column>
-							<column
-								visible="@bind(vm.droitsPointage.approbation)">
-								<hlayout>
+							<column>
+								<hlayout style="min-height:24px;">
 									<image
 										tooltiptext="Accepter tous les pointages"
 										sclass="ListAction accept"
@@ -189,20 +188,20 @@
 									tooltiptext="Modifier le pointage" sclass="ListAction edit"
 									visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)"
 									onClick="@command('modifierPointage',ref=each)" />
-								<hlayout
+								<hlayout 
 									visible="@bind(vm.droitsPointage.approbation)">
 									<image
 										tooltiptext="Accepter le pointage" sclass="ListAction accept"
-										visible="@bind(vm.droitsPointage.approbation)"
+										visible="@bind(each.approbation)"
 										onClick="@command('approuverPointage',ref=each)" />
 									<image
 										tooltiptext="Refuser le pointage" sclass="ListAction delay"
-										visible="@bind(vm.droitsPointage.approbation)"
+										visible="@bind(each.approbation)"
 										onClick="@command('refuserPointage',ref=each)" />
 									<image
 										tooltiptext="Re-mettre en saisie le pointage"
 										sclass="ListAction cancel"
-										visible="@bind(vm.droitsPointage.approbation)"
+										visible="@bind(each.approbation)"
 										onClick="@command('attentePointage',ref=each)" />
 								</hlayout>
 							</row>
