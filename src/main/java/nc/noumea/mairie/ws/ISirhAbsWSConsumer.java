@@ -135,4 +135,6 @@ public interface ISirhAbsWSConsumer {
 	
 	ReturnMessageDto setListAgentsWithJoursFeriesEnRepos(
 			Integer idAgent, Date dateDebut, Date dateFin, List<AgentJoursFeriesReposDto> listDto);
+
+	String countDemandesAApprouver(Integer idAgent);
 }

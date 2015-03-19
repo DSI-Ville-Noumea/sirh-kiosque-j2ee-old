@@ -34,6 +34,35 @@
 	
 	.footerAccueil { width:80%; margin-left: 10%; margin-right: 10%; margin-top: 30px; margin-bottom: 10px; height: auto; float: left; }
 	
+	.z-panel-head { 
+		border: 1px solid #EE7203;
+		border-bottom-color: #EE7203;
+		background: #EE7203;
+		color: #FFFFFF;
+		padding: 0px;
+	}
+	
+	.z-panel-header {
+		background: #EE7203;
+		color: #FFFFFF;
+		padding-left: 10px;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	
+	.z-panelchildren {
+		border: 1px solid #EE7203;
+		text-align: center;
+		padding-top: 70px;
+		background: #ffebcd;
+	}
+	
+	.panelPortail {
+		color: #EE7203;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	
 	]]>
 	
 </style>
