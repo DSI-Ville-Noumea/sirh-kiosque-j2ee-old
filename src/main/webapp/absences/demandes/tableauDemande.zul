@@ -110,14 +110,11 @@
 						width="100px" align="left" />
 					<column label="Durée" sort="none" width="60px"
 						align="center" />
+					<column label="Etat" sort="none" width="115px" />
 					<column width="40px" align="center">
 						<image tooltiptext="Alertes"
 							sclass="ListAction warn" />
 					</column>
-					<column label="Opérateur" sort="none" width="150px" />
-					<column label="Etat" sort="none" width="115px" />
-					<column label="Date de saisie"
-						sort="auto('dateDemande')" align="center" width="120px" />
 					<column label="" sort="none" width="150px">
 						<hlayout style="min-height:24px;">
 							<!-- Pour le viseur -->
@@ -127,12 +124,16 @@
 								visible="@bind(vm.droitsAbsence.viserModif)"
 								onClick="@command('viserAllDemandeFavorable',ref=tabDemande)" />
 							<!-- Pour l'approbateur -->
-							<image tooltiptext="Approuver toutes les demandes"
+							<image
+								tooltiptext="Approuver toutes les demandes"
 								sclass="ListAction accept"
 								visible="@bind(vm.droitsAbsence.approuverModif)"
 								onClick="@command('approuverAllDemande',ref=tabDemande)" />
 						</hlayout>
 					</column>
+					<column label="Date de saisie"
+						sort="auto('dateDemande')" align="center" width="120px" />
+					<column label="Opérateur" sort="none" width="150px" />
 				</columns>
 				<template name="model">
 					<row>
@@ -150,8 +151,13 @@
 							value="@bind(vm.getDateDebutToString(each))" />
 						<label
 							value="@bind(vm.getDateFinToString(each))" />
-						<label
-							value="@bind(vm.getDureeToString(each))" />
+						<label value="@bind(vm.getDureeToString(each))" />
+						<hlayout>
+							<label
+								value="@bind(vm.getEtatToString(each.idRefEtat))" />
+							<image tooltiptext="@bind(each.motif)"
+								sclass="ListAction help" visible="@bind(not empty each.motif)" />
+						</hlayout>
 						<vlayout>
 							<image
 								tooltiptext="Le seuil du compteur est dépassé pour cette demande."
@@ -162,17 +168,6 @@
 								sclass="seuilMultiple"
 								visible="@bind(each.depassementMultiple)" />
 						</vlayout>
-						<label
-							value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
-						<hlayout>
-							<label
-								value="@bind(vm.getEtatToString(each.idRefEtat))" />
-							<image tooltiptext="@bind(each.motif)"
-								sclass="ListAction help" visible="@bind(not empty each.motif)" />
-						</hlayout>
-						<label
-							value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
-
 						<hlayout>
 							<!-- Pour le viseur -->
 							<image
@@ -210,6 +205,10 @@
 								visible="@bind(each.affichageBoutonImprimer)"
 								onClick="@command('imprimerDemande',ref=each)" />
 						</hlayout>
+						<label
+							value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
+						<label
+							value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
 					</row>
 				</template>
 			</grid>

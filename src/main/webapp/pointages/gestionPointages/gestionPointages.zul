@@ -102,7 +102,7 @@
 					<grid model="@bind(vm.listePointages)" mold="paging"
 						width="1370px" pageSize="@bind(vm.tailleListe)"
 						emptyMessage="Veuillez sélectionner une date de début, de fin et un service pour afficher les informations de pointage"
-						id="listePointagesId" >
+						id="listePointagesId">
 						<columns>
 							<column width="30px" sort="none" />
 							<column label="Agent"
@@ -121,12 +121,8 @@
 								label="Quantité" sort="auto('quantite')" />
 							<column label="Motif - Commentaires"
 								sort="none" width="150px" />
-							<column label="Opérateur" width="140px"
-								sort="auto('operateur.nom')" />
 							<column width="80px" label="Etat"
 								sort="none" />
-							<column align="center"
-								label="Date de saisie" width="100px" sort="auto('dateSaisie')" />
 							<column width="50px" align="center"
 								visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)">
 								<!-- Moficication -->
@@ -150,6 +146,10 @@
 										onClick="@command('attenteAllPointage')" />
 								</hlayout>
 							</column>
+							<column align="center"
+								label="Date de saisie" width="100px" sort="auto('dateSaisie')" />
+							<column label="Opérateur" width="140px"
+								sort="auto('operateur.nom')" />
 						</columns>
 						<template name="model">
 							<row>
@@ -179,16 +179,12 @@
 										visible="@bind(not empty each.commentaire)" />
 								</vlayout>
 								<label
-									value="@bind(vm.concatAgentNomatr(each.operateur))" />
-								<label
 									value="@bind(vm.etatToString(each.idRefEtat))" />
-								<label
-									value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
 								<image
 									tooltiptext="Modifier le pointage" sclass="ListAction edit"
 									visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)"
 									onClick="@command('modifierPointage',ref=each)" />
-								<hlayout 
+								<hlayout
 									visible="@bind(vm.droitsPointage.approbation)">
 									<image
 										tooltiptext="Accepter le pointage" sclass="ListAction accept"
@@ -200,10 +196,13 @@
 										onClick="@command('refuserPointage',ref=each)" />
 									<image
 										tooltiptext="Re-mettre en saisie le pointage"
-										sclass="ListAction cancel"
-										visible="@bind(each.approbation)"
+										sclass="ListAction cancel" visible="@bind(each.approbation)"
 										onClick="@command('attentePointage',ref=each)" />
 								</hlayout>
+								<label
+									value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
+								<label
+									value="@bind(vm.concatAgentNomatr(each.operateur))" />
 							</row>
 						</template>
 					</grid>
