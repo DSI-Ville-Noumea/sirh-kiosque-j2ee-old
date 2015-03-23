@@ -182,8 +182,8 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 			logger.error("L'application SIRH-PTG-WS ne répond pas.");
 		}
 		
-		if(getDroitsAbsence().isVisuSolde()) {
-			//TODO a optimiser
+		if(null != getDroitsAbsence()
+				&& getDroitsAbsence().isVisuSolde()) {
 			Integer nbrAbs = new Integer(absWsConsumer.countDemandesAApprouver(currentUser.getAgent().getIdAgent()));
 			
 			String nbrAbsStr = "";
@@ -209,7 +209,8 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 			}
 			setNombreEAEaRealiser(nbrEaeStr);
 		}
-		if(getDroitsPointage().isApprobation()) {
+		if(null != getDroitsPointage()
+				&& getDroitsPointage().isApprobation()) {
 			Date toDate = new Date();
 			DateTime fromDate = new DateTime(toDate);
 			fromDate = fromDate.minusMonths(3);

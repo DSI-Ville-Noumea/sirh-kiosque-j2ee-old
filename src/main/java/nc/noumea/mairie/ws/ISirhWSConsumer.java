@@ -54,7 +54,7 @@ public interface ISirhWSConsumer {
 
 	EstChefDto isAgentChef(Integer idAgent);
 
-	List<AgentWithServiceDto> getListeAgentsMairie();
+	List<AgentWithServiceDto> getListeAgentsMairie(Integer idAgentConnecte);
 
 	boolean estHabiliteEAE(Integer idAgent);
 

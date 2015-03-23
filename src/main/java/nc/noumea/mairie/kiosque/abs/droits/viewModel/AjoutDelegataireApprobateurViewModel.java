@@ -90,7 +90,7 @@ public class AjoutDelegataireApprobateurViewModel {
 		// on vide
 		viderZones();
 		// on charge tous les agents de la mairie
-		List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
+		List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie(currentUser.getAgent().getIdAgent());
 		setListeAgents(transformeListe(result));
 		setTailleListe("5");
 	}
@@ -151,7 +151,7 @@ public class AjoutDelegataireApprobateurViewModel {
 			}
 			setListeAgents(list);
 		} else {
-			List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie();
+			List<AgentWithServiceDto> result = sirhWsConsumer.getListeAgentsMairie(currentUser.getAgent().getIdAgent());
 			setListeAgents(transformeListe(result));
 		}
 	}

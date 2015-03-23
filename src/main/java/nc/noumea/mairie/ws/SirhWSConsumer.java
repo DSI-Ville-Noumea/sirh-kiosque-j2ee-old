@@ -25,6 +25,7 @@ package nc.noumea.mairie.ws;
  */
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -142,12 +143,22 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
-	public List<AgentWithServiceDto> getListeAgentsMairie() {
+	public List<AgentWithServiceDto> getListeAgentsMairie(Integer idAgentConnecte) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentsMairieUrl);
 		HashMap<String, String> params = new HashMap<>();
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponseAsList(AgentWithServiceDto.class, res, url);
+		List<AgentWithServiceDto> listAgentsMairieComplete = readResponseAsList(AgentWithServiceDto.class, res, url);
+		
+		List<AgentWithServiceDto> result = new ArrayList<AgentWithServiceDto>();
+		for(AgentWithServiceDto agent : listAgentsMairieComplete) {
+			if(null != agent
+					&& !agent.getIdAgent().equals(idAgentConnecte)) {
+				result.add(agent);
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
