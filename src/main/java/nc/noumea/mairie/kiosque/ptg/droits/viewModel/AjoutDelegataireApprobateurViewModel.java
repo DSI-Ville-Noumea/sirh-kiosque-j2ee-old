@@ -25,6 +25,7 @@ package nc.noumea.mairie.kiosque.ptg.droits.viewModel;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -169,6 +170,9 @@ public class AjoutDelegataireApprobateurViewModel {
 	}
 
 	public void setListeAgents(List<AgentWithServiceDto> listeAgents) {
+		if(null != listeAgents) {
+			Collections.sort(listeAgents);
+		}
 		this.listeAgents = listeAgents;
 	}
 

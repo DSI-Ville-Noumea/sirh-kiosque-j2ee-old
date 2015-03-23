@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -417,6 +418,9 @@ public class GestionPointagesViewModel {
 	}
 
 	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+		if(null != listeServicesFiltre) {
+			Collections.sort(listeServicesFiltre);
+		}
 		this.listeServicesFiltre = listeServicesFiltre;
 	}
 
@@ -481,6 +485,9 @@ public class GestionPointagesViewModel {
 	}
 
 	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
+		if(null != listeAgentsFiltre) {
+			Collections.sort(listeAgentsFiltre);
+		}
 		this.listeAgentsFiltre = listeAgentsFiltre;
 	}
 

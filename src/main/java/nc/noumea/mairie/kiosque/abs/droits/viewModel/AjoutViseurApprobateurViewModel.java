@@ -25,6 +25,7 @@ package nc.noumea.mairie.kiosque.abs.droits.viewModel;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -152,6 +153,7 @@ public class AjoutViseurApprobateurViewModel {
 			agDto.setSelectedDroitAbs(getListeAgentsExistants().contains(agDto));
 			listFinale.add(agDto);
 		}
+		Collections.sort(listFinale);
 		return listFinale;
 	}
 

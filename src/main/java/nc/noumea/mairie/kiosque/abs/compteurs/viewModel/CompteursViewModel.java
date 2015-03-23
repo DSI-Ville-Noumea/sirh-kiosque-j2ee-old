@@ -25,6 +25,7 @@ package nc.noumea.mairie.kiosque.abs.compteurs.viewModel;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -557,6 +558,9 @@ public class CompteursViewModel {
 	}
 
 	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+		if(null != listeServicesFiltre) {
+			Collections.sort(listeServicesFiltre);
+		}
 		this.listeServicesFiltre = listeServicesFiltre;
 	}
 
@@ -573,6 +577,9 @@ public class CompteursViewModel {
 	}
 
 	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
+		if(null != listeAgentsFiltre) {
+			Collections.sort(listeAgentsFiltre);
+		}
 		this.listeAgentsFiltre = listeAgentsFiltre;
 	}
 

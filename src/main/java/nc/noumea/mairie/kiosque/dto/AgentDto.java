@@ -25,7 +25,7 @@ package nc.noumea.mairie.kiosque.dto;
  */
 
 
-public class AgentDto {
+public class AgentDto implements Comparable<AgentDto> {
 
 	private String nom;
 	private String prenom;
@@ -91,5 +91,10 @@ public class AgentDto {
 
 	public boolean isSelectedDroitAbs() {
 		return selectedDroitAbs;
+	}
+
+	@Override
+	public int compareTo(AgentDto arg0) {
+		return this.nom.compareTo(arg0.nom);
 	}
 }

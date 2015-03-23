@@ -27,6 +27,7 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -219,6 +220,9 @@ public class ImpressionFichesViewModel {
 	}
 
 	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+		if(null != listeServicesFiltre) {
+			Collections.sort(listeServicesFiltre);
+		}
 		this.listeServicesFiltre = listeServicesFiltre;
 	}
 

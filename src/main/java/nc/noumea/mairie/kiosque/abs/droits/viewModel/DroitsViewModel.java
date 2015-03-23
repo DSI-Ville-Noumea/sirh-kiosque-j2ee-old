@@ -26,6 +26,7 @@ package nc.noumea.mairie.kiosque.abs.droits.viewModel;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -601,6 +602,9 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 	}
 
 	public void setListeAgents(List<AgentDto> listeAgents) {
+		if(null != listeAgents){
+			Collections.sort(listeAgents);
+		}
 		this.listeAgents = listeAgents;
 	}
 
@@ -609,6 +613,9 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 	}
 
 	public void setListeDelegataire(List<AgentDto> listeDelegataire) {
+		if(null != listeDelegataire){
+			Collections.sort(listeDelegataire);
+		}
 		this.listeDelegataire = listeDelegataire;
 	}
 

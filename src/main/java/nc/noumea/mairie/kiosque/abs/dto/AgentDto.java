@@ -25,7 +25,7 @@ package nc.noumea.mairie.kiosque.abs.dto;
  */
 
 
-public class AgentDto {
+public class AgentDto implements Comparable<AgentDto> {
 
 	private String nom;
 	private String prenom;
@@ -57,5 +57,10 @@ public class AgentDto {
 
 	public void setIdAgent(Integer idAgent) {
 		this.idAgent = idAgent;
+	}
+	
+	@Override
+	public int compareTo(AgentDto arg0) {
+		return this.nom.compareTo(arg0.nom);
 	}
 }

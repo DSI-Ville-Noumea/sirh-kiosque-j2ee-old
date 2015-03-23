@@ -26,6 +26,7 @@ package nc.noumea.mairie.kiosque.ptg.droits.viewModel;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -449,6 +450,9 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	}
 
 	public void setListeAgents(List<AgentDto> listeAgents) {
+		if(null != listeAgents) {
+			Collections.sort(listeAgents);
+		}
 		this.listeAgents = listeAgents;
 	}
 

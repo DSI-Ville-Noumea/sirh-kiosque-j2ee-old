@@ -1,5 +1,6 @@
 package nc.noumea.mairie.kiosque.ptg.dto;
 
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -25,7 +26,7 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  */
 
 
-public class ServiceDto {
+public class ServiceDto implements Comparable<ServiceDto> {
 
 	private String codeService;
 	private String service;
@@ -44,5 +45,10 @@ public class ServiceDto {
 
 	public void setService(String service) {
 		this.service = service;
+	}
+
+	@Override
+	public int compareTo(ServiceDto arg0) {
+		return this.service.compareTo(arg0.service);
 	}
 }
