@@ -13,12 +13,12 @@
 				width="55px" align="center" />
 			<column label="Motif - Commentaires" sort="none"
 				width="150px" />
-			<column label="Opérateur" sort="auto('operateur.nom')"
-				width="140px" />
 			<column label="Etat" width="80px" sort="none" />
+			<column />
 			<column label="Date de saisie" sort="auto('dateSaisie')"
 				width="100px" align="center" />
-			<column />
+			<column label="Opérateur" sort="auto('operateur.nom')"
+				width="140px" />
 		</columns>
 		<rows>
 			<zk forEach="${vm.getHistoriquePointage(arg.pointage)}">
@@ -35,12 +35,12 @@
 						<label value="${each.commentaire}"
 							visible="@bind(not empty each.commentaire)" />
 					</vlayout>
-					<label
-						value="${vm.concatAgentNomatr(each.operateur)}" />
 					<label value="${vm.etatToString(each.idRefEtat)}" />
+					<div visible="false"></div>
 					<label
 						value="${vm.dateSaisieToString(each.dateSaisie)}" />
-					<div visible="false"></div>
+					<label
+						value="${vm.concatAgentNomatr(each.operateur)}" />
 
 				</row>
 			</zk>

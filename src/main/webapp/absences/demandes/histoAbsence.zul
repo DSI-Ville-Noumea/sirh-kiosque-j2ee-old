@@ -5,11 +5,11 @@
 			<column label="Date de début" width="100px" align="left" />
 			<column label="Date de fin" width="100px" align="left" />
 			<column label="Durée" width="60px" align="center" />
-			<column label="" width="40px" />
-			<column label="Opérateur" sort="none" width="150px" />
 			<column label="Etat" width="115px" />
-			<column label="Date de saisie" width="120px" align="center" />
+			<column label="" width="40px" />
 			<column label="Motif" width="148px" />
+			<column label="Date de saisie" width="120px" align="center" />
+			<column label="Opérateur" sort="none" width="150px" />
 		</columns>
 		<rows>
 			<zk forEach="${vm.getHistoriqueAbsence(arg.absence)}">
@@ -19,16 +19,16 @@
 					<label value="${vm.getDateFinToString(each)}" />
 					<label
 						value="${vm.getDureeToString(each)}" />
+					<label
+						value="${vm.getEtatToString(each.idRefEtat)}" />
 					<hlayout>
 						<label value="" />
 					</hlayout>
-					<label
-						value="${vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom)}" />
-					<label
-						value="${vm.getEtatToString(each.idRefEtat)}" />
+					<label value="${each.motif}" />
 					<label
 						value="${vm.dateSaisieToString(each.dateSaisie)}" />
-					<label value="${each.motif}" />
+					<label
+						value="${vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom)}" />
 				</row>
 			</zk>
 		</rows>
