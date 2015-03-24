@@ -464,7 +464,7 @@
 									<separator />
 
 									<checkbox
-										checked="@bind(vm.checkCoche(cellPrime.quantite))"
+										checked="${vm.checkCoche(cellPrime.quantite)}"
 										disabled="@bind(empty cellPrime.idRefEtat)"
 										onClick="@command('checkAccorde',prime=cellPrime, checkbox=self)"
 										visible="@bind(vm.caseACocher(cellPrime.typeSaisie))"
