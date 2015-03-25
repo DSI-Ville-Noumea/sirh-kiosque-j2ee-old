@@ -137,4 +137,6 @@ public interface ISirhAbsWSConsumer {
 			Integer idAgent, Date dateDebut, Date dateFin, List<AgentJoursFeriesReposDto> listDto);
 
 	String countDemandesAApprouver(Integer idAgent);
+
+	String countDemandesAViser(Integer idAgent);
 }

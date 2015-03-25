@@ -95,6 +95,8 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	private boolean isRecette;
 
 	private String nombreAbsenceAApprouver = "";
+
+	private String nombreAbsenceAViser = "";
 	
 	private String nombrePointageAApprouver = "";
 	
@@ -183,7 +185,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		}
 		
 		if(null != getDroitsAbsence()
-				&& getDroitsAbsence().isVisuSolde()) {
+				&& getDroitsAbsence().isApprouverModif()) {
 			Integer nbrAbs = new Integer(absWsConsumer.countDemandesAApprouver(currentUser.getAgent().getIdAgent()));
 			
 			String nbrAbsStr = "";
@@ -195,6 +197,21 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 				nbrAbsStr = "Vous avez " + nbrAbs + " demandes d'absence à approuver.";
 			}
 			setNombreAbsenceAApprouver(nbrAbsStr);
+		}
+		
+		if(null != getDroitsAbsence()
+				&& getDroitsAbsence().isViserModif()) {
+			Integer nbrAbs = new Integer(absWsConsumer.countDemandesAViser(currentUser.getAgent().getIdAgent()));
+			
+			String nbrAbsViserStr = "";
+			if(0 == nbrAbs) {
+				nbrAbsViserStr = "Vous n'avez pas de demande d'absence à viser."; 
+			}else if(1 == nbrAbs) {
+				nbrAbsViserStr = "Vous avez " + nbrAbs + " demande d'absence à viser.";
+			}else{
+				nbrAbsViserStr = "Vous avez " + nbrAbs + " demandes d'absence à viser.";
+			}
+			setNombreAbsenceAViser(nbrAbsViserStr);
 		}
 		if(isDroitsEae()) {
 			List<EaeDashboardItemDto> tableau = eaeWsConsumer.getTableauBord(currentUser.getAgent().getIdAgent());
@@ -339,4 +356,13 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	public void setDroitsPointage(AccessRightsPtgDto droitsPointage) {
 		this.droitsPointage = droitsPointage;
 	}
+
+	public String getNombreAbsenceAViser() {
+		return nombreAbsenceAViser;
+	}
+
+	public void setNombreAbsenceAViser(String nombreAbsenceAViser) {
+		this.nombreAbsenceAViser = nombreAbsenceAViser;
+	}
+	
 }
