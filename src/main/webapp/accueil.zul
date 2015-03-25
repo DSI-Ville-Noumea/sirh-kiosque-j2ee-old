@@ -9,6 +9,43 @@
 				<label style="font-size: 18px;color: #004f9f;"
 					value="Votre Kiosque RH" />
 				<separator />
+				
+				<portallayout id="portalLayout" maximizedMode="whole">
+	 
+		        <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsEae)">
+		            <panel id="eae" height="120px" title="EAE à réaliser" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
+		                <panelchildren>
+		               	 	<a onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)">
+		                   		<label zclass="panelPortail" 
+									value="@bind(vm.nombreEAEaRealiser)" />
+							</a>
+		                </panelchildren>
+		            </panel>
+	            </portalchildren>
+	            <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsAbsence.visuSolde)">
+		            <panel id="abs" height="120px" title="Absences à approuver" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
+		                <panelchildren>
+			                <a onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content)">
+								<label zclass="panelPortail"
+									value="@bind(vm.nombreAbsenceAApprouver)" />
+							</a>
+		                </panelchildren>
+		            </panel>
+		        </portalchildren>
+		 
+		        <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.visualisation)">
+		            <panel id="ptg" height="120px" title="Pointages à approuver" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
+		                <panelchildren>
+			                <a onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content)">
+			                	<label zclass="panelPortail"
+									value="@bind(vm.nombrePointageAApprouver)" />
+							</a>
+		                </panelchildren>
+		            </panel>
+		        </portalchildren>
+		    </portallayout>
+	    
+	    
 				<div zclass="headerAccueil">
 					<label
 						value="Vous êtes l’élément essentiel à la mise en place des pointages et des absences. 
@@ -203,43 +240,7 @@
 					<separator />
 				</div>
 			</vlayout>
-			
-			
 		
-		<portallayout id="portalLayout" maximizedMode="whole">
-	 
-	        <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsEae)">
-	            <panel id="eae" height="250px" title="EAE à réaliser" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
-	                <panelchildren>
-	               	 	<a onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)">
-	                   		<label zclass="panelPortail" 
-								value="@bind(vm.nombreEAEaRealiser)" />
-						</a>
-	                </panelchildren>
-	            </panel>
-            </portalchildren>
-            <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsAbsence.visuSolde)">
-	            <panel id="abs" height="250px" title="Absences à approuver" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
-	                <panelchildren>
-		                <a onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content)">
-							<label zclass="panelPortail"
-								value="@bind(vm.nombreAbsenceAApprouver)" />
-						</a>
-	                </panelchildren>
-	            </panel>
-	        </portalchildren>
-	 
-	        <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.visualisation)">
-	            <panel id="ptg" height="250px" title="Pointages à approuver" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
-	                <panelchildren>
-		                <a onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content)">
-		                	<label zclass="panelPortail"
-								value="@bind(vm.nombrePointageAApprouver)" />
-						</a>
-	                </panelchildren>
-	            </panel>
-	        </portalchildren>
-	    </portallayout>
 		</div>
 
 		<div height="100%" width="100%" sclass="imageAccueil"
