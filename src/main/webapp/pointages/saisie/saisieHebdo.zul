@@ -476,12 +476,36 @@
 										placeholder="Nombre d'indemnités *" format="#"
 										constraint="no empty, min 1"
 										visible="@bind(vm.nbIndemnites(cellPrime.typeSaisie))" />
-									<spinner width="100%"
-										value="@bind(cellPrime.quantite)"
-										disabled="@bind(empty cellPrime.idRefEtat)"
-										placeholder="Nombre d'heures *" format="#"
-										constraint="no empty, min 1"
-										visible="@bind(vm.nbHeures(cellPrime.typeSaisie))" />
+								
+									<hlayout
+										visible="@bind(vm.nbHeures(cellPrime.typeSaisie))">
+										<div width="50px">
+											<label value="Nombre d'heures *" />
+										</div>
+										<combobox
+											visible="@bind(vm.nbHeures(cellPrime.typeSaisie))"
+											placeholder="Heure" model="@bind(vm.listeHeures)"
+											selectedItem="@bind(cellPrime.heureDebut)"
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+										<combobox
+											visible="@bind(vm.nbHeures(cellPrime.typeSaisie))"
+											placeholder="Minute" model="@bind(vm.listeMinutes)"
+											selectedItem="@bind(cellPrime.minuteDebut)"
+											cols="2" disabled="@bind(empty cellPrime.idRefEtat)">
+											<template name="model">
+												<comboitem
+													label="@bind(each)">
+												</comboitem>
+											</template>
+										</combobox>
+									</hlayout>
+									
 									<textbox width="100%"
 										value="@bind(cellPrime.commentaire)"
 										disabled="@bind(empty cellPrime.idRefEtat)" multiline="true"

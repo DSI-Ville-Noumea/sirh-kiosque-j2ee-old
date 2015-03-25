@@ -24,6 +24,7 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
  * #L%
  */
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -834,6 +835,21 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 				for (PrimeDtoKiosque prime : jour.getPrimes()) {
 					if (mapAllPrime.containsKey(prime.getNumRubrique().toString())) {
+						
+						if(nbHeures(prime.getTypeSaisie())
+								&& null != prime.getQuantite()
+								&& 0 != prime.getQuantite()) {
+							Integer quantite = 0;
+							String heureDebut = "";
+							String minuteDebut = "";
+							
+							DecimalFormat df = new DecimalFormat( "00" );
+							heureDebut = df.format(prime.getQuantite()/60);
+							minuteDebut = df.format(prime.getQuantite()%60);
+							prime.setHeureDebut(heureDebut);
+							prime.setMinuteDebut(minuteDebut);
+						}
+						
 						mapAllPrime.get(prime.getNumRubrique().toString()).add(prime);
 					} else {
 						List<PrimeDtoKiosque> newListPrime = new ArrayList<PrimeDtoKiosque>();
@@ -1019,6 +1035,13 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 									primeDto.getHeureDebut(), primeDto.getMinuteDebut(), null));
 							primeDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
 									primeDto.getHeureFin(), primeDto.getMinuteFin(), primeDto.getSaisieJ1()));
+						}
+						if(nbHeures(primeDto.getTypeSaisie())
+								&& null != primeDto.getHeureDebut()
+								&& null != primeDto.getMinuteDebut()) {
+							Integer quantite = 0;
+							quantite = new Integer(primeDto.getHeureDebut()) * 60 +  new Integer(primeDto.getMinuteDebut());
+							primeDto.setQuantite(quantite);
 						}
 
 						dto.getSaisies().get(iJour).getPrimes().add(primeDto);
