@@ -321,6 +321,10 @@ public class AjoutDemandeAgentViewModel {
 				getDemandeCreation().setDateFin(calReprise.getTime());
 			}
 			refreshDuree();
+		} else if(null != getDemandeCreation().getTypeSaisi()
+				&& getDemandeCreation().getTypeSaisi().isCalendarDateFin()
+				&& null == getDemandeCreation().getDateFin()) {
+			getDemandeCreation().setDateFin(getDemandeCreation().getDateDebut());
 		}
 	}
 
