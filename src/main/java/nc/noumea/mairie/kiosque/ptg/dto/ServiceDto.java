@@ -32,6 +32,9 @@ public class ServiceDto implements Comparable<ServiceDto> {
 	private String service;
 
 	public String getCodeService() {
+		if("TousLesServices".equals(codeService)) {
+			return null;
+		}
 		return codeService;
 	}
 

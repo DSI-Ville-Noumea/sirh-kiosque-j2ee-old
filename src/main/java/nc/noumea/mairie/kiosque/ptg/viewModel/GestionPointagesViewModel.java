@@ -111,7 +111,14 @@ public class GestionPointagesViewModel {
 		setDroitsPointage(droitsPointage);
 		// on charge les service pour les filtres
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
-		setListeServicesFiltre(filtreService);
+		
+		ServiceDto tousLesServices = new ServiceDto();
+		tousLesServices.setCodeService("TousLesServices");
+		tousLesServices.setService(" Tous les services");
+		List<ServiceDto> filtreAllService = new ArrayList<>();
+		filtreAllService.add(tousLesServices);
+		filtreAllService.addAll(filtreService);
+		setListeServicesFiltre(filtreAllService);
 		// on recharge les états de pointages pour les filtres
 		List<RefEtatPointageDto> filtreEtat = ptgWsConsumer.getEtatPointageKiosque();
 		setListeEtatPointageFiltre(filtreEtat);
