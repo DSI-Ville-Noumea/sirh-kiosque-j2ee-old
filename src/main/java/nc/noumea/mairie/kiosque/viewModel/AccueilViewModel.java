@@ -214,15 +214,21 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 			setNombreAbsenceAViser(nbrAbsViserStr);
 		}
 		if(isDroitsEae()) {
-			List<EaeDashboardItemDto> tableau = eaeWsConsumer.getTableauBord(currentUser.getAgent().getIdAgent());
-			int nbrEae = null != tableau ? tableau.size() : 0;
 			String nbrEaeStr = "";
-			if(0 == nbrEae) {
-				nbrEaeStr = "Vous n'avez pas de EAE à réaliser."; 
-			}else if(1 == nbrEae) {
-				nbrEaeStr = "Vous avez " + nbrEae + " EAE à réaliser.";
-			}else{
-				nbrEaeStr = "Vous avez " + nbrEae + " EAEs à réaliser.";
+			try {
+				List<EaeDashboardItemDto> tableau = eaeWsConsumer.getTableauBord(currentUser.getAgent().getIdAgent());
+				int nbrEae = null != tableau ? tableau.size() : 0;
+				if(0 == nbrEae) {
+					nbrEaeStr = "Vous n'avez pas de EAE à réaliser."; 
+				}else if(1 == nbrEae) {
+					nbrEaeStr = "Vous avez " + nbrEae + " EAE à réaliser.";
+				}else{
+					nbrEaeStr = "Vous avez " + nbrEae + " EAEs à réaliser.";
+				}
+			} catch(Exception e) {
+				// l'appli SIRH-EAE-WS ne semble pas répondre
+				logger.error("Une erreur est survenue avec l'application SIRH-EAE-WS : " + e.getMessage());
+				nbrEaeStr = "Une erreur est survenue.";
 			}
 			setNombreEAEaRealiser(nbrEaeStr);
 		}

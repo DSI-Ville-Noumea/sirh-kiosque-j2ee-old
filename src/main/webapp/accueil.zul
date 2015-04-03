@@ -45,7 +45,7 @@
 		            </panel>
 		        </portalchildren>
 		 
-		        <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.visualisation)">
+		        <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsPointage.approbation)">
 		            <panel id="ptg" height="120px" title="Pointages à approuver" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
 		                <panelchildren>
 			                <a onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content)">
