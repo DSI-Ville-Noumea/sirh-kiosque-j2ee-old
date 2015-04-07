@@ -5,6 +5,11 @@
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.demandes.viewModel.DemandesSoldeAgentViewModel')">
 		<div sclass="fond" height="100%">
 			<vlayout>
+				
+				<hlayout>
+					<label style="font-size: 18px;color: #004f9f;"
+						value="Les soldes de l'agent" />
+				</hlayout>
 				<hlayout
 					visible="@bind(vm.soldeCourant.afficheSoldeConge)">
 					<div width="300px">
@@ -89,6 +94,40 @@
 					<div>
 						<label sclass="value"
 							value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaA55))" />
+					</div>
+				</hlayout>
+				
+				<separator />
+				
+				<hlayout>
+					<label style="font-size: 18px;color: #004f9f;"
+						value="Les acteurs de l'agent" />
+				</hlayout>
+				<hlayout>
+					<div width="250px">
+						<label value="Opérateurs : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.formatNomAgent(vm.acteursDto.listOperateurs))" multiline="true" />
+					</div>
+				</hlayout>
+				<hlayout>
+					<div width="250px">
+						<label value="Approbateurs : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.formatNomApprobateur(vm.acteursDto.listApprobateurs))" multiline="true" />
+					</div>
+				</hlayout>
+				<hlayout>
+					<div width="250px">
+						<label value="Viseurs : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.formatNomAgent(vm.acteursDto.listViseurs))" multiline="true" />
 					</div>
 				</hlayout>
 			</vlayout>

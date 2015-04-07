@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
@@ -83,6 +84,9 @@ public class DemandesAgentViewModel {
 	private String tailleListe;
 
 	private ProfilAgentDto currentUser;
+	
+	private ActeursDto acteursDto;
+	
 
 	@Init
 	public void initDemandesAgent() {
@@ -97,6 +101,8 @@ public class DemandesAgentViewModel {
 		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
 		setListeEtatAbsenceFiltre(filtreEtat);
 		setTailleListe("5");
+		// #14844 liste des acteurs
+		setActeursDto(absWsConsumer.getListeActeurs(currentUser.getAgent().getIdAgent()));
 	}
 
 	@Command
@@ -263,6 +269,14 @@ public class DemandesAgentViewModel {
 
 	public String concatAgent(String nom, String prenom) {
 		return nom + " " + prenom;
+	}
+
+	public String concatDelegataire(String nom, String prenom) {
+		if((null == nom || "".equals(nom)) && (null == prenom || "".equals(prenom))) {
+			return "Délégataire : aucun";
+		}else{
+			return "Délégataire : " + nom + " " + prenom;
+		}
 	}
 
 	public String getEtatToString(Integer idRefEtat) {
@@ -444,5 +458,13 @@ public class DemandesAgentViewModel {
 
 	public void setGroupeAbsenceFiltre(RefGroupeAbsenceDto groupeAbsenceFiltre) {
 		this.groupeAbsenceFiltre = groupeAbsenceFiltre;
+	}
+
+	public ActeursDto getActeursDto() {
+		return acteursDto;
+	}
+
+	public void setActeursDto(ActeursDto acteursDto) {
+		this.acteursDto = acteursDto;
 	}
 }

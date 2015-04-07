@@ -26,7 +26,11 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
 
 
 import java.util.Date;
+import java.util.List;
 
+import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
+import nc.noumea.mairie.kiosque.abs.dto.AgentDto;
+import nc.noumea.mairie.kiosque.abs.dto.ApprobateurDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
@@ -49,6 +53,8 @@ public class DemandesSoldeAgentViewModel {
 	private SoldeDto soldeCourant;
 
 	private String title;
+	
+	private ActeursDto acteursDto;
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("agentCourant") AgentWithServiceDto agent) {
@@ -59,6 +65,8 @@ public class DemandesSoldeAgentViewModel {
 		filtreDto.setDateFin(new Date());
 		SoldeDto result = absWsConsumer.getAgentSolde(agent.getIdAgent(), filtreDto);
 		setSoldeCourant(result);
+		// #14844 liste des acteurs
+		setActeursDto(absWsConsumer.getListeActeurs(agent.getIdAgent()));
 	}
 
 	@Command
@@ -89,6 +97,34 @@ public class DemandesSoldeAgentViewModel {
 
 		return res;
 	}
+	
+	public String formatNomAgent(List<AgentDto> listAgents) {
+		
+		String result = "";
+		if(null != listAgents
+				&& !listAgents.isEmpty()) {
+			for(AgentDto agent : listAgents) {
+				result += agent.getNom() + " " + agent.getPrenom() + " \n";
+			}
+		}else{
+			result = "Aucun";
+		}
+		return result;
+	}
+	
+	public String formatNomApprobateur(List<ApprobateurDto> listAgents) {
+		
+		String result = "";
+		if(null != listAgents
+				&& !listAgents.isEmpty()) {
+			for(ApprobateurDto agent : listAgents) {
+				result += agent.getApprobateur().getNom() + " " + agent.getApprobateur().getPrenom() + " \n";
+			}
+		}else{
+			result = "Aucun";
+		}
+		return result;
+	}
 
 	public SoldeDto getSoldeCourant() {
 		return soldeCourant;
@@ -105,4 +141,13 @@ public class DemandesSoldeAgentViewModel {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public ActeursDto getActeursDto() {
+		return acteursDto;
+	}
+
+	public void setActeursDto(ActeursDto acteursDto) {
+		this.acteursDto = acteursDto;
+	}
+	
 }

@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
+import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesReposDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
@@ -139,4 +140,6 @@ public interface ISirhAbsWSConsumer {
 	String countDemandesAApprouver(Integer idAgent);
 
 	String countDemandesAViser(Integer idAgent);
+
+	ActeursDto getListeActeurs(Integer idAgent);
 }

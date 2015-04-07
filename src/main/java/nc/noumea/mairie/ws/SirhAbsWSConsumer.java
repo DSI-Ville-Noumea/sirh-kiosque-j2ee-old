@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
+import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesReposDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
@@ -72,6 +73,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhOperateursDelegataireApprobateurUrl = "droits/inputter";
 	private static final String sirhViseursApprobateurUrl = "droits/viseur";
 	private static final String sirhAgentsOperatuerOrViseurUrl = "droits/agentsSaisis";
+	private static final String sirhAbsListeActeursUrl = "droits/listeActeurs";
 
 	/* Solde */
 	private static final String sirhAgentSoldeUrl = "solde/soldeAgent";
@@ -547,5 +549,15 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsString(res, url);
+	}
+	
+	@Override
+	public ActeursDto getListeActeurs(Integer idAgent) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhAbsListeActeursUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(ActeursDto.class, res, url);
 	}
 }
