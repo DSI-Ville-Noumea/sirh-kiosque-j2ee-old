@@ -191,6 +191,7 @@ public class ModifierDemandeViewModel {
 
 	@Command
 	public void cancelDemande(@BindingParam("win") Window window) {
+		refreshDemande();
 		window.detach();
 	}
 
@@ -287,6 +288,25 @@ public class ModifierDemandeViewModel {
 			getDemandeCourant().setDateFin(calReprise.getTime());
 		}
 		refreshDuree();
+	}
+	
+	@Command
+	public void refreshDemande() {
+		ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+		DemandeDto demande = absWsConsumer.getDemande(currentUser.getAgent().getIdAgent(),
+					getDemandeCourant().getIdDemande());
+		
+		getDemandeCourant().setDateDebut(demande.getDateDebut());
+		getDemandeCourant().setDateDebutAM(demande.isDateDebutAM());
+		getDemandeCourant().setDateDebutPM(demande.isDateDebutPM());
+		getDemandeCourant().setDateFin(demande.getDateFin());
+		getDemandeCourant().setDateFinAM(demande.isDateFinAM());
+		getDemandeCourant().setDateFinPM(demande.isDateFinPM());
+		getDemandeCourant().setDateReprise(demande.getDateReprise());
+		getDemandeCourant().setCommentaire(demande.getCommentaire());
+		getDemandeCourant().setDuree(demande.getDuree());
+		getDemandeCourant().setIdRefEtat(demande.getIdRefEtat());
+		getDemandeCourant().setMotif(demande.getMotif());
 	}
 
 	private boolean IsFormValid(RefTypeSaisiDto typeSaisie) {

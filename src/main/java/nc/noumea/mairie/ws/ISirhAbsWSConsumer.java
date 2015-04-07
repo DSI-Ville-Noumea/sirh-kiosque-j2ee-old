@@ -142,4 +142,6 @@ public interface ISirhAbsWSConsumer {
 	String countDemandesAViser(Integer idAgent);
 
 	ActeursDto getListeActeurs(Integer idAgent);
+	
+	DemandeDto getDemande(Integer idAgent, Integer idDemande);
 }
