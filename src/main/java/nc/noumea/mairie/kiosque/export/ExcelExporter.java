@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.export;
  * #L%
  */
 
-
 import static nc.noumea.mairie.kiosque.export.Utils.getAlign;
 import static nc.noumea.mairie.kiosque.export.Utils.getFooters;
 import static nc.noumea.mairie.kiosque.export.Utils.getHeaderSize;

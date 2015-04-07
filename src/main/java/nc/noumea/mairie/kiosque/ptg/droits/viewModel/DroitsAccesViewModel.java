@@ -57,6 +57,8 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
@@ -424,6 +426,48 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	@Command
 	public void exportPDF(@BindingParam("ref") Listbox listbox) throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		List<AgentDto> result = new ArrayList<AgentDto>();
+		// on regarde dans quel onglet on est
+		if (getTabCourant().getId().equals("APPROBATEUR")) {
+			// on recupere les agents de l'approbateur
+			result = ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent());
+		} else if (getTabCourant().getId().equals("OPERATEUR")) {
+			// on recupere les opérateurs de l'agent
+			result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent()).getSaisisseurs();
+		}
+
+		// #14688 : ABS+PTG-KIOSQUE : DROITS D'ACCES : revoir l'export excel
+		// on efface les données de lalistbox et on remplace par toutes les
+		// données
+		listbox.getItems().clear();
+		if (result.size() == 0) {
+			Listitem item = new Listitem();
+			Listcell cellImage = new Listcell();
+			Listcell cellNom = new Listcell();
+			cellNom.setLabel("");
+			Listcell cellPrenom = new Listcell();
+			cellPrenom.setLabel("");
+			item.appendChild(cellNom);
+			item.appendChild(cellPrenom);
+			item.appendChild(cellImage);
+			item.setValue(new AgentDto());
+			listbox.getItems().add(item);
+		} else {
+			Collections.sort(result);
+			for (AgentDto a : result) {
+				Listitem item = new Listitem();
+				Listcell cellImage = new Listcell();
+				Listcell cellNom = new Listcell();
+				cellNom.setLabel(a.getNom());
+				Listcell cellPrenom = new Listcell();
+				cellPrenom.setLabel(a.getPrenom());
+				item.appendChild(cellNom);
+				item.appendChild(cellPrenom);
+				item.appendChild(cellImage);
+				item.setValue(a);
+				listbox.getItems().add(item);
+			}
+		}
 
 		PdfExporter exporter = new PdfExporter();
 		exporter.export(listbox, out);
@@ -431,11 +475,42 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		AMedia amedia = new AMedia("droitsAbsence.pdf", "pdf", "application/pdf", out.toByteArray());
 		Filedownload.save(amedia);
 		out.close();
+
+		if (result.size() == 0) {
+			listbox.getItems().clear();
+		}
 	}
 
 	@Command
 	public void exportExcel(@BindingParam("ref") Listbox listbox) throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		List<AgentDto> result = new ArrayList<AgentDto>();
+		// on regarde dans quel onglet on est
+		if (getTabCourant().getId().equals("APPROBATEUR")) {
+			// on recupere les agents de l'approbateur
+			result = ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent());
+		} else if (getTabCourant().getId().equals("OPERATEUR")) {
+			// on recupere les opérateurs de l'agent
+			result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent()).getSaisisseurs();
+		}
+		// #14688 : ABS+PTG-KIOSQUE : DROITS D'ACCES : revoir l'export excel
+		// on efface les données de lalistbox et on remplace par toutes les
+		// données
+		listbox.getItems().clear();
+		Collections.sort(result);
+		for (AgentDto a : result) {
+			Listitem item = new Listitem();
+			Listcell cellImage = new Listcell();
+			Listcell cellNom = new Listcell();
+			cellNom.setLabel(a.getNom());
+			Listcell cellPrenom = new Listcell();
+			cellPrenom.setLabel(a.getPrenom());
+			item.appendChild(cellNom);
+			item.appendChild(cellPrenom);
+			item.appendChild(cellImage);
+			item.setValue(a);
+			listbox.getItems().add(item);
+		}
 
 		ExcelExporter exporter = new ExcelExporter();
 		exporter.export(listbox, out);
@@ -450,7 +525,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	}
 
 	public void setListeAgents(List<AgentDto> listeAgents) {
-		if(null != listeAgents) {
+		if (null != listeAgents) {
 			Collections.sort(listeAgents);
 		}
 		this.listeAgents = listeAgents;

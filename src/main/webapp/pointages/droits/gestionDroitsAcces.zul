@@ -68,18 +68,10 @@
 									</listitem>
 								</template>
 							</listbox>
-							<div style="display:block;">
-								<div align="left"
-									style="display:inline-block;float:left;">
-									<button label="Ajouter"
+							<div>
+								<div align="left">
+									<button label="Choisir"
 										onClick="@command('ajouterDelegataire')" />
-								</div>
-								<div align="right"
-									style="display:inline-block;float:right;">
-									<button label="Exp. PDF"
-										onClick="@command('exportPDF', ref=delegataire)" />
-									<button label="Exp. Excel"
-										onClick="@command('exportExcel', ref=delegataire)" />
 								</div>
 							</div>
 						</vlayout>
