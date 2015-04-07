@@ -5,10 +5,10 @@
 				Affichage de
 				<combobox width="50px"
 					selectedItem="@bind(vm.tailleListe)" readonly="true">
-					<comboitem value="5" label="5" />
 					<comboitem value="10" label="10" />
-					<comboitem value="15" label="15" />
-					<comboitem value="20" label="20" />
+					<comboitem value="25" label="25" />
+					<comboitem value="50" label="50" />
+					<comboitem value="100" label="100" />
 				</combobox>
 				agents par page
 				<space />

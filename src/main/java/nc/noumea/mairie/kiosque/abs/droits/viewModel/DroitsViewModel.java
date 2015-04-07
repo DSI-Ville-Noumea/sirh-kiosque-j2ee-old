@@ -93,7 +93,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		// on recupere les agents de l'approbateur
 		List<AgentDto> result = absWsConsumer.getAgentsApprobateur(currentUser.getAgent().getIdAgent());
 		setListeAgents(result);
-		setTailleListe("5");
+		setTailleListe("10");
 		setAfficheAffecterAgent(false);
 	}
 
