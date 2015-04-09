@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
+import nc.noumea.mairie.kiosque.abs.dto.ApprobateurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
@@ -84,9 +85,8 @@ public class DemandesAgentViewModel {
 	private String tailleListe;
 
 	private ProfilAgentDto currentUser;
-	
+
 	private ActeursDto acteursDto;
-	
 
 	@Init
 	public void initDemandesAgent() {
@@ -271,10 +271,20 @@ public class DemandesAgentViewModel {
 		return nom + " " + prenom;
 	}
 
+	public String concatAgentApprobateur(ApprobateurDto approbateur) {
+		String approb = approbateur.getApprobateur().getNom() + " " + approbateur.getApprobateur().getPrenom();
+		// on regarde si il y a un delegataire
+		if (approbateur.getDelegataire() != null) {
+			approb += " (Délégataire : " + approbateur.getDelegataire().getNom() + " "
+					+ approbateur.getDelegataire().getPrenom() + ")";
+		}
+		return approb;
+	}
+
 	public String concatDelegataire(String nom, String prenom) {
-		if((null == nom || "".equals(nom)) && (null == prenom || "".equals(prenom))) {
+		if ((null == nom || "".equals(nom)) && (null == prenom || "".equals(prenom))) {
 			return "Délégataire : aucun";
-		}else{
+		} else {
 			return "Délégataire : " + nom + " " + prenom;
 		}
 	}

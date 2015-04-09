@@ -10,68 +10,85 @@
 					value="Mes acteurs" />
 			</vlayout>
 			<separator />
-			
-			<div sclass="RHTitle2">
-				<label value="Mes opérateurs" />
-			</div>
-			<div sclass="RHContent">
-				<grid model="@bind(vm.acteursDto.listOperateurs)" id="listOperateurs" 
-					emptyMessage="Aucun opérateur" width="1252px" >
-					<columns visible="false">
-						<column label="Agent" />
-					</columns>
-					<template name="model">
-						<row>
-							<label 
-							value="@bind(vm.concatAgent(each.nom,each.prenom))" />
-						</row>
-					</template>
-				</grid>
-			</div>
-			
+			<hlayout>
+				<div style="display:block;" width="1252px">
+					<vlayout
+						style="display:inline-block;float:left;vertical-align:top;"
+						width="33%">
+						<div sclass="RHTitle2"
+							style="margin-bottom:0px !important;">
+							<label value="Mes approbateurs" />
+						</div>
+						<div sclass="RHContent">
+							<grid
+								model="@bind(vm.acteursDto.listApprobateurs)"
+								id="listApprobateurs" emptyMessage="Aucun approbateur">
+								<columns visible="false">
+									<column label="Agent" />
+								</columns>
+								<template name="model">
+									<row
+										style="background-color: #FED89C !important;">
+										<label
+											value="@bind(vm.concatAgentApprobateur(each))" />
+									</row>
+								</template>
+							</grid>
+						</div>
+					</vlayout>
+					<vlayout
+						style="display:inline-block;float:left;vertical-align:top;"
+						width="33%">
+						<div sclass="RHTitle2"
+							style="margin-bottom:0px !important;">
+							<label value="Mes opérateurs" />
+						</div>
+						<div sclass="RHContent">
+							<grid
+								model="@bind(vm.acteursDto.listOperateurs)" id="listOperateurs"
+								emptyMessage="Aucun opérateur">
+								<columns visible="false">
+									<column label="Agent" />
+								</columns>
+								<template name="model">
+									<row
+										style="background-color: #FED89C !important;">
+										<label
+											value="@bind(vm.concatAgent(each.nom,each.prenom))" />
+									</row>
+								</template>
+							</grid>
+						</div>
+					</vlayout>
+					<vlayout
+						style="display:inline-block;float:left;vertical-align:top;"
+						width="33%">
+						<div sclass="RHTitle2"
+							style="margin-bottom:0px !important;">
+							<label value="Mes viseurs" />
+						</div>
+						<div sclass="RHContent">
+							<grid
+								model="@bind(vm.acteursDto.listViseurs)" id="listViseurs"
+								emptyMessage="Aucun viseur">
+								<columns visible="false">
+									<column label="Agent" />
+								</columns>
+								<template name="model">
+									<row
+										style="background-color: #FED89C !important;">
+										<label
+											value="@bind(vm.concatAgent(each.nom,each.prenom))" />
+									</row>
+								</template>
+							</grid>
+						</div>
+					</vlayout>
+				</div>
+			</hlayout>
 			<separator />
-			<div sclass="RHTitle2">
-				<label value="Mes approbateurs" />
-			</div>
-			<div sclass="RHContent">
-				<grid model="@bind(vm.acteursDto.listApprobateurs)" id="listApprobateurs"
-					emptyMessage="Aucun approbateur" width="1252px" >
-					<columns visible="false">
-						<column label="Agent" />
-						<column label="Delegataire" />
-					</columns>
-					<template name="model">
-						<row>
-							<label 
-								value="@bind(vm.concatAgent(each.approbateur.nom,each.approbateur.prenom))" />
-							<label 
-								value="@bind(vm.concatDelegataire(each.delegataire.nom,each.delegataire.prenom))" />
-						</row>
-					</template>
-				</grid>
-			</div>
-			
 			<separator />
-			<div sclass="RHTitle2">
-				<label value="Mes viseurs" />
-			</div>
-			<div sclass="RHContent">
-				<grid model="@bind(vm.acteursDto.listViseurs)" id="listViseurs"
-					emptyMessage="Aucun viseur" width="1252px" >
-					<columns visible="false">
-						<column label="Agent" />
-					</columns>
-					<template name="model">
-						<row>
-							<label 
-							value="@bind(vm.concatAgent(each.nom,each.prenom))" />
-						</row>
-					</template>
-				</grid>
-			</div>
-			
-			<separator /><separator />
-			
+
 			<vlayout>
 				<label style="font-size: 18px;color: #004f9f;"
 					value="Mes demandes" />
