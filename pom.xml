@@ -5,7 +5,7 @@
 	<groupId>nc.noumea.mairie</groupId>
 	<artifactId>sirh-kiosque-j2ee</artifactId>
 	<packaging>war</packaging>
-	<version>0.14-SNAPSHOT</version>
+	<version>0.14</version>
 	<name>sirh-kiosque-j2ee</name>
 	<description>Kiosque RH en J2EE</description>
 	<organization>
@@ -317,7 +317,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>ROOT##sirh-kiosque-j2ee-${maven.build.timestamp}-${project.version}</finalName>
+ 		<finalName>ROOT##sirh-kiosque-j2ee-${maven.build.timestamp}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
