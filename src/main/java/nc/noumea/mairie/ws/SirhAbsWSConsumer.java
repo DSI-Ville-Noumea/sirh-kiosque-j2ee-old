@@ -107,13 +107,13 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhMotifsCompteurKiosqueUrl = "motifCompteur/getListeMotifCompteur";
 	private static final String sirhsaveCompteurRecupUrl = "recuperations/addManual";
 	private static final String sirhsaveCompteurReposCompUrl = "reposcomps/addManual";
-	
+
 	/* saisies jours repos */
 	private static final String sirhGetListAgentsWithJoursFeriesEnReposUrl = "joursFeriesRepos/getListAgentsWithJoursFeriesEnRepos";
 	private static final String sirhSetListAgentsWithJoursFeriesEnReposUrl = "joursFeriesRepos/setListAgentsWithJoursFeriesEnRepos";
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	
+
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentSoldeUrl);
@@ -129,8 +129,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet, Date fromDate, Date toDate,
-			Date dateDemande, Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence) {
-		
+			Date dateDemande, String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence) {
+
 		String url = String.format(sirhAbsWsBaseUrl + sirhDemandesAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -141,8 +141,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			params.put("to", sdf.format(toDate));
 		if (dateDemande != null)
 			params.put("dateDemande", sdf.format(dateDemande));
-		if (idRefEtat != null)
-			params.put("etat", idRefEtat.toString());
+		if (listIdRefEtat != null)
+			params.put("etat", listIdRefEtat);
 		if (idRefType != null)
 			params.put("type", idRefType.toString());
 		if (idRefGroupeAbsence != null)
@@ -396,7 +396,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate,
-			Date dateDemande, Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche) {
+			Date dateDemande, String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence,
+			Integer idAgentRecherche) {
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhListeDemandesUrl);
 		HashMap<String, String> params = new HashMap<>();
@@ -408,8 +409,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			params.put("to", sdf.format(toDate));
 		if (dateDemande != null)
 			params.put("dateDemande", sdf.format(dateDemande));
-		if (idRefEtat != null)
-			params.put("etat", idRefEtat.toString());
+		if (listIdRefEtat != null)
+			params.put("etat", listIdRefEtat);
 		if (idRefType != null)
 			params.put("type", idRefType.toString());
 		if (idRefGroupeAbsence != null)
@@ -500,9 +501,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public SaisieReposDto getListAgentsWithJoursFeriesEnRepos(
-			Integer idAgent, String codeService, Date dateDebut, Date dateFin) {
-		
+	public SaisieReposDto getListAgentsWithJoursFeriesEnRepos(Integer idAgent, String codeService, Date dateDebut,
+			Date dateFin) {
+
 		String url = String.format(sirhAbsWsBaseUrl + sirhGetListAgentsWithJoursFeriesEnReposUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -515,23 +516,22 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto setListAgentsWithJoursFeriesEnRepos(
-			Integer idAgent, Date dateDebut, Date dateFin,
+	public ReturnMessageDto setListAgentsWithJoursFeriesEnRepos(Integer idAgent, Date dateDebut, Date dateFin,
 			List<AgentJoursFeriesReposDto> listDto) {
-		
+
 		String url = String.format(sirhAbsWsBaseUrl + sirhSetListAgentsWithJoursFeriesEnReposUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("dateDebut", sdf.format(dateDebut));
 		params.put("dateFin", sdf.format(dateFin));
-		
+
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
 				.deepSerialize(listDto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
 	}
-	
+
 	@Override
 	public String countDemandesAApprouver(Integer idAgent) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhcountDemandesAApprouverUrl);
@@ -541,7 +541,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsString(res, url);
 	}
-	
+
 	@Override
 	public String countDemandesAViser(Integer idAgent) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhcountDemandesAViserUrl);
@@ -551,7 +551,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsString(res, url);
 	}
-	
+
 	@Override
 	public ActeursDto getListeActeurs(Integer idAgent) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhAbsListeActeursUrl);
@@ -568,7 +568,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("idDemande", idDemande.toString());
-		
+
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(DemandeDto.class, res, url);
 	}

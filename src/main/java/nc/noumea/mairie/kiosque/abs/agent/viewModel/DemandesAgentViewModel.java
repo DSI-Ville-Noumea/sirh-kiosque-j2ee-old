@@ -54,6 +54,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkmax.zul.Chosenbox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Tab;
@@ -75,7 +76,7 @@ public class DemandesAgentViewModel {
 	private List<RefTypeAbsenceDto> listeTypeAbsenceFiltre;
 	private RefTypeAbsenceDto typeAbsenceFiltre;
 	private List<RefEtatAbsenceDto> listeEtatAbsenceFiltre;
-	private RefEtatAbsenceDto etatAbsenceFiltre;
+
 	private Date dateDebutFiltre;
 	private Date dateFinFiltre;
 	private Date dateDemandeFiltre;
@@ -128,22 +129,29 @@ public class DemandesAgentViewModel {
 		setListeEtatAbsenceFiltre(filtreEtat);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
-		filtrer();
+		filtrer(null);
 	}
 
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void setTabDebut(@BindingParam("tab") Tab tab) {
 		setTabCourant(tab);
-		filtrer();
+		filtrer(null);
 	}
 
 	@Command
 	@NotifyChange({ "listeDemandes" })
-	public void filtrer() {
+	public void filtrer(@BindingParam("ref") Chosenbox boxEtat) {
+		List<Integer> etats = new ArrayList<Integer>();
+		if (boxEtat != null) {
+			for (Object etat : boxEtat.getSelectedObjects()) {
+				etats.add(((RefEtatAbsenceDto) etat).getIdRefEtat());
+			}
+		}
+
 		List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getAgent().getIdAgent(), getTabCourant()
-				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
-				getEtatAbsenceFiltre() == null ? null : getEtatAbsenceFiltre().getIdRefEtat(),
+				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), etats.size() == 0 ? null
+				: etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
 				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeDemandes(result);
@@ -167,21 +175,23 @@ public class DemandesAgentViewModel {
 			}
 			setListeDemandes(list);
 		} else {
-			filtrer();
+			filtrer(null);
 		}
 	}
 
 	@Command
-	@NotifyChange({ "groupeAbsenceFiltre", "listeTypeAbsenceFiltre", "typeAbsenceFiltre", "etatAbsenceFiltre",
-			"dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre" })
+	@NotifyChange({ "groupeAbsenceFiltre", "listeTypeAbsenceFiltre", "typeAbsenceFiltre", "dateDebutFiltre",
+			"dateFinFiltre", "dateDemandeFiltre","listeEtatAbsenceFiltre" })
 	public void viderFiltre() {
 		setListeTypeAbsenceFiltre(null);
 		setGroupeAbsenceFiltre(null);
 		setTypeAbsenceFiltre(null);
-		setEtatAbsenceFiltre(null);
 		setDateDebutFiltre(null);
 		setDateFinFiltre(null);
 		setDateDemandeFiltre(null);
+		// on recharge les états d'absences pour les filtres
+		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(getTabCourant().getId());
+		setListeEtatAbsenceFiltre(filtreEtat);
 	}
 
 	public List<DemandeDto> getHistoriqueAbsence(DemandeDto abs) {
@@ -234,7 +244,7 @@ public class DemandesAgentViewModel {
 	@GlobalCommand
 	@NotifyChange({ "listeDemandes" })
 	public void refreshListeDemande() {
-		filtrer();
+		filtrer(null);
 	}
 
 	@Command
@@ -419,14 +429,6 @@ public class DemandesAgentViewModel {
 
 	public void setListeEtatAbsenceFiltre(List<RefEtatAbsenceDto> listeEtatAbsenceFiltre) {
 		this.listeEtatAbsenceFiltre = listeEtatAbsenceFiltre;
-	}
-
-	public RefEtatAbsenceDto getEtatAbsenceFiltre() {
-		return etatAbsenceFiltre;
-	}
-
-	public void setEtatAbsenceFiltre(RefEtatAbsenceDto etatAbsenceFiltre) {
-		this.etatAbsenceFiltre = etatAbsenceFiltre;
 	}
 
 	public Tab getTabCourant() {

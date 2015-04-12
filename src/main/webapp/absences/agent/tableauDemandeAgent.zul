@@ -32,21 +32,20 @@
 			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
 				value="@bind(vm.dateFinFiltre)" />
 
-			<label value="Etat :" />
-			<combobox readonly="true" width="100px"
-				model="@bind(vm.listeEtatAbsenceFiltre)"
-				selectedItem="@bind(vm.etatAbsenceFiltre)">
+			<label value="Etats :" />
+			<chosenbox width="100px" id="boxEtatMultiple"
+				model="@bind(vm.listeEtatAbsenceFiltre)">
 				<template name="model">
-					<comboitem label="@bind(each.libelle)" />
+					<label value="@bind(each.libelle)" />
 				</template>
-			</combobox>
+			</chosenbox>
 
 			<label value="Date de la demande : " />
 			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
 				value="@bind(vm.dateDemandeFiltre)" />
 
 			<button label="Vider" onClick="@command('viderFiltre')" />
-			<button label="Filtrer" onClick="@command('filtrer')" />
+			<button label="Filtrer" onClick="@command('filtrer',ref=boxEtatMultiple)" />
 		</hlayout>
 	</vlayout>
 	<separator />
@@ -72,8 +71,7 @@
 		</hlayout>
 		<separator />
 		<grid model="@bind(vm.listeDemandes)" mold="paging"
-			width="1252px" pageSize="@bind(vm.tailleListe)"
-			id="listeDemandesId"
+			width="1252px" pageSize="@bind(vm.tailleListe)" id="listeDemandesId"
 			emptyMessage="Aucun élément">
 			<columns>
 				<column width="30px" sort="none" />
@@ -105,8 +103,7 @@
 					<label value="@bind(each.libelleTypeDemande)" />
 					<label value="@bind(vm.getDateDebutToString(each))" />
 					<label value="@bind(vm.getDateFinToString(each))" />
-					<label
-						value="@bind(vm.getDureeToString(each))" />
+					<label value="@bind(vm.getDureeToString(each))" />
 					<vlayout>
 						<image
 							tooltiptext="Le seuil du compteur est dépassé pour cette demande."

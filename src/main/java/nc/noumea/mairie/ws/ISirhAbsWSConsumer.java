@@ -79,7 +79,7 @@ public interface ISirhAbsWSConsumer {
 	/* DEMANDES AGENTS */
 
 	List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
-			Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence);
+			String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence);
 
 	ReturnMessageDto saveDemandeAbsence(Integer idAgent, DemandeDto dto);
 
@@ -123,25 +123,24 @@ public interface ISirhAbsWSConsumer {
 	/* GESTION DEMANDES */
 
 	List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
-			Integer idRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche);
+			String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche);
 
 	List<DemandeDto> getHistoriqueAbsence(Integer idAgent, Integer idDemande);
 
 	// pour les motifs de refus en auto complétion
 	List<MotifRefusDto> getListeMotifsRefus();
 
-	/* SAISIES JOURS DE REPOS*/
-	SaisieReposDto getListAgentsWithJoursFeriesEnRepos(
-			Integer idAgent, String codeService, Date dateDebut, Date dateFin);
-	
-	ReturnMessageDto setListAgentsWithJoursFeriesEnRepos(
-			Integer idAgent, Date dateDebut, Date dateFin, List<AgentJoursFeriesReposDto> listDto);
+	/* SAISIES JOURS DE REPOS */
+	SaisieReposDto getListAgentsWithJoursFeriesEnRepos(Integer idAgent, String codeService, Date dateDebut, Date dateFin);
+
+	ReturnMessageDto setListAgentsWithJoursFeriesEnRepos(Integer idAgent, Date dateDebut, Date dateFin,
+			List<AgentJoursFeriesReposDto> listDto);
 
 	String countDemandesAApprouver(Integer idAgent);
 
 	String countDemandesAViser(Integer idAgent);
 
 	ActeursDto getListeActeurs(Integer idAgent);
-	
+
 	DemandeDto getDemande(Integer idAgent, Integer idDemande);
 }

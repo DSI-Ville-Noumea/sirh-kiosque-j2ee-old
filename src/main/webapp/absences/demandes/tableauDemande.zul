@@ -45,14 +45,13 @@
 				</template>
 			</combobox>
 
-			<label value="Etat :" />
-			<combobox readonly="true" width="100px"
-				model="@bind(vm.listeEtatAbsenceFiltre)"
-				selectedItem="@bind(vm.etatAbsenceFiltre)">
+			<label value="Etats :" />
+			<chosenbox width="100px" id="boxEtatMultiple"
+				model="@bind(vm.listeEtatAbsenceFiltre)">
 				<template name="model">
-					<comboitem label="@bind(each.libelle)" />
+					<label value="@bind(each.libelle)" />
 				</template>
-			</combobox>
+			</chosenbox>
 		</hlayout>
 		<hlayout>
 			<label value="Date de début : " />
@@ -69,7 +68,8 @@
 		</hlayout>
 		<hlayout>
 			<button label="Vider" onClick="@command('viderFiltre')" />
-			<button label="Filtrer" onClick="@command('filtrer')" />
+			<button label="Filtrer"
+				onClick="@command('filtrer',ref=boxEtatMultiple)" />
 		</hlayout>
 	</vlayout>
 	<separator />
