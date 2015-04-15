@@ -243,9 +243,6 @@ public class AjoutDemandeViewModel {
 	private String getSamediOffertDureeCongeAnnuel(String codeBaseHoraireAbsence, DemandeDto demandeDto) {
 		if (demandeDto.getDateDebut() != null && demandeDto.getDateFin() != null) {
 			demandeDto.setTypeSaisiCongeAnnuel(getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto());
-			AgentWithServiceDto agentWithServiceDto = new AgentWithServiceDto();
-			agentWithServiceDto.setIdAgent(currentUser.getAgent().getIdAgent());
-			demandeDto.setAgentWithServiceDto(agentWithServiceDto);
 			DemandeDto dureeDto = absWsConsumer.getDureeCongeAnnuel(demandeDto);
 			if (dureeDto.isSamediOffert())
 				return "Samedi offert";
