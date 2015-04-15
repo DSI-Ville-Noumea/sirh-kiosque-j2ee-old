@@ -26,7 +26,7 @@
 	            <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsAbsence.approuverModif)">
 		            <panel id="abs" height="120px" title="Absences à approuver" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
 		                <panelchildren>
-			                <a onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content)">
+			                <a onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content, param='aApprouver')">
 								<label zclass="panelPortail"
 									value="@bind(vm.nombreAbsenceAApprouver)" />
 							</a>
@@ -37,7 +37,7 @@
 	            <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsAbsence.viserModif)">
 		            <panel id="absViser" height="120px" title="Absences à viser" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
 		                <panelchildren>
-			                <a onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content)">
+			                <a onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content, param='aViser')">
 								<label zclass="panelPortail"
 									value="@bind(vm.nombreAbsenceAViser)" />
 							</a>
@@ -48,7 +48,7 @@
 		        <portalchildren style="padding: 5px" width="25%" visible="@bind(vm.droitsPointage.approbation)">
 		            <panel id="ptg" height="120px" title="Pointages à approuver" border="normal" collapsible="true" closable="true" maximizable="true" style="margin-bottom:10px">
 		                <panelchildren>
-			                <a onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content)">
+			                <a onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content, param='aApprouver')">
 			                	<label zclass="panelPortail"
 									value="@bind(vm.nombrePointageAApprouver)" />
 							</a>

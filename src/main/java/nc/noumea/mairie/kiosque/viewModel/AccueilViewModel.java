@@ -256,10 +256,12 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	}
 	
 	@Command
-	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
+	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div, @BindingParam("param") String param) {
 		div.getChildren().clear();
-		Map<String, Div> args = new HashMap<String, Div>();
+		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("div", div);
+		args.put("param", param);
+		
 		Executions.createComponents(page + ".zul", div, args);
 	}
 	

@@ -27,6 +27,7 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,9 +98,11 @@ public class DemandesViewModel {
 	private ProfilAgentDto currentUser;
 
 	private AccessRightsAbsDto droitsAbsence;
+	
+	private List<RefEtatAbsenceDto> listeEtatsSelectionnes;
 
 	@Init
-	public void initDemandes() {
+	public void initDemandes(@BindingParam("aApprouver") Boolean aApprouver) {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
@@ -121,6 +124,16 @@ public class DemandesViewModel {
 		// on recupere les droits
 		AccessRightsAbsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
 		setDroitsAbsence(droitsAbsence);
+		
+		// #15024 en provenance des portlets d accueil
+		String param = (String) Executions.getCurrent().getArg().get("param");
+		if(null != param
+				&& "aApprouver".equals(param)) {
+			setListeEtatsSelectionnes(Arrays.asList(getListeEtatAbsenceFiltre().get(1), getListeEtatAbsenceFiltre().get(2), getListeEtatAbsenceFiltre().get(3)));
+		}else if(null != param
+				&& "aViser".equals(param)) {
+			setListeEtatsSelectionnes(Arrays.asList(getListeEtatAbsenceFiltre().get(1)));
+		}
 	}
 
 	@Command
@@ -211,12 +224,12 @@ public class DemandesViewModel {
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void filtrer(@BindingParam("ref") Chosenbox boxEtat) {
+		
 		List<Integer> etats = new ArrayList<Integer>();
-		if (boxEtat != null) {
-			for (Object etat : boxEtat.getSelectedObjects()) {
-				etats.add(((RefEtatAbsenceDto) etat).getIdRefEtat());
-			}
+		for (RefEtatAbsenceDto etat : getListeEtatsSelectionnes()) {
+			etats.add(etat.getIdRefEtat());
 		}
+		
 		List<DemandeDto> result = absWsConsumer.getListeDemandes(currentUser.getAgent().getIdAgent(), getTabCourant()
 				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), etats.size() == 0 ? null
 				: etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
@@ -474,6 +487,8 @@ public class DemandesViewModel {
 		// on recharge les états d'absences pour les filtres
 		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(getTabCourant().getId());
 		setListeEtatAbsenceFiltre(filtreEtat);
+		
+		setListeEtatsSelectionnes(new ArrayList<RefEtatAbsenceDto>());
 	}
 
 	@Command
@@ -722,6 +737,18 @@ public class DemandesViewModel {
 
 	public void setDroitsAbsence(AccessRightsAbsDto droitsAbsence) {
 		this.droitsAbsence = droitsAbsence;
+	}
+
+	public List<RefEtatAbsenceDto> getListeEtatsSelectionnes() {
+		if(null == listeEtatsSelectionnes) {
+			return new ArrayList<RefEtatAbsenceDto>();
+		}
+		return listeEtatsSelectionnes;
+	}
+
+	public void setListeEtatsSelectionnes(
+			List<RefEtatAbsenceDto> listeEtatsSelectionnes) {
+		this.listeEtatsSelectionnes = listeEtatsSelectionnes;
 	}
 
 }

@@ -49,6 +49,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
+import org.joda.time.DateTime;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -133,6 +134,17 @@ public class GestionPointagesViewModel {
 		setListeTypeHSupFiltre(listeTypeHS);
 		// on initialise la taille du tableau
 		setTailleListe("10");
+		
+		// #15024 en provenance des portlets d accueil
+		String param = (String) Executions.getCurrent().getArg().get("param");
+		if(null != param
+				&& "aApprouver".equals(param)) {
+			setServiceFiltre(tousLesServices);
+			setDateDebutFiltre(new DateTime().minusMonths(3).toDate());
+			setDateFinFiltre(new DateTime().plusMonths(2).toDate());
+			setEtatPointageFiltre(getListeEtatPointageFiltre().get(0));
+			filtrer();
+		}
 	}
 
 	public List<ConsultPointageDto> getHistoriquePointage(ConsultPointageDto ptg) {
