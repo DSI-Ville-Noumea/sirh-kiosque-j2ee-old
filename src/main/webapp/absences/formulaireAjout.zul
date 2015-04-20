@@ -12,7 +12,7 @@
 					</hlayout>
 					<hlayout>
 						<combobox width="400px"
-							value="@bind(vm.organisationsSyndicaleCourant)" readonly="true"
+							value="@bind(vm.organisationsSyndicaleCourant.sigle)" readonly="true"
 							model="@bind(vm.listeOrganisationsSyndicale)"
 							selectedItem="@bind(vm.organisationsSyndicaleCourant)">
 							<template name="model">
