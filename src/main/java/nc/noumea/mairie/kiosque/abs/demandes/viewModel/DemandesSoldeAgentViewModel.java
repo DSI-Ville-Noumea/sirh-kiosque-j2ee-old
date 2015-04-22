@@ -118,7 +118,13 @@ public class DemandesSoldeAgentViewModel {
 		if(null != listAgents
 				&& !listAgents.isEmpty()) {
 			for(ApprobateurDto agent : listAgents) {
-				result += agent.getApprobateur().getNom() + " " + agent.getApprobateur().getPrenom() + " \n";
+				result += agent.getApprobateur().getNom() + " " + agent.getApprobateur().getPrenom();
+				if(null != agent.getDelegataire()
+						&& null != agent.getDelegataire().getNom()
+						&& !"".equals(agent.getDelegataire().getNom().trim())) {
+					result += " (Délégataire : " + agent.getDelegataire().getNom() + " " + agent.getDelegataire().getPrenom() + ")";
+				}
+				result += "\n";
 			}
 		}else{
 			result = "Aucun";
