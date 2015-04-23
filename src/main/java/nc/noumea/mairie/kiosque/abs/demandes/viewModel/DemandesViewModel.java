@@ -203,7 +203,7 @@ public class DemandesViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeDemandes", "listeEtatAbsenceFiltre" })
+	@NotifyChange({ "listeDemandes", "listeEtatAbsenceFiltre","listeEtatsSelectionnes" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
 		setListeDemandes(null);
 		// on recharge les états d'absences pour les filtres
@@ -211,6 +211,7 @@ public class DemandesViewModel {
 		setListeEtatAbsenceFiltre(filtreEtat);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
+		setListeEtatsSelectionnes(null);
 		filtrer(null);
 	}
 

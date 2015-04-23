@@ -46,7 +46,8 @@
 			</combobox>
 
 			<label value="Etats :" />
-			<chosenbox width="100px" id="boxEtatMultiple"
+			<chosenbox width="150px" id="boxEtatMultiple"
+				selectedObjects="@bind(vm.listeEtatsSelectionnes)"
 				model="@bind(vm.listeEtatAbsenceFiltre)">
 				<template name="model">
 					<label value="@bind(each.libelle)" />
