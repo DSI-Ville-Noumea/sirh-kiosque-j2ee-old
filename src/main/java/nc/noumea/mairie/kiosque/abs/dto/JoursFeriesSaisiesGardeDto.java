@@ -25,30 +25,33 @@ package nc.noumea.mairie.kiosque.abs.dto;
  */
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-public class AgentJoursFeriesReposDto {
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
-	private AgentDto agent;
-	private List<JoursFeriesSaisiesReposDto> joursFeriesEnRepos;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+public class JoursFeriesSaisiesGardeDto {
+
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date jourFerie;
+	private boolean check;
 	
-	public AgentJoursFeriesReposDto() {
-		this.joursFeriesEnRepos = new ArrayList<JoursFeriesSaisiesReposDto>();
+	public Date getJourFerie() {
+		return jourFerie;
+	}
+	public void setJourFerie(Date jourFerie) {
+		this.jourFerie = jourFerie;
+	}
+	public boolean isCheck() {
+		return check;
+	}
+	public void setCheck(boolean check) {
+		this.check = check;
 	}
 	
-	public AgentDto getAgent() {
-		return agent;
-	}
-	public void setAgent(AgentDto agent) {
-		this.agent = agent;
-	}
-	public List<JoursFeriesSaisiesReposDto> getJoursFeriesEnRepos() {
-		return joursFeriesEnRepos;
-	}
-	public void setJoursFeriesEnRepos(
-			List<JoursFeriesSaisiesReposDto> joursFeriesEnRepos) {
-		this.joursFeriesEnRepos = joursFeriesEnRepos;
-	}
 	
 }

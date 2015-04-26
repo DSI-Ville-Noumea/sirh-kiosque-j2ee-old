@@ -24,34 +24,26 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
+import java.util.List;
 
-import java.util.Date;
+public class SaisieGardeDto {
 
-import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
-import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+	private List<AgentJoursFeriesGardeDto> listAgentAvecGarde;
+	private List<JourDto> joursFerieHeader;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-public class JoursFeriesSaisiesReposDto {
-
-	@JsonSerialize(using = JsonDateSerializer.class)
-	@JsonDeserialize(using = JsonDateDeserializer.class)
-	private Date jourFerie;
-	private boolean check;
-	
-	public Date getJourFerie() {
-		return jourFerie;
+	public List<AgentJoursFeriesGardeDto> getListAgentAvecGarde() {
+		return listAgentAvecGarde;
 	}
-	public void setJourFerie(Date jourFerie) {
-		this.jourFerie = jourFerie;
+
+	public void setListAgentAvecGarde(List<AgentJoursFeriesGardeDto> listAgentAvecGarde) {
+		this.listAgentAvecGarde = listAgentAvecGarde;
 	}
-	public boolean isCheck() {
-		return check;
+
+	public List<JourDto> getJoursFerieHeader() {
+		return joursFerieHeader;
 	}
-	public void setCheck(boolean check) {
-		this.check = check;
+
+	public void setJoursFerieHeader(List<JourDto> joursFerieHeader) {
+		this.joursFerieHeader = joursFerieHeader;
 	}
-	
-	
 }

@@ -273,11 +273,11 @@
 
 			<separator />
 
-			<div visible="@bind(vm.droitsAbsence.saisieRepos)"
+			<div visible="@bind(vm.droitsAbsence.saisieGarde)"
 				style="width:100%;">
 				<vlayout>
 					<label style="font-size: 18px;color: #004f9f;"
-						value="Gestion des repos" />
+						value="Gestion des gardes sur les jours fériés/chômés" />
 				</vlayout>
 
 				<separator />
@@ -287,7 +287,7 @@
 				<hlayout>
 					<label value="Mois :" />
 					<combobox width="200px"
-						onSelect="@command('chargeListSaisieRepos')"
+						onSelect="@command('chargeListSaisieGarde')"
 						model="@bind(vm.listeMoisFiltre)" readonly="true"
 						selectedItem="@bind(vm.moisFiltre)">
 						<template name="model">
@@ -301,15 +301,15 @@
 				<separator />
 
 				<div
-					visible="@bind(empty vm.saisieRepos.joursFerieHeader and not empty vm.moisFiltre)"
+					visible="@bind(empty vm.saisieGarde.joursFerieHeader and not empty vm.moisFiltre)"
 					align="center" style="width:100%;text-align:center;">
 					<label value="Aucun jour férié / chomé sur ce mois"
 						style="font-weight:bold;" />
 				</div>
 				<div
-					visible="@bind(not empty vm.saisieRepos.joursFerieHeader)">
+					visible="@bind(not empty vm.saisieGarde.joursFerieHeader)">
 					<listbox
-						model="@bind(vm.saisieRepos.listAgentAvecRepos)"
+						model="@bind(vm.saisieGarde.listAgentAvecGarde)"
 						emptyMessage="Aucun élément"
 						style="width:20%;float:left;margin-top:35px;">
 						<template name="model">
@@ -326,11 +326,11 @@
 						</template>
 					</listbox>
 
-					<listbox id="saisieDateReposHeader"
-						visible="@bind(not empty vm.saisieRepos.joursFerieHeader)"
+					<listbox id="saisieDateGardeHeader"
+						visible="@bind(not empty vm.saisieGarde.joursFerieHeader)"
 						model="@bind(vm.listVide)" style="width:70%;float:left;">
 						<listhead
-							children="@bind(vm.saisieRepos.joursFerieHeader)">
+							children="@bind(vm.saisieGarde.joursFerieHeader)">
 							<template name="children">
 								<listheader
 									label="@bind(each.jour) @converter('formatedDate',format='EEEE dd/MM/yyyy')"
@@ -339,19 +339,19 @@
 						</listhead>
 					</listbox>
 
-					<listbox id="saisieDateRepos"
-						visible="@bind(not empty vm.saisieRepos)"
-						model="@bind(vm.saisieRepos.listAgentAvecRepos)" focus="false"
+					<listbox id="saisieDateGarde"
+						visible="@bind(not empty vm.saisieGarde)"
+						model="@bind(vm.saisieGarde.listAgentAvecGarde)" focus="false"
 						emptyMessage="Aucun agent" style="width:70%; float: left;">
 
-						<template name="model" var="lineReposAgent">
+						<template name="model" var="lineGardeAgent">
 							<listitem
-								children="@bind(lineReposAgent.joursFeriesEnRepos)">
+								children="@bind(lineGardeAgent.joursFeriesEnGarde)">
 								<template name="children"
-									var="cellReposAgent">
+									var="cellGardeAgent">
 									<listcell>
 										<checkbox
-											checked="@bind(cellReposAgent.check)" label="En repos" />
+											checked="@bind(cellGardeAgent.check)" label="De garde" />
 									</listcell>
 								</template>
 							</listitem>
@@ -364,9 +364,9 @@
 						<div style="display:inline-block;float:left;"
 							align="right">
 							<button label="Valider"
-								onClick="@command('saveSaisieRepos')" />
+								onClick="@command('saveSaisieGarde')" />
 							<button label="Annuler"
-								onClick="@command('chargeListSaisieRepos')" />
+								onClick="@command('chargeListSaisieGarde')" />
 						</div>
 					</div>
 				</div>

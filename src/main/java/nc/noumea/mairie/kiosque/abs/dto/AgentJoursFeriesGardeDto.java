@@ -24,25 +24,32 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
-
+import java.util.ArrayList;
 import java.util.List;
 
-public class SaisieReposDto {
-	
-	private List<AgentJoursFeriesReposDto> listAgentAvecRepos;
-	private List<JourDto> joursFerieHeader;
-	
-	public List<AgentJoursFeriesReposDto> getListAgentAvecRepos() {
-		return listAgentAvecRepos;
+public class AgentJoursFeriesGardeDto {
+
+	private AgentDto agent;
+	private List<JoursFeriesSaisiesGardeDto> joursFeriesEnGarde;
+
+	public AgentJoursFeriesGardeDto() {
+		this.joursFeriesEnGarde = new ArrayList<JoursFeriesSaisiesGardeDto>();
 	}
-	public void setListAgentAvecRepos(
-			List<AgentJoursFeriesReposDto> listAgentAvecRepos) {
-		this.listAgentAvecRepos = listAgentAvecRepos;
+
+	public AgentDto getAgent() {
+		return agent;
 	}
-	public List<JourDto> getJoursFerieHeader() {
-		return joursFerieHeader;
+
+	public void setAgent(AgentDto agent) {
+		this.agent = agent;
 	}
-	public void setJoursFerieHeader(List<JourDto> joursFerieHeader) {
-		this.joursFerieHeader = joursFerieHeader;
+
+	public List<JoursFeriesSaisiesGardeDto> getJoursFeriesEnGarde() {
+		return joursFeriesEnGarde;
 	}
+
+	public void setJoursFeriesEnGarde(List<JoursFeriesSaisiesGardeDto> joursFeriesEnGarde) {
+		this.joursFeriesEnGarde = joursFeriesEnGarde;
+	}
+
 }

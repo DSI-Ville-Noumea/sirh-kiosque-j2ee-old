@@ -36,7 +36,7 @@ import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
-import nc.noumea.mairie.kiosque.abs.dto.SaisieReposDto;
+import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -101,7 +101,7 @@ public class CompteursViewModel {
 
 	private AccessRightsAbsDto droitsAbsence;
 
-	private SaisieReposDto saisieRepos;
+	private SaisieGardeDto saisieGarde;
 
 	List<String> listVide = new ArrayList<String>();
 
@@ -128,7 +128,7 @@ public class CompteursViewModel {
 		// on recupere les droits afin d afficher ou non la saisie des jours de
 		// repos
 		setDroitsAbsence(absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent()));
-		if (getDroitsAbsence().isSaisieRepos()) {
+		if (getDroitsAbsence().isSaisieGarde()) {
 			List<Date> listeDate = new ArrayList<Date>();
 			listeDate.add(getFirstDayOfCurrentMonth().toDate());
 			listeDate.add(getFirstDayOfCurrentMonth().plusMonths(1).toDate());
@@ -138,38 +138,38 @@ public class CompteursViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "saisieRepos" })
-	public void chargeListSaisieRepos() {
+	@NotifyChange({ "saisieGarde" })
+	public void chargeListSaisieGarde() {
 
 		Date dateDebutMois = getMoisFiltre();
 		DateTime dateFin = new DateTime(getMoisFiltre());
 		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
 
-		if (getDroitsAbsence().isSaisieRepos()) {
-			setSaisieRepos(absWsConsumer.getListAgentsWithJoursFeriesEnRepos(currentUser.getAgent().getIdAgent(), "",
+		if (getDroitsAbsence().isSaisieGarde()) {
+			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(currentUser.getAgent().getIdAgent(), "",
 					dateDebutMois, dateFinMois));
 		}
 	}
 
 	@Command
-	@NotifyChange({ "saisieRepos" })
-	public void saveSaisieRepos() {
+	@NotifyChange({ "saisieGarde" })
+	public void saveSaisieGarde() {
 		Date dateDebutMois = getMoisFiltre();
 		DateTime dateFin = new DateTime(getMoisFiltre());
 		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
 
-		if (getDroitsAbsence().isSaisieRepos()) {
-			ReturnMessageDto result = absWsConsumer.setListAgentsWithJoursFeriesEnRepos(currentUser.getAgent()
-					.getIdAgent(), dateDebutMois, dateFinMois, getSaisieRepos().getListAgentAvecRepos());
+		if (getDroitsAbsence().isSaisieGarde()) {
+			ReturnMessageDto result = absWsConsumer.setListAgentsWithJoursFeriesEnGarde(currentUser.getAgent()
+					.getIdAgent(), dateDebutMois, dateFinMois, getSaisieGarde().getListAgentAvecGarde());
 
-			setSaisieRepos(absWsConsumer.getListAgentsWithJoursFeriesEnRepos(currentUser.getAgent().getIdAgent(), "",
+			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(currentUser.getAgent().getIdAgent(), "",
 					dateDebutMois, dateFinMois));
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 			if (result.getErrors().size() == 0)
-				result.getInfos().add("Les jours de repos des agents ont été enregistrés correctement.");
+				result.getInfos().add("Les jours de garde des agents ont été enregistrés correctement.");
 			for (String error : result.getErrors()) {
 				ValidationMessage vm = new ValidationMessage(error);
 				listErreur.add(vm);
@@ -671,12 +671,12 @@ public class CompteursViewModel {
 		this.droitsAbsence = droitsAbsence;
 	}
 
-	public SaisieReposDto getSaisieRepos() {
-		return saisieRepos;
+	public SaisieGardeDto getSaisieGarde() {
+		return saisieGarde;
 	}
 
-	public void setSaisieRepos(SaisieReposDto saisieRepos) {
-		this.saisieRepos = saisieRepos;
+	public void setSaisieGarde(SaisieGardeDto saisieGarde) {
+		this.saisieGarde = saisieGarde;
 	}
 
 	public List<Date> getListeMoisFiltre() {

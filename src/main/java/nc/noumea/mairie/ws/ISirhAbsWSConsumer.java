@@ -29,7 +29,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
-import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesReposDto;
+import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
@@ -42,7 +42,7 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.SaisieReposDto;
+import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
@@ -130,11 +130,11 @@ public interface ISirhAbsWSConsumer {
 	// pour les motifs de refus en auto complétion
 	List<MotifRefusDto> getListeMotifsRefus();
 
-	/* SAISIES JOURS DE REPOS */
-	SaisieReposDto getListAgentsWithJoursFeriesEnRepos(Integer idAgent, String codeService, Date dateDebut, Date dateFin);
+	/* SAISIES JOURS DE GARDE */
+	SaisieGardeDto getListAgentsWithJoursFeriesEnGarde(Integer idAgent, String codeService, Date dateDebut, Date dateFin);
 
-	ReturnMessageDto setListAgentsWithJoursFeriesEnRepos(Integer idAgent, Date dateDebut, Date dateFin,
-			List<AgentJoursFeriesReposDto> listDto);
+	ReturnMessageDto setListAgentsWithJoursFeriesEnGarde(Integer idAgent, Date dateDebut, Date dateFin,
+			List<AgentJoursFeriesGardeDto> listDto);
 
 	String countDemandesAApprouver(Integer idAgent);
 

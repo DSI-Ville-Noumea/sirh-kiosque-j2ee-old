@@ -31,7 +31,7 @@ import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
-import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesReposDto;
+import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
@@ -44,7 +44,7 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.SaisieReposDto;
+import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
@@ -109,8 +109,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhsaveCompteurReposCompUrl = "reposcomps/addManual";
 
 	/* saisies jours repos */
-	private static final String sirhGetListAgentsWithJoursFeriesEnReposUrl = "joursFeriesRepos/getListAgentsWithJoursFeriesEnRepos";
-	private static final String sirhSetListAgentsWithJoursFeriesEnReposUrl = "joursFeriesRepos/setListAgentsWithJoursFeriesEnRepos";
+	private static final String sirhGetListAgentsWithJoursFeriesEnGardeUrl = "joursFeriesGarde/getListAgentsWithJoursFeriesEnGarde";
+	private static final String sirhSetListAgentsWithJoursFeriesEnGardeUrl = "joursFeriesGarde/setListAgentsWithJoursFeriesEnGarde";
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
@@ -501,10 +501,10 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public SaisieReposDto getListAgentsWithJoursFeriesEnRepos(Integer idAgent, String codeService, Date dateDebut,
+	public SaisieGardeDto getListAgentsWithJoursFeriesEnGarde(Integer idAgent, String codeService, Date dateDebut,
 			Date dateFin) {
 
-		String url = String.format(sirhAbsWsBaseUrl + sirhGetListAgentsWithJoursFeriesEnReposUrl);
+		String url = String.format(sirhAbsWsBaseUrl + sirhGetListAgentsWithJoursFeriesEnGardeUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("dateDebut", sdf.format(dateDebut));
@@ -512,14 +512,14 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		params.put("codeService", codeService);
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponse(SaisieReposDto.class, res, url);
+		return readResponse(SaisieGardeDto.class, res, url);
 	}
 
 	@Override
-	public ReturnMessageDto setListAgentsWithJoursFeriesEnRepos(Integer idAgent, Date dateDebut, Date dateFin,
-			List<AgentJoursFeriesReposDto> listDto) {
+	public ReturnMessageDto setListAgentsWithJoursFeriesEnGarde(Integer idAgent, Date dateDebut, Date dateFin,
+			List<AgentJoursFeriesGardeDto> listDto) {
 
-		String url = String.format(sirhAbsWsBaseUrl + sirhSetListAgentsWithJoursFeriesEnReposUrl);
+		String url = String.format(sirhAbsWsBaseUrl + sirhSetListAgentsWithJoursFeriesEnGardeUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("dateDebut", sdf.format(dateDebut));
