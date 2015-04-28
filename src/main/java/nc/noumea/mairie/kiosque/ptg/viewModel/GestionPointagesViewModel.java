@@ -112,7 +112,7 @@ public class GestionPointagesViewModel {
 		setDroitsPointage(droitsPointage);
 		// on charge les service pour les filtres
 		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
-		
+
 		ServiceDto tousLesServices = new ServiceDto();
 		tousLesServices.setCodeService("TousLesServices");
 		tousLesServices.setService(" Tous les services");
@@ -134,11 +134,10 @@ public class GestionPointagesViewModel {
 		setListeTypeHSupFiltre(listeTypeHS);
 		// on initialise la taille du tableau
 		setTailleListe("10");
-		
+
 		// #15024 en provenance des portlets d accueil
 		String param = (String) Executions.getCurrent().getArg().get("param");
-		if(null != param
-				&& "aApprouver".equals(param)) {
+		if (null != param && "aApprouver".equals(param)) {
 			setServiceFiltre(tousLesServices);
 			setDateDebutFiltre(new DateTime().minusMonths(3).toDate());
 			setDateFinFiltre(new DateTime().plusMonths(2).toDate());
@@ -269,7 +268,7 @@ public class GestionPointagesViewModel {
 	private void doChangeEtat(List<ConsultPointageDto> listePointages, EtatPointageEnum etatPointage) {
 		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
 		for (ConsultPointageDto ptg : listePointages) {
-			if(ptg.isApprobation()) {
+			if (ptg.isApprobation()) {
 				PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
 				dto.setIdPointage(ptg.getIdPointage());
 				dto.setIdRefEtat(etatPointage.getCodeEtat());
@@ -290,19 +289,24 @@ public class GestionPointagesViewModel {
 			filtrer();
 			BindUtils.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
 		} else {
+			// #15281
+			Integer nbPtg = 0;
+			for (ConsultPointageDto dto : getListePointages()) {
+				if (dto.isApprobation())
+					nbPtg ++;
+			}
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous accepter les " + getListePointages().size() + " pointage(s) ?",
-					"Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
-						@Override
-						public void onEvent(Event evt) throws InterruptedException {
-							if (evt.getName().equals("onOK")) {
-								doChangeEtat(getListePointages(), EtatPointageEnum.APPROUVE);
-								filtrer();
-								BindUtils
-										.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
-							}
-						}
-					});
+			Messagebox.show("Voulez-vous accepter les " + nbPtg + " pointage(s) ?", "Confirmation", Messagebox.CANCEL
+					| Messagebox.OK, "", new EventListener() {
+				@Override
+				public void onEvent(Event evt) throws InterruptedException {
+					if (evt.getName().equals("onOK")) {
+						doChangeEtat(getListePointages(), EtatPointageEnum.APPROUVE);
+						filtrer();
+						BindUtils.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
+					}
+				}
+			});
 		}
 	}
 
@@ -317,8 +321,14 @@ public class GestionPointagesViewModel {
 			filtrer();
 			BindUtils.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
 		} else {
+			// #15281
+			Integer nbPtg = 0;
+			for (ConsultPointageDto dto : getListePointages()) {
+				if (dto.isApprobation())
+					nbPtg ++;
+			}
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous refuser les " + getListePointages().size() + " pointage(s) ?", "Confirmation",
+			Messagebox.show("Voulez-vous refuser les " + nbPtg + " pointage(s) ?", "Confirmation",
 					Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
 						@Override
 						public void onEvent(Event evt) throws InterruptedException {
@@ -345,8 +355,14 @@ public class GestionPointagesViewModel {
 			filtrer();
 			BindUtils.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
 		} else {
+			// #15281
+			Integer nbPtg = 0;
+			for (ConsultPointageDto dto : getListePointages()) {
+				if (dto.isApprobation())
+					nbPtg ++;
+			}
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous re-mettre en saisie les " + getListePointages().size() + " pointage(s) ?",
+			Messagebox.show("Voulez-vous re-mettre en saisie les " + nbPtg + " pointage(s) ?",
 					"Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
 						@Override
 						public void onEvent(Event evt) throws InterruptedException {
@@ -437,7 +453,7 @@ public class GestionPointagesViewModel {
 	}
 
 	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
-		if(null != listeServicesFiltre) {
+		if (null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
@@ -504,7 +520,7 @@ public class GestionPointagesViewModel {
 	}
 
 	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
-		if(null != listeAgentsFiltre) {
+		if (null != listeAgentsFiltre) {
 			Collections.sort(listeAgentsFiltre);
 		}
 		this.listeAgentsFiltre = listeAgentsFiltre;
