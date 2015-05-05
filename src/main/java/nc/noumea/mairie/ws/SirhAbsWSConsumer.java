@@ -89,7 +89,6 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhListeMotifsRefusUrl = "motif/getListeMotif";
 	private static final String sirhHistoriqueAbsenceUrl = "demandes/historique";
 	private static final String sirhDureeCongeAnnuelUrl = "demandes/dureeDemandeCongeAnnuel";
-	private static final String sirhcountDemandesAApprouverUrl = "demandes/countDemandesAApprouver";
 	private static final String sirhcountDemandesAViserUrl = "demandes/countDemandesAViser";
 	private static final String sirhDemandeUrl = "demandes/demande";
 
@@ -530,16 +529,6 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
-	}
-
-	@Override
-	public String countDemandesAApprouver(Integer idAgent) {
-		String url = String.format(sirhAbsWsBaseUrl + sirhcountDemandesAApprouverUrl);
-		HashMap<String, String> params = new HashMap<>();
-		params.put("idAgent", idAgent.toString());
-
-		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponseAsString(res, url);
 	}
 
 	@Override

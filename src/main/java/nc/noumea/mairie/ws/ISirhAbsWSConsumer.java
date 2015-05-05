@@ -136,10 +136,6 @@ public interface ISirhAbsWSConsumer {
 	ReturnMessageDto setListAgentsWithJoursFeriesEnGarde(Integer idAgent, Date dateDebut, Date dateFin,
 			List<AgentJoursFeriesGardeDto> listDto);
 
-	String countDemandesAApprouver(Integer idAgent);
-
-	String countDemandesAViser(Integer idAgent);
-
 	ActeursDto getListeActeurs(Integer idAgent);
 
 	DemandeDto getDemande(Integer idAgent, Integer idDemande);
