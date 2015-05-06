@@ -17,8 +17,8 @@
 			<separator />
 			<hlayout>
 				<label value="@bind(vm.dateFiltre)" />
-				<datebox value="@bind(vm.dateLundi)" id="db" maxlength="10"
-					weekOfYear="true" format="dd/MM/yyyy" locale="fr"
+				<datebox value="@bind(vm.dateLundi)" id="db"
+					maxlength="10" weekOfYear="true" format="dd/MM/yyyy" locale="fr"
 					onChange="@command('afficheListeFiche')" />
 				<space />
 				<label value="Service :" />
@@ -64,8 +64,10 @@
 							sort="auto('idAgent')" />
 						<listheader label="Agent" sort="auto('nom')" />
 						<listheader>
-							<checkbox
-								visible="@bind(not empty vm.listeAgents)"
+							<!-- 							<checkbox -->
+							<!-- 								visible="@bind(not empty vm.listeAgents)" -->
+							<!-- 								onClick="@command('checkAllImpressionFiche', checkbox=self)" /> -->
+							<checkbox visible="false"
 								onClick="@command('checkAllImpressionFiche', checkbox=self)" />
 							<label value="A éditer"
 								style="font-weight: bold;" />
@@ -92,7 +94,8 @@
 			<separator />
 			<div>
 				<div align="left">
-					<button label="Editer" visible="@bind(not empty vm.listeAgents)"
+					<button label="Editer"
+						visible="@bind(not empty vm.listeAgents)"
 						onClick="@command('imprimerFiches')" />
 				</div>
 			</div>
