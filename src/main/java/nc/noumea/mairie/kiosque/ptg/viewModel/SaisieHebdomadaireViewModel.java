@@ -845,7 +845,6 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 						if(nbHeures(prime.getTypeSaisie())
 								&& null != prime.getQuantite()
 								&& 0 != prime.getQuantite()) {
-							Integer quantite = 0;
 							String heureDebut = "";
 							String minuteDebut = "";
 							
@@ -1110,7 +1109,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		}
 		if (getSaisiePointageForm() != null) {
 			for (int i = 0; i < getFicheCourante().getSaisies().size(); i++) {
-				for (PrimeDtoKiosque dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
+				int jour = 0;
+				for (PrimeDtoKiosque dto : getFicheCourante().getSaisies().get(jour).getPrimes()) {
 					if (getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString()) != null) {
 						int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
 								.indexOf(prime);
@@ -1118,6 +1118,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 							return false;
 						}
 					}
+					jour++;
 				}
 			}
 		}
@@ -1131,7 +1132,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		}
 
 		for (int i = 0; i < getSaisiePointageForm().getMapAllPrime().size(); i++) {
-			for (PrimeDtoKiosque dto : getFicheCourante().getSaisies().get(i).getPrimes()) {
+			int jour = 0;
+			for (PrimeDtoKiosque dto : getFicheCourante().getSaisies().get(jour).getPrimes()) {
 				if (getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString()) != null) {
 					int indexPart2 = getSaisiePointageForm().getMapAllPrime().get(dto.getNumRubrique().toString())
 							.indexOf(prime);
@@ -1140,6 +1142,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 						return false;
 					}
 				}
+				jour++;
 			}
 		}
 		return true;
