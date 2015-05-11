@@ -113,6 +113,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	private List<String> listeHeures;
 	private List<String> listeMinutes;
+	
+	private boolean checkCoche;
 
 	@Init
 	public void initSaisieFichePointage(@ExecutionArgParam("pointage") ConsultPointageDto pointage)
@@ -703,6 +705,10 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	public boolean checkCoche(Integer quantite) {
+		return quantite != null && quantite != 0;
+	}
+
+	public boolean isCheckCoche(Integer quantite) {
 		return quantite != null && quantite != 0;
 	}
 
@@ -1408,6 +1414,14 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	public void setListeMinutes(List<String> listeMinutes) {
 		this.listeMinutes = listeMinutes;
+	}
+
+	public boolean isCheckCoche() {
+		return checkCoche;
+	}
+
+	public void setCheckCoche(boolean checkCoche) {
+		this.checkCoche = checkCoche;
 	}
 
 }
