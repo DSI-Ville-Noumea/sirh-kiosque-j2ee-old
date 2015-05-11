@@ -85,13 +85,6 @@
 		override="false" />
 
 	<!-- -->
-	<!-- PARAMETRE TEMPORAIRE POUR GERER PROD/RECETTE pour l'affichage du texte d'accueils -->
-	<!-- -->
-	<Environment name="TYPE_ENV" type="java.lang.String"
-		description="Environnement de l'application (RECETTE ou PROD)" value="RECETTE"
-		override="false" />
-
-	<!-- -->
 	<!-- Paramètres Sharepoint -->
 	<!-- -->
 	<Environment name="SHAREPOINT_BASE_URL" type="java.lang.String"

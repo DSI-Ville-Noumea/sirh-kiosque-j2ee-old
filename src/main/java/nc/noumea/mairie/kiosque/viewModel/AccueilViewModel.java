@@ -33,7 +33,6 @@ import java.util.Map;
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
-import nc.noumea.mairie.kiosque.authentification.IAccueilService;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
@@ -74,9 +73,6 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	private ISirhWSConsumer sirhWsConsumer;
 
 	@WireVariable
-	private IAccueilService accueilService;
-
-	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
 	@WireVariable
@@ -93,8 +89,6 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	private List<AccueilRhDto> listeTexteAccueil;
 
 	private ReferentRhDto refrentRh;
-
-	private boolean isRecette;
 
 	private String nombreAbsenceAApprouver = "";
 
@@ -154,12 +148,6 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		// refrent Rh de l'agent
 		ReferentRhDto referent = sirhWsConsumer.getReferentRH(currentUser.getAgent().getIdAgent());
 		setRefrentRh(referent);
-
-		if (accueilService.getEnvironnement().equals("RECETTE")) {
-			setRecette(true);
-		} else {
-			setRecette(false);
-		}
 
 		/* Pour les absences */
 		try {
@@ -332,16 +320,8 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		this.refrentRh = refrentRh;
 	}
 
-	public boolean isRecette() {
-		return isRecette;
-	}
-
 	public String getNombreAbsenceAApprouver() {
 		return nombreAbsenceAApprouver;
-	}
-
-	public void setRecette(boolean isRecette) {
-		this.isRecette = isRecette;
 	}
 
 	public void setNombreAbsenceAApprouver(String nombreAbsenceAApprouver) {
