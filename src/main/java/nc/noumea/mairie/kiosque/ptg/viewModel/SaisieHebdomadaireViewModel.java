@@ -325,8 +325,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChanged" })
-	public void enregistreFiche() {
+	@NotifyChange({ "*" })
+	public void enregistreFiche() throws ParseException {
 		setFicheCourante(transformFromSaisiePointageFormToFichePointageDto(getSaisiePointageForm()));
 		ReturnMessageDto result = isFormValid(getFicheCourante());
 		if (result.getErrors().size() > 0) {
@@ -364,6 +364,9 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			map.put("errors", listErreur);
 			map.put("infos", listInfo);
 			Executions.createComponents("/messages/returnMessage.zul", null, map);
+			
+			//#15508
+			chargeFichePointage();
 		}
 	}
 
@@ -541,20 +544,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 									if (evt.getName().equals("onOK")) {
 										setHasTextChanged(false);
 
-										if (null != getDateLundi() && null != getAgentFiltre()
-												&& null != getAgentFiltre().getIdAgent()) {
-											FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(
-													currentUser.getAgent().getIdAgent(), getLundi(getDateLundi()),
-													getAgentFiltre().getIdAgent());
-											setFicheCourante(result);
-
-											// minutes et heures
-											TimePicker timePicker = new TimePicker();
-											setListeMinutes(timePicker.getListeMinutesPointage());
-											setListeHeures(timePicker.getListeHeuresPointage());
-
-											setSaisiePointageForm(transformFromFichePointageDtoToSaisiePointageForm(getFicheCourante()));
-										}
+										chargeFichePointage();
 										BindUtils.postNotifyChange(null, null, SaisieHebdomadaireViewModel.this, "*");
 									}
 								}
@@ -562,18 +552,23 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		} else {
 			setHasTextChanged(false);
 
-			if (null != getDateLundi() && null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
-				FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent()
-						.getIdAgent(), getLundi(getDateLundi()), getAgentFiltre().getIdAgent());
-				setFicheCourante(result);
+			chargeFichePointage();
+		}
+	}
+	
+	// #15508
+	private void chargeFichePointage() {
+		if (null != getDateLundi() && null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
+			FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent()
+					.getIdAgent(), getLundi(getDateLundi()), getAgentFiltre().getIdAgent());
+			setFicheCourante(result);
 
-				// minutes et heures
-				TimePicker timePicker = new TimePicker();
-				setListeMinutes(timePicker.getListeMinutesPointage());
-				setListeHeures(timePicker.getListeHeuresPointage());
+			// minutes et heures
+			TimePicker timePicker = new TimePicker();
+			setListeMinutes(timePicker.getListeMinutesPointage());
+			setListeHeures(timePicker.getListeHeuresPointage());
 
-				setSaisiePointageForm(transformFromFichePointageDtoToSaisiePointageForm(getFicheCourante()));
-			}
+			setSaisiePointageForm(transformFromFichePointageDtoToSaisiePointageForm(getFicheCourante()));
 		}
 	}
 

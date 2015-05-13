@@ -102,7 +102,7 @@
 											<button
 												zclass="boutonRemove"
 												onClick="@command('deleteHSup',ref=cellHSup)"
-												visible="@bind(not empty cellHSup.idRefEtat)" />
+												visible="@bind(not empty cellHSup.idRefEtat and 0 eq cellHSup.idRefEtat)" />
 											<button
 												zclass="boutonDupliqueDroite"
 												onClick="@command('copieDroiteHSup',ref=cellHSup)"
