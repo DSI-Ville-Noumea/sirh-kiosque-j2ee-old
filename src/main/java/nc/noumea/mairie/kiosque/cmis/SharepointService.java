@@ -95,7 +95,7 @@ public class SharepointService implements ISharepointService {
 			String test = recupereEaeSharepointUTF(idAgent);
 			logger.debug("Test transformation xml : " + test);
 		} catch (Exception e) {
-
+			logger.debug("Erreur dans test UTF8");
 		}
 
 		// TODO penser a supprimer cette ligne lorsque l on abandonnera
