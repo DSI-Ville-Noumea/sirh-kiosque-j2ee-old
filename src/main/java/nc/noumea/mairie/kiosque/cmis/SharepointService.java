@@ -98,6 +98,7 @@ public class SharepointService implements ISharepointService {
 					.replace("è", "e");
 			logger.debug("DEBUG : Test xmlRecu apres transformation : " + test);
 			List<SharepointDto> dtoTest = transformeXmlEnListUrl(test);
+			logger.debug("DEBUG : DTO apres transformation : " + dtoTest.size());
 		} catch (Exception e) {
 			logger.debug("DEBUG : Erreur dans test UTF8" + e.getMessage());
 		}
