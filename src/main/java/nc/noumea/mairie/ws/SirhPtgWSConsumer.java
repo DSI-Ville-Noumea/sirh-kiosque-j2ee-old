@@ -85,6 +85,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	/* Impression des fiches */
 	private static final String ptgFichesPointagesUrl = "edition/listeFiches";
 	private static final String ptgPrintFichesPointagesUrl = "edition/downloadFichesPointage";
+	private static final String ptgPrintFichesPointagesTestUrl = "edition/test";
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	
@@ -360,6 +361,27 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		String url = String.format(sirhPtgWsBaseUrl + sirhPtgMotifHsup);
 		ClientResponse res = createAndFireGetRequest(new HashMap<String, String>(), url);
 		return readResponseAsList(MotifHeureSupDto.class, res, url);
+	}
+
+	@Override
+	public byte[] imprimerFichesTest(Integer idAgent, Date dateLundi, List<String> listeIdAgentsToPrint) {
+		String url = String.format(sirhPtgWsBaseUrl + ptgPrintFichesPointagesTestUrl);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String csvIdAgent = "";
+		for (String id : listeIdAgentsToPrint) {
+			csvIdAgent += id + ",";
+		}
+		if (!csvIdAgent.equals("")) {
+			csvIdAgent = csvIdAgent.substring(0, csvIdAgent.length() - 1);
+		}
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("date", sdf.format(dateLundi));
+		params.put("csvIdAgents", csvIdAgent);
+
+		ClientResponse res = createAndFireRequest(params, url, false, null);
+
+		return readResponseWithFile(res, url);
 	}
 
 }

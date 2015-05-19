@@ -24,7 +24,10 @@ package nc.noumea.mairie.kiosque.viewModel;
  * #L%
  */
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +65,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkmax.zul.Portallayout;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Panel;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -104,6 +108,8 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 	private boolean droitsEae;
 
+	private boolean testPointage;
+
 	@Wire
 	private Portallayout portalLayout;
 
@@ -142,6 +148,13 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	public void initAccueil() {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+		if (currentUser.getAgent().getIdAgent().toString().equals("9004445")
+				|| currentUser.getAgent().getIdAgent().toString().equals("9005210")) {
+			setTestPointage(true);
+		} else {
+			setTestPointage(false);
+		}
+
 		// message d'accueil
 		List<AccueilRhDto> listeTexte = sirhWsConsumer.getListeTexteAccueil();
 		setListeTexteAccueil(listeTexte);
@@ -374,6 +387,25 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 	public void setNombreAbsenceAViser(String nombreAbsenceAViser) {
 		this.nombreAbsenceAViser = nombreAbsenceAViser;
+	}
+
+	public boolean isTestPointage() {
+		return testPointage;
+	}
+
+	public void setTestPointage(boolean testPointage) {
+		this.testPointage = testPointage;
+	}
+
+	@Command
+	public void testFichePointage() throws ParseException {
+		// on fait appel au test des fiches pointage iText
+		// on imprime la/les demande(s)
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		byte[] resp = ptgWsConsumer.imprimerFichesTest(currentUser.getAgent().getIdAgent(), sdf.parse("11/05/2015"),
+				Arrays.asList("9005138","9003041"));
+		Filedownload.save(resp, "application/pdf", "fichesPointage");
+
 	}
 
 }

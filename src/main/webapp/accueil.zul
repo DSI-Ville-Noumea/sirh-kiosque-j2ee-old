@@ -109,6 +109,8 @@
 				<separator />
 			</div>
 		</div>
+		<button label="Test Fiche pointage" visible="@bind(vm.testPointage)"
+			onClick="@command('testFichePointage')" />
 		<include id="includeStyleSoldeAgent" src="/css/accueil.zul" />
 	</window>
 </zk>

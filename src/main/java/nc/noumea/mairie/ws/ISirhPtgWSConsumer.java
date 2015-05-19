@@ -73,6 +73,8 @@ public interface ISirhPtgWSConsumer {
 
 	byte[] imprimerFiches(Integer idAgent, Date dateLundi, List<String> listeIdAgentsToPrint);
 
+	byte[] imprimerFichesTest(Integer idAgent, Date dateLundi, List<String> listeIdAgentsToPrint);
+
 	/* GESTION POINTAGES */
 	List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate, String codeService,
 			Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS);
