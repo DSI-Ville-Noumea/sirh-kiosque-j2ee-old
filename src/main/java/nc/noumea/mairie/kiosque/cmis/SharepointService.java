@@ -91,17 +91,6 @@ public class SharepointService implements ISharepointService {
 	public List<SharepointDto> getAllEae(Integer idAgent) throws Exception {
 		logger.debug("DEBUG : Appel EAE pour agent " + idAgent);
 		String xml = recupereEaeSharepoint(idAgent);
-		try {
-			String test = recupereEaeSharepointUTF(idAgent);
-			logger.debug("DEBUG : Test transformation xml : " + test);
-			test = test.replace("?", "e").replace("Ã©", "e").replace("Ã¨", "e").replace("Ã‰", "e").replace("é", "e")
-					.replace("è", "e");
-			logger.debug("DEBUG : Test xmlRecu apres transformation : " + test);
-			List<SharepointDto> dtoTest = transformeXmlEnListUrl(test);
-			logger.debug("DEBUG : DTO apres transformation : " + dtoTest.size());
-		} catch (Exception e) {
-			logger.debug("DEBUG : Erreur dans test UTF8" + e.getMessage());
-		}
 
 		// TODO penser a supprimer cette ligne lorsque l on abandonnera
 		// sharepoint
@@ -249,52 +238,5 @@ public class SharepointService implements ISharepointService {
 	@Override
 	public String getUrlDocumentEAESharepoint() {
 		return sharepointBaseUrl + "kiosque-rh/_layouts/DocIdRedir.aspx?ID=";
-	}
-
-	private String recupereEaeSharepointUTF(Integer idAgent) throws Exception {
-		String urlRestSharepoint = "/kiosque-rh/_vti_bin/ListData.svc/EAE?$filter=MatriculeAgent+eq+'" + idAgent + "'";
-
-		HashMap<String, String> params = new HashMap<>();
-		params.put("userSharepoint", sharepointUser);
-		params.put("userPwdSharepoint", sharepointUserPwd);
-		params.put("domainSharepoint", sharepointDomain);
-		params.put("urlSharepoint", sharepointHost);
-		params.put("portSharepoint", sharepointPort);
-		params.put("urlSharepointComplete", urlRestSharepoint);
-
-		HttpResponse res = null;
-		try {
-			res = createAndFireRequest(params);
-		} catch (ClientProtocolException e) {
-			throw new WSConsumerException(e.getMessage(), e);
-		} catch (IOException e) {
-			throw new WSConsumerException(e.getMessage(), e);
-		}
-
-		return readResponseUTF(String.class, res, params.get("urlSharepointComplete"));
-	}
-
-	private <T> String readResponseUTF(Class<T> targetClass, HttpResponse response, String url) throws Exception {
-
-		if (response.getStatusLine().getStatusCode() == HttpStatus.NO_CONTENT.value()) {
-			return null;
-		}
-
-		if (response.getStatusLine().getStatusCode() != HttpStatus.OK.value()) {
-			throw new Exception(String.format("An error occured when querying '%s'. Return code is : %s", url, response
-					.getStatusLine().getStatusCode()));
-		}
-		String output = "";
-		String ligne;
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF8"));
-			while ((ligne = br.readLine()) != null) {
-				output += ligne;
-			}
-		} catch (IOException e) {
-
-		}
-
-		return output;
 	}
 }
