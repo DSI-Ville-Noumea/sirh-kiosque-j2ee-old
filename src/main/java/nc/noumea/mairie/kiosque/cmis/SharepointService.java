@@ -90,15 +90,16 @@ public class SharepointService implements ISharepointService {
 	@Override
 	public List<SharepointDto> getAllEae(Integer idAgent) throws Exception {
 		logger.debug("DEBUG : Appel EAE pour agent " + idAgent);
-		logger.error("ERROR : Appel EAE pour agent " + idAgent);
 		String xml = recupereEaeSharepoint(idAgent);
 		try {
 			String test = recupereEaeSharepointUTF(idAgent);
 			logger.debug("DEBUG : Test transformation xml : " + test);
-			logger.error("ERROR : Test transformation xml : " + test);
+			test = test.replace("?", "e").replace("Ã©", "e").replace("Ã¨", "e").replace("Ã‰", "e").replace("é", "e")
+					.replace("è", "e");
+			logger.debug("DEBUG : Test xmlRecu apres transformation : " + test);
+			List<SharepointDto> dtoTest = transformeXmlEnListUrl(test);
 		} catch (Exception e) {
 			logger.debug("DEBUG : Erreur dans test UTF8" + e.getMessage());
-			logger.error("ERROR : Erreur dans test UTF8" + e.getMessage());
 		}
 
 		// TODO penser a supprimer cette ligne lorsque l on abandonnera
@@ -285,7 +286,7 @@ public class SharepointService implements ISharepointService {
 		String output = "";
 		String ligne;
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF8"));
 			while ((ligne = br.readLine()) != null) {
 				output += ligne;
 			}

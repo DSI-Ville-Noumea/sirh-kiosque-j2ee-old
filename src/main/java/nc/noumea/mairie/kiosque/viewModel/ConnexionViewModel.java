@@ -77,7 +77,7 @@ public class ConnexionViewModel {
 	@Command
 	@NotifyChange({ "userForm", "errorMessage" })
 	public void connexion() {
-		logger.debug("connexion User : " + userForm.getUser() + " password : " + userForm.getPassword());
+		logger.debug("connexion User : " + userForm.getUser());
 
 		if (LDAP.controlerHabilitation(userForm.getUser(), userForm.getPassword())) {
 
