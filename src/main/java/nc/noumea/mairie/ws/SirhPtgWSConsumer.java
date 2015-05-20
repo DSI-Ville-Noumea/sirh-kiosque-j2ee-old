@@ -73,8 +73,6 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	private static final String ptgAgentsKiosqueUrl = "filtres/agents";
 	private static final String sirhPtgTypeAbsence = "filtres/getTypesAbsence";
 	private static final String sirhPtgMotifHsup = "filtres/getMotifHsup";
-	
-	
 
 	/* Droits */
 	private static final String ptgDroitsDroitsAgentUrl = "droits/listeDroitsAgent";
@@ -85,13 +83,12 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	/* Impression des fiches */
 	private static final String ptgFichesPointagesUrl = "edition/listeFiches";
 	private static final String ptgPrintFichesPointagesUrl = "edition/downloadFichesPointage";
-	private static final String ptgPrintFichesPointagesTestUrl = "edition/test";
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	
+
 	@Override
 	public FichePointageDtoKiosque getFichePointageSaisie(Integer idAgent, Date date, Integer idAgentConcerne) {
-		
+
 		String url = String.format(sirhPtgWsBaseUrl + ptgFichePointageSaisieUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -101,7 +98,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(FichePointageDtoKiosque.class, res, url);
 	}
-	
+
 	@Override
 	public ReturnMessageDto setFichePointageSaisie(Integer idAgent, FichePointageDtoKiosque fichePointageDto) {
 
@@ -109,9 +106,9 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(fichePointageDto);
-		
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(fichePointageDto);
+
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
 	}
@@ -283,10 +280,10 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		String url = String.format(sirhPtgWsBaseUrl + ptgAgentsKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
-		if(null != codeService) {
+		if (null != codeService) {
 			params.put("codeService", codeService);
 		}
-		
+
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);
 	}
@@ -298,7 +295,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		String url = String.format(sirhPtgWsBaseUrl + ptgListePointagesUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgentConnecte.toString());
-		if(null != codeService) {
+		if (null != codeService) {
 			params.put("codeService", codeService);
 		}
 		if (fromDate != null)
@@ -361,27 +358,6 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		String url = String.format(sirhPtgWsBaseUrl + sirhPtgMotifHsup);
 		ClientResponse res = createAndFireGetRequest(new HashMap<String, String>(), url);
 		return readResponseAsList(MotifHeureSupDto.class, res, url);
-	}
-
-	@Override
-	public byte[] imprimerFichesTest(Integer idAgent, Date dateLundi, List<String> listeIdAgentsToPrint) {
-		String url = String.format(sirhPtgWsBaseUrl + ptgPrintFichesPointagesTestUrl);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String csvIdAgent = "";
-		for (String id : listeIdAgentsToPrint) {
-			csvIdAgent += id + ",";
-		}
-		if (!csvIdAgent.equals("")) {
-			csvIdAgent = csvIdAgent.substring(0, csvIdAgent.length() - 1);
-		}
-		HashMap<String, String> params = new HashMap<>();
-		params.put("idAgent", idAgent.toString());
-		params.put("date", sdf.format(dateLundi));
-		params.put("csvIdAgents", csvIdAgent);
-
-		ClientResponse res = createAndFireRequest(params, url, false, null);
-
-		return readResponseWithFile(res, url);
 	}
 
 }
