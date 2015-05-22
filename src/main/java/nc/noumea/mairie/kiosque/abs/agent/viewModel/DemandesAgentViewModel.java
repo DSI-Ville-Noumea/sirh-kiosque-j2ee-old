@@ -322,6 +322,15 @@ public class DemandesAgentViewModel {
 			}
 			return res;
 		}
+		// #15623 restitution massive de CA
+		if(0==dto.getIdTypeDemande()) {
+			if (dto.isDateDebutAM()) {
+				res += " - M";
+			} else if (dto.isDateDebutPM()) {
+				res += " - A";
+			}
+			return res;
+		}
 		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
 		return res + " - " + sf.format(dto.getDateDebut());
 	}
@@ -345,6 +354,15 @@ public class DemandesAgentViewModel {
 			}
 			return res;
 		}
+		// #15623 restitution massive de CA
+		if(0==dto.getIdTypeDemande()) {
+			if (dto.isDateFinAM()) {
+				res += " - M";
+			} else if (dto.isDateFinPM()) {
+				res += " - A";
+			}
+			return res;
+		}
 		SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
 		return res + " - " + sf.format(dto.getDateFin());
 	}
@@ -359,6 +377,10 @@ public class DemandesAgentViewModel {
 		}
 		if (dto.getTypeSaisiCongeAnnuel() != null) {
 			return dto.getDuree() + " j" + (dto.isSamediOffert() ? " +S" : "");
+		}
+		// #15623 restitution massive de CA
+		if(0==dto.getIdTypeDemande()) {
+			return dto.getDuree() + " j";
 		}
 		return "";
 	}

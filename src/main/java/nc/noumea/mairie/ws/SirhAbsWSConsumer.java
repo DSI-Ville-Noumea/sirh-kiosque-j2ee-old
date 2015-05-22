@@ -477,6 +477,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("codeRefTypeAbsence", idTypeAbsence.toString());
+		params.put("isSIRH", Boolean.FALSE.toString());
 
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
 				.deepSerialize(dto);
