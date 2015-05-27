@@ -231,13 +231,18 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 			String nbrEaeStr = "";
 			try {
 				List<EaeDashboardItemDto> tableau = eaeWsConsumer.getTableauBord(currentUser.getAgent().getIdAgent());
-				int nbrEae = null != tableau ? tableau.size() : 0;
-				if (0 == nbrEae) {
-					nbrEaeStr = "Vous n'avez pas de EAE à réaliser.";
-				} else if (1 == nbrEae) {
-					nbrEaeStr = "Vous avez " + nbrEae + " EAE à réaliser.";
-				} else {
-					nbrEaeStr = "Vous avez " + nbrEae + " EAEs à réaliser.";
+				if (tableau != null && tableau.size() > 0) {
+					int nbrEae = 0;
+					for (EaeDashboardItemDto item : tableau) {
+						nbrEae += item.getCree() + item.getEnCours() + item.getNonDebute();
+					}
+					if (0 == nbrEae) {
+						nbrEaeStr = "Vous n'avez pas de EAE à réaliser.";
+					} else if (1 == nbrEae) {
+						nbrEaeStr = "Vous avez " + nbrEae + " EAE à réaliser.";
+					} else {
+						nbrEaeStr = "Vous avez " + nbrEae + " EAEs à réaliser.";
+					}
 				}
 			} catch (Exception e) {
 				// l'appli SIRH-EAE-WS ne semble pas répondre
