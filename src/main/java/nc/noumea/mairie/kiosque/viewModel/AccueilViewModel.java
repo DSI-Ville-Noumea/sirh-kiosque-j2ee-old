@@ -37,6 +37,7 @@ import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
@@ -230,11 +231,14 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		if (isDroitsEae()) {
 			String nbrEaeStr = "";
 			try {
-				List<EaeDashboardItemDto> tableau = eaeWsConsumer.getTableauBord(currentUser.getAgent().getIdAgent());
+				List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
 				if (tableau != null && tableau.size() > 0) {
 					int nbrEae = 0;
-					for (EaeDashboardItemDto item : tableau) {
-						nbrEae += item.getCree() + item.getEnCours() + item.getNonDebute();
+					for (EaeListItemDto item : tableau) {
+						if (item.getEtat().equals("Non débuté") || item.getEtat().equals("Créé")
+								|| item.getEtat().equals("En cours")) {
+							nbrEae++;
+						}
 					}
 					if (0 == nbrEae) {
 						nbrEaeStr = "Vous n'avez pas de EAE à réaliser.";
