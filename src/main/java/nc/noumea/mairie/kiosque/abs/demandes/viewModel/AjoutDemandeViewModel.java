@@ -116,8 +116,7 @@ public class AjoutDemandeViewModel {
 			setServiceFiltre(getListeServicesFiltre().get(0));
 			chargeAgent();
 		}else{
-			setListeAgentsFiltre(null);
-			
+			setListeAgentsFiltre(null);			
 		}
 
 		// minutes et heures
