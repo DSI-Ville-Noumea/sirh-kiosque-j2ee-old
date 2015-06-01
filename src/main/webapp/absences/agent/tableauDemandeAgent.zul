@@ -12,7 +12,8 @@
 					<comboitem label="@bind(each.libelle)" />
 				</template>
 			</combobox>
-			<label value="Famille d'absence :" />
+			<label value="Famille d'absence :"
+				visible="@bind(not empty vm.listeTypeAbsenceFiltre)" />
 			<combobox width="300px"
 				value="@bind(vm.typeAbsenceFiltre.libelle)"
 				model="@bind(vm.listeTypeAbsenceFiltre)"
@@ -45,7 +46,8 @@
 				value="@bind(vm.dateDemandeFiltre)" />
 
 			<button label="Vider" onClick="@command('viderFiltre')" />
-			<button label="Filtrer" onClick="@command('filtrer',ref=boxEtatMultiple)" />
+			<button label="Filtrer"
+				onClick="@command('filtrer',ref=boxEtatMultiple)" />
 		</hlayout>
 	</vlayout>
 	<separator />
@@ -96,7 +98,8 @@
 			<template name="model">
 				<row>
 					<custom-attributes absence="${each}" />
-					<detail open="false" fulfill="onOpen" visible="@bind(each.affichageBoutonHistorique)">
+					<detail open="false" fulfill="onOpen"
+						visible="@bind(each.affichageBoutonHistorique)">
 						<include src="/absences/agent/histoAbsence.zul"
 							absence="${absence}" />
 					</detail>
@@ -117,7 +120,8 @@
 						value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
 					<hlayout>
 						<label
-							value="@bind(vm.getEtatToString(each.idRefEtat))" visible="@bind(each.affichageBoutonHistorique)" />
+							value="@bind(vm.getEtatToString(each.idRefEtat))"
+							visible="@bind(each.affichageBoutonHistorique)" />
 						<image tooltiptext="@bind(each.motif)"
 							sclass="ListAction help" visible="@bind(not empty each.motif)" />
 					</hlayout>
