@@ -111,8 +111,14 @@ public class AjoutDemandeViewModel {
 		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
-		// choix du service
-		setListeAgentsFiltre(null);
+		// choix du service sauf si un seul service (#15772)
+		if(getListeServicesFiltre().size()==1){
+			setServiceFiltre(getListeServicesFiltre().get(0));
+			chargeAgent();
+		}else{
+			setListeAgentsFiltre(null);
+			
+		}
 
 		// minutes et heures
 		TimePicker timePicker = new TimePicker();

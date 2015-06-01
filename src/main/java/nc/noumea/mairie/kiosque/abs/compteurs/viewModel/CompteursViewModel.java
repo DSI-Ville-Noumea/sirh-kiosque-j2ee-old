@@ -123,8 +123,14 @@ public class CompteursViewModel {
 		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
-		// choix du service
-		setListeAgentsFiltre(null);
+		// choix du service sauf si un seul service (#15772)
+		if (getListeServicesFiltre().size() == 1) {
+			setServiceFiltre(getListeServicesFiltre().get(0));
+			chargeAgent();
+		} else {
+			setListeAgentsFiltre(null);
+		}
+
 		// on recupere les droits afin d afficher ou non la saisie des jours de
 		// repos
 		setDroitsAbsence(absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent()));
@@ -558,7 +564,7 @@ public class CompteursViewModel {
 	}
 
 	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
-		if(null != listeServicesFiltre) {
+		if (null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
@@ -577,7 +583,7 @@ public class CompteursViewModel {
 	}
 
 	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
-		if(null != listeAgentsFiltre) {
+		if (null != listeAgentsFiltre) {
 			Collections.sort(listeAgentsFiltre);
 		}
 		this.listeAgentsFiltre = listeAgentsFiltre;
