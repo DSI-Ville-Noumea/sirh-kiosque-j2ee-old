@@ -199,7 +199,8 @@ public class AjoutDemandeViewModel {
 
 			setListeOrganisationsSyndicale(orga);
 			// on positionne la selection du statut Provisoire/Définitif
-			setEtatDemandeCreation("0");
+			//#15785
+			setEtatDemandeCreation("1");
 			// on initialise la demande
 			setDemandeCreation(new DemandeDto());
 			setDureeHeureDemande(null);

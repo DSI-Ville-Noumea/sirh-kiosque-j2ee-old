@@ -104,7 +104,8 @@ public class AjoutDemandeAgentViewModel {
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
 		setListeGroupeAbsence(filtreGroupeFamille);
 		// on positionne la selection du statut Provisoire/Définitif
-		setEtatDemandeCreation("0");
+		//#15785
+		setEtatDemandeCreation("1");
 		// on initialise la demande
 		setDemandeCreation(new DemandeDto());
 
