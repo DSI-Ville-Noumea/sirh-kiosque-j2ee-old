@@ -213,7 +213,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 					null);
 			Integer nbrAbs = 0;
 			for (DemandeDto dto : result) {
-				if (dto.isModifierApprobation()) {
+				if (dto.isModifierVisa()) {
 					nbrAbs++;
 				}
 			}
