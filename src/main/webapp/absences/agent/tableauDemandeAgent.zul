@@ -44,7 +44,8 @@
 			<label value="Date de la demande : " />
 			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
 				value="@bind(vm.dateDemandeFiltre)" />
-
+		</hlayout>
+		<hlayout>
 			<button label="Vider" onClick="@command('viderFiltre')" />
 			<button label="Filtrer"
 				onClick="@command('filtrer',ref=boxEtatMultiple)" />
