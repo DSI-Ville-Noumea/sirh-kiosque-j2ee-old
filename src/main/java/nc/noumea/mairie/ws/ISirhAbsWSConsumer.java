@@ -105,10 +105,17 @@ public interface ISirhAbsWSConsumer {
 
 	ReturnMessageDto saveViseursApprobateur(Integer idAgent, ViseursDto dto);
 
-	List<AgentDto> getAgentsOperateursOrViseur(Integer idAgentApprobateur, Integer idAgentOperateurOrViseur);
+	List<AgentDto> getAgentsOperateur(Integer idAgentApprobateur,
+			Integer idAgentOperateur);
 
-	ReturnMessageDto saveAgentsOperateursOrViseur(Integer idAgentApprobateur, Integer idAgentOperateurOrViseur,
-			List<AgentDto> listSelect);
+	ReturnMessageDto saveAgentsOperateur(Integer idAgentApprobateur,
+			Integer idAgentOperateur, List<AgentDto> listSelect);
+
+	List<AgentDto> getAgentsViseur(Integer idAgentApprobateur,
+			Integer idAgentViseur);
+
+	ReturnMessageDto saveAgentsViseur(Integer idAgentApprobateur,
+			Integer idAgentViseur, List<AgentDto> listSelect);
 
 	/* COMPTEURS */
 

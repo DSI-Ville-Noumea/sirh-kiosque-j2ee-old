@@ -166,7 +166,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("agentsExistants",
-					absWsConsumer.getAgentsOperateursOrViseur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
+					absWsConsumer.getAgentsOperateur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
 			map.put("operateur", agent);
 			AgentDto approbateur = new AgentDto();
 			approbateur.setIdAgent(currentUser.getAgent().getIdAgent());
@@ -177,7 +177,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("agentsExistants",
-					absWsConsumer.getAgentsOperateursOrViseur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
+					absWsConsumer.getAgentsViseur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
 			map.put("viseur", agent);
 			AgentDto approbateur = new AgentDto();
 			approbateur.setIdAgent(currentUser.getAgent().getIdAgent());
