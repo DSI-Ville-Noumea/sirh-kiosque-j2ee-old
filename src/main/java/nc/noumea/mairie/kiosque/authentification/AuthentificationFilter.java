@@ -55,90 +55,94 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 @Component
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class AuthentificationFilter implements Filter {
-	
-    public static final String ACCES_CONNEXION  = "/connexion";
-    public static final String ATT_SESSION_USER = "sessionUtilisateur";
-    
+
+	public static final String ACCES_CONNEXION = "/connexion";
+	public static final String ATT_SESSION_USER = "sessionUtilisateur";
+
 	public static final List<String> PAGES_STATIQUES = Arrays.asList("/401.jsp", "/404.jsp", "/incident.jsp",
 			"/maintenance.jsp", "/version.jsp");
 
-    private Logger logger = LoggerFactory.getLogger(AuthentificationFilter.class);
-    
-    private IRadiWSConsumer radiWSConsumer;
-    
+	private Logger logger = LoggerFactory.getLogger(AuthentificationFilter.class);
+
+	private IRadiWSConsumer radiWSConsumer;
+
 	private ISirhWSConsumer sirhWsConsumer;
-    
-    public void init( FilterConfig config ) throws ServletException {
-    	ServletContext servletContext = config.getServletContext();
+
+	public void init(FilterConfig config) throws ServletException {
+		ServletContext servletContext = config.getServletContext();
 		WebApplicationContext webApplicationContext = WebApplicationContextUtils
 				.getWebApplicationContext(servletContext);
-		
+
 		AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
-		
+
 		radiWSConsumer = (IRadiWSConsumer) autowireCapableBeanFactory.getBean("radiWSConsumer");
 		sirhWsConsumer = (ISirhWSConsumer) autowireCapableBeanFactory.getBean("sirhWsConsumer");
-    }
+	}
 
-    public void doFilter( ServletRequest req, ServletResponse res, FilterChain chain ) throws IOException,
-            ServletException {
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
+			ServletException {
 
-        /* Cast des objets request et response */
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) res;
-    	HttpSession hSess = ((HttpServletRequest)request).getSession();
-    	
+		/* Cast des objets request et response */
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) res;
+		HttpSession hSess = ((HttpServletRequest) request).getSession();
+
 		// on laisse passer pour le rproxy et ainsi permettre de deployer l
 		// application sur le 2e noeud tomcat
-    	if(PAGES_STATIQUES.contains(request.getServletPath())) {
-    		chain.doFilter( request, response );
-            return;
-    	}
-    	
-    	if(null != hSess.getAttribute("logout")) {
-			if (!request.getRequestURI().contains("zkau") && !request.getRequestURI().contains("login.zul")
-    				&& !request.getRequestURI().contains("css")) {
-            	response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are logged out.");
-            	return;
-    		}
-    		chain.doFilter( request, response );
-            return;
-    	}
-    	
-    	if(null != hSess.getAttribute("currentUser")) {
-    		chain.doFilter( request, response );
-            return;
-    	}
-    	
-        if((null == request.getHeader("x-krb_remote_user") || "".equals(request.getHeader("x-krb_remote_user").trim()))
-        		&& !request.getHeader("host").contains("localhost")) {
-        	logger.debug("x-krb_remote_user is NULL");
-    		hSess.invalidate();
-    		request.logout();
-        	response.sendError(HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED, "You are logged out.");
-    		return;
-        }
-        
-        String remoteUser = request.getHeader("x-krb_remote_user");
+		if (PAGES_STATIQUES.contains(request.getServletPath())) {
+			chain.doFilter(request, response);
+			return;
+		}
 
-        if(null == remoteUser && request.getHeader("host").contains("localhost")) {
+		if (null != hSess.getAttribute("logout")) {
+			if (!request.getRequestURI().contains("zkau") && !request.getRequestURI().contains("login.zul")
+					&& !request.getRequestURI().contains("css")) {
+				response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are logged out.");
+				return;
+			}
+			chain.doFilter(request, response);
+			return;
+		}
+
+		if (null != hSess.getAttribute("currentUser")) {
+			chain.doFilter(request, response);
+			return;
+		}
+
+		if ((null == request.getHeader("x-krb_remote_user") || "".equals(request.getHeader("x-krb_remote_user").trim()))
+				&& !request.getHeader("host").contains("localhost")) {
+			logger.debug("x-krb_remote_user is NULL");
+			// hSess.invalidate();
+			// request.logout();
+			// response.sendError(HttpServletResponse.SC_PROXY_AUTHENTICATION_REQUIRED,
+			// "You are logged out.");
+			// #15803
+			hSess.setAttribute("logout", "logout");
+			request.getRequestDispatcher("login.zul").forward(request, response);
+			return;
+		}
+
+		String remoteUser = request.getHeader("x-krb_remote_user");
+
+		if (null == remoteUser && request.getHeader("host").contains("localhost")) {
 			remoteUser = "chata73";
-        }
-        
-        LightUserDto userDto = radiWSConsumer.getAgentCompteADByLogin(remoteUser);
-        if(null == userDto) {
-        	logger.debug("User not exist in Radi WS with RemoteUser : " + remoteUser);
-    		request.logout();
-    		return;
-        }
-        
-        if(0 == userDto.getEmployeeNumber()) {
-        	logger.debug("User not exist in Radi WS with RemoteUser : " + remoteUser);
-        	response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		}
+
+		LightUserDto userDto = radiWSConsumer.getAgentCompteADByLogin(remoteUser);
+		if (null == userDto) {
+			logger.debug("User not exist in Radi WS with RemoteUser : " + remoteUser);
+			request.logout();
+			return;
+		}
+
+		if (0 == userDto.getEmployeeNumber()) {
+			logger.debug("User not exist in Radi WS with RemoteUser : " + remoteUser);
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
 					"Vous n'êtes pas un agent de la mairie, vous n'êtes pas autorisé à accéder à cette application.");
-    		return;
-        }
-        
+			return;
+		}
+
 		ProfilAgentDto profilAgent = null;
 		try {
 			profilAgent = sirhWsConsumer.getEtatCivil(userDto.getEmployeeNumber());
@@ -148,20 +152,20 @@ public class AuthentificationFilter implements Filter {
 			request.logout();
 			return;
 		}
-        
-        if(null == profilAgent) {
-        	logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
-    		request.logout();
-    		return;
-        }
-        
-        hSess.setAttribute("currentUser", profilAgent);
-        logger.debug("Authentification du user ok : " + remoteUser);
-        
-        chain.doFilter( request, response );
-        return;
-    }
 
-    public void destroy() {
-    }
+		if (null == profilAgent) {
+			logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
+			request.logout();
+			return;
+		}
+
+		hSess.setAttribute("currentUser", profilAgent);
+		logger.debug("Authentification du user ok : " + remoteUser);
+
+		chain.doFilter(request, response);
+		return;
+	}
+
+	public void destroy() {
+	}
 }
