@@ -66,6 +66,7 @@
 						onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content)" />
 				</menupopup>
 			</menu>
+			<menuitem visible="@bind(vm.afficheRecette)" style="background:red !important;" tooltiptext="RECETTE" value="RECETTE" label="RECETTE" />
 		</menubar>
 		<include id="includeStyleMenu" src="/css/menu.zul" />
 	</window>

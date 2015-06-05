@@ -73,10 +73,21 @@ public class MenuViewModel {
 
 	private ProfilAgentDto currentUser;
 
+	@WireVariable
+	private EnvironnementService environnementService;
+
+	private boolean afficheRecette;
+
 	@Init
 	public void initMenu() {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+
+		if (environnementService.getTypeEnvironnement().toUpperCase().equals("RECETTE")) {
+			setAfficheRecette(true);
+		} else {
+			setAfficheRecette(false);
+		}
 
 		/* Pour les absences */
 		try {
@@ -181,5 +192,13 @@ public class MenuViewModel {
 
 	public void setDroitsModulePointage(boolean droitsModulePointage) {
 		this.droitsModulePointage = droitsModulePointage;
+	}
+
+	public boolean isAfficheRecette() {
+		return afficheRecette;
+	}
+
+	public void setAfficheRecette(boolean afficheRecette) {
+		this.afficheRecette = afficheRecette;
 	}
 }

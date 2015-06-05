@@ -1,27 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!--
-  #%L
-  sirh-kiosque-j2ee
-  $Id:$
-  $HeadURL:$
-  %%
-  Copyright (C) 2014 Mairie de Nouméa
-  %%
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as
-  published by the Free Software Foundation, either version 3 of the
-  License, or (at your option) any later version.
-  
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public
-  License along with this program.  If not, see
-  <http://www.gnu.org/licenses/gpl-3.0.html>.
-  #L%
-  -->
+<!-- #%L sirh-kiosque-j2ee $Id:$ $HeadURL:$ %% Copyright (C) 2014 Mairie 
+	de Nouméa %% This program is free software: you can redistribute it and/or 
+	modify it under the terms of the GNU General Public License as published 
+	by the Free Software Foundation, either version 3 of the License, or (at 
+	your option) any later version. This program is distributed in the hope that 
+	it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+	of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General 
+	Public License for more details. You should have received a copy of the GNU 
+	General Public License along with this program. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>. 
+	#L% -->
 
 <!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
 	license agreements. See the NOTICE file distributed with this work for additional 
@@ -101,17 +88,30 @@
 		description="Sharepoint port" value="80" override="false" />
 	<Environment name="SHAREPOINT_HOST" type="java.lang.String"
 		description="Sharepoint host" value="svq-sp" override="false" />
-	
+
+	<!-- Paramètre pour différencier QUAL et PROD -->
+	<Environment name="TYPE_ENV" type="java.lang.String"
+		description="Type d'environnement (RECETTE ou PROD)" value="PROD"
+		override="false" />
+
 	<!-- -->
 	<!-- Paramètres LDAP -->
 	<!-- -->
-	<Parameter description="Critère de recherche LDAP" name="CRITERE_RECHERCHE_LDAP" override="false" value="samaccountname" />
-	<Parameter description="Admin LDAP" name="HOST_LDAP_ADMIN" override="false" value="cn=adminwas,ou=WAS,ou=APPLI,ou=Z-users" />
-	<Parameter description="Init CTX LDAP" name="INITCTX_LDAP" override="false" value="com.sun.jndi.ldap.LdapCtxFactory" />
-	<Parameter description="Mot de passe de l'hôte LDAP" name="HOST_LDAP_PASSWORD" override="false" value="***REMOVED***" />
-	<Parameter description="Base LDAP" name="BASE_LDAP" override="false" value="dc=site-mairie,dc=noumea,dc=nc" />
-	<Parameter description="Hôte LDAP" name="HOST_LDAP" override="false" value="ldap://hurle:389/" />
-	<Parameter description="Hôte LDAP 2" name="HOST_LDAP2" override="false" value="ldap://gberge:389/" />
-	<Parameter description="Hôte LDAP 3" name="HOST_LDAP3" override="false" value="ldap://netone:389/" />
-	
+	<Parameter description="Critère de recherche LDAP" name="CRITERE_RECHERCHE_LDAP"
+		override="false" value="samaccountname" />
+	<Parameter description="Admin LDAP" name="HOST_LDAP_ADMIN"
+		override="false" value="cn=adminwas,ou=WAS,ou=APPLI,ou=Z-users" />
+	<Parameter description="Init CTX LDAP" name="INITCTX_LDAP"
+		override="false" value="com.sun.jndi.ldap.LdapCtxFactory" />
+	<Parameter description="Mot de passe de l'hôte LDAP" name="HOST_LDAP_PASSWORD"
+		override="false" value="***REMOVED***" />
+	<Parameter description="Base LDAP" name="BASE_LDAP" override="false"
+		value="dc=site-mairie,dc=noumea,dc=nc" />
+	<Parameter description="Hôte LDAP" name="HOST_LDAP" override="false"
+		value="ldap://hurle:389/" />
+	<Parameter description="Hôte LDAP 2" name="HOST_LDAP2"
+		override="false" value="ldap://gberge:389/" />
+	<Parameter description="Hôte LDAP 3" name="HOST_LDAP3"
+		override="false" value="ldap://netone:389/" />
+
 </Context>
