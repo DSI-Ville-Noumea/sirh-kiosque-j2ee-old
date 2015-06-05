@@ -83,7 +83,7 @@ public class MenuViewModel {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-		if (environnementService.getTypeEnvironnement().toUpperCase().equals("RECETTE")) {
+		if (environnementService.isRecette()) {
 			setAfficheRecette(true);
 		} else {
 			setAfficheRecette(false);

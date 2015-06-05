@@ -42,4 +42,12 @@ public class EnvironnementService {
 	public void setTypeEnvironnement(String typeEnvironnement) {
 		this.typeEnvironnement = typeEnvironnement;
 	}
+	
+	public boolean isRecette() {
+		return getTypeEnvironnement().toUpperCase().equals("RECETTE");
+	}
+	
+	public boolean isProduction() {
+		return getTypeEnvironnement().toUpperCase().equals("PROD");
+	}
 }

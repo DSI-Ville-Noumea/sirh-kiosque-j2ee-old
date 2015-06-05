@@ -27,45 +27,74 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.abs.dto.ApprobateurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.planning.CustomEventsManager;
+import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXPlanner;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.viewModel.EnvironnementService;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.apache.catalina.session.StandardSessionFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zkmax.zul.Chosenbox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
+import com.dhtmlx.planner.DHXSkin;
+
+// @Controller utile pour le planning
+@Controller
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class DemandesAgentViewModel {
+public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1319705744557882740L;
+
+	private Logger logger = LoggerFactory.getLogger(DemandesAgentViewModel.class);
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
+	@WireVariable
+	private EnvironnementService environnementService;
+	
 	private List<DemandeDto> listeDemandes;
 
 	private Tab tabCourant;
@@ -88,6 +117,9 @@ public class DemandesAgentViewModel {
 	private ProfilAgentDto currentUser;
 
 	private ActeursDto acteursDto;
+
+	private boolean afficheRecette;
+
 
 	@Init
 	public void initDemandesAgent() {
@@ -124,8 +156,10 @@ public class DemandesAgentViewModel {
 	@NotifyChange({ "listeDemandes", "listeEtatAbsenceFiltre" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
 		setListeDemandes(null);
+		List<RefEtatAbsenceDto> filtreEtat = new ArrayList<RefEtatAbsenceDto>();
 		// on recharge les états d'absences pour les filtres
-		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
+		filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
+		
 		setListeEtatAbsenceFiltre(filtreEtat);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
@@ -140,7 +174,7 @@ public class DemandesAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeDemandes" })
+	@NotifyChange({ "*" })
 	public void filtrer(@BindingParam("ref") Chosenbox boxEtat) {
 		List<Integer> etats = new ArrayList<Integer>();
 		if (boxEtat != null) {
@@ -155,6 +189,13 @@ public class DemandesAgentViewModel {
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
 				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeDemandes(result);
+		
+		// #12159 construction du planning
+		if(environnementService.isRecette() && "PLANNING".equals(getTabCourant().getId())) {
+			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
+			s.setAttribute("listeDemandes", result);
+			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning").getFellow("windowplanning"));
+		}
 	}
 
 	@Command
@@ -396,6 +437,48 @@ public class DemandesAgentViewModel {
 
 		return res;
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////// #12159 PARTIE PLANNING ////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public void doAfterCompose(Component comp) {
+		
+		try {
+			comp.getFellow("divChild").detach();
+		} catch (Exception e) {
+			// dans le cas ou la Div "divChild" n'existe pas encore 
+			// car creer dans planner.render()
+		}
+		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsDemandesAgent");
+	    try {
+			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
+		} catch (Exception e) {
+			logger.debug("Une erreur est survenue dans la creation du planning : " + e.getMessage());
+		}
+	}
+	
+	@RequestMapping("/eventsDemandesAgent")
+    @ResponseBody
+    public String events(HttpServletRequest request) { 
+		
+		@SuppressWarnings("unchecked")
+		List<DemandeDto> listDemandes = (List<DemandeDto>) request.getSession().getAttribute("listeDemandes");
+		ProfilAgentDto profil = (ProfilAgentDto) request.getSession().getAttribute("currentUser");
+		AgentDto agent = new AgentDto();
+		agent.setIdAgent(profil.getAgent().getIdAgent());
+		agent.setPrenom(profil.getAgent().getPrenomUsage());
+		agent.setNom(profil.getAgent().getNomUsage());
+		
+        CustomEventsManager evs = new CustomEventsManager(request, listDemandes, Arrays.asList(agent));
+        return evs.run();
+    }
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////// FIN PARTIE PLANNING ////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////
 
 	public List<DemandeDto> getListeDemandes() {
 		return listeDemandes;
@@ -500,5 +583,13 @@ public class DemandesAgentViewModel {
 
 	public void setActeursDto(ActeursDto acteursDto) {
 		this.acteursDto = acteursDto;
+	}
+
+	public boolean isAfficheRecette() {
+		return environnementService.isRecette();
+	}
+
+	public void setAfficheRecette(boolean afficheRecette) {
+		this.afficheRecette = afficheRecette;
 	}
 }

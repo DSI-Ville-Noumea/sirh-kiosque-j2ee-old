@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
@@ -42,6 +44,8 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
+import nc.noumea.mairie.kiosque.abs.planning.CustomEventsManager;
+import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXPlanner;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -49,29 +53,52 @@ import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.EnvironnementService;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.apache.catalina.session.StandardSessionFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zkmax.zul.Chosenbox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
-@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class DemandesViewModel {
+import com.dhtmlx.planner.DHXSkin;
 
+//@Controller utile pour le planning
+@Controller
+@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
+public class DemandesViewModel extends GenericForwardComposer<Component> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5338643536442576795L;
+
+	private Logger logger = LoggerFactory.getLogger(DemandesViewModel.class);
+	 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
+
+	@WireVariable
+	private EnvironnementService environnementService;
 
 	private List<DemandeDto> listeDemandes;
 
@@ -100,6 +127,8 @@ public class DemandesViewModel {
 	private AccessRightsAbsDto droitsAbsence;
 	
 	private List<RefEtatAbsenceDto> listeEtatsSelectionnes;
+
+	private boolean afficheRecette;
 
 	@Init
 	public void initDemandes(@BindingParam("aApprouver") Boolean aApprouver) {
@@ -134,6 +163,10 @@ public class DemandesViewModel {
 				&& "aViser".equals(param)) {
 			setListeEtatsSelectionnes(Arrays.asList(getListeEtatAbsenceFiltre().get(1)));
 		}
+		
+		List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(), null);
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
+		s.setAttribute("listeAgents", listeAgents);
 	}
 
 	@Command
@@ -238,6 +271,13 @@ public class DemandesViewModel {
 				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence(),
 				getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
 		setListeDemandes(result);
+		
+		// #12159 construction du planning
+		if(environnementService.isRecette() && "PLANNING".equals(getTabCourant().getId())) {
+			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
+			s.setAttribute("listeDemandes", result);
+			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning").getFellow("windowplanning"));
+		}
 	}
 
 	@GlobalCommand
@@ -619,6 +659,43 @@ public class DemandesViewModel {
 
 		return res;
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////// #12159 PARTIE PLANNING ////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public void doAfterCompose(Component comp) {
+		try {
+			comp.getFellow("divChild").detach();
+		} catch (Exception e) {
+			// dans le cas ou la Div "divChild" n'existe pas encore 
+			// car creer dans planner.render()
+		}
+		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes");
+	    try {
+			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
+		} catch (Exception e) {
+			logger.debug("Une erreur est survenue dans la creation du planning : " + e.getMessage());
+		}
+	}
+	
+	@RequestMapping("/eventsGestionDemandes")
+    @ResponseBody
+    public String events(HttpServletRequest request) { 
+		
+		@SuppressWarnings("unchecked")
+		List<DemandeDto> listDemandes = (List<DemandeDto>) request.getSession().getAttribute("listeDemandes");
+		@SuppressWarnings("unchecked")
+		List<AgentDto> listeAgents = (List<AgentDto>) request.getSession().getAttribute("listeAgents");
+		
+        CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listeAgents);
+        return evs.run();
+    }
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////// FIN PARTIE PLANNING ////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////
 
 	public Tab getTabCourant() {
 		return tabCourant;
@@ -774,4 +851,11 @@ public class DemandesViewModel {
 		this.listeEtatsSelectionnes = listeEtatsSelectionnes;
 	}
 
+	public boolean isAfficheRecette() {
+		return environnementService.isRecette();
+	}
+
+	public void setAfficheRecette(boolean afficheRecette) {
+		this.afficheRecette = afficheRecette;
+	}
 }

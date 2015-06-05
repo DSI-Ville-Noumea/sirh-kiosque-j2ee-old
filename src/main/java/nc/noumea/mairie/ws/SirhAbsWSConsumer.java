@@ -462,7 +462,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
-		params.put("codeService", codeService);
+		
+		if(null != codeService) 
+			params.put("codeService", codeService);
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);
