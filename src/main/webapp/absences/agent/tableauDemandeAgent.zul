@@ -1,58 +1,60 @@
 <zk>
-	<div sclass="RHTitle2Line" />
+	<groupbox width="1252px">
+		<caption label="Filtres de recherche" />
+		<vlayout>
+			<hlayout>
+				<label value="Groupe d'absences :" />
+				<combobox readonly="true" width="250px"
+					model="@bind(vm.listeGroupeAbsenceFiltre)"
+					selectedItem="@bind(vm.groupeAbsenceFiltre)"
+					onSelect="@command('alimenteTypeFamilleAbsence')">
+					<template name="model">
+						<comboitem label="@bind(each.libelle)" />
+					</template>
+				</combobox>
+				<label value="Famille d'absence :"
+					visible="@bind(not empty vm.listeTypeAbsenceFiltre)" />
+				<combobox width="300px"
+					value="@bind(vm.typeAbsenceFiltre.libelle)"
+					model="@bind(vm.listeTypeAbsenceFiltre)"
+					selectedItem="@bind(vm.typeAbsenceFiltre)"
+					visible="@bind(not empty vm.listeTypeAbsenceFiltre)">
+					<template name="model">
+						<comboitem label="@bind(each.libelle)" />
+					</template>
+				</combobox>
+			</hlayout>
+			<hlayout>
+				<label value="Date de début : " />
+				<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
+					value="@bind(vm.dateDebutFiltre)" />
+
+				<label value="Date de fin : " />
+				<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
+					value="@bind(vm.dateFinFiltre)" />
+
+				<label value="Etats :" />
+				<chosenbox width="150px" id="boxEtatMultiple"
+					model="@bind(vm.listeEtatAbsenceFiltre)">
+					<template name="model">
+						<label value="@bind(each.libelle)" />
+					</template>
+				</chosenbox>
+
+				<label value="Date de la demande : " />
+				<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
+					value="@bind(vm.dateDemandeFiltre)" />
+			</hlayout>
+			<hlayout>
+				<button label="Vider" onClick="@command('viderFiltre')" />
+				<button label="Filtrer"
+					onClick="@command('filtrer',ref=boxEtatMultiple)" />
+			</hlayout>
+		</vlayout>
+	</groupbox>
+
+
 	<separator />
-	<vlayout>
-		<hlayout>
-			<label value="Groupe d'absences :" />
-			<combobox readonly="true" width="250px"
-				model="@bind(vm.listeGroupeAbsenceFiltre)"
-				selectedItem="@bind(vm.groupeAbsenceFiltre)"
-				onSelect="@command('alimenteTypeFamilleAbsence')">
-				<template name="model">
-					<comboitem label="@bind(each.libelle)" />
-				</template>
-			</combobox>
-			<label value="Famille d'absence :"
-				visible="@bind(not empty vm.listeTypeAbsenceFiltre)" />
-			<combobox width="300px"
-				value="@bind(vm.typeAbsenceFiltre.libelle)"
-				model="@bind(vm.listeTypeAbsenceFiltre)"
-				selectedItem="@bind(vm.typeAbsenceFiltre)"
-				visible="@bind(not empty vm.listeTypeAbsenceFiltre)">
-				<template name="model">
-					<comboitem label="@bind(each.libelle)" />
-				</template>
-			</combobox>
-		</hlayout>
-		<hlayout>
-			<label value="Date de début : " />
-			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
-				value="@bind(vm.dateDebutFiltre)" />
-
-			<label value="Date de fin : " />
-			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
-				value="@bind(vm.dateFinFiltre)" />
-
-			<label value="Etats :" />
-			<chosenbox width="150px" id="boxEtatMultiple"
-				model="@bind(vm.listeEtatAbsenceFiltre)">
-				<template name="model">
-					<label value="@bind(each.libelle)" />
-				</template>
-			</chosenbox>
-
-			<label value="Date de la demande : " />
-			<datebox cols="14" format="dd/MM/yyyy" maxlength="10"
-				value="@bind(vm.dateDemandeFiltre)" />
-		</hlayout>
-		<hlayout>
-			<button label="Vider" onClick="@command('viderFiltre')" />
-			<button label="Filtrer"
-				onClick="@command('filtrer',ref=boxEtatMultiple)" />
-		</hlayout>
-	</vlayout>
-	<separator />
-	<div sclass="RHTitle2Line" />
 	<separator />
 	<vlayout height="100%">
 		<hlayout sclass="fondRecherche">

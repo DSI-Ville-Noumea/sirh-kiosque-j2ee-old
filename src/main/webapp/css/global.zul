@@ -73,10 +73,6 @@
 	bold; height: 25px; line-height: 15px; margin-top: 5px;
 	padding-right: 14px; }
 
-	.RHTitle2Line { background-image: -moz-linear-gradient(left center,
-	rgba(211, 113, 28, 1) 0%, rgba(211, 113, 28, 0) 100%); clear: both;
-	height: 1px; }
-
 	.RHTitle3 { background-image: url("img/Sprite.png");
 	background-position: -494px -46px; background-repeat: no-repeat;
 	color: #d3711c !important; height: 16px; padding: 0 0 0 8px;
@@ -165,6 +161,18 @@
 	.z-column-content{background-color: #ab5420;color: #ffffff;}
 
 	.z-window {background-color: #ee7203;}
+	
+	.RHTitle2Line { width: 100%;border: 1px solid #ee7203; clear: both;
+			height: 1px; }	
+	
+	.z-groupbox {border: 2px solid #ee7203; border-top:none; padding-top: 1px;}
+	
+	.z-groupbox > .z-groupbox-header {border:none;border-top: 2px solid #ee7203;color:#ee7203;}
+	
+	.z-groupbox > .z-groupbox-content {border:none;}
+	
+	.z-groupbox > .z-groupbox-header .z-caption, .z-groupbox > .z-groupbox-header .z-groupbox-title { background:#FFEBCD;font-weight: bold; }
+	
 	]]>
 	
 	
