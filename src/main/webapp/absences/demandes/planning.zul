@@ -1,7 +1,7 @@
 <zk xmlns:h="native">
 	<window
 		apply="nc.noumea.mairie.kiosque.abs.demandes.viewModel.DemandesViewModel"
-		height="100%" id="windowplanning">
+		height="auto" id="windowplanning">
 
 		<separator />
 		<groupbox width="1252px">
@@ -68,7 +68,7 @@
 					<label value="Date de fin : " />
 					<datebox cols="14" format="dd/MM/yyyy"
 						maxlength="10" value="@bind(vm.dateFinFiltre)" />
-
+	
 					<label value="Date de la demande : " />
 					<datebox cols="14" format="dd/MM/yyyy"
 						maxlength="10" value="@bind(vm.dateDemandeFiltre)" />
@@ -83,9 +83,14 @@
 		</groupbox>
 
 		<separator />
+	
+		<div sclass="RHTitle2Line" />
+		
 		<separator />
-
-		<div sclass="fond" height="1000px">
+		
+		<div class="dhx_cal_today_button boutonLegend" onClick="@command('openLegende')">Légende</div>
+	
+		<div sclass="fond" height="auto">
 			<div id='div'></div>
 		</div>
 	</window>
