@@ -36,7 +36,6 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
@@ -146,7 +145,12 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 		// message d'accueil
 		List<AccueilRhDto> listeTexte = sirhWsConsumer.getListeTexteAccueil();
-		setListeTexteAccueil(listeTexte);
+		setListeTexteAccueil(new ArrayList<AccueilRhDto>());
+		for (AccueilRhDto t : listeTexte) {
+			t.setTexteAccueilKiosque(t.getTexteAccueilKiosque().replace("&quot;", "\""));
+			getListeTexteAccueil().add(t);
+		}
+		// setListeTexteAccueil(listeTexte);
 		// refrent Rh de l'agent
 		ReferentRhDto referent = sirhWsConsumer.getReferentRH(currentUser.getAgent().getIdAgent());
 		setRefrentRh(referent);
