@@ -94,7 +94,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 
 	@WireVariable
 	private EnvironnementService environnementService;
-	
+
 	private List<DemandeDto> listeDemandes;
 
 	private Tab tabCourant;
@@ -120,11 +120,16 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 
 	private boolean afficheRecette;
 
-
 	@Init
 	public void initDemandesAgent() {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+
+		if (environnementService.isRecette()) {
+			setAfficheRecette(true);
+		} else {
+			setAfficheRecette(false);
+		}
 
 		// on recharge les groupes d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
@@ -159,7 +164,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		List<RefEtatAbsenceDto> filtreEtat = new ArrayList<RefEtatAbsenceDto>();
 		// on recharge les états d'absences pour les filtres
 		filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
-		
+
 		setListeEtatAbsenceFiltre(filtreEtat);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
@@ -189,12 +194,14 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
 				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 		setListeDemandes(result);
-		
+
 		// #12159 construction du planning
-		if(environnementService.isRecette() && "PLANNING".equals(getTabCourant().getId())) {
-			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
+		if (environnementService.isRecette() && "PLANNING".equals(getTabCourant().getId())) {
+			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
+					.getSession().getNativeSession();
 			s.setAttribute("listeDemandes", result);
-			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning").getFellow("windowplanning"));
+			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning")
+					.getFellow("windowplanning"));
 		}
 	}
 
@@ -222,7 +229,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 
 	@Command
 	@NotifyChange({ "groupeAbsenceFiltre", "listeTypeAbsenceFiltre", "typeAbsenceFiltre", "dateDebutFiltre",
-			"dateFinFiltre", "dateDemandeFiltre","listeEtatAbsenceFiltre" })
+			"dateFinFiltre", "dateDemandeFiltre", "listeEtatAbsenceFiltre" })
 	public void viderFiltre() {
 		setListeTypeAbsenceFiltre(null);
 		setGroupeAbsenceFiltre(null);
@@ -364,7 +371,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			return res;
 		}
 		// #15623 restitution massive de CA
-		if(0==dto.getIdTypeDemande()) {
+		if (0 == dto.getIdTypeDemande()) {
 			if (dto.isDateDebutAM()) {
 				res += " - M";
 			} else if (dto.isDateDebutPM()) {
@@ -396,7 +403,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			return res;
 		}
 		// #15623 restitution massive de CA
-		if(0==dto.getIdTypeDemande()) {
+		if (0 == dto.getIdTypeDemande()) {
 			if (dto.isDateFinAM()) {
 				res += " - M";
 			} else if (dto.isDateFinPM()) {
@@ -420,7 +427,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			return dto.getDuree() + " j" + (dto.isSamediOffert() ? " +S" : "");
 		}
 		// #15623 restitution massive de CA
-		if(0==dto.getIdTypeDemande()) {
+		if (0 == dto.getIdTypeDemande()) {
 			return dto.getDuree() + " j";
 		}
 		return "";
@@ -437,32 +444,33 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 
 		return res;
 	}
-	
-	/////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////// #12159 PARTIE PLANNING ////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////
+
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// /////////////////////////// #12159 PARTIE PLANNING
+	// ////////////////////////////////////
+	// ///////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public void doAfterCompose(Component comp) {
-		
+
 		try {
 			comp.getFellow("divChild").detach();
 		} catch (Exception e) {
-			// dans le cas ou la Div "divChild" n'existe pas encore 
+			// dans le cas ou la Div "divChild" n'existe pas encore
 			// car creer dans planner.render()
 		}
 		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsDemandesAgent");
-	    try {
+		try {
 			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
 		} catch (Exception e) {
 			logger.debug("Une erreur est survenue dans la creation du planning : " + e.getMessage());
 		}
 	}
-	
+
 	@RequestMapping("/eventsDemandesAgent")
-    @ResponseBody
-    public String events(HttpServletRequest request) { 
-		
+	@ResponseBody
+	public String events(HttpServletRequest request) {
+
 		@SuppressWarnings("unchecked")
 		List<DemandeDto> listDemandes = (List<DemandeDto>) request.getSession().getAttribute("listeDemandes");
 		ProfilAgentDto profil = (ProfilAgentDto) request.getSession().getAttribute("currentUser");
@@ -470,15 +478,15 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		agent.setIdAgent(profil.getAgent().getIdAgent());
 		agent.setPrenom(profil.getAgent().getPrenomUsage());
 		agent.setNom(profil.getAgent().getNomUsage());
-		
-        CustomEventsManager evs = new CustomEventsManager(request, listDemandes, Arrays.asList(agent));
-        return evs.run();
-    }
-	
 
-	/////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////// FIN PARTIE PLANNING ////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////
+		CustomEventsManager evs = new CustomEventsManager(request, listDemandes, Arrays.asList(agent));
+		return evs.run();
+	}
+
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////// FIN PARTIE PLANNING
+	// ////////////////////////////////////
+	// ///////////////////////////////////////////////////////////////////////////////////////
 
 	public List<DemandeDto> getListeDemandes() {
 		return listeDemandes;
@@ -586,7 +594,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	}
 
 	public boolean isAfficheRecette() {
-		return environnementService.isRecette();
+		return afficheRecette;
 	}
 
 	public void setAfficheRecette(boolean afficheRecette) {

@@ -91,7 +91,7 @@
 
 	<!-- Paramètre pour différencier QUAL et PROD -->
 	<Environment name="TYPE_ENV" type="java.lang.String"
-		description="Type d'environnement (RECETTE ou PROD)" value="PROD"
+		description="Type d'environnement (RECETTE ou PROD)" value="RECETTE"
 		override="false" />
 
 	<!-- -->
