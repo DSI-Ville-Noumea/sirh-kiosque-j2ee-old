@@ -47,6 +47,7 @@ import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 
 public interface ISirhAbsWSConsumer {
@@ -146,4 +147,8 @@ public interface ISirhAbsWSConsumer {
 	ActeursDto getListeActeurs(Integer idAgent);
 
 	DemandeDto getDemande(Integer idAgent, Integer idDemande);
+
+	List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate,
+			String listIdRefEtat, Integer idRefType,
+			Integer idRefGroupeAbsence, List<AgentWithServiceDto> listIdsAgent);
 }

@@ -18,6 +18,58 @@
 	.z-detail {height: 20px;}
 
 	.RHTitle2 { width: 140px; }
+	
+	.enteteColonneMini {
+		font-size: 8px !important;
+	    font-style: italic;
+		line-height:8px !important;
+		font-weight: normal !important;
+	}
+	
+	.enteteColonne {
+		font-size: 12px !important;
+	    font-style: normal;
+		font-weight: bold !important;
+		height: 38px;
+		background: #AB5420 !important;
+	}
+	.marginLeftBold {
+		font-weight: bold;
+		margin-left: 5px;
+	}
+	.legend {
+		margin-top:2px;
+		margin-bottom:2px;
+		height:38px;
+		width:90%;
+		margin:0 auto;
+	}
+	.legendEventRaye {
+		margin-top:2px;
+		margin-bottom:2px;
+		height:38px;
+		width:90%;
+		margin:0 auto;
+		background-image: linear-gradient(-45deg, 
+			rgba(255, 255, 255, 0.2) 25%, 
+			transparent 25%, 
+			transparent 50%, 
+			rgba(255, 255, 255, 0.2) 50%, 
+			rgba(255, 255, 255, 0.2) 75%, 
+			transparent 75%, 
+			transparent) !important;
+	}
+	.boutonLegend {
+	    position: relative;
+	    left: 960px;
+	    top: 56px;
+	    z-index: 10;
+	    height: 32px;
+	    font-weight: bold;
+	}
+	.boutonLegend span {
+	    font-weight: bold;
+	}
 	]]>
 	
 	

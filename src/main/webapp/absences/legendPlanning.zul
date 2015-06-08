@@ -1,0 +1,72 @@
+<zk>
+	<window id="annuleDialog"
+		title="Légende du planning" mode="modal"
+		closable="true" action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()">
+		
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Légende" />
+			</vlayout>
+				
+			<separator />
+				
+			<hlayout>
+					
+				<grid width="602px">
+					<columns>
+						<column class="enteteColonne" width="150px;">
+							<div><label value="Groupe d'absence" class="marginLeftBold" /></div>
+						</column>
+						<column class="enteteColonne" align="center" height="38px" width="150px;">
+							<div><label value="Etat provisoire" style="font-weight: bold;" /></div>
+						</column>
+						<column align="center" class="enteteColonne" width="150px;">
+							<div><label value="Etats en cours" style="font-weight: bold;" /></div>
+							<div class="enteteColonneMini"><label value="(saisi, visé favorable," /></div>
+							<div class="enteteColonneMini"><label value="visé défavorable," /></div>
+							<div class="enteteColonneMini"><label value="en attente, à valider)" /></div>
+						</column>
+						<column align="center" class="enteteColonne" width="150px;">
+							<div><label value="Etats validés" style="font-weight: bold;" /></div>
+							<div class="enteteColonneMini"><label value="(approuvé, validé, prise)" /></div>
+						</column>
+					</columns>
+					<rows>
+						<row style="background-color:#FED89C !important;background:#FED89C !important;">
+							<label value="Congés annuels" class="marginLeftBold" />
+							<div style="background:grey;" class="legend"></div>
+							<div style="background:green;" class="legendEventRaye"></div>
+							<div style="background:green;" class="legend"></div>
+						</row>
+						<row style="background-color:#FFEBCD !important;background:#FFEBCD !important;">
+							<label value="Congés exceptionnels" class="marginLeftBold" />
+							<div style="background:grey;" class="legend"></div>
+							<div style="background:orange;" class="legendEventRaye"></div>
+							<div style="background:orange;" class="legend"></div>
+						</row>
+						<row style="background-color:#FED89C !important;background:#FED89C !important;">
+							<label value="Absences syndicales" class="marginLeftBold" />
+							<div style="background:grey;" class="legend"></div>
+							<div style="background:red;" class="legendEventRaye"></div>
+							<div style="background:red;" class="legend"></div>
+						</row>
+						<row style="background-color:#FFEBCD !important;background:#FFEBCD !important;">
+							<label value="Repos compensateurs" class="marginLeftBold" />
+							<div style="background:grey;" class="legend"></div>
+							<div style="background:blue;" class="legendEventRaye"></div>
+							<div style="background:blue;" class="legend"></div>
+						</row>
+						<row style="background-color:#FED89C !important;background:#FED89C !important;">
+							<label value="Récupérations" class="marginLeftBold" />
+							<div style="background:grey;" class="legend"></div>
+							<div style="background:violet;" class="legendEventRaye"></div>
+							<div style="background:violet;" class="legend"></div>
+						</row>
+					</rows>
+				</grid>
+			</hlayout>
+		</div>
+	</window>
+</zk>

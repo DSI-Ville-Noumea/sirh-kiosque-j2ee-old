@@ -68,7 +68,7 @@ public class CustomDHXEvent extends DHXEvent {
 				this.color = "blue";
 				break;
 			case RECUP:
-				this.color = "aqua";
+				this.color = "violet";
 				break;
 			case NOT_EXIST:
 				break;

@@ -49,6 +49,7 @@ import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
@@ -87,6 +88,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
 	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
 	private static final String sirhListeDemandesUrl = "demandes/listeDemandes";
+	// utilise pour le plaaning afin de passer la liste des agents dans l appel au WS
+	private static final String sirhListeDemandesSIRHUrl = "demandes/listeDemandesSIRH";
 	private static final String sirhListeMotifsRefusUrl = "motif/getListeMotif";
 	private static final String sirhHistoriqueAbsenceUrl = "demandes/historique";
 	private static final String sirhDureeCongeAnnuelUrl = "demandes/dureeDemandeCongeAnnuel";
@@ -443,6 +446,40 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		if (idAgentRecherche != null)
 			params.put("idAgentRecherche", idAgentRecherche.toString());
 
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(DemandeDto.class, res, url);
+	}
+
+	@Override
+	public List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate,
+			String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence,
+			List<AgentWithServiceDto> listIdsAgent) {
+		
+		String url = String.format(sirhAbsWsBaseUrl + sirhListeDemandesSIRHUrl);
+		HashMap<String, String> params = new HashMap<String, String>();
+		if (fromDate != null)
+			params.put("from", sdf.format(fromDate));
+		if (toDate != null)
+			params.put("to", sdf.format(toDate));
+		if (listIdRefEtat != null)
+			params.put("etat", listIdRefEtat);
+		if (idRefType != null)
+			params.put("type", idRefType.toString());
+		if (idRefGroupeAbsence != null)
+			params.put("groupe", idRefGroupeAbsence.toString());
+		
+		params.put("aValider", Boolean.FALSE.toString());
+		
+		
+		String csvId = "";
+		for (AgentWithServiceDto dto : listIdsAgent) {
+			csvId += dto.getIdAgent().toString() + ",";
+		}
+		if (!"".equals(csvId)) {
+			csvId = csvId.substring(0, csvId.length() - 1);
+		}
+		params.put("idAgents", csvId);
+		
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(DemandeDto.class, res, url);
 	}
