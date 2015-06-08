@@ -382,6 +382,13 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	}
 
 	@Command
+	public void openLegende() {
+		// create a window programmatically and use it as a modal dialog.
+		Window win = (Window) Executions.createComponents("/absences/legendPlanning.zul", null, null);
+		win.doModal();
+	}
+
+	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void approuverDemande(@BindingParam("ref") DemandeDto demande) {
 
