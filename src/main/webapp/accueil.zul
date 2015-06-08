@@ -75,9 +75,7 @@
 			<div
 				style="float:left; margin-top:30px;margin-left: 10px;">
 				<zk forEach="${vm.listeTexteAccueil}">
-					<label multiline="true">
-						${each.texteAccueilKiosque}
-					</label>
+					<html>${each.texteAccueilKiosque}</html>
 					<separator />
 				</zk>
 
