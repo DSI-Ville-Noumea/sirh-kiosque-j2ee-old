@@ -36,6 +36,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
@@ -87,6 +88,8 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	private ProfilAgentDto currentUser;
 
 	private List<AccueilRhDto> listeTexteAccueil;
+
+	private List<String> listeAlerteAccueil;
 
 	private ReferentRhDto refrentRh;
 
@@ -149,6 +152,13 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		for (AccueilRhDto t : listeTexte) {
 			t.setTexteAccueilKiosque(t.getTexteAccueilKiosque().replace("&quot;", "\""));
 			getListeTexteAccueil().add(t);
+		}
+
+		// alertes d'accueil
+		ReturnMessageDto alertes = sirhWsConsumer.getAlerteRHByAgent(currentUser.getAgent().getIdAgent());
+		setListeAlerteAccueil(new ArrayList<String>());
+		for (String t : alertes.getInfos()) {
+			getListeAlerteAccueil().add(t.replace("&quot;", "\""));
 		}
 		// setListeTexteAccueil(listeTexte);
 		// refrent Rh de l'agent
@@ -388,6 +398,14 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 	public void setNombreAbsenceAViser(String nombreAbsenceAViser) {
 		this.nombreAbsenceAViser = nombreAbsenceAViser;
+	}
+
+	public List<String> getListeAlerteAccueil() {
+		return listeAlerteAccueil;
+	}
+
+	public void setListeAlerteAccueil(List<String> listeAlerteAccueil) {
+		this.listeAlerteAccueil = listeAlerteAccueil;
 	}
 
 }

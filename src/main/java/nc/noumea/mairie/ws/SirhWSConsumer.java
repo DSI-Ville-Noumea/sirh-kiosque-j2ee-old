@@ -35,6 +35,7 @@ import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
@@ -70,6 +71,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhAgentUrl = "agents/getAgent";
 	private static final String sirhListDelegataireEaeUrl = "eaes/listDelegataire";
 	private static final String sirhAgentServiceUrl = "services/agent";
+	private static final String sirhAlerteRHUrl = "kiosqueRH/getAlerteRHByAgent";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -149,15 +151,14 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		List<AgentWithServiceDto> listAgentsMairieComplete = readResponseAsList(AgentWithServiceDto.class, res, url);
-		
+
 		List<AgentWithServiceDto> result = new ArrayList<AgentWithServiceDto>();
-		for(AgentWithServiceDto agent : listAgentsMairieComplete) {
-			if(null != agent
-					&& !agent.getIdAgent().equals(idAgentConnecte)) {
+		for (AgentWithServiceDto agent : listAgentsMairieComplete) {
+			if (null != agent && !agent.getIdAgent().equals(idAgentConnecte)) {
 				result.add(agent);
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -248,5 +249,15 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(parameters, url);
 		return readResponse(AgentWithServiceDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto getAlerteRHByAgent(Integer idAgent) {
+		String url = String.format(sirhWsBaseUrl + sirhAlerteRHUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 }

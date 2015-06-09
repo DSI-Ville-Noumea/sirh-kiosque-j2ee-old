@@ -31,6 +31,7 @@ import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
@@ -69,5 +70,7 @@ public interface ISirhWSConsumer {
 	List<AgentDto> getListDelegataire(Integer idAgent);
 
 	AgentWithServiceDto getAgentService(Integer idAgent, Date date);
+
+	ReturnMessageDto getAlerteRHByAgent(Integer idAgent);
 
 }
