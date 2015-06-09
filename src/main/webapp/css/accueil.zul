@@ -63,6 +63,10 @@
 		font-weight: bold;
 	}
 	
+	.test .z-panel-header{
+		background: red !important;
+	}
+	
 	]]>
 	
 </style>

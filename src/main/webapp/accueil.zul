@@ -11,6 +11,20 @@
 
 				<portallayout id="portalLayout" maximizedMode="whole">
 
+					<portalchildren style="padding: 5px;" width="100%"
+						visible="@bind(not empty vm.listeAlerteAccueil)">
+						<panel id="alerte" title="INFORMATIONS"
+							border="normal" collapsible="true" closable="true"
+							maximizable="true" style="margin-bottom:10px;" sclass="test">
+							<panelchildren style="padding-top:0px;">
+								<zk
+									forEach="${vm.listeAlerteAccueil}">
+									<html>${each}</html>
+								</zk>
+							</panelchildren>
+						</panel>
+					</portalchildren>
+
 					<portalchildren style="padding: 5px" width="25%"
 						visible="@bind(vm.droitsEae)">
 						<panel id="eae" height="120px"
