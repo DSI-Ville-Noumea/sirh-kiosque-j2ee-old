@@ -43,7 +43,6 @@ import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.planning.CustomEventsManager;
 import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXPlanner;
-import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
@@ -152,13 +151,11 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		
 		// son equipe
 		// l agent lui-meme
-		AgentWithServiceDto agent = new AgentWithServiceDto();
-		agent.setIdAgent(currentUser.getAgent().getIdAgent());
-		agent.setPrenom(currentUser.getAgent().getPrenomUsage());
-		agent.setNom(currentUser.getAgent().getNomUsage());
+		AgentWithServiceDto agent = sirhWsConsumer.getAgentService(currentUser.getAgent().getIdAgent(), new Date());
 		getListAgentsEquipe().add(agent);
 		// son superieur hierarchique
 		AgentWithServiceDto superieur = sirhWsConsumer.getSuperieurHierarchique(currentUser.getAgent().getIdAgent());
+		superieur = sirhWsConsumer.getAgentService(superieur.getIdAgent(), new Date());
 		getListAgentsEquipe().add(superieur);
 		EstChefDto dto = sirhWsConsumer.isAgentChef(currentUser.getAgent().getIdAgent());
 		// si l'agent est chef
@@ -169,11 +166,15 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			for (ServiceTreeDto premierNiv : tree) {
 				for (AgentWithServiceDto agentPremierNiveau : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
 						premierNiv.getService())) {
+					agentPremierNiveau.setCodeService(premierNiv.getService());
+					agentPremierNiveau.setService(premierNiv.getServiceLibelle());
 					getListAgentsEquipe().add(agentPremierNiveau);
 				}
 				for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
 					for (AgentWithServiceDto agentDeuxNiveau : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
 							deuxNiv.getService())) {
+						agentDeuxNiveau.setCodeService(deuxNiv.getService());
+						agentDeuxNiveau.setService(deuxNiv.getServiceLibelle());
 						getListAgentsEquipe().add(agentDeuxNiveau);
 					}
 				}
@@ -181,8 +182,17 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		} else {
 			// sinon l equipe de l agent
 			List<AgentWithServiceDto> agentsEquipe = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
-			getListAgentsEquipe().addAll(agentsEquipe);
+			
+			for(AgentWithServiceDto ag : agentsEquipe) {
+				ag.setCodeService(agent.getCodeService());
+				ag.setService(agent.getService());
+				getListAgentsEquipe().add(ag);
+			}
 		}
+		
+		// planning #12159
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
+		s.setAttribute("listeAgentsEquipe", getListAgentsEquipe());
 	}
 
 	@Command
@@ -517,7 +527,14 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			// dans le cas ou la Div "divChild" n'existe pas encore
 			// car creer dans planner.render()
 		}
-		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsDemandesAgent");
+
+
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
+				.getSession().getNativeSession();
+		@SuppressWarnings("unchecked")
+		List<AgentWithServiceDto> listeAgentsEquipe = (List<AgentWithServiceDto>) s.getAttribute("listeAgentsEquipe");
+		
+		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsDemandesAgent", listeAgentsEquipe);
 		try {
 			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
 		} catch (Exception e) {
@@ -534,14 +551,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		@SuppressWarnings("unchecked")
 		List<AgentWithServiceDto> listeAgentsEquipe = (List<AgentWithServiceDto>) request.getSession().getAttribute("listeAgentsEquipe");
 		
-		List<AgentDto> listAgentPlanning = new ArrayList<AgentDto>();
-		if(null != listeAgentsEquipe) {
-			for(AgentWithServiceDto ag : listeAgentsEquipe) {
-				listAgentPlanning.add(new AgentDto(ag));
-			}
-		}
-		
-        CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listAgentPlanning);
+        CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listeAgentsEquipe);
         return evs.run();
     }
 

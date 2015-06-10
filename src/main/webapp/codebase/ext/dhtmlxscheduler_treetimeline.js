@@ -45,8 +45,8 @@ scheduler.attachEvent("onTimelineCreated", function (obj){
 
 	}
 });	
-
-scheduler.attachEvent("onBeforeSectionRender", function (render_name, y_unit, timeline){
+//#12159 ATTENTION CODE PERSO : si update de la library, ce code disparaitra
+scheduler.attachEvent("onBeforeSectionRender", function (render_name, y_unit, timeline, classNameCssTr){
 	var res = {};
 	if(render_name == "tree"){
 		var height;
@@ -66,7 +66,14 @@ scheduler.attachEvent("onBeforeSectionRender", function (render_name, y_unit, ti
 			table_className = (timeline.folder_events_available)?"dhx_data_table folder_events":"dhx_data_table folder";
 		} else {
 			height = timeline.dy;
-			tr_className = "dhx_row_item";
+			
+			// #12159 ATTENTION CODE PERSO : si update de la library, ce code disparaitra
+			classNameCssTrStr = "linePair";
+			if(!classNameCssTr) {
+				classNameCssTrStr = "lineImpair";
+			}
+			
+			tr_className = "dhx_row_item " + classNameCssTrStr;
 			td_className = "dhx_matrix_scell item";
 			div_expand = '';
 			table_className = "dhx_data_table";

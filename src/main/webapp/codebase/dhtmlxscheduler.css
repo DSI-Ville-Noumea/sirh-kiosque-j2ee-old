@@ -1016,7 +1016,7 @@ div.icon_delete{
 
 /* Tree view */
 .dhx_matrix_scell.folder, .dhx_data_table.folder .dhx_matrix_cell{
-	background-color: #969394;
+/* 	background-color: #969394; */
 	cursor: pointer;
 }
 .dhx_matrix_scell .dhx_scell_level0{
@@ -2055,6 +2055,8 @@ div.dhx_menu_head, div.dhx_menu_icon {
 }
 .dhx_matrix_scell span {
 	margin-left: 5px;
+	padding: 0;
+	margin: 0;
 }
 .dhx_cal_header div div {
 	border-left: 1px solid #CECECE;
@@ -2260,4 +2262,11 @@ div.dhx_menu_head, div.dhx_menu_icon {
 									rgba(255, 255, 255, 0.2) 75%, 
 									transparent 75%, 
 									transparent) !important;
+	min-width: 4px;
+}
+
+.dhx_row_folder {
+	background-color:  #EE7203;
+	height: 20px;
+	color: #FFF;
 }

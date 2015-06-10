@@ -34,10 +34,11 @@ scheduler.createTimelineView=function(obj){
 		show_unassigned: false,
 		second_scale: false,
 		round_position: false,
-		_logic: function(render_name, y_unit, timeline) {
+		_logic: function(render_name, y_unit, timeline, classNameCssTr) {
 			var res = {};
 			if(scheduler.checkEvent("onBeforeSectionRender")) {
-				res = scheduler.callEvent("onBeforeSectionRender", [render_name, y_unit, timeline]);
+				// #12159 ATTENTION CODE PERSO : si update de la library, ce code disparaitra
+				res = scheduler.callEvent("onBeforeSectionRender", [render_name, y_unit, timeline, classNameCssTr]);
 			}
 			return res;
 		}
@@ -603,10 +604,15 @@ function y_scale(d) {
 
 	this._events_height = {};
 	this._section_height = {};
+	var classNameCssTr = false;
 	for (var i=0; i<this.y_unit.length; i++){
-
-		var stats = this._logic(this.render, this.y_unit[i], this); // obj with custom style
-
+		// #12159 ATTENTION CODE PERSO : si update de la library, ce code disparaitra
+		var stats = this._logic(this.render, this.y_unit[i], this, classNameCssTr); // obj with custom style
+		if(this.y_unit[i].children) {
+			var classNameCssTr = false;
+		}else{
+			classNameCssTr = !classNameCssTr;
+		}
 		scheduler._merge(stats, {
 			height: this.dy
 		});

@@ -81,12 +81,6 @@
 				</hlayout>
 			</vlayout>
 		</groupbox>
-
-		<separator />
-	
-		<div sclass="RHTitle2Line" />
-		
-		<separator />
 		
 		<div class="dhx_cal_today_button boutonLegend" onClick="@command('openLegende')">Légende</div>
 	

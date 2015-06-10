@@ -129,6 +129,8 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	private List<RefEtatAbsenceDto> listeEtatsSelectionnes;
 
 	private boolean afficheRecette;
+	
+	private List<AgentWithServiceDto> listAgentsEquipe;
 
 	@Init
 	public void initDemandes(@BindingParam("aApprouver") Boolean aApprouver) {
@@ -169,10 +171,25 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 			setListeEtatsSelectionnes(Arrays.asList(getListeEtatAbsenceFiltre().get(1)));
 		}
 
-		List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(), null);
+		// #12159 planning
+		List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
+		for(ServiceDto service : getListeServicesFiltre()) {
+			List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
+					service.getCodeService());
+			
+			if(null != listeAgents) {
+				for(AgentDto agent : listeAgents) {
+					AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(
+							agent, service.getCodeService(), service.getService());
+					listAgentsWithServiceDto.add(agentsWithServiceDto);
+				}
+			}
+		}
+		
 		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
 				.getSession().getNativeSession();
-		s.setAttribute("listeAgents", listeAgents);
+		s.setAttribute("listeAgents", listAgentsWithServiceDto);
+		setListAgentsEquipe(listAgentsWithServiceDto);
 	}
 
 	@Command
@@ -283,6 +300,19 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
 					.getSession().getNativeSession();
 			s.setAttribute("listeDemandes", result);
+			
+			if(null != getAgentFiltre()
+					&& null != getAgentFiltre().getIdAgent()) {
+				List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
+				AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(
+						getAgentFiltre(), getServiceFiltre().getCodeService(), getServiceFiltre().getService());
+				listAgentsWithServiceDto.add(agentsWithServiceDto);
+				
+				s.setAttribute("listeAgents", listAgentsWithServiceDto);
+			}else{
+				s.setAttribute("listeAgents", getListAgentsEquipe());
+			}
+			
 			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning")
 					.getFellow("windowplanning"));
 		}
@@ -689,7 +719,12 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 			// dans le cas ou la Div "divChild" n'existe pas encore
 			// car creer dans planner.render()
 		}
-		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes");
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
+				.getSession().getNativeSession();
+		@SuppressWarnings("unchecked")
+		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) s.getAttribute("listeAgents");
+		
+		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes", listeAgents);
 		try {
 			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
 		} catch (Exception e) {
@@ -704,7 +739,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		@SuppressWarnings("unchecked")
 		List<DemandeDto> listDemandes = (List<DemandeDto>) request.getSession().getAttribute("listeDemandes");
 		@SuppressWarnings("unchecked")
-		List<AgentDto> listeAgents = (List<AgentDto>) request.getSession().getAttribute("listeAgents");
+		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) request.getSession().getAttribute("listeAgents");
 
 		CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listeAgents);
 		return evs.run();
@@ -875,4 +910,13 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	public void setAfficheRecette(boolean afficheRecette) {
 		this.afficheRecette = afficheRecette;
 	}
+
+	public List<AgentWithServiceDto> getListAgentsEquipe() {
+		return listAgentsEquipe;
+	}
+
+	public void setListAgentsEquipe(List<AgentWithServiceDto> listAgentsEquipe) {
+		this.listAgentsEquipe = listAgentsEquipe;
+	}
+	
 }

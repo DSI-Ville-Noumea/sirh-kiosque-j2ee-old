@@ -35,8 +35,17 @@ public class AgentWithServiceDto extends AgentDto {
 	private String signature;
 	private String position;
 
+	public AgentWithServiceDto(AgentDto agent, String codeService, String service) {
+		super();
+		this.setIdAgent(agent.getIdAgent());
+		this.setNom(agent.getNom());
+		this.setPrenom(agent.getPrenom());
+		this.codeService = codeService;
+		this.service = service;
+	}
+	
 	public AgentWithServiceDto() {
-
+		
 	}
 
 	public String getService() {

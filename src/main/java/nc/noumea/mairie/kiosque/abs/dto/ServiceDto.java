@@ -51,4 +51,14 @@ public class ServiceDto implements Comparable<ServiceDto> {
 	public int compareTo(ServiceDto arg0) {
 		return this.service.compareTo(arg0.service);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(null == obj) {
+			return false;
+		}
+		
+		return codeService.equals(((ServiceDto) obj).getCodeService());
+	}
 }

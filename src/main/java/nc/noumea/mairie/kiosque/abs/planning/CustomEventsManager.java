@@ -27,23 +27,18 @@ package nc.noumea.mairie.kiosque.abs.planning;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
-import nc.noumea.mairie.kiosque.abs.planning.vo.CustomColorAgent;
-import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXCollection;
 import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXEvent;
-import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 
 import com.dhtmlx.planner.DHXEv;
 import com.dhtmlx.planner.DHXEvent;
 import com.dhtmlx.planner.DHXEventsManager;
 import com.dhtmlx.planner.DHXStatus;
-import com.dhtmlx.planner.data.DHXCollection;
  
 public class CustomEventsManager extends DHXEventsManager {
 
@@ -53,16 +48,14 @@ public class CustomEventsManager extends DHXEventsManager {
 
 	private List<DHXEv> evs = new ArrayList<DHXEv>();
 	
-	List<CustomColorAgent> listColorAgent = new ArrayList<CustomColorAgent>();
-	
-	ArrayList<DHXCollection> timeLine;
+//	ArrayList<DHXCollection> timeLine;
 	
  
 	public CustomEventsManager(HttpServletRequest request) {
 		super(request);
 	}
 	
-	public CustomEventsManager(HttpServletRequest request, List<DemandeDto> listDemandesDto, List<AgentDto> listAgents) {
+	public CustomEventsManager(HttpServletRequest request, List<DemandeDto> listDemandesDto, List<AgentWithServiceDto> listAgents) {
 		super(request);
 		
 		if(null != listDemandesDto) {
@@ -70,26 +63,64 @@ public class CustomEventsManager extends DHXEventsManager {
 				CustomDHXEvent ev = new CustomDHXEvent(dto);
 				ev.setDateDebut(sdf.format(dto.getDateDebut()));
 				ev.setDateFin(sdf.format(dto.getDateFin()));
+				
 				getEvs().add(ev);
 			}
 		}
-		
-		setTimeLine(createTimeLine(listAgents));
+	    		
+//		setTimeLine(createTimeLine(listAgents));
 	}
 	
-	private ArrayList<DHXCollection> createTimeLine(List<AgentDto> listAgents) {
-		
-		Collections.sort(listAgents);
-		
-		ArrayList<DHXCollection> event_type = new ArrayList<DHXCollection>();
-		boolean className = false; 
-		for(AgentDto agent : listAgents) {
-			event_type.add(new CustomDHXCollection(agent.getIdAgent().toString(), agent.getNom() + " " + agent.getPrenom(), className));
-			className = !className;
-		}
-		
-		return event_type;
-	}
+//	private ArrayList<DHXCollection> createTimeLine(List<AgentWithServiceDto> listAgents) {
+//		
+//		// on trie les agents par ordre alpha
+//		Collections.sort(listAgents);
+//		ArrayList<DHXCollection> event_type = new ArrayList<DHXCollection>();
+//		
+//		List<ServiceDto> listeServices = getListServices(listAgents);
+//		// on trie les services par ordre alpha
+//		Collections.sort(listeServices);
+//		
+//		CustomDHXCollection test = new CustomDHXCollection("9002990", "test", false);
+//		test.addChild(new CustomDHXCollection("9002990", "testjo", false));
+//		event_type.add(test);
+//		for(ServiceDto service : listeServices) {
+//			CustomDHXCollection parent = new CustomDHXCollection(service.getCodeService(), service.getService(), false);
+//			
+//			boolean className = false; 
+//			for(AgentWithServiceDto agent : listAgents) {
+//				if(service.getCodeService().equals(agent.getCodeService())) {
+//					parent.addChild(new CustomDHXCollection(agent.getIdAgent().toString(), agent.getNom() + " " + agent.getPrenom(), className));
+//					className = !className;
+//				}
+//			}
+//			event_type.add(parent);
+//		}
+//		
+//		boolean className = false; 
+//		for(AgentWithServiceDto agent : listAgents) {
+//			if(service.getCodeService().equals(agent.getCodeService())) {
+//				event_type.add(new CustomDHXCollection(agent.getIdAgent().toString(), agent.getNom() + " " + agent.getPrenom(), className));
+//				className = !className;
+//			}
+//		}
+//		
+//		return event_type;
+//	}
+	
+//	private List<ServiceDto> getListServices(List<AgentWithServiceDto> listAgents) {
+//		
+//		List<ServiceDto> listServices = new ArrayList<ServiceDto>();
+//		for(AgentWithServiceDto agent : listAgents) {
+//			ServiceDto service = new ServiceDto();
+//			service.setCodeService(agent.getCodeService());
+//			service.setService(agent.getService());
+//			if(!listServices.contains(service)) {
+//				listServices.add(service);
+//			}
+//		}
+//		return listServices;
+//	}
  
 	public Iterable<DHXEv> getEvents() {
     	return getEvs();
@@ -105,53 +136,24 @@ public class CustomEventsManager extends DHXEventsManager {
 		return new DHXEvent();
 	}
 	
-	@Override
-	public HashMap<String, Iterable<DHXCollection>> getCollections() {
-
-		HashMap<String, Iterable<DHXCollection>> c = new HashMap<String, Iterable<DHXCollection>>();
-		c.put("viewSemaine", getTimeLine());
-		c.put("viewMois", getTimeLine());
-		c.put("viewTrimestre", getTimeLine());
-		return c;
-	}
-
-	private String getColor(Integer idAgent) {
-		
-		// si l agent a deja etait traite, on retourne la meme couleur
-		for(CustomColorAgent colorAgent : listColorAgent) {
-			if(colorAgent.getIdAgent().equals(idAgent)) {
-				return colorAgent.getColor();
-			}
-		}
-		
-		// si 1er fois qu on traite l agent
-		// on lui attribue une couleur
-		for(String color : LIST_COLORS) {
-			boolean isColorFind = false;
-			for(CustomColorAgent colorAgent : listColorAgent) {
-				if(colorAgent.getColor().equals(color)) {
-					isColorFind = true;
-					break;
-				}
-			}
-			if(!isColorFind) {
-				CustomColorAgent colorAgent = new CustomColorAgent(idAgent, color);
-				listColorAgent.add(colorAgent);
-				return color;
-			}
-		}
-		
-		return "black";
-	}
-
+//	@Override
+//	public HashMap<String, Iterable<DHXCollection>> getCollections() {
+//
+//		HashMap<String, Iterable<DHXCollection>> c = new HashMap<String, Iterable<DHXCollection>>();
+//		c.put("viewSemaine", getTimeLine());
+//		c.put("viewMois", getTimeLine());
+//		c.put("viewTrimestre", getTimeLine());
+//		
+//		return c;
+//	}
 	
-	public ArrayList<DHXCollection> getTimeLine() {
-		return timeLine;
-	}
-
-	public void setTimeLine(ArrayList<DHXCollection> timeLine) {
-		this.timeLine = timeLine;
-	}
+//	public ArrayList<DHXCollection> getTimeLine() {
+//		return timeLine;
+//	}
+//
+//	public void setTimeLine(ArrayList<DHXCollection> timeLine) {
+//		this.timeLine = timeLine;
+//	}
 
 	public List<DHXEv> getEvs() {
 		return evs;
