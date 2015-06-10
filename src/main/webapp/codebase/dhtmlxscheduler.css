@@ -196,6 +196,7 @@ div.dhx_modal_cover {
 
 .dhx_cal_container{
 	background-color:#C2D5FC;
+/*	#12159 */
 	font-family: Arial,sans-serif;
 	font-size:8pt;
 	position:relative;
@@ -978,6 +979,7 @@ div.icon_delete{
 
 .dhx_matrix_cell, .dhx_matrix_scell{
 	overflow:hidden;
+/*	#12159 */
 	text-align:left;
 	vertical-align:middle;
 	border-bottom:1px dotted #8894A3;
@@ -1016,6 +1018,7 @@ div.icon_delete{
 
 /* Tree view */
 .dhx_matrix_scell.folder, .dhx_data_table.folder .dhx_matrix_cell{
+/*	#12159 */
 /* 	background-color: #969394; */
 	cursor: pointer;
 }
@@ -1664,11 +1667,13 @@ div.dhx_menu_head, div.dhx_menu_icon {
 
 /* scales, containers start */
 .dhx_cal_container {
+/*	#12159 */
 	background-color: #FFEBCD;
 	z-index: 1;
 }
 
 .dhx_cal_data {
+/*	#12159 */
 	border: 1px solid #CFCFCF;
 }
 .dhx_scale_holder {
@@ -1692,6 +1697,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 	border: 1px solid #CECECE;
 	border-left: 0;
 	border-bottom: 0;
+/*	#12159 */
 	background-color: #AB5420;
 }
 .dhx_scale_bar {
@@ -1700,6 +1706,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 
 .dhx_scale_bar {
 	font: 11px/16px Arial;
+/*	#12159 */
 	color: #FFFFFF;
 	padding-top: 2px;
 	background-color: #AB5420;
@@ -1730,9 +1737,11 @@ div.dhx_menu_head, div.dhx_menu_icon {
 	position: absolute;
 	left: 0;
 	z-index: -1;
+/*	#12159 */
 	color: #004F9F;
 }
 .dhx_cal_today_button {
+/*	#12159 */
 	color: #FFFFFF;
 	background-color: #EE7203;
 	left: auto;
@@ -1753,6 +1762,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 }
 .dhx_cal_prev_button {
 	right: 61px;
+/*	#12159 */
 	background: url(imgs_dhx_terrace/arrow_left.png) no-repeat center center #EE7203;
 	-webkit-border-top-left-radius:5px;
 	-webkit-border-bottom-left-radius:5px;
@@ -1763,6 +1773,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 }
 .dhx_cal_next_button {
 	right: 14px;
+/*	#12159 */
 	background: url(imgs_dhx_terrace/arrow_right.png) no-repeat center center #EE7203;
 	-webkit-border-top-right-radius:5px;
 	-webkit-border-bottom-right-radius:5px;
@@ -1772,6 +1783,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 	border-bottom-right-radius:5px;
 }
 .dhx_cal_tab {
+/*	#12159 */
 	color: #FFFFFF;
 	width: 60px;
 	padding-top: 0;
@@ -1782,9 +1794,11 @@ div.dhx_menu_head, div.dhx_menu_icon {
 	font-weight: bold;
 	font-family: arial;
 	font-size: 12px;
+/*	#12159 */
 	background-color: #EE7203;
 }
 .dhx_cal_tab.active {
+/*	#12159 */
 	background-color: #004E9E;
 	color: #FFFFFF;
 	border: 1px solid #CECECE;
@@ -2053,6 +2067,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 	border-bottom: 1px solid #CECECE;
 	border-right: 1px solid #CECECE;
 }
+/*	#12159 */
 .dhx_matrix_scell span {
 	margin-left: 5px;
 	padding: 0;
@@ -2245,7 +2260,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 .dhx_mini_calendar  .dhx_cal_next_button{
 	top:8px !important;
 }
-
+/*	#12159 */
 .linePair {
 	background-color: #FED89C;
 }	
@@ -2270,3 +2285,4 @@ div.dhx_menu_head, div.dhx_menu_icon {
 	height: 20px;
 	color: #FFF;
 }
+

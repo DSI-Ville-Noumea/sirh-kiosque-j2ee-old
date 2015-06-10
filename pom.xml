@@ -5,7 +5,7 @@
 	<groupId>nc.noumea.mairie</groupId>
 	<artifactId>sirh-kiosque-j2ee</artifactId>
 	<packaging>war</packaging>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<name>sirh-kiosque-j2ee</name>
 	<description>Kiosque RH en J2EE</description>
 	<organization>
@@ -324,6 +324,9 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!-- /!\ ATTENTION /!\ si update de cette dependance et du code JS dans src/main/webapp/codebase, le code perso ajoute au JS sera ecrase -->
+		<!-- et certaines fonctionnalite du planning seront perdu (CSS principalement) -->
+		<!--  rechercher #12159 dans src/main/webapp/codebase -->
 		<dependency>
 			<groupId>com.javaplanner</groupId>
 			<artifactId>javaplanner</artifactId>
