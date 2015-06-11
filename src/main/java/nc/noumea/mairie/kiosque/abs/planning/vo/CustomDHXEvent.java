@@ -90,7 +90,7 @@ public class CustomDHXEvent extends DHXEvent {
 			case APPROUVEE:
 			case VALIDEE:
 			case PRISE:
-
+				className = "eventPlein";
 				break;
 			case REFUSEE:
 			case REJETE:

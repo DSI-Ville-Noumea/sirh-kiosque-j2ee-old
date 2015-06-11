@@ -2280,6 +2280,9 @@ div.dhx_menu_head, div.dhx_menu_icon {
 	min-width: 4px;
 }
 
+.eventPlein {
+	min-width: 4px;
+}
 .dhx_row_folder {
 	background-color:  #EE7203;
 	height: 20px;

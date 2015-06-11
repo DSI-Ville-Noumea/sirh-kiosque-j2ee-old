@@ -60,11 +60,13 @@ public class CustomEventsManager extends DHXEventsManager {
 		
 		if(null != listDemandesDto) {
 			for(DemandeDto dto : listDemandesDto) {
-				CustomDHXEvent ev = new CustomDHXEvent(dto);
-				ev.setDateDebut(sdf.format(dto.getDateDebut()));
-				ev.setDateFin(sdf.format(dto.getDateFin()));
-				
-				getEvs().add(ev);
+				if(null != dto.getGroupeAbsence()) {
+					CustomDHXEvent ev = new CustomDHXEvent(dto);
+					ev.setDateDebut(sdf.format(dto.getDateDebut()));
+					ev.setDateFin(sdf.format(dto.getDateFin()));
+					
+					getEvs().add(ev);
+				}
 			}
 		}
 	    		
