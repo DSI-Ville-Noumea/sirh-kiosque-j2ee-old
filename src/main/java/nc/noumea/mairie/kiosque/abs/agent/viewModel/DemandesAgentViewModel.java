@@ -152,11 +152,17 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		// son equipe
 		// l agent lui-meme
 		AgentWithServiceDto agent = sirhWsConsumer.getAgentService(currentUser.getAgent().getIdAgent(), new Date());
-		getListAgentsEquipe().add(agent);
+		if(null != agent) {
+			getListAgentsEquipe().add(agent);
+		}
 		// son superieur hierarchique
 		AgentWithServiceDto superieur = sirhWsConsumer.getSuperieurHierarchique(currentUser.getAgent().getIdAgent());
-		superieur = sirhWsConsumer.getAgentService(superieur.getIdAgent(), new Date());
-		getListAgentsEquipe().add(superieur);
+		if(null != superieur) {
+			superieur = sirhWsConsumer.getAgentService(superieur.getIdAgent(), new Date());
+		}
+		if(null != superieur) {
+			getListAgentsEquipe().add(superieur);
+		}
 		EstChefDto dto = sirhWsConsumer.isAgentChef(currentUser.getAgent().getIdAgent());
 		// si l'agent est chef
 		// ses equipes
