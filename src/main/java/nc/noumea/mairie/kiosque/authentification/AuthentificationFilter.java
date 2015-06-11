@@ -97,7 +97,11 @@ public class AuthentificationFilter implements Filter {
 		if (null != hSess.getAttribute("logout")) {
 			if (!request.getRequestURI().contains("zkau") && !request.getRequestURI().contains("login.zul")
 					&& !request.getRequestURI().contains("css")) {
-				response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You are logged out.");
+				
+				// dans le cas ou la personne a clique sur ce deconnecte et ne ferme pas le navigateur
+				logger.debug("User disconnect");
+				hSess.setAttribute("logout", "logout");
+				request.getRequestDispatcher("login.zul").forward(request, response);
 				return;
 			}
 			chain.doFilter(request, response);
@@ -131,12 +135,16 @@ public class AuthentificationFilter implements Filter {
 		LightUserDto userDto = radiWSConsumer.getAgentCompteADByLogin(remoteUser);
 		if (null == userDto) {
 			logger.debug("User not exist in Radi WS with RemoteUser : " + remoteUser);
-			request.logout();
+//			request.logout();
+
+			hSess.setAttribute("logout", "logout");
+			request.getRequestDispatcher("login.zul").forward(request, response);
 			return;
 		}
 
 		if (0 == userDto.getEmployeeNumber()) {
 			logger.debug("User not exist in Radi WS with RemoteUser : " + remoteUser);
+			
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
 					"Vous n'êtes pas un agent de la mairie, vous n'êtes pas autorisé à accéder à cette application.");
@@ -149,12 +157,14 @@ public class AuthentificationFilter implements Filter {
 		} catch (Exception e) {
 			// le SIRH-WS ne semble pas repondre
 			logger.debug("L'application SIRH-WS ne semble pas répondre.");
+			
 			request.logout();
 			return;
 		}
 
 		if (null == profilAgent) {
 			logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
+			
 			request.logout();
 			return;
 		}
