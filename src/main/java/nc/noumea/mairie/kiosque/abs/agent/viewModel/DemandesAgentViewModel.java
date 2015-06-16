@@ -122,7 +122,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	private ProfilAgentDto currentUser;
 
 	private ActeursDto acteursDto;
-	
+
 	private List<AgentWithServiceDto> listAgentsEquipe;
 
 	private boolean afficheRecette;
@@ -147,20 +147,24 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		setListeEtatAbsenceFiltre(filtreEtat);
 		setTailleListe("5");
 		// #14844 liste des acteurs
-		setActeursDto(absWsConsumer.getListeActeurs(currentUser.getAgent().getIdAgent()));
-		
+		try {
+			setActeursDto(absWsConsumer.getListeActeurs(currentUser.getAgent().getIdAgent()));
+		} catch (Exception e) {
+			setActeursDto(new ActeursDto());
+		}
+
 		// son equipe
 		// l agent lui-meme
 		AgentWithServiceDto agent = sirhWsConsumer.getAgentService(currentUser.getAgent().getIdAgent(), new Date());
-		if(null != agent) {
+		if (null != agent) {
 			getListAgentsEquipe().add(agent);
 		}
 		// son superieur hierarchique
 		AgentWithServiceDto superieur = sirhWsConsumer.getSuperieurHierarchique(currentUser.getAgent().getIdAgent());
-		if(null != superieur) {
+		if (null != superieur) {
 			superieur = sirhWsConsumer.getAgentService(superieur.getIdAgent(), new Date());
 		}
-		if(null != superieur) {
+		if (null != superieur) {
 			getListAgentsEquipe().add(superieur);
 		}
 		EstChefDto dto = sirhWsConsumer.isAgentChef(currentUser.getAgent().getIdAgent());
@@ -168,17 +172,17 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		// ses equipes
 		if (dto.isEstResponsable()) {
 			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(currentUser.getAgent().getIdAgent());
-			
+
 			for (ServiceTreeDto premierNiv : tree) {
-				for (AgentWithServiceDto agentPremierNiveau : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
-						premierNiv.getService())) {
+				for (AgentWithServiceDto agentPremierNiveau : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
+						.getIdAgent(), premierNiv.getService())) {
 					agentPremierNiveau.setCodeService(premierNiv.getService());
 					agentPremierNiveau.setService(premierNiv.getServiceLibelle());
 					getListAgentsEquipe().add(agentPremierNiveau);
 				}
 				for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
-					for (AgentWithServiceDto agentDeuxNiveau : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
-							deuxNiv.getService())) {
+					for (AgentWithServiceDto agentDeuxNiveau : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
+							.getIdAgent(), deuxNiv.getService())) {
 						agentDeuxNiveau.setCodeService(deuxNiv.getService());
 						agentDeuxNiveau.setService(deuxNiv.getServiceLibelle());
 						getListAgentsEquipe().add(agentDeuxNiveau);
@@ -187,17 +191,19 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			}
 		} else {
 			// sinon l equipe de l agent
-			List<AgentWithServiceDto> agentsEquipe = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
-			
-			for(AgentWithServiceDto ag : agentsEquipe) {
+			List<AgentWithServiceDto> agentsEquipe = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
+					null);
+
+			for (AgentWithServiceDto ag : agentsEquipe) {
 				ag.setCodeService(agent.getCodeService());
 				ag.setService(agent.getService());
 				getListAgentsEquipe().add(ag);
 			}
 		}
-		
+
 		// planning #12159
-		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
+				.getSession().getNativeSession();
 		s.setAttribute("listeAgentsEquipe", getListAgentsEquipe());
 	}
 
@@ -247,25 +253,26 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		}
 
 		// #12159 construction du planning
-		if(environnementService.isRecette() && "PLANNING".equals(getTabCourant().getId())) {
-			
-			List<DemandeDto> result = absWsConsumer.getListeDemandesForPlanning(
-					getDateDebutFiltre(), getDateFinFiltre(), etats.size() == 0 ? null
-					: etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
-					getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
-					getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence(),
-					getListAgentsEquipe());
+		if (environnementService.isRecette() && "PLANNING".equals(getTabCourant().getId())) {
+
+			List<DemandeDto> result = absWsConsumer.getListeDemandesForPlanning(getDateDebutFiltre(),
+					getDateFinFiltre(), etats.size() == 0 ? null : etats.toString().replace("[", "").replace("]", "")
+							.replace(" ", ""), getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre()
+							.getIdRefTypeAbsence(), getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre()
+							.getIdRefGroupeAbsence(), getListAgentsEquipe());
 			setListeDemandes(result);
-			
-			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
+
+			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
+					.getSession().getNativeSession();
 
 			s.setAttribute("listeDemandes", result);
 			s.setAttribute("listeAgentsEquipe", getListAgentsEquipe());
-			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning").getFellow("windowplanning"));
-		}else{
-			List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getAgent().getIdAgent(), getTabCourant()
-					.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), etats.size() == 0 ? null
-					: etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
+			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning")
+					.getFellow("windowplanning"));
+		} else {
+			List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getAgent().getIdAgent(),
+					getTabCourant().getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
+					etats.size() == 0 ? null : etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
 					getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
 					getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
 			setListeDemandes(result);
@@ -534,13 +541,13 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			// car creer dans planner.render()
 		}
 
-
 		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
 				.getSession().getNativeSession();
 		@SuppressWarnings("unchecked")
 		List<AgentWithServiceDto> listeAgentsEquipe = (List<AgentWithServiceDto>) s.getAttribute("listeAgentsEquipe");
-		
-		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsDemandesAgent", listeAgentsEquipe);
+
+		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsDemandesAgent",
+				listeAgentsEquipe);
 		try {
 			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
 		} catch (Exception e) {
@@ -549,17 +556,18 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	}
 
 	@RequestMapping("/eventsDemandesAgent")
-    @ResponseBody
-    public String events(HttpServletRequest request) { 
+	@ResponseBody
+	public String events(HttpServletRequest request) {
 		@SuppressWarnings("unchecked")
 		List<DemandeDto> listDemandes = (List<DemandeDto>) request.getSession().getAttribute("listeDemandes");
 
 		@SuppressWarnings("unchecked")
-		List<AgentWithServiceDto> listeAgentsEquipe = (List<AgentWithServiceDto>) request.getSession().getAttribute("listeAgentsEquipe");
-		
-        CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listeAgentsEquipe);
-        return evs.run();
-    }
+		List<AgentWithServiceDto> listeAgentsEquipe = (List<AgentWithServiceDto>) request.getSession().getAttribute(
+				"listeAgentsEquipe");
+
+		CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listeAgentsEquipe);
+		return evs.run();
+	}
 
 	// ///////////////////////////////////////////////////////////////////////////////////////
 	// ////////////////////////////// FIN PARTIE PLANNING
@@ -680,7 +688,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	}
 
 	public List<AgentWithServiceDto> getListAgentsEquipe() {
-		if(null == listAgentsEquipe) {
+		if (null == listAgentsEquipe) {
 			listAgentsEquipe = new ArrayList<AgentWithServiceDto>();
 		}
 		return listAgentsEquipe;
@@ -689,5 +697,5 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	public void setListAgentsEquipe(List<AgentWithServiceDto> listAgentsEquipe) {
 		this.listAgentsEquipe = listAgentsEquipe;
 	}
-	
+
 }
