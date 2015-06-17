@@ -55,21 +55,15 @@
 						<label value="Date d'entrée dans le service" />
 					</div>
 					<div sclass="bleu">
-						<label visible="@bind(not vm.modification)"
+						<label
 							value="${vm.getDateToString(each.dateEntreeService)}" />
-						<datebox visible="@bind(vm.modification)" maxlength="10"
-							format="dd/MM/yyyy" value="${each.dateEntreeService}"
-							onChange="@command('textChangedIdentification')" />
 					</div>
 					<div sclass="espace">
 						<label value="Date d'entrée dans la fonction" />
 					</div>
 					<div sclass="bleu">
-						<label visible="@bind(not vm.modification)"
+						<label
 							value="${vm.getDateToString(each.dateEntreeFonction)}" />
-						<datebox visible="@bind(vm.modification)" maxlength="10"
-							format="dd/MM/yyyy" value="${each.dateEntreeFonction}"
-							onChange="@command('textChangedIdentification')" />
 					</div>
 				</hlayout>
 				<div sclass="blockSeparator" />
@@ -163,23 +157,15 @@
 					value="Date d'entrée en qualité de fonctionnaire" />
 			</div>
 			<div sclass="bleu">
-				<label visible="@bind(not vm.modification)"
+				<label
 					value="@bind(vm.identification.situation.dateEntreeFonctionnaire) @converter('formatedDate',format='dd/MM/yyyy')" />
-				<datebox visible="@bind(vm.modification)"
-					format="dd/MM/yyyy" maxlength="10"
-					value="@bind(vm.identification.situation.dateEntreeFonctionnaire)"
-					onChange="@command('textChangedIdentification')" />
 			</div>
 			<div sclass="espace">
 				<label value="Date d'entrée dans l'administration" />
 			</div>
 			<div sclass="bleu">
-				<label visible="@bind(not vm.modification)"
+				<label
 					value="@bind(vm.identification.situation.dateEntreeAdministration) @converter('formatedDate',format='dd/MM/yyyy')" />
-				<datebox visible="@bind(vm.modification)"
-					format="dd/MM/yyyy" maxlength="10"
-					value="@bind(vm.identification.situation.dateEntreeAdministration)"
-					onChange="@command('textChangedIdentification')" />
 			</div>
 		</hlayout>
 		<hlayout>
@@ -194,12 +180,8 @@
 				<label value="Date d'entrée dans la fonction" />
 			</div>
 			<div sclass="bleu">
-				<label visible="@bind(not vm.modification)"
+				<label
 					value="@bind(vm.identification.situation.dateEntreeFonction) @converter('formatedDate',format='dd/MM/yyyy')" />
-				<datebox visible="@bind(vm.modification)"
-					format="dd/MM/yyyy" maxlength="10"
-					value="@bind(vm.identification.situation.dateEntreeFonction)"
-					onChange="@command('textChangedIdentification')" />
 			</div>
 		</hlayout>
 		<hlayout>
