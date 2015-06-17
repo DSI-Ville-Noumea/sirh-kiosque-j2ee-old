@@ -162,8 +162,7 @@ public class EaeViewModel {
 				+ getEvolution().getDeveloppementCompetences().size()
 				+ getEvolution().getDeveloppementExamensConcours().size()
 				+ getEvolution().getDeveloppementPersonnel().size()
-				+ getEvolution().getDeveloppementComportement().size()
-				+ getEvolution().getDeveloppementFormateur().size();
+				+ getEvolution().getDeveloppementComportement().size();
 		List<Integer> temp = new ArrayList<>();
 		for (int i = 1; i <= tailleDeveloppement; i++) {
 			temp.add(i);
@@ -172,8 +171,9 @@ public class EaeViewModel {
 	}
 
 	private void initPlanAction() {
-		//pour le moment ca plante car on a developé des nouveaux DTO qui ne sont pas encore en place en intégration/recette/prod
-		//cd redmine #13840
+		// pour le moment ca plante car on a developé des nouveaux DTO qui ne
+		// sont pas encore en place en intégration/recette/prod
+		// cd redmine #13840
 		EaePlanActionDto plan = eaeWsConsumer.getPlanActionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
 				.getIdAgent());
 		for (EaeObjectifProDto objPro : plan.getObjectifsProfessionnels()) {
@@ -413,7 +413,7 @@ public class EaeViewModel {
 			}
 		}
 		for (EaeDeveloppementDto conn : evolution.getDeveloppementFormateur()) {
-			if (conn.getEcheance() == null || conn.getLibelle() == null || conn.getPriorisation() == null) {
+			if (conn.getLibelle() == null) {
 				String message = "Veuillez remplir tous les champs pour vos besoins en formation.";
 				if (!result.getErrors().contains(message))
 					result.getErrors().add(message);
@@ -440,7 +440,7 @@ public class EaeViewModel {
 			result.getErrors().add("Le champ 'autres perspective' doit être renseigné.");
 		}
 
-		// TODO reste à checker les priorités
+		// reste à checker les priorités
 		// on regroupe tous les types de besoin en formation pour checker les
 		// priorités
 		List<EaeDeveloppementDto> listeBesoinFormation = new ArrayList<EaeDeveloppementDto>();
@@ -449,7 +449,6 @@ public class EaeViewModel {
 		listeBesoinFormation.addAll(evolution.getDeveloppementExamensConcours());
 		listeBesoinFormation.addAll(evolution.getDeveloppementPersonnel());
 		listeBesoinFormation.addAll(evolution.getDeveloppementComportement());
-		listeBesoinFormation.addAll(evolution.getDeveloppementFormateur());
 		for (EaeDeveloppementDto besoinF : listeBesoinFormation) {
 			for (EaeDeveloppementDto besoinF2 : listeBesoinFormation) {
 				if (besoinF2.getPriorisation() == besoinF.getPriorisation() && besoinF2 != besoinF) {
@@ -579,28 +578,27 @@ public class EaeViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution" })
 	public void supprimerLigneDeveloppementFormateur(@BindingParam("ref") EaeDeveloppementDto developpement) {
 		if (getEvolution().getDeveloppementFormateur().contains(developpement)) {
 			getEvolution().getDeveloppementFormateur().remove(developpement);
-			getListePriorisationEvolution().remove(getListePriorisationEvolution().size() - 1);
 		}
 		textChangedEvolution();
 	}
 
 	@Command
-	@NotifyChange({ "hasTextChangedEvolution", "evolution", "listePriorisationEvolution" })
+	@NotifyChange({ "hasTextChangedEvolution", "evolution" })
 	public void ajouterLigneDeveloppementFormateur() {
 		EaeDeveloppementDto dto = new EaeDeveloppementDto();
-		dto.setPriorisation(getListePriorisationEvolution().size() + 1);
+		dto.setPriorisation(null);
+		dto.setEcheance(null);
+
 		if (getEvolution().getDeveloppementFormateur() != null) {
 			getEvolution().getDeveloppementFormateur().add(dto);
-			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		} else {
 			List<EaeDeveloppementDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setDeveloppementFormateur(liste);
-			getListePriorisationEvolution().add(getListePriorisationEvolution().size() + 1);
 		}
 		textChangedEvolution();
 	}

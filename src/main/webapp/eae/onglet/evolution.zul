@@ -331,8 +331,8 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)" maxlength="7"
-							format="MM/yyyy" value="@bind(each.echeance)"
+						<datebox visible="@bind(vm.modification)"
+							maxlength="7" format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
@@ -390,8 +390,8 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)" maxlength="7"
-							format="MM/yyyy" value="@bind(each.echeance)"
+						<datebox visible="@bind(vm.modification)"
+							maxlength="7" format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
@@ -450,8 +450,8 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)" maxlength="7"
-							format="MM/yyyy" value="@bind(each.echeance)"
+						<datebox visible="@bind(vm.modification)"
+							maxlength="7" format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
@@ -508,8 +508,8 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)" maxlength="7"
-							format="MM/yyyy" value="@bind(each.echeance)"
+						<datebox visible="@bind(vm.modification)"
+							maxlength="7" format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
@@ -566,8 +566,8 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)" maxlength="7"
-							format="MM/yyyy" value="@bind(each.echeance)"
+						<datebox visible="@bind(vm.modification)"
+							maxlength="7" format="MM/yyyy" value="@bind(each.echeance)"
 							onChange="@command('textChangedEvolution')" />
 					</listcell>
 					<listcell>
@@ -601,13 +601,9 @@
 		<listbox model="@bind(vm.evolution.developpementFormateur)"
 			emptyMessage="Aucun élément">
 			<listhead>
-				<listheader width="75%"
+				<listheader
 					label="FORMATEUR POTENTIEL DANS LES DOMAINES SUIVANTS (300 car. max)"
 					sort="none" />
-				<listheader align="center" label="Echéance souhaitable"
-					sort="none" />
-				<listheader label="Priorisation" align="center"
-					width="100px" sort="none" />
 				<listheader width="50px"
 					visible="@bind(vm.modification)" align="center" label=""
 					sort="none" />
@@ -620,29 +616,6 @@
 						<textbox rows="4" width="100%"
 							visible="@bind(vm.modification)" value="@bind(each.libelle)"
 							onChanging="@command('textChangedEvolution')" />
-					</listcell>
-					<listcell>
-						<label sclass="bleu"
-							visible="@bind(not vm.modification)"
-							value="@bind(each.echeance) @converter('formatedDate',format='MM/yyyy')" />
-						<datebox visible="@bind(vm.modification)" maxlength="7"
-							format="MM/yyyy" value="@bind(each.echeance)"
-							onChange="@command('textChangedEvolution')" />
-					</listcell>
-					<listcell>
-						<label sclass="bleu"
-							visible="@bind(not vm.modification)"
-							value="@bind(each.priorisation)" />
-						<combobox readonly="true" width="100%"
-							visible="@bind(vm.modification)"
-							selectedItem="@bind(each.priorisation)"
-							onChange="@command('textChangedEvolution')">
-							<zk
-								forEach="${vm.listePriorisationEvolution}">
-								<comboitem label="${each}"
-									value="${each}" />
-							</zk>
-						</combobox>
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
 						<image tooltiptext="Supprimer cette ligne"
