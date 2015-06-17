@@ -53,7 +53,6 @@ import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.kiosque.viewModel.EnvironnementService;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 import org.apache.catalina.session.StandardSessionFacade;
@@ -97,9 +96,6 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
-	@WireVariable
-	private EnvironnementService environnementService;
-
 	private List<DemandeDto> listeDemandes;
 
 	private Tab tabCourant;
@@ -128,20 +124,12 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 
 	private List<RefEtatAbsenceDto> listeEtatsSelectionnes;
 
-	private boolean afficheRecette;
-	
 	private List<AgentWithServiceDto> listAgentsEquipe;
 
 	@Init
 	public void initDemandes(@BindingParam("aApprouver") Boolean aApprouver) {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-
-		if (environnementService.isRecette()) {
-			setAfficheRecette(true);
-		} else {
-			setAfficheRecette(false);
-		}
 
 		// on recharge les groupes d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
@@ -173,19 +161,19 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 
 		// #12159 planning
 		List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
-		for(ServiceDto service : getListeServicesFiltre()) {
+		for (ServiceDto service : getListeServicesFiltre()) {
 			List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
 					service.getCodeService());
-			
-			if(null != listeAgents) {
-				for(AgentDto agent : listeAgents) {
-					AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(
-							agent, service.getCodeService(), service.getService());
+
+			if (null != listeAgents) {
+				for (AgentDto agent : listeAgents) {
+					AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getCodeService(),
+							service.getService());
 					listAgentsWithServiceDto.add(agentsWithServiceDto);
 				}
 			}
 		}
-		
+
 		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
 				.getSession().getNativeSession();
 		s.setAttribute("listeAgents", listAgentsWithServiceDto);
@@ -296,23 +284,22 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		setListeDemandes(result);
 
 		// #12159 construction du planning
-		if (environnementService.isRecette() && "PLANNING".equals(getTabCourant().getId())) {
+		if ("PLANNING".equals(getTabCourant().getId())) {
 			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
 					.getSession().getNativeSession();
 			s.setAttribute("listeDemandes", result);
-			
-			if(null != getAgentFiltre()
-					&& null != getAgentFiltre().getIdAgent()) {
+
+			if (null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
 				List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
-				AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(
-						getAgentFiltre(), getServiceFiltre().getCodeService(), getServiceFiltre().getService());
+				AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(getAgentFiltre(), getServiceFiltre()
+						.getCodeService(), getServiceFiltre().getService());
 				listAgentsWithServiceDto.add(agentsWithServiceDto);
-				
+
 				s.setAttribute("listeAgents", listAgentsWithServiceDto);
-			}else{
+			} else {
 				s.setAttribute("listeAgents", getListAgentsEquipe());
 			}
-			
+
 			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning")
 					.getFellow("windowplanning"));
 		}
@@ -723,8 +710,9 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 				.getSession().getNativeSession();
 		@SuppressWarnings("unchecked")
 		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) s.getAttribute("listeAgents");
-		
-		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes", listeAgents);
+
+		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes",
+				listeAgents);
 		try {
 			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
 		} catch (Exception e) {
@@ -739,7 +727,8 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		@SuppressWarnings("unchecked")
 		List<DemandeDto> listDemandes = (List<DemandeDto>) request.getSession().getAttribute("listeDemandes");
 		@SuppressWarnings("unchecked")
-		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) request.getSession().getAttribute("listeAgents");
+		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) request.getSession().getAttribute(
+				"listeAgents");
 
 		CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listeAgents);
 		return evs.run();
@@ -903,14 +892,6 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		this.listeEtatsSelectionnes = listeEtatsSelectionnes;
 	}
 
-	public boolean isAfficheRecette() {
-		return afficheRecette;
-	}
-
-	public void setAfficheRecette(boolean afficheRecette) {
-		this.afficheRecette = afficheRecette;
-	}
-
 	public List<AgentWithServiceDto> getListAgentsEquipe() {
 		return listAgentsEquipe;
 	}
@@ -918,5 +899,5 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	public void setListAgentsEquipe(List<AgentWithServiceDto> listAgentsEquipe) {
 		this.listAgentsEquipe = listAgentsEquipe;
 	}
-	
+
 }

@@ -104,7 +104,7 @@
 						onClick="@command('changeVue',tab = EN_COURS)" />
 					<tab id="TOUTES" label="Toutes les demandes"
 						onClick="@command('changeVue',tab = TOUTES)" />
-					<tab id="PLANNING" label="Planning" visible="@bind(vm.afficheRecette)" 
+					<tab id="PLANNING" label="Planning"
 						onClick="@command('changeVue',tab = PLANNING)" />
 				</tabs>
 				<tabpanels>
@@ -120,8 +120,8 @@
 						<include
 							src="/absences/agent/tableauDemandeAgent.zul" />
 					</tabpanel>
-					<tabpanel id="tabpanelplanning" visible="@bind(vm.afficheRecette)" >
-						<include id="includeplanning" visible="@bind(vm.afficheRecette)" 
+					<tabpanel id="tabpanelplanning">
+						<include id="includeplanning"
 							src="/absences/agent/planning.zul" />
 					</tabpanel>
 				</tabpanels>

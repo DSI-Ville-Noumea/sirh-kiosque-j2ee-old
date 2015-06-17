@@ -97,9 +97,6 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
 
-	@WireVariable
-	private EnvironnementService environnementService;
-
 	private List<DemandeDto> listeDemandes;
 
 	private Tab tabCourant;
@@ -125,18 +122,10 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 
 	private List<AgentWithServiceDto> listAgentsEquipe;
 
-	private boolean afficheRecette;
-
 	@Init
 	public void initDemandesAgent() {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-
-		if (environnementService.isRecette()) {
-			setAfficheRecette(true);
-		} else {
-			setAfficheRecette(false);
-		}
 
 		// on recharge les groupes d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
@@ -253,8 +242,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		}
 
 		// #12159 construction du planning
-		if (environnementService.isRecette() && "PLANNING".equals(getTabCourant().getId())) {
-
+		if ("PLANNING".equals(getTabCourant().getId())) {
 			List<DemandeDto> result = absWsConsumer.getListeDemandesForPlanning(getDateDebutFiltre(),
 					getDateFinFiltre(), etats.size() == 0 ? null : etats.toString().replace("[", "").replace("]", "")
 							.replace(" ", ""), getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre()
@@ -677,14 +665,6 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 
 	public void setActeursDto(ActeursDto acteursDto) {
 		this.acteursDto = acteursDto;
-	}
-
-	public boolean isAfficheRecette() {
-		return afficheRecette;
-	}
-
-	public void setAfficheRecette(boolean afficheRecette) {
-		this.afficheRecette = afficheRecette;
 	}
 
 	public List<AgentWithServiceDto> getListAgentsEquipe() {
