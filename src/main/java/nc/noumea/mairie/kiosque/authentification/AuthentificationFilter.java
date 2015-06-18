@@ -129,8 +129,10 @@ public class AuthentificationFilter implements Filter {
 		String remoteUser = request.getHeader("x-krb_remote_user");
 
 		if (null == remoteUser && request.getHeader("host").contains("localhost")) {
-			remoteUser = "chata73";
+			remoteUser = "riome85";
 		}
+		
+		remoteUser = convertRemoteUser(remoteUser);
 
 		LightUserDto userDto = radiWSConsumer.getAgentCompteADByLogin(remoteUser);
 		if (null == userDto) {
@@ -177,5 +179,14 @@ public class AuthentificationFilter implements Filter {
 	}
 
 	public void destroy() {
+	}
+	
+	protected String convertRemoteUser(String remoteUser) {
+		if(null != remoteUser
+				&& remoteUser.contains("@")) {
+			remoteUser = remoteUser.substring(0, remoteUser.indexOf("@"));
+		}
+		
+		return remoteUser;
 	}
 }
