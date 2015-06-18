@@ -88,7 +88,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
 	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
 	private static final String sirhListeDemandesUrl = "demandes/listeDemandes";
-	// utilise pour le plaaning afin de passer la liste des agents dans l appel au WS
+	// utilise pour le plaaning afin de passer la liste des agents dans l appel
+	// au WS
 	private static final String sirhListeDemandesSIRHUrl = "demandes/listeDemandesSIRH";
 	private static final String sirhListeMotifsRefusUrl = "motif/getListeMotif";
 	private static final String sirhHistoriqueAbsenceUrl = "demandes/historique";
@@ -425,7 +426,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	@Override
 	public List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate,
 			Date dateDemande, String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence,
-			Integer idAgentRecherche) {
+			Integer idAgentRecherche, String codeService) {
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhListeDemandesUrl);
 		HashMap<String, String> params = new HashMap<>();
@@ -445,16 +446,17 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			params.put("groupe", idRefGroupeAbsence.toString());
 		if (idAgentRecherche != null)
 			params.put("idAgentRecherche", idAgentRecherche.toString());
+		if (codeService != null)
+			params.put("codeService", codeService);
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(DemandeDto.class, res, url);
 	}
 
 	@Override
-	public List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate,
-			String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence,
-			List<AgentWithServiceDto> listIdsAgent) {
-		
+	public List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate, String listIdRefEtat,
+			Integer idRefType, Integer idRefGroupeAbsence, List<AgentWithServiceDto> listIdsAgent) {
+
 		String url = String.format(sirhAbsWsBaseUrl + sirhListeDemandesSIRHUrl);
 		HashMap<String, String> params = new HashMap<String, String>();
 		if (fromDate != null)
@@ -467,10 +469,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			params.put("type", idRefType.toString());
 		if (idRefGroupeAbsence != null)
 			params.put("groupe", idRefGroupeAbsence.toString());
-		
+
 		params.put("aValider", Boolean.FALSE.toString());
-		
-		
+
 		String csvId = "";
 		for (AgentWithServiceDto dto : listIdsAgent) {
 			csvId += dto.getIdAgent().toString() + ",";
@@ -479,7 +480,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			csvId = csvId.substring(0, csvId.length() - 1);
 		}
 		params.put("idAgents", csvId);
-		
+
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(DemandeDto.class, res, url);
 	}
@@ -499,8 +500,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
-		
-		if(null != codeService) 
+
+		if (null != codeService)
 			params.put("codeService", codeService);
 
 		ClientResponse res = createAndFireGetRequest(params, url);

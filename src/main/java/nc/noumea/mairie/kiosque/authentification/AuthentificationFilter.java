@@ -129,7 +129,7 @@ public class AuthentificationFilter implements Filter {
 		String remoteUser = request.getHeader("x-krb_remote_user");
 
 		if (null == remoteUser && request.getHeader("host").contains("localhost")) {
-			remoteUser = "riome85";
+			remoteUser = "chata73";
 		}
 		
 		remoteUser = convertRemoteUser(remoteUser);

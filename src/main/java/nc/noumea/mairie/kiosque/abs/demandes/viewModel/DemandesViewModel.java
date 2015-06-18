@@ -280,7 +280,8 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 				: etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
 				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence(),
-				getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
+				getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), getServiceFiltre() == null ? null
+						: getServiceFiltre().getCodeService());
 		setListeDemandes(result);
 
 		// #12159 construction du planning

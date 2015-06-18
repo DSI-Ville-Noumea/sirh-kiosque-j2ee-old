@@ -199,7 +199,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 			List<DemandeDto> result = absWsConsumer.getListeDemandes(currentUser.getAgent().getIdAgent(), "NON_PRISES",
 					null, null, null, etats.toString().replace("[", "").replace("]", "").replace(" ", ""), null, null,
-					null);
+					null, null);
 			Integer nbrAbs = 0;
 			for (DemandeDto dto : result) {
 				if (dto.isModifierApprobation()) {
@@ -224,7 +224,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 			List<DemandeDto> result = absWsConsumer.getListeDemandes(currentUser.getAgent().getIdAgent(), "NON_PRISES",
 					null, null, null, etats.toString().replace("[", "").replace("]", "").replace(" ", ""), null, null,
-					null);
+					null, null);
 			Integer nbrAbs = 0;
 			for (DemandeDto dto : result) {
 				if (dto.isModifierVisa()) {

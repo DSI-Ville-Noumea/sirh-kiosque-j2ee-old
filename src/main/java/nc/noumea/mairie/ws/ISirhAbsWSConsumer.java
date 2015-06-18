@@ -106,17 +106,13 @@ public interface ISirhAbsWSConsumer {
 
 	ReturnMessageDto saveViseursApprobateur(Integer idAgent, ViseursDto dto);
 
-	List<AgentDto> getAgentsOperateur(Integer idAgentApprobateur,
-			Integer idAgentOperateur);
+	List<AgentDto> getAgentsOperateur(Integer idAgentApprobateur, Integer idAgentOperateur);
 
-	ReturnMessageDto saveAgentsOperateur(Integer idAgentApprobateur,
-			Integer idAgentOperateur, List<AgentDto> listSelect);
+	ReturnMessageDto saveAgentsOperateur(Integer idAgentApprobateur, Integer idAgentOperateur, List<AgentDto> listSelect);
 
-	List<AgentDto> getAgentsViseur(Integer idAgentApprobateur,
-			Integer idAgentViseur);
+	List<AgentDto> getAgentsViseur(Integer idAgentApprobateur, Integer idAgentViseur);
 
-	ReturnMessageDto saveAgentsViseur(Integer idAgentApprobateur,
-			Integer idAgentViseur, List<AgentDto> listSelect);
+	ReturnMessageDto saveAgentsViseur(Integer idAgentApprobateur, Integer idAgentViseur, List<AgentDto> listSelect);
 
 	/* COMPTEURS */
 
@@ -131,7 +127,8 @@ public interface ISirhAbsWSConsumer {
 	/* GESTION DEMANDES */
 
 	List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
-			String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche);
+			String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche,
+			String codeService);
 
 	List<DemandeDto> getHistoriqueAbsence(Integer idAgent, Integer idDemande);
 
@@ -148,7 +145,6 @@ public interface ISirhAbsWSConsumer {
 
 	DemandeDto getDemande(Integer idAgent, Integer idDemande);
 
-	List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate,
-			String listIdRefEtat, Integer idRefType,
+	List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate, String listIdRefEtat, Integer idRefType,
 			Integer idRefGroupeAbsence, List<AgentWithServiceDto> listIdsAgent);
 }
