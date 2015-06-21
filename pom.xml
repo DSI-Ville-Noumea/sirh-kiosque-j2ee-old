@@ -5,7 +5,7 @@
 	<groupId>nc.noumea.mairie</groupId>
 	<artifactId>sirh-kiosque-j2ee</artifactId>
 	<packaging>war</packaging>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<name>sirh-kiosque-j2ee</name>
 	<description>Kiosque RH en J2EE</description>
 	<organization>
@@ -342,6 +342,13 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.3</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>ROOT##sirh-kiosque-j2ee-${project.version}</finalName>
