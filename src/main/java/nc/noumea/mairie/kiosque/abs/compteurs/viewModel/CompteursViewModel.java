@@ -120,7 +120,7 @@ public class CompteursViewModel {
 		List<RefTypeAbsenceDto> filtreFamille = absWsConsumer.getRefGroupeAbsenceCompteur();
 		setListeTypeAbsenceFiltre(filtreFamille);
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
+		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsencesOperateur(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service sauf si un seul service (#15772)
@@ -194,7 +194,7 @@ public class CompteursViewModel {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsencesOperateur(currentUser.getAgent().getIdAgent(),
 				getServiceFiltre().getCodeService());
 		setListeAgentsFiltre(filtreAgent);
 	}

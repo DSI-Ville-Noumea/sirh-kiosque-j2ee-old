@@ -124,6 +124,10 @@ public interface ISirhAbsWSConsumer {
 
 	ReturnMessageDto saveCompteurReposComp(Integer idAgent, CompteurDto compteurACreer);
 
+	List<ServiceDto> getServicesAbsencesOperateur(Integer idAgent);
+
+	List<AgentDto> getAgentsAbsencesOperateur(Integer idAgent, String codeService);
+
 	/* GESTION DEMANDES */
 
 	List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
@@ -147,4 +151,5 @@ public interface ISirhAbsWSConsumer {
 
 	List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate, String listIdRefEtat, Integer idRefType,
 			Integer idRefGroupeAbsence, List<AgentWithServiceDto> listIdsAgent);
+
 }

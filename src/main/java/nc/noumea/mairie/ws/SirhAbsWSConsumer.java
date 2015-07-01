@@ -103,7 +103,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhListOrganisationUrl = "organisation/listOrganisationActif";
 	private static final String sirhTypeAbsenceCompteurKiosqueUrl = "filtres/getTypeAbsenceCompteurKiosque";
 	private static final String sirhServicesKiosqueUrl = "filtres/services";
+	private static final String sirhServicesOperateurKiosqueUrl = "filtres/servicesOperateur";
 	private static final String sirhAgentsKiosqueUrl = "filtres/agents";
+	private static final String sirhAgentsOperateurKiosqueUrl = "filtres/agentsOperateur";
 	private static final String sirhAllTypeAbsenceUrl = "filtres/getAllTypes";
 
 	/* Compteurs */
@@ -617,5 +619,28 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(DemandeDto.class, res, url);
+	}
+
+	@Override
+	public List<ServiceDto> getServicesAbsencesOperateur(Integer idAgent) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhServicesOperateurKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(ServiceDto.class, res, url);
+	}
+
+	@Override
+	public List<AgentDto> getAgentsAbsencesOperateur(Integer idAgent, String codeService) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsOperateurKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		if (null != codeService)
+			params.put("codeService", codeService);
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentDto.class, res, url);
 	}
 }
