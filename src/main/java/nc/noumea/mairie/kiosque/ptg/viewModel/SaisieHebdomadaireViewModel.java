@@ -836,11 +836,6 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 				for (PrimeDtoKiosque prime : jour.getPrimes()) {
 
-					if (!mapAllPrime.containsKey(prime.getNumRubrique().toString())) {
-						List<PrimeDtoKiosque> newListPrime = new ArrayList<PrimeDtoKiosque>();
-						newListPrime.add(prime);
-						mapAllPrime.put(prime.getNumRubrique().toString(), newListPrime);
-					}
 					if (mapAllPrime.containsKey(prime.getNumRubrique().toString())) {
 
 						if (nbHeures(prime.getTypeSaisie()) && null != prime.getQuantite() && 0 != prime.getQuantite()) {
@@ -855,6 +850,20 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 						}
 
 						mapAllPrime.get(prime.getNumRubrique().toString()).add(prime);
+					} else {
+						List<PrimeDtoKiosque> newListPrime = new ArrayList<PrimeDtoKiosque>();
+						if (nbHeures(prime.getTypeSaisie()) && null != prime.getQuantite() && 0 != prime.getQuantite()) {
+							String heureDebut = "";
+							String minuteDebut = "";
+
+							DecimalFormat df = new DecimalFormat("00");
+							heureDebut = df.format(prime.getQuantite() / 60);
+							minuteDebut = df.format(prime.getQuantite() % 60);
+							prime.setHeureDebut(heureDebut);
+							prime.setMinuteDebut(minuteDebut);
+						}
+						newListPrime.add(prime);
+						mapAllPrime.put(prime.getNumRubrique().toString(), newListPrime);
 					}
 				}
 
