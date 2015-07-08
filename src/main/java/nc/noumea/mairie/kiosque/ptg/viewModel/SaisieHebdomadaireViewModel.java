@@ -113,7 +113,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	private List<String> listeHeures;
 	private List<String> listeMinutes;
-	
+
 	private boolean checkCoche;
 
 	@Init
@@ -364,8 +364,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			map.put("errors", listErreur);
 			map.put("infos", listInfo);
 			Executions.createComponents("/messages/returnMessage.zul", null, map);
-			
-			//#15508
+
+			// #15508
 			chargeFichePointage();
 		}
 	}
@@ -555,12 +555,12 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			chargeFichePointage();
 		}
 	}
-	
+
 	// #15508
 	private void chargeFichePointage() {
 		if (null != getDateLundi() && null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
-			FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent()
-					.getIdAgent(), getLundi(getDateLundi()), getAgentFiltre().getIdAgent());
+			FichePointageDtoKiosque result = ptgWsConsumer.getFichePointageSaisie(currentUser.getAgent().getIdAgent(),
+					getLundi(getDateLundi()), getAgentFiltre().getIdAgent());
 			setFicheCourante(result);
 
 			// minutes et heures
@@ -740,7 +740,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
-		if(null != listeServicesFiltre) {
+		if (null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
@@ -775,7 +775,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
-		if(null != listeAgentsFiltre) {
+		if (null != listeAgentsFiltre) {
 			Collections.sort(listeAgentsFiltre);
 		}
 		this.listeAgentsFiltre = listeAgentsFiltre;
@@ -835,26 +835,26 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 				}
 
 				for (PrimeDtoKiosque prime : jour.getPrimes()) {
-					if (mapAllPrime.containsKey(prime.getNumRubrique().toString())) {
-						
-						if(nbHeures(prime.getTypeSaisie())
-								&& null != prime.getQuantite()
-								&& 0 != prime.getQuantite()) {
-							String heureDebut = "";
-							String minuteDebut = "";
-							
-							DecimalFormat df = new DecimalFormat( "00" );
-							heureDebut = df.format(prime.getQuantite()/60);
-							minuteDebut = df.format(prime.getQuantite()%60);
-							prime.setHeureDebut(heureDebut);
-							prime.setMinuteDebut(minuteDebut);
-						}
-						
-						mapAllPrime.get(prime.getNumRubrique().toString()).add(prime);
-					} else {
+
+					if (!mapAllPrime.containsKey(prime.getNumRubrique().toString())) {
 						List<PrimeDtoKiosque> newListPrime = new ArrayList<PrimeDtoKiosque>();
 						newListPrime.add(prime);
 						mapAllPrime.put(prime.getNumRubrique().toString(), newListPrime);
+					}
+					if (mapAllPrime.containsKey(prime.getNumRubrique().toString())) {
+
+						if (nbHeures(prime.getTypeSaisie()) && null != prime.getQuantite() && 0 != prime.getQuantite()) {
+							String heureDebut = "";
+							String minuteDebut = "";
+
+							DecimalFormat df = new DecimalFormat("00");
+							heureDebut = df.format(prime.getQuantite() / 60);
+							minuteDebut = df.format(prime.getQuantite() % 60);
+							prime.setHeureDebut(heureDebut);
+							prime.setMinuteDebut(minuteDebut);
+						}
+
+						mapAllPrime.get(prime.getNumRubrique().toString()).add(prime);
 					}
 				}
 
@@ -1036,11 +1036,11 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 							primeDto.setHeureFinDate(calculDateEtHeureSaisie(dto.getSaisies().get(iJour).getDate(),
 									primeDto.getHeureFin(), primeDto.getMinuteFin(), primeDto.getSaisieJ1()));
 						}
-						if(nbHeures(primeDto.getTypeSaisie())
-								&& null != primeDto.getHeureDebut()
+						if (nbHeures(primeDto.getTypeSaisie()) && null != primeDto.getHeureDebut()
 								&& null != primeDto.getMinuteDebut()) {
 							Integer quantite = 0;
-							quantite = new Integer(primeDto.getHeureDebut()) * 60 +  new Integer(primeDto.getMinuteDebut());
+							quantite = new Integer(primeDto.getHeureDebut()) * 60
+									+ new Integer(primeDto.getMinuteDebut());
 							primeDto.setQuantite(quantite);
 						}
 
