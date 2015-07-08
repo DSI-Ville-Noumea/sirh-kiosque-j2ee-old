@@ -108,14 +108,8 @@
 					<separator />
 					<label
 						value="- vos informations RH : contactez votre référent RH " />
-					<label
-						visible="@bind(not empty vm.refrentRh.idReferentRh)"
-						value="@bind(vm.getPrenomAgent(vm.refrentRh.prenomAgentReferent))" />
-					<label
-						visible="@bind(not empty vm.refrentRh.idReferentRh)" value="au " />
-					<label
-						visible="@bind(not empty vm.refrentRh.idReferentRh)"
-						value="@bind(vm.refrentRh.numeroTelephone)" />
+					<label visible="@bind(not empty vm.refrentRh)"
+						value="@bind(vm.refrentRh)" />
 				</div>
 				<separator />
 				<separator />

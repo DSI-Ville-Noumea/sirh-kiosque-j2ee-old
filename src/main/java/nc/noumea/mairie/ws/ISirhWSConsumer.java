@@ -59,7 +59,7 @@ public interface ISirhWSConsumer {
 
 	boolean estHabiliteEAE(Integer idAgent);
 
-	ReferentRhDto getReferentRH(Integer idAgent);
+	List<ReferentRhDto> getListReferentRH(Integer idAgent);
 
 	AgentWithServiceDto getAgent(Integer idAgentReferent);
 

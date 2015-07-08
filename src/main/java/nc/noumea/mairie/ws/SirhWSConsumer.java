@@ -66,7 +66,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
 	private static final String sirhEstHabiliteEaeUrl = "eaes/estHabiliteEAE";
-	private static final String sirhReferentRHUrl = "kiosqueRH/getReferentRH";
+	private static final String sirhReferentRHUrl = "kiosqueRH/getListReferentRH";
 	private static final String sirhAccueilRHUrl = "kiosqueRH/getListeAccueilRH";
 	private static final String sirhAgentUrl = "agents/getAgent";
 	private static final String sirhListDelegataireEaeUrl = "eaes/listDelegataire";
@@ -208,13 +208,13 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
-	public ReferentRhDto getReferentRH(Integer idAgent) {
+	public List<ReferentRhDto> getListReferentRH(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhReferentRHUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponse(ReferentRhDto.class, res, url);
+		return readResponseAsList(ReferentRhDto.class, res, url);
 	}
 
 	@Override

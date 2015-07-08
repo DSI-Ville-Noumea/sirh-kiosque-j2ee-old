@@ -91,7 +91,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 	private List<String> listeAlerteAccueil;
 
-	private ReferentRhDto refrentRh;
+	private String refrentRh;
 
 	private String nombreAbsenceAApprouver = "";
 
@@ -162,8 +162,19 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		}
 		// setListeTexteAccueil(listeTexte);
 		// refrent Rh de l'agent
-		ReferentRhDto referent = sirhWsConsumer.getReferentRH(currentUser.getAgent().getIdAgent());
-		setRefrentRh(referent);
+		List<ReferentRhDto> listReferent = sirhWsConsumer.getListReferentRH(currentUser.getAgent().getIdAgent());
+		String ref = "";
+		for (int i = 0; i < listReferent.size(); i++) {
+			ReferentRhDto referent = listReferent.get(i);
+			if (i == 0) {
+				ref += getPrenomReferent(referent.getPrenomAgentReferent()) + " au " + referent.getNumeroTelephone();
+			} else {
+				ref += " ou " + getPrenomReferent(referent.getPrenomAgentReferent()) + " au "
+						+ referent.getNumeroTelephone();
+			}
+		}
+
+		setRefrentRh(ref);
 
 		/* Pour les absences */
 		try {
@@ -289,6 +300,15 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		}
 	}
 
+	private String getPrenomReferent(String prenom) {
+		if (!prenom.equals("")) {
+			String premierLettre = prenom.substring(0, 1).toUpperCase();
+			String reste = prenom.substring(1, prenom.length()).toLowerCase();
+			return premierLettre + reste;
+		}
+		return "";
+	}
+
 	@Command
 	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div,
 			@BindingParam("param") String param) {
@@ -319,15 +339,6 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		// }
 	}
 
-	public String getPrenomAgent(String prenom) {
-		if (!prenom.equals("")) {
-			String premierLettre = prenom.substring(0, 1).toUpperCase();
-			String reste = prenom.substring(1, prenom.length()).toLowerCase();
-			return premierLettre + reste;
-		}
-		return "";
-	}
-
 	public List<AccueilRhDto> getListeTexteAccueil() {
 		return listeTexteAccueil;
 	}
@@ -336,11 +347,11 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		this.listeTexteAccueil = listeTexteAccueil;
 	}
 
-	public ReferentRhDto getRefrentRh() {
+	public String getRefrentRh() {
 		return refrentRh;
 	}
 
-	public void setRefrentRh(ReferentRhDto refrentRh) {
+	public void setRefrentRh(String refrentRh) {
 		this.refrentRh = refrentRh;
 	}
 
