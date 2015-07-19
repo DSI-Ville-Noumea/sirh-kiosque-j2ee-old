@@ -46,51 +46,51 @@ public class CustomDHXPlanner extends DHXPlanner {
 	public CustomDHXPlanner(String codeBase, DHXSkin skin, String urlEvents, List<AgentWithServiceDto> listAgents) {
 		super(codeBase, skin);
 
-		//////////////////////////////////////////////////////////
-		////////////// CREATION DU PLANNING //////////////////////
-		//////////////////////////////////////////////////////////
-		
+		// ////////////////////////////////////////////////////////
+		// //////////// CREATION DU PLANNING //////////////////////
+		// ////////////////////////////////////////////////////////
+
 		// on supprime les vues pare defaut (day/week/month)
 		this.views.clear();
 
-        // ajoute la librairie pour le TimeLine
-        this.extensions.add(DHXExtension.TREE_TIMELINE); 
-        
-        this.setInitialView("viewMois");
-        this.setInitialDate(new DateTime().withDayOfMonth(1).toDate());
-        this.setWidth(1252, "px");
-        this.load(urlEvents, DHXDataFormat.JSON);
-        this.setHeight(100, "%");
-        
-        this.config.setReadonly(true);
-        this.config.setScrollHour(6);
+		// ajoute la librairie pour le TimeLine
+		this.extensions.add(DHXExtension.TREE_TIMELINE);
 
-        this.localizations.set(DHXLocalization.French);
-        
-        this.extensions.add(DHXExtension.CONTAINER_AUTORESIZE);
+		this.setInitialView("viewMois");
+		this.setInitialDate(new DateTime().withDayOfMonth(1).toDate());
+		this.setWidth(1252, "px");
+		this.load(urlEvents, DHXDataFormat.JSON);
+		this.setHeight(100, "%");
 
-		//////////////////////////////////////////////////////////
-        ////////////// pour les infobulles /////////////////////
-        this.extensions.add(DHXExtension.TOOLTIP);
-        
-        String toolTipText = "<b>Agent :</b> {textInfoBulle}" 
-        		+ "<br/><b>Groupe d'absence :</b> {typeAbsence}"
-        		+ "<br/><b>Etat :</b> {etatAbsence}"
-        		+ "<br/><b>Date de début :</b> {dateDebut}" 
-        		+ "<br/><b>Date de fin :</b> {dateFin}" ;
-        this.templates.setTooltipText(toolTipText);
-        
-		//////////////////////////////////////////////////////////
-		////////////// CREATION DU TIMELINE //////////////////////
-		// details des proprietes : http://docs.dhtmlx.com/scheduler/api__scheduler_createtimelineview.html
-		//////////////////////////////////////////////////////////
-		///////// 1er timeline : par semaine /////////////////////
-        
-        // /!\ attention le nom de la DHXTimelineView doit etre ajoute dans CustomEventsManager.getCollections()
+		this.config.setReadonly(true);
+		this.config.setScrollHour(6);
+
+		this.localizations.set(DHXLocalization.French);
+
+		this.extensions.add(DHXExtension.CONTAINER_AUTORESIZE);
+
+		// ////////////////////////////////////////////////////////
+		// //////////// pour les infobulles /////////////////////
+		this.extensions.add(DHXExtension.TOOLTIP);
+
+		String toolTipText = "<b>Agent :</b> {textInfoBulle}" + "<br/><b>Groupe d'absence :</b> {typeAbsence}"
+				+ "<br/><b>Etat :</b> {etatAbsence}" + "<br/><b>Date de début :</b> {dateDebut}"
+				+ "<br/><b>Date de fin :</b> {dateFin}";
+		this.templates.setTooltipText(toolTipText);
+
+		// ////////////////////////////////////////////////////////
+		// //////////// CREATION DU TIMELINE //////////////////////
+		// details des proprietes :
+		// http://docs.dhtmlx.com/scheduler/api__scheduler_createtimelineview.html
+		// ////////////////////////////////////////////////////////
+		// /////// 1er timeline : par semaine /////////////////////
+
+		// /!\ attention le nom de la DHXTimelineView doit etre ajoute dans
+		// CustomEventsManager.getCollections()
 		DHXTimelineView viewSemaine = new DHXTimelineView("viewSemaine", "user", "Semaine");
 		// mode d affichage
 		viewSemaine.setRenderMode(DHXTimelineView.RenderModes.TREE);
-		// unite 
+		// unite
 		viewSemaine.setXScaleUnit(DHXTimelineView.XScaleUnits.DAY);
 		// CSS pour le bouton "Semaine"
 		viewSemaine.setTabStyle("margin-left:-190px;");
@@ -100,7 +100,8 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewSemaine.setXStep(1);
 		// nombre de colonnes
 		viewSemaine.setXSize(7);
-		// propriete utilisee par le timeline pour matcher avec les CustomDHXEvent
+		// propriete utilisee par le timeline pour matcher avec les
+		// CustomDHXEvent
 		// la propriete doit etre egale au nom de l attribut CustomDHXEvent.user
 		viewSemaine.setYProperty("user");
 		// taille des groupes dans le cas du TREE_MODE
@@ -110,40 +111,48 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewSemaine.setDy(30);
 		// hauteur des events des agents
 		viewSemaine.setEventDy(26);
-		
+
 		// dois correspondre au nom du DHXTimelineView (ci-dessus)
 		viewSemaine.setServerList("viewSemaine");
-		viewSemaine.addSecondScale(DHXTimelineView.XScaleUnits.MONTH,"%F");
+		viewSemaine.addSecondScale(DHXTimelineView.XScaleUnits.MONTH, "%F");
 
 		Collections.sort(listAgents);
 		List<ServiceDto> listeServices = getListServices(listAgents);
 		// on trie les services par ordre alpha
 		Collections.sort(listeServices);
-		
-		for(ServiceDto service : listeServices) {
-			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines the header of the folder
+
+		for (ServiceDto service : listeServices) {
+			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines
+																											// the
+																											// header
+																											// of
+																											// the
+																											// folder
 
 			viewSemaine.addOption(section);
-			for(AgentWithServiceDto agent : listAgents) {
-				if(service.getCodeService().equals(agent.getCodeService())) {
-					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " " + agent.getPrenom()));
+			for (AgentWithServiceDto agent : listAgents) {
+				if (service.getCodeService().equals(agent.getCodeService())) {
+					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
+							+ agent.getPrenom()));
 				}
 			}
 		}
-		
+
 		this.views.add(viewSemaine);
-		
-		//////////////////////////////////////////////////////////
-		////////////// CREATION DU TIMELINE //////////////////////
-		// details des proprietes : http://docs.dhtmlx.com/scheduler/api__scheduler_createtimelineview.html
-		//////////////////////////////////////////////////////////
-		///////// 2e timeline : par mois /////////////////////
-		
-        // /!\ attention le nom de la DHXTimelineView doit etre ajoute dans CustomEventsManager.getCollections()
+
+		// ////////////////////////////////////////////////////////
+		// //////////// CREATION DU TIMELINE //////////////////////
+		// details des proprietes :
+		// http://docs.dhtmlx.com/scheduler/api__scheduler_createtimelineview.html
+		// ////////////////////////////////////////////////////////
+		// /////// 2e timeline : par mois /////////////////////
+
+		// /!\ attention le nom de la DHXTimelineView doit etre ajoute dans
+		// CustomEventsManager.getCollections()
 		DHXTimelineView viewMois = new DHXTimelineView("viewMois", "user", "Mois");
 		// mode d affichage
 		viewMois.setRenderMode(DHXTimelineView.RenderModes.TREE);
-		// unite 
+		// unite
 		viewMois.setXScaleUnit(DHXTimelineView.XScaleUnits.DAY);
 		// CSS pour le bouton "Mois"
 		viewMois.setTabStyle("margin-left:-190px;");
@@ -153,7 +162,8 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewMois.setXStep(1);
 		// nombre de colonnes
 		viewMois.setXSize(31);
-		// propriete utilisee par le timeline pour matcher avec les CustomDHXEvent
+		// propriete utilisee par le timeline pour matcher avec les
+		// CustomDHXEvent
 		// la propriete doit etre egale au nom de l attribut CustomDHXEvent.user
 		viewMois.setYProperty("user");
 		// taille des groupes dans le cas du TREE_MODE
@@ -163,38 +173,46 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewMois.setDy(30);
 		// hauteur des events des agents
 		viewMois.setEventDy(26);
-		
+
 		// dois correspondre au nom du DHXTimelineView (ci-dessus)
 		viewMois.setServerList("viewMois");
-		viewMois.addSecondScale(DHXTimelineView.XScaleUnits.MONTH,"%F");
-		
+		viewMois.addSecondScale(DHXTimelineView.XScaleUnits.MONTH, "%F");
+
 		// TREE MODE
 		viewMois.setFolderEventsAvailable(false);
-		
-		for(ServiceDto service : listeServices) {
-			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines the header of the folder
 
-	        viewMois.addOption(section);
-			for(AgentWithServiceDto agent : listAgents) {
-				if(service.getCodeService().equals(agent.getCodeService())) {
-					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " " + agent.getPrenom()));
+		for (ServiceDto service : listeServices) {
+			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines
+																											// the
+																											// header
+																											// of
+																											// the
+																											// folder
+
+			viewMois.addOption(section);
+			for (AgentWithServiceDto agent : listAgents) {
+				if (service.getCodeService().equals(agent.getCodeService())) {
+					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
+							+ agent.getPrenom()));
 				}
 			}
 		}
-		
+
 		this.views.add(viewMois);
-		
-		//////////////////////////////////////////////////////////
-		////////////// CREATION DU TIMELINE //////////////////////
-		// details des proprietes : http://docs.dhtmlx.com/scheduler/api__scheduler_createtimelineview.html
-		//////////////////////////////////////////////////////////
-		///////// 3e timeline : par trimestre /////////////////////
-		
-        // /!\ attention le nom de la DHXTimelineView doit etre ajoute dans CustomEventsManager.getCollections()
+
+		// ////////////////////////////////////////////////////////
+		// //////////// CREATION DU TIMELINE //////////////////////
+		// details des proprietes :
+		// http://docs.dhtmlx.com/scheduler/api__scheduler_createtimelineview.html
+		// ////////////////////////////////////////////////////////
+		// /////// 3e timeline : par trimestre /////////////////////
+
+		// /!\ attention le nom de la DHXTimelineView doit etre ajoute dans
+		// CustomEventsManager.getCollections()
 		DHXTimelineView viewTrimestre = new DHXTimelineView("viewTrimestre", "user", "Trimestre");
 		// mode d affichage
 		viewTrimestre.setRenderMode(DHXTimelineView.RenderModes.TREE);
-		// unite 
+		// unite
 		viewTrimestre.setXScaleUnit(DHXTimelineView.XScaleUnits.DAY);
 		// CSS pour le bouton "Trimestre"
 		viewTrimestre.setTabStyle("margin-left:-190px;");
@@ -204,7 +222,8 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewTrimestre.setXStep(7);
 		// nombre de colonnes
 		viewTrimestre.setXSize(13);
-		// propriete utilisee par le timeline pour matcher avec les CustomDHXEvent
+		// propriete utilisee par le timeline pour matcher avec les
+		// CustomDHXEvent
 		// la propriete doit etre egale au nom de l attribut CustomDHXEvent.user
 		viewTrimestre.setYProperty("user");
 		// taille des groupes dans le cas du TREE_MODE
@@ -214,47 +233,50 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewTrimestre.setDy(30);
 		// hauteur des events des agents
 		viewTrimestre.setEventDy(26);
-		
+
 		// dois correspondre au nom du DHXTimelineView (ci-dessus)
 		viewTrimestre.setServerList("viewTrimestre");
-		viewTrimestre.addSecondScale(DHXTimelineView.XScaleUnits.MONTH,"%F");
-		
-		for(ServiceDto service : listeServices) {
-			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines the header of the folder
+		viewTrimestre.addSecondScale(DHXTimelineView.XScaleUnits.MONTH, "%F");
+
+		for (ServiceDto service : listeServices) {
+			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines
+																											// the
+																											// header
+																											// of
+																											// the
+																											// folder
 
 			viewTrimestre.addOption(section);
-			for(AgentWithServiceDto agent : listAgents) {
-				if(service.getCodeService().equals(agent.getCodeService())) {
-					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " " + agent.getPrenom()));
+			for (AgentWithServiceDto agent : listAgents) {
+				if (service.getCodeService().equals(agent.getCodeService())) {
+					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
+							+ agent.getPrenom()));
 				}
 			}
 		}
 
 		this.views.add(viewTrimestre);
 	}
-	
+
 	private List<ServiceDto> getListServices(List<AgentWithServiceDto> listAgents) {
-		
+
 		List<ServiceDto> listServices = new ArrayList<ServiceDto>();
-		for(AgentWithServiceDto agent : listAgents) {
+		for (AgentWithServiceDto agent : listAgents) {
 			ServiceDto service = new ServiceDto();
 			service.setCodeService(agent.getCodeService());
 			service.setService(agent.getService());
-			if(!listServices.contains(service)) {
+			if (!listServices.contains(service)) {
 				listServices.add(service);
 			}
 		}
 		return listServices;
 	}
-	
+
 	@Override
 	public String render() throws Exception {
-		return
-				"<div id='divChild'> <html>" 
-		+ super.render()
-			.replace("&nbsp;", "")
-			.replace("type=\"text/css\" charset=\"utf-8\">", "type=\"text/css\" charset=\"utf-8\" />") 
-			+ ""
-		+ "</html></div>";
+		return "<div id='divChild'> <html>"
+				+ super.render().replace("&nbsp;", "").replace("&", "")
+						.replace("type=\"text/css\" charset=\"utf-8\">", "type=\"text/css\" charset=\"utf-8\" />") + ""
+				+ "</html></div>";
 	}
 }
