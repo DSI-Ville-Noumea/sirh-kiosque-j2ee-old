@@ -90,7 +90,7 @@ public class DemandesSoldeAgentViewModel {
 		int heure = nombreMinute / 60;
 		int minute = nombreMinute % 60;
 		String res = "";
-		if (heure > 0)
+		if (heure != 0)
 			res += heure + "h";
 		if (minute > 0)
 			res += minute + "m";
