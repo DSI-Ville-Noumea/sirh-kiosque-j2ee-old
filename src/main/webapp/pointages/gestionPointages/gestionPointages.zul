@@ -17,10 +17,12 @@
 				<caption label="Filtres de recherche" />
 				<vlayout>
 					<hlayout>
-						<label style="font-weight: bold;" value="du * : " />
+						<label style="font-weight: bold;"
+							value="du * : " />
 						<datebox format="dd/MM/yyyy" weekOfYear="true"
 							maxlength="10" readonly="true" value="@bind(vm.dateDebutFiltre)" />
-						<label style="font-weight: bold;" value="au * : " />
+						<label style="font-weight: bold;"
+							value="au * : " />
 						<datebox format="dd/MM/yyyy" weekOfYear="true"
 							maxlength="10" readonly="true" value="@bind(vm.dateFinFiltre)" />
 						<label style="font-weight: bold;"
@@ -81,7 +83,7 @@
 			<separator />
 			<separator />
 
-			<vlayout height="100%">
+			<vlayout height="100%" style="overflow:auto;">
 				<hlayout sclass="fondRecherche">
 					<div>
 						Affichage de
