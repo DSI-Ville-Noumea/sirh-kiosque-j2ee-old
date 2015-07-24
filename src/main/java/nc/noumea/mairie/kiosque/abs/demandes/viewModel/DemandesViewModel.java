@@ -36,6 +36,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
@@ -43,7 +44,6 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.planning.CustomEventsManager;
 import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXPlanner;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -106,8 +106,8 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	private List<RefTypeAbsenceDto> listeTypeAbsenceFiltre;
 	private RefTypeAbsenceDto typeAbsenceFiltre;
 	private List<RefEtatAbsenceDto> listeEtatAbsenceFiltre;
-	private List<ServiceDto> listeServicesFiltre;
-	private ServiceDto serviceFiltre;
+	private List<EntiteDto> listeServicesFiltre;
+	private EntiteDto serviceFiltre;
 	private List<AgentDto> listeAgentsFiltre;
 	private AgentDto agentFiltre;
 	private Date dateDebutFiltre;
@@ -136,7 +136,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
 
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
+		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service
@@ -161,14 +161,14 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 
 		// #12159 planning
 		List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
-		for (ServiceDto service : getListeServicesFiltre()) {
+		for (EntiteDto service : getListeServicesFiltre()) {
 			List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
-					service.getCodeService());
+					service.getIdEntite());
 
 			if (null != listeAgents) {
 				for (AgentDto agent : listeAgents) {
-					AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getCodeService(),
-							service.getService());
+					AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getIdEntite(),
+							service.getLabel());
 					listAgentsWithServiceDto.add(agentsWithServiceDto);
 				}
 			}
@@ -194,7 +194,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
 		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
-				getServiceFiltre().getCodeService());
+				getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -281,7 +281,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
 				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence(),
 				getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), getServiceFiltre() == null ? null
-						: getServiceFiltre().getCodeService());
+						: getServiceFiltre().getIdEntite());
 		setListeDemandes(result);
 
 		// #12159 construction du planning
@@ -293,7 +293,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 			if (null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
 				List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
 				AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(getAgentFiltre(), getServiceFiltre()
-						.getCodeService(), getServiceFiltre().getService());
+						.getIdEntite(), getServiceFiltre().getLabel());
 				listAgentsWithServiceDto.add(agentsWithServiceDto);
 
 				s.setAttribute("listeAgents", listAgentsWithServiceDto);
@@ -820,22 +820,22 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		this.listeDemandes = listeDemandes;
 	}
 
-	public List<ServiceDto> getListeServicesFiltre() {
+	public List<EntiteDto> getListeServicesFiltre() {
 		return listeServicesFiltre;
 	}
 
-	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+	public void setListeServicesFiltre(List<EntiteDto> listeServicesFiltre) {
 		if (null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
 	}
 
-	public ServiceDto getServiceFiltre() {
+	public EntiteDto getServiceFiltre() {
 		return serviceFiltre;
 	}
 
-	public void setServiceFiltre(ServiceDto serviceFiltre) {
+	public void setServiceFiltre(EntiteDto serviceFiltre) {
 		this.serviceFiltre = serviceFiltre;
 	}
 

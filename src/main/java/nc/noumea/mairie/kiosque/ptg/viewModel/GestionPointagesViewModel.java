@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
@@ -45,7 +46,6 @@ import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
-import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
@@ -83,8 +83,8 @@ public class GestionPointagesViewModel {
 	private AccessRightsPtgDto droitsPointage;
 
 	/* POUR LES FILTRES */
-	private List<ServiceDto> listeServicesFiltre;
-	private ServiceDto serviceFiltre;
+	private List<EntiteDto> listeServicesFiltre;
+	private EntiteDto serviceFiltre;
 	private List<String> listeTypeHSupFiltre;
 	private String typeHSupFiltre;
 	private Date dateDebutFiltre;
@@ -111,12 +111,12 @@ public class GestionPointagesViewModel {
 				.getIdAgent());
 		setDroitsPointage(droitsPointage);
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
+		List<EntiteDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 
-		ServiceDto tousLesServices = new ServiceDto();
-		tousLesServices.setCodeService("TousLesServices");
-		tousLesServices.setService(" Tous les services");
-		List<ServiceDto> filtreAllService = new ArrayList<>();
+		EntiteDto tousLesServices = new EntiteDto();
+		tousLesServices.setSigle("TousLesServices");
+		tousLesServices.setLabelCourt("Tous les services");
+		List<EntiteDto> filtreAllService = new ArrayList<>();
 		filtreAllService.add(tousLesServices);
 		filtreAllService.addAll(filtreService);
 		setListeServicesFiltre(filtreAllService);
@@ -157,7 +157,7 @@ public class GestionPointagesViewModel {
 	public void filtrer() {
 		if (IsFiltreValid()) {
 			List<ConsultPointageDto> result = ptgWsConsumer.getListePointages(currentUser.getAgent().getIdAgent(),
-					getDateDebutFiltre(), getDateFinFiltre(), getServiceFiltre().getCodeService(),
+					getDateDebutFiltre(), getDateFinFiltre(), getServiceFiltre().getIdEntite(),
 					getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(),
 					getEtatPointageFiltre() == null ? null : getEtatPointageFiltre().getIdRefEtat(),
 					getTypePointageFiltre() == null ? null : getTypePointageFiltre().getIdRefTypePointage(),
@@ -197,7 +197,7 @@ public class GestionPointagesViewModel {
 	public void afficheListeAgent() {
 		// on charge les agents pour les filtres
 		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser.getAgent().getIdAgent(),
-				getServiceFiltre().getCodeService());
+				getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -447,22 +447,22 @@ public class GestionPointagesViewModel {
 		this.tailleListe = tailleListe;
 	}
 
-	public List<ServiceDto> getListeServicesFiltre() {
+	public List<EntiteDto> getListeServicesFiltre() {
 		return listeServicesFiltre;
 	}
 
-	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+	public void setListeServicesFiltre(List<EntiteDto> listeServicesFiltre) {
 		if (null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
 	}
 
-	public ServiceDto getServiceFiltre() {
+	public EntiteDto getServiceFiltre() {
 		return serviceFiltre;
 	}
 
-	public void setServiceFiltre(ServiceDto serviceFiltre) {
+	public void setServiceFiltre(EntiteDto serviceFiltre) {
 		this.serviceFiltre = serviceFiltre;
 	}
 

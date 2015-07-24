@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesGardeDto;
@@ -45,7 +46,6 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -428,7 +428,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	@Override
 	public List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate,
 			Date dateDemande, String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence,
-			Integer idAgentRecherche, String codeService) {
+			Integer idAgentRecherche, Integer idServiceADS) {
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhListeDemandesUrl);
 		HashMap<String, String> params = new HashMap<>();
@@ -448,8 +448,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			params.put("groupe", idRefGroupeAbsence.toString());
 		if (idAgentRecherche != null)
 			params.put("idAgentRecherche", idAgentRecherche.toString());
-		if (codeService != null)
-			params.put("codeService", codeService);
+		if (idServiceADS != null)
+			params.put("idServiceADS", idServiceADS.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(DemandeDto.class, res, url);
@@ -488,23 +488,23 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<ServiceDto> getServicesAbsences(Integer idAgent) {
+	public List<EntiteDto> getServicesAbsences(Integer idAgent) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhServicesKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponseAsList(ServiceDto.class, res, url);
+		return readResponseAsList(EntiteDto.class, res, url);
 	}
 
 	@Override
-	public List<AgentDto> getAgentsAbsences(Integer idAgent, String codeService) {
+	public List<AgentDto> getAgentsAbsences(Integer idAgent, Integer idServiceADS) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		if (null != codeService)
-			params.put("codeService", codeService);
+		if (null != idServiceADS)
+			params.put("idServiceADS", idServiceADS.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);
@@ -569,7 +569,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public SaisieGardeDto getListAgentsWithJoursFeriesEnGarde(Integer idAgent, String codeService, Date dateDebut,
+	public SaisieGardeDto getListAgentsWithJoursFeriesEnGarde(Integer idAgent, Integer idServiceADS, Date dateDebut,
 			Date dateFin) {
 
 		String url = String.format(sirhAbsWsBaseUrl + sirhGetListAgentsWithJoursFeriesEnGardeUrl);
@@ -577,7 +577,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		params.put("idAgent", idAgent.toString());
 		params.put("dateDebut", sdf.format(dateDebut));
 		params.put("dateFin", sdf.format(dateFin));
-		params.put("codeService", codeService);
+		
+		if(null != idServiceADS)
+			params.put("idServiceADS", idServiceADS.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(SaisieGardeDto.class, res, url);
@@ -622,23 +624,23 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public List<ServiceDto> getServicesAbsencesOperateur(Integer idAgent) {
+	public List<EntiteDto> getServicesAbsencesOperateur(Integer idAgent) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhServicesOperateurKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponseAsList(ServiceDto.class, res, url);
+		return readResponseAsList(EntiteDto.class, res, url);
 	}
 
 	@Override
-	public List<AgentDto> getAgentsAbsencesOperateur(Integer idAgent, String codeService) {
+	public List<AgentDto> getAgentsAbsencesOperateur(Integer idAgent, Integer idServiceADS) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsOperateurKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		if (null != codeService)
-			params.put("codeService", codeService);
+		if (null != idServiceADS)
+			params.put("idServiceADS", idServiceADS.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);

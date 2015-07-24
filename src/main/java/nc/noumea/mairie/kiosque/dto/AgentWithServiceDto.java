@@ -29,18 +29,18 @@ package nc.noumea.mairie.kiosque.dto;
 public class AgentWithServiceDto extends AgentDto {
 
 	private String service;
-	private String codeService;
+	private Integer idServiceADS;
 	private String statut;
 	private String direction;
 	private String signature;
 	private String position;
 
-	public AgentWithServiceDto(AgentDto agent, String codeService, String service) {
+	public AgentWithServiceDto(AgentDto agent, Integer idServiceADS, String service) {
 		super();
 		this.setIdAgent(agent.getIdAgent());
 		this.setNom(agent.getNom());
 		this.setPrenom(agent.getPrenom());
-		this.codeService = codeService;
+		this.idServiceADS = idServiceADS;
 		this.service = service;
 	}
 	
@@ -56,12 +56,12 @@ public class AgentWithServiceDto extends AgentDto {
 		this.service = service;
 	}
 
-	public String getCodeService() {
-		return codeService;
+	public Integer getIdServiceADS() {
+		return idServiceADS;
 	}
 
-	public void setCodeService(String codeService) {
-		this.codeService = codeService;
+	public void setIdServiceADS(Integer idServiceADS) {
+		this.idServiceADS = idServiceADS;
 	}
 
 	public String getStatut() {

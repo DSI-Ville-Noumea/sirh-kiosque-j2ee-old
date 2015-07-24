@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
@@ -41,7 +42,6 @@ import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
-import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,13 +126,13 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	}
 
 	@Override
-	public List<ServiceDto> getServicesPointages(Integer idAgent) {
+	public List<EntiteDto> getServicesPointages(Integer idAgent) {
 		String url = String.format(sirhPtgWsBaseUrl + ptgServicesKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponseAsList(ServiceDto.class, res, url);
+		return readResponseAsList(EntiteDto.class, res, url);
 	}
 
 	@Override
@@ -226,11 +226,11 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 	/**************************** Droits *******************************/
 	@Override
-	public List<AgentDto> getFichesToPrint(Integer idAgent, String codeService) {
+	public List<AgentDto> getFichesToPrint(Integer idAgent, Integer idServiceADS) {
 		String url = String.format(sirhPtgWsBaseUrl + ptgFichesPointagesUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
-		params.put("codeService", codeService);
+		params.put("idServiceADS", idServiceADS.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);
@@ -276,12 +276,12 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	}
 
 	@Override
-	public List<AgentDto> getAgentsPointages(Integer idAgent, String codeService) {
+	public List<AgentDto> getAgentsPointages(Integer idAgent, Integer idServiceADS) {
 		String url = String.format(sirhPtgWsBaseUrl + ptgAgentsKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
-		if (null != codeService) {
-			params.put("codeService", codeService);
+		if (null != idServiceADS) {
+			params.put("idServiceADS", idServiceADS.toString());
 		}
 
 		ClientResponse res = createAndFireGetRequest(params, url);
@@ -290,13 +290,13 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 	@Override
 	public List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate,
-			String codeService, Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS) {
+			Integer idServiceADS, Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS) {
 
 		String url = String.format(sirhPtgWsBaseUrl + ptgListePointagesUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgentConnecte.toString());
-		if (null != codeService) {
-			params.put("codeService", codeService);
+		if (null != idServiceADS) {
+			params.put("idServiceADS", idServiceADS.toString());
 		}
 		if (fromDate != null)
 			params.put("from", sdf.format(fromDate));

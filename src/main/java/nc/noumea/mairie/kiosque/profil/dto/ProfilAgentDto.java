@@ -44,6 +44,8 @@ public class ProfilAgentDto {
 	private CompteDto compte;
 	private CouvertureSocialeDto couvertureSociale;
 
+	private Integer idServiceAds;
+
 	public AgentGeneriqueDto getAgent() {
 		return agent;
 	}
@@ -130,6 +132,14 @@ public class ProfilAgentDto {
 
 	public void setCouvertureSociale(CouvertureSocialeDto couvertureSociale) {
 		this.couvertureSociale = couvertureSociale;
+	}
+
+	public Integer getIdServiceAds() {
+		return idServiceAds;
+	}
+
+	public void setIdServiceAds(Integer idServiceAds) {
+		this.idServiceAds = idServiceAds;
 	}
 
 }

@@ -34,6 +34,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.ApprobateurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
@@ -48,7 +49,7 @@ import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
-import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
+import nc.noumea.mairie.ws.IAdsWSConsumer;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
@@ -95,6 +96,9 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
+
+	@WireVariable
+	private IAdsWSConsumer adsWsConsumer;
 
 	private List<DemandeDto> listeDemandes;
 
@@ -159,31 +163,15 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		// si l'agent est chef
 		// ses equipes
 		if (dto.isEstResponsable()) {
-			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(currentUser.getAgent().getIdAgent());
-
-			for (ServiceTreeDto premierNiv : tree) {
-				for (AgentWithServiceDto agentPremierNiveau : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
-						.getIdAgent(), premierNiv.getService())) {
-					agentPremierNiveau.setCodeService(premierNiv.getService());
-					agentPremierNiveau.setService(premierNiv.getServiceLibelle());
-					getListAgentsEquipe().add(agentPremierNiveau);
-				}
-				for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
-					for (AgentWithServiceDto agentDeuxNiveau : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
-							.getIdAgent(), deuxNiv.getService())) {
-						agentDeuxNiveau.setCodeService(deuxNiv.getService());
-						agentDeuxNiveau.setService(deuxNiv.getServiceLibelle());
-						getListAgentsEquipe().add(agentDeuxNiveau);
-					}
-				}
-			}
+			EntiteDto tree = adsWsConsumer.getEntiteWithChildrenByIdEntite(currentUser.getIdServiceAds());
+			addAgentsEquipeFromThree(tree);
 		} else {
 			// sinon l equipe de l agent
 			List<AgentWithServiceDto> agentsEquipe = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
 					null);
 
 			for (AgentWithServiceDto ag : agentsEquipe) {
-				ag.setCodeService(agent.getCodeService());
+				ag.setIdServiceADS(agent.getIdServiceADS());
 				ag.setService(agent.getService());
 				getListAgentsEquipe().add(ag);
 			}
@@ -193,6 +181,27 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
 				.getSession().getNativeSession();
 		s.setAttribute("listeAgentsEquipe", getListAgentsEquipe());
+	}
+	
+	private void addAgentsEquipeFromThree(EntiteDto tree) {
+		
+		for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
+				.getIdAgent(), tree.getIdEntite())) {
+			getListAgentsEquipe().add(agent);
+		}
+		
+		addAgentsEquipeFromThreeRecursive(tree);
+	}
+	
+	private void addAgentsEquipeFromThreeRecursive(EntiteDto entite) {
+		
+		for (EntiteDto entiteEnfant : entite.getEnfants()) {
+			for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
+					.getIdAgent(), entiteEnfant.getIdEntite())) {
+				getListAgentsEquipe().add(agent);
+			}
+			addAgentsEquipeFromThreeRecursive(entiteEnfant);
+		}
 	}
 
 	@Command

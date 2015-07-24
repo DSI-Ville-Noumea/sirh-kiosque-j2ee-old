@@ -35,7 +35,6 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
-import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
 
 public interface ISirhWSConsumer {
 
@@ -47,9 +46,7 @@ public interface ISirhWSConsumer {
 
 	AgentWithServiceDto getSuperieurHierarchique(Integer idAgent);
 
-	List<ServiceTreeDto> getArbreServiceAgent(Integer idAgent);
-
-	List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, String codeService);
+	List<AgentWithServiceDto> getAgentEquipe(Integer idAgent, Integer idService);
 
 	byte[] imprimerFDP(Integer idFichePoste);
 

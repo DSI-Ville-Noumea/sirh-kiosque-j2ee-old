@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
@@ -37,7 +38,6 @@ import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -85,9 +85,9 @@ public class CompteursViewModel {
 
 	private RefTypeAbsenceDto typeAbsenceFiltre;
 
-	private List<ServiceDto> listeServicesFiltre;
+	private List<EntiteDto> listeServicesFiltre;
 
-	private ServiceDto serviceFiltre;
+	private EntiteDto serviceFiltre;
 
 	private List<AgentDto> listeAgentsFiltre;
 
@@ -120,7 +120,7 @@ public class CompteursViewModel {
 		List<RefTypeAbsenceDto> filtreFamille = absWsConsumer.getRefGroupeAbsenceCompteur();
 		setListeTypeAbsenceFiltre(filtreFamille);
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsencesOperateur(currentUser.getAgent().getIdAgent());
+		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsencesOperateur(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service sauf si un seul service (#15772)
@@ -152,7 +152,7 @@ public class CompteursViewModel {
 		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
 
 		if (getDroitsAbsence().isSaisieGarde()) {
-			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(currentUser.getAgent().getIdAgent(), "",
+			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(currentUser.getAgent().getIdAgent(), null,
 					dateDebutMois, dateFinMois));
 		}
 	}
@@ -168,7 +168,7 @@ public class CompteursViewModel {
 			ReturnMessageDto result = absWsConsumer.setListAgentsWithJoursFeriesEnGarde(currentUser.getAgent()
 					.getIdAgent(), dateDebutMois, dateFinMois, getSaisieGarde().getListAgentAvecGarde());
 
-			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(currentUser.getAgent().getIdAgent(), "",
+			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(currentUser.getAgent().getIdAgent(), null,
 					dateDebutMois, dateFinMois));
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -195,7 +195,7 @@ public class CompteursViewModel {
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
 		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsencesOperateur(currentUser.getAgent().getIdAgent(),
-				getServiceFiltre().getCodeService());
+				getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -559,22 +559,22 @@ public class CompteursViewModel {
 		this.typeAbsenceFiltre = typeAbsenceFiltre;
 	}
 
-	public List<ServiceDto> getListeServicesFiltre() {
+	public List<EntiteDto> getListeServicesFiltre() {
 		return listeServicesFiltre;
 	}
 
-	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+	public void setListeServicesFiltre(List<EntiteDto> listeServicesFiltre) {
 		if (null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
 	}
 
-	public ServiceDto getServiceFiltre() {
+	public EntiteDto getServiceFiltre() {
 		return serviceFiltre;
 	}
 
-	public void setServiceFiltre(ServiceDto serviceFiltre) {
+	public void setServiceFiltre(EntiteDto serviceFiltre) {
 		this.serviceFiltre = serviceFiltre;
 	}
 
