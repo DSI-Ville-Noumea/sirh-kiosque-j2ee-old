@@ -351,7 +351,7 @@
         </dependency>
 	</dependencies>
 	<build>
-		<finalName>ROOT##sirh-kiosque-j2ee-${project.version}</finalName>
+		<finalName>ROOT##sirh-kiosque-j2ee-org-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
