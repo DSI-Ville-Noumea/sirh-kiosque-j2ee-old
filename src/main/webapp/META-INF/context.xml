@@ -40,21 +40,21 @@
 	<!-- WS SIRH-ABS-WS -->
 	<!-- -->
 	<Environment name="SIRH_ABS_WS_URL" type="java.lang.String"
-		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8085/sirh-abs-ws/"
+		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8087/sirh-abs-ws-org/"
 		override="false" />
 
 	<!-- -->
 	<!-- WS SIRH-WS -->
 	<!-- -->
 	<Environment name="SIRH_WS_URL" type="java.lang.String"
-		description="SIRH WS endpoint url" value="http://svi-tomcat0:8085/sirhws/"
+		description="SIRH WS endpoint url" value="http://svi-tomcat0:8087/sirhws-org/"
 		override="false" />
 
 	<!-- -->
 	<!-- WS SIRH-PTG-WS -->
 	<!-- -->
 	<Environment name="SIRH_PTG_WS_URL" type="java.lang.String"
-		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8085/sirh-ptg-ws/"
+		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8087/sirh-ptg-ws-org/"
 		override="false" />
 
 	<!-- -->
@@ -75,7 +75,7 @@
 	<!-- WS ADS -->
 	<!-- -->
 	<Environment name="ADS_WS_URL" type="java.lang.String"
-		description="ADS WS endpoint url" value="http://ws-qual.sirh.site-mairie.noumea.nc/ads/"
+		description="ADS WS endpoint url" value="http://svi-tomcat0:8077/"
 		override="false" />
 
 	<!-- -->
