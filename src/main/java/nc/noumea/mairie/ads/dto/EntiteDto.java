@@ -204,13 +204,21 @@ public class EntiteDto implements Comparable<EntiteDto> {
 
 	@Override
 	public int compareTo(EntiteDto arg0) {
+		
+		if(null == this.label
+				|| null == arg0.label) {
+			return 0;
+		}
+		
 		return this.label.compareTo(arg0.label);
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		
-		if(null == obj) {
+		if(null == obj
+				|| null == ((EntiteDto) obj).getIdEntite()
+				|| null == idEntite) {
 			return false;
 		}
 		

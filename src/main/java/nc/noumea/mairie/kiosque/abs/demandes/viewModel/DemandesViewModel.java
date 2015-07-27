@@ -162,14 +162,16 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		// #12159 planning
 		List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
 		for (EntiteDto service : getListeServicesFiltre()) {
-			List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
-					service.getIdEntite());
-
-			if (null != listeAgents) {
-				for (AgentDto agent : listeAgents) {
-					AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getIdEntite(),
-							service.getLabel());
-					listAgentsWithServiceDto.add(agentsWithServiceDto);
+			if(null != service.getIdEntite()) {
+				List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
+						service.getIdEntite());
+	
+				if (null != listeAgents) {
+					for (AgentDto agent : listeAgents) {
+						AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getIdEntite(),
+								service.getLabel());
+						listAgentsWithServiceDto.add(agentsWithServiceDto);
+					}
 				}
 			}
 		}

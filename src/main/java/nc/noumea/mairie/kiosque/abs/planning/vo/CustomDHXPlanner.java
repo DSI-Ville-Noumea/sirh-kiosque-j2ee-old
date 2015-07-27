@@ -131,7 +131,9 @@ public class CustomDHXPlanner extends DHXPlanner {
 
 			viewSemaine.addOption(section);
 			for (AgentWithServiceDto agent : listAgents) {
-				if (service.getIdEntite().equals(agent.getIdServiceADS())) {
+				if (null != service.getIdEntite()
+						&& null != agent.getIdServiceADS()
+						&& service.getIdEntite().equals(agent.getIdServiceADS())) {
 					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
 							+ agent.getPrenom()));
 				}
@@ -191,7 +193,9 @@ public class CustomDHXPlanner extends DHXPlanner {
 
 			viewMois.addOption(section);
 			for (AgentWithServiceDto agent : listAgents) {
-				if (service.getIdEntite().equals(agent.getIdServiceADS())) {
+				if (null != service.getIdEntite()
+						&& null != agent.getIdServiceADS()
+						&& service.getIdEntite().equals(agent.getIdServiceADS())) {
 					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
 							+ agent.getPrenom()));
 				}
@@ -248,7 +252,9 @@ public class CustomDHXPlanner extends DHXPlanner {
 
 			viewTrimestre.addOption(section);
 			for (AgentWithServiceDto agent : listAgents) {
-				if (service.getIdEntite().equals(agent.getIdServiceADS())) {
+				if (null != service.getIdEntite()
+						&& null != agent.getIdServiceADS()
+						&& service.getIdEntite().equals(agent.getIdServiceADS())) {
 					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
 							+ agent.getPrenom()));
 				}

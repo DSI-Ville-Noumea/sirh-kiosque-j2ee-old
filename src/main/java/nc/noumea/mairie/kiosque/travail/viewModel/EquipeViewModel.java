@@ -159,7 +159,17 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	private ServiceTreeNode getServiceTreeRoot() {
 		ServiceTreeNode root = new ServiceTreeNode(null, "", null);
 		
-		addServiceTreeNodeFromThreeRecursive(root, getArbreService());
+		ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, getArbreService().getSigle(), getArbreService().getSigle());
+		for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
+				.getIdAgent(), getArbreService().getIdEntite())) {
+			
+			ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(agent), agent
+						.getIdAgent().toString());
+			firstLevelNode.appendChild(agentLevelNode);
+		}
+		root.appendChild(firstLevelNode);
+		
+		addServiceTreeNodeFromThreeRecursive(root.getChildren().get(0), getArbreService());
 		
 		return root;
 	}
@@ -175,6 +185,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 							.getIdAgent().toString());
 				firstLevelNode.appendChild(agentLevelNode);
 			}
+			root.appendChild(firstLevelNode);
 			addServiceTreeNodeFromThreeRecursive(firstLevelNode, entiteEnfant);
 		}
 	}

@@ -29,7 +29,7 @@
 					selectedItem="@bind(vm.serviceFiltre)"
 					onSelect="@command('chargeAgent')">
 					<template name="model">
-						<comboitem label="@bind(each.service)" />
+						<comboitem label="@bind(each.label)" />
 					</template>
 				</combobox>
 				<label value="Agent :" />

@@ -41,7 +41,7 @@ import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.ClientResponse;
 
-@Service
+@Service("adsWsConsumer")
 public class AdsWSConsumer extends BaseWsConsumer implements IAdsWSConsumer {
 
 	private Logger logger = LoggerFactory.getLogger(AdsWSConsumer.class);

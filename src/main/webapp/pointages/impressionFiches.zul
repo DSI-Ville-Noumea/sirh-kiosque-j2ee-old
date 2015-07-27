@@ -27,7 +27,7 @@
 					selectedItem="@bind(vm.serviceFiltre)"
 					onSelect="@command('afficheListeFiche')">
 					<template name="model">
-						<comboitem label="@bind(each.service)" />
+						<comboitem label="@bind(each.label)" />
 					</template>
 				</combobox>
 			</hlayout>
