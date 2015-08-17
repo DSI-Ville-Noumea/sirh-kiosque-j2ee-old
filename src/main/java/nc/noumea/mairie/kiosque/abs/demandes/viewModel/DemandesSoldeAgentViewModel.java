@@ -56,6 +56,8 @@ public class DemandesSoldeAgentViewModel {
 	
 	private ActeursDto acteursDto;
 
+	private String libelleA52;
+
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("agentCourant") AgentWithServiceDto agent) {
 		setTitle("Solde de " + agent.getNom() + " " + agent.getPrenom());
@@ -67,6 +69,12 @@ public class DemandesSoldeAgentViewModel {
 		setSoldeCourant(result);
 		// #14844 liste des acteurs
 		setActeursDto(absWsConsumer.getListeActeurs(agent.getIdAgent()));
+
+		if (getSoldeCourant().getOrganisationA52() != null) {
+			setLibelleA52("Décharge de service CTP - " + getSoldeCourant().getOrganisationA52().getSigle());
+		} else {
+			setLibelleA52("Décharge de service CTP");
+		}
 	}
 
 	@Command
@@ -154,6 +162,14 @@ public class DemandesSoldeAgentViewModel {
 
 	public void setActeursDto(ActeursDto acteursDto) {
 		this.acteursDto = acteursDto;
+	}
+
+	public String getLibelleA52() {
+		return libelleA52;
+	}
+
+	public void setLibelleA52(String libelleA52) {
+		this.libelleA52 = libelleA52;
 	}
 	
 }
