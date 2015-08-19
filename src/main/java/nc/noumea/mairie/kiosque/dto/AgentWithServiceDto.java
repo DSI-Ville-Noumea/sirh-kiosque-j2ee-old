@@ -31,7 +31,6 @@ public class AgentWithServiceDto extends AgentDto {
 	private String service;
 	private Integer idServiceADS;
 	private String statut;
-	private String direction;
 	private String signature;
 	private String position;
 
@@ -70,14 +69,6 @@ public class AgentWithServiceDto extends AgentDto {
 
 	public void setStatut(String statut) {
 		this.statut = statut;
-	}
-
-	public String getDirection() {
-		return direction;
-	}
-
-	public void setDirection(String direction) {
-		this.direction = direction;
 	}
 
 	public String getSignature() {
