@@ -33,6 +33,8 @@ public class FiltreSoldeDto {
 
 	private Date dateFin;
 
+	private Date dateDemande;
+
 	public Date getDateDebut() {
 		return dateDebut;
 	}
@@ -47,5 +49,13 @@ public class FiltreSoldeDto {
 
 	public void setDateFin(Date dateFin) {
 		this.dateFin = dateFin;
+	}
+
+	public Date getDateDemande() {
+		return dateDemande;
+	}
+
+	public void setDateDemande(Date dateDemande) {
+		this.dateDemande = dateDemande;
 	}
 }

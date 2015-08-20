@@ -31,6 +31,7 @@ import java.util.List;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentDto;
 import nc.noumea.mairie.kiosque.abs.dto.ApprobateurDto;
+import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
@@ -59,12 +60,14 @@ public class DemandesSoldeAgentViewModel {
 	private String libelleA52;
 
 	@AfterCompose
-	public void doAfterCompose(@ExecutionArgParam("agentCourant") AgentWithServiceDto agent) {
+	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
+		AgentWithServiceDto agent = demande.getAgentWithServiceDto();
 		setTitle("Solde de " + agent.getNom() + " " + agent.getPrenom());
 		// on recupère le solde de l'agent
 		FiltreSoldeDto filtreDto = new FiltreSoldeDto();
 		filtreDto.setDateDebut(new Date());
 		filtreDto.setDateFin(new Date());
+		filtreDto.setDateDemande(demande.getDateDebut());
 		SoldeDto result = absWsConsumer.getAgentSolde(agent.getIdAgent(), filtreDto);
 		setSoldeCourant(result);
 		// #14844 liste des acteurs

@@ -149,7 +149,7 @@
 						</detail>
 						<label sclass="clicable"
 							style="text-decoration: underline;"
-							onClick="@command('visuSoldeAgent',ref=each.agentWithServiceDto)"
+							onClick="@command('visuSoldeAgent',ref=each)"
 							value="@bind(vm.concatAgent(each.agentWithServiceDto.nom,each.agentWithServiceDto.prenom))" />
 						<label value="@bind(each.libelleTypeDemande)" />
 						<label

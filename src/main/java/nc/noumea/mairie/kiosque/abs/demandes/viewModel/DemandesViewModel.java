@@ -181,10 +181,10 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	}
 
 	@Command
-	public void visuSoldeAgent(@BindingParam("ref") AgentWithServiceDto agent) {
+	public void visuSoldeAgent(@BindingParam("ref") DemandeDto demande) {
 		// create a window programmatically and use it as a modal dialog.
-		Map<String, AgentWithServiceDto> args = new HashMap<String, AgentWithServiceDto>();
-		args.put("agentCourant", agent);
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/demandes/demandesSoldeAgent.zul", null, args);
 		win.doModal();
 	}
