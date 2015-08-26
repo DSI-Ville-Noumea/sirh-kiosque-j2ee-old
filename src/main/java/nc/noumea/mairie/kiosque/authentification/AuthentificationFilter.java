@@ -161,6 +161,9 @@ public class AuthentificationFilter implements Filter {
 			logger.debug("L'application SIRH-WS ne semble pas répondre.");
 			
 			request.logout();
+
+			hSess.setAttribute("logout", "logout");
+			request.getRequestDispatcher("login.zul").forward(request, response);
 			return;
 		}
 
@@ -168,6 +171,9 @@ public class AuthentificationFilter implements Filter {
 			logger.debug("ProfilAgent not exist in SIRH WS with EmployeeNumber : " + userDto.getEmployeeNumber());
 			
 			request.logout();
+
+			hSess.setAttribute("logout", "logout");
+			request.getRequestDispatcher("login.zul").forward(request, response);
 			return;
 		}
 
