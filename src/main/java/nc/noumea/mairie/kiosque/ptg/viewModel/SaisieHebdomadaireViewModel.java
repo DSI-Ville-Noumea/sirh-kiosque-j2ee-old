@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -49,7 +50,6 @@ import nc.noumea.mairie.kiosque.ptg.dto.JourPointageDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PrimeDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.ptg.form.SaisiePointageForm;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.TimePicker;
@@ -104,8 +104,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	private Date dateLundi;
 	private List<AgentDto> listeAgentsFiltre;
 	private AgentDto agentFiltre;
-	private List<ServiceDto> listeServicesFiltre;
-	private ServiceDto serviceFiltre;
+	private List<EntiteDto> listeServicesFiltre;
+	private EntiteDto serviceFiltre;
 	private String dateFiltre;
 
 	private ListModel<RefTypeAbsenceDto> listeTypeAbsence;
@@ -121,7 +121,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			throws ParseException {
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
+		List<EntiteDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// si 1 seul service alors on le selectionne
 		if (getListeServicesFiltre() != null && getListeServicesFiltre().size() == 1) {
@@ -137,11 +137,11 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			// c'est qu'on vient de l'ecran de visu des pointages
 			setDateLundi(pointage.getDate());
 			afficheSemaine();
-			AgentWithServiceDto agent = sirhWsConsumer
-					.getAgentService(pointage.getAgent().getIdAgent(), getDateLundi());
-			ServiceDto servAgent = new ServiceDto();
-			servAgent.setCodeService(agent.getCodeService());
-			servAgent.setService(agent.getService());
+			AgentWithServiceDto agent = sirhWsConsumer.getAgentEntite(pointage.getAgent().getIdAgent(), getDateLundi());
+			EntiteDto servAgent = new EntiteDto();
+			servAgent.setIdEntite(agent.getIdServiceADS());
+			servAgent.setLabelCourt(agent.getService());
+			servAgent.setLabel(agent.getService());
 			setServiceFiltre(servAgent);
 			afficheListeAgent();
 			setAgentFiltre(pointage.getAgent());
@@ -638,7 +638,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 										setAgentFiltre(null);
 										// on charge les agents pour les filtres
 										List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser
-												.getAgent().getIdAgent(), getServiceFiltre().getCodeService());
+												.getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
 										setListeAgentsFiltre(filtreAgent);
 										if (getAgentFiltre() == null) {
 											setSaisiePointageForm(null);
@@ -656,7 +656,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			setAgentFiltre(null);
 			// on charge les agents pour les filtres
 			List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser.getAgent().getIdAgent(),
-					getServiceFiltre().getCodeService());
+					getServiceFiltre().getIdEntite());
 			setListeAgentsFiltre(filtreAgent);
 			if (getAgentFiltre() == null) {
 				setSaisiePointageForm(null);
@@ -735,22 +735,22 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		return c.getTime();
 	}
 
-	public List<ServiceDto> getListeServicesFiltre() {
+	public List<EntiteDto> getListeServicesFiltre() {
 		return listeServicesFiltre;
 	}
 
-	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+	public void setListeServicesFiltre(List<EntiteDto> listeServicesFiltre) {
 		if (null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
 	}
 
-	public ServiceDto getServiceFiltre() {
+	public EntiteDto getServiceFiltre() {
 		return serviceFiltre;
 	}
 
-	public void setServiceFiltre(ServiceDto serviceFiltre) {
+	public void setServiceFiltre(EntiteDto serviceFiltre) {
 		this.serviceFiltre = serviceFiltre;
 	}
 

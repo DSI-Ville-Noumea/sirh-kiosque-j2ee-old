@@ -31,13 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.cmis.SharepointDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
-import nc.noumea.mairie.kiosque.travail.dto.ServiceTreeDto;
+import nc.noumea.mairie.ws.IAdsWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.BindUtils;
@@ -75,6 +76,9 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	@WireVariable
 	private ISirhWSConsumer sirhWsConsumer;
 
+	@WireVariable
+	private IAdsWSConsumer adsWsConsumer;
+
 	private AgentWithServiceDto superieurHierarchique;
 
 	private List<AgentWithServiceDto> equipeAgent;
@@ -89,7 +93,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	private List<SharepointDto> listeUrlEae;
 
 	// pour l'arbre des services
-	private List<ServiceTreeDto> arbreService;
+	private EntiteDto arbreService;
 	private TreeModel<ServiceTreeNode> arbre;
 
 	private ProfilAgentDto currentUser;
@@ -105,7 +109,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		setEstChef(dto.isEstResponsable());
 		// si l'agent est chef
 		if (isEstChef()) {
-			List<ServiceTreeDto> tree = sirhWsConsumer.getArbreServiceAgent(currentUser.getAgent().getIdAgent());
+			EntiteDto tree = adsWsConsumer.getEntiteWithChildrenByIdEntite(currentUser.getIdServiceAds());
 			setArbreService(tree);
 			initModel();
 			ouvreArbre();
@@ -154,28 +158,36 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	// create a FooNodes tree structure and return the root
 	private ServiceTreeNode getServiceTreeRoot() {
 		ServiceTreeNode root = new ServiceTreeNode(null, "", null);
-		for (ServiceTreeDto premierNiv : getArbreService()) {
-			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, premierNiv.getSigle(), premierNiv.getSigle());
-			for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
-					premierNiv.getService())) {
-				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(ag), ag
+		
+		ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, getArbreService().getSigle(), getArbreService().getSigle());
+		for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
+				.getIdAgent(), getArbreService().getIdEntite())) {
+			
+			ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(agent), agent
 						.getIdAgent().toString());
+			firstLevelNode.appendChild(agentLevelNode);
+		}
+		root.appendChild(firstLevelNode);
+		
+		addServiceTreeNodeFromThreeRecursive(root.getChildren().get(0), getArbreService());
+		
+		return root;
+	}
+	
+	private void addServiceTreeNodeFromThreeRecursive(ServiceTreeNode root, EntiteDto entite) {
+		
+		for (EntiteDto entiteEnfant : entite.getEnfants()) {
+			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, entiteEnfant.getSigle(), entiteEnfant.getSigle());
+			for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
+					.getIdAgent(), entiteEnfant.getIdEntite())) {
+				
+				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(agent), agent
+							.getIdAgent().toString());
 				firstLevelNode.appendChild(agentLevelNode);
 			}
-			for (ServiceTreeDto deuxNiv : premierNiv.getServicesEnfant()) {
-				ServiceTreeNode secondLevelNode = new ServiceTreeNode(firstLevelNode, deuxNiv.getSigle(),
-						deuxNiv.getSigle());
-				for (AgentWithServiceDto ag : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
-						deuxNiv.getService())) {
-					ServiceTreeNode agentLevelNode = new ServiceTreeNode(secondLevelNode, concatAgentSansCivilite(ag),
-							ag.getIdAgent().toString());
-					secondLevelNode.appendChild(agentLevelNode);
-				}
-				firstLevelNode.appendChild(secondLevelNode);
-			}
 			root.appendChild(firstLevelNode);
+			addServiceTreeNodeFromThreeRecursive(firstLevelNode, entiteEnfant);
 		}
-		return root;
 	}
 
 	@Command
@@ -246,11 +258,11 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		this.superieurHierarchique = superieurHierarchique;
 	}
 
-	public List<ServiceTreeDto> getArbreService() {
+	public EntiteDto getArbreService() {
 		return arbreService;
 	}
 
-	public void setArbreService(List<ServiceTreeDto> arbreService) {
+	public void setArbreService(EntiteDto arbreService) {
 		this.arbreService = arbreService;
 	}
 

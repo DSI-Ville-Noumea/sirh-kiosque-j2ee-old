@@ -23,12 +23,12 @@
 					<label value="Service :" />
 					<combobox width="300px" readonly="true"
 						placeholder="Sélectionnez un service"
-						value="@bind(vm.serviceFiltre.service)"
+						value="@bind(vm.serviceFiltre.label)"
 						model="@bind(vm.listeServicesFiltre)"
 						selectedItem="@bind(vm.serviceFiltre)"
 						onSelect="@command('afficheListeAgent')">
 						<template name="model">
-							<comboitem label="@bind(each.service)" />
+							<comboitem label="@bind(each.label)" />
 						</template>
 					</combobox>
 					<space />

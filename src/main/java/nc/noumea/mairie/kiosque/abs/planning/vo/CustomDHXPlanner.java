@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 
 import org.joda.time.DateTime;
@@ -117,12 +117,12 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewSemaine.addSecondScale(DHXTimelineView.XScaleUnits.MONTH, "%F");
 
 		Collections.sort(listAgents);
-		List<ServiceDto> listeServices = getListServices(listAgents);
+		List<EntiteDto> listeServices = getListServices(listAgents);
 		// on trie les services par ordre alpha
 		Collections.sort(listeServices);
 
-		for (ServiceDto service : listeServices) {
-			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines
+		for (EntiteDto service : listeServices) {
+			DHXTimelineUnit section = new DHXTimelineUnit(service.getIdEntite(), service.getLabel());// defines
 																											// the
 																											// header
 																											// of
@@ -131,7 +131,9 @@ public class CustomDHXPlanner extends DHXPlanner {
 
 			viewSemaine.addOption(section);
 			for (AgentWithServiceDto agent : listAgents) {
-				if (service.getCodeService().equals(agent.getCodeService())) {
+				if (null != service.getIdEntite()
+						&& null != agent.getIdServiceADS()
+						&& service.getIdEntite().equals(agent.getIdServiceADS())) {
 					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
 							+ agent.getPrenom()));
 				}
@@ -181,8 +183,8 @@ public class CustomDHXPlanner extends DHXPlanner {
 		// TREE MODE
 		viewMois.setFolderEventsAvailable(false);
 
-		for (ServiceDto service : listeServices) {
-			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines
+		for (EntiteDto service : listeServices) {
+			DHXTimelineUnit section = new DHXTimelineUnit(service.getIdEntite(), service.getLabel());// defines
 																											// the
 																											// header
 																											// of
@@ -191,7 +193,9 @@ public class CustomDHXPlanner extends DHXPlanner {
 
 			viewMois.addOption(section);
 			for (AgentWithServiceDto agent : listAgents) {
-				if (service.getCodeService().equals(agent.getCodeService())) {
+				if (null != service.getIdEntite()
+						&& null != agent.getIdServiceADS()
+						&& service.getIdEntite().equals(agent.getIdServiceADS())) {
 					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
 							+ agent.getPrenom()));
 				}
@@ -238,8 +242,8 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewTrimestre.setServerList("viewTrimestre");
 		viewTrimestre.addSecondScale(DHXTimelineView.XScaleUnits.MONTH, "%F");
 
-		for (ServiceDto service : listeServices) {
-			DHXTimelineUnit section = new DHXTimelineUnit(service.getCodeService(), service.getService());// defines
+		for (EntiteDto service : listeServices) {
+			DHXTimelineUnit section = new DHXTimelineUnit(service.getIdEntite(), service.getLabel());// defines
 																											// the
 																											// header
 																											// of
@@ -248,7 +252,9 @@ public class CustomDHXPlanner extends DHXPlanner {
 
 			viewTrimestre.addOption(section);
 			for (AgentWithServiceDto agent : listAgents) {
-				if (service.getCodeService().equals(agent.getCodeService())) {
+				if (null != service.getIdEntite()
+						&& null != agent.getIdServiceADS()
+						&& service.getIdEntite().equals(agent.getIdServiceADS())) {
 					section.addOption(new DHXTimelineUnit(agent.getIdAgent().toString(), agent.getNom() + " "
 							+ agent.getPrenom()));
 				}
@@ -258,13 +264,14 @@ public class CustomDHXPlanner extends DHXPlanner {
 		this.views.add(viewTrimestre);
 	}
 
-	private List<ServiceDto> getListServices(List<AgentWithServiceDto> listAgents) {
+	private List<EntiteDto> getListServices(List<AgentWithServiceDto> listAgents) {
 
-		List<ServiceDto> listServices = new ArrayList<ServiceDto>();
+		List<EntiteDto> listServices = new ArrayList<EntiteDto>();
 		for (AgentWithServiceDto agent : listAgents) {
-			ServiceDto service = new ServiceDto();
-			service.setCodeService(agent.getCodeService());
-			service.setService(agent.getService());
+			EntiteDto service = new EntiteDto();
+			service.setIdEntite(agent.getIdServiceADS());
+			service.setLabelCourt(agent.getService());
+			service.setLabel(agent.getService());
 			if (!listServices.contains(service)) {
 				listServices.add(service);
 			}

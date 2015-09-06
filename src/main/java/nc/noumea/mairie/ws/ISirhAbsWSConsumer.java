@@ -27,6 +27,7 @@ package nc.noumea.mairie.ws;
 import java.util.Date;
 import java.util.List;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesGardeDto;
@@ -43,7 +44,6 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -53,9 +53,9 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 public interface ISirhAbsWSConsumer {
 	/* COMMUN */
 
-	List<ServiceDto> getServicesAbsences(Integer idAgent);
+	List<EntiteDto> getServicesAbsences(Integer idAgent);
 
-	List<AgentDto> getAgentsAbsences(Integer idAgent, String codeService);
+	List<AgentDto> getAgentsAbsences(Integer idAgent, Integer idServiceADS);
 
 	DemandeDto getDureeCongeAnnuel(DemandeDto demandeDto);
 
@@ -124,15 +124,15 @@ public interface ISirhAbsWSConsumer {
 
 	ReturnMessageDto saveCompteurReposComp(Integer idAgent, CompteurDto compteurACreer);
 
-	List<ServiceDto> getServicesAbsencesOperateur(Integer idAgent);
+	List<EntiteDto> getServicesAbsencesOperateur(Integer idAgent);
 
-	List<AgentDto> getAgentsAbsencesOperateur(Integer idAgent, String codeService);
+	List<AgentDto> getAgentsAbsencesOperateur(Integer idAgent, Integer idServiceADS);
 
 	/* GESTION DEMANDES */
 
 	List<DemandeDto> getListeDemandes(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
 			String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence, Integer idAgentRecherche,
-			String codeService);
+			Integer idServiceADS);
 
 	List<DemandeDto> getHistoriqueAbsence(Integer idAgent, Integer idDemande);
 
@@ -140,7 +140,7 @@ public interface ISirhAbsWSConsumer {
 	List<MotifRefusDto> getListeMotifsRefus();
 
 	/* SAISIES JOURS DE GARDE */
-	SaisieGardeDto getListAgentsWithJoursFeriesEnGarde(Integer idAgent, String codeService, Date dateDebut, Date dateFin);
+	SaisieGardeDto getListAgentsWithJoursFeriesEnGarde(Integer idAgent, Integer idServiceADS, Date dateDebut, Date dateFin);
 
 	ReturnMessageDto setListAgentsWithJoursFeriesEnGarde(Integer idAgent, Date dateDebut, Date dateFin,
 			List<AgentJoursFeriesGardeDto> listDto);

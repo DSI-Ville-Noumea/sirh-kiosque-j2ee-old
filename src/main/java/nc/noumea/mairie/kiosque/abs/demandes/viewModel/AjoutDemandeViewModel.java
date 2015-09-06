@@ -31,11 +31,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.ServiceDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -61,8 +61,8 @@ public class AjoutDemandeViewModel {
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
 
-	private List<ServiceDto> listeServicesFiltre;
-	private ServiceDto serviceFiltre;
+	private List<EntiteDto> listeServicesFiltre;
+	private EntiteDto serviceFiltre;
 	private List<AgentDto> listeAgentsFiltre;
 	private AgentDto agentFiltre;
 
@@ -108,7 +108,7 @@ public class AjoutDemandeViewModel {
 		// on vide
 		viderZones();
 		// on charge les service pour les filtres
-		List<ServiceDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
+		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service sauf si un seul service (#15772)
@@ -221,7 +221,7 @@ public class AjoutDemandeViewModel {
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
 		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
-				getServiceFiltre().getCodeService());
+				getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 		setTypeAbsenceCourant(null);
 		setAgentFiltre(null);
@@ -540,22 +540,22 @@ public class AjoutDemandeViewModel {
 		this.selectFinAM = selectFinAM;
 	}
 
-	public List<ServiceDto> getListeServicesFiltre() {
+	public List<EntiteDto> getListeServicesFiltre() {
 		return listeServicesFiltre;
 	}
 
-	public void setListeServicesFiltre(List<ServiceDto> listeServicesFiltre) {
+	public void setListeServicesFiltre(List<EntiteDto> listeServicesFiltre) {
 		if(null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
 	}
 
-	public ServiceDto getServiceFiltre() {
+	public EntiteDto getServiceFiltre() {
 		return serviceFiltre;
 	}
 
-	public void setServiceFiltre(ServiceDto serviceFiltre) {
+	public void setServiceFiltre(EntiteDto serviceFiltre) {
 		this.serviceFiltre = serviceFiltre;
 	}
 

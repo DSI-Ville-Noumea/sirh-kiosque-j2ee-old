@@ -27,6 +27,7 @@ package nc.noumea.mairie.ws;
 import java.util.Date;
 import java.util.List;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
@@ -38,20 +39,19 @@ import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
-import nc.noumea.mairie.kiosque.ptg.dto.ServiceDto;
 
 public interface ISirhPtgWSConsumer {
 
 	FichePointageDtoKiosque getFichePointageSaisie(Integer idAgent, Date date, Integer idAgentConcerne);
 
 	/* FILTRES */
-	List<ServiceDto> getServicesPointages(Integer idAgent);
+	List<EntiteDto> getServicesPointages(Integer idAgent);
 
 	List<RefEtatPointageDto> getEtatPointageKiosque();
 
 	List<RefTypePointageDto> getTypePointageKiosque();
 
-	List<AgentDto> getAgentsPointages(Integer idAgent, String codeService);
+	List<AgentDto> getAgentsPointages(Integer idAgent, Integer idServiceADS);
 
 	/* DROITS */
 	DelegatorAndOperatorsDto getDelegateAndOperator(Integer idAgent);
@@ -69,12 +69,12 @@ public interface ISirhPtgWSConsumer {
 	ReturnMessageDto saveAgentsSaisisOperateur(Integer idAgent, Integer idOperateur, List<AgentDto> listSelect);
 
 	/* IMPRESSION */
-	List<AgentDto> getFichesToPrint(Integer idAgent, String codeService);
+	List<AgentDto> getFichesToPrint(Integer idAgent, Integer idServiceADS);
 
 	byte[] imprimerFiches(Integer idAgent, Date dateLundi, List<String> listeIdAgentsToPrint);
 
 	/* GESTION POINTAGES */
-	List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate, String codeService,
+	List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS,
 			Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS);
 
 	ReturnMessageDto changerEtatPointage(Integer idAgent, List<PointagesEtatChangeDto> listeChangeEtat);

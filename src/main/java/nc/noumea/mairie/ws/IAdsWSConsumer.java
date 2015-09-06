@@ -1,5 +1,4 @@
-package nc.noumea.mairie.kiosque.ptg.dto;
-
+package nc.noumea.mairie.ws;
 
 /*
  * #%L
@@ -7,7 +6,7 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  * $Id:$
  * $HeadURL:$
  * %%
- * Copyright (C) 2014 Mairie de Nouméa
+ * Copyright (C) 2014 - 2015 Mairie de Nouméa
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -25,33 +24,9 @@ package nc.noumea.mairie.kiosque.ptg.dto;
  * #L%
  */
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 
-public class ServiceDto implements Comparable<ServiceDto> {
+public interface IAdsWSConsumer {
 
-	private String codeService;
-	private String service;
-
-	public String getCodeService() {
-		if("TousLesServices".equals(codeService)) {
-			return null;
-		}
-		return codeService;
-	}
-
-	public void setCodeService(String codeService) {
-		this.codeService = codeService;
-	}
-
-	public String getService() {
-		return service;
-	}
-
-	public void setService(String service) {
-		this.service = service;
-	}
-
-	@Override
-	public int compareTo(ServiceDto arg0) {
-		return this.service.compareTo(arg0.service);
-	}
+	EntiteDto getEntiteWithChildrenByIdEntite(Integer idEntite);
 }

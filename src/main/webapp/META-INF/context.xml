@@ -70,6 +70,13 @@
 	<Environment name="RADI_WS_URL" type="java.lang.String"
 		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8085/radi/"
 		override="false" />
+	
+	<!-- -->
+	<!-- WS ADS -->
+	<!-- -->
+	<Environment name="ADS_WS_URL" type="java.lang.String"
+		description="ADS WS endpoint url" value="http://svi-tomcat0:8077/"
+		override="false" />
 
 	<!-- -->
 	<!-- Paramètres Sharepoint -->
