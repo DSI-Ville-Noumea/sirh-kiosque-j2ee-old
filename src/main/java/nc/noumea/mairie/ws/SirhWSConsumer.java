@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
@@ -70,6 +71,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhListDelegataireEaeUrl = "eaes/listDelegataire";
 	private static final String sirhAgentServiceUrl = "services/agent";
 	private static final String sirhAlerteRHUrl = "kiosqueRH/getAlerteRHByAgent";
+	private static final String sirhDirectionAgentUrl = "agents/direction";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -247,5 +249,19 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public EntiteDto getDirection(Integer idAgent, Date date) {
+		String url = String.format(sirhWsBaseUrl + sirhDirectionAgentUrl);
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("idAgent", String.valueOf(idAgent));
+		if (date != null) {
+			SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
+			parameters.put("dateAffectation", sf.format(date));
+		}
+
+		ClientResponse res = createAndFireGetRequest(parameters, url);
+		return readResponse(EntiteDto.class, res, url);
 	}
 }

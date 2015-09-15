@@ -27,6 +27,7 @@ package nc.noumea.mairie.ws;
 import java.util.Date;
 import java.util.List;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
@@ -69,5 +70,7 @@ public interface ISirhWSConsumer {
 	AgentWithServiceDto getAgentEntite(Integer idAgent, Date date);
 
 	ReturnMessageDto getAlerteRHByAgent(Integer idAgent);
+
+	EntiteDto getDirection(Integer idAgent, Date date);
 
 }

@@ -35,9 +35,11 @@ import java.util.TimeZone;
 
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
+import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -55,6 +57,9 @@ public class ImpressionFichesViewModel {
 
 	@WireVariable
 	private ISirhPtgWSConsumer ptgWsConsumer;
+
+	@WireVariable
+	private ISirhWSConsumer sirhWsConsumer;
 
 	private ProfilAgentDto currentUser;
 
@@ -124,8 +129,7 @@ public class ImpressionFichesViewModel {
 		}
 		if (getServiceFiltre() != null && getDateLundi() != null) {
 			// on charge les agents pour les filtres
-			List<AgentDto> filtreAgent = ptgWsConsumer.getFichesToPrint(currentUser.getAgent().getIdAgent(),
-					getServiceFiltre().getIdEntite());
+			List<AgentDto> filtreAgent = ptgWsConsumer.getFichesToPrint(currentUser.getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
 			setListeAgents(filtreAgent);
 		}
 	}
@@ -169,10 +173,28 @@ public class ImpressionFichesViewModel {
 			map.put("infos", listInfo);
 			Executions.createComponents("/messages/returnMessage.zul", null, map);
 		} else {
-			// on imprime la/les demande(s)
-			byte[] resp = ptgWsConsumer.imprimerFiches(currentUser.getAgent().getIdAgent(), getLundi(getDateLundi()),
-					getListeIdAgentsToPrint());
-			Filedownload.save(resp, "application/pdf", "fichesPointage");
+			// # 17602 : on regarde si l'agent est affecté à la date du lundi
+			// pour eviter un plantage des impressions
+			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+			for (String idAgent : getListeIdAgentsToPrint()) {
+				EntiteDto direction = sirhWsConsumer.getDirection(new Integer(idAgent), getLundi(getDateLundi()));
+				if (direction == null) {
+					AgentWithServiceDto ag = sirhWsConsumer.getAgent(new Integer(idAgent));
+					ValidationMessage vm = new ValidationMessage("L'agent " + ag.getNom() + " n'est pas affecté pour cette date.");
+					listErreur.add(vm);
+				}
+			}
+			if (listErreur.size() > 0) {
+				final HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("errors", listErreur);
+				map.put("infos", new ArrayList<ValidationMessage>());
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
+
+			} else {
+				// on imprime la/les demande(s)
+				byte[] resp = ptgWsConsumer.imprimerFiches(currentUser.getAgent().getIdAgent(), getLundi(getDateLundi()), getListeIdAgentsToPrint());
+				Filedownload.save(resp, "application/pdf", "fichesPointage");
+			}
 		}
 	}
 
@@ -220,7 +242,7 @@ public class ImpressionFichesViewModel {
 	}
 
 	public void setListeServicesFiltre(List<EntiteDto> listeServicesFiltre) {
-		if(null != listeServicesFiltre) {
+		if (null != listeServicesFiltre) {
 			Collections.sort(listeServicesFiltre);
 		}
 		this.listeServicesFiltre = listeServicesFiltre;
