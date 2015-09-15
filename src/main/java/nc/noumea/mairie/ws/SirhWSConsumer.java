@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
@@ -68,11 +67,10 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhEstHabiliteEaeUrl = "eaes/estHabiliteEAE";
 	private static final String sirhReferentRHUrl = "kiosqueRH/getListReferentRH";
 	private static final String sirhAccueilRHUrl = "kiosqueRH/getListeAccueilRH";
-	private static final String sirhAgentUrl = "agents/getAgent";
 	private static final String sirhListDelegataireEaeUrl = "eaes/listDelegataire";
 	private static final String sirhAgentServiceUrl = "services/agent";
 	private static final String sirhAlerteRHUrl = "kiosqueRH/getAlerteRHByAgent";
-	private static final String sirhDirectionAgentUrl = "agents/direction";
+	private static final String sirhAffectationAgentUrl = "agents/affectationAgent";
 
 	public ProfilAgentDto getEtatCivil(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentEtatCivilUrl);
@@ -170,16 +168,6 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
-	public AgentGeneriqueDto getAgent(Integer idAgentReferent) {
-		String url = String.format(sirhWsBaseUrl + sirhAgentUrl);
-		HashMap<String, String> params = new HashMap<>();
-		params.put("idAgent", idAgentReferent.toString());
-
-		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponse(AgentGeneriqueDto.class, res, url);
-	}
-
-	@Override
 	public List<AgentDto> getAgentsSubordonnes(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentSubordonnesUrl);
 		HashMap<String, String> params = new HashMap<>();
@@ -253,8 +241,8 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
-	public EntiteDto getDirection(Integer idAgent, Date date) {
-		String url = String.format(sirhWsBaseUrl + sirhDirectionAgentUrl);
+	public AgentGeneriqueDto getAffectationAgent(Integer idAgent, Date date) {
+		String url = String.format(sirhWsBaseUrl + sirhAffectationAgentUrl);
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("idAgent", String.valueOf(idAgent));
 		if (date != null) {
@@ -263,6 +251,6 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 		}
 
 		ClientResponse res = createAndFireGetRequest(parameters, url);
-		return readResponse(EntiteDto.class, res, url);
+		return readResponse(AgentGeneriqueDto.class, res, url);
 	}
 }

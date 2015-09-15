@@ -27,7 +27,6 @@ package nc.noumea.mairie.ws;
 import java.util.Date;
 import java.util.List;
 
-import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
@@ -60,8 +59,6 @@ public interface ISirhWSConsumer {
 
 	List<ReferentRhDto> getListReferentRH(Integer idAgent);
 
-	AgentGeneriqueDto getAgent(Integer idAgentReferent);
-
 	List<AgentDto> getAgentsSubordonnes(Integer idAgent);
 
 	List<AccueilRhDto> getListeTexteAccueil();
@@ -72,6 +69,6 @@ public interface ISirhWSConsumer {
 
 	ReturnMessageDto getAlerteRHByAgent(Integer idAgent);
 
-	EntiteDto getDirection(Integer idAgent, Date date);
+	AgentGeneriqueDto getAffectationAgent(Integer idAgent, Date date);
 
 }

@@ -177,10 +177,9 @@ public class ImpressionFichesViewModel {
 			// pour eviter un plantage des impressions
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 			for (String idAgent : getListeIdAgentsToPrint()) {
-				EntiteDto direction = sirhWsConsumer.getDirection(new Integer(idAgent), getLundi(getDateLundi()));
-				if (direction == null) {
-					AgentGeneriqueDto ag = sirhWsConsumer.getAgent(new Integer(idAgent));
-					ValidationMessage vm = new ValidationMessage("L'agent " + ag.getNomUsage() + " n'est pas affecté pour cette date.");
+				AgentGeneriqueDto agAff = sirhWsConsumer.getAffectationAgent(new Integer(idAgent), getLundi(getDateLundi()));
+				if (agAff == null) {
+					ValidationMessage vm = new ValidationMessage("L'agent " + idAgent.substring(3, idAgent.length()) + " n'est pas affecté pour cette date.");
 					listErreur.add(vm);
 				}
 			}
