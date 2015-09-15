@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.export;
  * #L%
  */
 
-
 import static nc.noumea.mairie.kiosque.export.Utils.getAlign;
 import static nc.noumea.mairie.kiosque.export.Utils.getFooterColumnHeader;
 import static nc.noumea.mairie.kiosque.export.Utils.getFooters;
@@ -54,6 +53,9 @@ import nc.noumea.mairie.kiosque.export.pdf.PdfWriterFactoryImpl;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Auxhead;
 import org.zkoss.zul.Auxheader;
+import org.zkoss.zul.Group;
+import org.zkoss.zul.Listgroup;
+import org.zkoss.zul.Vlayout;
 import org.zkoss.zul.impl.HeaderElement;
 import org.zkoss.zul.impl.MeshElement;
 
@@ -75,8 +77,7 @@ public class PdfExporter extends AbstractExporter<PdfPTable, PdfPTable> {
 	private PdfPTableFactory _pdfPTableFactory;
 	private PdfPCellFactory _pdfPCellFactory;
 
-	public <D> void export(int columnSize, Collection<D> data, RowRenderer<PdfPTable, D> renderer,
-			OutputStream outputStream) throws Exception {
+	public <D> void export(int columnSize, Collection<D> data, RowRenderer<PdfPTable, D> renderer, OutputStream outputStream) throws Exception {
 		Document document = getDocumentFactory().getDocument();
 		getPdfWriterFactory().getPdfWriter(document, outputStream);
 		document.open();
@@ -94,16 +95,14 @@ public class PdfExporter extends AbstractExporter<PdfPTable, PdfPTable> {
 		document.close();
 	}
 
-	public <T> void export(final String[] columnHeaders, final Collection<T> data, RowRenderer<PdfPTable, T> renderer,
-			OutputStream outputStream) throws Exception {
+	public <T> void export(final String[] columnHeaders, final Collection<T> data, RowRenderer<PdfPTable, T> renderer, OutputStream outputStream) throws Exception {
 		final int columnSize = columnHeaders.length;
 		if (getInterceptor() == null)
 			setInterceptor(new ExportColumnHeaderInterceptorImpl(columnHeaders));
 		export(columnSize, data, renderer, outputStream);
 	}
 
-	public <D> void export(int columnSize, final Collection<Collection<D>> data, GroupRenderer<PdfPTable, D> renderer,
-			OutputStream outputStream) throws Exception {
+	public <D> void export(int columnSize, final Collection<Collection<D>> data, GroupRenderer<PdfPTable, D> renderer, OutputStream outputStream) throws Exception {
 		Document document = getDocumentFactory().getDocument();
 		getPdfWriterFactory().getPdfWriter(document, outputStream);
 		document.open();
@@ -124,8 +123,7 @@ public class PdfExporter extends AbstractExporter<PdfPTable, PdfPTable> {
 		document.close();
 	}
 
-	public <T> void export(final String[] columnHeaders, final Collection<Collection<T>> data,
-			GroupRenderer<PdfPTable, T> renderer, OutputStream outputStream) throws Exception {
+	public <T> void export(final String[] columnHeaders, final Collection<Collection<T>> data, GroupRenderer<PdfPTable, T> renderer, OutputStream outputStream) throws Exception {
 		final int columnSize = columnHeaders.length;
 		if (getInterceptor() == null)
 			setInterceptor(new ExportColumnHeaderInterceptorImpl(columnHeaders));
@@ -205,13 +203,24 @@ public class PdfExporter extends AbstractExporter<PdfPTable, PdfPTable> {
 				table.addCell(cell);
 				return;
 			}
+
+			String vlayout = "";
+			if (cmp instanceof Vlayout) {
+				Iterator<Component> iterator = cmp.getChildren().iterator();
+				while (iterator.hasNext()) {
+					cmp = iterator.next();
+					vlayout += getStringValue(cmp);
+				}
+			}
 			PdfPCell cell = getPdfPCellFactory().getCell(isOddRow(rowIndex));
-			cell.setPhrase(new Phrase(getStringValue(cmp), getFontFactory().getFont(FontFactory.FONT_TYPE_CELL)));
+			cell.setPhrase(new Phrase(vlayout.equals("") ? getStringValue(cmp) : vlayout, getFontFactory().getFont(FontFactory.FONT_TYPE_CELL)));
 			syncCellColSpan(cmp, cell);
 			syncAlignment(cmp, headers != null ? headers.get(c) : null, cell);
 			table.addCell(cell);
+
 		}
 		table.completeRow();
+
 	}
 
 	private boolean syncAlignment(Component cmp, PdfPCell cell) {

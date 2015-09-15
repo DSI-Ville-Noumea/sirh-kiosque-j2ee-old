@@ -63,8 +63,7 @@ public class ExcelExporter extends AbstractExporter<XSSFWorkbook, Row> {
 	private ExportContext _exportContext;
 	private CellValueSetterFactory _cellValueSetterFactory;
 
-	public <D> void export(int columnSize, Collection<D> data, RowRenderer<Row, D> renderer, OutputStream outputStream)
-			throws IOException {
+	public <D> void export(int columnSize, Collection<D> data, RowRenderer<Row, D> renderer, OutputStream outputStream) throws IOException {
 		XSSFWorkbook book = new XSSFWorkbook();
 		ExportContext ctx = new ExportContext(true, book.createSheet("Sheet1"));
 		XSSFSheet sheet = ctx.getSheet();
@@ -82,8 +81,7 @@ public class ExcelExporter extends AbstractExporter<XSSFWorkbook, Row> {
 		setExportContext(null);
 	}
 
-	public <D> void export(int columnSize, Collection<Collection<D>> data, GroupRenderer<Row, D> renderer,
-			OutputStream outputStream) throws IOException {
+	public <D> void export(int columnSize, Collection<Collection<D>> data, GroupRenderer<Row, D> renderer, OutputStream outputStream) throws IOException {
 		XSSFWorkbook book = new XSSFWorkbook();
 		ExportContext ctx = new ExportContext(true, book.createSheet("Sheet1"));
 		XSSFSheet sheet = ctx.getSheet();
@@ -340,8 +338,7 @@ public class ExcelExporter extends AbstractExporter<XSSFWorkbook, Row> {
 		}
 
 		public int[] moveToNextCell() {
-			return new int[] { _rowIndex < 0 ? _rowIndex = 0 : _rowIndex,
-					_columnIndex < 0 ? _columnIndex = 0 : ++_columnIndex };
+			return new int[] { _rowIndex < 0 ? _rowIndex = 0 : _rowIndex, _columnIndex < 0 ? _columnIndex = 0 : ++_columnIndex };
 		}
 
 		public int[] moveToNextRow() {
@@ -355,8 +352,7 @@ public class ExcelExporter extends AbstractExporter<XSSFWorkbook, Row> {
 
 	// TODO: not tested yet
 	@Override
-	public <D> void export(String[] columnHeaders, Collection<D> data, RowRenderer<Row, D> renderer,
-			OutputStream outputStream) throws Exception {
+	public <D> void export(String[] columnHeaders, Collection<D> data, RowRenderer<Row, D> renderer, OutputStream outputStream) throws Exception {
 		final int columnSize = columnHeaders.length;
 		// TODO: need to log if not ExportColumnHeaderInterceptorImpl ?
 		if (getInterceptor() == null)
@@ -366,8 +362,7 @@ public class ExcelExporter extends AbstractExporter<XSSFWorkbook, Row> {
 
 	// TODO: not tested yet
 	@Override
-	public <D> void export(String[] columnHeaders, Collection<Collection<D>> data, GroupRenderer<Row, D> renderer,
-			OutputStream outputStream) throws Exception {
+	public <D> void export(String[] columnHeaders, Collection<Collection<D>> data, GroupRenderer<Row, D> renderer, OutputStream outputStream) throws Exception {
 		if (getInterceptor() == null)
 			setInterceptor(new ExportColumnHeaderInterceptorImpl(columnHeaders));
 		export(columnHeaders, data, renderer, outputStream);

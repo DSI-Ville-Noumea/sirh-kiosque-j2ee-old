@@ -24,14 +24,15 @@ package nc.noumea.mairie.kiosque.export.excel;
  * #L%
  */
 
-
 import static nc.noumea.mairie.kiosque.export.Utils.getStringValue;
 
+import java.util.Iterator;
 import java.util.Locale;
 
 import org.zkoss.poi.ss.format.Formatters;
 import org.zkoss.poi.ss.usermodel.Cell;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zul.Vlayout;
 
 /**
  * @author Sam
@@ -48,13 +49,22 @@ public class CellValueSetterImpl implements CellValueSetter<Component> {
 
 	@Override
 	public void setCellValue(Component component, Cell cell) {
-		setCellValue(getStringValue(component), cell);
+		String vlayout = "";
+		if (component instanceof Vlayout) {
+			Iterator<Component> iterator = component.getChildren().iterator();
+			while (iterator.hasNext()) {
+				component = iterator.next();
+				vlayout += getStringValue(component);
+			}
+		}
+
+		setCellValue(vlayout.equals("") ? getStringValue(component) : vlayout, cell);
 	}
 
 	private void setCellValue(String value, Cell cell) {
 		if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
 			cell.setCellValue(Boolean.valueOf(value));
-		} else if(null != value) {
+		} else if (null != value) {
 			parseAndSetCellValueToDoubleDateOrString(value, cell);
 		}
 	}
