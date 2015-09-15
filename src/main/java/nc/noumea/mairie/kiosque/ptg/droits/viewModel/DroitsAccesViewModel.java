@@ -34,11 +34,9 @@ import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
+import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
@@ -47,14 +45,10 @@ import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
@@ -64,15 +58,12 @@ import org.zkoss.zul.Tab;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class DroitsAccesViewModel extends SelectorComposer<Component> {
+public class DroitsAccesViewModel extends AbstractViewModel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	@WireVariable
-	private ISirhPtgWSConsumer ptgWsConsumer;
 
 	private List<AgentDto> listeAgents;
 
@@ -84,22 +75,14 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 
 	private boolean afficheAffecterAgent;
 	private Tab tabCourant;
-
-	private ProfilAgentDto currentUser;
-
 	@Init
 	public void initDroitsAccesPointage() {
 
-		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-
-		AccessRightsPtgDto accessRightsDto = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
-				.getIdAgent());
-
-		if (!accessRightsDto.isGestionDroitsAcces()) {
+		if (!getDroitsPointage().isGestionDroitsAcces()) {
 			Executions.getCurrent().sendRedirect("401.jsp");
 		}
 
-		setListeAgents(ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent()));
+		setListeAgents(ptgWsConsumer.getApprovedAgents(getCurrentUser().getAgent().getIdAgent()));
 
 		setTailleListe("10");
 	}
@@ -110,15 +93,15 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("agentsExistants", ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent()));
+			map.put("agentsExistants", ptgWsConsumer.getApprovedAgents(getCurrentUser().getAgent().getIdAgent()));
 			Window win = (Window) Executions.createComponents("/pointages/droits/ajoutAgentApprobateur.zul", null, map);
 			win.doModal();
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("operateursExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent())
+			map.put("operateursExistants", ptgWsConsumer.getDelegateAndOperator(getCurrentUser().getAgent().getIdAgent())
 					.getSaisisseurs());
-			map.put("delegataireExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent())
+			map.put("delegataireExistants", ptgWsConsumer.getDelegateAndOperator(getCurrentUser().getAgent().getIdAgent())
 					.getDelegataire());
 			Window win = (Window) Executions.createComponents("/pointages/droits/ajoutOperateurApprobateur.zul", null,
 					map);
@@ -135,12 +118,12 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// on recupere les agents de l'approbateur
-			List<AgentDto> result = ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent());
+			List<AgentDto> result = ptgWsConsumer.getApprovedAgents(getCurrentUser().getAgent().getIdAgent());
 			setListeAgents(result);
 			setAfficheAffecterAgent(false);
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// on recupere les operateurs de l'agent
-			DelegatorAndOperatorsDto result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent());
+			DelegatorAndOperatorsDto result = ptgWsConsumer.getDelegateAndOperator(getCurrentUser().getAgent().getIdAgent());
 			setListeAgents(result.getSaisisseurs());
 			List<AgentDto> delegataire = null;
 			if (result.getDelegataire() != null) {
@@ -168,12 +151,12 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// on recupere les agents de l'approbateur
-			List<AgentDto> result = ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent());
+			List<AgentDto> result = ptgWsConsumer.getApprovedAgents(getCurrentUser().getAgent().getIdAgent());
 			setListeAgents(result);
 			setAfficheAffecterAgent(false);
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// on recupere les op?rateurs de l'agent
-			DelegatorAndOperatorsDto result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent());
+			DelegatorAndOperatorsDto result = ptgWsConsumer.getDelegateAndOperator(getCurrentUser().getAgent().getIdAgent());
 			setListeAgents(result.getSaisisseurs());
 			List<AgentDto> delegataire = null;
 			if (result.getDelegataire() != null) {
@@ -192,10 +175,10 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("agentsExistants",
-					ptgWsConsumer.getAgentsSaisisOperateur(currentUser.getAgent().getIdAgent(), agent.getIdAgent()));
+					ptgWsConsumer.getAgentsSaisisOperateur(getCurrentUser().getAgent().getIdAgent(), agent.getIdAgent()));
 			map.put("operateur", agent);
 			AgentDto approbateur = new AgentDto();
-			approbateur.setIdAgent(currentUser.getAgent().getIdAgent());
+			approbateur.setIdAgent(getCurrentUser().getAgent().getIdAgent());
 			map.put("approbateur", approbateur);
 			Window win = (Window) Executions.createComponents("/pointages/droits/ajoutAgentOperateur.zul", null, map);
 			win.doModal();
@@ -207,9 +190,9 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		if (getTabCourant().getId().equals("OPERATEUR")) {
 			// create a window programmatically and use it as a modal dialog.
 			final HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("operateursExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent())
+			map.put("operateursExistants", ptgWsConsumer.getDelegateAndOperator(getCurrentUser().getAgent().getIdAgent())
 					.getSaisisseurs());
-			map.put("delegataireExistants", ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent())
+			map.put("delegataireExistants", ptgWsConsumer.getDelegateAndOperator(getCurrentUser().getAgent().getIdAgent())
 					.getDelegataire());
 			Window win = (Window) Executions.createComponents("/pointages/droits/ajoutDelegataireApprobateur.zul",
 					null, map);
@@ -269,7 +252,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		DelegatorAndOperatorsDto dto = new DelegatorAndOperatorsDto();
 		dto.setSaisisseurs(getListeAgents());
 		dto.setDelegataire(getListeDelegataire().size() == 0 ? null : getListeDelegataire().get(0));
-		ReturnMessageDto result = ptgWsConsumer.saveDelegateAndOperator(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = ptgWsConsumer.saveDelegateAndOperator(getCurrentUser().getAgent().getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -299,7 +282,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		dto.setSaisisseurs(new ArrayList<AgentDto>());
 		dto.setDelegataire(getListeDelegataire() == null || getListeDelegataire().size() == 0 ? null
 				: getListeDelegataire().get(0));
-		ReturnMessageDto result = ptgWsConsumer.saveDelegateAndOperator(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = ptgWsConsumer.saveDelegateAndOperator(getCurrentUser().getAgent().getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -334,7 +317,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		dto.setSaisisseurs(getListeAgents());
 		dto.setDelegataire(getListeDelegataire() == null || getListeDelegataire().size() == 0 ? null
 				: getListeDelegataire().get(0));
-		ReturnMessageDto result = ptgWsConsumer.saveDelegateAndOperator(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = ptgWsConsumer.saveDelegateAndOperator(getCurrentUser().getAgent().getIdAgent(), dto);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -359,7 +342,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 	}
 
 	private void supprimerTousLesAgentsApprobateurs() {
-		ReturnMessageDto result = ptgWsConsumer.saveApprovedAgents(currentUser.getAgent().getIdAgent(),
+		ReturnMessageDto result = ptgWsConsumer.saveApprovedAgents(getCurrentUser().getAgent().getIdAgent(),
 				new ArrayList<AgentDto>());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -389,7 +372,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			getListeAgents().remove(agentASupprimer);
 		}
 
-		ReturnMessageDto result = ptgWsConsumer.saveApprovedAgents(currentUser.getAgent().getIdAgent(),
+		ReturnMessageDto result = ptgWsConsumer.saveApprovedAgents(getCurrentUser().getAgent().getIdAgent(),
 				getListeAgents());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -430,10 +413,10 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// on recupere les agents de l'approbateur
-			result = ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent());
+			result = ptgWsConsumer.getApprovedAgents(getCurrentUser().getAgent().getIdAgent());
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// on recupere les opérateurs de l'agent
-			result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent()).getSaisisseurs();
+			result = ptgWsConsumer.getDelegateAndOperator(getCurrentUser().getAgent().getIdAgent()).getSaisisseurs();
 		}
 
 		// #14688 : ABS+PTG-KIOSQUE : DROITS D'ACCES : revoir l'export excel
@@ -488,10 +471,10 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 		// on regarde dans quel onglet on est
 		if (getTabCourant().getId().equals("APPROBATEUR")) {
 			// on recupere les agents de l'approbateur
-			result = ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent());
+			result = ptgWsConsumer.getApprovedAgents(getCurrentUser().getAgent().getIdAgent());
 		} else if (getTabCourant().getId().equals("OPERATEUR")) {
 			// on recupere les opérateurs de l'agent
-			result = ptgWsConsumer.getDelegateAndOperator(currentUser.getAgent().getIdAgent()).getSaisisseurs();
+			result = ptgWsConsumer.getDelegateAndOperator(getCurrentUser().getAgent().getIdAgent()).getSaisisseurs();
 		}
 		// #14688 : ABS+PTG-KIOSQUE : DROITS D'ACCES : revoir l'export excel
 		// on efface les données de lalistbox et on remplace par toutes les
@@ -588,7 +571,7 @@ public class DroitsAccesViewModel extends SelectorComposer<Component> {
 			}
 			setListeAgents(list);
 		} else {
-			setListeAgents(ptgWsConsumer.getApprovedAgents(currentUser.getAgent().getIdAgent()));
+			setListeAgents(ptgWsConsumer.getApprovedAgents(getCurrentUser().getAgent().getIdAgent()));
 		}
 	}
 

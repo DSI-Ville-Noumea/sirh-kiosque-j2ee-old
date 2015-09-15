@@ -24,13 +24,13 @@ package nc.noumea.mairie.kiosque.viewModel;
  * #L%
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
@@ -38,14 +38,9 @@ import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
-import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
-import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
-import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -55,8 +50,6 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -66,26 +59,23 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Panel;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class AccueilViewModel extends SelectorComposer<Component> {
+public class AccueilViewModel extends AbstractViewModel implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1273275293239509746L;
+
 
 	private Logger logger = LoggerFactory.getLogger(AccueilViewModel.class);
 
-	@WireVariable
-	private ISirhWSConsumer sirhWsConsumer;
-
-	@WireVariable
-	private ISirhAbsWSConsumer absWsConsumer;
-
-	@WireVariable
-	private ISirhPtgWSConsumer ptgWsConsumer;
 
 	@WireVariable
 	private ISirhEaeWSConsumer eaeWsConsumer;
 
 	@WireVariable
 	private ISharepointService sharepointConsumer;
-
-	private ProfilAgentDto currentUser;
+	
 
 	private List<AccueilRhDto> listeTexteAccueil;
 
@@ -100,12 +90,6 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	private String nombrePointageAApprouver = "";
 
 	private String nombreEAEaRealiser = "";
-
-	private AccessRightsAbsDto droitsAbsence;
-
-	private AccessRightsPtgDto droitsPointage;
-
-	private boolean droitsEae;
 
 	@Wire
 	private Portallayout portalLayout;
@@ -126,6 +110,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 		List<? extends Component> panelchildren = portalLayout.getChildren();
 		for (int i = 0; i < panelchildren.size(); i++) {
+			@SuppressWarnings("unchecked")
 			List<String> panelIds = (List<String>) Executions.getCurrent().getSession()
 					.getAttribute("PortalChildren" + i);
 			if (panelIds != null) {
@@ -144,8 +129,6 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 	@Init
 	public void initAccueil() {
 
-		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-
 		// message d'accueil
 		List<AccueilRhDto> listeTexte = sirhWsConsumer.getListeTexteAccueil();
 		setListeTexteAccueil(new ArrayList<AccueilRhDto>());
@@ -155,14 +138,14 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		}
 
 		// alertes d'accueil
-		ReturnMessageDto alertes = sirhWsConsumer.getAlerteRHByAgent(currentUser.getAgent().getIdAgent());
+		ReturnMessageDto alertes = sirhWsConsumer.getAlerteRHByAgent(getCurrentUser().getAgent().getIdAgent());
 		setListeAlerteAccueil(new ArrayList<String>());
 		for (String t : alertes.getInfos()) {
 			getListeAlerteAccueil().add(t.replace("&quot;", "\""));
 		}
 		// setListeTexteAccueil(listeTexte);
 		// refrent Rh de l'agent
-		List<ReferentRhDto> listReferent = sirhWsConsumer.getListReferentRH(currentUser.getAgent().getIdAgent());
+		List<ReferentRhDto> listReferent = sirhWsConsumer.getListReferentRH(getCurrentUser().getAgent().getIdAgent());
 		String ref = "";
 		for (int i = 0; i < listReferent.size(); i++) {
 			ReferentRhDto referent = listReferent.get(i);
@@ -176,39 +159,13 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 		setRefrentRh(ref);
 
-		/* Pour les absences */
-		try {
-			AccessRightsAbsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
-			setDroitsAbsence(droitsAbsence);
-		} catch (Exception e) {
-			// l'appli SIRH-ABS-WS ne semble pas répondre
-			logger.error("L'application SIRH-ABS-WS ne répond pas.");
-		}
-		/* Pour les eaes */
-		try {
-			boolean droitsEAe = sirhWsConsumer.estHabiliteEAE(currentUser.getAgent().getIdAgent());
-			setDroitsEae(droitsEAe);
-		} catch (Exception e) {
-			// l'appli SIRH-EAE-WS ne semble pas répondre
-			logger.error("L'application SIRH-EAE-WS ne répond pas.");
-		}
-		/* Pour les pointages */
-		try {
-			AccessRightsPtgDto droitsPointage = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
-					.getIdAgent());
-			setDroitsPointage(droitsPointage);
-		} catch (Exception e) {
-			// l'appli SIRH-PTG-WS ne semble pas répondre
-			logger.error("L'application SIRH-PTG-WS ne répond pas.");
-		}
-
 		if (null != getDroitsAbsence() && getDroitsAbsence().isApprouverModif()) {
 			List<Integer> etats = new ArrayList<Integer>();
 			etats.add(RefEtatEnum.SAISIE.getCodeEtat());
 			etats.add(RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
 			etats.add(RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat());
 
-			List<DemandeDto> result = absWsConsumer.getListeDemandes(currentUser.getAgent().getIdAgent(), "NON_PRISES",
+			List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), "NON_PRISES",
 					null, null, null, etats.toString().replace("[", "").replace("]", "").replace(" ", ""), null, null,
 					null, null);
 			Integer nbrAbs = 0;
@@ -233,7 +190,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 			List<Integer> etats = new ArrayList<Integer>();
 			etats.add(RefEtatEnum.SAISIE.getCodeEtat());
 
-			List<DemandeDto> result = absWsConsumer.getListeDemandes(currentUser.getAgent().getIdAgent(), "NON_PRISES",
+			List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), "NON_PRISES",
 					null, null, null, etats.toString().replace("[", "").replace("]", "").replace(" ", ""), null, null,
 					null, null);
 			Integer nbrAbs = 0;
@@ -256,7 +213,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 		if (isDroitsEae()) {
 			String nbrEaeStr = "";
 			try {
-				List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
+				List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(getCurrentUser().getAgent().getIdAgent());
 				if (tableau != null && tableau.size() > 0) {
 					int nbrEae = 0;
 					for (EaeListItemDto item : tableau) {
@@ -285,7 +242,7 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 			DateTime fromDate = new DateTime(toDate);
 			fromDate = fromDate.minusMonths(3);
 
-			List<ConsultPointageDto> listPtg = ptgWsConsumer.getListePointages(currentUser.getAgent().getIdAgent(),
+			List<ConsultPointageDto> listPtg = ptgWsConsumer.getListePointages(getCurrentUser().getAgent().getIdAgent(),
 					fromDate.toDate(), toDate, null, null, EtatPointageEnum.SAISI.getCodeEtat(), null, null);
 			int nbrPtg = null != listPtg ? listPtg.size() : 0;
 			String nbrPtgStr = "";
@@ -377,30 +334,6 @@ public class AccueilViewModel extends SelectorComposer<Component> {
 
 	public void setNombreEAEaRealiser(String nombreEAEaRealiser) {
 		this.nombreEAEaRealiser = nombreEAEaRealiser;
-	}
-
-	public AccessRightsAbsDto getDroitsAbsence() {
-		return droitsAbsence;
-	}
-
-	public void setDroitsAbsence(AccessRightsAbsDto droitsAbsence) {
-		this.droitsAbsence = droitsAbsence;
-	}
-
-	public boolean isDroitsEae() {
-		return droitsEae;
-	}
-
-	public void setDroitsEae(boolean droitsEae) {
-		this.droitsEae = droitsEae;
-	}
-
-	public AccessRightsPtgDto getDroitsPointage() {
-		return droitsPointage;
-	}
-
-	public void setDroitsPointage(AccessRightsPtgDto droitsPointage) {
-		this.droitsPointage = droitsPointage;
 	}
 
 	public String getNombreAbsenceAViser() {

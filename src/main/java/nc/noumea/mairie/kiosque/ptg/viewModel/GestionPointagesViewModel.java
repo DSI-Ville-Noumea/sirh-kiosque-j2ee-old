@@ -39,14 +39,13 @@ import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
 import org.joda.time.DateTime;
@@ -58,7 +57,6 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -69,18 +67,19 @@ import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class GestionPointagesViewModel {
+public class GestionPointagesViewModel extends AbstractViewModel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8405659633984953740L;
 
 	@WireVariable
 	private ISirhPtgWSConsumer ptgWsConsumer;
 
-	private ProfilAgentDto currentUser;
-
 	private List<ConsultPointageDto> listePointages;
 
 	private ConsultPointageDto pointageCourant;
-
-	private AccessRightsPtgDto droitsPointage;
 
 	/* POUR LES FILTRES */
 	private List<EntiteDto> listeServicesFiltre;
@@ -105,13 +104,9 @@ public class GestionPointagesViewModel {
 	@Init
 	public void initGestionPointages(@ExecutionArgParam("div") Div div) {
 		setDivDepart(div);
-		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		/* Pour les pointages */
-		AccessRightsPtgDto droitsPointage = ptgWsConsumer.getListAccessRightsByAgent(currentUser.getAgent()
-				.getIdAgent());
-		setDroitsPointage(droitsPointage);
+		
 		// on charge les service pour les filtres
-		List<EntiteDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
+		List<EntiteDto> filtreService = ptgWsConsumer.getServicesPointages(getCurrentUser().getAgent().getIdAgent());
 
 		EntiteDto tousLesServices = new EntiteDto();
 		tousLesServices.setSigle("TousLesServices");
@@ -147,7 +142,7 @@ public class GestionPointagesViewModel {
 	}
 
 	public List<ConsultPointageDto> getHistoriquePointage(ConsultPointageDto ptg) {
-		List<ConsultPointageDto> result = ptgWsConsumer.getHistoriquePointage(currentUser.getAgent().getIdAgent(),
+		List<ConsultPointageDto> result = ptgWsConsumer.getHistoriquePointage(getCurrentUser().getAgent().getIdAgent(),
 				ptg.getIdPointage());
 		return result;
 	}
@@ -156,7 +151,7 @@ public class GestionPointagesViewModel {
 	@NotifyChange({ "listePointages" })
 	public void filtrer() {
 		if (IsFiltreValid()) {
-			List<ConsultPointageDto> result = ptgWsConsumer.getListePointages(currentUser.getAgent().getIdAgent(),
+			List<ConsultPointageDto> result = ptgWsConsumer.getListePointages(getCurrentUser().getAgent().getIdAgent(),
 					getDateDebutFiltre(), getDateFinFiltre(), getServiceFiltre().getIdEntite(),
 					getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(),
 					getEtatPointageFiltre() == null ? null : getEtatPointageFiltre().getIdRefEtat(),
@@ -196,7 +191,7 @@ public class GestionPointagesViewModel {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void afficheListeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(currentUser.getAgent().getIdAgent(),
+		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(getCurrentUser().getAgent().getIdAgent(),
 				getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 	}
@@ -409,7 +404,7 @@ public class GestionPointagesViewModel {
 	}
 
 	private void sauvegardeEtatPointage(List<PointagesEtatChangeDto> listeChangeEtat) {
-		ReturnMessageDto result = ptgWsConsumer.changerEtatPointage(currentUser.getAgent().getIdAgent(),
+		ReturnMessageDto result = ptgWsConsumer.changerEtatPointage(getCurrentUser().getAgent().getIdAgent(),
 				listeChangeEtat);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -547,14 +542,6 @@ public class GestionPointagesViewModel {
 
 	public void setPointageCourant(ConsultPointageDto pointageCourant) {
 		this.pointageCourant = pointageCourant;
-	}
-
-	public AccessRightsPtgDto getDroitsPointage() {
-		return droitsPointage;
-	}
-
-	public void setDroitsPointage(AccessRightsPtgDto droitsPointage) {
-		this.droitsPointage = droitsPointage;
 	}
 
 	public List<String> getListeTypeHSupFiltre() {

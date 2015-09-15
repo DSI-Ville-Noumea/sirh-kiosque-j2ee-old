@@ -24,6 +24,7 @@ package nc.noumea.mairie.kiosque.abs.compteurs.viewModel;
  * #L%
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -31,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.ads.dto.EntiteDto;
-import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
@@ -41,9 +41,8 @@ import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
+import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
 
 import org.joda.time.DateTime;
 import org.zkoss.bind.annotation.BindingParam;
@@ -51,15 +50,16 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class CompteursViewModel {
+public class CompteursViewModel extends AbstractViewModel implements Serializable {
 
-	@WireVariable
-	private ISirhAbsWSConsumer absWsConsumer;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7086425630331413874L;
 
 	private String formulaireRecup;
 
@@ -93,13 +93,9 @@ public class CompteursViewModel {
 
 	private AgentDto agentFiltre;
 
-	private ProfilAgentDto currentUser;
-
 	private List<Date> listeMoisFiltre;
 
 	private Date moisFiltre;
-
-	private AccessRightsAbsDto droitsAbsence;
 
 	private SaisieGardeDto saisieGarde;
 
@@ -114,13 +110,11 @@ public class CompteursViewModel {
 	@Init
 	public void initCompteurs() {
 
-		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-
 		// on charge les types d'absences pour les filtres
 		List<RefTypeAbsenceDto> filtreFamille = absWsConsumer.getRefGroupeAbsenceCompteur();
 		setListeTypeAbsenceFiltre(filtreFamille);
 		// on charge les service pour les filtres
-		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsencesOperateur(currentUser.getAgent().getIdAgent());
+		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsencesOperateur(getCurrentUser().getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service sauf si un seul service (#15772)
@@ -133,7 +127,6 @@ public class CompteursViewModel {
 
 		// on recupere les droits afin d afficher ou non la saisie des jours de
 		// repos
-		setDroitsAbsence(absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent()));
 		if (getDroitsAbsence().isSaisieGarde()) {
 			List<Date> listeDate = new ArrayList<Date>();
 			listeDate.add(getFirstDayOfCurrentMonth().toDate());
@@ -152,7 +145,7 @@ public class CompteursViewModel {
 		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
 
 		if (getDroitsAbsence().isSaisieGarde()) {
-			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(currentUser.getAgent().getIdAgent(), null,
+			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(getCurrentUser().getAgent().getIdAgent(), null,
 					dateDebutMois, dateFinMois));
 		}
 	}
@@ -165,10 +158,10 @@ public class CompteursViewModel {
 		Date dateFinMois = dateFin.dayOfMonth().withMaximumValue().toDate();
 
 		if (getDroitsAbsence().isSaisieGarde()) {
-			ReturnMessageDto result = absWsConsumer.setListAgentsWithJoursFeriesEnGarde(currentUser.getAgent()
+			ReturnMessageDto result = absWsConsumer.setListAgentsWithJoursFeriesEnGarde(getCurrentUser().getAgent()
 					.getIdAgent(), dateDebutMois, dateFinMois, getSaisieGarde().getListAgentAvecGarde());
 
-			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(currentUser.getAgent().getIdAgent(), null,
+			setSaisieGarde(absWsConsumer.getListAgentsWithJoursFeriesEnGarde(getCurrentUser().getAgent().getIdAgent(), null,
 					dateDebutMois, dateFinMois));
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -194,7 +187,7 @@ public class CompteursViewModel {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsencesOperateur(currentUser.getAgent().getIdAgent(),
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsencesOperateur(getCurrentUser().getAgent().getIdAgent(),
 				getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 	}
@@ -407,7 +400,7 @@ public class CompteursViewModel {
 			getCompteurACreer().setMotifCompteurDto(motifDto);
 			getCompteurACreer().setOrganisationSyndicaleDto(null);
 
-			ReturnMessageDto result = absWsConsumer.saveCompteurRecup(currentUser.getAgent().getIdAgent(),
+			ReturnMessageDto result = absWsConsumer.saveCompteurRecup(getCurrentUser().getAgent().getIdAgent(),
 					getCompteurACreer());
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -454,7 +447,7 @@ public class CompteursViewModel {
 			getCompteurACreer().setMotifCompteurDto(motifDto);
 			getCompteurACreer().setOrganisationSyndicaleDto(null);
 
-			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(currentUser.getAgent().getIdAgent(),
+			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(getCurrentUser().getAgent().getIdAgent(),
 					getCompteurACreer());
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -667,14 +660,6 @@ public class CompteursViewModel {
 
 	public void setAnneePrec(String anneePrec) {
 		this.anneePrec = anneePrec;
-	}
-
-	public AccessRightsAbsDto getDroitsAbsence() {
-		return droitsAbsence;
-	}
-
-	public void setDroitsAbsence(AccessRightsAbsDto droitsAbsence) {
-		this.droitsAbsence = droitsAbsence;
 	}
 
 	public SaisieGardeDto getSaisieGarde() {

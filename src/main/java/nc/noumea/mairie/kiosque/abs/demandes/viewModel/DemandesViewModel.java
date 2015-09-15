@@ -25,6 +25,7 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
  */
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import nc.noumea.mairie.ads.dto.EntiteDto;
-import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
@@ -51,9 +51,8 @@ import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
+import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
 
 import org.apache.catalina.session.StandardSessionFacade;
 import org.slf4j.Logger;
@@ -69,10 +68,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zkmax.zul.Chosenbox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Grid;
@@ -84,7 +80,7 @@ import com.dhtmlx.planner.DHXSkin;
 //@Controller utile pour le planning
 @Controller
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class DemandesViewModel extends GenericForwardComposer<Component> {
+public class DemandesViewModel extends AbstractViewModel implements Serializable {
 
 	/**
 	 * 
@@ -93,8 +89,6 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 
 	private Logger logger = LoggerFactory.getLogger(DemandesViewModel.class);
 
-	@WireVariable
-	private ISirhAbsWSConsumer absWsConsumer;
 
 	private List<DemandeDto> listeDemandes;
 
@@ -118,10 +112,6 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	private String filter;
 	private String tailleListe;
 
-	private ProfilAgentDto currentUser;
-
-	private AccessRightsAbsDto droitsAbsence;
-
 	private List<RefEtatAbsenceDto> listeEtatsSelectionnes;
 
 	private List<AgentWithServiceDto> listAgentsEquipe;
@@ -129,14 +119,12 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	@Init
 	public void initDemandes(@BindingParam("aApprouver") Boolean aApprouver) {
 
-		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-
 		// on recharge les groupes d'absences pour les filtres
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
 		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
 
 		// on charge les service pour les filtres
-		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsences(currentUser.getAgent().getIdAgent());
+		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsences(getCurrentUser().getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
 		// pour les agents, on ne rempli pas la liste, elle le sera avec le
 		// choix du service
@@ -145,10 +133,6 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque("NON_PRISES");
 		setListeEtatAbsenceFiltre(filtreEtat);
 		setTailleListe("10");
-
-		// on recupere les droits
-		AccessRightsAbsDto droitsAbsence = absWsConsumer.getDroitsAbsenceAgent(currentUser.getAgent().getIdAgent());
-		setDroitsAbsence(droitsAbsence);
 
 		// #15024 en provenance des portlets d accueil
 		String param = (String) Executions.getCurrent().getArg().get("param");
@@ -163,7 +147,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
 		for (EntiteDto service : getListeServicesFiltre()) {
 			if(null != service.getIdEntite()) {
-				List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
+				List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(getCurrentUser().getAgent().getIdAgent(),
 						service.getIdEntite());
 	
 				if (null != listeAgents) {
@@ -195,7 +179,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(currentUser.getAgent().getIdAgent(),
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(getCurrentUser().getAgent().getIdAgent(),
 				getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 	}
@@ -277,7 +261,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 			etats.add(etat.getIdRefEtat());
 		}
 
-		List<DemandeDto> result = absWsConsumer.getListeDemandes(currentUser.getAgent().getIdAgent(), getTabCourant()
+		List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), getTabCourant()
 				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), etats.size() == 0 ? null
 				: etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
 				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
@@ -322,7 +306,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		dto.setIdRefEtat(RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
 		dto.setDateAvis(new Date());
 
-		ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(getCurrentUser().getAgent().getIdAgent(), dto);
 
 		if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 			final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -366,7 +350,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 				dto.setIdRefEtat(RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
 				dto.setDateAvis(new Date());
 
-				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getAgent().getIdAgent(),
+				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(getCurrentUser().getAgent().getIdAgent(),
 						dto);
 
 				if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
@@ -417,9 +401,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 		dto.setIdRefEtat(RefEtatEnum.APPROUVEE.getCodeEtat());
 		dto.setDateAvis(new Date());
 
-		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-
-		ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(getCurrentUser().getAgent().getIdAgent(), dto);
 
 		if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 			final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -463,9 +445,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 				dto.setIdRefEtat(RefEtatEnum.APPROUVEE.getCodeEtat());
 				dto.setDateAvis(new Date());
 
-				currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-
-				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(currentUser.getAgent().getIdAgent(),
+				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(getCurrentUser().getAgent().getIdAgent(),
 						dto);
 
 				if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
@@ -510,7 +490,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	@Command
 	public void imprimerDemande(@BindingParam("ref") DemandeDto demande) {
 		// on imprime la demande
-		byte[] resp = absWsConsumer.imprimerDemande(currentUser.getAgent().getIdAgent(), demande.getIdDemande());
+		byte[] resp = absWsConsumer.imprimerDemande(getCurrentUser().getAgent().getIdAgent(), demande.getIdDemande());
 		Filedownload.save(resp, "application/pdf", "titreAbsence");
 	}
 
@@ -542,7 +522,7 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 	}
 
 	public List<DemandeDto> getHistoriqueAbsence(DemandeDto abs) {
-		List<DemandeDto> result = absWsConsumer.getHistoriqueAbsence(currentUser.getAgent().getIdAgent(),
+		List<DemandeDto> result = absWsConsumer.getHistoriqueAbsence(getCurrentUser().getAgent().getIdAgent(),
 				abs.getIdDemande());
 		return result;
 	}
@@ -874,14 +854,6 @@ public class DemandesViewModel extends GenericForwardComposer<Component> {
 
 	public void setGroupeAbsenceFiltre(RefGroupeAbsenceDto groupeAbsenceFiltre) {
 		this.groupeAbsenceFiltre = groupeAbsenceFiltre;
-	}
-
-	public AccessRightsAbsDto getDroitsAbsence() {
-		return droitsAbsence;
-	}
-
-	public void setDroitsAbsence(AccessRightsAbsDto droitsAbsence) {
-		this.droitsAbsence = droitsAbsence;
 	}
 
 	public List<RefEtatAbsenceDto> getListeEtatsSelectionnes() {
