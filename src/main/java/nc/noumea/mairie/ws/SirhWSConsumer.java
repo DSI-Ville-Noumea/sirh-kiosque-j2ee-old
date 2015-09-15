@@ -34,6 +34,7 @@ import java.util.Map;
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -169,13 +170,13 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
-	public AgentWithServiceDto getAgent(Integer idAgentReferent) {
+	public AgentGeneriqueDto getAgent(Integer idAgentReferent) {
 		String url = String.format(sirhWsBaseUrl + sirhAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgentReferent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-		return readResponse(AgentWithServiceDto.class, res, url);
+		return readResponse(AgentGeneriqueDto.class, res, url);
 	}
 
 	@Override

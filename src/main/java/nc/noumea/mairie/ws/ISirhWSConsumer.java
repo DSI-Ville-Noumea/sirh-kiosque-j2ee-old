@@ -30,6 +30,7 @@ import java.util.List;
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -59,7 +60,7 @@ public interface ISirhWSConsumer {
 
 	List<ReferentRhDto> getListReferentRH(Integer idAgent);
 
-	AgentWithServiceDto getAgent(Integer idAgentReferent);
+	AgentGeneriqueDto getAgent(Integer idAgentReferent);
 
 	List<AgentDto> getAgentsSubordonnes(Integer idAgent);
 

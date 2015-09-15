@@ -35,7 +35,7 @@ import java.util.TimeZone;
 
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
-import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
@@ -179,8 +179,8 @@ public class ImpressionFichesViewModel {
 			for (String idAgent : getListeIdAgentsToPrint()) {
 				EntiteDto direction = sirhWsConsumer.getDirection(new Integer(idAgent), getLundi(getDateLundi()));
 				if (direction == null) {
-					AgentWithServiceDto ag = sirhWsConsumer.getAgent(new Integer(idAgent));
-					ValidationMessage vm = new ValidationMessage("L'agent " + ag.getNom() + " n'est pas affecté pour cette date.");
+					AgentGeneriqueDto ag = sirhWsConsumer.getAgent(new Integer(idAgent));
+					ValidationMessage vm = new ValidationMessage("L'agent " + ag.getNomUsage() + " n'est pas affecté pour cette date.");
 					listErreur.add(vm);
 				}
 			}
