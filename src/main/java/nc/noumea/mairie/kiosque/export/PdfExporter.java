@@ -209,7 +209,7 @@ public class PdfExporter extends AbstractExporter<PdfPTable, PdfPTable> {
 				Iterator<Component> iterator = cmp.getChildren().iterator();
 				while (iterator.hasNext()) {
 					cmp = iterator.next();
-					vlayout += getStringValue(cmp).equals("null") ? "" : getStringValue(cmp);
+					vlayout += getStringValue(cmp) == null ? "" : getStringValue(cmp);
 				}
 			}
 			PdfPCell cell = getPdfPCellFactory().getCell(isOddRow(rowIndex));

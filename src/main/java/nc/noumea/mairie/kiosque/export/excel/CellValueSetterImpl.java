@@ -54,7 +54,7 @@ public class CellValueSetterImpl implements CellValueSetter<Component> {
 			Iterator<Component> iterator = component.getChildren().iterator();
 			while (iterator.hasNext()) {
 				component = iterator.next();
-				vlayout += getStringValue(component).equals("null") ? "" : getStringValue(component);
+				vlayout += getStringValue(component) == null ? "" : getStringValue(component);
 			}
 		}
 
