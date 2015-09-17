@@ -24,12 +24,17 @@ package nc.noumea.mairie.ads.dto;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @XmlRootElement
 public class EntiteDto implements Comparable<EntiteDto> {
@@ -46,12 +51,20 @@ public class EntiteDto implements Comparable<EntiteDto> {
 
 	private Integer idStatut;
 	private Integer idAgentCreation;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateCreation;
 	private Integer idAgentModification;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateModification;
 	private String refDeliberationActif;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateDeliberationActif;
 	private String refDeliberationInactif;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateDeliberationInactif;
 
 	public EntiteDto() {
@@ -204,25 +217,22 @@ public class EntiteDto implements Comparable<EntiteDto> {
 
 	@Override
 	public int compareTo(EntiteDto arg0) {
-		
-		if(null == this.label
-				|| null == arg0.label) {
+
+		if (null == this.label || null == arg0.label) {
 			return 0;
 		}
-		
+
 		return this.label.compareTo(arg0.label);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
-		if(null == obj
-				|| null == ((EntiteDto) obj).getIdEntite()
-				|| null == idEntite) {
+
+		if (null == obj || null == ((EntiteDto) obj).getIdEntite() || null == idEntite) {
 			return false;
 		}
-		
+
 		return idEntite.equals(((EntiteDto) obj).getIdEntite());
 	}
-	
+
 }
