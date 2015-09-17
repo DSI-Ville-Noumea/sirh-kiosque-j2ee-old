@@ -35,6 +35,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
@@ -66,16 +67,13 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 	 */
 	private static final long serialVersionUID = 1273275293239509746L;
 
-
 	private Logger logger = LoggerFactory.getLogger(AccueilViewModel.class);
-
 
 	@WireVariable
 	private ISirhEaeWSConsumer eaeWsConsumer;
 
 	@WireVariable
 	private ISharepointService sharepointConsumer;
-	
 
 	private List<AccueilRhDto> listeTexteAccueil;
 
@@ -111,8 +109,7 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 		List<? extends Component> panelchildren = portalLayout.getChildren();
 		for (int i = 0; i < panelchildren.size(); i++) {
 			@SuppressWarnings("unchecked")
-			List<String> panelIds = (List<String>) Executions.getCurrent().getSession()
-					.getAttribute("PortalChildren" + i);
+			List<String> panelIds = (List<String>) Executions.getCurrent().getSession().getAttribute("PortalChildren" + i);
 			if (panelIds != null) {
 				for (String panelId : panelIds) {
 					Panel newPanel = (Panel) portalLayout.getFellow(panelId);
@@ -152,8 +149,7 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 			if (i == 0) {
 				ref += getPrenomReferent(referent.getPrenomAgentReferent()) + " au " + referent.getNumeroTelephone();
 			} else {
-				ref += " ou " + getPrenomReferent(referent.getPrenomAgentReferent()) + " au "
-						+ referent.getNumeroTelephone();
+				ref += " ou " + getPrenomReferent(referent.getPrenomAgentReferent()) + " au " + referent.getNumeroTelephone();
 			}
 		}
 
@@ -165,9 +161,8 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 			etats.add(RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
 			etats.add(RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat());
 
-			List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), "NON_PRISES",
-					null, null, null, etats.toString().replace("[", "").replace("]", "").replace(" ", ""), null, null,
-					null, null);
+			List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), "NON_PRISES", null, null, null, etats.toString().replace("[", "").replace("]", "")
+					.replace(" ", ""), null, null, null, null);
 			Integer nbrAbs = 0;
 			for (DemandeDto dto : result) {
 				if (dto.isModifierApprobation()) {
@@ -190,9 +185,8 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 			List<Integer> etats = new ArrayList<Integer>();
 			etats.add(RefEtatEnum.SAISIE.getCodeEtat());
 
-			List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), "NON_PRISES",
-					null, null, null, etats.toString().replace("[", "").replace("]", "").replace(" ", ""), null, null,
-					null, null);
+			List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), "NON_PRISES", null, null, null, etats.toString().replace("[", "").replace("]", "")
+					.replace(" ", ""), null, null, null, null);
 			Integer nbrAbs = 0;
 			for (DemandeDto dto : result) {
 				if (dto.isModifierVisa()) {
@@ -217,9 +211,17 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 				if (tableau != null && tableau.size() > 0) {
 					int nbrEae = 0;
 					for (EaeListItemDto item : tableau) {
-						if (item.getEtat().equals("Non débuté") || item.getEtat().equals("Créé")
-								|| item.getEtat().equals("En cours")) {
-							nbrEae++;
+						for (AgentDto evaluateur : item.getEaeEvaluateurs()) {
+							if (evaluateur.getIdAgent().toString().equals(getCurrentUser().getAgent().getIdAgent().toString())
+									&& (item.getEtat().equals("Non débuté") || item.getEtat().equals("Créé") || item.getEtat().equals("En cours"))) {
+								nbrEae++;
+							}
+						}
+						if (item.getAgentDelegataire() != null) {
+							if (item.getAgentDelegataire().getIdAgent().toString().equals(getCurrentUser().getAgent().getIdAgent().toString())
+									&& (item.getEtat().equals("Non débuté") || item.getEtat().equals("Créé") || item.getEtat().equals("En cours"))) {
+								nbrEae++;
+							}
 						}
 					}
 					if (0 == nbrEae) {
@@ -242,8 +244,8 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 			DateTime fromDate = new DateTime(toDate);
 			fromDate = fromDate.minusMonths(3);
 
-			List<ConsultPointageDto> listPtg = ptgWsConsumer.getListePointages(getCurrentUser().getAgent().getIdAgent(),
-					fromDate.toDate(), toDate, null, null, EtatPointageEnum.SAISI.getCodeEtat(), null, null);
+			List<ConsultPointageDto> listPtg = ptgWsConsumer.getListePointages(getCurrentUser().getAgent().getIdAgent(), fromDate.toDate(), toDate, null, null, EtatPointageEnum.SAISI.getCodeEtat(),
+					null, null);
 			int nbrPtg = null != listPtg ? listPtg.size() : 0;
 			String nbrPtgStr = "";
 			if (0 == nbrPtg) {
@@ -267,8 +269,7 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 	}
 
 	@Command
-	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div,
-			@BindingParam("param") String param) {
+	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div, @BindingParam("param") String param) {
 		div.getChildren().clear();
 		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("div", div);
