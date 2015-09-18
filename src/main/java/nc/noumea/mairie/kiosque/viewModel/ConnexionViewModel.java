@@ -70,7 +70,10 @@ public class ConnexionViewModel {
 	public void disconnect() throws ServletException {
 		// create a window programmatically and use it as a modal dialog.
 		logger.debug("Disconnect User : " + currentUser.getAgent().getIdAgent());
-		Executions.getCurrent().getSession().setAttribute("logout", "logout");
+		Executions.getCurrent().getSession().setAttribute("logout", "logout");		
+		Executions.getCurrent().getSession().setAttribute("droitsAbsence", null);
+		Executions.getCurrent().getSession().setAttribute("droitsPointage", null);
+		Executions.getCurrent().getSession().setAttribute("droitsEae", null);
 		Executions.sendRedirect("/login.zul");
 	}
 
