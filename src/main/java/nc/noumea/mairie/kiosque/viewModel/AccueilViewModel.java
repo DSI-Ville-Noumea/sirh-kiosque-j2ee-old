@@ -246,7 +246,13 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 
 			List<ConsultPointageDto> listPtg = ptgWsConsumer.getListePointages(getCurrentUser().getAgent().getIdAgent(), fromDate.toDate(), toDate, null, null, EtatPointageEnum.SAISI.getCodeEtat(),
 					null, null);
-			int nbrPtg = null != listPtg ? listPtg.size() : 0;
+			int nbrPtg = 0;
+			if (listPtg != null) {
+				for (ConsultPointageDto ptgDto : listPtg) {
+					if (ptgDto.isApprobation())
+						nbrPtg++;
+				}
+			}
 			String nbrPtgStr = "";
 			if (0 == nbrPtg) {
 				nbrPtgStr = "Vous n'avez pas de pointage à approuver.";

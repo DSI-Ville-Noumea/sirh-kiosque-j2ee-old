@@ -192,12 +192,18 @@
 									visible="@bind(vm.droitsPointage.approbation)">
 									<image
 										tooltiptext="Accepter le pointage" sclass="ListAction accept"
-										visible="@bind(each.approbation)"
+										visible="@bind(each.approbation , each.affichageBoutonAccepter)"
 										onClick="@command('approuverPointage',ref=each)" />
+										<!--Pour eviter du désordre dans les boutons on affiche qqchose de vide-->
+									<image width="25px"
+										visible="@bind(not each.approbation , not each.affichageBoutonAccepter)" />
 									<image
 										tooltiptext="Refuser le pointage" sclass="ListAction delay"
-										visible="@bind(each.approbation)"
+										visible="@bind(each.approbation , each.affichageBoutonRefuser)"
 										onClick="@command('refuserPointage',ref=each)" />
+										<!--Pour eviter du désordre dans les boutons on affiche qqchose de vide-->
+									<image width="25px"
+										visible="@bind(not each.approbation , not each.affichageBoutonRefuser)" />
 									<image
 										tooltiptext="Re-mettre en saisie le pointage"
 										sclass="ListAction cancel" visible="@bind(each.approbation)"

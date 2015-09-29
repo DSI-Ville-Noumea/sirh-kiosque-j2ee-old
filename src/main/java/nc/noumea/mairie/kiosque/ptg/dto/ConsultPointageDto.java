@@ -47,6 +47,9 @@ public class ConsultPointageDto {
 	private boolean heuresSupRappelEnService;
 
 	private boolean isApprobation;
+	// # 17613 pour affichage des boutons
+	private boolean isAffichageBoutonAccepter;
+	private boolean isAffichageBoutonRefuser;
 
 	public Integer getIdPointage() {
 		return idPointage;
@@ -166,6 +169,22 @@ public class ConsultPointageDto {
 
 	public void setApprobation(boolean isApprobation) {
 		this.isApprobation = isApprobation;
+	}
+
+	public boolean isAffichageBoutonAccepter() {
+		return isAffichageBoutonAccepter;
+	}
+
+	public void setAffichageBoutonAccepter(boolean isAffichageBoutonAccepter) {
+		this.isAffichageBoutonAccepter = isAffichageBoutonAccepter;
+	}
+
+	public boolean isAffichageBoutonRefuser() {
+		return isAffichageBoutonRefuser;
+	}
+
+	public void setAffichageBoutonRefuser(boolean isAffichageBoutonRefuser) {
+		this.isAffichageBoutonRefuser = isAffichageBoutonRefuser;
 	}
 
 }
