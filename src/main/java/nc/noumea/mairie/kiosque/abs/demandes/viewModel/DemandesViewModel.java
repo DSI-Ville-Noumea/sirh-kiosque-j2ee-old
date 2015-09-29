@@ -89,7 +89,6 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 
 	private Logger logger = LoggerFactory.getLogger(DemandesViewModel.class);
 
-
 	private List<DemandeDto> listeDemandes;
 
 	private Tab tabCourant;
@@ -137,8 +136,7 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 		// #15024 en provenance des portlets d accueil
 		String param = (String) Executions.getCurrent().getArg().get("param");
 		if (null != param && "aApprouver".equals(param)) {
-			setListeEtatsSelectionnes(Arrays.asList(getListeEtatAbsenceFiltre().get(1), getListeEtatAbsenceFiltre()
-					.get(2), getListeEtatAbsenceFiltre().get(3)));
+			setListeEtatsSelectionnes(Arrays.asList(getListeEtatAbsenceFiltre().get(1), getListeEtatAbsenceFiltre().get(2), getListeEtatAbsenceFiltre().get(3)));
 		} else if (null != param && "aViser".equals(param)) {
 			setListeEtatsSelectionnes(Arrays.asList(getListeEtatAbsenceFiltre().get(1)));
 		}
@@ -146,22 +144,19 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 		// #12159 planning
 		List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
 		for (EntiteDto service : getListeServicesFiltre()) {
-			if(null != service.getIdEntite()) {
-				List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(getCurrentUser().getAgent().getIdAgent(),
-						service.getIdEntite());
-	
+			if (null != service.getIdEntite()) {
+				List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(getCurrentUser().getAgent().getIdAgent(), service.getIdEntite());
+
 				if (null != listeAgents) {
 					for (AgentDto agent : listeAgents) {
-						AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getIdEntite(),
-								service.getLabel());
+						AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getIdEntite(), service.getLabel());
 						listAgentsWithServiceDto.add(agentsWithServiceDto);
 					}
 				}
 			}
 		}
 
-		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
-				.getSession().getNativeSession();
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
 		s.setAttribute("listeAgents", listAgentsWithServiceDto);
 		setListAgentsEquipe(listAgentsWithServiceDto);
 	}
@@ -179,8 +174,7 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void chargeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(getCurrentUser().getAgent().getIdAgent(),
-				getServiceFiltre().getIdEntite());
+		List<AgentDto> filtreAgent = absWsConsumer.getAgentsAbsences(getCurrentUser().getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -221,8 +215,8 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	@Command
 	@NotifyChange({ "listeTypeAbsenceFiltre", "typeAbsenceFiltre" })
 	public void alimenteTypeFamilleAbsence() {
-		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsenceFiltre()
-				.getIdRefGroupeAbsence(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent());
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsenceFiltre().getIdRefGroupeAbsence(), getAgentFiltre() == null ? null : getAgentFiltre()
+				.getIdAgent());
 		if (filtreFamilleAbsence.size() == 1) {
 			setListeTypeAbsenceFiltre(null);
 			setTypeAbsenceFiltre(null);
@@ -261,25 +255,20 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 			etats.add(etat.getIdRefEtat());
 		}
 
-		List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), getTabCourant()
-				.getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(), etats.size() == 0 ? null
-				: etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
-				getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
-				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence(),
-				getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), getServiceFiltre() == null ? null
-						: getServiceFiltre().getIdEntite());
+		List<DemandeDto> result = absWsConsumer.getListeDemandes(getCurrentUser().getAgent().getIdAgent(), getTabCourant().getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
+				etats.size() == 0 ? null : etats.toString().replace("[", "").replace("]", "").replace(" ", ""), getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
+				getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(),
+				getServiceFiltre() == null ? null : getServiceFiltre().getIdEntite());
 		setListeDemandes(result);
 
 		// #12159 construction du planning
 		if ("PLANNING".equals(getTabCourant().getId())) {
-			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
-					.getSession().getNativeSession();
+			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
 			s.setAttribute("listeDemandes", result);
 
 			if (null != getAgentFiltre() && null != getAgentFiltre().getIdAgent()) {
 				List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
-				AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(getAgentFiltre(), getServiceFiltre()
-						.getIdEntite(), getServiceFiltre().getLabel());
+				AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(getAgentFiltre(), getServiceFiltre().getIdEntite(), getServiceFiltre().getLabel());
 				listAgentsWithServiceDto.add(agentsWithServiceDto);
 
 				s.setAttribute("listeAgents", listAgentsWithServiceDto);
@@ -287,8 +276,7 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 				s.setAttribute("listeAgents", getListAgentsEquipe());
 			}
 
-			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning")
-					.getFellow("windowplanning"));
+			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning").getFellow("windowplanning"));
 		}
 	}
 
@@ -331,18 +319,15 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void viserAllDemandeFavorable(@BindingParam("ref") Grid tab) {
-		List<DemandeDto> listeDemandeAffichee = getListeDemandes()
-				.subList(
-						tab.getActivePage() * Integer.valueOf(getTailleListe()),
-						(tab.getActivePage() * Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())) > getListeDemandes()
-								.size() ? getListeDemandes().size() : (tab.getActivePage()
-								* Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())));
+		List<DemandeDto> listeDemandeAffichee = getListeDemandes().subList(
+				tab.getActivePage() * Integer.valueOf(getTailleListe()),
+				(tab.getActivePage() * Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())) > getListeDemandes().size() ? getListeDemandes().size() : (tab.getActivePage()
+						* Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())));
 
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		for (DemandeDto demande : listeDemandeAffichee) {
-			if (demande.getIdRefEtat() == RefEtatEnum.SAISIE.getCodeEtat()
-					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_FAVORABLE.getCodeEtat()
+			if (demande.getIdRefEtat() == RefEtatEnum.SAISIE.getCodeEtat() || demande.getIdRefEtat() == RefEtatEnum.VISEE_FAVORABLE.getCodeEtat()
 					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat()) {
 
 				DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
@@ -350,8 +335,7 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 				dto.setIdRefEtat(RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
 				dto.setDateAvis(new Date());
 
-				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(getCurrentUser().getAgent().getIdAgent(),
-						dto);
+				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(getCurrentUser().getAgent().getIdAgent(), dto);
 
 				if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 					for (String error : result.getErrors()) {
@@ -426,27 +410,22 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void approuverAllDemande(@BindingParam("ref") Grid tab) {
-		List<DemandeDto> listeDemandeAffichee = getListeDemandes()
-				.subList(
-						tab.getActivePage() * Integer.valueOf(getTailleListe()),
-						(tab.getActivePage() * Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())) > getListeDemandes()
-								.size() ? getListeDemandes().size() : (tab.getActivePage()
-								* Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())));
+		List<DemandeDto> listeDemandeAffichee = getListeDemandes().subList(
+				tab.getActivePage() * Integer.valueOf(getTailleListe()),
+				(tab.getActivePage() * Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())) > getListeDemandes().size() ? getListeDemandes().size() : (tab.getActivePage()
+						* Integer.valueOf(getTailleListe()) + Integer.valueOf(getTailleListe())));
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		for (DemandeDto demande : listeDemandeAffichee) {
-			if (demande.getIdRefEtat() == RefEtatEnum.SAISIE.getCodeEtat()
-					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_FAVORABLE.getCodeEtat()
-					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat()
-					|| demande.getIdRefEtat() == RefEtatEnum.APPROUVEE.getCodeEtat()
+			if (demande.getIdRefEtat() == RefEtatEnum.SAISIE.getCodeEtat() || demande.getIdRefEtat() == RefEtatEnum.VISEE_FAVORABLE.getCodeEtat()
+					|| demande.getIdRefEtat() == RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat() || demande.getIdRefEtat() == RefEtatEnum.APPROUVEE.getCodeEtat()
 					|| demande.getIdRefEtat() == RefEtatEnum.REFUSEE.getCodeEtat()) {
 				DemandeEtatChangeDto dto = new DemandeEtatChangeDto();
 				dto.setIdDemande(demande.getIdDemande());
 				dto.setIdRefEtat(RefEtatEnum.APPROUVEE.getCodeEtat());
 				dto.setDateAvis(new Date());
 
-				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(getCurrentUser().getAgent().getIdAgent(),
-						dto);
+				ReturnMessageDto result = absWsConsumer.changerEtatDemandeAbsence(getCurrentUser().getAgent().getIdAgent(), dto);
 
 				if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 					for (String error : result.getErrors()) {
@@ -522,14 +501,12 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	}
 
 	public List<DemandeDto> getHistoriqueAbsence(DemandeDto abs) {
-		List<DemandeDto> result = absWsConsumer.getHistoriqueAbsence(getCurrentUser().getAgent().getIdAgent(),
-				abs.getIdDemande());
+		List<DemandeDto> result = absWsConsumer.getHistoriqueAbsence(getCurrentUser().getAgent().getIdAgent(), abs.getIdDemande());
 		return result;
 	}
 
 	@Command
-	@NotifyChange({ "groupeAbsenceFiltre", "typeAbsenceFiltre", "listeTypeAbsenceFiltre", "dateDebutFiltre",
-			"dateFinFiltre", "dateDemandeFiltre", "agentFiltre", "listeAgentsFiltre", "serviceFiltre",
+	@NotifyChange({ "groupeAbsenceFiltre", "typeAbsenceFiltre", "listeTypeAbsenceFiltre", "dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre", "agentFiltre", "listeAgentsFiltre", "serviceFiltre",
 			"listeEtatAbsenceFiltre" })
 	public void viderFiltre() {
 		setGroupeAbsenceFiltre(null);
@@ -689,13 +666,11 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 			// dans le cas ou la Div "divChild" n'existe pas encore
 			// car creer dans planner.render()
 		}
-		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
-				.getSession().getNativeSession();
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
 		@SuppressWarnings("unchecked")
 		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) s.getAttribute("listeAgents");
 
-		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes",
-				listeAgents);
+		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes", listeAgents);
 		try {
 			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
 		} catch (Exception e) {
@@ -710,8 +685,7 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 		@SuppressWarnings("unchecked")
 		List<DemandeDto> listDemandes = (List<DemandeDto>) request.getSession().getAttribute("listeDemandes");
 		@SuppressWarnings("unchecked")
-		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) request.getSession().getAttribute(
-				"listeAgents");
+		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) request.getSession().getAttribute("listeAgents");
 
 		CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listeAgents);
 		return evs.run();
@@ -873,6 +847,22 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 
 	public void setListAgentsEquipe(List<AgentWithServiceDto> listAgentsEquipe) {
 		this.listAgentsEquipe = listAgentsEquipe;
+	}
+
+	public boolean affichePouceVertApprobateur(DemandeDto dto) {
+		return dto.isModifierApprobation() && dto.getIdRefEtat() != RefEtatEnum.APPROUVEE.getCodeEtat();
+	}
+
+	public boolean affichePouceRougeApprobateur(DemandeDto dto) {
+		return dto.isModifierApprobation() && dto.getIdRefEtat() != RefEtatEnum.REFUSEE.getCodeEtat();
+	}
+
+	public boolean affichePouceVertViseur(DemandeDto dto) {
+		return dto.isModifierVisa() && dto.getIdRefEtat() != RefEtatEnum.VISEE_FAVORABLE.getCodeEtat();
+	}
+
+	public boolean affichePouceRougeViseur(DemandeDto dto) {
+		return dto.isModifierVisa() && dto.getIdRefEtat() != RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat();
 	}
 
 }

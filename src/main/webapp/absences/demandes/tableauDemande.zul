@@ -178,20 +178,20 @@
 							<!-- Pour le viseur -->
 							<image
 								tooltiptext="Viser favorablement la demande"
-								sclass="ListAction accept" visible="@bind(each.modifierVisa)"
+								sclass="ListAction accept" visible="@bind(vm.affichePouceVertViseur(each))"
 								onClick="@command('viserDemandeFavorable',ref=each)" />
 							<image
 								tooltiptext="Viser défavorablement la demande"
-								sclass="ListAction delay" visible="@bind(each.modifierVisa)"
+								sclass="ListAction delay" visible="@bind(vm.affichePouceRougeViseur(each))"
 								onClick="@command('viserDemandeDefavorable',ref=each)" />
 							<!-- Pour l'approbateur -->
 							<image tooltiptext="Approuver la demande"
 								sclass="ListAction accept"
-								visible="@bind(each.modifierApprobation)"
+								visible="@bind(vm.affichePouceVertApprobateur(each))"
 								onClick="@command('approuverDemande',ref=each)" />
 							<image tooltiptext="Refuser la demande"
 								sclass="ListAction delay"
-								visible="@bind(each.modifierApprobation)"
+								visible="@bind(vm.affichePouceRougeApprobateur(each))"
 								onClick="@command('desapprouverDemande',ref=each)" />
 							<!-- Pour l'operateur -->
 							<image tooltiptext="Editer la demande"
