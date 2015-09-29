@@ -129,7 +129,7 @@
 								sort="none" />
 							<column width="50px" align="center"
 								visible="@bind(vm.droitsPointage.approbation || vm.droitsPointage.saisie)">
-								<!-- Moficication -->
+								<!-- Modification -->
 							</column>
 							<column>
 								<hlayout style="min-height:24px;">

@@ -123,11 +123,6 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		// on charge les service pour les filtres
 		List<EntiteDto> filtreService = ptgWsConsumer.getServicesPointages(currentUser.getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
-		// si 1 seul service alors on le selectionne
-		if (getListeServicesFiltre() != null && getListeServicesFiltre().size() == 1) {
-			setServiceFiltre(getListeServicesFiltre().get(0));
-			afficheListeAgent();
-		}
 		setDateFiltre("Semaine ... du ... au ...");
 
 		setListeTypeAbsence(getModelTypeAbsence());
@@ -146,6 +141,11 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			afficheListeAgent();
 			setAgentFiltre(pointage.getAgent());
 			chargeFiche();
+		// #18715  optmiser le nombre d appel a afficheListeAgent() donc a SIRH-PTG-WS
+		} else if (getListeServicesFiltre() != null && getListeServicesFiltre().size() == 1) {
+		// si 1 seul service alors on le selectionne
+			setServiceFiltre(getListeServicesFiltre().get(0));
+			afficheListeAgent();
 		}
 	}
 
