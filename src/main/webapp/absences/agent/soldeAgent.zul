@@ -116,6 +116,13 @@
 							<label sclass="value"
 								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaA52))" />
 						</div>
+						<div
+							visible="@bind(vm.soldeCourant.afficheSoldeAsaAmicale)">
+							<label sclass="name"
+								value="Membre du bureau de l'Amicale de la ville" />
+							<label sclass="value"
+								value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaAmicale))" />
+						</div>
 					</div>
 				</div>
 			</div>

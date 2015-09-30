@@ -49,6 +49,8 @@ public class SoldeDto {
 	private Double soldeAsaA52;
 	private OrganisationSyndicaleDto organisationA52;
 	private List<SoldeMonthDto> listeSoldeAsaA52;
+	private boolean afficheSoldeAsaAmicale;
+	private Double soldeAsaAmicale;
 
 	private boolean afficheSoldeCongesExcep;
 	private List<SoldeSpecifiqueDto> listeSoldeCongesExcep;
@@ -194,7 +196,7 @@ public class SoldeDto {
 	}
 
 	public boolean isAfficheSoldeAsa() {
-		return afficheSoldeAsaA48 || afficheSoldeAsaA54 || afficheSoldeAsaA55 || afficheSoldeAsaA52;
+		return afficheSoldeAsaA48 || afficheSoldeAsaA54 || afficheSoldeAsaA55 || afficheSoldeAsaA52|| afficheSoldeAsaAmicale;
 	}
 
 	public boolean isAfficheSoldeAsaA52() {
@@ -235,6 +237,22 @@ public class SoldeDto {
 
 	public void setSamediOffert(boolean samediOffert) {
 		this.samediOffert = samediOffert;
+	}
+
+	public boolean isAfficheSoldeAsaAmicale() {
+		return afficheSoldeAsaAmicale;
+	}
+
+	public void setAfficheSoldeAsaAmicale(boolean afficheSoldeAsaAmicale) {
+		this.afficheSoldeAsaAmicale = afficheSoldeAsaAmicale;
+	}
+
+	public Double getSoldeAsaAmicale() {
+		return soldeAsaAmicale;
+	}
+
+	public void setSoldeAsaAmicale(Double soldeAsaAmicale) {
+		this.soldeAsaAmicale = soldeAsaAmicale;
 	}
 
 }

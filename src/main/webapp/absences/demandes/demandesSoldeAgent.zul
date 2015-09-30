@@ -106,6 +106,16 @@
 							value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaA52))" />
 					</div>
 				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeAsaAmicale)">
+					<div width="300px">
+						<label value="Solde membre du bureau de l'Amicale de la ville : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaAmicale))" />
+					</div>
+				</hlayout>
 				
 				<separator />
 				
