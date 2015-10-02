@@ -31,11 +31,15 @@
 							title="EAE à réaliser" border="normal" collapsible="true"
 							closable="true" maximizable="true" style="margin-bottom:10px">
 							<panelchildren>
-								<a
-									onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)">
-									<label zclass="panelPortail"
-										value="@bind(vm.nombreEAEaRealiser)" />
-								</a>
+								<vlayout>
+									<a
+										onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)">
+										<label zclass="panelPortail"
+											value="@bind(vm.nombreEAEaRealiser)" />
+									</a>
+									<button label="Voir"
+										onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)" />
+								</vlayout>
 							</panelchildren>
 						</panel>
 					</portalchildren>
@@ -46,11 +50,15 @@
 							title="Absences à approuver" border="normal" collapsible="true"
 							closable="true" maximizable="true" style="margin-bottom:10px">
 							<panelchildren>
-								<a
-									onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content, param='aApprouver')">
-									<label zclass="panelPortail"
-										value="@bind(vm.nombreAbsenceAApprouver)" />
-								</a>
+								<vlayout>
+									<a
+										onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content, param='aApprouver')">
+										<label zclass="panelPortail"
+											value="@bind(vm.nombreAbsenceAApprouver)" />
+									</a>
+									<button label="Voir"
+										onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content, param='aApprouver')" />
+								</vlayout>
 							</panelchildren>
 						</panel>
 					</portalchildren>
@@ -61,11 +69,15 @@
 							title="Absences à viser" border="normal" collapsible="true"
 							closable="true" maximizable="true" style="margin-bottom:10px">
 							<panelchildren>
-								<a
-									onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content, param='aViser')">
-									<label zclass="panelPortail"
-										value="@bind(vm.nombreAbsenceAViser)" />
-								</a>
+								<vlayout>
+									<a
+										onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content, param='aViser')">
+										<label zclass="panelPortail"
+											value="@bind(vm.nombreAbsenceAViser)" />
+									</a>
+									<button label="Voir"
+										onClick="@command('changeEcran',page='/absences/demandes/gestionDemandes',ecran=content, param='aViser')" />
+								</vlayout>
 							</panelchildren>
 						</panel>
 					</portalchildren>
@@ -76,11 +88,15 @@
 							title="Pointages à approuver" border="normal" collapsible="true"
 							closable="true" maximizable="true" style="margin-bottom:10px">
 							<panelchildren>
-								<a
-									onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content, param='aApprouver')">
-									<label zclass="panelPortail"
-										value="@bind(vm.nombrePointageAApprouver)" />
-								</a>
+								<vlayout>
+									<a
+										onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content, param='aApprouver')">
+										<label zclass="panelPortail"
+											value="@bind(vm.nombrePointageAApprouver)" />
+									</a>
+									<button label="Voir"
+										onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content, param='aApprouver')" />
+								</vlayout>
 							</panelchildren>
 						</panel>
 					</portalchildren>
