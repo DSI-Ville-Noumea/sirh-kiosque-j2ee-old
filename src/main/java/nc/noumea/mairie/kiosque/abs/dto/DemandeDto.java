@@ -24,6 +24,7 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
+import java.io.Serializable;
 import java.util.Date;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
@@ -33,7 +34,12 @@ import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-public class DemandeDto {
+public class DemandeDto implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7145740176610420136L;
 
 	private AgentWithServiceDto agentWithServiceDto;
 

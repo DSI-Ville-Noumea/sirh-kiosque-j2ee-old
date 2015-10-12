@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
+import java.io.Serializable;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -26,8 +28,13 @@ package nc.noumea.mairie.kiosque.abs.dto;
 
 
 
-public class RefTypeSaisiDto {
+public class RefTypeSaisiDto implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 247332147340210796L;
+	
 	private Integer idRefTypeDemande; 
 	private boolean calendarDateDebut;
 	private boolean calendarHeureDebut;

@@ -33,6 +33,7 @@ import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 
 import org.joda.time.DateTime;
 
+import com.dhtmlx.planner.DHXExportMode;
 import com.dhtmlx.planner.DHXPlanner;
 import com.dhtmlx.planner.DHXSkin;
 import com.dhtmlx.planner.controls.DHXLocalization;
@@ -68,6 +69,10 @@ public class CustomDHXPlanner extends DHXPlanner {
 		this.localizations.set(DHXLocalization.French);
 
 		this.extensions.add(DHXExtension.CONTAINER_AUTORESIZE);
+		this.extensions.add(DHXExtension.PDF);
+		
+		this.setPdfMode(DHXExportMode.FULLCOLOR);
+		this.toPDF("/planning");
 
 		// ////////////////////////////////////////////////////////
 		// //////////// pour les infobulles /////////////////////
@@ -222,7 +227,7 @@ public class CustomDHXPlanner extends DHXPlanner {
 		viewTrimestre.setTabStyle("margin-left:-190px;");
 		// DateTimeFormat des jours
 		viewTrimestre.setXDate("%d");
-		// interval entre chaque colonne : ici 1 jour (tous les jours)
+		// interval entre chaque colonne : ici 7 jours
 		viewTrimestre.setXStep(7);
 		// nombre de colonnes
 		viewTrimestre.setXSize(13);

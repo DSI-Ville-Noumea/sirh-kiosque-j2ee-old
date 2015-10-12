@@ -349,6 +349,13 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+		
+		<dependency>
+		    <groupId>com.PDFjet</groupId>
+		    <artifactId>PDFjet</artifactId>
+            <version>1.0</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>ROOT##sirh-kiosque-j2ee-${project.version}</finalName>

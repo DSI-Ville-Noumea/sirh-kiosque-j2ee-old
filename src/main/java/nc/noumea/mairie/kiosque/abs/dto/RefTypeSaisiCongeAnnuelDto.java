@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
+import java.io.Serializable;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -24,8 +26,13 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
-public class RefTypeSaisiCongeAnnuelDto {
+public class RefTypeSaisiCongeAnnuelDto implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3472942251548829946L;
+	
 	private Integer idRefTypeSaisiCongeAnnuel;
 	private String codeBaseHoraireAbsence;
 	private String description;

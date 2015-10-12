@@ -61,7 +61,7 @@
 	}
 	.boutonLegend {
 	    position: relative;
-	    left: 960px;
+	    left: 875px;
 	    top: 56px;
 	    z-index: 10;
 	    height: 32px;

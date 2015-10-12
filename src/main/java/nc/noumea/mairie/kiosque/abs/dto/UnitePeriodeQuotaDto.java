@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
+import java.io.Serializable;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -25,7 +27,12 @@ package nc.noumea.mairie.kiosque.abs.dto;
  */
 
 
-public class UnitePeriodeQuotaDto {
+public class UnitePeriodeQuotaDto implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7389559629193160781L;
 
 	private Integer idRefUnitePeriodeQuota;
 

@@ -114,11 +114,16 @@
 			xml += "</x>";
 
 			var yh = scheduler._els.dhx_cal_data[0];
+			// dhx_row_folder
 			if (scheduler.matrix && scheduler.matrix[scheduler._mode]) {
 				xml += "<y>";
 				for (var i = 0; i < yh.firstChild.rows.length; i++) {
 					var el = yh.firstChild.rows[i];
-					xml += "<row><![CDATA[" + clean_html(el.cells[0].innerHTML) + "]]></row>";
+					var tr = yh.firstChild.rows[i].getElementsByTagName("TR");
+					var text_color = get_style(tr[0], "color");
+
+					var evs = scheduler._els.dhx_cal_data[0].getElementsByTagName("TD");
+					xml += "<row color=\""+text_color+"\"><![CDATA[" + clean_html(el.cells[0].innerHTML) + "]]></row>";
 				}
 				xml += "</y>";
 				dy = yh.firstChild.rows[0].cells[0].offsetHeight;
@@ -132,7 +137,7 @@
 
 				xml += "<y>";
 				for (var i = 0; i < yh.length; i++)
-					xml += "\n<row><![CDATA[" + clean_html(yh[i].innerHTML) + "]]></row>";
+					xml += "\n<row backgroundColor=\"\"><![CDATA[" + clean_html(yh[i].innerHTML) + "]]></row>";
 				xml += "</y>";
 				dy = yh[0].offsetHeight;
 			}
@@ -149,7 +154,7 @@
 			for (var j = 0; j < r[i].cells.length; j++)
 				days.push(r[i].cells[j].firstChild.innerHTML);
 
-			xml += "\n<row height='" + yh.firstChild.rows[i].cells[0].offsetHeight + "'><![CDATA[" + clean_html(days.join("|")) + "]]></row>";
+			xml += "\n<row backgroundColor=\"\" height='" + yh.firstChild.rows[i].cells[0].offsetHeight + "'><![CDATA[" + clean_html(days.join("|")) + "]]></row>";
 			dy = yh.firstChild.rows[0].cells[0].offsetHeight;
 		}
 		return xml;
@@ -164,9 +169,9 @@
 			xh = xh[0].childNodes;
 		}
 
-		for (var i = 0; i < xh.length; i++)
-			xml += "\n<column><![CDATA[" + clean_html(xh[i].innerHTML) + "]]></column>";
-		dx = xh[0].offsetWidth;
+//		for (var i = 0; i < xh.length; i++)
+//			xml += "\n<column><![CDATA[" + clean_html(xh[i].innerHTML) + "]]></column>";
+//		dx = xh[0].offsetWidth;
 
 		if (xhs) {
 			var width = 0;
@@ -279,12 +284,20 @@
 
 				if (e_type == "event") {
 					xml += "<header><![CDATA[" + clean_html(evs[i].childNodes[1].innerHTML) + "]]></header>";
-					var text_color = colors ? get_style(evs[i].childNodes[2], "color") : "";
-					var bg_color = colors ? get_style(evs[i].childNodes[2], "backgroundColor") : "";
+//					var text_color = colors ? get_style(evs[i].childNodes[2], "color") : "";
+//					var bg_color = colors ? get_style(evs[i].childNodes[2], "backgroundColor") : "";
+					
+					var text_color = (evs[i].textColor?evs[i].textColor:"");
+					var bg_color = (evs[i].color?evs[i].color:"");
+					
 					xml += "<body backgroundColor='" + bg_color + "' color='" + text_color + "'><![CDATA[" + clean_html(evs[i].childNodes[2].innerHTML) + "]]></body>";
 				} else {
-					var text_color = colors ? get_style(evs[i], "color") : "";
-					var bg_color = colors ? get_style(evs[i], "backgroundColor") : "";
+//					var text_color = colors ? get_style(evs[i], "color") : "";
+//					var bg_color = colors ? get_style(evs[i], "backgroundColor") : "";
+
+					var text_color = get_style(evs[i], "color");
+					var bg_color = get_style(evs[i], "backgroundColor");
+					
 					xml += "<body backgroundColor='" + bg_color + "' color='" + text_color + "'><![CDATA[" + clean_html(evs[i].innerHTML) + "]]></body>";
 				}
 				xml += "</event>";

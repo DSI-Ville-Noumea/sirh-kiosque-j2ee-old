@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.dto;
 
+import java.io.Serializable;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -26,8 +28,13 @@ package nc.noumea.mairie.kiosque.dto;
 
 
 
-public class AgentWithServiceDto extends AgentDto {
+public class AgentWithServiceDto extends AgentDto implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2970815032611923526L;
+	
 	private String service;
 	private Integer idServiceADS;
 	private String statut;

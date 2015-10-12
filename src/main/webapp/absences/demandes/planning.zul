@@ -83,7 +83,6 @@
 		</groupbox>
 		
 		<div class="dhx_cal_today_button boutonLegend" onClick="@command('openLegende')">Légende</div>
-	
 		<div sclass="fond" height="auto">
 			<div id='div'></div>
 		</div>

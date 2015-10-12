@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
+import java.io.Serializable;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -25,8 +27,13 @@ package nc.noumea.mairie.kiosque.abs.dto;
  */
 
 
-public class RefGroupeAbsenceDto {
+public class RefGroupeAbsenceDto implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8143811354330199233L;
+	
 	private Integer idRefGroupeAbsence;
 	private String code;
 	private String libelle;
