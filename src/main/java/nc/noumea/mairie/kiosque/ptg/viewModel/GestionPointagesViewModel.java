@@ -263,12 +263,12 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	private void doChangeEtat(List<ConsultPointageDto> listePointages, EtatPointageEnum etatPointage) {
 		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
 		for (ConsultPointageDto ptg : listePointages) {
-			if (ptg.isApprobation()) {
+//			if (ptg.isApprobation()) {
 				PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
 				dto.setIdPointage(ptg.getIdPointage());
 				dto.setIdRefEtat(etatPointage.getCodeEtat());
 				listeChangeEtat.add(dto);
-			}
+//			}
 		}
 		sauvegardeEtatPointage(listeChangeEtat);
 	}
@@ -382,6 +382,13 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	@NotifyChange({ "listePointages" })
 	public void refuserPointage(@BindingParam("ref") ConsultPointageDto pointage) {
 		doChangeEtat(Arrays.asList(pointage), EtatPointageEnum.REFUSE);
+		filtrer();
+	}
+
+	@Command
+	@NotifyChange({ "listePointages" })
+	public void rejeterPointage(@BindingParam("ref") ConsultPointageDto pointage) {
+		doChangeEtat(Arrays.asList(pointage), EtatPointageEnum.REJETE);
 		filtrer();
 	}
 

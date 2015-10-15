@@ -201,12 +201,16 @@
 										tooltiptext="Refuser le pointage" sclass="ListAction delay"
 										visible="@bind(each.approbation , each.affichageBoutonRefuser)"
 										onClick="@command('refuserPointage',ref=each)" />
+									<image
+										tooltiptext="Rejeter le pointage" sclass="ListAction delay"
+										visible="@bind(each.approbation , each.affichageBoutonRejeter)"
+										onClick="@command('rejeterPointage',ref=each)" />
 										<!--Pour eviter du désordre dans les boutons on affiche qqchose de vide-->
 									<image width="25px"
-										visible="@bind(not each.approbation , not each.affichageBoutonRefuser)" />
+										visible="@bind(not each.approbation , not each.affichageBoutonRefuser and not each.affichageBoutonRejeter)" />
 									<image
 										tooltiptext="Re-mettre en saisie le pointage"
-										sclass="ListAction cancel" visible="@bind(each.approbation)"
+										sclass="ListAction cancel" visible="@bind(each.approbation and not each.affichageBoutonRejeter)"
 										onClick="@command('attentePointage',ref=each)" />
 								</hlayout>
 								<label
