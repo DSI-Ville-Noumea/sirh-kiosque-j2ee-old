@@ -64,11 +64,10 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 		} else {
 			setAfficheRecette(false);
 		}
-		
+
 		/* Pour les pointages */
-		setDroitsModulePointage(getDroitsPointage().isApprobation() || getDroitsPointage().isFiches()
-				|| getDroitsPointage().isGestionDroitsAcces() || getDroitsPointage().isSaisie()
-				|| getDroitsPointage().isVisualisation());
+		setDroitsModulePointage(getDroitsPointage() == null ? false : getDroitsPointage().isApprobation() || getDroitsPointage().isFiches() || getDroitsPointage().isGestionDroitsAcces()
+				|| getDroitsPointage().isSaisie() || getDroitsPointage().isVisualisation());
 	}
 
 	@Command
