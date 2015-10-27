@@ -119,6 +119,11 @@
 	<Parameter description="Hôte LDAP 2" name="HOST_LDAP2"
 		override="false" value="ldap://gberge:389/" />
 	<Parameter description="Hôte LDAP 3" name="HOST_LDAP3"
-		override="false" value="ldap://netone:389/" />
+		override="false" value="ldap://netone:389/" />		
+		
+
+	<!-- Pour l'affichage du module titre repas -->
+	<Environment name="AFFICHE_MODULE_TITRE_REPAS" type="java.lang.Boolean"
+	description="Affichage du menu des titres repas" value="false" override="false" />
 
 </Context>

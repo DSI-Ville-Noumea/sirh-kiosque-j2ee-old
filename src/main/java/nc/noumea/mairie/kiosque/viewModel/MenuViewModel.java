@@ -67,7 +67,7 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 
 		/* Pour les pointages */
 		setDroitsModulePointage(getDroitsPointage() == null ? false : getDroitsPointage().isApprobation() || getDroitsPointage().isFiches() || getDroitsPointage().isGestionDroitsAcces()
-				|| getDroitsPointage().isSaisie() || getDroitsPointage().isVisualisation());
+				|| getDroitsPointage().isSaisie() || getDroitsPointage().isVisualisation() || (getDroitsPointage().isTitreRepas() && environnementService.isAffichageModuleTitreRepas()));
 	}
 
 	@Command
@@ -127,5 +127,13 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 
 	public void setAfficheRecette(boolean afficheRecette) {
 		this.afficheRecette = afficheRecette;
+	}
+
+	public EnvironnementService getEnvironnementService() {
+		return environnementService;
+	}
+
+	public void setEnvironnementService(EnvironnementService environnementService) {
+		this.environnementService = environnementService;
 	}
 }

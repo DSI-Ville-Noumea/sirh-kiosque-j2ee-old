@@ -84,8 +84,13 @@
 		expected-type="java.lang.String" />
 	<jee:jndi-lookup id="sharepointHost" jndi-name="SHAREPOINT_HOST"
 		expected-type="java.lang.String" />
-	
-	<jee:jndi-lookup id="adsWsBaseUrl" jndi-name="ADS_WS_URL" expected-type="java.lang.String"/>
+
+	<jee:jndi-lookup id="adsWsBaseUrl" jndi-name="ADS_WS_URL"
+		expected-type="java.lang.String" />
+
+	<!-- Pour l'affichage du module titre repas -->
+	<jee:jndi-lookup id="affichageModuleTitreRepas"
+		jndi-name="AFFICHE_MODULE_TITRE_REPAS" expected-type="java.lang.Boolean" />
 
 
 </beans>

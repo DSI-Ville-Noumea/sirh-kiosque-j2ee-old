@@ -11,7 +11,8 @@
 				onClick="@command('changeEcran',page='/profil/profil',ecran=content)" />
 			<menu tooltiptext="Mon travail" sclass="travailMenu">
 				<menupopup>
-					<menuitem label="Mon travail" sclass="titreMenu" image="img/travail.png"/>
+					<menuitem label="Mon travail" sclass="titreMenu"
+						image="img/travail.png" />
 					<menuitem label="Ma fiche de poste"
 						onClick="@command('changeEcran',page='/travail/fichePoste',ecran=content)" />
 					<menuitem label="Mon équipe"
@@ -23,7 +24,8 @@
 			<menu tooltiptext="Ma campagne" sclass="eaeMenu"
 				visible="@bind(vm.droitsEae)">
 				<menupopup>
-					<menuitem label="Ma campagne" sclass="titreMenu"  image="img/eae.png"/>
+					<menuitem label="Ma campagne" sclass="titreMenu"
+						image="img/eae.png" />
 					<menuitem label="EAE à réaliser"
 						onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)" />
 					<menuitem label="Mon tableau de bord"
@@ -32,7 +34,8 @@
 			</menu>
 			<menu tooltiptext="Mes absences" sclass="absenceMenu">
 				<menupopup>
-					<menuitem label="Mes absences" sclass="titreMenu"   image="img/absence.png"/>
+					<menuitem label="Mes absences" sclass="titreMenu"
+						image="img/absence.png" />
 					<menuitem label="Mon solde"
 						onClick="@command('changeEcran',page='/absences/agent/soldeAgent',ecran=content)" />
 					<menuitem label="Mes demandes"
@@ -51,7 +54,11 @@
 			<menu tooltiptext="Mes pointages" sclass="pointageMenu"
 				visible="@bind(vm.droitsModulePointage)">
 				<menupopup>
-					<menuitem label="Mes pointages" sclass="titreMenu"  image="img/pointage.png"/>
+					<menuitem label="Mes pointages" sclass="titreMenu"
+						image="img/pointage.png" />
+					<menuitem label="Mes titres repas"
+						visible="@bind(vm.droitsPointage.titreRepas,vm.environnementService.affichageModuleTitreRepas)"
+						onClick="@command('changeEcran',page='/pointages/titreRepas/gestionTitreRepas',ecran=content)" />
 					<menuitem label="Droits d'accès"
 						visible="@bind(vm.droitsPointage.gestionDroitsAcces)"
 						onClick="@command('changeEcran',page='/pointages/droits/gestionDroitsAcces',ecran=content)" />
@@ -66,7 +73,9 @@
 						onClick="@command('changeEcran',page='/pointages/gestionPointages/gestionPointages',ecran=content)" />
 				</menupopup>
 			</menu>
-			<menuitem visible="@bind(vm.afficheRecette)" style="background:red !important;" tooltiptext="RECETTE" value="RECETTE" label="RECETTE" />
+			<menuitem visible="@bind(vm.afficheRecette)"
+				style="background:red !important;" tooltiptext="RECETTE"
+				value="RECETTE" label="RECETTE" />
 		</menubar>
 		<include id="includeStyleMenu" src="/css/menu.zul" />
 	</window>
