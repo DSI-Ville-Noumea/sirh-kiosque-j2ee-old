@@ -1,0 +1,102 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.viewModel.GestionTitreRepasViewModel')"
+		height="100%">
+		<style>.z-hlayout-inner { vertical-align: middle; }</style>
+		<div sclass="fond">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Pointages" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Edition des fiches de pointages" />
+			</vlayout>
+			<separator />
+			<separator />
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<hlayout>
+				<label value="@bind(vm.dateFiltre)" />
+				<datebox value="@bind(vm.dateLundi)" id="db"
+					maxlength="10" weekOfYear="true" format="dd/MM/yyyy" locale="fr"
+					onChange="@command('afficheListeFiche')" />
+				<space />
+				<label value="Service :" />
+				<combobox width="400px" readonly="true"
+					model="@bind(vm.listeServicesFiltre)"
+					selectedItem="@bind(vm.serviceFiltre)"
+					onSelect="@command('afficheListeFiche')">
+					<template name="model">
+						<comboitem label="@bind(each.label)" />
+					</template>
+				</combobox>
+			</hlayout>
+			<separator />
+			<div sclass="RHTitle2Line" />
+			<separator />
+			<vlayout height="100%">
+				<hlayout sclass="fondRecherche">
+					<div>
+						Affichage de
+						<combobox width="50px"
+							selectedItem="@bind(vm.tailleListe)" readonly="true">
+							<comboitem value="5" label="5" />
+							<comboitem value="10" label="10" />
+							<comboitem value="15" label="15" />
+							<comboitem value="20" label="20" />
+						</combobox>
+						fiches par page
+						<space />
+						Recherche instantanée :
+						<textbox value="@bind(vm.filter)"
+							onChange="@command('doSearch')" instant="true" />
+					</div>
+				</hlayout>
+				<separator />
+				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
+					model="@bind(vm.listeAgents)"
+					emptyMessage="Veuillez sélectionner une semaine à l'aide du calendrier et un service pour afficher les éditions des pointages"
+					id="listeAgent">
+					<custom-attributes
+						org.zkoss.zul.listbox.autoSort="true" />
+					<listhead>
+						<listheader label="Matricule"
+							sort="auto('idAgent')" />
+						<listheader label="Agent" sort="auto('nom')" />
+						<listheader>
+							<checkbox
+								visible="@bind(not empty vm.listeAgents)"
+								onClick="@command('checkAllImpressionFiche', checkbox=self)" />
+							<label value="A éditer"
+								style="font-weight: bold;" />
+						</listheader>
+					</listhead>
+
+					<template name="model">
+						<listitem>
+							<listcell
+								label="@bind(vm.nomatrAgent(each.idAgent))" />
+							<listcell
+								label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+							<listcell>
+								<hlayout>
+									<checkbox
+										checked="@bind(vm.checked(each.idAgent))"
+										onClick="@command('checkImpressionFiche',agent=each.idAgent, checkbox=self)" />
+								</hlayout>
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+			<separator />
+			<div>
+				<div align="left">
+					<button label="Editer"
+						visible="@bind(not empty vm.listeAgents)"
+						onClick="@command('imprimerFiches')" />
+				</div>
+			</div>
+		</div>
+	</window>
+</zk>
