@@ -39,6 +39,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
 
 public interface ISirhPtgWSConsumer {
 
@@ -74,8 +75,7 @@ public interface ISirhPtgWSConsumer {
 	byte[] imprimerFiches(Integer idAgent, Date dateLundi, List<String> listeIdAgentsToPrint);
 
 	/* GESTION POINTAGES */
-	List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS,
-			Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS);
+	List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS);
 
 	ReturnMessageDto changerEtatPointage(Integer idAgent, List<PointagesEtatChangeDto> listeChangeEtat);
 
@@ -87,5 +87,10 @@ public interface ISirhPtgWSConsumer {
 	List<MotifHeureSupDto> getListeMotifHsup();
 
 	ReturnMessageDto setFichePointageSaisie(Integer idAgent, FichePointageDtoKiosque fichePointageDto);
+
+	/* TITRE REPAS */
+	List<RefEtatPointageDto> getEtatTitreRepasKiosque();
+
+	List<TitreRepasDemandeDto> getListTitreRepas(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat);
 
 }

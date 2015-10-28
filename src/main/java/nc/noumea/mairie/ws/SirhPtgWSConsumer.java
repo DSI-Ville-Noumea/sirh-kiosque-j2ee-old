@@ -42,6 +42,7 @@ import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,12 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	private static final String ptgFichesPointagesUrl = "edition/listeFiches";
 	private static final String ptgPrintFichesPointagesUrl = "edition/downloadFichesPointage";
 
+	/* Titre repas */
+	private static final String ptgEtatTitreRepasKiosqueUrl = "titreRepas/getEtats";
+	private static final String ptgListeTitreRepasUrl = "titreRepas/listTitreRepas";
+	
+	
+
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 	@Override
@@ -106,8 +113,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(fichePointageDto);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(fichePointageDto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
@@ -152,8 +158,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
@@ -176,8 +181,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
+		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs").transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
@@ -210,8 +214,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		params.put("idAgent", idAgent.toString());
 		params.put("idOperateur", idOperateur.toString());
 
-		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
-				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
+		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs").transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		ReturnMessageDto dto = new ReturnMessageDto();
@@ -289,8 +292,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	}
 
 	@Override
-	public List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate,
-			Integer idServiceADS, Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS) {
+	public List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS) {
 
 		String url = String.format(sirhPtgWsBaseUrl + ptgListePointagesUrl);
 		HashMap<String, String> params = new HashMap<>();
@@ -358,6 +360,38 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		String url = String.format(sirhPtgWsBaseUrl + sirhPtgMotifHsup);
 		ClientResponse res = createAndFireGetRequest(new HashMap<String, String>(), url);
 		return readResponseAsList(MotifHeureSupDto.class, res, url);
+	}
+
+	@Override
+	public List<RefEtatPointageDto> getEtatTitreRepasKiosque() {
+		String url = String.format(sirhPtgWsBaseUrl + ptgEtatTitreRepasKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefEtatPointageDto.class, res, url);
+	}
+
+	@Override
+	public List<TitreRepasDemandeDto> getListTitreRepas(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat) {
+
+		String url = String.format(sirhPtgWsBaseUrl + ptgListeTitreRepasUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgentConnecte", idAgentConnecte.toString());
+		if (null != idServiceADS) {
+			params.put("idServiceADS", idServiceADS.toString());
+		}
+		if (fromDate != null)
+			params.put("from", sdf.format(fromDate));
+		if (toDate != null)
+			params.put("to", sdf.format(toDate));
+		if (idEtat != null)
+			params.put("etat", idEtat.toString());
+
+		if (idAgentRecherche != null)
+			params.put("idAgent", idAgentRecherche.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(TitreRepasDemandeDto.class, res, url);
 	}
 
 }
