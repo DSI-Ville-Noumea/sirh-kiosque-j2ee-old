@@ -91,6 +91,8 @@ public interface ISirhPtgWSConsumer {
 	/* TITRE REPAS */
 	List<RefEtatPointageDto> getEtatTitreRepasKiosque();
 
-	List<TitreRepasDemandeDto> getListTitreRepas(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat);
+	List<TitreRepasDemandeDto> getListTitreRepas(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat, Date dateMonth);
+
+	ReturnMessageDto setTitreRepas(Integer idAgentConnecte, List<TitreRepasDemandeDto> listTitreRepas);
 
 }

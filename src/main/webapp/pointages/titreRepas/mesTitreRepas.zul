@@ -8,11 +8,30 @@
 				<label style="font-size: 28px;color: #EE7203;"
 					value="Mes titres repas" />
 				<label style="font-size: 18px;color: #004f9f;"
-					value="Saisie de ma demande" />
+					value="Ma saisie" />
 			</vlayout>
 			<separator />
 			<separator />
-
+			<label sclass="name"
+				value="Info : Les demandes peuvent être saisies entre le 1er et le 10 du mois courant." />
+			<separator />
+			<hlayout>
+				<label value="@bind(vm.phraseTitreRepas)" />
+				<radiogroup id="rg1"
+					selectedItem="@bind(vm.checkTitreRepas)">
+					<radio label="oui" value="oui" />
+					<radio label="non" value="non" />
+				</radiogroup>
+				<hlayout width="40px" sclass="fondRecherche">
+					<image tooltiptext="Enregistrer"
+						style="vertical-align: text-bottom; display: inline-block;margin-top: 5px;"
+						sclass="saveAction" onClick="@command('engistreTitreRepas')" />
+				</hlayout>
+			</hlayout>
+			<separator />
+			<separator />
+			<separator />
+			<separator />
 			<vlayout>
 				<label style="font-size: 18px;color: #004f9f;"
 					value="Mon historique" />
@@ -91,7 +110,7 @@
 									src="/absences/agent/histoTitreRepas.zul"
 									titreRepas="${titreRepas}" />
 							</detail>
-							<label value="@bind(each.dateMonth)"  />
+							<label value="@bind(each.dateMonth)" />
 							<label value="@bind(each.commentaire)"
 								visible="@bind(not empty each.commentaire)" />
 							<label
@@ -107,5 +126,7 @@
 
 
 		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/pointages/titreRepas.zul" />
 	</window>
 </zk>

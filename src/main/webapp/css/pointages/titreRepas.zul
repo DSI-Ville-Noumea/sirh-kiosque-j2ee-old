@@ -1,0 +1,15 @@
+<style>
+<![CDATA[
+     .name{color: #3B62A7;}
+
+ 	.saveAction { background-image: url("img/Sprite.png");
+ 	background-position: -482px -164px; background-repeat: no-repeat;
+ 	cursor: pointer; height: 16px; margin: 0 0 0 0; vertical-align:
+ 	middle; width: 16px; }
+
+	]]>
+	
+	
+	
+
+</style>

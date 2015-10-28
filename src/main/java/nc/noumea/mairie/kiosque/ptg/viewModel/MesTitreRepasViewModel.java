@@ -24,21 +24,28 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
  * #L%
  */
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
 import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
+import org.joda.time.DateTime;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 
@@ -54,6 +61,10 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 	private ISirhPtgWSConsumer ptgWsConsumer;
 
 	private List<TitreRepasDemandeDto> listeTitreRepas;
+	private TitreRepasDemandeDto titreRepasCourant;
+
+	private String checkTitreRepas;
+
 	/* POUR LES FILTRES */
 	private Date dateDebutFiltre;
 	private Date dateFinFiltre;
@@ -70,6 +81,46 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		List<RefEtatPointageDto> filtreEtat = ptgWsConsumer.getEtatTitreRepasKiosque();
 		setListeEtatTitreRepasFiltre(filtreEtat);
 		setTailleListe("5");
+		// on recupere le titre repas deja saisi
+		List<TitreRepasDemandeDto> titreRepasCourant = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, null, getCurrentUser().getAgent().getIdAgent(), null,
+				new Date());
+		if (titreRepasCourant == null || titreRepasCourant.size() != 1) {
+			setTitreRepasCourant(null);
+		} else {
+			setTitreRepasCourant(titreRepasCourant.get(0));
+		}
+		setCheckTitreRepas(getTitreRepasCourant() == null ? "non" : getTitreRepasCourant().getCommande() ? "oui" : "non");
+	}
+
+	@Command
+	@NotifyChange({ "*" })
+	public void engistreTitreRepas() throws ParseException {
+		if (getTitreRepasCourant() == null) {
+			setTitreRepasCourant(new TitreRepasDemandeDto());
+		}
+		getTitreRepasCourant().setIdAgent(getCurrentUser().getAgent().getIdAgent());
+		// si oui
+		getTitreRepasCourant().setCommande(getCheckTitreRepas().equals("oui") ? true : false);
+		getTitreRepasCourant().setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+
+		ReturnMessageDto result = ptgWsConsumer.setTitreRepas(getCurrentUser().getAgent().getIdAgent(), Arrays.asList(getTitreRepasCourant()));
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		
+		for (String error : result.getErrors()) {
+			ValidationMessage vm = new ValidationMessage(error);
+			listErreur.add(vm);
+		}
+		for (String info : result.getInfos()) {
+			ValidationMessage vm = new ValidationMessage(info);
+			listInfo.add(vm);
+		}
+		map.put("errors", listErreur);
+		map.put("infos", listInfo);
+		Executions.createComponents("/messages/returnMessage.zul", null, map);
+
 	}
 
 	@Command
@@ -90,14 +141,59 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		}
 	}
 
+	public String getPhraseTitreRepas() {
+		return "Voulez vous commander les tickets repas pour le mois " + getMonth(new DateTime().getMonthOfYear()) + " : ";
+	}
+
+	private String getMonth(int monthOfYear) {
+		String monthString = null;
+		switch (monthOfYear) {
+			case 1:
+				monthString = "de janvier";
+				break;
+			case 2:
+				monthString = "de février";
+				break;
+			case 3:
+				monthString = "de mars";
+				break;
+			case 4:
+				monthString = "d'avril";
+				break;
+			case 5:
+				monthString = "de mai";
+				break;
+			case 6:
+				monthString = "de juin";
+				break;
+			case 7:
+				monthString = "de juillet";
+				break;
+			case 8:
+				monthString = "d'aôut";
+				break;
+			case 9:
+				monthString = "de septembre";
+				break;
+			case 10:
+				monthString = "d'octobre";
+				break;
+			case 11:
+				monthString = "de novembre";
+				break;
+			case 12:
+				monthString = "de décembre";
+				break;
+		}
+		return monthString;
+	}
+
 	@Command
 	@NotifyChange({ "*" })
 	public void filtrer() {
-
-		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
-				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat());
+		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), null, getCurrentUser().getAgent()
+				.getIdAgent(), getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
 		setListeTitreRepas(result);
-
 	}
 
 	@Command
@@ -177,5 +273,21 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 
 	public void setEtatTitreRepasFiltre(RefEtatPointageDto etatTitreRepasFiltre) {
 		this.etatTitreRepasFiltre = etatTitreRepasFiltre;
+	}
+
+	public String getCheckTitreRepas() {
+		return checkTitreRepas;
+	}
+
+	public void setCheckTitreRepas(String checkTitreRepas) {
+		this.checkTitreRepas = checkTitreRepas;
+	}
+
+	public TitreRepasDemandeDto getTitreRepasCourant() {
+		return titreRepasCourant;
+	}
+
+	public void setTitreRepasCourant(TitreRepasDemandeDto titreRepasCourant) {
+		this.titreRepasCourant = titreRepasCourant;
 	}
 }

@@ -88,8 +88,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	/* Titre repas */
 	private static final String ptgEtatTitreRepasKiosqueUrl = "titreRepas/getEtats";
 	private static final String ptgListeTitreRepasUrl = "titreRepas/listTitreRepas";
-	
-	
+	private static final String ptgSaveTitreRepasUrl = "titreRepas/enregistreListTitreDemande";
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
@@ -372,7 +371,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	}
 
 	@Override
-	public List<TitreRepasDemandeDto> getListTitreRepas(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat) {
+	public List<TitreRepasDemandeDto> getListTitreRepas(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat, Date dateMonth) {
 
 		String url = String.format(sirhPtgWsBaseUrl + ptgListeTitreRepasUrl);
 		HashMap<String, String> params = new HashMap<>();
@@ -386,12 +385,26 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 			params.put("to", sdf.format(toDate));
 		if (idEtat != null)
 			params.put("etat", idEtat.toString());
-
+		if (dateMonth != null)
+			params.put("dateMonth", sdf.format(dateMonth));
 		if (idAgentRecherche != null)
 			params.put("idAgent", idAgentRecherche.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(TitreRepasDemandeDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto setTitreRepas(Integer idAgentConnecte, List<TitreRepasDemandeDto> listTitreRepas) {
+		String url = String.format(sirhPtgWsBaseUrl + ptgSaveTitreRepasUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgentConnecte", idAgentConnecte.toString());
+		params.put("isFromSIRH", "false");
+
+		String json = new JSONSerializer().exclude("*.class").deepSerialize(listTitreRepas);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
 	}
 
 }

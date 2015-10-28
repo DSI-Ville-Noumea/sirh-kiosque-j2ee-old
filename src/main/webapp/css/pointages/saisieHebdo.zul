@@ -1,9 +1,5 @@
 <style>
-
-
-
-	
-	<![CDATA[
+<![CDATA[
 
 	.aidePointage{ background-image: url("img/Sprite.png"); cursor:
 	pointer; float: right; height: 16px; margin-top: 5px; width: 16px;
