@@ -3,6 +3,12 @@ package nc.noumea.mairie.kiosque.ptg.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 public class EtatTitreRepasDemandeDto implements Serializable {
 
 	/**
@@ -11,6 +17,8 @@ public class EtatTitreRepasDemandeDto implements Serializable {
 	private static final long serialVersionUID = -9026012609607050164L;
 
 	private Integer idTrEtatDemande;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateMaj;
 	private Integer etat;
 	Integer idAgent;

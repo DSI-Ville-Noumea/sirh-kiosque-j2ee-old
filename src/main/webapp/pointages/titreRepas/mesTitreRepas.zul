@@ -104,21 +104,22 @@
 					<template name="model">
 						<row>
 							<custom-attributes titreRepas="${each}" />
-							<detail open="false" fulfill="onOpen"
-								visible="@bind(each.affichageBoutonHistorique)">
+							<detail open="false" fulfill="onOpen">
 								<include
-									src="/absences/agent/histoTitreRepas.zul"
+									src="/pointages/titreRepas/histoTitreRepas.zul"
 									titreRepas="${titreRepas}" />
 							</detail>
-							<label value="@bind(each.dateMonth)" />
+							<label
+								value="@bind(each.dateMonth) @converter('formatedDate',format='MM/yyyy')" />
 							<label value="@bind(each.commentaire)"
 								visible="@bind(not empty each.commentaire)" />
 							<label
 								value="@bind(vm.etatToString(each.idRefEtat))" />
 							<label
-								value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
-							<label
-								value="@bind(vm.concatAgentNomatr(each.operateur))" />
+								value="@bind(vm.dateEtatToString(each))" />
+							<!-- 							<label -->
+							<!-- 								value="@bind(vm.concatAgentNomatr(each.operateur))" /> -->
+							<label value="en attente" />
 						</row>
 					</template>
 				</grid>

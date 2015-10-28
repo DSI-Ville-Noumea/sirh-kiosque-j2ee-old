@@ -7,6 +7,21 @@
  	cursor: pointer; height: 16px; margin: 0 0 0 0; vertical-align:
  	middle; width: 16px; }
 
+	.contentHeader { font-family: Arial; font-size: 8pt; font-weight:
+	bold; }
+
+	.z-column-content, .z-row-content, .z-group-content,
+	.z-groupfoot-content, .z-footer-content { padding: 1px 1px; }
+
+	.z-row .z-row-inner .z-row-content .z-label{font-size:8pt;}
+
+	.z-row{padding: 0px 0px;}
+
+	.z-row .z-detail-outer {padding: 0px 0px; vertical-align: middle;}
+
+	.z-detail {height: 20px;} 
+
+
 	]]>
 	
 	

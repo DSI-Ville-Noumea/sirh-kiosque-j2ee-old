@@ -28,13 +28,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
+import nc.noumea.mairie.kiosque.ptg.dto.EtatTitreRepasDemandeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -82,8 +85,16 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		setListeEtatTitreRepasFiltre(filtreEtat);
 		setTailleListe("5");
 		// on recupere le titre repas deja saisi
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
+		cal.setTime(new Date());
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+
 		List<TitreRepasDemandeDto> titreRepasCourant = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, null, getCurrentUser().getAgent().getIdAgent(), null,
-				new Date());
+				cal.getTime());
 		if (titreRepasCourant == null || titreRepasCourant.size() != 1) {
 			setTitreRepasCourant(null);
 		} else {
@@ -99,7 +110,6 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 			setTitreRepasCourant(new TitreRepasDemandeDto());
 		}
 		getTitreRepasCourant().setIdAgent(getCurrentUser().getAgent().getIdAgent());
-		// si oui
 		getTitreRepasCourant().setCommande(getCheckTitreRepas().equals("oui") ? true : false);
 		getTitreRepasCourant().setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 
@@ -108,7 +118,7 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
-		
+
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -188,6 +198,10 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		return monthString;
 	}
 
+	public List<EtatTitreRepasDemandeDto> getHistoriqueTitreRepas(TitreRepasDemandeDto dto) {
+		return dto.getListEtats();
+	}
+
 	@Command
 	@NotifyChange({ "*" })
 	public void filtrer() {
@@ -204,10 +218,16 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		setEtatTitreRepasFiltre(null);
 	}
 
-	public String dateSaisieToString(Date dateSaisie) {
+	public String dateSaisieToString(Date date) {
 		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
-		return sdfJour.format(dateSaisie) + " à " + sdfHeure.format(dateSaisie);
+		return sdfJour.format(date) + " à " + sdfHeure.format(date);
+	}
+
+	public String dateEtatToString(TitreRepasDemandeDto titreRepas) {
+		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
+		return sdfJour.format(titreRepas.getListEtats().get(0).getDateMaj()) + " à " + sdfHeure.format(titreRepas.getListEtats().get(0).getDateMaj());
 	}
 
 	public String etatToString(Integer idRefEtat) {
