@@ -95,4 +95,6 @@ public interface ISirhPtgWSConsumer {
 
 	ReturnMessageDto setTitreRepas(Integer idAgentConnecte, List<TitreRepasDemandeDto> listTitreRepas);
 
+	List<TitreRepasDemandeDto> getHistoriqueTitreRepas(Integer idTrDemande);
+
 }

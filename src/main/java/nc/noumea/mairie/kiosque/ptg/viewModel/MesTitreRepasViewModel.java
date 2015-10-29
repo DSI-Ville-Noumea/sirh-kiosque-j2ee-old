@@ -35,9 +35,9 @@ import java.util.List;
 import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
-import nc.noumea.mairie.kiosque.ptg.dto.EtatTitreRepasDemandeDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -101,6 +101,10 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 			setTitreRepasCourant(titreRepasCourant.get(0));
 		}
 		setCheckTitreRepas(getTitreRepasCourant() == null ? "non" : getTitreRepasCourant().getCommande() ? "oui" : "non");
+		// on charge les demandes sur 12 derniers mois
+		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), null, getCurrentUser().getAgent()
+				.getIdAgent(), getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+		setListeTitreRepas(result);
 	}
 
 	@Command
@@ -109,7 +113,8 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		if (getTitreRepasCourant() == null) {
 			setTitreRepasCourant(new TitreRepasDemandeDto());
 		}
-		getTitreRepasCourant().setIdAgent(getCurrentUser().getAgent().getIdAgent());
+		AgentWithServiceDto ag = new AgentWithServiceDto(getCurrentUser().getAgent());
+		getTitreRepasCourant().setAgent(ag);
 		getTitreRepasCourant().setCommande(getCheckTitreRepas().equals("oui") ? true : false);
 		getTitreRepasCourant().setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 
@@ -130,6 +135,11 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		map.put("errors", listErreur);
 		map.put("infos", listInfo);
 		Executions.createComponents("/messages/returnMessage.zul", null, map);
+		// on recharge la liste des demandes
+		// on charge les demandes sur 12 derniers mois
+		List<TitreRepasDemandeDto> resultList = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), null, getCurrentUser().getAgent()
+				.getIdAgent(), getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+		setListeTitreRepas(resultList);
 
 	}
 
@@ -198,8 +208,9 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		return monthString;
 	}
 
-	public List<EtatTitreRepasDemandeDto> getHistoriqueTitreRepas(TitreRepasDemandeDto dto) {
-		return dto.getListEtats();
+	public List<TitreRepasDemandeDto> getHistoriqueTitreRepas(TitreRepasDemandeDto dto) {
+		List<TitreRepasDemandeDto> result = ptgWsConsumer.getHistoriqueTitreRepas(dto.getIdTrDemande());
+		return result;
 	}
 
 	@Command
@@ -224,19 +235,16 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		return sdfJour.format(date) + " à " + sdfHeure.format(date);
 	}
 
-	public String dateEtatToString(TitreRepasDemandeDto titreRepas) {
-		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
-		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
-		return sdfJour.format(titreRepas.getListEtats().get(0).getDateMaj()) + " à " + sdfHeure.format(titreRepas.getListEtats().get(0).getDateMaj());
-	}
-
 	public String etatToString(Integer idRefEtat) {
 		return EtatPointageEnum.getEtatPointageEnum(idRefEtat).getLibEtat();
 	}
 
+	public String booleanToString(boolean commande) {
+		return commande ? "oui" : "non";
+	}
+
 	public String concatAgentNomatr(AgentDto ag) {
-		String nomatr = ag.getIdAgent().toString().substring(3, ag.getIdAgent().toString().length());
-		return ag.getNom() + " " + ag.getPrenom() + " (" + nomatr + ")";
+		return ag.getNom() + " " + ag.getPrenom();
 	}
 
 	public Date getDateDebutFiltre() {

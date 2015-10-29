@@ -1,36 +1,31 @@
 package nc.noumea.mairie.kiosque.ptg.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
 import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-public class TitreRepasDemandeDto implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1727622068229921626L;
+public class TitreRepasDemandeDto {
 
 	private Integer idTrDemande;
-	private Integer idAgent;
+	private AgentWithServiceDto agent;
+	private Integer idRefEtat;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date dateSaisie;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateMonth;
 	private Boolean commande;
 	private String commentaire;
-	private Integer idRefEtat;
-
-	private List<EtatTitreRepasDemandeDto> listEtats;
+	private AgentWithServiceDto operateur;
 
 	public TitreRepasDemandeDto() {
-		listEtats = new ArrayList<EtatTitreRepasDemandeDto>();
+		super();
 	}
 
 	public Integer getIdTrDemande() {
@@ -41,12 +36,28 @@ public class TitreRepasDemandeDto implements Serializable {
 		this.idTrDemande = idTrDemande;
 	}
 
-	public Integer getIdAgent() {
-		return idAgent;
+	public AgentWithServiceDto getAgent() {
+		return agent;
 	}
 
-	public void setIdAgent(Integer idAgent) {
-		this.idAgent = idAgent;
+	public void setAgent(AgentWithServiceDto agent) {
+		this.agent = agent;
+	}
+
+	public Integer getIdRefEtat() {
+		return idRefEtat;
+	}
+
+	public void setIdRefEtat(Integer idRefEtat) {
+		this.idRefEtat = idRefEtat;
+	}
+
+	public Date getDateSaisie() {
+		return dateSaisie;
+	}
+
+	public void setDateSaisie(Date dateSaisie) {
+		this.dateSaisie = dateSaisie;
 	}
 
 	public Date getDateMonth() {
@@ -73,20 +84,12 @@ public class TitreRepasDemandeDto implements Serializable {
 		this.commentaire = commentaire;
 	}
 
-	public Integer getIdRefEtat() {
-		return idRefEtat;
+	public AgentWithServiceDto getOperateur() {
+		return operateur;
 	}
 
-	public void setIdRefEtat(Integer idRefEtat) {
-		this.idRefEtat = idRefEtat;
-	}
-
-	public List<EtatTitreRepasDemandeDto> getListEtats() {
-		return listEtats;
-	}
-
-	public void setListEtats(List<EtatTitreRepasDemandeDto> listEtats) {
-		this.listEtats = listEtats;
+	public void setOperateur(AgentWithServiceDto operateur) {
+		this.operateur = operateur;
 	}
 
 }

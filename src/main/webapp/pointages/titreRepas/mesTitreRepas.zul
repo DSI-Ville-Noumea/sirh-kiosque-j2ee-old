@@ -37,7 +37,7 @@
 					value="Mon historique" />
 			</vlayout>
 			<separator />
-			<groupbox width="702px">
+			<groupbox width="782px">
 				<caption label="Filtres de recherche" />
 				<vlayout>
 					<hlayout>
@@ -88,11 +88,13 @@
 				</hlayout>
 				<separator />
 				<grid model="@bind(vm.listeTitreRepas)" mold="paging"
-					width="702px" pageSize="@bind(vm.tailleListe)"
+					width="782px" pageSize="@bind(vm.tailleListe)"
 					id="listeTitreRepasId" emptyMessage="Aucun élément">
 					<columns>
 						<column width="30px" sort="none" />
 						<column label="Mois" align="left" width="100px" />
+						<column width="80px" label="Commandé"
+							sort="none" />
 						<column label="Commentaires" sort="none"
 							width="250px" />
 						<column width="80px" label="Etat" sort="none" />
@@ -111,15 +113,15 @@
 							</detail>
 							<label
 								value="@bind(each.dateMonth) @converter('formatedDate',format='MM/yyyy')" />
+							<label value="@bind(vm.booleanToString(each.commande))" />
 							<label value="@bind(each.commentaire)"
 								visible="@bind(not empty each.commentaire)" />
 							<label
 								value="@bind(vm.etatToString(each.idRefEtat))" />
 							<label
-								value="@bind(vm.dateEtatToString(each))" />
-							<!-- 							<label -->
-							<!-- 								value="@bind(vm.concatAgentNomatr(each.operateur))" /> -->
-							<label value="en attente" />
+								value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
+							<label
+								value="@bind(vm.concatAgentNomatr(each.operateur))" />
 						</row>
 					</template>
 				</grid>

@@ -89,6 +89,7 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	private static final String ptgEtatTitreRepasKiosqueUrl = "titreRepas/getEtats";
 	private static final String ptgListeTitreRepasUrl = "titreRepas/listTitreRepas";
 	private static final String ptgSaveTitreRepasUrl = "titreRepas/enregistreListTitreDemande";
+	private static final String ptgHistoriqueTitreRepasUrl = "titreRepas/historique";
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
@@ -401,10 +402,20 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 		params.put("idAgentConnecte", idAgentConnecte.toString());
 		params.put("isFromSIRH", "false");
 
-		String json = new JSONSerializer().exclude("*.class").deepSerialize(listTitreRepas);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(listTitreRepas);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public List<TitreRepasDemandeDto> getHistoriqueTitreRepas(Integer idTrDemande) {
+		String url = String.format(sirhPtgWsBaseUrl + ptgHistoriqueTitreRepasUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idTrDemande", idTrDemande.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(TitreRepasDemandeDto.class, res, url);
 	}
 
 }

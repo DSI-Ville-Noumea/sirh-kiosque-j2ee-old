@@ -26,15 +26,13 @@ import java.io.Serializable;
  * #L%
  */
 
-
-
 public class AgentWithServiceDto extends AgentDto implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2970815032611923526L;
-	
+
 	private String service;
 	private Integer idServiceADS;
 	private String statut;
@@ -49,9 +47,14 @@ public class AgentWithServiceDto extends AgentDto implements Serializable {
 		this.idServiceADS = idServiceADS;
 		this.service = service;
 	}
-	
+
 	public AgentWithServiceDto() {
-		
+
+	}
+
+	public AgentWithServiceDto(AgentGeneriqueDto agent) {
+		super();
+		this.setIdAgent(agent.getIdAgent());
 	}
 
 	public String getService() {
@@ -93,5 +96,5 @@ public class AgentWithServiceDto extends AgentDto implements Serializable {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	
+
 }

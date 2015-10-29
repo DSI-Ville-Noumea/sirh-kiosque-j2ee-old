@@ -2,28 +2,27 @@
 	<grid
 		style="margin-left: 98px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
 		<columns visible="false">
+			<column label="Commandé" width="80px" sort="none" />
 			<column label="Commentaires" sort="none" width="250px" />
 			<column label="Etat" width="80px" sort="none" />
-			<column />
 			<column label="Date de saisie" sort="auto('dateSaisie')"
 				width="100px" align="center" />
 			<column label="Opérateur" sort="auto('operateur.nom')"
 				width="140px" />
 		</columns>
 		<rows>
-			<zk forEach="${vm.getHistoriqueTitreRepas(arg.titreRepas)}">
+			<zk
+				forEach="${vm.getHistoriqueTitreRepas(arg.titreRepas)}">
 				<row
 					style="background-color:#ee7203 !important;background:#ee7203 !important;">
 
-					<label value="" />
-					<label value="${vm.etatToString(each.etat)}" />
-					<div visible="false"></div>
+					<label value="${vm.booleanToString(each.commande)}" />
+					<label value="${each.commentaire}" />
+					<label value="${vm.etatToString(each.idRefEtat)}" />
 					<label
-						value="${vm.dateSaisieToString(each.dateMaj)}" />
-<!-- 					<label -->
-<!-- 						value="${vm.concatAgentNomatr(each.operateur)}" /> -->
+						value="${vm.dateSaisieToString(each.dateSaisie)}" />
 					<label
-						value="en attente" />
+						value="${vm.concatAgentNomatr(each.operateur)}" />
 
 				</row>
 			</zk>
