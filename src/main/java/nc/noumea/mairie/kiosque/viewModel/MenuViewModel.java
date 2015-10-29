@@ -70,6 +70,10 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 				|| getDroitsPointage().isSaisie() || getDroitsPointage().isVisualisation() || (getDroitsPointage().isTitreRepas() && environnementService.isAffichageModuleTitreRepas()));
 	}
 
+	public boolean ouvreGestionTitreRepas() {
+		return (getDroitsPointage().isApprobation() || getDroitsPointage().isVisualisation()) && environnementService.isAffichageModuleTitreRepas();
+	}
+
 	@Command
 	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
 		div.getChildren().clear();

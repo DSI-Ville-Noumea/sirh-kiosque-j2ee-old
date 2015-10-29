@@ -60,7 +60,7 @@
 						visible="@bind(vm.droitsPointage.titreRepas,vm.environnementService.affichageModuleTitreRepas)"
 						onClick="@command('changeEcran',page='/pointages/titreRepas/mesTitreRepas',ecran=content)" />
 					<menuitem label="Gestion des titres repas"
-						visible="@bind(vm.droitsPointage.approbation ||vm.droitsPointage.visualisation ,vm.environnementService.affichageModuleTitreRepas)"
+						visible="@bind(vm.ouvreGestionTitreRepas())"						
 						onClick="@command('changeEcran',page='/pointages/titreRepas/gestionTitreRepas',ecran=content)" />
 					<menuitem label="Droits d'accès"
 						visible="@bind(vm.droitsPointage.gestionDroitsAcces)"
