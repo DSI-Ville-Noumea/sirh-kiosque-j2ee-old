@@ -131,9 +131,6 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	public String concatAgentNomatr(AgentDto ag) {
-		if (ag == null || ag.getIdAgent() == null) {
-			return "erreur";
-		}
 		String nomatr = ag.getIdAgent().toString().substring(3, ag.getIdAgent().toString().length());
 		return ag.getNom() + " " + ag.getPrenom() + " (" + nomatr + ")";
 	}
