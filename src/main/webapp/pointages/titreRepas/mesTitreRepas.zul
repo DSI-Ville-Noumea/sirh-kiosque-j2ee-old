@@ -121,7 +121,7 @@
 							<label
 								value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
 							<label
-								value="@bind(vm.concatAgentNomatr(each.operateur))" />
+								value="@bind(vm.concatAgent(each.operateur))" />
 						</row>
 					</template>
 				</grid>

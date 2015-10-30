@@ -238,7 +238,7 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		return commande ? "oui" : "non";
 	}
 
-	public String concatAgentNomatr(AgentDto ag) {
+	public String concatAgent(AgentDto ag) {
 		return ag.getNom() + " " + ag.getPrenom();
 	}
 

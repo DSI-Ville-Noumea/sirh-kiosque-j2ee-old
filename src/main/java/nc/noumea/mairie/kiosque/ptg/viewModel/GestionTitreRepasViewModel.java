@@ -24,12 +24,14 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
  * #L%
  */
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
 import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
@@ -93,11 +95,48 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "*" })
+	public void filtrer() {
+		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), getServiceFiltre() == null ? null
+				: getServiceFiltre().getIdEntite(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre()
+				.getIdRefEtat(), null);
+		setListeTitreRepas(result);
+	}
+
+	@Command
+	@NotifyChange({ "dateDebutFiltre", "serviceFiltre", "dateFinFiltre", "agentFiltre", "etatTitreRepasFiltre" })
+	public void viderFiltre() {
+		setDateDebutFiltre(null);
+		setDateFinFiltre(null);
+		setServiceFiltre(null);
+		setAgentFiltre(null);
+		setEtatTitreRepasFiltre(null);
+	}
+
+	@Command
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void afficheListeAgent() {
 		// on charge les agents pour les filtres
 		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(getCurrentUser().getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
+	}
+
+	public String concatAgent(String nom, String prenom) {
+		return nom + " " + prenom;
+	}
+
+	public String dateSaisieToString(Date date) {
+		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");
+		return sdfJour.format(date) + " à " + sdfHeure.format(date);
+	}
+
+	public String etatToString(Integer idRefEtat) {
+		return EtatPointageEnum.getEtatPointageEnum(idRefEtat).getLibEtat();
+	}
+
+	public String booleanToString(boolean commande) {
+		return commande ? "oui" : "non";
 	}
 
 	@Command

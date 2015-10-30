@@ -49,8 +49,7 @@
 									</combobox>
 								</hlayout>
 								<hlayout>
-									<label style="font-weight: bold;"
-										value="Service * :" />
+									<label value="Service :" />
 									<combobox width="400px"
 										readonly="true" model="@bind(vm.listeServicesFiltre)"
 										selectedItem="@bind(vm.serviceFiltre)"
@@ -143,7 +142,7 @@
 										<label
 											value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
 										<label
-											value="@bind(vm.concatAgentNomatr(each.operateur))" />
+											value="@bind(vm.concatAgent(each.operateur))" />
 									</row>
 								</template>
 							</grid>
