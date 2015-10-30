@@ -130,6 +130,11 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 		return ag.getNom() + " " + ag.getPrenom();
 	}
 
+	public String concatAgentNomatr(AgentDto ag) {
+		String nomatr = ag.getIdAgent().toString().substring(3, ag.getIdAgent().toString().length());
+		return ag.getNom() + " " + ag.getPrenom() + " (" + nomatr + ")";
+	}
+
 	public String dateSaisieToString(Date date) {
 		SimpleDateFormat sdfJour = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat sdfHeure = new SimpleDateFormat("HH:mm");

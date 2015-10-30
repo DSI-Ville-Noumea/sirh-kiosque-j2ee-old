@@ -87,8 +87,45 @@
 					</div>
 				</hlayout>
 				<separator />
-				<include
-					src="/pointages/titreRepas/tableauTitreRepas.zul" />
+				<grid model="@bind(vm.listeTitreRepas)" mold="paging"
+					width="782px" pageSize="@bind(vm.tailleListe)"
+					id="listeTitreRepasId" emptyMessage="Aucun élément">
+					<columns>
+						<column width="30px" sort="none" />
+						<column label="Mois" align="left" width="100px" />
+						<column width="80px" label="Commandé"
+							sort="none" />
+						<column label="Commentaires" sort="none"
+							width="250px" />
+						<column width="80px" label="Etat" sort="none" />
+						<column align="center" label="Date de saisie"
+							width="100px" sort="auto('dateSaisie')" />
+						<column label="Opérateur" width="140px"
+							sort="auto('operateur.nom')" />
+					</columns>
+					<template name="model">
+						<row>
+							<custom-attributes titreRepas="${each}" />
+							<detail open="false" fulfill="onOpen">
+								<include
+									src="/pointages/titreRepas/histoTitreRepas.zul"
+									titreRepas="${titreRepas}" />
+							</detail>
+							<label
+								value="@bind(each.dateMonth) @converter('formatedDate',format='MM/yyyy')" />
+							<label
+								value="@bind(vm.booleanToString(each.commande))" />
+							<label value="@bind(each.commentaire)"
+								visible="@bind(not empty each.commentaire)" />
+							<label
+								value="@bind(vm.etatToString(each.idRefEtat))" />
+							<label
+								value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
+							<label
+								value="@bind(vm.concatAgent(each.operateur))" />
+						</row>
+					</template>
+				</grid>
 			</vlayout>
 
 
