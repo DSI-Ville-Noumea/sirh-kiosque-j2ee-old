@@ -65,7 +65,7 @@
 										selectedItem="@bind(vm.agentFiltre)">
 										<template name="model">
 											<comboitem
-												label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+												label="@bind(vm.concatAgent(each))" />
 										</template>
 									</combobox>
 								</hlayout>
@@ -151,5 +151,7 @@
 				</tabpanels>
 			</tabbox>
 		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/pointages/titreRepas.zul" />
 	</window>
 </zk>

@@ -121,8 +121,13 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 		setListeAgentsFiltre(filtreAgent);
 	}
 
-	public String concatAgent(String nom, String prenom) {
-		return nom + " " + prenom;
+	public List<TitreRepasDemandeDto> getHistoriqueTitreRepas(TitreRepasDemandeDto dto) {
+		List<TitreRepasDemandeDto> result = ptgWsConsumer.getHistoriqueTitreRepas(dto.getIdTrDemande());
+		return result;
+	}
+
+	public String concatAgent(AgentDto ag) {
+		return ag.getNom() + " " + ag.getPrenom();
 	}
 
 	public String dateSaisieToString(Date date) {
