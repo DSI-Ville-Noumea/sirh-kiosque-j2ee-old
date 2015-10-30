@@ -22,7 +22,7 @@
 					<label
 						value="${vm.dateSaisieToString(each.dateSaisie)}" />
 					<label
-						value="${vm.concatAgentNomatr(each.operateur)}" />
+						value="${vm.concatAgent(each.operateur)}" />
 
 				</row>
 			</zk>
