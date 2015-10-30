@@ -3,7 +3,8 @@
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.viewModel.GestionTitreRepasViewModel')"
 		height="100%">
 		<style>.z-hlayout-inner { vertical-align: middle; }</style>
-		<div sclass="fond"><vlayout>
+		<div sclass="fond">
+			<vlayout>
 				<label style="font-size: 28px;color: #EE7203;"
 					value="Pointages" />
 				<label style="font-size: 18px;color: #004f9f;"
@@ -16,13 +17,137 @@
 					<tab id="SAISIE_TR" label="Saisie des titres repas"
 						onClick="@command('changeVue',tab = NON_PRISES)">
 					</tab>
-					<tab id="VISU_TR" label="Visualisation des titres repas"
+					<tab id="VISU_TR"
+						label="Visualisation des titres repas"
 						onClick="@command('changeVue',tab = EN_COURS)" />
 				</tabs>
 				<tabpanels>
+					<tabpanel></tabpanel>
 					<tabpanel>
-					</tabpanel>
-					<tabpanel>
+						<groupbox width="782px">
+							<caption label="Filtres de recherche" />
+							<vlayout>
+								<hlayout>
+									<label value="Date de début : " />
+									<datebox cols="14"
+										format="dd/MM/yyyy" maxlength="10"
+										value="@bind(vm.dateDebutFiltre)" />
+
+									<label value="Date de fin : " />
+									<datebox cols="14"
+										format="dd/MM/yyyy" maxlength="10"
+										value="@bind(vm.dateFinFiltre)" />
+
+									<label value="Etat :" />
+									<combobox width="100px"
+										model="@bind(vm.listeEtatTitreRepasFiltre)"
+										selectedItem="@bind(vm.etatTitreRepasFiltre)">
+										<template name="model">
+											<comboitem
+												label="@bind(each.libelle)" />
+										</template>
+									</combobox>
+								</hlayout>
+								<hlayout>
+									<label style="font-weight: bold;"
+										value="Service * :" />
+									<combobox width="400px"
+										readonly="true" model="@bind(vm.listeServicesFiltre)"
+										selectedItem="@bind(vm.serviceFiltre)"
+										onSelect="@command('afficheListeAgent')">
+										<template name="model">
+											<comboitem
+												label="@bind(each.label)" />
+										</template>
+									</combobox>
+									<label value="Agent :" />
+									<combobox width="200px"
+										model="@bind(vm.listeAgentsFiltre)"
+										selectedItem="@bind(vm.agentFiltre)">
+										<template name="model">
+											<comboitem
+												label="@bind(vm.concatAgent(each.nom,each.prenom))" />
+										</template>
+									</combobox>
+								</hlayout>
+								<hlayout>
+									<button label="Vider"
+										onClick="@command('viderFiltre')" />
+									<button label="Filtrer"
+										onClick="@command('filtrer')" />
+								</hlayout>
+							</vlayout>
+						</groupbox>
+						<separator />
+						<separator />
+						<vlayout height="100%">
+							<hlayout sclass="fondRecherche">
+								<div>
+									Affichage de
+									<combobox width="50px"
+										selectedItem="@bind(vm.tailleListe)" readonly="true">
+										<comboitem value="5" label="5" />
+										<comboitem value="10"
+											label="10" />
+										<comboitem value="15"
+											label="15" />
+										<comboitem value="20"
+											label="20" />
+									</combobox>
+									demandes par page
+									<space />
+									Recherche instantanée :
+									<textbox value="@bind(vm.filter)"
+										onChange="@command('doSearch')" instant="true" />
+								</div>
+							</hlayout>
+							<separator />
+							<grid model="@bind(vm.listeTitreRepas)"
+								mold="paging" width="782px" pageSize="@bind(vm.tailleListe)"
+								id="listeTitreRepasId" emptyMessage="Aucun élément">
+								<columns>
+									<column width="30px" sort="none" />
+									<column label="Mois" align="left"
+										width="100px" />
+									<column width="80px"
+										label="Commandé" sort="none" />
+									<column label="Commentaires"
+										sort="none" width="250px" />
+									<column width="80px" label="Etat"
+										sort="none" />
+									<column align="center"
+										label="Date de saisie" width="100px"
+										sort="auto('dateSaisie')" />
+									<column label="Opérateur"
+										width="140px" sort="auto('operateur.nom')" />
+								</columns>
+								<template name="model">
+									<row>
+										<custom-attributes
+											titreRepas="${each}" />
+										<detail open="false"
+											fulfill="onOpen">
+											<include
+												src="/pointages/titreRepas/histoTitreRepas.zul"
+												titreRepas="${titreRepas}" />
+										</detail>
+										<label
+											value="@bind(each.dateMonth) @converter('formatedDate',format='MM/yyyy')" />
+										<label
+											value="@bind(vm.booleanToString(each.commande))" />
+										<label
+											value="@bind(each.commentaire)"
+											visible="@bind(not empty each.commentaire)" />
+										<label
+											value="@bind(vm.etatToString(each.idRefEtat))" />
+										<label
+											value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
+										<label
+											value="@bind(vm.concatAgentNomatr(each.operateur))" />
+									</row>
+								</template>
+							</grid>
+						</vlayout>
 					</tabpanel>
 				</tabpanels>
 			</tabbox>

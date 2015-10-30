@@ -24,9 +24,14 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
  * #L%
  */
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
+import nc.noumea.mairie.ads.dto.EntiteDto;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
 import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
 
 import org.zkoss.bind.annotation.BindingParam;
@@ -45,29 +50,68 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	private static final long serialVersionUID = 8405659633984953740L;
 
 	private Tab tabCourant;
+	private List<TitreRepasDemandeDto> listeTitreRepas;
+
+	/* POUR LES FILTRES */
+	private List<EntiteDto> listeServicesFiltre;
+	private EntiteDto serviceFiltre;
+	private Date dateDebutFiltre;
+	private Date dateFinFiltre;
+	private List<RefEtatPointageDto> listeEtatTitreRepasFiltre;
+	private RefEtatPointageDto etatTitreRepasFiltre;
+	private List<AgentDto> listeAgentsFiltre;
+	private AgentDto agentFiltre;
+
+	/* POUR LE HAUT DU TABLEAU */
+	private String filter;
+	private String tailleListe;
 
 	@Init
 	public void initGestionTitreRepas() {
+		// on recharge les états d'absences pour les filtres
+		List<RefEtatPointageDto> filtreEtat = ptgWsConsumer.getEtatTitreRepasKiosque();
+		setListeEtatTitreRepasFiltre(filtreEtat);
+		setTailleListe("5");
+
+		// on charge les service pour les filtres
+		List<EntiteDto> filtreService = ptgWsConsumer.getServicesPointages(getCurrentUser().getAgent().getIdAgent());
+
+		EntiteDto tousLesServices = new EntiteDto();
+		tousLesServices.setSigle("TousLesServices");
+		tousLesServices.setLabelCourt("Tous les services");
+		List<EntiteDto> filtreAllService = new ArrayList<>();
+		filtreAllService.add(tousLesServices);
+		filtreAllService.addAll(filtreService);
+		setListeServicesFiltre(filtreAllService);
 	}
 
 	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void setTabDebut(@BindingParam("tab") Tab tab) {
 		setTabCourant(tab);
-//		filtrer(null);
+		// filtrer(null);
+	}
+
+	@Command
+	@NotifyChange({ "listeAgentsFiltre" })
+	public void afficheListeAgent() {
+		// on charge les agents pour les filtres
+		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(getCurrentUser().getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
+		setListeAgentsFiltre(filtreAgent);
 	}
 
 	@Command
 	@NotifyChange({ "listeDemandes", "listeEtatAbsenceFiltre", "listeEtatsSelectionnes" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
-//		setListeDemandes(null);
-//		// on recharge les états d'absences pour les filtres
-//		List<RefEtatAbsenceDto> filtreEtat = absWsConsumer.getEtatAbsenceKiosque(tab.getId());
-//		setListeEtatAbsenceFiltre(filtreEtat);
+		// setListeDemandes(null);
+		// // on recharge les états d'absences pour les filtres
+		// List<RefEtatAbsenceDto> filtreEtat =
+		// absWsConsumer.getEtatAbsenceKiosque(tab.getId());
+		// setListeEtatAbsenceFiltre(filtreEtat);
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
-//		setListeEtatsSelectionnes(null);
-//		filtrer(null);
+		// setListeEtatsSelectionnes(null);
+		// filtrer(null);
 	}
 
 	public Tab getTabCourant() {
@@ -76,5 +120,93 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 
 	public void setTabCourant(Tab tabCourant) {
 		this.tabCourant = tabCourant;
+	}
+
+	public Date getDateDebutFiltre() {
+		return dateDebutFiltre;
+	}
+
+	public void setDateDebutFiltre(Date dateDebutFiltre) {
+		this.dateDebutFiltre = dateDebutFiltre;
+	}
+
+	public Date getDateFinFiltre() {
+		return dateFinFiltre;
+	}
+
+	public void setDateFinFiltre(Date dateFinFiltre) {
+		this.dateFinFiltre = dateFinFiltre;
+	}
+
+	public List<RefEtatPointageDto> getListeEtatTitreRepasFiltre() {
+		return listeEtatTitreRepasFiltre;
+	}
+
+	public void setListeEtatTitreRepasFiltre(List<RefEtatPointageDto> listeEtatTitreRepasFiltre) {
+		this.listeEtatTitreRepasFiltre = listeEtatTitreRepasFiltre;
+	}
+
+	public RefEtatPointageDto getEtatTitreRepasFiltre() {
+		return etatTitreRepasFiltre;
+	}
+
+	public void setEtatTitreRepasFiltre(RefEtatPointageDto etatTitreRepasFiltre) {
+		this.etatTitreRepasFiltre = etatTitreRepasFiltre;
+	}
+
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	public String getTailleListe() {
+		return tailleListe;
+	}
+
+	public void setTailleListe(String tailleListe) {
+		this.tailleListe = tailleListe;
+	}
+
+	public List<TitreRepasDemandeDto> getListeTitreRepas() {
+		return listeTitreRepas;
+	}
+
+	public void setListeTitreRepas(List<TitreRepasDemandeDto> listeTitreRepas) {
+		this.listeTitreRepas = listeTitreRepas;
+	}
+
+	public List<EntiteDto> getListeServicesFiltre() {
+		return listeServicesFiltre;
+	}
+
+	public void setListeServicesFiltre(List<EntiteDto> listeServicesFiltre) {
+		this.listeServicesFiltre = listeServicesFiltre;
+	}
+
+	public EntiteDto getServiceFiltre() {
+		return serviceFiltre;
+	}
+
+	public void setServiceFiltre(EntiteDto serviceFiltre) {
+		this.serviceFiltre = serviceFiltre;
+	}
+
+	public List<AgentDto> getListeAgentsFiltre() {
+		return listeAgentsFiltre;
+	}
+
+	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
+		this.listeAgentsFiltre = listeAgentsFiltre;
+	}
+
+	public AgentDto getAgentFiltre() {
+		return agentFiltre;
+	}
+
+	public void setAgentFiltre(AgentDto agentFiltre) {
+		this.agentFiltre = agentFiltre;
 	}
 }

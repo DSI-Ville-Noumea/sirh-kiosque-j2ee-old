@@ -42,7 +42,6 @@ import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
-import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
 import org.joda.time.DateTime;
 import org.zkoss.bind.annotation.Command;
@@ -50,7 +49,6 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class MesTitreRepasViewModel extends AbstractViewModel {
@@ -59,9 +57,6 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 	 * 
 	 */
 	private static final long serialVersionUID = -6673727695582022385L;
-
-	@WireVariable
-	private ISirhPtgWSConsumer ptgWsConsumer;
 
 	private List<TitreRepasDemandeDto> listeTitreRepas;
 	private TitreRepasDemandeDto titreRepasCourant;

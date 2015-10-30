@@ -46,7 +46,6 @@ import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.RefTypePointageDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
-import nc.noumea.mairie.ws.ISirhPtgWSConsumer;
 
 import org.joda.time.DateTime;
 import org.zkoss.bind.BindUtils;
@@ -60,7 +59,6 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Grid;
@@ -73,9 +71,6 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 8405659633984953740L;
-
-	@WireVariable
-	private ISirhPtgWSConsumer ptgWsConsumer;
 
 	private List<ConsultPointageDto> listePointages;
 
@@ -104,7 +99,7 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	@Init
 	public void initGestionPointages(@ExecutionArgParam("div") Div div) {
 		setDivDepart(div);
-		
+
 		// on charge les service pour les filtres
 		List<EntiteDto> filtreService = ptgWsConsumer.getServicesPointages(getCurrentUser().getAgent().getIdAgent());
 
@@ -142,8 +137,7 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	}
 
 	public List<ConsultPointageDto> getHistoriquePointage(ConsultPointageDto ptg) {
-		List<ConsultPointageDto> result = ptgWsConsumer.getHistoriquePointage(getCurrentUser().getAgent().getIdAgent(),
-				ptg.getIdPointage());
+		List<ConsultPointageDto> result = ptgWsConsumer.getHistoriquePointage(getCurrentUser().getAgent().getIdAgent(), ptg.getIdPointage());
 		return result;
 	}
 
@@ -151,12 +145,9 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	@NotifyChange({ "listePointages" })
 	public void filtrer() {
 		if (IsFiltreValid()) {
-			List<ConsultPointageDto> result = ptgWsConsumer.getListePointages(getCurrentUser().getAgent().getIdAgent(),
-					getDateDebutFiltre(), getDateFinFiltre(), getServiceFiltre().getIdEntite(),
-					getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(),
-					getEtatPointageFiltre() == null ? null : getEtatPointageFiltre().getIdRefEtat(),
-					getTypePointageFiltre() == null ? null : getTypePointageFiltre().getIdRefTypePointage(),
-					getTypeHSupFiltre());
+			List<ConsultPointageDto> result = ptgWsConsumer.getListePointages(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), getServiceFiltre().getIdEntite(),
+					getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), getEtatPointageFiltre() == null ? null : getEtatPointageFiltre().getIdRefEtat(),
+					getTypePointageFiltre() == null ? null : getTypePointageFiltre().getIdRefTypePointage(), getTypeHSupFiltre());
 			setListePointages(result);
 		}
 	}
@@ -191,8 +182,7 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	@NotifyChange({ "listeAgentsFiltre" })
 	public void afficheListeAgent() {
 		// on charge les agents pour les filtres
-		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(getCurrentUser().getAgent().getIdAgent(),
-				getServiceFiltre().getIdEntite());
+		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(getCurrentUser().getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
 	}
 
@@ -263,12 +253,12 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	private void doChangeEtat(List<ConsultPointageDto> listePointages, EtatPointageEnum etatPointage) {
 		List<PointagesEtatChangeDto> listeChangeEtat = new ArrayList<>();
 		for (ConsultPointageDto ptg : listePointages) {
-//			if (ptg.isApprobation()) {
-				PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
-				dto.setIdPointage(ptg.getIdPointage());
-				dto.setIdRefEtat(etatPointage.getCodeEtat());
-				listeChangeEtat.add(dto);
-//			}
+			// if (ptg.isApprobation()) {
+			PointagesEtatChangeDto dto = new PointagesEtatChangeDto();
+			dto.setIdPointage(ptg.getIdPointage());
+			dto.setIdRefEtat(etatPointage.getCodeEtat());
+			listeChangeEtat.add(dto);
+			// }
 		}
 		sauvegardeEtatPointage(listeChangeEtat);
 	}
@@ -291,8 +281,7 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 					nbPtg++;
 			}
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous accepter les " + nbPtg + " pointage(s) ?", "Confirmation", Messagebox.CANCEL
-					| Messagebox.OK, "", new EventListener() {
+			Messagebox.show("Voulez-vous accepter les " + nbPtg + " pointage(s) ?", "Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
 				@Override
 				public void onEvent(Event evt) throws InterruptedException {
 					if (evt.getName().equals("onOK")) {
@@ -323,8 +312,7 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 					nbPtg++;
 			}
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous refuser les " + nbPtg + " pointage(s) ?", "Confirmation", Messagebox.CANCEL
-					| Messagebox.OK, "", new EventListener() {
+			Messagebox.show("Voulez-vous refuser les " + nbPtg + " pointage(s) ?", "Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
 				@Override
 				public void onEvent(Event evt) throws InterruptedException {
 					if (evt.getName().equals("onOK")) {
@@ -356,18 +344,16 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 					nbPtg++;
 			}
 			// on ouvre une popup de confirmation
-			Messagebox.show("Voulez-vous re-mettre en saisie les " + nbPtg + " pointage(s) ?", "Confirmation",
-					Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
-						@Override
-						public void onEvent(Event evt) throws InterruptedException {
-							if (evt.getName().equals("onOK")) {
-								doChangeEtat(getListePointages(), EtatPointageEnum.SAISI);
-								filtrer();
-								BindUtils
-										.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
-							}
-						}
-					});
+			Messagebox.show("Voulez-vous re-mettre en saisie les " + nbPtg + " pointage(s) ?", "Confirmation", Messagebox.CANCEL | Messagebox.OK, "", new EventListener() {
+				@Override
+				public void onEvent(Event evt) throws InterruptedException {
+					if (evt.getName().equals("onOK")) {
+						doChangeEtat(getListePointages(), EtatPointageEnum.SAISI);
+						filtrer();
+						BindUtils.postNotifyChange(null, null, GestionPointagesViewModel.this, "listePointages");
+					}
+				}
+			});
 		}
 	}
 
@@ -411,8 +397,7 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	}
 
 	private void sauvegardeEtatPointage(List<PointagesEtatChangeDto> listeChangeEtat) {
-		ReturnMessageDto result = ptgWsConsumer.changerEtatPointage(getCurrentUser().getAgent().getIdAgent(),
-				listeChangeEtat);
+		ReturnMessageDto result = ptgWsConsumer.changerEtatPointage(getCurrentUser().getAgent().getIdAgent(), listeChangeEtat);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -609,8 +594,7 @@ public class GestionPointagesViewModel extends AbstractViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "dateDebutFiltre", "serviceFiltre", "dateFinFiltre", "etatPointageFiltre", "typePointageFiltre",
-			"agentFiltre", "typeHSupFiltre" })
+	@NotifyChange({ "dateDebutFiltre", "serviceFiltre", "dateFinFiltre", "etatPointageFiltre", "typePointageFiltre", "agentFiltre", "typeHSupFiltre" })
 	public void viderFiltre() {
 		setDateDebutFiltre(null);
 		setDateFinFiltre(null);
