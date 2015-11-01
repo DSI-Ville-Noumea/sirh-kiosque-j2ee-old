@@ -1,6 +1,6 @@
 <zk>
 	<grid
-		style="margin-left: 98px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
+		style="margin-left: 99px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
 		<columns visible="false">
 			<column label="Commandé" width="80px" sort="none" />
 			<column label="Commentaires" sort="none" width="250px" />

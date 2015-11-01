@@ -1,0 +1,31 @@
+<zk>
+	<grid
+		style="margin-left: 299px;border:none;background-color:#ee7203 !important;background:#ee7203 !important;">
+		<columns visible="false">
+			<column label="Commandé" width="80px" sort="none" />
+			<column label="Commentaires" sort="none" width="250px" />
+			<column label="Etat" width="80px" sort="none" />
+			<column label="Date de saisie" sort="auto('dateSaisie')"
+				width="100px" align="center" />
+			<column label="Opérateur" sort="auto('operateur.nom')"
+				width="140px" />
+		</columns>
+		<rows>
+			<zk
+				forEach="${vm.getHistoriqueTitreRepas(arg.titreRepas)}">
+				<row
+					style="background-color:#ee7203 !important;background:#ee7203 !important;">
+
+					<label value="${vm.booleanToString(each.commande)}" />
+					<label value="${each.commentaire}" />
+					<label value="${vm.etatToString(each.idRefEtat)}" />
+					<label
+						value="${vm.dateSaisieToString(each.dateSaisie)}" />
+					<label
+						value="${vm.concatAgent(each.operateur)}" />
+
+				</row>
+			</zk>
+		</rows>
+	</grid>
+</zk>

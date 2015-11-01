@@ -108,7 +108,7 @@
 							<custom-attributes titreRepas="${each}" />
 							<detail open="false" fulfill="onOpen">
 								<include
-									src="/pointages/titreRepas/histoTitreRepas.zul"
+									src="/pointages/titreRepas/histoMesTitreRepas.zul"
 									titreRepas="${titreRepas}" />
 							</detail>
 							<label

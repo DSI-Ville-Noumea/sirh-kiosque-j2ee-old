@@ -129,7 +129,7 @@
 										<detail open="false"
 											fulfill="onOpen">
 											<include
-												src="/pointages/titreRepas/histoTitreRepas.zul"
+												src="/pointages/titreRepas/histoGestionTitreRepas.zul"
 												titreRepas="${titreRepas}" />
 										</detail>
 										<label
