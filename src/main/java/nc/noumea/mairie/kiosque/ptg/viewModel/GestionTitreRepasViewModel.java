@@ -198,6 +198,40 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "listeTitreRepas", "listeTitreRepasSaisie" })
+	public void doSearch() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		List<TitreRepasDemandeDto> list = new ArrayList<TitreRepasDemandeDto>();
+		if (getFilter() != null && !"".equals(getFilter()) && getListeTitreRepas() != null) {
+			for (TitreRepasDemandeDto item : getListeTitreRepas()) {
+				if (sdf.format(item.getDateMonth()).contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getAgent().getNom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getAgent().getPrenom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getOperateur().getNom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+				if (item.getOperateur().getPrenom().toLowerCase().contains(getFilter().toLowerCase())) {
+					if (!list.contains(item))
+						list.add(item);
+				}
+			}
+			setListeTitreRepas(list);
+		} else {
+			filtrer();
+		}
+	}
+
+	@Command
 	@NotifyChange({ "dateDebutFiltre", "serviceFiltre", "dateFinFiltre", "agentFiltre", "etatTitreRepasFiltre", "listeTitreRepasSaisie" })
 	public void viderFiltre() {
 		setDateDebutFiltre(null);
