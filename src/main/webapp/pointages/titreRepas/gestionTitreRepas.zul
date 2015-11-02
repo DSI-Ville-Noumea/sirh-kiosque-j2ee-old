@@ -22,7 +22,70 @@
 						onClick="@command('changeVue',tab = EN_COURS)" />
 				</tabs>
 				<tabpanels>
-					<tabpanel></tabpanel>
+					<tabpanel>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<!-- Saisie des titres repas -->
+						<hlayout>
+							<label value="Service :" />
+							<combobox width="400px" readonly="true"
+								model="@bind(vm.listeServicesFiltre)"
+								selectedItem="@bind(vm.serviceFiltre)"
+								onSelect="@command('chargeTabSaisie')">
+								<template name="model">
+									<comboitem
+										label="@bind(each.label)" />
+								</template>
+							</combobox>
+							<label value="Agent :" />
+							<combobox width="200px"
+								model="@bind(vm.listeAgentsFiltre)"
+								selectedItem="@bind(vm.agentFiltre)"
+								onSelect="@command('chargeTabSaisie')">
+								<template name="model">
+									<comboitem
+										label="@bind(vm.concatAgent(each))" />
+								</template>
+							</combobox>
+						</hlayout>
+						<separator />
+						<div sclass="RHTitle2Line" />
+						<separator />
+						<div
+							visible="@bind(not empty vm.listeTitreRepasSaisie)">
+							<grid
+								model="@bind(vm.listeTitreRepasSaisie)" width="450px"
+								id="listeTitreRepasSaisieId" emptyMessage="Aucun élément">
+								<columns>
+									<column label="Agent"
+										sort="auto('agent.nom')" width="300px" />
+									<column>
+										<checkbox id="checkAll"
+											onCheck="@command('doCheckedAll',ref=listeTitreRepasSaisie,box=self)" />
+										<label value="Commandé"></label>
+									</column>
+								</columns>
+								<template name="model">
+									<row>
+										<label
+											value="@bind(vm.concatAgentNomatr(each.agent))" />
+										<checkbox
+											checked="@bind(each.commande)" />
+									</row>
+								</template>
+							</grid>
+
+							<div>
+								<hlayout>
+									<button label="Valider"
+										onClick="@command('saveListeTitreRepasSaisie')" />
+									<button label="Annuler"
+										onClick="@command('viderFiltre')" />
+								</hlayout>
+							</div>
+						</div>
+					</tabpanel>
 					<tabpanel>
 						<groupbox width="982px">
 							<caption label="Filtres de recherche" />
@@ -58,7 +121,8 @@
 											<comboitem
 												label="@bind(each.label)" />
 										</template>
-									</combobox>
+									</combobox>						
+								
 									<label value="Agent :" />
 									<combobox width="200px"
 										model="@bind(vm.listeAgentsFiltre)"

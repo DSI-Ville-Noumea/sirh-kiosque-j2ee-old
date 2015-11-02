@@ -27,20 +27,27 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.kiosque.ptg.dto.RefEtatPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.TitreRepasDemandeDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
 
+import org.joda.time.DateTime;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Tab;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -53,6 +60,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 
 	private Tab tabCourant;
 	private List<TitreRepasDemandeDto> listeTitreRepas;
+	private List<TitreRepasDemandeDto> listeTitreRepasSaisie;
 
 	/* POUR LES FILTRES */
 	private List<EntiteDto> listeServicesFiltre;
@@ -95,6 +103,92 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	@Command
+	@NotifyChange({ "listeTitreRepasSaisie", "listeAgentsFiltre" })
+	public void chargeTabSaisie() {
+		setListeTitreRepasSaisie(null);
+		if (getServiceFiltre() != null) {
+			// on charge les agents pour les filtres
+			List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(getCurrentUser().getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
+			setListeAgentsFiltre(filtreAgent);
+			// on recupere les demandes deja saisies
+
+			List<TitreRepasDemandeDto> resultDejaSaisie = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, getServiceFiltre() == null ? null : getServiceFiltre()
+					.getIdEntite(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), null, getDatePremierJourOfMonth(new Date()));
+			List<AgentDto> listExist = new ArrayList<AgentDto>();
+			for (TitreRepasDemandeDto dto : resultDejaSaisie) {
+				listExist.add(dto.getAgent());
+			}
+
+			List<TitreRepasDemandeDto> result = new ArrayList<TitreRepasDemandeDto>();
+			for (AgentDto ag : getListeAgentsFiltre()) {
+				if (listExist.contains(ag)) {
+					List<TitreRepasDemandeDto> resultAgent = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, getServiceFiltre() == null ? null
+							: getServiceFiltre().getIdEntite(), ag.getIdAgent(), null, getDatePremierJourOfMonth(new Date()));
+					if (resultAgent != null && resultAgent.size() == 1) {
+						result.add(resultAgent.get(0));
+					} else {
+						TitreRepasDemandeDto dtoSaisie = new TitreRepasDemandeDto();
+						dtoSaisie.setAgent(new AgentWithServiceDto(ag, null, null));
+						dtoSaisie.setCommande(false);
+						dtoSaisie.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+						result.add(dtoSaisie);
+					}
+				} else {
+					TitreRepasDemandeDto dtoSaisie = new TitreRepasDemandeDto();
+					dtoSaisie.setAgent(new AgentWithServiceDto(ag, null, null));
+					dtoSaisie.setCommande(false);
+					dtoSaisie.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+					result.add(dtoSaisie);
+				}
+			}
+			setListeTitreRepasSaisie(result);
+		}
+	}
+
+	@Command
+	@NotifyChange({ "listeTitreRepasSaisie" })
+	public void saveListeTitreRepasSaisie() {
+		ReturnMessageDto result = ptgWsConsumer.setTitreRepas(getCurrentUser().getAgent().getIdAgent(), getListeTitreRepasSaisie());
+		// on recharge les infos
+		chargeTabSaisie();
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+		for (String error : result.getErrors()) {
+			ValidationMessage vm = new ValidationMessage(error);
+			listErreur.add(vm);
+		}
+		for (String info : result.getInfos()) {
+			ValidationMessage vm = new ValidationMessage(info);
+			listInfo.add(vm);
+		}
+		map.put("errors", listErreur);
+		map.put("infos", listInfo);
+		Executions.createComponents("/messages/returnMessage.zul", null, map);
+
+	}
+
+	@Command
+	@NotifyChange({ "listeTitreRepasSaisie" })
+	public void doCheckedAll(@BindingParam("ref") List<TitreRepasDemandeDto> listDto, @BindingParam("box") Checkbox box) {
+		for (TitreRepasDemandeDto dto : getListeTitreRepasSaisie()) {
+			if (box.isChecked()) {
+				dto.setCommande(true);
+			} else {
+				dto.setCommande(false);
+			}
+		}
+	}
+
+	private Date getDatePremierJourOfMonth(Date dateMonth) {
+
+		DateTime date = new DateTime(dateMonth).withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+
+		return date.toDate();
+	}
+
+	@Command
 	@NotifyChange({ "*" })
 	public void filtrer() {
 		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), getServiceFiltre() == null ? null
@@ -104,13 +198,14 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "dateDebutFiltre", "serviceFiltre", "dateFinFiltre", "agentFiltre", "etatTitreRepasFiltre" })
+	@NotifyChange({ "dateDebutFiltre", "serviceFiltre", "dateFinFiltre", "agentFiltre", "etatTitreRepasFiltre", "listeTitreRepasSaisie" })
 	public void viderFiltre() {
 		setDateDebutFiltre(null);
 		setDateFinFiltre(null);
 		setServiceFiltre(null);
 		setAgentFiltre(null);
 		setEtatTitreRepasFiltre(null);
+		setListeTitreRepasSaisie(null);
 	}
 
 	@Command
@@ -150,17 +245,11 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeDemandes", "listeEtatAbsenceFiltre", "listeEtatsSelectionnes" })
+	@NotifyChange({ "*" })
 	public void changeVue(@BindingParam("tab") Tab tab) {
-		// setListeDemandes(null);
-		// // on recharge les états d'absences pour les filtres
-		// List<RefEtatAbsenceDto> filtreEtat =
-		// absWsConsumer.getEtatAbsenceKiosque(tab.getId());
-		// setListeEtatAbsenceFiltre(filtreEtat);
+		viderFiltre();
 		// on sauvegarde l'onglet
 		setTabCourant(tab);
-		// setListeEtatsSelectionnes(null);
-		// filtrer(null);
 	}
 
 	public Tab getTabCourant() {
@@ -257,5 +346,13 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 
 	public void setAgentFiltre(AgentDto agentFiltre) {
 		this.agentFiltre = agentFiltre;
+	}
+
+	public List<TitreRepasDemandeDto> getListeTitreRepasSaisie() {
+		return listeTitreRepasSaisie;
+	}
+
+	public void setListeTitreRepasSaisie(List<TitreRepasDemandeDto> listeTitreRepasSaisie) {
+		this.listeTitreRepasSaisie = listeTitreRepasSaisie;
 	}
 }
