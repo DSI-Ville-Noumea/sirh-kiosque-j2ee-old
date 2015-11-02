@@ -124,6 +124,6 @@
 
 	<!-- Pour l'affichage du module titre repas -->
 	<Environment name="AFFICHE_MODULE_TITRE_REPAS" type="java.lang.Boolean"
-	description="Affichage du menu des titres repas" value="false" override="false" />
+	description="Affichage du menu des titres repas" value="true" override="false" />
 
 </Context>
