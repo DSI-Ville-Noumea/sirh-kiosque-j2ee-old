@@ -256,7 +256,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	public String concatAgent(AgentDto ag) {
-		return ag.getNom() + " " + ag.getPrenom();
+		return ag == null ? "" : ag.getNom() + " " + ag.getPrenom();
 	}
 
 	public String concatAgentNomatr(AgentDto ag) {

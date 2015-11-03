@@ -381,9 +381,9 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 			params.put("idServiceADS", idServiceADS.toString());
 		}
 		if (fromDate != null)
-			params.put("from", sdf.format(fromDate));
+			params.put("fromDate", sdf.format(fromDate));
 		if (toDate != null)
-			params.put("to", sdf.format(toDate));
+			params.put("toDate", sdf.format(toDate));
 		if (idEtat != null)
 			params.put("etat", idEtat.toString());
 		if (dateMonth != null)
