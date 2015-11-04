@@ -23,6 +23,9 @@
 				</tabs>
 				<tabpanels>
 					<tabpanel>
+					
+						<label style="font-size: 16px;color: #004f9f;" value="@bind(vm.phraseTitreRepas)" />
+					
 						<separator />
 						<div sclass="RHTitle2Line" />
 						<separator />
@@ -66,7 +69,8 @@
 										sort="auto('agent.nom')" width="300px" />
 									<column>
 										<checkbox id="checkAll"
-											onCheck="@command('doCheckedAll',ref=listeTitreRepasSaisie,box=self)" />
+											onCheck="@command('doCheckedAll',ref=listeTitreRepasSaisie,box=self)"
+											checked="@bind(vm.checkAll)" />
 										<label value="Commandé"></label>
 									</column>
 								</columns>

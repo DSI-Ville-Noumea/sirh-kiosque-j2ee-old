@@ -104,7 +104,7 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 
 	@Command
 	@NotifyChange({ "*" })
-	public void engistreTitreRepas() throws ParseException {
+	public void enregistreTitreRepas() throws ParseException {
 		if (getTitreRepasCourant() == null) {
 			setTitreRepasCourant(new TitreRepasDemandeDto());
 		}
@@ -157,7 +157,7 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	public String getPhraseTitreRepas() {
-		return "Voulez vous commander les tickets repas pour le mois " + getMonth(new DateTime().getMonthOfYear()) + " : ";
+		return "Voulez-vous commander les tickets repas pour le mois " + getMonth(new DateTime().getMonthOfYear()) + " : ";
 	}
 
 	private String getMonth(int monthOfYear) {

@@ -75,6 +75,8 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
+	
+	private boolean checkAll;
 
 	@Init
 	public void initGestionTitreRepas() {
@@ -103,29 +105,40 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeTitreRepasSaisie", "listeAgentsFiltre" })
+	@NotifyChange({ "listeTitreRepasSaisie", "listeAgentsFiltre", "checkAll" })
 	public void chargeTabSaisie() {
+		
 		setListeTitreRepasSaisie(null);
+		setCheckAll(false);
 		if (getServiceFiltre() != null) {
-			// on charge les agents pour les filtres
-			List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(getCurrentUser().getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
-			setListeAgentsFiltre(filtreAgent);
-			// on recupere les demandes deja saisies
-
-			List<TitreRepasDemandeDto> resultDejaSaisie = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, getServiceFiltre() == null ? null : getServiceFiltre()
-					.getIdEntite(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), null, getDatePremierJourOfMonth(new Date()));
-			List<AgentDto> listExist = new ArrayList<AgentDto>();
-			for (TitreRepasDemandeDto dto : resultDejaSaisie) {
-				listExist.add(dto.getAgent());
-			}
-
-			List<TitreRepasDemandeDto> result = new ArrayList<TitreRepasDemandeDto>();
-			for (AgentDto ag : getListeAgentsFiltre()) {
-				if (listExist.contains(ag)) {
-					List<TitreRepasDemandeDto> resultAgent = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, getServiceFiltre() == null ? null
-							: getServiceFiltre().getIdEntite(), ag.getIdAgent(), null, getDatePremierJourOfMonth(new Date()));
-					if (resultAgent != null && resultAgent.size() == 1) {
-						result.add(resultAgent.get(0));
+			
+			if(null == getAgentFiltre()) {
+				// on charge les agents pour les filtres
+				List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointages(getCurrentUser().getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
+				setListeAgentsFiltre(filtreAgent);
+				
+				// on recupere les demandes deja saisies
+				List<TitreRepasDemandeDto> resultDejaSaisie = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, getServiceFiltre() == null ? null : getServiceFiltre()
+						.getIdEntite(), getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), null, getDatePremierJourOfMonth(new Date()));
+				List<AgentDto> listExist = new ArrayList<AgentDto>();
+				for (TitreRepasDemandeDto dto : resultDejaSaisie) {
+					listExist.add(dto.getAgent());
+				}
+	
+				List<TitreRepasDemandeDto> result = new ArrayList<TitreRepasDemandeDto>();
+				for (AgentDto ag : getListeAgentsFiltre()) {
+					if (listExist.contains(ag)) {
+						List<TitreRepasDemandeDto> resultAgent = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, getServiceFiltre() == null ? null
+								: getServiceFiltre().getIdEntite(), ag.getIdAgent(), null, getDatePremierJourOfMonth(new Date()));
+						if (resultAgent != null && resultAgent.size() == 1) {
+							result.add(resultAgent.get(0));
+						} else {
+							TitreRepasDemandeDto dtoSaisie = new TitreRepasDemandeDto();
+							dtoSaisie.setAgent(new AgentWithServiceDto(ag, null, null));
+							dtoSaisie.setCommande(false);
+							dtoSaisie.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
+							result.add(dtoSaisie);
+						}
 					} else {
 						TitreRepasDemandeDto dtoSaisie = new TitreRepasDemandeDto();
 						dtoSaisie.setAgent(new AgentWithServiceDto(ag, null, null));
@@ -133,15 +146,24 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 						dtoSaisie.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 						result.add(dtoSaisie);
 					}
+				}
+				setListeTitreRepasSaisie(result);
+			}else{
+				List<TitreRepasDemandeDto> result = new ArrayList<TitreRepasDemandeDto>();
+				
+				List<TitreRepasDemandeDto> resultAgent = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, getServiceFiltre() == null ? null
+						: getServiceFiltre().getIdEntite(), getAgentFiltre().getIdAgent(), null, getDatePremierJourOfMonth(new Date()));
+				if (resultAgent != null && resultAgent.size() == 1) {
+					result.add(resultAgent.get(0));
 				} else {
 					TitreRepasDemandeDto dtoSaisie = new TitreRepasDemandeDto();
-					dtoSaisie.setAgent(new AgentWithServiceDto(ag, null, null));
+					dtoSaisie.setAgent(new AgentWithServiceDto(getAgentFiltre(), null, null));
 					dtoSaisie.setCommande(false);
 					dtoSaisie.setIdRefEtat(EtatPointageEnum.SAISI.getCodeEtat());
 					result.add(dtoSaisie);
 				}
+				setListeTitreRepasSaisie(result);
 			}
-			setListeTitreRepasSaisie(result);
 		}
 	}
 
@@ -230,6 +252,53 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 			filtrer();
 		}
 	}
+	
+	public String getPhraseTitreRepas() {
+		return "Saisie des titres repas pour le mois " + getMonth(new DateTime().getMonthOfYear());
+	}
+
+	private String getMonth(int monthOfYear) {
+		String monthString = null;
+		switch (monthOfYear) {
+			case 1:
+				monthString = "de janvier";
+				break;
+			case 2:
+				monthString = "de février";
+				break;
+			case 3:
+				monthString = "de mars";
+				break;
+			case 4:
+				monthString = "d'avril";
+				break;
+			case 5:
+				monthString = "de mai";
+				break;
+			case 6:
+				monthString = "de juin";
+				break;
+			case 7:
+				monthString = "de juillet";
+				break;
+			case 8:
+				monthString = "d'aôut";
+				break;
+			case 9:
+				monthString = "de septembre";
+				break;
+			case 10:
+				monthString = "d'octobre";
+				break;
+			case 11:
+				monthString = "de novembre";
+				break;
+			case 12:
+				monthString = "de décembre";
+				break;
+		}
+		return monthString;
+	}
 
 	@Command
 	@NotifyChange({ "dateDebutFiltre", "serviceFiltre", "dateFinFiltre", "agentFiltre", "etatTitreRepasFiltre", "listeTitreRepasSaisie" })
@@ -238,6 +307,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 		setDateFinFiltre(null);
 		setServiceFiltre(null);
 		setAgentFiltre(null);
+		setListeAgentsFiltre(null);
 		setEtatTitreRepasFiltre(null);
 		setListeTitreRepasSaisie(null);
 	}
@@ -389,4 +459,13 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	public void setListeTitreRepasSaisie(List<TitreRepasDemandeDto> listeTitreRepasSaisie) {
 		this.listeTitreRepasSaisie = listeTitreRepasSaisie;
 	}
+
+	public boolean isCheckAll() {
+		return checkAll;
+	}
+
+	public void setCheckAll(boolean checkAll) {
+		this.checkAll = checkAll;
+	}
+	
 }

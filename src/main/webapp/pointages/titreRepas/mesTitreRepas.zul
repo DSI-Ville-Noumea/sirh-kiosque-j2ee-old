@@ -12,22 +12,25 @@
 			</vlayout>
 			<separator />
 			<separator />
-			<label sclass="name"
-				value="Info : Les demandes peuvent être saisies entre le 1er et le 10 du mois courant." />
-			<separator />
-			<hlayout>
-				<label value="@bind(vm.phraseTitreRepas)" />
-				<radiogroup id="rg1"
-					selectedItem="@bind(vm.checkTitreRepas)">
-					<radio label="oui" value="oui" />
-					<radio label="non" value="non" />
-				</radiogroup>
-				<hlayout width="40px" sclass="fondRecherche">
-					<image tooltiptext="Enregistrer"
-						style="vertical-align: text-bottom; display: inline-block;margin-top: 5px;"
-						sclass="saveAction" onClick="@command('engistreTitreRepas')" />
+			<groupbox width="782px">
+				<caption label="Ma saisie" />
+				<label sclass="name"
+					value="Info : Les demandes peuvent être saisies entre le 1er et le 10 du mois courant." />
+				<separator />
+				<hlayout>
+					<label value="@bind(vm.phraseTitreRepas)" />
+					<radiogroup id="rg1"
+						selectedItem="@bind(vm.checkTitreRepas)">
+						<radio label="oui" value="oui" />
+						<radio label="non" value="non" />
+					</radiogroup>
+					<hlayout width="40px" sclass="fondRecherche">
+						<image tooltiptext="Enregistrer"
+							style="vertical-align: text-bottom; display: inline-block;margin-top: 5px;"
+							sclass="saveAction" onClick="@command('enregistreTitreRepas')" />
+					</hlayout>
 				</hlayout>
-			</hlayout>
+			</groupbox>
 			<separator />
 			<separator />
 			<separator />
