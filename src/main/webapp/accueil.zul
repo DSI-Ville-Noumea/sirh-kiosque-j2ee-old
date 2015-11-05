@@ -11,7 +11,7 @@
 
 				<portallayout id="portalLayout" maximizedMode="whole">
 
-					<portalchildren style="padding: 5px;" width="100%"
+					<portalchildren style="padding: 5px;"
 						visible="@bind(not empty vm.listeAlerteAccueil)">
 						<panel id="alerte" title="INFORMATIONS"
 							border="normal" collapsible="true" closable="true"
