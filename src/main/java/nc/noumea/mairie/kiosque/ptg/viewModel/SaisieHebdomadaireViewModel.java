@@ -171,7 +171,14 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			@BindingParam("heureFin") String heureFin, @BindingParam("minuteFin") String minuteFin) {
 		setHasTextChanged(true);
 		FichePointageDtoKiosque dto = getFicheCourante();
-		if (heureDebut != null && minuteDebut != null && heureFin != null && minuteFin != null) {
+		if (heureDebut != null && heureFin != null) {
+			
+			if(null == minuteDebut) {
+				minuteDebut = "00";
+			}
+			if(null == minuteFin) {
+				minuteFin = "00";
+			}
 			// les primes
 			// on mappe
 			if (null != getSaisiePointageForm().getMapAllPrime()) {
@@ -316,7 +323,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 			calDebut.add(Calendar.HOUR_OF_DAY, Integer.valueOf(heureDebut));
 			calDebut.add(Calendar.MINUTE, Integer.valueOf(minuteDebut));
 			// si date de debut sup a la date de fin alors alerte
-			if (calFin.before(calDebut)) {
+			if (calFin.before(calDebut)
+					|| calFin.equals(calDebut)) {
 				return true;
 			}
 		}
@@ -928,7 +936,11 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 	}
 
 	private Date calculDateEtHeureSaisie(Date dateJour, String heureSaisie, String minuteSaisie, String saisieJ1) {
-		if (heureSaisie != null && minuteSaisie != null) {
+		if (heureSaisie != null) {
+			
+			if(minuteSaisie == null)
+				minuteSaisie = "00";
+			
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(dateJour);
 			if (saisieJ1 != null) {
