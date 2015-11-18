@@ -172,7 +172,8 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 		setHasTextChanged(true);
 		FichePointageDtoKiosque dto = getFicheCourante();
 		if (heureDebut != null && heureFin != null) {
-			
+
+			// #19789
 			if(null == minuteDebut) {
 				minuteDebut = "00";
 			}
@@ -937,7 +938,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 	private Date calculDateEtHeureSaisie(Date dateJour, String heureSaisie, String minuteSaisie, String saisieJ1) {
 		if (heureSaisie != null) {
-			
+			// #19789
 			if(minuteSaisie == null)
 				minuteSaisie = "00";
 			
