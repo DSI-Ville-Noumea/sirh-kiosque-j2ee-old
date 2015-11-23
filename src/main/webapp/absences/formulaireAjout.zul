@@ -119,6 +119,92 @@
 						</combobox>
 					</hlayout>
 				</hlayout>
+				<hlayout>
+					<hlayout width="150px"
+						visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.dateDeclaration)">
+						<label value="Date de déclaration : " />
+					</hlayout>
+					<hlayout>
+						<datebox
+							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.dateDeclaration)"
+							cols="14" format="dd/MM/yyyy" maxlength="10"
+							value="@bind(vm.demandeCreation.dateDeclaration)" />
+					</hlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.prescripteur)">
+					<hlayout width="150px">
+						<label value="Prescripteur : " />
+					</hlayout>
+					<vlayout>
+						<textbox width="200px"
+							value="@bind(vm.demandeCreation.prescripteur)" />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.nomEnfant)">
+					<hlayout width="150px">
+						<label value="Nom enfant : " />
+					</hlayout>
+					<vlayout>
+						<textbox width="200px"
+							value="@bind(vm.demandeCreation.nomEnfant)" />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.prolongation)">
+					<hlayout width="150px">
+						<label value="Prolongation : " />
+					</hlayout>
+					<vlayout>
+						<checkbox
+							checked="@bind(vm.demandeCreation.prolongation)"
+							label="Prolongation" />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.nombreITT)">
+					<hlayout width="150px">
+						<label value="Nombre ITT : " />
+					</hlayout>
+					<vlayout>
+						<textbox width="200px"
+							value="@bind(vm.demandeCreation.nombreITT)" />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.siegeLesion)">
+					<hlayout width="150px">
+						<label value="Siège des lésions : " />
+					</hlayout>
+					<vlayout>
+						<combobox width="400px"
+							value="@bind(vm.demandeCreation.typeSiegeLesion.libelle)" 
+							model="@bind(vm.listeSiegeLesion)"
+							selectedItem="@bind(vm.demandeCreation.typeSiegeLesion)">
+							<template name="model">
+								<comboitem label="@bind(each.libelle)" />
+							</template>
+						</combobox>
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.atReference)">
+					<hlayout width="150px">
+						<label value="Accident de travail de référence : " />
+					</hlayout>
+					<vlayout>
+						<combobox width="400px"
+							value="@bind(vm.demandeCreation.accidentTravailReference.idDemande)" 
+							model="@bind(vm.listeATReference)"
+							selectedItem="@bind(vm.demandeCreation.accidentTravailReference.idDemande)">
+							<template name="model">
+								<comboitem label="@bind(each.idDemande)"
+									description="@bind(each.dateDeclaration - each.typeSiegeLesion.libelle)" />
+							</template>
+						</combobox>
+					</vlayout>
+				</hlayout>
 				<hlayout
 					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.motif)">
 					<hlayout width="150px">

@@ -28,7 +28,7 @@
 							value="@bind(vm.typeAbsenceCourant.libelle)"
 							model="@bind(vm.listeTypeAbsence)"
 							selectedItem="@bind(vm.typeAbsenceCourant)"
-							onSelect="@command('alimenteOrganisation')">
+							onSelect="@command('chargeFormulaire')">
 							<template name="model">
 								<comboitem label="@bind(each.libelle)" />
 							</template>

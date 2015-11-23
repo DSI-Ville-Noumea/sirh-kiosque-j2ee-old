@@ -43,6 +43,7 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
@@ -151,5 +152,9 @@ public interface ISirhAbsWSConsumer {
 
 	List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate, String listIdRefEtat, Integer idRefType,
 			Integer idRefGroupeAbsence, List<AgentWithServiceDto> listIdsAgent);
+
+	List<RefTypeDto> getListMaladiePro();
+
+	List<RefTypeDto> getListSiegeLesion();
 
 }

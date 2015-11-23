@@ -26,6 +26,7 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +34,10 @@ import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -72,6 +75,9 @@ public class AjoutDemandeAgentViewModel {
 	private String samediOffertCongeAnnuel;
 
 	private List<OrganisationSyndicaleDto> listeOrganisationsSyndicale;
+	
+	private List<RefTypeDto> listeSiegeLesion;
+	private List<DemandeDto> listeATReference;
 
 	private OrganisationSyndicaleDto organisationsSyndicaleCourant;
 
@@ -135,8 +141,9 @@ public class AjoutDemandeAgentViewModel {
 
 	@Command
 	@NotifyChange({ "listeOrganisationsSyndicale", "organisationsSyndicaleCourant", "." })
-	public void alimenteOrganisation() {
-		if (getTypeAbsenceCourant() != null && getTypeAbsenceCourant().getTypeSaisiDto() != null
+	public void chargeFormulaire() {
+		if (getTypeAbsenceCourant() != null 
+				&& getTypeAbsenceCourant().getTypeSaisiDto() != null
 				&& getTypeAbsenceCourant().getTypeSaisiDto().isCompteurCollectif()) {
 			// on recharge les organisations syndicales
 			List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(currentUser.getAgent()
@@ -151,6 +158,22 @@ public class AjoutDemandeAgentViewModel {
 			}
 
 			setListeOrganisationsSyndicale(orga);
+		}
+		if (getTypeAbsenceCourant() != null 
+				&& getTypeAbsenceCourant().getTypeSaisiDto() != null){
+			if(getTypeAbsenceCourant().getTypeSaisiDto().isSiegeLesion()) {
+				setListeSiegeLesion(absWsConsumer.getListSiegeLesion());
+			}
+		}
+		if (getTypeAbsenceCourant() != null 
+				&& getTypeAbsenceCourant().getTypeSaisiDto() != null){
+			if(getTypeAbsenceCourant().getTypeSaisiDto().isAtReference()) {
+				List<DemandeDto> listATReference = absWsConsumer.getDemandesAgent(currentUser.getAgent()
+						.getIdAgent(), "TOUTES", null, null, null, Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
+						getTypeAbsenceCourant().getIdRefTypeAbsence(), getTypeAbsenceCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+				
+				setListeATReference(listATReference);
+			}
 		}
 	}
 
@@ -217,6 +240,8 @@ public class AjoutDemandeAgentViewModel {
 		setSelectFinAM(null);
 		setDureeHeureDemande(null);
 		setDureeMinuteDemande(null);
+		setListeATReference(null);
+		setListeSiegeLesion(null);
 	}
 
 	@Command
@@ -595,5 +620,21 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
 		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
+	}
+
+	public List<RefTypeDto> getListeSiegeLesion() {
+		return listeSiegeLesion;
+	}
+
+	public void setListeSiegeLesion(List<RefTypeDto> listeSiegeLesion) {
+		this.listeSiegeLesion = listeSiegeLesion;
+	}
+
+	public List<DemandeDto> getListeATReference() {
+		return listeATReference;
+	}
+
+	public void setListeATReference(List<DemandeDto> listeATReference) {
+		this.listeATReference = listeATReference;
 	}
 }

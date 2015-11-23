@@ -104,6 +104,19 @@ public class DemandeDto implements Serializable {
 	
 	// #15586 restitution massive
 	private boolean affichageBoutonHistorique;
+	
+	// Maladies
+	private Double nombreITT;
+	private String prescripteur;
+	private String nomEnfant;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date dateDeclaration;
+	private boolean prolongation;
+	private RefTypeDto typeAccidentTravail;
+	private RefTypeDto typeSiegeLesion;
+	private RefTypeDto typeMaladiePro;
+	private DemandeDto accidentTravailReference;
 
 	public DemandeDto() {
 	}
@@ -450,6 +463,78 @@ public class DemandeDto implements Serializable {
 
 	public void setAffichageBoutonHistorique(boolean affichageBoutonHistorique) {
 		this.affichageBoutonHistorique = affichageBoutonHistorique;
+	}
+
+	public Double getNombreITT() {
+		return nombreITT;
+	}
+
+	public void setNombreITT(Double nombreITT) {
+		this.nombreITT = nombreITT;
+	}
+
+	public String getPrescripteur() {
+		return prescripteur;
+	}
+
+	public void setPrescripteur(String prescripteur) {
+		this.prescripteur = prescripteur;
+	}
+
+	public String getNomEnfant() {
+		return nomEnfant;
+	}
+
+	public void setNomEnfant(String nomEnfant) {
+		this.nomEnfant = nomEnfant;
+	}
+
+	public Date getDateDeclaration() {
+		return dateDeclaration;
+	}
+
+	public void setDateDeclaration(Date dateDeclaration) {
+		this.dateDeclaration = dateDeclaration;
+	}
+
+	public boolean isProlongation() {
+		return prolongation;
+	}
+
+	public void setProlongation(boolean prolongation) {
+		this.prolongation = prolongation;
+	}
+
+	public RefTypeDto getTypeAccidentTravail() {
+		return typeAccidentTravail;
+	}
+
+	public void setTypeAccidentTravail(RefTypeDto typeAccidentTravail) {
+		this.typeAccidentTravail = typeAccidentTravail;
+	}
+
+	public RefTypeDto getTypeSiegeLesion() {
+		return typeSiegeLesion;
+	}
+
+	public void setTypeSiegeLesion(RefTypeDto typeSiegeLesion) {
+		this.typeSiegeLesion = typeSiegeLesion;
+	}
+
+	public RefTypeDto getTypeMaladiePro() {
+		return typeMaladiePro;
+	}
+
+	public void setTypeMaladiePro(RefTypeDto typeMaladiePro) {
+		this.typeMaladiePro = typeMaladiePro;
+	}
+
+	public DemandeDto getAccidentTravailReference() {
+		return accidentTravailReference;
+	}
+
+	public void setAccidentTravailReference(DemandeDto accidentTravailReference) {
+		this.accidentTravailReference = accidentTravailReference;
 	}
 
 }
