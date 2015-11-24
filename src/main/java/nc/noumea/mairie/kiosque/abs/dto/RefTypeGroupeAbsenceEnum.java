@@ -27,7 +27,7 @@ package nc.noumea.mairie.kiosque.abs.dto;
 
 public enum RefTypeGroupeAbsenceEnum {
 
-	RECUP(1), REPOS_COMP(2), AS(3), CONGES_EXCEP(4), CONGES_ANNUELS(5), NOT_EXIST(99);
+	RECUP(1), REPOS_COMP(2), AS(3), CONGES_EXCEP(4), CONGES_ANNUELS(5), MALADIES(6), NOT_EXIST(99);
 
 	private int type;
 
@@ -55,6 +55,8 @@ public enum RefTypeGroupeAbsenceEnum {
 				return CONGES_EXCEP;
 			case 5:
 				return CONGES_ANNUELS;
+			case 6:
+				return MALADIES;
 			default:
 				return NOT_EXIST;
 		}

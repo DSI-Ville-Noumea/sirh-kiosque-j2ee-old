@@ -70,6 +70,9 @@ public class CustomDHXEvent extends DHXEvent {
 			case RECUP:
 				this.color = "violet";
 				break;
+			case MALADIES:
+				this.color = "yellow";
+				break;
 			case NOT_EXIST:
 				break;
 			default:

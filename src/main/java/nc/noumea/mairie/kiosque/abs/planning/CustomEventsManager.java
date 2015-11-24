@@ -43,8 +43,6 @@ import com.dhtmlx.planner.DHXStatus;
 public class CustomEventsManager extends DHXEventsManager {
 
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	
-	public static final List<String> LIST_COLORS = Arrays.asList("orange", "red", "gold", "blue", "green", "grey", "purple", "pink"); 
 
 	private List<DHXEv> evs = new ArrayList<DHXEv>();
 	
