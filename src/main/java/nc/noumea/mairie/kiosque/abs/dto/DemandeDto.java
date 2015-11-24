@@ -34,7 +34,7 @@ import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-public class DemandeDto implements Serializable {
+public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 
 	/**
 	 * 
@@ -535,6 +535,21 @@ public class DemandeDto implements Serializable {
 
 	public void setAccidentTravailReference(DemandeDto accidentTravailReference) {
 		this.accidentTravailReference = accidentTravailReference;
+	}
+
+	@Override
+	public int compareTo(DemandeDto o) {
+		return 0-this.dateDeclaration.compareTo(o.getDateDeclaration());
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(null == this.idDemande
+				|| null == o
+				|| null == ((DemandeDto)o).getIdDemande())
+			return false;
+		
+		return this.idDemande.equals(((DemandeDto)o).getIdDemande());
 	}
 
 }

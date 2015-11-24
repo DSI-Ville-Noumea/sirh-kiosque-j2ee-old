@@ -136,6 +136,91 @@
 								</combobox>
 							</hlayout>
 						</hlayout>
+						<!-- Maladies -->
+				<hlayout>
+					<hlayout width="150px"
+						visible="@bind(vm.demandeCourant.typeSaisi.dateDeclaration)">
+						<label value="Date de déclaration : " />
+					</hlayout>
+					<hlayout>
+						<datebox
+							visible="@bind(vm.demandeCourant.typeSaisi.dateDeclaration)"
+							cols="14" format="dd/MM/yyyy" maxlength="10"
+							value="@bind(vm.demandeCourant.dateDeclaration)" />
+					</hlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.demandeCourant.typeSaisi.prescripteur)">
+					<hlayout width="150px">
+						<label value="Prescripteur : " />
+					</hlayout>
+					<vlayout>
+						<textbox width="200px"
+							value="@bind(vm.demandeCourant.prescripteur)" />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.demandeCourant.typeSaisi.nomEnfant)">
+					<hlayout width="150px">
+						<label value="Nom enfant : " />
+					</hlayout>
+					<vlayout>
+						<textbox width="200px"
+							value="@bind(vm.demandeCourant.nomEnfant)" />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.demandeCourant.typeSaisi.prolongation)">
+					<hlayout width="150px">
+						<label value="Prolongation : " />
+					</hlayout>
+					<vlayout>
+						<checkbox
+							checked="@bind(vm.demandeCourant.prolongation)"
+							label="Prolongation" />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.demandeCourant.typeSaisi.nombreITT)">
+					<hlayout width="150px">
+						<label value="Nombre ITT : " />
+					</hlayout>
+					<vlayout>
+						<textbox width="200px" constraint="/[0-9]+/: Veuiller entrer un nombre" 
+							value="@bind(vm.demandeCourant.nombreITT)" />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.demandeCourant.typeSaisi.siegeLesion)">
+					<hlayout width="150px">
+						<label value="Siège des lésions : " />
+					</hlayout>
+					<vlayout>
+						<combobox width="400px"
+							value="@bind(vm.demandeCourant.typeSiegeLesion.libelle)" 
+							model="@bind(vm.listeSiegeLesion)"
+							selectedItem="@bind(vm.demandeCourant.typeSiegeLesion)">
+							<template name="model">
+								<comboitem label="@bind(each.libelle)" />
+							</template>
+						</combobox>
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.demandeCourant.typeSaisi.atReference)">
+					<hlayout width="150px">
+						<label value="Accident de travail de référence : " />
+					</hlayout>
+					<vlayout>
+						<combobox width="400px"
+							model="@bind(vm.listeATReference)" 
+							selectedItem="@bind(vm.demandeCourant.accidentTravailReference)">
+							<template name="model">
+								<comboitem label="@bind(vm.afficheATReference(each))" />
+							</template>
+						</combobox>
+					</vlayout>
+				</hlayout>
 						<hlayout
 							visible="@bind(vm.demandeCourant.typeSaisi.motif)">
 							<hlayout width="150px">

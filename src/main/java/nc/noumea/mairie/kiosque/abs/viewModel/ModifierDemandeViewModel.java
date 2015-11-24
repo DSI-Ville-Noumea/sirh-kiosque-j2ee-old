@@ -26,13 +26,18 @@ package nc.noumea.mairie.kiosque.abs.viewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -64,6 +69,9 @@ public class ModifierDemandeViewModel {
 	private List<OrganisationSyndicaleDto> listeOrganisationsSyndicale;
 
 	private OrganisationSyndicaleDto organisationsSyndicaleCourant;
+	
+	private List<RefTypeDto> listeSiegeLesion;
+	private List<DemandeDto> listeATReference;
 
 	// pour savoir si la date de debut est le matin
 	private String selectDebutAM;
@@ -83,6 +91,8 @@ public class ModifierDemandeViewModel {
 	private String minuteDebut;
 	private String heureFin;
 	private String minuteFin;
+	
+	private SimpleDateFormat sdfddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
@@ -137,6 +147,27 @@ public class ModifierDemandeViewModel {
 
 				setDureeHeureDemande(String.valueOf(heureDuree));
 				setDureeMinuteDemande(String.valueOf(minuteDuree));
+			}
+			
+			// maladies
+			if (getDemandeCourant() != null 
+					&& getDemandeCourant().getTypeSaisi() != null){
+				if(getDemandeCourant().getTypeSaisi().isSiegeLesion()) {
+					setListeSiegeLesion(absWsConsumer.getListSiegeLesion());
+				}
+			}
+			if (getDemandeCourant() != null 
+					&& getDemandeCourant().getTypeSaisi() != null){
+				if(getDemandeCourant().getTypeSaisi().isAtReference()) {
+					List<DemandeDto> listATReference = absWsConsumer.getDemandesAgent(getDemandeCourant().getAgentWithServiceDto()
+							.getIdAgent(), "TOUTES", null, null, null, 
+							Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
+							RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue(), getDemandeCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+					
+					Collections.sort(listATReference);
+					
+					setListeATReference(listATReference);
+				}
 			}
 		}
 	}
@@ -407,6 +438,20 @@ public class ModifierDemandeViewModel {
 			return true;
 	}
 
+	public String afficheATReference(DemandeDto demandeAT) {
+		
+		String result = "";
+		
+		if(null != demandeAT.getDateDeclaration()) {
+			result += sdfddMMyyyy.format(demandeAT.getDateDeclaration()) + " - ";
+		}
+		if(null != demandeAT.getTypeSiegeLesion()) {
+			result += demandeAT.getTypeSiegeLesion().getLibelle();
+		}
+		
+		return result;
+	}
+
 	public DemandeDto getDemandeCourant() {
 		return demandeCourant;
 	}
@@ -534,4 +579,21 @@ public class ModifierDemandeViewModel {
 	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
 		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
 	}
+
+	public List<RefTypeDto> getListeSiegeLesion() {
+		return listeSiegeLesion;
+	}
+
+	public void setListeSiegeLesion(List<RefTypeDto> listeSiegeLesion) {
+		this.listeSiegeLesion = listeSiegeLesion;
+	}
+
+	public List<DemandeDto> getListeATReference() {
+		return listeATReference;
+	}
+
+	public void setListeATReference(List<DemandeDto> listeATReference) {
+		this.listeATReference = listeATReference;
+	}
+	
 }

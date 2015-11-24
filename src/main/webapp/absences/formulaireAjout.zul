@@ -168,7 +168,7 @@
 						<label value="Nombre ITT : " />
 					</hlayout>
 					<vlayout>
-						<textbox width="200px"
+						<textbox width="200px" constraint="/[0-9]+/: Veuiller entrer un nombre" 
 							value="@bind(vm.demandeCreation.nombreITT)" />
 					</vlayout>
 				</hlayout>
@@ -195,12 +195,10 @@
 					</hlayout>
 					<vlayout>
 						<combobox width="400px"
-							value="@bind(vm.demandeCreation.accidentTravailReference.idDemande)" 
-							model="@bind(vm.listeATReference)"
-							selectedItem="@bind(vm.demandeCreation.accidentTravailReference.idDemande)">
+							model="@bind(vm.listeATReference)" 
+							selectedItem="@bind(vm.demandeCreation.accidentTravailReference)">
 							<template name="model">
-								<comboitem label="@bind(each.idDemande)"
-									description="@bind(each.dateDeclaration - each.typeSiegeLesion.libelle)" />
+								<comboitem label="@bind(vm.afficheATReference(each))" />
 							</template>
 						</combobox>
 					</vlayout>

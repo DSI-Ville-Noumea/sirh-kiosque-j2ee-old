@@ -25,9 +25,11 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
  */
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
@@ -37,6 +39,7 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -98,6 +101,8 @@ public class AjoutDemandeAgentViewModel {
 	private String minuteFin;
 	private String dureeHeureDemande;
 	private String dureeMinuteDemande;
+	
+	private SimpleDateFormat sdfddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Init
 	public void initAjoutDemandeAgent() {
@@ -169,8 +174,11 @@ public class AjoutDemandeAgentViewModel {
 				&& getTypeAbsenceCourant().getTypeSaisiDto() != null){
 			if(getTypeAbsenceCourant().getTypeSaisiDto().isAtReference()) {
 				List<DemandeDto> listATReference = absWsConsumer.getDemandesAgent(currentUser.getAgent()
-						.getIdAgent(), "TOUTES", null, null, null, Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
-						getTypeAbsenceCourant().getIdRefTypeAbsence(), getTypeAbsenceCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+						.getIdAgent(), "TOUTES", null, null, null, 
+						Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
+						RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue(), getTypeAbsenceCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+				
+				Collections.sort(listATReference);
 				
 				setListeATReference(listATReference);
 			}
@@ -450,6 +458,20 @@ public class AjoutDemandeAgentViewModel {
 			return false;
 		} else
 			return true;
+	}
+
+	public String afficheATReference(DemandeDto demandeAT) {
+		
+		String result = "";
+		
+		if(null != demandeAT.getDateDeclaration()) {
+			result += sdfddMMyyyy.format(demandeAT.getDateDeclaration()) + " - ";
+		}
+		if(null != demandeAT.getTypeSiegeLesion()) {
+			result += demandeAT.getTypeSiegeLesion().getLibelle();
+		}
+		
+		return result;
 	}
 
 	public List<RefTypeAbsenceDto> getListeTypeAbsence() {
