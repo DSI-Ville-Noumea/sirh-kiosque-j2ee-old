@@ -179,7 +179,6 @@ public class AjoutDemandeAgentViewModel {
 						RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue(), getTypeAbsenceCourant().getGroupeAbsence().getIdRefGroupeAbsence());
 				
 				Collections.sort(listATReference);
-				
 				setListeATReference(listATReference);
 			}
 		}
