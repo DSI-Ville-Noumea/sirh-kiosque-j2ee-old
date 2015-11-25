@@ -24,7 +24,9 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
  * #L%
  */
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,8 +36,11 @@ import java.util.TimeZone;
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -81,6 +86,9 @@ public class AjoutDemandeViewModel {
 	private List<OrganisationSyndicaleDto> listeOrganisationsSyndicale;
 
 	private OrganisationSyndicaleDto organisationsSyndicaleCourant;
+	
+	private List<RefTypeDto> listeSiegeLesion;
+	private List<DemandeDto> listeATReference;
 
 	// pour savoir si la date de debut est le matin
 	private String selectDebutAM;
@@ -99,6 +107,8 @@ public class AjoutDemandeViewModel {
 	private String minuteFin;
 	private String dureeHeureDemande;
 	private String dureeMinuteDemande;
+	
+	private SimpleDateFormat sdfddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Init
 	public void initAjoutDemande() {
@@ -205,6 +215,25 @@ public class AjoutDemandeViewModel {
 			setDemandeCreation(new DemandeDto());
 			setDureeHeureDemande(null);
 			setDureeMinuteDemande(null);
+
+			if (getTypeAbsenceCourant() != null 
+					&& getTypeAbsenceCourant().getTypeSaisiDto() != null){
+				if(getTypeAbsenceCourant().getTypeSaisiDto().isSiegeLesion()) {
+					setListeSiegeLesion(absWsConsumer.getListSiegeLesion());
+				}
+			}
+			if (getTypeAbsenceCourant() != null 
+					&& getTypeAbsenceCourant().getTypeSaisiDto() != null){
+				if(getTypeAbsenceCourant().getTypeSaisiDto().isAtReference()) {
+					List<DemandeDto> listATReference = absWsConsumer.getDemandesAgent(getAgentFiltre()
+							.getIdAgent(), "TOUTES", null, null, null, 
+							Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
+							RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue(), getTypeAbsenceCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+					
+					Collections.sort(listATReference);
+					setListeATReference(listATReference);
+				}
+			}
 		} else {
 			setOrganisationsSyndicaleCourant(null);
 			setEtatDemandeCreation(null);
@@ -660,6 +689,20 @@ public class AjoutDemandeViewModel {
 		return true;
 	}
 
+	public String afficheATReference(DemandeDto demandeAT) {
+		
+		String result = "";
+		
+		if(null != demandeAT.getDateDeclaration()) {
+			result += sdfddMMyyyy.format(demandeAT.getDateDeclaration()) + " - ";
+		}
+		if(null != demandeAT.getTypeSiegeLesion()) {
+			result += demandeAT.getTypeSiegeLesion().getLibelle();
+		}
+		
+		return result;
+	}
+
 	public String getDureeHeureDemande() {
 		return dureeHeureDemande;
 	}
@@ -683,4 +726,21 @@ public class AjoutDemandeViewModel {
 	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
 		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
 	}
+
+	public List<RefTypeDto> getListeSiegeLesion() {
+		return listeSiegeLesion;
+	}
+
+	public void setListeSiegeLesion(List<RefTypeDto> listeSiegeLesion) {
+		this.listeSiegeLesion = listeSiegeLesion;
+	}
+
+	public List<DemandeDto> getListeATReference() {
+		return listeATReference;
+	}
+
+	public void setListeATReference(List<DemandeDto> listeATReference) {
+		this.listeATReference = listeATReference;
+	}
+	
 }
