@@ -71,7 +71,7 @@ public class CustomDHXEvent extends DHXEvent {
 				this.color = "violet";
 				break;
 			case MALADIES:
-				this.color = "yellow";
+				this.color = "Brown";
 				break;
 			case NOT_EXIST:
 				break;

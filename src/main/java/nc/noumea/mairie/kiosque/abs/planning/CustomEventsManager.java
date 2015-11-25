@@ -26,7 +26,6 @@ package nc.noumea.mairie.kiosque.abs.planning;
  
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
