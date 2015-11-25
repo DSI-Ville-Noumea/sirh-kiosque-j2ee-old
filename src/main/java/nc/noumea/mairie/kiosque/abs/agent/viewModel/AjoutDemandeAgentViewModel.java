@@ -111,8 +111,8 @@ public class AjoutDemandeAgentViewModel {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-		// on recharge les groupes d'absences pour les filtres
-		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
+		// on recharge les groupes d'absences pour les filtres sauf maladies
+		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsenceForAgent();
 		setListeGroupeAbsence(filtreGroupeFamille);
 		// on positionne la selection du statut Provisoire/Définitif
 		//#15785

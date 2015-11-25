@@ -157,4 +157,6 @@ public interface ISirhAbsWSConsumer {
 
 	List<RefTypeDto> getListSiegeLesion();
 
+	List<RefGroupeAbsenceDto> getRefGroupeAbsenceForAgent();
+
 }

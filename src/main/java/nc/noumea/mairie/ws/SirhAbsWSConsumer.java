@@ -101,6 +101,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
 	private static final String sirhEtatAbsenceKiosqueUrl = "filtres/getEtats";
 	private static final String sirhGroupeAbsenceUrl = "filtres/getGroupesAbsence";
+	private static final String sirhGroupeAbsenceForAgentUrl = "filtres/getGroupesAbsenceForAgent";
 	private static final String sirhListOrganisationUrl = "organisation/listOrganisationActif";
 	private static final String sirhTypeAbsenceCompteurKiosqueUrl = "filtres/getTypeAbsenceCompteurKiosque";
 	private static final String sirhServicesKiosqueUrl = "filtres/services";
@@ -179,6 +180,15 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	@Override
 	public List<RefGroupeAbsenceDto> getRefGroupeAbsence() {
 		String url = String.format(sirhAbsWsBaseUrl + sirhGroupeAbsenceUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefGroupeAbsenceDto.class, res, url);
+	}
+
+	@Override
+	public List<RefGroupeAbsenceDto> getRefGroupeAbsenceForAgent() {
+		String url = String.format(sirhAbsWsBaseUrl + sirhGroupeAbsenceForAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 
 		ClientResponse res = createAndFireGetRequest(params, url);
