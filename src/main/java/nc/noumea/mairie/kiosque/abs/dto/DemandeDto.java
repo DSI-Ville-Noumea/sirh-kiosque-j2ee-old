@@ -78,15 +78,12 @@ public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 	private boolean isAffichageBoutonSupprimer;
 	private boolean isAffichageBoutonImprimer;
 	private boolean isAffichageBoutonAnnuler;
-	private boolean isAffichageVisa;
-	private boolean isAffichageApprobation;
 	private boolean isAffichageValidation;
 	private boolean isAffichageEnAttente;
 	private boolean isAffichageBoutonDupliquer;
 	// permet de viser ou approuver
 	private boolean isModifierVisa;
 	private boolean isModifierApprobation;
-	private boolean isModifierValidation;
 	// valeur du visa et approbation de la demande
 	private Boolean isValeurVisa = null;
 	private Boolean isValeurApprobation = null;
@@ -183,22 +180,6 @@ public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 
 	public void setAffichageBoutonImprimer(boolean isAffichageBoutonImprimer) {
 		this.isAffichageBoutonImprimer = isAffichageBoutonImprimer;
-	}
-
-	public boolean isAffichageVisa() {
-		return isAffichageVisa;
-	}
-
-	public void setAffichageVisa(boolean isAffichageVisa) {
-		this.isAffichageVisa = isAffichageVisa;
-	}
-
-	public boolean isAffichageApprobation() {
-		return isAffichageApprobation;
-	}
-
-	public void setAffichageApprobation(boolean isAffichageApprobation) {
-		this.isAffichageApprobation = isAffichageApprobation;
 	}
 
 	public boolean isAffichageBoutonAnnuler() {
@@ -335,14 +316,6 @@ public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 
 	public void setAffichageValidation(boolean isAffichageValidation) {
 		this.isAffichageValidation = isAffichageValidation;
-	}
-
-	public boolean isModifierValidation() {
-		return isModifierValidation;
-	}
-
-	public void setModifierValidation(boolean isModifierValidation) {
-		this.isModifierValidation = isModifierValidation;
 	}
 
 	public Boolean getValeurValidation() {
