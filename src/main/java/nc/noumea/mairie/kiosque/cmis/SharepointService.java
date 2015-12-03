@@ -95,10 +95,8 @@ public class SharepointService implements ISharepointService {
 		// TODO penser a supprimer cette ligne lorsque l on abandonnera
 		// sharepoint
 		// probleme accents
-		logger.error("xmlRecu avant transformation : " + xml);
 		xml = xml.replace("??", "e").replace("Ã©", "e").replace("Ã¨", "e").replace("Ã‰", "e").replace("é", "e")
 				.replace("è", "e");
-		logger.error("xmlRecu apres transformation : " + xml);
 		return transformeXmlEnListUrl(xml);
 	}
 
