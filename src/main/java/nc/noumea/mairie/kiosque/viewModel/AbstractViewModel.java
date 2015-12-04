@@ -71,8 +71,6 @@ public abstract class AbstractViewModel extends SelectorComposer<Component> {
 	@WireVariable
 	protected Boolean droitsEae;
 	
-	
-	
 	public ProfilAgentDto getCurrentUser() {
 
 		if(null != currentUser) {

@@ -55,6 +55,8 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 	private EnvironnementService environnementService;
 
 	private boolean afficheRecette;
+	
+	private boolean absWsOk = true;
 
 	@Init
 	public void initMenu() {
@@ -64,6 +66,10 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 		} else {
 			setAfficheRecette(false);
 		}
+		
+		if(null == getDroitsAbsence()) {
+			absWsOk = false;
+		}
 
 		/* Pour les pointages */
 		setDroitsModulePointage(getDroitsPointage() == null ? false : getDroitsPointage().isApprobation() || getDroitsPointage().isFiches() || getDroitsPointage().isGestionDroitsAcces()
@@ -71,7 +77,7 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 	}
 
 	public boolean ouvreGestionTitreRepas() {
-		return (getDroitsPointage().isApprobation() || getDroitsPointage().isVisualisation()) && environnementService.isAffichageModuleTitreRepas();
+		return (null != getDroitsPointage() && (getDroitsPointage().isApprobation() || getDroitsPointage().isVisualisation())) && environnementService.isAffichageModuleTitreRepas();
 	}
 
 	@Command
@@ -139,5 +145,13 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 
 	public void setEnvironnementService(EnvironnementService environnementService) {
 		this.environnementService = environnementService;
+	}
+
+	public boolean isAbsWsOk() {
+		return absWsOk;
+	}
+
+	public void setAbsWsOk(boolean absWsOk) {
+		this.absWsOk = absWsOk;
 	}
 }

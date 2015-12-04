@@ -32,7 +32,8 @@
 						onClick="@command('tableauBordSharepoint',page='/eae/tableauBord',ecran=content)" />
 				</menupopup>
 			</menu>
-			<menu tooltiptext="Mes absences" sclass="absenceMenu">
+			<menu tooltiptext="Mes absences" sclass="absenceMenu"
+				visible="@bind(vm.absWsOk)">
 				<menupopup>
 					<menuitem label="Mes absences" sclass="titreMenu"
 						image="img/absence.png" />
