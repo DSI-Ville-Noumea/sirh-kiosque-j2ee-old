@@ -36,6 +36,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -99,6 +100,8 @@ public class AjoutDemandeViewModel {
 	private String minuteFin;
 	private String dureeHeureDemande;
 	private String dureeMinuteDemande;
+	
+	private boolean saisieManuelleDuree;
 
 	@Init
 	public void initAjoutDemande() {
@@ -352,6 +355,8 @@ public class AjoutDemandeViewModel {
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
+			getDemandeCreation().setDuree(new Double(getDureeCongeAnnuel()));
+			
 			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
 					getDemandeCreation());
 
@@ -462,6 +467,13 @@ public class AjoutDemandeViewModel {
 					vList.add(new ValidationMessage("La date de reprise est obligatoire."));
 				}
 			}
+			
+			try {
+				new Double(getDureeCongeAnnuel());
+			} catch(java.lang.NumberFormatException e) {
+				vList.add(new ValidationMessage("Merci de saisir une durée valide."));
+			}
+			
 		} else {
 			vList.add(new ValidationMessage(
 					"Une erreur est survenue dans l'enregistrement de la demande. Merci de recommencer."));
@@ -659,6 +671,22 @@ public class AjoutDemandeViewModel {
 		}
 		return true;
 	}
+	
+	public boolean getAfficherBoutonForcerDuree() {
+		if(null != getTypeAbsenceCourant()
+				&& null != getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto()
+				&& getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto().getCodeBaseHoraireAbsence().equals(RefTypeSaisieCongeAnnuelEnum.C.getCodeBase())) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Command
+	@NotifyChange("saisieManuelleDuree")
+	public void forcerSaisieDuree() {
+		setSaisieManuelleDuree(true);
+		getDemandeCreation().setForceSaisieManuelleDuree(true);
+	}
 
 	public String getDureeHeureDemande() {
 		return dureeHeureDemande;
@@ -683,4 +711,13 @@ public class AjoutDemandeViewModel {
 	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
 		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
 	}
+
+	public boolean isSaisieManuelleDuree() {
+		return saisieManuelleDuree;
+	}
+
+	public void setSaisieManuelleDuree(boolean saisieManuelleDuree) {
+		this.saisieManuelleDuree = saisieManuelleDuree;
+	}
+	
 }

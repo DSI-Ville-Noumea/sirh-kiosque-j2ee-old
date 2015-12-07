@@ -61,6 +61,7 @@ public class DemandeDto implements Serializable {
 	private boolean isDateFinAM;
 	private boolean isDateFinPM;
 	private Double duree;
+	private boolean forceSaisieManuelleDuree;
 	private boolean isSamediOffert;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
@@ -450,6 +451,14 @@ public class DemandeDto implements Serializable {
 
 	public void setAffichageBoutonHistorique(boolean affichageBoutonHistorique) {
 		this.affichageBoutonHistorique = affichageBoutonHistorique;
+	}
+
+	public boolean isForceSaisieManuelleDuree() {
+		return forceSaisieManuelleDuree;
+	}
+
+	public void setForceSaisieManuelleDuree(boolean forceSaisieManuelleDuree) {
+		this.forceSaisieManuelleDuree = forceSaisieManuelleDuree;
 	}
 
 }

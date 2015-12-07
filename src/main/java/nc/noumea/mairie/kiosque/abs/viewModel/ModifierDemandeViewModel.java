@@ -35,6 +35,7 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -83,6 +84,8 @@ public class ModifierDemandeViewModel {
 	private String minuteDebut;
 	private String heureFin;
 	private String minuteFin;
+	
+	private boolean saisieManuelleDuree;
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
@@ -243,6 +246,23 @@ public class ModifierDemandeViewModel {
 			getDemandeCourant().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
+			try {
+				getDemandeCourant().setDuree(new Double(getDureeCongeAnnuel()));
+			} catch(java.lang.NumberFormatException e) {
+				final HashMap<String, Object> map = new HashMap<String, Object>();
+				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+				ValidationMessage vm = new ValidationMessage("Merci de saisir une durée valide.");
+				listErreur.add(vm);
+				map.put("errors", listErreur);
+				map.put("infos", new ArrayList<ValidationMessage>());
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
+				if (listErreur.size() == 0) {
+					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
+					window.detach();
+				}
+				return;
+			}
+			
 			ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
 			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
@@ -406,6 +426,24 @@ public class ModifierDemandeViewModel {
 		} else
 			return true;
 	}
+	
+	@Command
+	@NotifyChange("saisieManuelleDuree")
+	public void forcerSaisieDuree() {
+		setSaisieManuelleDuree(true);
+		getDemandeCourant().setForceSaisieManuelleDuree(true);
+	}
+	
+	public boolean getAfficherBoutonForcerDuree() {
+		
+		ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
+		
+		if(getDemandeCourant().getTypeSaisiCongeAnnuel().getCodeBaseHoraireAbsence().equals(RefTypeSaisieCongeAnnuelEnum.C.getCodeBase())
+				&& !currentUser.getAgent().getIdAgent().equals(getDemandeCourant().getAgentWithServiceDto().getIdAgent())) {
+			return true;
+		}
+		return false;
+	}
 
 	public DemandeDto getDemandeCourant() {
 		return demandeCourant;
@@ -533,5 +571,13 @@ public class ModifierDemandeViewModel {
 
 	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
 		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
+	}
+
+	public boolean isSaisieManuelleDuree() {
+		return saisieManuelleDuree;
+	}
+
+	public void setSaisieManuelleDuree(boolean saisieManuelleDuree) {
+		this.saisieManuelleDuree = saisieManuelleDuree;
 	}
 }

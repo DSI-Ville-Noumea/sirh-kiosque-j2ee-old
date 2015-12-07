@@ -92,6 +92,8 @@ public class AjoutDemandeAgentViewModel {
 	private String minuteFin;
 	private String dureeHeureDemande;
 	private String dureeMinuteDemande;
+	
+	private boolean saisieManuelleDuree = false;
 
 	@Init
 	public void initAjoutDemandeAgent() {
@@ -572,6 +574,10 @@ public class AjoutDemandeAgentViewModel {
 		}
 		return true;
 	}
+	
+	public boolean getAfficherBoutonForcerDuree() {
+		return false;
+	}
 
 	public String getDureeHeureDemande() {
 		return dureeHeureDemande;
@@ -595,5 +601,13 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
 		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
+	}
+
+	public boolean isSaisieManuelleDuree() {
+		return saisieManuelleDuree;
+	}
+
+	public void setSaisieManuelleDuree(boolean saisieManuelleDuree) {
+		this.saisieManuelleDuree = saisieManuelleDuree;
 	}
 }
