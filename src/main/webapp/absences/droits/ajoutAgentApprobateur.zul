@@ -5,7 +5,7 @@
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.droits.viewModel.AjoutAgentApprobateurViewModel')"
 		width="70%">
 		<style>
-			.fondRecherche { padding-top: 0px; }
+			.fondRecherche { padding-top: 0px; width: 750px; }
 		</style>
 		<div sclass="fond" height="100%">
 			<vlayout height="100%">
@@ -24,36 +24,33 @@
 						Recherche instantanée :
 						<textbox value="@bind(vm.filter)"
 							onChange="@command('doSearch')" instant="true" />
+							
+						<button label="Déplier" 
+							onClick="@command('openAll')" />
+						<button label="Replier" 
+							onClick="@command('closeAll')" />
 					</div>
 				</hlayout>
 				<separator />
-				<listbox mold="paging" pageSize="@bind(vm.tailleListe)"
-					model="@bind(vm.listeAgents)" emptyMessage="Aucun élément"
-					id="listeAgent">
-					<custom-attributes
-						org.zkoss.zul.listbox.autoSort="true" />
-					<listhead>
-						<listheader label="" sort="none" width="30px">
-							<checkbox id="checkAll"
-								onCheck="@command('doCheckedAll',ref=listeAgents,box=self)" />
-						</listheader>
-						<listheader label="Nom" sort="auto('nom')" />
-						<listheader label="Prénom" sort="auto('prenom')"
-							align="center" />
-					</listhead>
-
-					<template name="model">
-						<listitem>
-							<listcell>
-								<checkbox
-									onCheck="@command('doChecked',ref=each)"
-									checked="@bind(each.selectedDroitAbs)" />
-							</listcell>
-							<listcell label="@bind(each.nom)" />
-							<listcell label="@bind(each.prenom)" />
-						</listitem>
+				
+				<tree id="tree" mold="paging" pageSize="@bind(vm.tailleListe)" rows="@bind(vm.tailleListe)"
+					model="@bind(vm.arbre)">
+					<treecols sizable="true">
+			            <treecol label="Service - Nom" />
+			        </treecols>
+			        
+					<template name="model" var="node">
+						<treeitem>
+							<treerow>
+								<treecell sclass="@bind(node.classCss)">
+									<checkbox onCheck="@command('selectNoeudArbre',ref=node)"
+										checked="@bind(node.selectedDroitAbs)" />
+									<label value="@bind(node.label)" sclass="@bind(node.classCssText)" /></treecell>
+							</treerow>
+						</treeitem>
 					</template>
-				</listbox>
+       			</tree>
+				
 				<separator />
 				<div align="center">
 					<hlayout>

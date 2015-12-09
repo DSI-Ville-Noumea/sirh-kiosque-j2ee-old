@@ -34,6 +34,9 @@ public class ServiceTreeNode {
 	private List<ServiceTreeNode> _children;
 	private String _label = "";
 	private String _id = null;
+	private String classCss;
+	private String classCssText;
+	private boolean selectedDroitAbs;
 
 	public ServiceTreeNode(ServiceTreeNode parent, String label, String id) {
 		_parent = parent;
@@ -72,4 +75,29 @@ public class ServiceTreeNode {
 	public String toString() {
 		return getLabel();
 	}
+
+	public String getClassCss() {
+		return classCss;
+	}
+
+	public void setClassCss(String classCss) {
+		this.classCss = classCss;
+	}
+
+	public String getClassCssText() {
+		return classCssText;
+	}
+
+	public void setClassCssText(String classCssTExt) {
+		this.classCssText = classCssTExt;
+	}
+
+	public boolean isSelectedDroitAbs() {
+		return selectedDroitAbs;
+	}
+
+	public void setSelectedDroitAbs(boolean selectedDroitAbs) {
+		this.selectedDroitAbs = selectedDroitAbs;
+	}
+	
 }

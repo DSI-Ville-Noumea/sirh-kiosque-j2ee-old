@@ -35,6 +35,7 @@ import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.EntiteWithAgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -64,6 +65,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhEstChefUrl = "agents/estChef";
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
+	private static final String sirhArbreServicesWithListAgentsByServiceUrl = "agents/arbreServicesWithListAgentsByService";
 	private static final String sirhEstHabiliteEaeUrl = "eaes/estHabiliteEAE";
 	private static final String sirhReferentRHUrl = "kiosqueRH/getListReferentRH";
 	private static final String sirhAccueilRHUrl = "kiosqueRH/getListeAccueilRH";
@@ -149,6 +151,26 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 		}
 
 		return result;
+	}
+
+	@Override
+	public List<AgentWithServiceDto> getListeAgentsMairieByIdServiceAds(Integer idServiceAds) {
+		String url = String.format(sirhWsBaseUrl + sirhAgentsMairieUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idServiceADS", idServiceAds.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentWithServiceDto.class, res, url);
+	}
+
+	@Override
+	public EntiteWithAgentWithServiceDto getListeEntiteWithAgentWithServiceDtoByIdServiceAds(Integer idServiceAds) {
+		String url = String.format(sirhWsBaseUrl + sirhArbreServicesWithListAgentsByServiceUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idServiceADS", idServiceAds.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(EntiteWithAgentWithServiceDto.class, res, url);
 	}
 
 	@Override
