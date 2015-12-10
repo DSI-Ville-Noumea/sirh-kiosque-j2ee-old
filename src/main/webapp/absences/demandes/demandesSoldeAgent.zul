@@ -34,7 +34,7 @@
 						<label sclass="value"
 							value="(Demande en cours : " />
 						<label sclass="value"
-							value="@bind(vm.soldeJour(vm.soldeCourant.dureeCongeNonValide))" />
+							value="@bind(vm.soldeJourEnCours(vm.soldeCourant.dureeCongeNonValide))" />
 						<label sclass="value"
 							value=")" />
 					</div>
@@ -51,7 +51,7 @@
 						<label sclass="value"
 							value="(Demande en cours : " />
 						<label sclass="value"
-							value="@bind(vm.soldeHeure(vm.soldeCourant.dureeRecupNonValide))" />
+							value="@bind(vm.soldeHeureEnCours(vm.soldeCourant.dureeRecupNonValide))" />
 						<label sclass="value"
 							value=")" />
 					</div>
@@ -80,7 +80,7 @@
 						<label sclass="value"
 							value="(Demande en cours : " />
 						<label sclass="value"
-							value="@bind(vm.soldeHeure(vm.soldeCourant.dureeReposCompNonValide))" />
+							value="@bind(vm.soldeHeureEnCours(vm.soldeCourant.dureeReposCompNonValide))" />
 						<label sclass="value"
 							value=")" />
 					</div>
@@ -98,7 +98,7 @@
 						<label sclass="value"
 							value="(Demande en cours : " />
 						<label sclass="value"
-							value="@bind(vm.soldeJour(vm.soldeCourant.dureeAsaA48NonValide))" />
+							value="@bind(vm.soldeJourEnCours(vm.soldeCourant.dureeAsaA48NonValide))" />
 						<label sclass="value"
 							value=")" />
 					</div>
@@ -116,7 +116,7 @@
 						<label sclass="value"
 							value="(Demande en cours : " />
 						<label sclass="value"
-							value="@bind(vm.soldeJour(vm.soldeCourant.dureeAsaA54NonValide))" />
+							value="@bind(vm.soldeJourEnCours(vm.soldeCourant.dureeAsaA54NonValide))" />
 						<label sclass="value"
 							value=")" />
 					</div>
@@ -133,7 +133,7 @@
 						<label sclass="value"
 							value="(Demande en cours : " />
 						<label sclass="value"
-							value="@bind(vm.soldeHeure(vm.soldeCourant.dureeAsaA55NonValide))" />
+							value="@bind(vm.soldeHeureEnCours(vm.soldeCourant.dureeAsaA55NonValide))" />
 						<label sclass="value"
 							value=")" />
 					</div>
@@ -150,7 +150,7 @@
 						<label sclass="value"
 							value="(Demande en cours : " />
 						<label sclass="value"
-							value="@bind(vm.soldeHeure(vm.soldeCourant.dureeAsaA52NonValide))" />
+							value="@bind(vm.soldeHeureEnCours(vm.soldeCourant.dureeAsaA52NonValide))" />
 						<label sclass="value"
 							value=")" />
 					</div>
@@ -167,7 +167,7 @@
 						<label sclass="value"
 							value="(Demande en cours : " />
 						<label sclass="value"
-							value="@bind(vm.soldeHeure(vm.soldeCourant.dureeAsaAmicaleNonValide))" />
+							value="@bind(vm.soldeHeureEnCours(vm.soldeCourant.dureeAsaAmicaleNonValide))" />
 						<label sclass="value"
 							value=")" />
 					</div>
