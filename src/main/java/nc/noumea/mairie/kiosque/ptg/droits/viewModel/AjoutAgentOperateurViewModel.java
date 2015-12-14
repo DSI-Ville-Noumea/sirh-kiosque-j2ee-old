@@ -166,7 +166,9 @@ public class AjoutAgentOperateurViewModel {
 			setArbre(serviceTreeModel);
 		} else {
 			// on charge les sous agents
-			ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(null));
+			//on recupere la liste des agents de l'operateur
+			List<AgentDto> listAgentsAffectesApprobateur = ptgWsConsumer.getApprovedAgents(approbateur.getIdAgent());
+			ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(listAgentsAffectesApprobateur));
 			serviceTreeModel.setMultiple(true);
 			setArbre(serviceTreeModel);
 		}
@@ -271,7 +273,9 @@ public class AjoutAgentOperateurViewModel {
 	@Command
 	@NotifyChange({ "arbre" })
 	public void openAll() {
-		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(null));
+		//on recupere la liste des agents de l'operateur
+		List<AgentDto> listAgentsAffectesApprobateur = ptgWsConsumer.getApprovedAgents(approbateur.getIdAgent());
+		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(listAgentsAffectesApprobateur));
 		serviceTreeModel.setMultiple(true);
 		serviceTreeModel.setOpenObjects(AbstractTreeUtils.getOpenObject(serviceTreeModel.getRoot()));
 		setArbre(serviceTreeModel);
@@ -282,7 +286,9 @@ public class AjoutAgentOperateurViewModel {
 	@Command
 	@NotifyChange({ "arbre" })
 	public void closeAll() {
-		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(null));
+		//on recupere la liste des agents de l'operateur
+		List<AgentDto> listAgentsAffectesApprobateur = ptgWsConsumer.getApprovedAgents(approbateur.getIdAgent());
+		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(listAgentsAffectesApprobateur));
 		serviceTreeModel.setMultiple(true);
 		setArbre(serviceTreeModel);
 		// on coche le service si tous les agents de celui-ci sont coches
