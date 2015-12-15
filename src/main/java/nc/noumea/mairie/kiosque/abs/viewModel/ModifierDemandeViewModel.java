@@ -438,7 +438,10 @@ public class ModifierDemandeViewModel {
 		
 		ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
-		if(getDemandeCourant().getTypeSaisiCongeAnnuel().getCodeBaseHoraireAbsence().equals(RefTypeSaisieCongeAnnuelEnum.C.getCodeBase())
+		if(null != getDemandeCourant()
+				&& null != getDemandeCourant().getTypeSaisiCongeAnnuel()
+				&& null != getDemandeCourant().getTypeSaisiCongeAnnuel().getCodeBaseHoraireAbsence()
+				&& getDemandeCourant().getTypeSaisiCongeAnnuel().getCodeBaseHoraireAbsence().equals(RefTypeSaisieCongeAnnuelEnum.C.getCodeBase())
 				&& !currentUser.getAgent().getIdAgent().equals(getDemandeCourant().getAgentWithServiceDto().getIdAgent())) {
 			return true;
 		}
