@@ -247,6 +247,8 @@ public class ModifierDemandeViewModel {
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
 			try {
+				if(null != getDureeCongeAnnuel()
+						&& !"".equals(getDureeCongeAnnuel())) 
 				getDemandeCourant().setDuree(new Double(getDureeCongeAnnuel()));
 			} catch(java.lang.NumberFormatException e) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -438,7 +440,10 @@ public class ModifierDemandeViewModel {
 		
 		ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 		
-		if(getDemandeCourant().getTypeSaisiCongeAnnuel().getCodeBaseHoraireAbsence().equals(RefTypeSaisieCongeAnnuelEnum.C.getCodeBase())
+		if(null != getDemandeCourant()
+				&& null != getDemandeCourant().getTypeSaisiCongeAnnuel()
+				&& null != getDemandeCourant().getTypeSaisiCongeAnnuel().getCodeBaseHoraireAbsence()
+				&& getDemandeCourant().getTypeSaisiCongeAnnuel().getCodeBaseHoraireAbsence().equals(RefTypeSaisieCongeAnnuelEnum.C.getCodeBase())
 				&& !currentUser.getAgent().getIdAgent().equals(getDemandeCourant().getAgentWithServiceDto().getIdAgent())) {
 			return true;
 		}
