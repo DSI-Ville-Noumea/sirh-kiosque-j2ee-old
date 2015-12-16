@@ -355,7 +355,24 @@ public class AjoutDemandeViewModel {
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			getDemandeCreation().setDuree(new Double(getDureeCongeAnnuel()));
+			try {
+				if(null != getDureeCongeAnnuel()
+						&& !"".equals(getDureeCongeAnnuel())) 
+					getDemandeCreation().setDuree(new Double(getDureeCongeAnnuel()));
+			} catch(java.lang.NumberFormatException e) {
+				final HashMap<String, Object> map = new HashMap<String, Object>();
+				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+				ValidationMessage vm = new ValidationMessage("Merci de saisir une durée valide.");
+				listErreur.add(vm);
+				map.put("errors", listErreur);
+				map.put("infos", new ArrayList<ValidationMessage>());
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
+				if (listErreur.size() == 0) {
+					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
+					window.detach();
+				}
+				return;
+			}
 			
 			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
 					getDemandeCreation());
@@ -673,8 +690,10 @@ public class AjoutDemandeViewModel {
 	}
 	
 	public boolean getAfficherBoutonForcerDuree() {
+		
 		if(null != getTypeAbsenceCourant()
 				&& null != getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto()
+				&& null != getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto().getCodeBaseHoraireAbsence()
 				&& getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto().getCodeBaseHoraireAbsence().equals(RefTypeSaisieCongeAnnuelEnum.C.getCodeBase())) {
 			return true;
 		}
