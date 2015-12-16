@@ -355,7 +355,13 @@ public class AjoutDemandeViewModel {
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			getDemandeCreation().setDuree(new Double(getDureeCongeAnnuel()));
+			try {
+				if(null != getDureeCongeAnnuel()
+						&& !"".equals(getDureeCongeAnnuel())) 
+					getDemandeCreation().setDuree(new Double(getDureeCongeAnnuel()));
+			} catch(NumberFormatException e) {
+				
+			}
 			
 			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
 					getDemandeCreation());
