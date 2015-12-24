@@ -168,7 +168,8 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 		String url = String.format(sirhWsBaseUrl + sirhArbreServicesWithListAgentsByServiceUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idServiceADS", idServiceAds.toString());
-		params.put("idAgent", idAgent.toString());
+		if (idAgent != null)
+			params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(EntiteWithAgentWithServiceDto.class, res, url);
