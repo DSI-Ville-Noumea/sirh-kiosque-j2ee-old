@@ -100,7 +100,7 @@ public class AjoutAgentOperateurViewModel {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-		EntiteWithAgentWithServiceDto tree = sirhWsConsumer.getListeEntiteWithAgentWithServiceDtoByIdServiceAds(currentUser.getIdServiceAds());
+		EntiteWithAgentWithServiceDto tree = sirhWsConsumer.getListeEntiteWithAgentWithServiceDtoByIdServiceAds(currentUser.getIdServiceAds(), null);
 
 		setArbreService(tree);
 		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(listAgentsAffectesApprobateur));

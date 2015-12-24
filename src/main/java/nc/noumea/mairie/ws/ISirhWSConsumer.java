@@ -72,10 +72,8 @@ public interface ISirhWSConsumer {
 
 	AgentGeneriqueDto getAffectationAgent(Integer idAgent, Date date);
 
-	List<AgentWithServiceDto> getListeAgentsMairieByIdServiceAds(
-			Integer idServiceAds);
+	List<AgentWithServiceDto> getListeAgentsMairieByIdServiceAds(Integer idServiceAds);
 
-	EntiteWithAgentWithServiceDto getListeEntiteWithAgentWithServiceDtoByIdServiceAds(
-			Integer idServiceAds);
+	EntiteWithAgentWithServiceDto getListeEntiteWithAgentWithServiceDtoByIdServiceAds(Integer idServiceAds, Integer idAgent);
 
 }

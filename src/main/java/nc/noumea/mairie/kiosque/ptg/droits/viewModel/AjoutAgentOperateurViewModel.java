@@ -78,14 +78,14 @@ public class AjoutAgentOperateurViewModel {
 	/* POUR LE HAUT DU TABLEAU */
 	private String filter;
 	private String tailleListe;
-	
+
 	// pour l'arbre des services
 	private EntiteWithAgentWithServiceDto arbreService;
 	private TreeModel<ServiceTreeNode> arbre;
 
 	@Init
-	public void initAgentOperateur(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants,
-			@ExecutionArgParam("operateur") AgentDto operateur, @ExecutionArgParam("approbateur") AgentDto approbateur) {
+	public void initAgentOperateur(@ExecutionArgParam("agentsExistants") List<AgentDto> agentsExistants, @ExecutionArgParam("operateur") AgentDto operateur,
+			@ExecutionArgParam("approbateur") AgentDto approbateur) {
 		// on sauvegarde qui est l'approbateur
 		setApprobateur(approbateur);
 		// on sauvegarde qui est l'operateur
@@ -96,13 +96,12 @@ public class AjoutAgentOperateurViewModel {
 		List<AgentDto> listAgentsAffectesApprobateur = ptgWsConsumer.getApprovedAgents(approbateur.getIdAgent());
 		setListeAgents(listAgentsAffectesApprobateur);
 		setTailleListe("5");
-		setTitle("Sélection des agents affectés à l'opérateur " + getOperateur().getNom() + " "
-				+ getOperateur().getPrenom());
+		setTitle("Sélection des agents affectés à l'opérateur " + getOperateur().getNom() + " " + getOperateur().getPrenom());
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
-		
-		EntiteWithAgentWithServiceDto tree = sirhWsConsumer.getListeEntiteWithAgentWithServiceDtoByIdServiceAds(currentUser.getIdServiceAds());
-		
+
+		EntiteWithAgentWithServiceDto tree = sirhWsConsumer.getListeEntiteWithAgentWithServiceDtoByIdServiceAds(currentUser.getIdServiceAds(), null);
+
 		setArbreService(tree);
 		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(listAgentsAffectesApprobateur));
 		serviceTreeModel.setMultiple(true);
@@ -113,17 +112,14 @@ public class AjoutAgentOperateurViewModel {
 
 	@Command
 	public void saveAgent(@BindingParam("win") Window window) {
-		ReturnMessageDto result = ptgWsConsumer.saveAgentsSaisisOperateur(getApprobateur().getIdAgent(), getOperateur()
-				.getIdAgent(), getListeAgentsExistants());
+		ReturnMessageDto result = ptgWsConsumer.saveAgentsSaisisOperateur(getApprobateur().getIdAgent(), getOperateur().getIdAgent(), getListeAgentsExistants());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 		List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
 		// ici la liste info est toujours vide alors on ajoute un message
 		if (result.getErrors().size() == 0)
-			result.getInfos().add(
-					"Les agents affectés à l'opérateur " + getOperateur().getNom() + " " + getOperateur().getPrenom()
-							+ " ont été enregistrés correctement.");
+			result.getInfos().add("Les agents affectés à l'opérateur " + getOperateur().getNom() + " " + getOperateur().getPrenom() + " ont été enregistrés correctement.");
 		for (String error : result.getErrors()) {
 			ValidationMessage vm = new ValidationMessage(error);
 			listErreur.add(vm);
@@ -166,35 +162,35 @@ public class AjoutAgentOperateurViewModel {
 			setArbre(serviceTreeModel);
 		} else {
 			// on charge les sous agents
-			//on recupere la liste des agents de l'operateur
+			// on recupere la liste des agents de l'operateur
 			List<AgentDto> listAgentsAffectesApprobateur = ptgWsConsumer.getApprovedAgents(approbateur.getIdAgent());
 			ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(listAgentsAffectesApprobateur));
 			serviceTreeModel.setMultiple(true);
 			setArbre(serviceTreeModel);
 		}
 	}
-	
+
 	@Command
-	@NotifyChange({"itemSelectedSet", "arbre"})
+	@NotifyChange({ "itemSelectedSet", "arbre" })
 	public void selectNoeudArbre(@BindingParam("ref") ServiceTreeNode node) {
-		
-		if(null != node) {
-			if(!AbstractTreeUtils.isInteger(node.getId())) {
-				if(node.isSelectedDroitAbs()) {
+
+		if (null != node) {
+			if (!AbstractTreeUtils.isInteger(node.getId())) {
+				if (node.isSelectedDroitAbs()) {
 					// on coche un service
 					AbstractTreeUtils.updateServiceTreeNode(getArbre().getRoot(), node, true, getListeAgentsExistants());
-				}else{
+				} else {
 					// on decoche les agents du service
 					AbstractTreeUtils.updateServiceTreeNode(getArbre().getRoot(), node, false, getListeAgentsExistants());
 				}
 			}
 		}
-		
+
 		// si on decoche un agent
 		// on decoche le service s il est coche
 		AbstractTreeUtils.updateServiceTreeNode(getArbre().getRoot(), null, false, getListeAgentsExistants());
-		
-		if(AbstractTreeUtils.isInteger(node.getId())) {
+
+		if (AbstractTreeUtils.isInteger(node.getId())) {
 			if (node.isSelectedDroitAbs()) {
 				AgentDto ag = new AgentDto();
 				ag.setIdAgent(new Integer(node.getId()));
@@ -209,56 +205,51 @@ public class AjoutAgentOperateurViewModel {
 			}
 		}
 	}
-	
+
 	// create a FooNodes tree structure and return the root
 	private ServiceTreeNode getServiceTreeRoot(List<AgentDto> filtreAgent) {
 		ServiceTreeNode root = new ServiceTreeNode(null, "", null);
-		
+
 		ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, getArbreService().getSigle(), getArbreService().getSigle());
 		firstLevelNode.setClassCss("treeNodeService");
 		firstLevelNode.setClassCssText("treeNodeServiceText");
 
-		if(null != getArbreService().getListAgentWithServiceDto()) {
+		if (null != getArbreService().getListAgentWithServiceDto()) {
 			for (AgentWithServiceDto agent : getArbreService().getListAgentWithServiceDto()) {
-				if(null == filtreAgent
-						|| (filtreAgent.contains(agent))) {
-					ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, AbstractTreeUtils.concatAgentSansCivilite(agent), agent
-								.getIdAgent().toString());
+				if (null == filtreAgent || (filtreAgent.contains(agent))) {
+					ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, AbstractTreeUtils.concatAgentSansCivilite(agent), agent.getIdAgent().toString());
 					getListeAgents().add(agent);
 					firstLevelNode.appendChild(agentLevelNode);
-					
-					if(getListeAgentsExistants().contains(agent)) {
+
+					if (getListeAgentsExistants().contains(agent)) {
 						agentLevelNode.setSelectedDroitAbs(true);
 					}
 				}
 			}
 		}
 		root.appendChild(firstLevelNode);
-		
+
 		addServiceTreeNodeFromThreeRecursive(root.getChildren().get(0), getArbreService(), filtreAgent);
-		
+
 		return root;
 	}
-	
+
 	private void addServiceTreeNodeFromThreeRecursive(ServiceTreeNode root, EntiteWithAgentWithServiceDto entite, List<AgentDto> filtreAgent) {
-		
-		if(null != entite
-				&& null != entite.getEntiteEnfantWithAgents()) {
+
+		if (null != entite && null != entite.getEntiteEnfantWithAgents()) {
 			for (EntiteWithAgentWithServiceDto entiteEnfant : entite.getEntiteEnfantWithAgents()) {
 				ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, entiteEnfant.getSigle(), entiteEnfant.getSigle());
 				firstLevelNode.setClassCss("treeNodeService");
 				firstLevelNode.setClassCssText("treeNodeServiceText");
-	
-				if(null != entiteEnfant.getListAgentWithServiceDto()) {
+
+				if (null != entiteEnfant.getListAgentWithServiceDto()) {
 					for (AgentWithServiceDto agent : entiteEnfant.getListAgentWithServiceDto()) {
-						if(null == filtreAgent
-								|| (filtreAgent.contains(agent))) {
-							ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, AbstractTreeUtils.concatAgentSansCivilite(agent), agent
-										.getIdAgent().toString());
+						if (null == filtreAgent || (filtreAgent.contains(agent))) {
+							ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, AbstractTreeUtils.concatAgentSansCivilite(agent), agent.getIdAgent().toString());
 							getListeAgents().add(agent);
 							firstLevelNode.appendChild(agentLevelNode);
-			
-							if(getListeAgentsExistants().contains(agent)) {
+
+							if (getListeAgentsExistants().contains(agent)) {
 								agentLevelNode.setSelectedDroitAbs(true);
 							}
 						}
@@ -269,11 +260,11 @@ public class AjoutAgentOperateurViewModel {
 			}
 		}
 	}
-	
+
 	@Command
 	@NotifyChange({ "arbre" })
 	public void openAll() {
-		//on recupere la liste des agents de l'operateur
+		// on recupere la liste des agents de l'operateur
 		List<AgentDto> listAgentsAffectesApprobateur = ptgWsConsumer.getApprovedAgents(approbateur.getIdAgent());
 		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(listAgentsAffectesApprobateur));
 		serviceTreeModel.setMultiple(true);
@@ -282,11 +273,11 @@ public class AjoutAgentOperateurViewModel {
 		// on coche le service si tous les agents de celui-ci sont coches
 		AbstractTreeUtils.updateServiceTreeNode(getArbre().getRoot(), null, false, getListeAgentsExistants());
 	}
-	
+
 	@Command
 	@NotifyChange({ "arbre" })
 	public void closeAll() {
-		//on recupere la liste des agents de l'operateur
+		// on recupere la liste des agents de l'operateur
 		List<AgentDto> listAgentsAffectesApprobateur = ptgWsConsumer.getApprovedAgents(approbateur.getIdAgent());
 		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(listAgentsAffectesApprobateur));
 		serviceTreeModel.setMultiple(true);
@@ -296,7 +287,7 @@ public class AjoutAgentOperateurViewModel {
 	}
 
 	public List<AgentDto> getListeAgents() {
-		if(null == listeAgents) {
+		if (null == listeAgents) {
 			listeAgents = new ArrayList<AgentDto>();
 		}
 		return listeAgents;
@@ -369,5 +360,5 @@ public class AjoutAgentOperateurViewModel {
 	public void setArbre(TreeModel<ServiceTreeNode> arbre) {
 		this.arbre = arbre;
 	}
-	
+
 }

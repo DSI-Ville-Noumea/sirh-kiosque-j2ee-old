@@ -93,7 +93,7 @@ public class AjoutAgentApprobateurViewModel {
 		viderZones();
 		setTailleListe("10");
 
-		EntiteWithAgentWithServiceDto tree = sirhWsConsumer.getListeEntiteWithAgentWithServiceDtoByIdServiceAds(currentUser.getIdServiceAds());
+		EntiteWithAgentWithServiceDto tree = sirhWsConsumer.getListeEntiteWithAgentWithServiceDtoByIdServiceAds(currentUser.getIdServiceAds(),currentUser.getAgent().getIdAgent());
 		setArbreService(tree);
 		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(null));
 		serviceTreeModel.setMultiple(true);

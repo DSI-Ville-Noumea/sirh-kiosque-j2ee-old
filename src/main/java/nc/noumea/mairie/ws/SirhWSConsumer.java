@@ -65,7 +65,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhEstChefUrl = "agents/estChef";
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
-	private static final String sirhArbreServicesWithListAgentsByServiceUrl = "agents/arbreServicesWithListAgentsByService";
+	private static final String sirhArbreServicesWithListAgentsByServiceUrl = "agents/arbreServicesWithListAgentsByServiceWithoutAgentConnecte";
 	private static final String sirhEstHabiliteEaeUrl = "eaes/estHabiliteEAE";
 	private static final String sirhReferentRHUrl = "kiosqueRH/getListReferentRH";
 	private static final String sirhAccueilRHUrl = "kiosqueRH/getListeAccueilRH";
@@ -164,10 +164,11 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
-	public EntiteWithAgentWithServiceDto getListeEntiteWithAgentWithServiceDtoByIdServiceAds(Integer idServiceAds) {
+	public EntiteWithAgentWithServiceDto getListeEntiteWithAgentWithServiceDtoByIdServiceAds(Integer idServiceAds, Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhArbreServicesWithListAgentsByServiceUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idServiceADS", idServiceAds.toString());
+		params.put("idAgent", idAgent.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(EntiteWithAgentWithServiceDto.class, res, url);
