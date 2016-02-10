@@ -57,7 +57,6 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Filedownload;
-import org.zkoss.zul.Grid;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.TreeModel;
@@ -134,8 +133,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 
 	public String concatAgent(AgentWithServiceDto ag) {
 		if (ag != null) {
-			return ag.getCivilite() + " " + ag.getNom() + " " + transformPrenom(ag.getPrenom()) + " - "
-					+ ag.getPosition();
+			return ag.getCivilite() + " " + ag.getNom() + " " + transformPrenom(ag.getPrenom()) + " - " + ag.getPosition();
 		} else {
 			return "aucun";
 		}
@@ -158,31 +156,27 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	// create a FooNodes tree structure and return the root
 	private ServiceTreeNode getServiceTreeRoot() {
 		ServiceTreeNode root = new ServiceTreeNode(null, "", null);
-		
+
 		ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, getArbreService().getSigle(), getArbreService().getSigle());
-		for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
-				.getIdAgent(), getArbreService().getIdEntite())) {
-			
-			ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(agent), agent
-						.getIdAgent().toString());
+		for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), getArbreService().getIdEntite())) {
+
+			ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(agent), agent.getIdAgent().toString());
 			firstLevelNode.appendChild(agentLevelNode);
 		}
 		root.appendChild(firstLevelNode);
-		
+
 		addServiceTreeNodeFromThreeRecursive(root.getChildren().get(0), getArbreService());
-		
+
 		return root;
 	}
-	
+
 	private void addServiceTreeNodeFromThreeRecursive(ServiceTreeNode root, EntiteDto entite) {
-		
+
 		for (EntiteDto entiteEnfant : entite.getEnfants()) {
 			ServiceTreeNode firstLevelNode = new ServiceTreeNode(root, entiteEnfant.getSigle(), entiteEnfant.getSigle());
-			for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
-					.getIdAgent(), entiteEnfant.getIdEntite())) {
-				
-				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(agent), agent
-							.getIdAgent().toString());
+			for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), entiteEnfant.getIdEntite())) {
+
+				ServiceTreeNode agentLevelNode = new ServiceTreeNode(firstLevelNode, concatAgentSansCivilite(agent), agent.getIdAgent().toString());
 				firstLevelNode.appendChild(agentLevelNode);
 			}
 			root.appendChild(firstLevelNode);
@@ -243,7 +237,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	public void imprimeFDP(@BindingParam("ref") Grid resultGrid) {
+	public void imprimeFDP(@BindingParam("ref") Listbox resultGrid) {
 		FichePosteDto dto = (FichePosteDto) resultGrid.getModel().getElementAt(0);
 		// on imprime la FDP de l'agent
 		byte[] resp = sirhWsConsumer.imprimerFDP(dto.getIdFichePoste());
