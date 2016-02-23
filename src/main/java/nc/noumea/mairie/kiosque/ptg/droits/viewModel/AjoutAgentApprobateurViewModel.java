@@ -83,13 +83,14 @@ public class AjoutAgentApprobateurViewModel {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-		// on sauvegarde qui sont les agnts deja approuvés pour les coches
+		// on sauvegarde qui sont les agents deja approuvés pour les coches
 		setListeAgentsExistants(agentsExistants);
 		// on vide
 		viderZones();
 		setTailleListe("10");
 
-		EntiteWithAgentWithServiceDto tree = sirhWsConsumer.getListeEntiteWithAgentWithServiceDtoByIdServiceAds(currentUser.getIdServiceAds(), currentUser.getAgent().getIdAgent());
+		EntiteWithAgentWithServiceDto tree = sirhWsConsumer.getListeEntiteWithAgentWithServiceDtoByIdServiceAds(
+				currentUser.getIdServiceAds(), currentUser.getAgent().getIdAgent(), agentsExistants);
 		setArbreService(tree);
 		ServiceTreeModel serviceTreeModel = new ServiceTreeModel(getServiceTreeRoot(null));
 		serviceTreeModel.setMultiple(true);

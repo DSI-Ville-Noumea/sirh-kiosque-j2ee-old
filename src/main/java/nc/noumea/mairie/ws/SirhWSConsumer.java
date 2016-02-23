@@ -49,6 +49,8 @@ import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.ClientResponse;
 
+import flexjson.JSONSerializer;
+
 @Service("sirhWsConsumer")
 public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 
@@ -164,14 +166,30 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
-	public EntiteWithAgentWithServiceDto getListeEntiteWithAgentWithServiceDtoByIdServiceAds(Integer idServiceAds, Integer idAgent) {
+	public EntiteWithAgentWithServiceDto getListeEntiteWithAgentWithServiceDtoByIdServiceAds(
+			Integer idServiceAds, Integer idAgent, List<AgentDto> listAgentsAInclureDansArbre) {
+		
 		String url = String.format(sirhWsBaseUrl + sirhArbreServicesWithListAgentsByServiceUrl);
+		
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idServiceADS", idServiceAds.toString());
+		
 		if (idAgent != null)
 			params.put("idAgent", idAgent.toString());
-
-		ClientResponse res = createAndFireGetRequest(params, url);
+		
+		String json = null;
+		if(null != listAgentsAInclureDansArbre
+				&& !listAgentsAInclureDansArbre.isEmpty()) {
+			
+			List<Integer> listIdsAgent = new ArrayList<Integer>();
+			for(AgentDto agent : listAgentsAInclureDansArbre) {
+				listIdsAgent.add(agent.getIdAgent());
+			}
+			
+			json = new JSONSerializer().exclude("*.class").deepSerialize(listIdsAgent);
+		}
+		
+		ClientResponse res = createAndFirePostRequest(params, url, json);
 		return readResponse(EntiteWithAgentWithServiceDto.class, res, url);
 	}
 

@@ -18,6 +18,7 @@
 							<comboitem value="10" label="10" />
 							<comboitem value="15" label="15" />
 							<comboitem value="20" label="20" />
+							<comboitem value="50" label="50" />
 						</combobox>
 						agents par page
 						<space />
