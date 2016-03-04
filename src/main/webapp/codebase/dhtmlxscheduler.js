@@ -2595,8 +2595,26 @@ scheduler.isViewExists = function(mode){
 };
 
 scheduler.updateView = function(date, mode) {
+	
+	// #29113 evol pour afficher le 1er jour de la semaine, du mois, du trimestre
+	var majDate = false;
+	if(mode == 'viewSemaine') {
+		// si le parametre mode n est pas null => le parametre date n est pas null non plus
+		date = new Date(date.setDate(date.getDate()-date.getDay()+1));
+	}
+	if(mode == 'viewMois' || mode == 'viewTrimestre') {
+		// si le parametre mode n est pas null => le parametre date n est pas null non plus
+		date = new Date(date.getFullYear(), date.getMonth(), 1);
+	}
+	
 	date = date || this._date;
 	mode = mode || this._mode;
+	
+	if(mode == 'viewMois') {
+		// si le parametre mode n est pas null => le parametre date n est pas null non plus
+		date = new Date(date.getFullYear(), date.getMonth(), 1);
+	}
+	
 	var dhx_cal_data = 'dhx_cal_data';
 
 	if (!this._mode)
@@ -2619,6 +2637,7 @@ scheduler.updateView = function(date, mode) {
 	}
 
 	this._mode = mode;
+	
 	this._date = date;
 	this._table_view = (this._mode == "month");
 
