@@ -54,6 +54,10 @@ public class SoldeDto {
 
 	private boolean afficheSoldeCongesExcep;
 	private List<SoldeSpecifiqueDto> listeSoldeCongesExcep;
+	
+	// maladies
+	private boolean afficheSoldeMaladies;
+	private SoldeMaladiesDto soldeMaladies;
 
 	public SoldeDto() {
 		listeSoldeAsaA55 = new ArrayList<SoldeMonthDto>();
@@ -253,6 +257,22 @@ public class SoldeDto {
 
 	public void setSoldeAsaAmicale(Double soldeAsaAmicale) {
 		this.soldeAsaAmicale = soldeAsaAmicale;
+	}
+
+	public SoldeMaladiesDto getSoldeMaladies() {
+		return soldeMaladies;
+	}
+
+	public void setSoldeMaladies(SoldeMaladiesDto soldeMaladies) {
+		this.soldeMaladies = soldeMaladies;
+	}
+
+	public boolean isAfficheSoldeMaladies() {
+		return afficheSoldeMaladies;
+	}
+
+	public void setAfficheSoldeMaladies(boolean afficheSoldeMaladies) {
+		this.afficheSoldeMaladies = afficheSoldeMaladies;
 	}
 
 }

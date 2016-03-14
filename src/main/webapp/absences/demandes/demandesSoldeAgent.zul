@@ -116,6 +116,61 @@
 							value="@bind(vm.soldeHeure(vm.soldeCourant.soldeAsaAmicale))" />
 					</div>
 				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeMaladies and not empty vm.soldeCourant.soldeMaladies)">
+					<div width="300px">
+						<label
+							value="Droits Maladies Plein Salaire : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeMaladies.droitsPleinSalaire))" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeMaladies and not empty vm.soldeCourant.soldeMaladies)">
+					<div width="300px">
+						<label
+							value="Droits Maladies Demi Salaire : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeMaladies.droitsDemiSalaire))" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeMaladies and not empty vm.soldeCourant.soldeMaladies)">
+					<div width="300px">
+						<label
+							value="Reste à prendre Maladies Plein Salaire : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeMaladies.rapPleinSalaire))" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeMaladies and not empty vm.soldeCourant.soldeMaladies)">
+					<div width="300px">
+						<label
+							value="Reste à prendre Maladies Demi Salaire : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeMaladies.rapDemiSalaire))" />
+					</div>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.soldeCourant.afficheSoldeMaladies and not empty vm.soldeCourant.soldeMaladies)">
+					<div width="300px">
+						<label
+							value="Total pris : " />
+					</div>
+					<div>
+						<label sclass="value"
+							value="@bind(vm.soldeJour(vm.soldeCourant.soldeMaladies.totalPris))" />
+					</div>
+				</hlayout>
 				
 				<separator />
 				
