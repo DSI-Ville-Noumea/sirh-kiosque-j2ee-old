@@ -24,6 +24,7 @@ package nc.noumea.mairie.kiosque.abs.viewModel;
  * #L%
  */
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,7 @@ import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
@@ -46,14 +48,19 @@ import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
@@ -450,6 +457,43 @@ public class ModifierDemandeViewModel {
 		}
 		
 		return result;
+	}
+
+	@Command
+	@NotifyChange("demandeCourant")
+	public void onUploadPDF(
+			@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx)
+			throws IOException {
+
+		UploadEvent upEvent = null;
+		Object objUploadEvent = ctx.getTriggerEvent();
+		if (objUploadEvent != null && (objUploadEvent instanceof UploadEvent)) {
+			upEvent = (UploadEvent) objUploadEvent;
+		}
+		if (upEvent != null
+				&& null != upEvent.getMedias()) {
+			for(Media media : upEvent.getMedias()) {
+				
+				PieceJointeDto pj = new PieceJointeDto();
+				pj.setTypeFile(media.getContentType());
+				pj.setbFile(media.getByteData());
+				
+				getDemandeCourant().getPiecesJointes().add(pj);
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange("demandeCourant")
+	public void supprimerPieceJointe(
+			@BindingParam("ref") PieceJointeDto pieceJointeDto)
+			throws IOException {
+
+		if(null != getDemandeCourant().getPiecesJointes()
+				&& !getDemandeCourant().getPiecesJointes().isEmpty()
+				&& getDemandeCourant().getPiecesJointes().contains(pieceJointeDto)) {
+			getDemandeCourant().getPiecesJointes().remove(pieceJointeDto);
+		}
 	}
 
 	public DemandeDto getDemandeCourant() {

@@ -233,13 +233,31 @@
 									value="@bind(vm.demandeCourant.typeSaisi.infosComplementaires)" />
 							</vlayout>
 						</hlayout>
-						<!-- 						<hlayout -->
-						<!-- 							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)"> -->
-						<!-- 							<hlayout width="150px"> -->
-						<!-- 								<label value="Pièce jointe : " /> -->
-						<!-- 							</hlayout> -->
-						<!-- 							<hlayout></hlayout> -->
-						<!-- 						</hlayout> -->
+						
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)">
+							<hlayout width="150px">
+								<label value="Pièces jointes : " />
+							</hlayout>
+							<vlayout>
+								<button label="Upload" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+		             				onUpload="@command('onUploadPDF',upEvent=event)">
+		            			</button>
+		            		</vlayout>
+		            		<vlayout>
+		            			<grid visible="@bind(not empty vm.demandeCourant.piecesJointes)"
+									model="@bind(vm.demandeCourant.piecesJointes)" width="260px" zclass="listPiecesJointes" >
+									<template name="model" var="pj">
+										<row zclass="listPiecesJointes">
+											<label value="@bind(pj.titre)" />
+											<image tooltiptext="Supprimer la pièce jointe" 
+												sclass="ListAction delete" 
+												onClick="@command('supprimerPieceJointe',ref=pj)" />
+										</row>
+									</template>
+								</grid>
+							</vlayout>
+						</hlayout>
 					</vlayout>
 					<!-- POUR LES CONGES ANNUELS -->
 					<vlayout
@@ -316,6 +334,30 @@
 									value="@bind(vm.demandeCourant.commentaire)" />
 								<label
 									value="Précisez si vous êtes joignable ou non durant votre congé." />
+							</vlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.pieceJointe)">
+							<hlayout width="150px">
+								<label value="Pièces jointes : " />
+							</hlayout>
+							<vlayout>
+								<button label="Upload" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+		             				onUpload="@command('onUploadPDF',upEvent=event)">
+		            			</button>
+		            		</vlayout>
+		            		<vlayout>
+		            			<grid visible="@bind(not empty vm.demandeCourant.piecesJointes)"
+									model="@bind(vm.demandeCourant.piecesJointes)" width="260px" zclass="listPiecesJointes" >
+									<template name="model" var="pj">
+										<row zclass="listPiecesJointes">
+											<label value="@bind(pj.titre)" />
+											<image tooltiptext="Supprimer la pièce jointe" 
+												sclass="ListAction delete" 
+												onClick="@command('supprimerPieceJointe',ref=pj)" />
+										</row>
+									</template>
+								</grid>
 							</vlayout>
 						</hlayout>
 					</vlayout>

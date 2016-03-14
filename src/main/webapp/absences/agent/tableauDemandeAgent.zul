@@ -148,6 +148,17 @@
 							sclass="ListAction print"
 							visible="@bind(each.affichageBoutonImprimer)"
 							onClick="@command('imprimerDemande',ref=each)" />
+							
+						<grid visible="@bind(not empty each.piecesJointes)"
+							model="@bind(each.piecesJointes)" zclass="listPiecesJointes">
+		
+							<template name="model" var="pj">
+								<row zclass="listPiecesJointes">
+									<a href="@bind(pj.urlFromAlfresco)" label="Pièce Jointe" target="_blank" tooltiptext="@bind(pj.titre)" />
+								</row>
+							</template>
+						</grid>
+						
 					</hlayout>
 				</row>
 			</template>

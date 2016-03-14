@@ -25,7 +25,9 @@ package nc.noumea.mairie.kiosque.abs.dto;
  */
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
@@ -114,6 +116,9 @@ public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 	private RefTypeDto typeSiegeLesion;
 	private RefTypeDto typeMaladiePro;
 	private DemandeDto accidentTravailReference;
+	
+	// pieces jointes
+	private List<PieceJointeDto> piecesJointes = new ArrayList<PieceJointeDto>();
 
 	public DemandeDto() {
 	}
@@ -508,6 +513,14 @@ public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 
 	public void setAccidentTravailReference(DemandeDto accidentTravailReference) {
 		this.accidentTravailReference = accidentTravailReference;
+	}
+	
+	public List<PieceJointeDto> getPiecesJointes() {
+		return piecesJointes;
+	}
+
+	public void setPiecesJointes(List<PieceJointeDto> piecesJointes) {
+		this.piecesJointes = piecesJointes;
 	}
 
 	@Override

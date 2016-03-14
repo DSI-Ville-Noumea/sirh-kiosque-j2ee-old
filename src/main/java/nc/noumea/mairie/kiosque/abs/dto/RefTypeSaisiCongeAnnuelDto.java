@@ -44,6 +44,7 @@ public class RefTypeSaisiCongeAnnuelDto implements Serializable {
 	private Integer quotaMultiple;
 	private boolean decompteSamedi;
 	private boolean consecutif;
+	private boolean pieceJointe;
 
 	public RefTypeSaisiCongeAnnuelDto() {
 	}
@@ -134,6 +135,14 @@ public class RefTypeSaisiCongeAnnuelDto implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean isPieceJointe() {
+		return pieceJointe;
+	}
+
+	public void setPieceJointe(boolean pieceJointe) {
+		this.pieceJointe = pieceJointe;
 	}
 
 }

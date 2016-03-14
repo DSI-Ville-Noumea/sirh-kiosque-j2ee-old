@@ -106,7 +106,7 @@
 					<column width="30px" sort="none" />
 					<column label="Agent" width="300px"
 						sort="auto('agentWithServiceDto.nom','agentWithServiceDto.prenom')" />
-					<column label="Type de demande" width="400px"
+					<column label="Type de demande" width="300px"
 						sort="auto('libelleTypeDemande')" />
 					<column label="Date de début"
 						sort="auto('dateDebut')" align="left" width="100px" />
@@ -138,6 +138,7 @@
 					<column label="Date de saisie"
 						sort="auto('dateDemande')" align="center" width="120px" />
 					<column label="Opérateur" sort="none" width="150px" />
+					<column label="Pièces Jointes" sort="none" width="100px" />
 				</columns>
 				<template name="model">
 					<row>
@@ -215,6 +216,16 @@
 							value="@bind(vm.dateSaisieToString(each.dateSaisie))" />
 						<label
 							value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
+							
+						<grid visible="@bind(not empty each.piecesJointes)"
+							model="@bind(each.piecesJointes)" zclass="listPiecesJointes">
+		
+							<template name="model" var="pj">
+								<row zclass="listPiecesJointes">
+									<a href="@bind(pj.urlFromAlfresco)" label="Pièce Jointe" target="_blank" tooltiptext="@bind(pj.titre)" />
+								</row>
+							</template>
+						</grid>
 					</row>
 				</template>
 			</grid>

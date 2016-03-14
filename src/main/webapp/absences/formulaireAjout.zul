@@ -215,13 +215,27 @@
 							value="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosComplementaires)" />
 					</vlayout>
 				</hlayout>
-				<!-- 						<hlayout -->
-				<!-- 							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.pieceJointe)"> -->
-				<!-- 							<hlayout width="150px"> -->
-				<!-- 								<label value="Pièce jointe : " /> -->
-				<!-- 							</hlayout> -->
-				<!-- 							<hlayout></hlayout> -->
-				<!-- 						</hlayout> -->
+				<hlayout
+					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.pieceJointe)">
+					<hlayout width="150px">
+						<label value="Pièces jointes : " />
+					</hlayout>
+					<vlayout>
+						<button label="Upload" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+             				onUpload="@command('onUploadPDF',upEvent=event)">
+            			</button>
+            		</vlayout>
+            		<vlayout>
+            			<grid visible="@bind(not empty vm.listFilesContent)"
+							model="@bind(vm.listFilesContent)" width="260px" zclass="listPiecesJointes" >
+							<template name="model" var="pj">
+								<row zclass="listPiecesJointes">
+									<label value="@bind(pj.name)" />
+								</row>
+							</template>
+						</grid>
+					</vlayout>
+				</hlayout>
 			</vlayout>
 			<!-- POUR LES CONGES ANNUELS -->
 			<vlayout
@@ -297,6 +311,27 @@
 							value="@bind(vm.demandeCreation.commentaire)" />
 						<label
 							value="Précisez si vous êtes joignable ou non durant votre congé." />
+					</vlayout>
+				</hlayout>
+				<hlayout
+					visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.pieceJointe)">
+					<hlayout width="150px">
+						<label value="Pièces jointes : " />
+					</hlayout>
+					<vlayout>
+						<button label="Upload" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+             				onUpload="@command('onUploadPDF',upEvent=event)">
+            			</button>
+            		</vlayout>
+            		<vlayout>
+            			<grid visible="@bind(not empty vm.listFilesContent)"
+							model="@bind(vm.listFilesContent)" width="260px" zclass="listPiecesJointes" >
+							<template name="model" var="pj">
+								<row zclass="listPiecesJointes">
+									<label value="@bind(pj.name)" />
+								</row>
+							</template>
+						</grid>
 					</vlayout>
 				</hlayout>
 			</vlayout>

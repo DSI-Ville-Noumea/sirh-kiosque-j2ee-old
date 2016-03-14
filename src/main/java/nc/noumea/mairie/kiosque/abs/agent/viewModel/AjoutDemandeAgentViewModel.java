@@ -24,6 +24,7 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
  * #L%
  */
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
@@ -48,13 +50,18 @@ import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
@@ -101,6 +108,9 @@ public class AjoutDemandeAgentViewModel {
 	private String minuteFin;
 	private String dureeHeureDemande;
 	private String dureeMinuteDemande;
+	
+	//pieces jointes
+	private List<Media> listFilesContent = new ArrayList<Media>();
 	
 	private SimpleDateFormat sdfddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -473,6 +483,32 @@ public class AjoutDemandeAgentViewModel {
 		return result;
 	}
 
+	@Command
+	@NotifyChange("listFilesContent")
+	public void onUploadPDF(
+			@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx)
+			throws IOException {
+
+		UploadEvent upEvent = null;
+		Object objUploadEvent = ctx.getTriggerEvent();
+		if (objUploadEvent != null && (objUploadEvent instanceof UploadEvent)) {
+			upEvent = (UploadEvent) objUploadEvent;
+		}
+		if (upEvent != null
+				&& null != upEvent.getMedias()) {
+			for(Media media : upEvent.getMedias()) {
+				
+				getListFilesContent().add(media);
+				
+				PieceJointeDto pj = new PieceJointeDto();
+				pj.setTypeFile(media.getContentType());
+				pj.setbFile(media.getByteData());
+				
+				getDemandeCreation().getPiecesJointes().add(pj);
+			}
+		}
+	}
+
 	public List<RefTypeAbsenceDto> getListeTypeAbsence() {
 		return listeTypeAbsence;
 	}
@@ -657,5 +693,13 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setListeATReference(List<DemandeDto> listeATReference) {
 		this.listeATReference = listeATReference;
+	}
+
+	public List<Media> getListFilesContent() {
+		return listFilesContent;
+	}
+
+	public void setListFilesContent(List<Media> listFilesContent) {
+		this.listFilesContent = listFilesContent;
 	}
 }

@@ -70,6 +70,22 @@
 	.boutonLegend span {
 	    font-weight: bold;
 	}
+	.listPiecesJointes {
+		background-color: inherit;
+		font-family: Arial,Sans-serif;
+		font-size: 12px;
+		font-weight: normal;
+	}
+	.listPiecesJointes a {
+		color: #636363;
+	}
+	.listPiecesJointes a:hover {
+		color: #636363;
+		text-decoration: underline;
+	}
+	.listPiecesJointes a:visited {
+		color: #636363;
+	}
 	]]>
 	
 	
