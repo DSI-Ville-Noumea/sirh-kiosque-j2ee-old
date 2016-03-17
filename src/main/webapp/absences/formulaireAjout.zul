@@ -296,11 +296,18 @@
 						<label value="Durée : " />
 					</hlayout>
 					<hlayout>
-						<textbox cols="14" disabled="true"
+						<textbox cols="14" disabled="@bind(!vm.saisieManuelleDuree)"
 							style="font-weight:bold;color:#ee7203 !important;"
 							value="@bind(vm.dureeCongeAnnuel)" />
 					</hlayout>
-					<label value="@bind(vm.samediOffertCongeAnnuel)" />
+					<hlayout>
+						<label value="@bind(vm.samediOffertCongeAnnuel)" />
+					</hlayout>
+					<hlayout>
+						<button label="Forcer"
+							visible="@bind(vm.getAfficherBoutonForcerDuree())"
+							onClick="@command('forcerSaisieDuree')" />
+					</hlayout>
 				</hlayout>
 				<hlayout>
 					<hlayout width="150px">

@@ -109,12 +109,12 @@
 					<column label="Type de demande" width="300px"
 						sort="auto('libelleTypeDemande')" />
 					<column label="Date de début"
-						sort="auto('dateDebut')" align="left" width="100px" />
+						sort="auto('dateDebut')" align="left" width="90px" />
 					<column label="Date de fin" sort="auto('dateFin')"
-						width="100px" align="left" />
+						width="90px" align="left" />
 					<column label="Durée" sort="none" width="60px"
 						align="center" />
-					<column label="Etat" sort="none" width="115px" />
+					<column label="Etat" sort="none" width="135px" />
 					<column width="40px" align="center">
 						<image tooltiptext="Alertes"
 							sclass="ListAction warn" />

@@ -41,6 +41,7 @@ import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -114,6 +115,8 @@ public class AjoutDemandeViewModel {
 	private String minuteFin;
 	private String dureeHeureDemande;
 	private String dureeMinuteDemande;
+	
+	private boolean saisieManuelleDuree;
 
 	// pieces jointes
 	private List<Media> listFilesContent = new ArrayList<Media>();
@@ -448,8 +451,16 @@ public class AjoutDemandeViewModel {
 					getSelectFinAM() == null ? false : getSelectFinAM().equals(
 							"PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(
-					currentUser.getAgent().getIdAgent(), getDemandeCreation());
+			try {
+				if(null != getDureeCongeAnnuel()
+						&& !"".equals(getDureeCongeAnnuel())) 
+					getDemandeCreation().setDuree(new Double(getDureeCongeAnnuel()));
+			} catch(NumberFormatException e) {
+				
+			}
+			
+			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+					getDemandeCreation());
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -573,6 +584,13 @@ public class AjoutDemandeViewModel {
 							"La date de reprise est obligatoire."));
 				}
 			}
+			
+			try {
+				new Double(getDureeCongeAnnuel());
+			} catch(java.lang.NumberFormatException e) {
+				vList.add(new ValidationMessage("Merci de saisir une durée valide."));
+			}
+			
 		} else {
 			vList.add(new ValidationMessage(
 					"Une erreur est survenue dans l'enregistrement de la demande. Merci de recommencer."));
@@ -800,6 +818,22 @@ public class AjoutDemandeViewModel {
 		}
 		return true;
 	}
+	
+	public boolean getAfficherBoutonForcerDuree() {
+		if(null != getTypeAbsenceCourant()
+				&& null != getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto()
+				&& getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto().getCodeBaseHoraireAbsence().equals(RefTypeSaisieCongeAnnuelEnum.C.getCodeBase())) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Command
+	@NotifyChange("saisieManuelleDuree")
+	public void forcerSaisieDuree() {
+		setSaisieManuelleDuree(true);
+		getDemandeCreation().setForceSaisieManuelleDuree(true);
+	}
 
 	public String afficheATReference(DemandeDto demandeAT) {
 
@@ -839,6 +873,15 @@ public class AjoutDemandeViewModel {
 	public void setSamediOffertCongeAnnuel(String samediOffertCongeAnnuel) {
 		this.samediOffertCongeAnnuel = samediOffertCongeAnnuel;
 	}
+
+	public boolean isSaisieManuelleDuree() {
+		return saisieManuelleDuree;
+	}
+
+	public void setSaisieManuelleDuree(boolean saisieManuelleDuree) {
+		this.saisieManuelleDuree = saisieManuelleDuree;
+	}
+	
 
 	public List<RefTypeDto> getListeSiegeLesion() {
 		return listeSiegeLesion;

@@ -89,9 +89,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
 	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
 	private static final String sirhListeDemandesUrl = "demandes/listeDemandes";
-	// utilise pour le plaaning afin de passer la liste des agents dans l appel
+	// utilise pour le planning afin de passer la liste des agents dans l appel
 	// au WS
-	private static final String sirhListeDemandesSIRHUrl = "demandes/listeDemandesSIRH";
+	private static final String sirhListeDemandesPlanningKiosqueUrl = "demandes/listeDemandesPlanningKiosque";
 	private static final String sirhListeMotifsRefusUrl = "motif/getListeMotif";
 	private static final String sirhHistoriqueAbsenceUrl = "demandes/historique";
 	private static final String sirhDureeCongeAnnuelUrl = "demandes/dureeDemandeCongeAnnuel";
@@ -475,7 +475,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	public List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate, String listIdRefEtat,
 			Integer idRefType, Integer idRefGroupeAbsence, List<AgentWithServiceDto> listIdsAgent) {
 
-		String url = String.format(sirhAbsWsBaseUrl + sirhListeDemandesSIRHUrl);
+		String url = String.format(sirhAbsWsBaseUrl + sirhListeDemandesPlanningKiosqueUrl);
 		HashMap<String, String> params = new HashMap<String, String>();
 		if (fromDate != null)
 			params.put("from", sdf.format(fromDate));
@@ -487,8 +487,6 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 			params.put("type", idRefType.toString());
 		if (idRefGroupeAbsence != null)
 			params.put("groupe", idRefGroupeAbsence.toString());
-
-		params.put("aValider", Boolean.FALSE.toString());
 
 		String csvId = "";
 		for (AgentWithServiceDto dto : listIdsAgent) {

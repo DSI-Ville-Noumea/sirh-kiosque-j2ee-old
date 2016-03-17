@@ -97,6 +97,18 @@ public class DemandesSoldeAgentViewModel {
 		return getHeureMinute(solde.intValue());
 	}
 
+	public String soldeJourEnCours(Double solde) {
+		if (solde == 0)
+			return "aucune";
+		return solde + " j";
+	}
+
+	public String soldeHeureEnCours(Double solde) {
+		if (solde == 0)
+			return "aucune";
+		return getHeureMinute(solde.intValue());
+	}
+
 	private static String getHeureMinute(int nombreMinute) {
 		int heure = nombreMinute / 60;
 		int minute = nombreMinute % 60;

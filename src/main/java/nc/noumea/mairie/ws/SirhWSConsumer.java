@@ -35,6 +35,7 @@ import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentGeneriqueDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.EntiteWithAgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -47,6 +48,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.ClientResponse;
+
+import flexjson.JSONSerializer;
 
 @Service("sirhWsConsumer")
 public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
@@ -64,6 +67,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	private static final String sirhEstChefUrl = "agents/estChef";
 	private static final String sirhPrintFDPAgentUrl = "fichePostes/downloadFichePoste";
 	private static final String sirhAgentsMairieUrl = "agents/listeAgentsMairie";
+	private static final String sirhArbreServicesWithListAgentsByServiceUrl = "agents/arbreServicesWithListAgentsByServiceWithoutAgentConnecte";
 	private static final String sirhEstHabiliteEaeUrl = "eaes/estHabiliteEAE";
 	private static final String sirhReferentRHUrl = "kiosqueRH/getListReferentRH";
 	private static final String sirhAccueilRHUrl = "kiosqueRH/getListeAccueilRH";
@@ -152,6 +156,44 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 	}
 
 	@Override
+	public List<AgentWithServiceDto> getListeAgentsMairieByIdServiceAds(Integer idServiceAds) {
+		String url = String.format(sirhWsBaseUrl + sirhAgentsMairieUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idServiceADS", idServiceAds.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentWithServiceDto.class, res, url);
+	}
+
+	@Override
+	public EntiteWithAgentWithServiceDto getListeEntiteWithAgentWithServiceDtoByIdServiceAds(
+			Integer idServiceAds, Integer idAgent, List<AgentDto> listAgentsAInclureDansArbre) {
+		
+		String url = String.format(sirhWsBaseUrl + sirhArbreServicesWithListAgentsByServiceUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idServiceADS", idServiceAds.toString());
+		
+		if (idAgent != null)
+			params.put("idAgent", idAgent.toString());
+		
+		String json = null;
+		if(null != listAgentsAInclureDansArbre
+				&& !listAgentsAInclureDansArbre.isEmpty()) {
+			
+			List<Integer> listIdsAgent = new ArrayList<Integer>();
+			for(AgentDto agent : listAgentsAInclureDansArbre) {
+				listIdsAgent.add(agent.getIdAgent());
+			}
+			
+			json = new JSONSerializer().exclude("*.class").deepSerialize(listIdsAgent);
+		}
+		
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(EntiteWithAgentWithServiceDto.class, res, url);
+	}
+
+	@Override
 	public boolean estHabiliteEAE(Integer idAgent) {
 		String url = String.format(sirhWsBaseUrl + sirhEstHabiliteEaeUrl);
 		HashMap<String, String> params = new HashMap<>();
@@ -172,6 +214,7 @@ public class SirhWSConsumer extends BaseWsConsumer implements ISirhWSConsumer {
 		String url = String.format(sirhWsBaseUrl + sirhAgentSubordonnesUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
+		params.put("maxDepth", "10");
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);

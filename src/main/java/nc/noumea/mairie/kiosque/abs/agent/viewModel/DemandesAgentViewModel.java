@@ -251,6 +251,13 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 
 		// #12159 construction du planning
 		if ("PLANNING".equals(getTabCourant().getId())) {
+			// #20359 ne pas retourner les etats annule, rejete, ...
+			if(etats.isEmpty()) {
+				for(RefEtatAbsenceDto etat : getListeEtatAbsenceFiltre()) {
+					etats.add(etat.getIdRefEtat());
+				}
+			}
+			
 			List<DemandeDto> result = absWsConsumer.getListeDemandesForPlanning(getDateDebutFiltre(),
 					getDateFinFiltre(), etats.size() == 0 ? null : etats.toString().replace("[", "").replace("]", "")
 							.replace(" ", ""), getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre()

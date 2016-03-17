@@ -1083,7 +1083,7 @@ public class SaisieHebdomadaireViewModel extends SelectorComposer<Component> {
 
 			List<HeureSupDtoKiosque> newListHsup = new ArrayList<HeureSupDtoKiosque>();
 			for (int i = 0; i < 7; i++) {
-				newListHsup.add(new HeureSupDtoKiosque());
+				newListHsup.add(setHSupARecupererForDPM(new HeureSupDtoKiosque()));
 			}
 
 			getSaisiePointageForm().getMapAllHSup().put(new Integer(1).toString(), newListHsup);
