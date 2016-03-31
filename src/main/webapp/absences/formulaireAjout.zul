@@ -206,7 +206,7 @@
 				<hlayout
 					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.motif)">
 					<hlayout width="150px">
-						<label value="Motif : " />
+						<label value="Observation : " />
 					</hlayout>
 					<vlayout>
 						<textbox rows="4" width="200px"
