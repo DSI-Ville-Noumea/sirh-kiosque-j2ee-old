@@ -240,7 +240,7 @@
 								<label value="Pièces jointes : " />
 							</hlayout>
 							<vlayout>
-								<button label="Upload" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+								<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
 		             				onUpload="@command('onUploadPDF',upEvent=event)">
 		            			</button>
 		            		</vlayout>
@@ -345,7 +345,7 @@
 								<label value="Pièces jointes : " />
 							</hlayout>
 							<vlayout>
-								<button label="Upload" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+								<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
 		             				onUpload="@command('onUploadPDF',upEvent=event)">
 		            			</button>
 		            		</vlayout>
