@@ -519,6 +519,8 @@ public class ModifierDemandeViewModel {
 				PieceJointeDto pj = new PieceJointeDto();
 				pj.setTypeFile(media.getContentType());
 				pj.setbFile(media.getByteData());
+				// bug #30020
+				pj.setTitre(media.getName());
 				
 				getDemandeCourant().getPiecesJointes().add(pj);
 			}
