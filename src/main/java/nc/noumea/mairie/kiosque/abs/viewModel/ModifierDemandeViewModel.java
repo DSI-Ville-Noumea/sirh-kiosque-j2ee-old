@@ -40,6 +40,7 @@ import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
@@ -578,6 +579,11 @@ public class ModifierDemandeViewModel {
 	}
 
 	public String getEtatDemande() {
+		// bug #30012
+		if(demandeCourant.getGroupeAbsence().getIdRefGroupeAbsence().equals(RefTypeGroupeAbsenceEnum.MALADIES.getValue())
+				&& etatDemande.equals(new Integer(RefEtatEnum.A_VALIDER.getCodeEtat()).toString())) {
+			return new Integer(RefEtatEnum.SAISIE.getCodeEtat()).toString();
+		}
 		return etatDemande;
 	}
 
