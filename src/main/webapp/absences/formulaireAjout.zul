@@ -215,8 +215,7 @@
 							value="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosComplementaires)" />
 					</vlayout>
 				</hlayout>
-				<hlayout
-					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.pieceJointe)">
+				<hlayout>
 					<hlayout width="150px">
 						<label value="Pièces jointes : " />
 					</hlayout>
@@ -320,8 +319,7 @@
 							value="Précisez si vous êtes joignable ou non durant votre congé." />
 					</vlayout>
 				</hlayout>
-				<hlayout
-					visible="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.pieceJointe)">
+				<hlayout>
 					<hlayout width="150px">
 						<label value="Pièces jointes : " />
 					</hlayout>

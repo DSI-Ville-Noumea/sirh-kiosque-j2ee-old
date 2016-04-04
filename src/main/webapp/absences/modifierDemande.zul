@@ -234,8 +234,7 @@
 							</vlayout>
 						</hlayout>
 						
-						<hlayout
-							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)">
+						<hlayout>
 							<hlayout width="150px">
 								<label value="Pièces jointes : " />
 							</hlayout>
@@ -339,8 +338,7 @@
 									value="Précisez si vous êtes joignable ou non durant votre congé." />
 							</vlayout>
 						</hlayout>
-						<hlayout
-							visible="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.pieceJointe)">
+						<hlayout>
 							<hlayout width="150px">
 								<label value="Pièces jointes : " />
 							</hlayout>
