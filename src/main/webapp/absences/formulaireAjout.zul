@@ -219,20 +219,21 @@
 					<hlayout width="150px">
 						<label value="Pièces jointes : " />
 					</hlayout>
-					<vlayout>
-						<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
-             				onUpload="@command('onUploadPDF',upEvent=event)">
-            			</button>
-            		</vlayout>
             		<vlayout>
-            			<grid visible="@bind(not empty vm.listFilesContent)"
-							model="@bind(vm.listFilesContent)" width="260px" zclass="listPiecesJointes" >
+            			<grid visible="@bind(not empty vm.demandeCreation.piecesJointes)"
+							model="@bind(vm.demandeCreation.piecesJointes)" width="260px" zclass="listPiecesJointes" >
 							<template name="model" var="pj">
 								<row zclass="listPiecesJointes">
-									<label value="@bind(pj.name)" />
+									<label value="@bind(pj.titre)" />
+									<image tooltiptext="Supprimer la pièce jointe" 
+										sclass="ListAction delete" 
+										onClick="@command('supprimerPieceJointe',ref=pj)" />
 								</row>
 							</template>
 						</grid>
+						<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+             				onUpload="@command('onUploadPDF',upEvent=event)">
+            			</button>
 					</vlayout>
 				</hlayout>
 			</vlayout>
@@ -323,20 +324,21 @@
 					<hlayout width="150px">
 						<label value="Pièces jointes : " />
 					</hlayout>
-					<vlayout>
-						<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
-             				onUpload="@command('onUploadPDF',upEvent=event)">
-            			</button>
-            		</vlayout>
             		<vlayout>
-            			<grid visible="@bind(not empty vm.listFilesContent)"
-							model="@bind(vm.listFilesContent)" width="260px" zclass="listPiecesJointes" >
+            			<grid visible="@bind(not empty vm.demandeCreation.piecesJointes)"
+							model="@bind(vm.demandeCreation.piecesJointes)" width="260px" zclass="listPiecesJointes" >
 							<template name="model" var="pj">
 								<row zclass="listPiecesJointes">
-									<label value="@bind(pj.name)" />
+									<label value="@bind(pj.titre)" />
+									<image tooltiptext="Supprimer la pièce jointe" 
+										sclass="ListAction delete" 
+										onClick="@command('supprimerPieceJointe',ref=pj)" />
 								</row>
 							</template>
 						</grid>
+						<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+             				onUpload="@command('onUploadPDF',upEvent=event)">
+            			</button>
 					</vlayout>
 				</hlayout>
 			</vlayout>

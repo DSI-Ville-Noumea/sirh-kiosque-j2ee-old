@@ -377,6 +377,15 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	}
 
 	@Command
+	public void openPiecesJointes(@BindingParam("ref") DemandeDto demande) {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", demande);
+		Window win = (Window) Executions.createComponents("/absences/piecesJointes.zul", null, args);
+		win.doModal();
+	}
+
+	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void approuverDemande(@BindingParam("ref") DemandeDto demande) {
 

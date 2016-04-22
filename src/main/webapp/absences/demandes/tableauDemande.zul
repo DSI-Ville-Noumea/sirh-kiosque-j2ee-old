@@ -217,15 +217,10 @@
 						<label
 							value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
 							
-						<grid visible="@bind(not empty each.piecesJointes)"
-							model="@bind(each.piecesJointes)" zclass="listPiecesJointes">
-		
-							<template name="model" var="pj">
-								<row zclass="listPiecesJointes">
-									<a href="@bind(pj.urlFromAlfresco)" label="Pièce Jointe" target="_blank" tooltiptext="@bind(pj.titre)" />
-								</row>
-							</template>
-						</grid>
+						 <button tooltiptext="Voir les pièces jointes"
+								label="Voir"
+                                visible="@bind(not empty each.piecesJointes)"
+                                onClick="@command('openPiecesJointes', ref=each)" />
 					</row>
 				</template>
 			</grid>

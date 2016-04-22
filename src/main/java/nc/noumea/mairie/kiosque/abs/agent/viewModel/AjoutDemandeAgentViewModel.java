@@ -111,9 +111,6 @@ public class AjoutDemandeAgentViewModel {
 	
 	private boolean saisieManuelleDuree = false;
 	
-	//pieces jointes
-	private List<Media> listFilesContent = new ArrayList<Media>();
-	
 	private SimpleDateFormat sdfddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Init
@@ -486,7 +483,7 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange("listFilesContent")
+	@NotifyChange("demandeCourant")
 	public void onUploadPDF(
 			@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx)
 			throws IOException {
@@ -500,14 +497,26 @@ public class AjoutDemandeAgentViewModel {
 				&& null != upEvent.getMedias()) {
 			for(Media media : upEvent.getMedias()) {
 				
-				getListFilesContent().add(media);
-				
 				PieceJointeDto pj = new PieceJointeDto();
+				pj.setTitre(media.getName());
 				pj.setTypeFile(media.getContentType());
 				pj.setbFile(media.getByteData());
 				
 				getDemandeCreation().getPiecesJointes().add(pj);
 			}
+		}
+	}
+
+	@Command
+	@NotifyChange("demandeCourant")
+	public void supprimerPieceJointe(
+			@BindingParam("ref") PieceJointeDto pieceJointeDto)
+			throws IOException {
+
+		if(null != getDemandeCreation().getPiecesJointes()
+				&& !getDemandeCreation().getPiecesJointes().isEmpty()
+				&& getDemandeCreation().getPiecesJointes().contains(pieceJointeDto)) {
+			getDemandeCreation().getPiecesJointes().remove(pieceJointeDto);
 		}
 	}
 
@@ -707,13 +716,5 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setListeATReference(List<DemandeDto> listeATReference) {
 		this.listeATReference = listeATReference;
-	}
-
-	public List<Media> getListFilesContent() {
-		return listFilesContent;
-	}
-
-	public void setListFilesContent(List<Media> listFilesContent) {
-		this.listFilesContent = listFilesContent;
 	}
 }

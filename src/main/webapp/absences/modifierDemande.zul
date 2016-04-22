@@ -3,7 +3,7 @@
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.ModifierDemandeViewModel')"
-		onClose="@command('refreshDemande')" >
+		onClose="@command('refreshDemande')" width="500px">
 		<div sclass="fond" height="100%">
 			<hlayout>
 				<hlayout width="150px">
@@ -238,23 +238,25 @@
 							<hlayout width="150px">
 								<label value="Pièces jointes : " />
 							</hlayout>
-							<vlayout>
-								<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
-		             				onUpload="@command('onUploadPDF',upEvent=event)">
-		            			</button>
-		            		</vlayout>
 		            		<vlayout>
 		            			<grid visible="@bind(not empty vm.demandeCourant.piecesJointes)"
-									model="@bind(vm.demandeCourant.piecesJointes)" width="260px" zclass="listPiecesJointes" >
+									model="@bind(vm.demandeCourant.piecesJointes)" width="320px" zclass="listPiecesJointes" >
 									<template name="model" var="pj">
 										<row zclass="listPiecesJointes">
-											<label value="@bind(pj.titre)" />
+											
+											<a if="${pj.urlFromAlfresco != null}" href="@bind(pj.urlFromAlfresco)" 
+												label="@bind(pj.titre)" target="_blank" tooltiptext="@bind(pj.titre)" />
+											<label if="${pj.urlFromAlfresco == null}" value="@bind(pj.titre)" />
 											<image tooltiptext="Supprimer la pièce jointe" 
 												sclass="ListAction delete" 
-												onClick="@command('supprimerPieceJointe',ref=pj)" />
+												onClick="@command('supprimerPieceJointe',ref=pj)"
+												style="float:right;" />
 										</row>
 									</template>
 								</grid>
+								<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+		             				onUpload="@command('onUploadPDF',upEvent=event)">
+		            			</button>
 							</vlayout>
 						</hlayout>
 					</vlayout>
@@ -341,24 +343,26 @@
 						<hlayout>
 							<hlayout width="150px">
 								<label value="Pièces jointes : " />
-							</hlayout>
-							<vlayout>
-								<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
-		             				onUpload="@command('onUploadPDF',upEvent=event)">
-		            			</button>
-		            		</vlayout>
+							</hlayout> 
 		            		<vlayout>
 		            			<grid visible="@bind(not empty vm.demandeCourant.piecesJointes)"
-									model="@bind(vm.demandeCourant.piecesJointes)" width="260px" zclass="listPiecesJointes" >
+									model="@bind(vm.demandeCourant.piecesJointes)" width="320px" zclass="listPiecesJointes" >
 									<template name="model" var="pj">
 										<row zclass="listPiecesJointes">
-											<label value="@bind(pj.titre)" />
+											
+											<a if="${pj.urlFromAlfresco != null}" href="@bind(pj.urlFromAlfresco)" 
+												label="@bind(pj.titre)" target="_blank" tooltiptext="@bind(pj.titre)" />
+											<label if="${pj.urlFromAlfresco == null}" value="@bind(pj.titre)" />
 											<image tooltiptext="Supprimer la pièce jointe" 
 												sclass="ListAction delete" 
-												onClick="@command('supprimerPieceJointe',ref=pj)" />
+												onClick="@command('supprimerPieceJointe',ref=pj)"
+												style="float:right;" />
 										</row>
 									</template>
 								</grid>
+								<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+		             				onUpload="@command('onUploadPDF',upEvent=event)">
+		            			</button>
 							</vlayout>
 						</hlayout>
 					</vlayout>

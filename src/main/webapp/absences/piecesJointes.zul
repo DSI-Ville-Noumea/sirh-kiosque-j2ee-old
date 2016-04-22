@@ -1,0 +1,28 @@
+<zk>
+	<window id="listePiecesJointesDialog" title="Liste des pièces jointes" mode="modal"
+		closable="true" action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.demandes.viewModel.PiecesJointesViewModel')">
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Liste des pièces jointes" />
+			</vlayout>
+				
+			<separator />
+				
+			<hlayout>
+				<grid visible="@bind(not empty vm.demandeCourant.piecesJointes)"
+					model="@bind(vm.demandeCourant.piecesJointes)" width="320px" zclass="listPiecesJointes" >
+					<template name="model" var="pj">
+						<row zclass="listPiecesJointes">
+							<a if="${pj.urlFromAlfresco != null}" href="@bind(pj.urlFromAlfresco)" 
+								label="@bind(pj.titre)" target="_blank" tooltiptext="@bind(pj.titre)" />
+							<label if="${pj.urlFromAlfresco == null}" value="@bind(pj.titre)" />
+						</row>
+					</template>
+				</grid>
+			</hlayout>
+		</div>
+	</window>
+</zk>

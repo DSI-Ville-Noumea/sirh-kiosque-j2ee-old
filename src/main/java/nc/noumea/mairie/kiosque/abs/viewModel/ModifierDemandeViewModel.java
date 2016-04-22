@@ -366,6 +366,7 @@ public class ModifierDemandeViewModel {
 		getDemandeCourant().setDuree(demande.getDuree());
 		getDemandeCourant().setIdRefEtat(demande.getIdRefEtat());
 		getDemandeCourant().setMotif(demande.getMotif());
+		getDemandeCourant().setPiecesJointes(demande.getPiecesJointes());
 	}
 
 	private boolean IsFormValid(RefTypeSaisiDto typeSaisie) {

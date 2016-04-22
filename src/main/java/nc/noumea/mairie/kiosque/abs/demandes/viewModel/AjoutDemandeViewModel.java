@@ -118,9 +118,6 @@ public class AjoutDemandeViewModel {
 	
 	private boolean saisieManuelleDuree;
 
-	// pieces jointes
-	private List<Media> listFilesContent = new ArrayList<Media>();
-
 	private SimpleDateFormat sdfddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Init
@@ -219,7 +216,7 @@ public class AjoutDemandeViewModel {
 	@Command
 	@NotifyChange({ "listeOrganisationsSyndicale", "etatDemandeCreation",
 			"demandeCreation", "organisationsSyndicaleCourant", ".",
-			"dureeHeureDemande", "dureeMinuteDemande" })
+			"dureeHeureDemande", "dureeMinuteDemande", "listFilesContent" })
 	public void chargeFormulaire() {
 		if (getTypeAbsenceCourant() != null) {
 			// on recharge les oragnisations syndicales
@@ -245,7 +242,7 @@ public class AjoutDemandeViewModel {
 			setDemandeCreation(new DemandeDto());
 			setDureeHeureDemande(null);
 			setDureeMinuteDemande(null);
-
+			
 			if (getTypeAbsenceCourant() != null
 					&& getTypeAbsenceCourant().getTypeSaisiDto() != null) {
 				if (getTypeAbsenceCourant().getTypeSaisiDto().isSiegeLesion()) {
@@ -607,7 +604,7 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
-	@NotifyChange("fileuploaded")
+	@NotifyChange("demandeCreation")
 	public void onUploadPDF(
 			@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx)
 			throws IOException {
@@ -621,14 +618,26 @@ public class AjoutDemandeViewModel {
 				&& null != upEvent.getMedias()) {
 			for(Media media : upEvent.getMedias()) {
 				
-				getListFilesContent().add(media);
-				
 				PieceJointeDto pj = new PieceJointeDto();
+				pj.setTitre(media.getName());
 				pj.setTypeFile(media.getContentType());
 				pj.setbFile(media.getByteData());
 				
 				getDemandeCreation().getPiecesJointes().add(pj);
 			}
+		}
+	}
+
+	@Command
+	@NotifyChange("demandeCreation")
+	public void supprimerPieceJointe(
+			@BindingParam("ref") PieceJointeDto pieceJointeDto)
+			throws IOException {
+
+		if(null != getDemandeCreation().getPiecesJointes()
+				&& !getDemandeCreation().getPiecesJointes().isEmpty()
+				&& getDemandeCreation().getPiecesJointes().contains(pieceJointeDto)) {
+			getDemandeCreation().getPiecesJointes().remove(pieceJointeDto);
 		}
 	}
 
@@ -897,14 +906,6 @@ public class AjoutDemandeViewModel {
 
 	public void setListeATReference(List<DemandeDto> listeATReference) {
 		this.listeATReference = listeATReference;
-	}
-
-	public List<Media> getListFilesContent() {
-		return listFilesContent;
-	}
-
-	public void setListFilesContent(List<Media> listFilesContent) {
-		this.listFilesContent = listFilesContent;
 	}
 	
 }
