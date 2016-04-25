@@ -1,5 +1,4 @@
 <zk>
-
 	<div visible="@bind(not empty vm.typeAbsenceCourant) ">
 		<separator />
 		<vlayout>
@@ -231,7 +230,7 @@
 								</row>
 							</template>
 						</grid>
-						<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+						<button label="Joindre" upload="true,maxsize=2000,multiple=true,accept=|image/*|application/pdf, native"
              				onUpload="@command('onUploadPDF',upEvent=event)">
             			</button>
 					</vlayout>
@@ -336,7 +335,7 @@
 								</row>
 							</template>
 						</grid>
-						<button label="Joindre" upload="true,maxsize=1000,multiple=true,accept=|image/*|application/pdf, native"
+						<button label="Joindre" upload="true,maxsize=2000,multiple=true,accept=|image/*|application/pdf, native"
              				onUpload="@command('onUploadPDF',upEvent=event)">
             			</button>
 					</vlayout>
