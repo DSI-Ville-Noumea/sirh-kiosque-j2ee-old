@@ -164,7 +164,7 @@ public abstract class AbstractViewModel extends SelectorComposer<Component> {
 			Sessions.getCurrent().setAttribute("droitsEae", droitsEae);
 		} catch (Exception e) {
 			// l'appli SIRH-EAE-WS ne semble pas répondre
-			logger.error("L'application SIRH-EAE-WS ne répond pas.");
+			logger.error("L'application SIRH-WS ne répond pas.");
 		}
 		
 		return droitsEae;

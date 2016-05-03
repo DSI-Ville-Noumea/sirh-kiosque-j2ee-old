@@ -214,14 +214,23 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 			
 			String nbrEaeStr = "";
 			
-			Integer nbrEae = new Integer(eaeWsConsumer.countEaeARealiserUrl(getCurrentUser().getAgent().getIdAgent()));
-				
-			if (0 == nbrEae) {
-				nbrEaeStr = "Vous n'avez pas de EAE à réaliser.";
-			} else if (1 == nbrEae) {
-				nbrEaeStr = "Vous avez " + nbrEae + " EAE à réaliser.";
-			} else {
-				nbrEaeStr = "Vous avez " + nbrEae + " EAEs à réaliser.";
+			Integer nbrEae = null;
+			try {
+				nbrEae = new Integer(eaeWsConsumer.countEaeARealiserUrl(getCurrentUser().getAgent().getIdAgent()));
+			} catch (Exception e) {
+				// l'appli SIRH-EAE-WS ne semble pas répondre
+				logger.error("L'application SIRH-EAE-WS ne répond pas.");
+				nbrEaeStr = "L'application SIRH-EAE-WS ne répond pas.";
+			}
+			
+			if(null != nbrEae) {
+				if (0 == nbrEae) {
+					nbrEaeStr = "Vous n'avez pas de EAE à réaliser.";
+				} else if (1 == nbrEae) {
+					nbrEaeStr = "Vous avez " + nbrEae + " EAE à réaliser.";
+				} else {
+					nbrEaeStr = "Vous avez " + nbrEae + " EAEs à réaliser.";
+				}
 			}
 			
 			setNombreEAEaRealiser(nbrEaeStr);
