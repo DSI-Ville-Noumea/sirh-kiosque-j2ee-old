@@ -103,6 +103,8 @@ public class TimePicker {
 		listeMinutesPointage.add("15");
 		listeMinutesPointage.add("30");
 		listeMinutesPointage.add("45");
+		// evol #19796
+		listeMinutesPointage.add("48");
 		return listeMinutesPointage;
 	}
 

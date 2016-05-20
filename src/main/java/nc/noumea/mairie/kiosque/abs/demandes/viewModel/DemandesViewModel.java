@@ -86,6 +86,8 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -5338643536442576795L;
+	
+	private static final String TAB_PLANNING = "PLANNING";
 
 	private Logger logger = LoggerFactory.getLogger(DemandesViewModel.class);
 
@@ -122,10 +124,10 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
 		setListeGroupeAbsenceFiltre(filtreGroupeFamille);
 
-		// on charge les service pour les filtres
+		// on charge les services pour les filtres
 		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsences(getCurrentUser().getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
-		// pour les agents, on ne rempli pas la liste, elle le sera avec le
+		// pour les agents, on ne remplit pas la liste, elle le sera avec le
 		// choix du service
 		setListeAgentsFiltre(null);
 		// on recharge les états d'absences pour les filtres
@@ -140,25 +142,6 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 		} else if (null != param && "aViser".equals(param)) {
 			setListeEtatsSelectionnes(Arrays.asList(getListeEtatAbsenceFiltre().get(1)));
 		}
-
-		// #12159 planning
-		List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
-		for (EntiteDto service : getListeServicesFiltre()) {
-			if (null != service.getIdEntite()) {
-				List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(getCurrentUser().getAgent().getIdAgent(), service.getIdEntite());
-
-				if (null != listeAgents) {
-					for (AgentDto agent : listeAgents) {
-						AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getIdEntite(), service.getLabel());
-						listAgentsWithServiceDto.add(agentsWithServiceDto);
-					}
-				}
-			}
-		}
-
-		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
-		s.setAttribute("listeAgents", listAgentsWithServiceDto);
-		setListAgentsEquipe(listAgentsWithServiceDto);
 	}
 
 	@Command
@@ -262,7 +245,7 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 		setListeDemandes(result);
 
 		// #12159 construction du planning
-		if ("PLANNING".equals(getTabCourant().getId())) {
+		if (TAB_PLANNING.equals(getTabCourant().getId())) {
 			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
 			s.setAttribute("listeDemandes", result);
 
@@ -273,6 +256,24 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 
 				s.setAttribute("listeAgents", listAgentsWithServiceDto);
 			} else {
+				if(null == getListAgentsEquipe()) {
+					List<AgentWithServiceDto> listAgentsWithServiceDto = new ArrayList<AgentWithServiceDto>();
+					for (EntiteDto service : getListeServicesFiltre()) {
+						if (null != service.getIdEntite()) {
+							List<AgentDto> listeAgents = absWsConsumer.getAgentsAbsences(getCurrentUser().getAgent().getIdAgent(), service.getIdEntite());
+	
+							if (null != listeAgents) {
+								for (AgentDto agent : listeAgents) {
+									AgentWithServiceDto agentsWithServiceDto = new AgentWithServiceDto(agent, service.getIdEntite(), service.getLabel());
+									listAgentsWithServiceDto.add(agentsWithServiceDto);
+								}
+							}
+						}
+					}
+	
+					setListAgentsEquipe(listAgentsWithServiceDto);	
+				}
+				
 				s.setAttribute("listeAgents", getListAgentsEquipe());
 			}
 
@@ -678,12 +679,14 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
 		@SuppressWarnings("unchecked")
 		List<AgentWithServiceDto> listeAgents = (List<AgentWithServiceDto>) s.getAttribute("listeAgents");
-
-		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes", listeAgents);
-		try {
-			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
-		} catch (Exception e) {
-			logger.debug("Une erreur est survenue dans la creation du planning : " + e.getMessage());
+		s.removeAttribute("listeAgents");
+		if(null != listeAgents) {
+			CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsGestionDemandes", listeAgents);
+			try {
+				Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
+			} catch (Exception e) {
+				logger.debug("Une erreur est survenue dans la creation du planning : " + e.getMessage());
+			}
 		}
 	}
 

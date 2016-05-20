@@ -61,6 +61,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	private static final String eaeCampagneEaeUrl = "eaes/getEaeCampagneOuverte";
 	private static final String eaeTableauBordUrl = "eaes/tableauDeBord";
 	private static final String eaeTableauEaeUrl = "eaes/listEaesByAgent";
+	private static final String eaeCountEaeARealiserUrl = "eaes/countListEaesByAgent";
 	private static final String eaeImpressionEaeUrl = "reporting/eae";
 	private static final String eaeInitialiserEaeUrl = "eaes/initialiserEae";
 	private static final String eaeSaveDelegataireUrl = "eaes/affecterDelegataire";
@@ -92,6 +93,17 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(EaeListItemDto.class, res, url);
+	}
+
+	@Override
+	public String countEaeARealiserUrl(Integer idAgent) {
+		
+		String url = String.format(sirhEaeWsBaseUrl + eaeCountEaeARealiserUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsString(res, url);
 	}
 
 	@Override

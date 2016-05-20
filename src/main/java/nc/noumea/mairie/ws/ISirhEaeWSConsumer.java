@@ -87,4 +87,6 @@ public interface ISirhEaeWSConsumer {
 
 	ReturnMessageDto saveDelegataire(Integer idEae, Integer idAgent, Integer idDelegataire);
 
+	String countEaeARealiserUrl(Integer idAgent);
+
 }

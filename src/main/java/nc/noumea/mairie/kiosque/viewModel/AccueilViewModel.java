@@ -35,10 +35,8 @@ import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.cmis.ISharepointService;
 import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
-import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
@@ -156,6 +154,9 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 		setRefrentRh(ref);
 
 		if (null != getDroitsAbsence() && getDroitsAbsence().isApprouverModif()) {
+
+			logger.debug("Agent " + getCurrentUser().getAgent().getIdAgent() + " a les droits de Approbateur Absence");
+			
 			List<Integer> etats = new ArrayList<Integer>();
 			etats.add(RefEtatEnum.SAISIE.getCodeEtat());
 			etats.add(RefEtatEnum.VISEE_FAVORABLE.getCodeEtat());
@@ -182,6 +183,9 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 		}
 
 		if (null != getDroitsAbsence() && getDroitsAbsence().isViserModif()) {
+
+			logger.debug("Agent " + getCurrentUser().getAgent().getIdAgent() + " a les droits de viseur Absence");
+			
 			List<Integer> etats = new ArrayList<Integer>();
 			etats.add(RefEtatEnum.SAISIE.getCodeEtat());
 
@@ -205,41 +209,36 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 			setNombreAbsenceAViser(nbrAbsViserStr);
 		}
 		if (isDroitsEae()) {
+			
+			logger.debug("Agent " + getCurrentUser().getAgent().getIdAgent() + " a les droits EAE");
+			
 			String nbrEaeStr = "";
+			
+			Integer nbrEae = null;
 			try {
-				List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(getCurrentUser().getAgent().getIdAgent());
-				if (tableau != null && tableau.size() > 0) {
-					int nbrEae = 0;
-					for (EaeListItemDto item : tableau) {
-						for (AgentDto evaluateur : item.getEaeEvaluateurs()) {
-							if (evaluateur.getIdAgent().toString().equals(getCurrentUser().getAgent().getIdAgent().toString())
-									&& (item.getEtat().equals("Non débuté") || item.getEtat().equals("Créé") || item.getEtat().equals("En cours"))) {
-								nbrEae++;
-							}
-						}
-						if (item.getAgentDelegataire() != null) {
-							if (item.getAgentDelegataire().getIdAgent().toString().equals(getCurrentUser().getAgent().getIdAgent().toString())
-									&& (item.getEtat().equals("Non débuté") || item.getEtat().equals("Créé") || item.getEtat().equals("En cours"))) {
-								nbrEae++;
-							}
-						}
-					}
-					if (0 == nbrEae) {
-						nbrEaeStr = "Vous n'avez pas de EAE à réaliser.";
-					} else if (1 == nbrEae) {
-						nbrEaeStr = "Vous avez " + nbrEae + " EAE à réaliser.";
-					} else {
-						nbrEaeStr = "Vous avez " + nbrEae + " EAEs à réaliser.";
-					}
-				}
+				nbrEae = new Integer(eaeWsConsumer.countEaeARealiserUrl(getCurrentUser().getAgent().getIdAgent()));
 			} catch (Exception e) {
 				// l'appli SIRH-EAE-WS ne semble pas répondre
-				logger.error("Une erreur est survenue avec l'application SIRH-EAE-WS : " + e.getMessage());
-				nbrEaeStr = "Une erreur est survenue.";
+				logger.error("L'application SIRH-EAE-WS ne répond pas.");
+				nbrEaeStr = "L'application SIRH-EAE-WS ne répond pas.";
 			}
+			
+			if(null != nbrEae) {
+				if (0 == nbrEae) {
+					nbrEaeStr = "Vous n'avez pas de EAE à réaliser.";
+				} else if (1 == nbrEae) {
+					nbrEaeStr = "Vous avez " + nbrEae + " EAE à réaliser.";
+				} else {
+					nbrEaeStr = "Vous avez " + nbrEae + " EAEs à réaliser.";
+				}
+			}
+			
 			setNombreEAEaRealiser(nbrEaeStr);
 		}
 		if (null != getDroitsPointage() && getDroitsPointage().isApprobation()) {
+			
+			logger.debug("Agent " + getCurrentUser().getAgent().getIdAgent() + " a les droits d'approbation Pointage");
+			
 			Date toDate = new Date();
 			DateTime fromDate = new DateTime(toDate);
 			fromDate = fromDate.minusMonths(3);
