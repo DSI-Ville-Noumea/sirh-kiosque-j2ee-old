@@ -116,7 +116,7 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 		// on charge les service pour les filtres
 		List<EntiteDto> filtreService = absWsConsumer.getServicesAbsencesOperateur(getCurrentUser().getAgent().getIdAgent());
 		setListeServicesFiltre(filtreService);
-		// pour les agents, on ne rempli pas la liste, elle le sera avec le
+		// pour les agents, on ne remplit pas la liste, elle le sera avec le
 		// choix du service sauf si un seul service (#15772)
 		if (getListeServicesFiltre().size() == 1) {
 			setServiceFiltre(getListeServicesFiltre().get(0));
