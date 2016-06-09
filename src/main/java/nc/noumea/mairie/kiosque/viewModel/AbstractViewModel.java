@@ -106,6 +106,7 @@ public abstract class AbstractViewModel extends SelectorComposer<Component> {
 		} catch (Exception e) {
 			// l'appli SIRH-ABS-WS ne semble pas répondre
 			logger.error("L'application SIRH-ABS-WS ne répond pas.");
+			logger.error(e.getMessage());
 		}
 		
 		return droitsAbsence;
@@ -136,6 +137,7 @@ public abstract class AbstractViewModel extends SelectorComposer<Component> {
 		} catch (Exception e) {
 			// l'appli SIRH-PTG-WS ne semble pas répondre
 			logger.error("L'application SIRH-PTG-WS ne répond pas.");
+			logger.error(e.getMessage());
 		}
 		
 		return droitsPointage;
@@ -165,6 +167,7 @@ public abstract class AbstractViewModel extends SelectorComposer<Component> {
 		} catch (Exception e) {
 			// l'appli SIRH-EAE-WS ne semble pas répondre
 			logger.error("L'application SIRH-WS ne répond pas.");
+			logger.error(e.getMessage());
 		}
 		
 		return droitsEae;
