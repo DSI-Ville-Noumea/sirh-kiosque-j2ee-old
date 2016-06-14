@@ -33,6 +33,8 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
+import nc.noumea.mairie.kiosque.ptg.dto.DpmIndemniteAnneeDto;
+import nc.noumea.mairie.kiosque.ptg.dto.DpmIndemniteChoixAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
@@ -47,6 +49,15 @@ public interface ISirhPtgWSConsumer {
 
 	/* FILTRES */
 	List<EntiteDto> getServicesPointages(Integer idAgent);
+
+	/**
+	 * Retourne les services pour les filtres dans le kiosque
+	 * ayant au moins un agent avec la prime Indemnité forfaitaire travail DPM
+	 * 
+	 * @param idAgent Integer
+	 * @return List<EntiteDto> Liste de services
+	 */
+	List<EntiteDto> getServicesWithPrimeDpmPointages(Integer idAgent);
 
 	List<RefEtatPointageDto> getEtatPointageKiosque();
 
@@ -96,5 +107,80 @@ public interface ISirhPtgWSConsumer {
 	ReturnMessageDto setTitreRepas(Integer idAgentConnecte, List<TitreRepasDemandeDto> listTitreRepas);
 
 	List<TitreRepasDemandeDto> getHistoriqueTitreRepas(Integer idTrDemande);
+	
+	/* Choix Prime Indemnité forfaitaire travail DPM #30544 */
+	/**
+	 * Retourne si le choix dans le kiosqueRH pour la prime Indemnité forfaitaire travail DPM
+	 * est ouvert 
+	 * 
+	 * @param annee Integer 
+	 * @return boolean true ou false
+	 */
+	boolean isPeriodeChoixOuverte(Integer annee);
+	
+	/**
+	 * Retourne le choix de l agent pour l Indemnité forfaitaire travail DPM
+	 * 
+	 * @param idAgentConnecte Integer L agent
+	 * @param annee Integer L annee concernee
+	 * @return DpmIndemniteChoixAgentDto le choix de l agent
+	 */
+	DpmIndemniteChoixAgentDto getIndemniteChoixAgent(Integer idAgentConnecte, Integer annee);
+	
+	/**
+	 * Retourne la liste des choix agent pour l Indemnité forfaitaire travail DPM pour les agents affectés a l operateur passe en parametre
+	 * 
+	 * @param idAgentConnecte Integer L operateur
+	 * @param annee Integer L annee concernee
+	 * @param idServiceAds Integer Filtre sur le service, NON OBLIGATOIRE
+	 * @param idAgentFiltre Integer Filtre sur un agent, NON OBLIGATOIRE
+	 * @return List<DpmIndemniteChoixAgentDto> La liste des choix agents pour une annee
+	 */
+	List<DpmIndemniteChoixAgentDto> getListDpmIndemniteChoixAgent(Integer idAgentConnecte, Integer annee, Integer idServiceAds, Integer idAgentFiltre);
+
+	/**
+	 * Sauvegarde une liste de choix saisie par l operateur pour plusieurs
+	 * agents pour la prime Indemnité forfaitaire travail DPM : Indemnite ou
+	 * recuperation
+	 * 
+	 * @param idAgentConnecte
+	 *            Integer
+	 * @param annee
+	 *            Integer Annee concernee
+	 * @param List
+	 *            de dto List<DpmIndemniteChoixAgentDto>
+	 * @return ReturnMessageDto
+	 */
+	ReturnMessageDto saveListIndemniteChoixAgentForOperator(Integer idAgentConnecte, Integer annee, List<DpmIndemniteChoixAgentDto> listDto);
+	
+	/**
+	 * Sauvegarde le choix fait par l agent pour la prime Indemnité forfaitaire
+	 * travail DPM : Indemnite ou recuperation
+	 * 
+	 * @param idAgentConnecte
+	 *            Integer
+	 * @param dto
+	 *            DpmIndemniteChoixAgentDto
+	 * @return ReturnMessageDto
+	 */
+	ReturnMessageDto saveIndemniteChoixAgent(Integer idAgentConnecte, DpmIndemniteChoixAgentDto dto);
+
+	/**
+	 * Retourne la liste des campagnes ouvertes pour la saisie des choix agents de la prime Indemnité forfaitaire travail DPM
+	 * 
+	 * @return List<DpmIndemniteAnneeDto> la liste des campagnes ouvertes
+	 */
+	List<DpmIndemniteAnneeDto> getListDpmIndemAnneeOuverte();
+	
+	/**
+	 * Retourne la campagne pour la saisie des choix agents de la prime Indemnité forfaitaire travail DPM
+	 * de la annee en cours
+	 * 
+	 * @return DpmIndemniteAnneeDto la campagne en cours
+	 */
+	DpmIndemniteAnneeDto getDpmIndemAnneeEnCours();
+
+	
+	List<AgentDto> getAgentsPointagesWithPrimeDpm(Integer idAgent, Integer idServiceADS);
 
 }

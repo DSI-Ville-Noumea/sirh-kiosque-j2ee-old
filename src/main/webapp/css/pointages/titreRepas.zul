@@ -1,6 +1,6 @@
 <style>
 <![CDATA[
-     .name{color: #3B62A7;}
+    .name{color: #3B62A7;}
 
  	.saveAction { background-image: url("img/Sprite.png");
  	background-position: -482px -164px; background-repeat: no-repeat;
@@ -11,7 +11,7 @@
 	bold; }
 
 	.z-column-content, .z-row-content, .z-group-content,
-	.z-groupfoot-content, .z-footer-content { padding: 1px 1px; }
+	.z-groupfoot-content, .z-footer-content { padding: 1px 1px; 0px; 5px; }
 
 	.z-row .z-row-inner .z-row-content .z-label{font-size:8pt;}
 
@@ -21,10 +21,6 @@
 
 	.z-detail {height: 20px;} 
 
-
 	]]>
 	
-	
-	
-
 </style>
