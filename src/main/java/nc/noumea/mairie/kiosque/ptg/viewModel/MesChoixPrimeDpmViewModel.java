@@ -24,8 +24,8 @@ public class MesChoixPrimeDpmViewModel extends AbstractViewModel {
 	 */
 	private static final long	serialVersionUID	= -8782343578282181898L;
 	
-	public final static String RADIO_BUTTON_RECUPERATION = "Recuperation";
-	public final static String RADIO_BUTTON_INDEMNITE = "Indemnite";
+	public final static String RADIO_BUTTON_RECUPERATION = "Récupération";
+	public final static String RADIO_BUTTON_INDEMNITE = "Indemnité";
 	
 	private DpmIndemniteChoixAgentDto choixCourant;
 	private DpmIndemniteChoixAgentDto choixAnneeEnCours;

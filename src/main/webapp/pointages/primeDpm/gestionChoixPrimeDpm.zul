@@ -1,0 +1,190 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.viewModel.GestionChoixPrimeDpmViewModel')"
+		height="100%">
+		<style>.z-hlayout-inner { vertical-align: middle; }</style>
+		<div sclass="fond">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Prime DPM SDJF" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="Gestion des choix agents pour la prime DPM SDJF" />
+			</vlayout>
+			<separator />
+			<tabbox id="tb"
+				onCreate="@command('setTabDebut', tab= self.getSelectedTab())">
+				<tabs id="tabs">
+					<tab id="SAISIE_PRIME" label="Saisie du choix des agents"
+						onClick="@command('changeVue',tab = SAISIE_PRIME)">
+					</tab>
+					<tab id="VISU_PRIME"
+						label="Visualisation des choix agents"
+						onClick="@command('changeVue',tab = VISU_PRIME)" />
+				</tabs>
+				<tabpanels>
+					<tabpanel>
+					
+						<separator />
+					
+						<label style="font-size: 16px;color: #004f9f;" value="@bind(vm.phraseSaisieChoixPrimeDpm)" />
+						
+						<div visible="@bind(not empty vm.campagneDpmAnneeOuverte)">
+							<separator />
+							<div sclass="RHTitle2Line" />
+							<separator />
+							<!-- Saisie des choix -->
+							<hlayout visible="@bind(not empty vm.campagneDpmAnneeOuverte)">
+								<label value="Service :" />
+								<combobox width="400px" readonly="true"
+									model="@bind(vm.listeServicesFiltre)"
+									selectedItem="@bind(vm.serviceFiltre)"
+									onSelect="@command('afficheListeAgent')">
+									<template name="model">
+										<comboitem
+											label="@bind(each.label)" />
+									</template>
+								</combobox>
+								<label value="Agent :" />
+								<combobox width="200px"
+									model="@bind(vm.listeAgentsFiltre)"
+									selectedItem="@bind(vm.agentFiltre)">
+									<template name="model">
+										<comboitem
+											label="@bind(vm.concatAgent(each))" />
+									</template>
+								</combobox>
+								<button label="Vider"
+									onClick="@command('viderFiltre')" />
+								<button label="Filtrer"
+									onClick="@command('chargeTabSaisie')" />
+							</hlayout>
+							<separator />
+							<div sclass="RHTitle2Line" />
+							<separator />
+						</div>
+
+						<div
+							visible="@bind(not empty vm.listChoixSaisie)">
+							<grid
+								model="@bind(vm.listChoixSaisie)" width="650px"
+								id="listChoixSaisieId" emptyMessage="Aucun élément">
+								<columns>
+									<column label="Agent"
+										sort="auto('agent.nom')" width="300px" />
+									<column>Choix</column>
+								</columns>
+								<template name="model">
+									<row>
+										<label
+											value="@bind(vm.concatAgentNomatr(each.agent))" />
+										<radiogroup selectedItem="@bind(each.radioButtonZK)" >
+											<radio label="Indemnité" value="Indemnité" />
+											<radio label="Récupération" value="Récupération" />
+										</radiogroup>
+									</row>
+								</template>
+							</grid>
+
+							<div>
+								<hlayout>
+									<button label="Annuler"
+										onClick="@command('viderFiltre')" />
+									<button label="Valider"
+										onClick="@command('saveListChoixSaisie')" />
+								</hlayout>
+							</div>
+						</div>
+					</tabpanel>
+					<tabpanel>
+					
+						<separator />
+					
+						<label style="font-size: 16px;color: #004f9f;" value="@bind(vm.phraseChoixPrimeDpmAnneeEnCours)" />
+						
+						<separator />
+						<separator />
+						
+						<groupbox width="982px">
+							<caption label="Filtres de recherche" />
+							<vlayout>
+								<hlayout>
+									<label value="Service :" />
+									<combobox width="400px"
+										readonly="true" model="@bind(vm.listeServicesFiltre)"
+										selectedItem="@bind(vm.serviceFiltre)"
+										onSelect="@command('afficheListeAgent')">
+										<template name="model">
+											<comboitem
+												label="@bind(each.label)" />
+										</template>
+									</combobox>
+
+									<label value="Agent :" />
+									<combobox width="200px"
+										model="@bind(vm.listeAgentsFiltre)"
+										selectedItem="@bind(vm.agentFiltre)">
+										<template name="model">
+											<comboitem
+												label="@bind(vm.concatAgent(each))" />
+										</template>
+									</combobox>
+								</hlayout>
+								<hlayout>
+									<button label="Vider"
+										onClick="@command('viderFiltre')" />
+									<button label="Filtrer"
+										onClick="@command('filtrer')" />
+								</hlayout>
+							</vlayout>
+						</groupbox>
+						<separator />
+						<separator />
+						<vlayout height="100%">
+							<hlayout sclass="fondRecherche">
+								<div>
+									Affichage de
+									<combobox width="50px"
+										selectedItem="@bind(vm.tailleListe)" readonly="true">
+										<comboitem value="5" label="5" />
+										<comboitem value="10"
+											label="10" />
+										<comboitem value="15"
+											label="15" />
+										<comboitem value="20"
+											label="20" />
+									</combobox>
+									demandes par page
+									<space />
+									Recherche instantanée :
+									<textbox value="@bind(vm.filter)"
+										onChange="@command('doSearch')" instant="true" />
+								</div>
+							</hlayout>
+							<separator />
+							<grid model="@bind(vm.listChoixAnneeEnCours)"
+								mold="paging" width="502px" pageSize="@bind(vm.tailleListe)"
+								id="listChoixAnneeEnCoursId" emptyMessage="Aucun élément">
+								<columns>
+									<column label="Agent"
+										sort="auto('agent.nom')" width="200px" />
+									<column label="Choix"
+										width="300px" sort="auto('operateur.nom')" />
+								</columns>
+								<template name="model">
+									<row>
+										<label
+											value="@bind(vm.concatAgentNomatr(each.agent))" />
+										<label
+											value="@bind(each.radioButtonZK)" />
+									</row>
+								</template>
+							</grid>
+						</vlayout>
+					</tabpanel>
+				</tabpanels>
+			</tabbox>
+		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/pointages/choixDpm.zul" />
+	</window>
+</zk>
