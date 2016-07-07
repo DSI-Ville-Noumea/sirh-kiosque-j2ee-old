@@ -583,7 +583,7 @@ public class ModifierDemandeViewModel {
 
 	public String getEtatDemande() {
 		// bug #30012
-		if(demandeCourant.getGroupeAbsence().getIdRefGroupeAbsence().equals(RefTypeGroupeAbsenceEnum.MALADIES.getValue())
+		if(demandeCourant.getGroupeAbsence().getIdRefGroupeAbsence()==RefTypeGroupeAbsenceEnum.MALADIES.getValue()
 				&& etatDemande.equals(new Integer(RefEtatEnum.A_VALIDER.getCodeEtat()).toString())) {
 			return new Integer(RefEtatEnum.SAISIE.getCodeEtat()).toString();
 		}

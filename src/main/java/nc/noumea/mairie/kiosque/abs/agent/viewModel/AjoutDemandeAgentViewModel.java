@@ -43,6 +43,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -716,5 +717,14 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setListeATReference(List<DemandeDto> listeATReference) {
 		this.listeATReference = listeATReference;
+	}	
+	
+	public boolean isMaladie(){
+		if(getGroupeAbsence()==null || getGroupeAbsence().getIdRefGroupeAbsence()==null){
+			return false;
+		}else if(getGroupeAbsence().getIdRefGroupeAbsence()==RefTypeGroupeAbsenceEnum.MALADIES.getValue()){
+			return true;
+		}
+		return false;
 	}
 }

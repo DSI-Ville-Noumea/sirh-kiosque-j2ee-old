@@ -349,8 +349,8 @@
 				<hlayout>
 					<radiogroup
 						selectedItem="@bind(vm.etatDemandeCreation)">
-						<radio label="Provisoire" value="0" />
-						<radio label="Définitive" value="1" />
+						<radio label="Provisoire" value="0" disabled="@bind(vm.isMaladie())" />
+						<radio label="Définitive" value="1" disabled="@bind(vm.isMaladie())"/>
 					</radiogroup>
 				</hlayout>
 			</hlayout>
