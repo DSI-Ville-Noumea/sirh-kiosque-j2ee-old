@@ -698,4 +698,13 @@ public class ModifierDemandeViewModel {
 		this.listeATReference = listeATReference;
 	}
 	
+	public boolean isMaladie(){
+		if(getDemandeCourant().getGroupeAbsence()==null || getDemandeCourant().getGroupeAbsence().getIdRefGroupeAbsence()==null){
+			return false;
+		}else if(getDemandeCourant().getGroupeAbsence().getIdRefGroupeAbsence()==RefTypeGroupeAbsenceEnum.MALADIES.getValue()){
+			return true;
+		}
+		return false;
+	}
+	
 }
