@@ -94,6 +94,7 @@ public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 	// depassement de droits
 	private boolean isDepassementCompteur;
 	private boolean isDepassementMultiple;
+	private boolean isDepassementITT;
 
 	private OrganisationSyndicaleDto organisationSyndicale;
 
@@ -545,6 +546,14 @@ public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 			return false;
 		
 		return this.idDemande.equals(((DemandeDto)o).getIdDemande());
+	}
+
+	public boolean isDepassementITT() {
+		return isDepassementITT;
+	}
+
+	public void setDepassementITT(boolean isDepassementITT) {
+		this.isDepassementITT = isDepassementITT;
 	}
 
 }

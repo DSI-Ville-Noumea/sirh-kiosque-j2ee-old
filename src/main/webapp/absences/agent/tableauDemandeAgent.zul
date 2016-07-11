@@ -118,6 +118,9 @@
 						<image
 							tooltiptext="Cette demande n'est pas un multiple."
 							sclass="seuilMultiple" visible="@bind(each.depassementMultiple)" />
+						<image
+							tooltiptext="Le nombre de jours d'ITT est incohérent avec la date début/fin."
+							sclass="seuilDepassement" visible="@bind(each.depassementITT)" />
 					</vlayout>
 					<label
 						value="@bind(vm.concatAgent(each.agentEtat.nom,each.agentEtat.prenom))" />
