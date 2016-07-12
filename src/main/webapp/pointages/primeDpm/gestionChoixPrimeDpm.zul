@@ -78,8 +78,8 @@
 										<label
 											value="@bind(vm.concatAgentNomatr(each.agent))" />
 										<radiogroup selectedItem="@bind(each.radioButtonZK)" >
-											<radio label="Indemnité" value="Indemnité" />
-											<radio label="Récupération" value="Récupération" />
+											<radio label="Indemnité" value="Indemnite" />
+											<radio label="Récupération" value="Recuperation" />
 										</radiogroup>
 									</row>
 								</template>

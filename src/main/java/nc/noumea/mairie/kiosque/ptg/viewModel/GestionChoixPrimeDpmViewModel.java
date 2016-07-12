@@ -25,6 +25,7 @@ package nc.noumea.mairie.kiosque.ptg.viewModel;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,6 +39,7 @@ import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.AbstractViewModel;
 
 import org.joda.time.DateTime;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -229,7 +231,7 @@ public class GestionChoixPrimeDpmViewModel extends AbstractViewModel {
 	}
 	
 	@Command
-	@NotifyChange({ "serviceFiltre", "agentFiltre", "listChoixSaisie", "listeAgentsFiltre", "listeServicesFiltre" })
+	@NotifyChange({ "serviceFiltre", "agentFiltre", "listChoixSaisie", "listeAgentsFiltre","*","."})
 	public void viderFiltre() {
 		setServiceFiltre(null);
 		setAgentFiltre(null);
@@ -238,11 +240,13 @@ public class GestionChoixPrimeDpmViewModel extends AbstractViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "listeAgentsFiltre" })
+	@NotifyChange({ "listeAgentsFiltre","agentFiltre"})
 	public void afficheListeAgent() {
 		// on charge les agents pour les filtres
 		List<AgentDto> filtreAgent = ptgWsConsumer.getAgentsPointagesWithPrimeDpm(getCurrentUser().getAgent().getIdAgent(), getServiceFiltre().getIdEntite());
 		setListeAgentsFiltre(filtreAgent);
+		setAgentFiltre(null);
+		BindUtils.postNotifyChange(null, null, GestionChoixPrimeDpmViewModel.this, "agentFiltre");
 	}
 
 	public String concatAgent(AgentDto ag) {
@@ -307,6 +311,9 @@ public class GestionChoixPrimeDpmViewModel extends AbstractViewModel {
 	}
 
 	public void setListeAgentsFiltre(List<AgentDto> listeAgentsFiltre) {
+		if (null != listeAgentsFiltre) {
+			Collections.sort(listeAgentsFiltre);
+		}
 		this.listeAgentsFiltre = listeAgentsFiltre;
 	}
 
