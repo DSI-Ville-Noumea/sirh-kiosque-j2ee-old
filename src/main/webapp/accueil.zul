@@ -116,10 +116,7 @@
 				<separator />
 				<div style="padding-left:20px;">
 					<label
-						value="- votre outil KIOSQUE RH : contactez " />
-					<a href="mailto:kiosque-rh@ville-noumea.nc">
-						kiosque-rh@ville-noumea.nc
-					</a>
+						value="- votre outil KIOSQUE RH " />
 					<label value=" ;" />
 					<separator />
 					<label
