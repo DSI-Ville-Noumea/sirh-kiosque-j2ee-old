@@ -107,7 +107,7 @@ public class AjoutAgentApprobateurViewModel {
 	public void saveAgent(@BindingParam("win") Window window) {
 		
 		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getAgent().getIdAgent(),
-				getListeAgentsExistants());
+				getListeAgentsExistants(),currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

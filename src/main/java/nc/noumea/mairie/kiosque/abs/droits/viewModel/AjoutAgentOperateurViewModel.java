@@ -113,7 +113,7 @@ public class AjoutAgentOperateurViewModel {
 
 	@Command
 	public void saveAgent(@BindingParam("win") Window window) {
-		ReturnMessageDto result = absWsConsumer.saveAgentsOperateur(getApprobateur().getIdAgent(), getOperateur().getIdAgent(), getListeAgentsExistants());
+		ReturnMessageDto result = absWsConsumer.saveAgentsOperateur(getApprobateur().getIdAgent(), getOperateur().getIdAgent(), getListeAgentsExistants(),currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

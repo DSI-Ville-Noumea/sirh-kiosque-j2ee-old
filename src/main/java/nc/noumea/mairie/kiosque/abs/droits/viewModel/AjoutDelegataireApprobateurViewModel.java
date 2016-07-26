@@ -109,7 +109,7 @@ public class AjoutDelegataireApprobateurViewModel {
 		dto.setOperateurs(getListeOperateursExistants());
 		dto.setDelegataire(listSelect);
 		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
-				.getIdAgent(), dto);
+				.getIdAgent(), dto,currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

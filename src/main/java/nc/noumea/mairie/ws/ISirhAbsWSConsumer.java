@@ -100,19 +100,19 @@ public interface ISirhAbsWSConsumer {
 
 	ViseursDto getViseursApprobateur(Integer idAgent);
 
-	ReturnMessageDto saveAgentsApprobateur(Integer idAgent, List<AgentDto> listSelect);
+	ReturnMessageDto saveAgentsApprobateur(Integer idAgent, List<AgentDto> listSelect,Integer idAgentConnecte);
 
-	ReturnMessageDto saveOperateursDelegataireApprobateur(Integer idAgent, InputterDto dto);
+	ReturnMessageDto saveOperateursDelegataireApprobateur(Integer idAgent, InputterDto dto,Integer idAgentConnecte);
 
-	ReturnMessageDto saveViseursApprobateur(Integer idAgent, ViseursDto dto);
+	ReturnMessageDto saveViseursApprobateur(Integer idAgent, ViseursDto dto,Integer idAgentConnecte);
 
 	List<AgentDto> getAgentsOperateur(Integer idAgentApprobateur, Integer idAgentOperateur);
 
-	ReturnMessageDto saveAgentsOperateur(Integer idAgentApprobateur, Integer idAgentOperateur, List<AgentDto> listSelect);
+	ReturnMessageDto saveAgentsOperateur(Integer idAgentApprobateur, Integer idAgentOperateur, List<AgentDto> listSelect,Integer idAgentConnecte);
 
 	List<AgentDto> getAgentsViseur(Integer idAgentApprobateur, Integer idAgentViseur);
 
-	ReturnMessageDto saveAgentsViseur(Integer idAgentApprobateur, Integer idAgentViseur, List<AgentDto> listSelect);
+	ReturnMessageDto saveAgentsViseur(Integer idAgentApprobateur, Integer idAgentViseur, List<AgentDto> listSelect,Integer idAgentConnecte);
 
 	/* COMPTEURS */
 

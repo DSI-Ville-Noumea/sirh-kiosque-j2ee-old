@@ -281,7 +281,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		dto.setOperateurs(getListeAgents());
 		dto.setDelegataire(getListeDelegataire().size() == 0 ? null : getListeDelegataire().get(0));
 		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
-				.getIdAgent(), dto);
+				.getIdAgent(), dto,currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -309,7 +309,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 
 		ViseursDto dto = new ViseursDto();
 		dto.setViseurs(new ArrayList<AgentDto>());
-		ReturnMessageDto result = absWsConsumer.saveViseursApprobateur(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.saveViseursApprobateur(currentUser.getAgent().getIdAgent(), dto,currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -342,7 +342,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 
 		ViseursDto dto = new ViseursDto();
 		dto.setViseurs(getListeAgents());
-		ReturnMessageDto result = absWsConsumer.saveViseursApprobateur(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.saveViseursApprobateur(currentUser.getAgent().getIdAgent(), dto,currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -373,7 +373,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		dto.setDelegataire(getListeDelegataire() == null || getListeDelegataire().size() == 0 ? null
 				: getListeDelegataire().get(0));
 		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
-				.getIdAgent(), dto);
+				.getIdAgent(), dto,currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -409,7 +409,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		dto.setDelegataire(getListeDelegataire() == null || getListeDelegataire().size() == 0 ? null
 				: getListeDelegataire().get(0));
 		ReturnMessageDto result = absWsConsumer.saveOperateursDelegataireApprobateur(currentUser.getAgent()
-				.getIdAgent(), dto);
+				.getIdAgent(), dto,currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -436,7 +436,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 	private void supprimerTousLesAgentsApprobateurs() {
 
 		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getAgent().getIdAgent(),
-				new ArrayList<AgentDto>());
+				new ArrayList<AgentDto>(),currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -467,7 +467,7 @@ public class DroitsViewModel extends SelectorComposer<Component> {
 		}
 
 		ReturnMessageDto result = absWsConsumer.saveAgentsApprobateur(currentUser.getAgent().getIdAgent(),
-				getListeAgents());
+				getListeAgents(),currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
