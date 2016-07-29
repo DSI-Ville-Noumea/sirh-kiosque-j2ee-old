@@ -86,10 +86,10 @@
 
 							<div>
 								<hlayout>
-									<button label="Valider"
-										onClick="@command('saveListeTitreRepasSaisie')" />
 									<button label="Annuler"
 										onClick="@command('viderFiltre')" />
+									<button label="Valider"
+										onClick="@command('saveListeTitreRepasSaisie')" />
 								</hlayout>
 							</div>
 						</div>

@@ -248,7 +248,7 @@ public class ModifierDemandeViewModel {
 					Calendar calDebut = Calendar.getInstance();
 					calDebut.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 					calDebut.setTime(getDemandeCourant().getDateDebut());
-					calDebut.set(Calendar.HOUR, Integer.valueOf(getHeureDebut()));
+					calDebut.set(Calendar.HOUR_OF_DAY, Integer.valueOf(getHeureDebut()));
 					calDebut.set(Calendar.MINUTE, Integer.valueOf(getMinuteDebut()));
 					calDebut.set(Calendar.SECOND, 0);
 
@@ -259,7 +259,7 @@ public class ModifierDemandeViewModel {
 					Calendar calFin = Calendar.getInstance();
 					calFin.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 					calFin.setTime(getDemandeCourant().getDateDebut());
-					calFin.set(Calendar.HOUR, Integer.valueOf(getHeureFin()));
+					calFin.set(Calendar.HOUR_OF_DAY, Integer.valueOf(getHeureFin()));
 					calFin.set(Calendar.MINUTE, Integer.valueOf(getMinuteFin()));
 					calFin.set(Calendar.SECOND, 0);
 
@@ -285,21 +285,23 @@ public class ModifierDemandeViewModel {
 			getDemandeCourant().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			try {
-				getDemandeCourant().setDuree(new Double(getDureeCongeAnnuel()));
-			} catch(java.lang.NumberFormatException e) {
-				final HashMap<String, Object> map = new HashMap<String, Object>();
-				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
-				ValidationMessage vm = new ValidationMessage("Merci de saisir une durée valide.");
-				listErreur.add(vm);
-				map.put("errors", listErreur);
-				map.put("infos", new ArrayList<ValidationMessage>());
-				Executions.createComponents("/messages/returnMessage.zul", null, map);
-				if (listErreur.size() == 0) {
-					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
-					window.detach();
+			if(getDemandeCourant().isForceSaisieManuelleDuree()) {
+				try {
+					getDemandeCourant().setDuree(new Double(getDureeCongeAnnuel()));
+				} catch(java.lang.NumberFormatException e) {
+					final HashMap<String, Object> map = new HashMap<String, Object>();
+					List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+					ValidationMessage vm = new ValidationMessage("Merci de saisir une durée valide.");
+					listErreur.add(vm);
+					map.put("errors", listErreur);
+					map.put("infos", new ArrayList<ValidationMessage>());
+					Executions.createComponents("/messages/returnMessage.zul", null, map);
+					if (listErreur.size() == 0) {
+						BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
+						window.detach();
+					}
+					return;
 				}
-				return;
 			}
 			
 			ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");

@@ -11,7 +11,7 @@
 	bold; }
 
 	.z-column-content, .z-row-content, .z-group-content,
-	.z-groupfoot-content, .z-footer-content { padding: 1px 1px; 0px; 5px; }
+	.z-groupfoot-content, .z-footer-content { padding: 1px 1px 0px 5px  }
 
 	.z-row .z-row-inner .z-row-content .z-label{font-size:8pt;}
 

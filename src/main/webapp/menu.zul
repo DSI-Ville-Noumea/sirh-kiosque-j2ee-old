@@ -57,11 +57,17 @@
 				<menupopup>
 					<menuitem label="Mes pointages" sclass="titreMenu"
 						image="img/pointage.png" />
+					<menuitem label="Choix prime DPM SDJF"
+						visible="@bind(vm.droitsPointage.primeDpm)"
+						onClick="@command('changeEcran',page='/pointages/primeDpm/mesChoixPrimeDpm',ecran=content)" />
+					<menuitem label="Gestion des choix prime DPM SDJF"
+						visible="@bind(vm.droitsPointage.saisiePrimesDpmOperateur)" 
+						onClick="@command('changeEcran',page='/pointages/primeDpm/gestionChoixPrimeDpm',ecran=content)" />
 					<menuitem label="Mes titres repas"
 						visible="@bind(vm.droitsPointage.titreRepas,vm.environnementService.affichageModuleTitreRepas)"
 						onClick="@command('changeEcran',page='/pointages/titreRepas/mesTitreRepas',ecran=content)" />
 					<menuitem label="Gestion des titres repas"
-						visible="@bind(vm.ouvreGestionTitreRepas())"						
+						visible="@bind(vm.ouvreGestionTitreRepas())" 
 						onClick="@command('changeEcran',page='/pointages/titreRepas/gestionTitreRepas',ecran=content)" />
 					<menuitem label="Droits d'accès"
 						visible="@bind(vm.droitsPointage.gestionDroitsAcces)"

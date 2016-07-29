@@ -36,6 +36,8 @@ import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.AccessRightsPtgDto;
 import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
 import nc.noumea.mairie.kiosque.ptg.dto.DelegatorAndOperatorsDto;
+import nc.noumea.mairie.kiosque.ptg.dto.DpmIndemniteAnneeDto;
+import nc.noumea.mairie.kiosque.ptg.dto.DpmIndemniteChoixAgentDto;
 import nc.noumea.mairie.kiosque.ptg.dto.FichePointageDtoKiosque;
 import nc.noumea.mairie.kiosque.ptg.dto.MotifHeureSupDto;
 import nc.noumea.mairie.kiosque.ptg.dto.PointagesEtatChangeDto;
@@ -69,9 +71,11 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 	/* Filtres */
 	private static final String ptgServicesKiosqueUrl = "filtres/services";
+	private static final String ptgservicesWithPrimeDpmKiosqueUrl = "filtres/servicesWithPrimeDpm";
 	private static final String ptgEtatPointageKiosqueUrl = "filtres/getEtats";
 	private static final String ptgTypePointageKiosqueUrl = "filtres/getTypes";
 	private static final String ptgAgentsKiosqueUrl = "filtres/agents";
+	private static final String ptgAgentsWithPrimeDpmKiosqueUrl = "filtres/agentsWithPrimeDpm";
 	private static final String sirhPtgTypeAbsence = "filtres/getTypesAbsence";
 	private static final String sirhPtgMotifHsup = "filtres/getMotifHsup";
 
@@ -90,7 +94,16 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	private static final String ptgListeTitreRepasUrl = "titreRepas/listTitreRepas";
 	private static final String ptgSaveTitreRepasUrl = "titreRepas/enregistreListTitreDemande";
 	private static final String ptgHistoriqueTitreRepasUrl = "titreRepas/historique";
-
+	
+	/* choix prime DPM #30544 */
+	private static final String ptgSaveIndemniteChoixAgentUrl = "dpm/saveIndemniteChoixAgent";
+	private static final String ptgSaveListIndemniteChoixAgentForOperatorUrl = "dpm/saveListIndemniteChoixAgentForOperator";
+	private static final String ptgIndemniteChoixAgentUrl = "dpm/indemniteChoixAgent";
+	private static final String ptgListDpmIndemniteChoixAgentUrl = "dpm/listDpmIndemniteChoixAgent";
+	private static final String ptgIsPeriodeChoixOuverteUrl = "dpm/isPeriodeChoixOuverte";
+	private static final String ptgListDpmIndemAnneeOuverteUrl = "dpm/listDpmIndemAnneeOuverte";
+	private static final String ptgDpmIndemAnneeEnCoursUrl = "dpm/dpmIndemAnneeEnCours";
+	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 	@Override
@@ -134,6 +147,16 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	@Override
 	public List<EntiteDto> getServicesPointages(Integer idAgent) {
 		String url = String.format(sirhPtgWsBaseUrl + ptgServicesKiosqueUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(EntiteDto.class, res, url);
+	}
+
+	@Override
+	public List<EntiteDto> getServicesWithPrimeDpmPointages(Integer idAgent) {
+		String url = String.format(sirhPtgWsBaseUrl + ptgservicesWithPrimeDpmKiosqueUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 
@@ -292,6 +315,21 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	}
 
 	@Override
+	public List<AgentDto> getAgentsPointagesWithPrimeDpm(Integer idAgent, Integer idServiceADS) {
+		
+		String url = String.format(sirhPtgWsBaseUrl + ptgAgentsWithPrimeDpmKiosqueUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		if (null != idServiceADS) {
+			params.put("idServiceADS", idServiceADS.toString());
+		}
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(AgentDto.class, res, url);
+	}
+	
+	@Override
 	public List<ConsultPointageDto> getListePointages(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat, Integer idType, String typeHS) {
 
 		String url = String.format(sirhPtgWsBaseUrl + ptgListePointagesUrl);
@@ -416,6 +454,105 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(TitreRepasDemandeDto.class, res, url);
+	}
+
+	@Override
+	public boolean isPeriodeChoixOuverte(Integer annee) {
+		
+		String url = String.format(sirhPtgWsBaseUrl + ptgIsPeriodeChoixOuverteUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+		params.put("annee", annee.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(boolean.class, res, url);
+	}
+
+	@Override
+	public DpmIndemniteChoixAgentDto getIndemniteChoixAgent(Integer idAgentConnecte, Integer annee) {
+		
+		String url = String.format(sirhPtgWsBaseUrl + ptgIndemniteChoixAgentUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgentConnecte", idAgentConnecte.toString());
+		params.put("annee", annee.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(DpmIndemniteChoixAgentDto.class, res, url);
+	}
+
+	@Override
+	public List<DpmIndemniteChoixAgentDto> getListDpmIndemniteChoixAgent(Integer idAgentConnecte, Integer annee, Integer idServiceAds, Integer idAgentFiltre) {
+		
+		String url = String.format(sirhPtgWsBaseUrl + ptgListDpmIndemniteChoixAgentUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgentConnecte", idAgentConnecte.toString());
+		params.put("annee", annee.toString());
+		
+		if(null != idServiceAds)
+			params.put("idServiceAds", idServiceAds.toString());
+
+		if(null != idAgentFiltre)
+			params.put("idAgentFiltre", idAgentFiltre.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(DpmIndemniteChoixAgentDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto saveListIndemniteChoixAgentForOperator(Integer idAgentConnecte, Integer annee, List<DpmIndemniteChoixAgentDto> listDto) {
+		
+		String url = String.format(sirhPtgWsBaseUrl + ptgSaveListIndemniteChoixAgentForOperatorUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgentConnecte", idAgentConnecte.toString());
+		params.put("annee", annee.toString());
+
+		String json = new JSONSerializer()
+				.exclude("*.class").exclude("*.radioButtonZK")
+				.exclude("*.civilite").exclude("*.selectedDroitAbs").exclude("*.position")
+				.exclude("*.signature").exclude("*.statut")
+				.transform(new MSDateTransformer(), Date.class).deepSerialize(listDto);
+		
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto saveIndemniteChoixAgent(Integer idAgentConnecte, DpmIndemniteChoixAgentDto dto) {
+		
+		String url = String.format(sirhPtgWsBaseUrl + ptgSaveIndemniteChoixAgentUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgentConnecte", idAgentConnecte.toString());
+
+		String json = new JSONSerializer().exclude("*.class").exclude("radioButtonZK").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+		
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
+	}
+	
+	@Override
+	public List<DpmIndemniteAnneeDto> getListDpmIndemAnneeOuverte() {
+		
+		String url = String.format(sirhPtgWsBaseUrl + ptgListDpmIndemAnneeOuverteUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(DpmIndemniteAnneeDto.class, res, url);
+	}
+	
+	@Override
+	public DpmIndemniteAnneeDto getDpmIndemAnneeEnCours() {
+		
+		String url = String.format(sirhPtgWsBaseUrl + ptgDpmIndemAnneeEnCoursUrl);
+		
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(DpmIndemniteAnneeDto.class, res, url);
 	}
 
 }

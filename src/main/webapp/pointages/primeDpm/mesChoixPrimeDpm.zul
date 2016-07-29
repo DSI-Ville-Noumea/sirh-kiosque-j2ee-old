@@ -1,0 +1,55 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.ptg.viewModel.MesChoixPrimeDpmViewModel')"
+		height="100%">
+		<style>.z-hlayout-inner { vertical-align: middle; }</style>
+		<div sclass="fond">
+			<vlayout>
+				<label style="font-size: 28px;color: #EE7203;"
+					value="Mes choix pour la prime DPM SDJF" />
+				<label style="font-size: 18px;color: #004f9f;"
+					value="@bind(vm.titreChoixCourant)" />
+			</vlayout>
+			
+			<separator />
+			
+			<groupbox width="782px" visible="@bind(not empty vm.choixCourant)">
+				<caption label="@bind(vm.titreChoixCourant)" />
+				<vlayout>
+					<label zclass="" value="@bind(vm.phraseChoixCourant)" />
+					<hlayout>
+						<radiogroup id="rg1" selectedItem="@bind(vm.choixCourant.radioButtonZK)" >
+							<radio label="Indemnité" value="Indemnite" />
+							<radio label="Récupération" value="Recuperation" />
+						</radiogroup>
+						<hlayout width="40px" sclass="fondRecherche">
+							<image tooltiptext="Enregistrer"
+								style="vertical-align: text-bottom; display: inline-block;margin-top: 5px;"
+								sclass="saveAction" onClick="@command('enregistreChoixDpm')" />
+						</hlayout>
+					</hlayout>
+				</vlayout>
+			</groupbox>
+			
+			<separator />
+			<separator />
+			<separator />
+
+			<vlayout visible="@bind(not empty vm.choixAnneeEnCours)">
+				<label style="font-size: 18px;color: #004f9f;"
+					value="@bind(vm.titreChoixAnneeEnCours)" />
+			</vlayout>
+			
+			<separator />
+			
+			<groupbox width="782px" visible="@bind(not empty vm.choixAnneeEnCours)">
+				<caption label="@bind(vm.titreChoixAnneeEnCours)" />
+				<hlayout>
+					<label value="@bind(vm.phraseChoixAnneeEnCours)" />
+				</hlayout>
+			</groupbox>
+		</div>
+		<include id="includeStyleSoldeAgent"
+			src="/css/pointages/titreRepas.zul" />
+	</window>
+</zk>

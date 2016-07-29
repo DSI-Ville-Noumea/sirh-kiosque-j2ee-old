@@ -286,10 +286,11 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveAgentsApprobateur(Integer idAgent, List<AgentDto> listSelect) {
+	public ReturnMessageDto saveAgentsApprobateur(Integer idAgent, List<AgentDto> listSelect,Integer idAgentConnecte) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentApprobateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
+		params.put("idAgentConnecte", idAgentConnecte.toString());
 
 		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
 				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
@@ -319,10 +320,11 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveOperateursDelegataireApprobateur(Integer idAgent, InputterDto dto) {
+	public ReturnMessageDto saveOperateursDelegataireApprobateur(Integer idAgent, InputterDto dto,Integer idAgentConnecte) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhOperateursDelegataireApprobateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
+		params.put("idAgentConnecte", idAgentConnecte.toString());
 
 		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
 				.transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
@@ -332,10 +334,11 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto saveViseursApprobateur(Integer idAgent, ViseursDto dto) {
+	public ReturnMessageDto saveViseursApprobateur(Integer idAgent, ViseursDto dto,Integer idAgentConnecte) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhViseursApprobateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
+		params.put("idAgentConnecte", idAgentConnecte.toString());
 
 		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
 				.transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
@@ -357,11 +360,12 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public ReturnMessageDto saveAgentsOperateur(Integer idAgentApprobateur, Integer idAgentOperateur,
-			List<AgentDto> listSelect) {
+			List<AgentDto> listSelect,Integer idAgentConnecte) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsOperateurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgentApprobateur.toString());
 		params.put("idOperateur", idAgentOperateur.toString());
+		params.put("idAgentConnecte", idAgentConnecte.toString());
 
 		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
 				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);
@@ -383,11 +387,12 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 	@Override
 	public ReturnMessageDto saveAgentsViseur(Integer idAgentApprobateur, Integer idAgentViseur,
-			List<AgentDto> listSelect) {
+			List<AgentDto> listSelect,Integer idAgentConnecte) {
 		String url = String.format(sirhAbsWsBaseUrl + sirhAgentsViseurUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgentApprobateur.toString());
 		params.put("idViseur", idAgentViseur.toString());
+		params.put("idAgentConnecte", idAgentConnecte.toString());
 
 		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.selectedDroitAbs")
 				.transform(new MSDateTransformer(), Date.class).deepSerialize(listSelect);

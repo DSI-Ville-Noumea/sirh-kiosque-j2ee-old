@@ -99,7 +99,7 @@ public class AjoutViseurApprobateurViewModel {
 	public void saveAgent(@BindingParam("win") Window window) {
 		ViseursDto dto = new ViseursDto();
 		dto.setViseurs(getListeAgentsExistants());
-		ReturnMessageDto result = absWsConsumer.saveViseursApprobateur(currentUser.getAgent().getIdAgent(), dto);
+		ReturnMessageDto result = absWsConsumer.saveViseursApprobateur(currentUser.getAgent().getIdAgent(), dto,currentUser.getAgent().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();

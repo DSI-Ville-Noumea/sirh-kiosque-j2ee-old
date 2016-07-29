@@ -272,7 +272,7 @@ public class AjoutDemandeAgentViewModel {
 					Calendar calDebut = Calendar.getInstance();
 					calDebut.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 					calDebut.setTime(getDemandeCreation().getDateDebut());
-					calDebut.set(Calendar.HOUR, Integer.valueOf(getHeureDebut()));
+					calDebut.set(Calendar.HOUR_OF_DAY, Integer.valueOf(getHeureDebut()));
 					calDebut.set(Calendar.MINUTE, Integer.valueOf(getMinuteDebut()));
 					calDebut.set(Calendar.SECOND, 0);
 
@@ -283,7 +283,7 @@ public class AjoutDemandeAgentViewModel {
 					Calendar calFin = Calendar.getInstance();
 					calFin.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
 					calFin.setTime(getDemandeCreation().getDateDebut());
-					calFin.set(Calendar.HOUR, Integer.valueOf(getHeureFin()));
+					calFin.set(Calendar.HOUR_OF_DAY, Integer.valueOf(getHeureFin()));
 					calFin.set(Calendar.MINUTE, Integer.valueOf(getMinuteFin()));
 					calFin.set(Calendar.SECOND, 0);
 
