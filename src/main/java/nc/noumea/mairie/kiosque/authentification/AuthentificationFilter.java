@@ -129,7 +129,11 @@ public class AuthentificationFilter implements Filter {
 		String remoteUser = request.getHeader("x-krb_remote_user");
 
 		if (null == remoteUser && request.getHeader("host").contains("localhost")) {
-			remoteUser = "chata73";
+			//remoteUser = "laumi57";
+//			remoteUser = "ngusa79"; // drox sabrina 
+			remoteUser = "boust75"; // stephanie
+			// remoteUser = "carda69";  // David CARDONA  Approbateur Chef du Service de l’accueil du public et de l’Etat civil (SAPEC)
+			// remoteUser = "butja63";   // 3367 operateur DPM
 		}
 		
 		remoteUser = convertRemoteUser(remoteUser);
