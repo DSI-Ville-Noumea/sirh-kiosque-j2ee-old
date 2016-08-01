@@ -636,6 +636,10 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	public String getDureeToString(DemandeDto dto) {
 		if (dto.getTypeSaisi() != null) {
 			if (dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+				//#32281 : si on est MALADIE AT, alors dans durée, on affiche le nombre de jours ITT
+				if (dto.getTypeSaisi() != null && dto.getTypeSaisi().isNombreITT()) {
+					return dto.getNombreITT() + " j";
+				}
 				return dto.getDuree() + " j";
 			} else {
 				return getHeureMinute(dto.getDuree().intValue());
