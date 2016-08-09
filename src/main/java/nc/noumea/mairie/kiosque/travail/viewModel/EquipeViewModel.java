@@ -25,21 +25,9 @@ package nc.noumea.mairie.kiosque.travail.viewModel;
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import nc.noumea.mairie.ads.dto.EntiteDto;
-import nc.noumea.mairie.kiosque.cmis.ISharepointService;
-import nc.noumea.mairie.kiosque.cmis.SharepointDto;
-import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
-import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
-import nc.noumea.mairie.ws.IAdsWSConsumer;
-import nc.noumea.mairie.ws.ISirhWSConsumer;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
@@ -64,38 +52,48 @@ import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Openable;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
+import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
+import nc.noumea.mairie.ws.IAdsWSConsumer;
+import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
+import nc.noumea.mairie.ws.ISirhWSConsumer;
+
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class EquipeViewModel extends SelectorComposer<Component> {
 
-	private static final long serialVersionUID = 1L;
+	private static final long			serialVersionUID	= 1L;
 
 	@WireVariable
-	private ISharepointService sharepointConsumer;
+	private ISirhWSConsumer				sirhWsConsumer;
 
 	@WireVariable
-	private ISirhWSConsumer sirhWsConsumer;
+	private ISirhEaeWSConsumer			eaeWsConsumer;
 
 	@WireVariable
-	private IAdsWSConsumer adsWsConsumer;
+	private IAdsWSConsumer				adsWsConsumer;
 
-	private AgentWithServiceDto superieurHierarchique;
+	private AgentWithServiceDto			superieurHierarchique;
 
-	private List<AgentWithServiceDto> equipeAgent;
+	private List<AgentWithServiceDto>	equipeAgent;
 
-	private FichePosteDto ficheCourant;
+	private FichePosteDto				ficheCourant;
 
-	private boolean estChef;
+	private boolean						estChef;
 
 	@Wire
-	private Listbox resultGrid;
+	private Listbox						resultGrid;
 
-	private List<SharepointDto> listeUrlEae;
+	private List<EaeFinalisationDto>	listeUrlEae;
 
 	// pour l'arbre des services
-	private EntiteDto arbreService;
-	private TreeModel<ServiceTreeNode> arbre;
+	private EntiteDto					arbreService;
+	private TreeModel<ServiceTreeNode>	arbre;
 
-	private ProfilAgentDto currentUser;
+	private ProfilAgentDto				currentUser;
 
 	@Init
 	public void initEquipeAgent() {
@@ -185,11 +183,10 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	}
 
 	@Command
-	public void visuEAE(@BindingParam("ref") String url) {
+	public void visuEAE(@BindingParam("ref") EaeFinalisationDto eae) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, String> args = new HashMap<String, String>();
-		args.put("url", url);
-		args.put("type", "");
+		args.put("idDocument", eae.getIdDocument());
 		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
 		win.doModal();
 	}
@@ -217,16 +214,7 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 	@GlobalCommand
 	@NotifyChange("listeUrlEae")
 	public void chargeEAEAgent(@BindingParam("idAgent") Integer idAgent) throws Exception {
-		List<SharepointDto> res = sharepointConsumer.getAllEae(idAgent);
-
-		// on tri la liste par année
-		Collections.sort(res, new Comparator<SharepointDto>() {
-			@Override
-			public int compare(SharepointDto o1, SharepointDto o2) {
-				return o2.getAnnee().compareTo(o1.getAnnee());
-			}
-
-		});
+		List<EaeFinalisationDto> res = eaeWsConsumer.getEeaControle(idAgent);
 
 		// on ne garde que les 3 dernieres EAEs
 		if (res != null && res.size() > 3) {
@@ -292,11 +280,11 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		this.equipeAgent = equipeAgent;
 	}
 
-	public List<SharepointDto> getListeUrlEae() {
+	public List<EaeFinalisationDto> getListeUrlEae() {
 		return listeUrlEae;
 	}
 
-	public void setListeUrlEae(List<SharepointDto> listeUrlEae) {
+	public void setListeUrlEae(List<EaeFinalisationDto> listeUrlEae) {
 		this.listeUrlEae = listeUrlEae;
 	}
 

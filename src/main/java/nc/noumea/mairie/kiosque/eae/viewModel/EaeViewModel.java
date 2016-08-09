@@ -67,64 +67,64 @@ import org.zkoss.zul.Tabbox;
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class EaeViewModel {
 
-	private ProfilAgentDto currentUser;
+	private ProfilAgentDto			currentUser;
 
 	@WireVariable
-	private ISirhEaeWSConsumer eaeWsConsumer;
+	private ISirhEaeWSConsumer		eaeWsConsumer;
 
-	private EaeListItemDto eaeCourant;
+	private EaeListItemDto			eaeCourant;
 
-	private Tab tabCourant;
+	private Tab						tabCourant;
 
-	private Tabbox tabboxCourant;
+	private Tabbox					tabboxCourant;
 
-	private EaeIdentificationDto identification;
+	private EaeIdentificationDto	identification;
 
-	private List<EaeFichePosteDto> listeFichePoste;
+	private List<EaeFichePosteDto>	listeFichePoste;
 
-	private EaeFichePosteDto fichePostePrimaire;
+	private EaeFichePosteDto		fichePostePrimaire;
 
-	private EaeFichePosteDto fichePosteSecondaire;
+	private EaeFichePosteDto		fichePosteSecondaire;
 
-	private EaeResultatDto resultat;
+	private EaeResultatDto			resultat;
 
-	private EaeAppreciationDto appreciationAnnee;
+	private EaeAppreciationDto		appreciationAnnee;
 
-	private EaeAppreciationDto appreciationAnneePrec;
+	private EaeAppreciationDto		appreciationAnneePrec;
 
-	private Integer annee;
+	private Integer					annee;
 
-	private Integer anneePrec;
+	private Integer					anneePrec;
 
-	private EaeEvaluationDto evaluation;
+	private EaeEvaluationDto		evaluation;
 
-	private EaeAutoEvaluationDto autoEvaluation;
+	private EaeAutoEvaluationDto	autoEvaluation;
 
-	private EaePlanActionDto planAction;
+	private EaePlanActionDto		planAction;
 
-	private EaeEvolutionDto evolution;
+	private EaeEvolutionDto			evolution;
 
-	private List<Integer> listePriorisationEvolution;
+	private List<Integer>			listePriorisationEvolution;
 
 	// POUR LA GESTION DE LA DUREE DE L'ENTRETIEN
-	private List<String> listeHeures;
-	private List<String> listeMinutes;
+	private List<String>			listeHeures;
+	private List<String>			listeMinutes;
 
-	private String heureDuree;
-	private String minuteDuree;
+	private String					heureDuree;
+	private String					minuteDuree;
 
 	/* Pour savoir si on est en modif ou en visu */
-	private String modeSaisi;
-	private boolean isModification;
+	private String					modeSaisi;
+	private boolean					isModification;
 	/* Pour savoir si on affiche la disquette de sauvegarde */
-	private boolean hasTextChangedIdentification;
-	private boolean hasTextChangedFichePoste;
-	private boolean hasTextChangedResultat;
-	private boolean hasTextChangedAppreciation;
-	private boolean hasTextChangedEvaluation;
-	private boolean hasTextChangedAutoEvaluation;
-	private boolean hasTextChangedPlanAction;
-	private boolean hasTextChangedEvolution;
+	private boolean					hasTextChangedIdentification;
+	private boolean					hasTextChangedFichePoste;
+	private boolean					hasTextChangedResultat;
+	private boolean					hasTextChangedAppreciation;
+	private boolean					hasTextChangedEvaluation;
+	private boolean					hasTextChangedAutoEvaluation;
+	private boolean					hasTextChangedPlanAction;
+	private boolean					hasTextChangedEvolution;
 
 	@Init
 	public void initEae(@ExecutionArgParam("eae") EaeListItemDto eae, @ExecutionArgParam("mode") String modeSaisi) {
@@ -154,14 +154,11 @@ public class EaeViewModel {
 	}
 
 	private void initEvolution() {
-		EaeEvolutionDto evo = eaeWsConsumer.getEvolutionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
+		EaeEvolutionDto evo = eaeWsConsumer.getEvolutionEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setEvolution(evo);
 		// on charge les priorisations
-		Integer tailleDeveloppement = getEvolution().getDeveloppementConnaissances().size()
-				+ getEvolution().getDeveloppementCompetences().size()
-				+ getEvolution().getDeveloppementExamensConcours().size()
-				+ getEvolution().getDeveloppementPersonnel().size()
+		Integer tailleDeveloppement = getEvolution().getDeveloppementConnaissances().size() + getEvolution().getDeveloppementCompetences().size()
+				+ getEvolution().getDeveloppementExamensConcours().size() + getEvolution().getDeveloppementPersonnel().size()
 				+ getEvolution().getDeveloppementComportement().size();
 		List<Integer> temp = new ArrayList<>();
 		for (int i = 1; i <= tailleDeveloppement; i++) {
@@ -174,8 +171,7 @@ public class EaeViewModel {
 		// pour le moment ca plante car on a developé des nouveaux DTO qui ne
 		// sont pas encore en place en intégration/recette/prod
 		// cd redmine #13840
-		EaePlanActionDto plan = eaeWsConsumer.getPlanActionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
+		EaePlanActionDto plan = eaeWsConsumer.getPlanActionEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		for (EaeObjectifProDto objPro : plan.getObjectifsProfessionnels()) {
 			if (objPro.getIndicateur() == null)
 				objPro.setIndicateur("");
@@ -186,14 +182,12 @@ public class EaeViewModel {
 	}
 
 	private void initAutoEvaluation() {
-		EaeAutoEvaluationDto autoEvaluation = eaeWsConsumer.getAutoEvaluationEae(getEaeCourant().getIdEae(),
-				currentUser.getAgent().getIdAgent());
+		EaeAutoEvaluationDto autoEvaluation = eaeWsConsumer.getAutoEvaluationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setAutoEvaluation(autoEvaluation);
 	}
 
 	private void initEvaluation() {
-		EaeEvaluationDto evaluation = eaeWsConsumer.getEvaluationEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
+		EaeEvaluationDto evaluation = eaeWsConsumer.getEvaluationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setEvaluation(evaluation);
 
 		// minutes et heures
@@ -217,12 +211,12 @@ public class EaeViewModel {
 	}
 
 	private void initAppreciation() {
-		EaeAppreciationDto appreciationAnnee = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(), currentUser
-				.getAgent().getIdAgent(), eaeWsConsumer.getCampagneEae().getAnnee());
+		EaeAppreciationDto appreciationAnnee = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent(),
+				eaeWsConsumer.getCampagneEae().getAnnee());
 		setAppreciationAnnee(appreciationAnnee);
 		// on charge les appreciations de l'annéee précédente
-		EaeAppreciationDto appreciationAnneePrec = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(),
-				currentUser.getAgent().getIdAgent(), eaeWsConsumer.getCampagneEae().getAnnee() - 1);
+		EaeAppreciationDto appreciationAnneePrec = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent(),
+				eaeWsConsumer.getCampagneEae().getAnnee() - 1);
 		setAppreciationAnneePrec(appreciationAnneePrec);
 
 		setAnnee(eaeWsConsumer.getCampagneEae().getAnnee());
@@ -230,8 +224,7 @@ public class EaeViewModel {
 	}
 
 	private void initResultat() {
-		EaeResultatDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
+		EaeResultatDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		for (EaeObjectifDto objIndi : resultat.getObjectifsIndividuels()) {
 			if (objIndi.getCommentaire() == null)
 				objIndi.setCommentaire("");
@@ -252,8 +245,7 @@ public class EaeViewModel {
 	}
 
 	private void initFichePoste() {
-		List<EaeFichePosteDto> listeFDP = eaeWsConsumer.getListeFichePosteEae(getEaeCourant().getIdEae(), currentUser
-				.getAgent().getIdAgent());
+		List<EaeFichePosteDto> listeFDP = eaeWsConsumer.getListeFichePosteEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setListeFichePoste(listeFDP);
 		if (getListeFichePoste().size() == 1) {
 			setFichePostePrimaire(getListeFichePoste().get(0));
@@ -264,35 +256,30 @@ public class EaeViewModel {
 	}
 
 	private void initIdentification() {
-		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(getEaeCourant().getIdEae(),
-				currentUser.getAgent().getIdAgent());
+		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setIdentification(identification);
 	}
 
 	@GlobalCommand
 	@Command
-	@NotifyChange({ "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation", "planAction",
-			"evolution", "hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation",
-			"hasTextChangedEvolution", "hasTextChangedFichePoste", "hasTextChangedIdentification",
-			"hasTextChangedPlanAction", "hasTextChangedResultat" })
+	@NotifyChange({ "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation", "planAction", "evolution",
+			"hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation", "hasTextChangedEvolution",
+			"hasTextChangedFichePoste", "hasTextChangedIdentification", "hasTextChangedPlanAction", "hasTextChangedResultat" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
 		if (getTabCourant().getId().equals("IDENTIFICATION")) {
 			result = isFormIdentificationValid(result, getIdentification());
 			if (result.getErrors().size() == 0) {
-				result = eaeWsConsumer.saveIdentification(getIdentification().getIdEae(), currentUser.getAgent()
-						.getIdAgent(), getIdentification());
+				result = eaeWsConsumer.saveIdentification(getIdentification().getIdEae(), currentUser.getAgent().getIdAgent(), getIdentification());
 			}
 		} else if (getTabCourant().getId().equals("RESULTAT")) {
 			result = isFormResultatValid(result, getResultat());
 			if (result.getErrors().size() == 0) {
-				result = eaeWsConsumer.saveResultat(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-						getResultat());
+				result = eaeWsConsumer.saveResultat(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getResultat());
 			}
 		} else if (getTabCourant().getId().equals("APPRECIATION")) {
-			result = eaeWsConsumer.saveAppreciation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-					getAppreciationAnnee());
+			result = eaeWsConsumer.saveAppreciation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getAppreciationAnnee());
 		} else if (getTabCourant().getId().equals("EVALUATION")) {
 			result = isFormEvaluationValid(result, getEvaluation());
 			if (result.getErrors().size() == 0) {
@@ -301,23 +288,19 @@ public class EaeViewModel {
 				dureeDto.setHeures(Integer.valueOf(getHeureDuree()));
 				dureeDto.setMinutes(Integer.valueOf(getMinuteDuree()));
 				getEvaluation().setDureeEntretien(dureeDto);
-				result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-						getEvaluation());
+				result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getEvaluation());
 			}
 		} else if (getTabCourant().getId().equals("AUTOEVALUATION")) {
-			result = eaeWsConsumer.saveAutoEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-					getAutoEvaluation());
+			result = eaeWsConsumer.saveAutoEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getAutoEvaluation());
 		} else if (getTabCourant().getId().equals("PLANACTION")) {
 			result = isFormPlanActionValid(result, getPlanAction());
 			if (result.getErrors().size() == 0) {
-				result = eaeWsConsumer.savePlanAction(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-						getPlanAction());
+				result = eaeWsConsumer.savePlanAction(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getPlanAction());
 			}
 		} else if (getTabCourant().getId().equals("EVOLUTION")) {
 			result = isFormEvolutionValid(result, getEvolution());
 			if (result.getErrors().size() == 0) {
-				result = eaeWsConsumer.saveEvolution(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-						getEvolution());
+				result = eaeWsConsumer.saveEvolution(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getEvolution());
 			}
 		}
 
@@ -359,17 +342,13 @@ public class EaeViewModel {
 		}
 		// Si statut = F et type AD alors le rapport circonstancié obligatoire
 		// si mini ou maxi si moyen alors il doit être vide.
-		if (evaluation.getStatut().equals("F") && evaluation.getTypeAvct().equals("AD")) {
-			if ((evaluation.getPropositionAvancement().getCourant().equals("MINI") || evaluation
-					.getPropositionAvancement().getCourant().equals("MAXI"))
-					&& (evaluation.getCommentaireAvctEvaluateur() == null || evaluation.getCommentaireAvctEvaluateur()
-							.equals(""))) {
-				result.getErrors()
-						.add("Le contenu du rapport circonstancié ne doit pas être vide pour une durée d'avancement minimum ou maximum.");
-			} else if (evaluation.getPropositionAvancement().getCourant().equals("MOY")
-					&& evaluation.getCommentaireAvctEvaluateur() != null) {
-				result.getErrors()
-						.add("Le contenu du rapport circonstancié ne doit pas être rempli pour une durée d'avancement moyenne.");
+		if (evaluation.getTypeAvct() != null && evaluation.getStatut().equals("F") && evaluation.getTypeAvct().equals("AD")) {
+			if ((evaluation.getPropositionAvancement().getCourant().equals("MINI")
+					|| evaluation.getPropositionAvancement().getCourant().equals("MAXI"))
+					&& (evaluation.getCommentaireAvctEvaluateur() == null || evaluation.getCommentaireAvctEvaluateur().equals(""))) {
+				result.getErrors().add("Le contenu du rapport circonstancié ne doit pas être vide pour une durée d'avancement minimum ou maximum.");
+			} else if (evaluation.getPropositionAvancement().getCourant().equals("MOY") && evaluation.getCommentaireAvctEvaluateur() != null) {
+				result.getErrors().add("Le contenu du rapport circonstancié ne doit pas être rempli pour une durée d'avancement moyenne.");
 			}
 
 		}
@@ -419,8 +398,7 @@ public class EaeViewModel {
 					result.getErrors().add(message);
 			}
 		}
-		if (evolution.isMobiliteCollectivite()
-				&& (evolution.getNomCollectivite() == null || evolution.getNomCollectivite().equals(""))) {
+		if (evolution.isMobiliteCollectivite() && (evolution.getNomCollectivite() == null || evolution.getNomCollectivite().equals(""))) {
 			result.getErrors().add("Le champ de mobilité au sein de la collectivité doit être rempli.");
 		}
 		if (evolution.getConcours() && (evolution.getNomConcours() == null || evolution.getNomConcours().equals(""))) {
@@ -474,22 +452,19 @@ public class EaeViewModel {
 
 	private ReturnMessageDto isFormResultatValid(ReturnMessageDto result, EaeResultatDto resultatDto) {
 		for (EaeObjectifDto objIndiv : resultatDto.getObjectifsIndividuels()) {
-			if ((!objIndiv.getResultat().equals("") || !objIndiv.getCommentaire().equals(""))
-					&& objIndiv.getObjectif().equals("")) {
+			if ((!objIndiv.getResultat().equals("") || !objIndiv.getCommentaire().equals("")) && objIndiv.getObjectif().equals("")) {
 				result.getErrors().add("L'objectif de progrès individuel est obligatoire.");
 			}
 		}
 		for (EaeObjectifDto objPro : resultatDto.getObjectifsProfessionnels()) {
-			if ((!objPro.getResultat().equals("") || !objPro.getCommentaire().equals(""))
-					&& objPro.getObjectif().equals("")) {
+			if ((!objPro.getResultat().equals("") || !objPro.getCommentaire().equals("")) && objPro.getObjectif().equals("")) {
 				result.getErrors().add("L'objectif professionnel est obligatoire.");
 			}
 		}
 		return result;
 	}
 
-	private ReturnMessageDto isFormIdentificationValid(ReturnMessageDto result,
-			EaeIdentificationDto eaeIdentificationDto) {
+	private ReturnMessageDto isFormIdentificationValid(ReturnMessageDto result, EaeIdentificationDto eaeIdentificationDto) {
 		if (eaeIdentificationDto.getDateEntretien() == null) {
 			result.getErrors().add("La date de l'entretien annuel d'échange ne doit pas être vide.");
 		}
@@ -818,10 +793,9 @@ public class EaeViewModel {
 	}
 
 	@GlobalCommand
-	@NotifyChange({ "hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation",
-			"hasTextChangedEvolution", "hasTextChangedFichePoste", "hasTextChangedIdentification",
-			"hasTextChangedPlanAction", "hasTextChangedResultat", "identification", "resultat", "appreciationAnnee",
-			"evaluation", "autoEvaluation", "planAction", "evolution" })
+	@NotifyChange({ "hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation", "hasTextChangedEvolution",
+			"hasTextChangedFichePoste", "hasTextChangedIdentification", "hasTextChangedPlanAction", "hasTextChangedResultat", "identification",
+			"resultat", "appreciationAnnee", "evaluation", "autoEvaluation", "planAction", "evolution" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
 		setHasTextChangedIdentification(false);
 		setHasTextChangedAppreciation(false);
@@ -844,8 +818,8 @@ public class EaeViewModel {
 		if (isHasTextChanged()) {
 			tabBox.setSelectedTab(getTabCourant());
 			List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
-			vList.add(new ValidationMessage("L'onglet " + getTabCourant().getId()
-					+ " semble avoir été modifié, vous devriez l'enregistrer avant de continuer."));
+			vList.add(new ValidationMessage(
+					"L'onglet " + getTabCourant().getId() + " semble avoir été modifié, vous devriez l'enregistrer avant de continuer."));
 			vList.add(new ValidationMessage("Si vous ne l'enregistrez pas, vous allez perdre vos données."));
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -861,9 +835,8 @@ public class EaeViewModel {
 	}
 
 	private boolean isHasTextChanged() {
-		return isHasTextChangedAppreciation() || isHasTextChangedAutoEvaluation() || isHasTextChangedEvaluation()
-				|| isHasTextChangedEvolution() || isHasTextChangedFichePoste() || isHasTextChangedIdentification()
-				|| isHasTextChangedPlanAction() || isHasTextChangedResultat();
+		return isHasTextChangedAppreciation() || isHasTextChangedAutoEvaluation() || isHasTextChangedEvaluation() || isHasTextChangedEvolution()
+				|| isHasTextChangedFichePoste() || isHasTextChangedIdentification() || isHasTextChangedPlanAction() || isHasTextChangedResultat();
 	}
 
 	@Command
@@ -880,8 +853,7 @@ public class EaeViewModel {
 		if (!isModification())
 			setHasTextChangedEvolution(false);
 		setHasTextChangedEvolution(true);
-		if (getEvolution().isChangementMetier() || getEvolution().isMobiliteGeo()
-				|| getEvolution().isMobiliteFonctionnelle()) {
+		if (getEvolution().isChangementMetier() || getEvolution().isMobiliteGeo() || getEvolution().isMobiliteFonctionnelle()) {
 			getEvolution().getDelaiEnvisage().setCourant("MOINS1AN");
 		} else {
 			getEvolution().getDelaiEnvisage().setCourant(null);
@@ -945,8 +917,7 @@ public class EaeViewModel {
 	public String getInfoResponsable(EaeFichePosteDto fichePoste) {
 		if (fichePoste == null)
 			return "";
-		return fichePoste.getResponsableNom() + " " + fichePoste.getResponsablePrenom() + ", "
-				+ fichePoste.getResponsableFonction();
+		return fichePoste.getResponsableNom() + " " + fichePoste.getResponsablePrenom() + ", " + fichePoste.getResponsableFonction();
 	}
 
 	public String getEnteteN1() {

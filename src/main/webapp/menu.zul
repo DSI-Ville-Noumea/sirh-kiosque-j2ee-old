@@ -27,9 +27,9 @@
 					<menuitem label="Ma campagne" sclass="titreMenu"
 						image="img/eae.png" />
 					<menuitem label="EAE à réaliser"
-						onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)" />
+						onClick="@command('changeEcran',page='/eae/tableauEae',ecran=content)" />
 					<menuitem label="Mon tableau de bord"
-						onClick="@command('tableauBordSharepoint',page='/eae/tableauBord',ecran=content)" />
+						onClick="@command('changeEcran',page='/eae/tableauBord',ecran=content)" />
 				</menupopup>
 			</menu>
 			<menu tooltiptext="Mes absences" sclass="absenceMenu"

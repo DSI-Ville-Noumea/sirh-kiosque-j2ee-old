@@ -105,7 +105,7 @@
 		</hlayout>
 		<hlayout>
 			<div sclass="espace">
-				<label value="Diplômes" />
+				<label value="Diplôme(s)" />
 			</div>
 			<div sclass="bleu">
 				<zk forEach="${vm.identification.diplomes}">

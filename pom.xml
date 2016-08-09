@@ -100,8 +100,18 @@
 			<id>ZK EE Evaluation</id>
 			<url>http://mavensync.zkoss.org/eval/</url>
 		</repository>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
 	</repositories>
 	<dependencies>
+		<!-- CMIS ALfresco Client -->
+		<dependency>
+		    <groupId>com.github.DSI-Ville-Noumea</groupId>
+		    <artifactId>sirh-alfresco-cmis-common</artifactId>
+		    <version>1.1</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

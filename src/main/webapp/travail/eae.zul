@@ -19,17 +19,14 @@
 					<grid model="@bind(vm.listeUrlEae)" id="listEae">
 						<columns>
 							<column align="center" label="Année" />
-							<column align="center" label="Identifiant" />
 							<column align="center" label="Téléchargement" />
 						</columns>
 						<template name="model">
 							<row>
 								<label sclass="value"
 									value="${each.annee}" />
-								<label sclass="value"
-									value="${each.id}" />
 								<image sclass="eaeDownload"
-									onClick="@command('visuEAE', ref=each.url)" />
+									onClick="@command('visuEAE', ref=each)" />
 							</row>
 						</template>
 					</grid>

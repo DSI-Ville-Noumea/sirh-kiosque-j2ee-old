@@ -28,20 +28,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.CampagneEaeDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
-import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -50,30 +36,45 @@ import org.springframework.stereotype.Service;
 import com.sun.jersey.api.client.ClientResponse;
 
 import flexjson.JSONSerializer;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.CampagneEaeDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
+import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 @Service("eaeWsConsumer")
 public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsumer {
 
 	@Autowired
 	@Qualifier("sirhEaeWsBaseUrl")
-	private String sirhEaeWsBaseUrl;
+	private String				sirhEaeWsBaseUrl;
 
-	private static final String eaeCampagneEaeUrl = "eaes/getEaeCampagneOuverte";
-	private static final String eaeTableauBordUrl = "eaes/tableauDeBord";
-	private static final String eaeTableauEaeUrl = "eaes/listEaesByAgent";
-	private static final String eaeCountEaeARealiserUrl = "eaes/countListEaesByAgent";
-	private static final String eaeImpressionEaeUrl = "reporting/eae";
-	private static final String eaeInitialiserEaeUrl = "eaes/initialiserEae";
-	private static final String eaeSaveDelegataireUrl = "eaes/affecterDelegataire";
+	private static final String	eaeCampagneEaeUrl		= "eaes/getEaeCampagneOuverte";
+	private static final String	eaeTableauBordUrl		= "eaes/tableauDeBord";
+	private static final String	eaeTableauEaeUrl		= "eaes/listEaesByAgent";
+	private static final String	eaeCountEaeARealiserUrl	= "eaes/countListEaesByAgent";
+	private static final String	eaeImpressionEaeUrl		= "reporting/eae";
+	private static final String	eaeInitialiserEaeUrl	= "eaes/initialiserEae";
+	private static final String	eaeSaveDelegataireUrl	= "eaes/affecterDelegataire";
+	private static final String	eaeControleUrl			= "eaes/getEeaControle";
 	/* Pour les onglets */
-	private static final String eaeIdentificationUrl = "evaluation/eaeIdentification";
-	private static final String eaeFichePosteUrl = "evaluation/eaeFichePoste";
-	private static final String eaeResultatUrl = "evaluation/eaeResultats";
-	private static final String eaeAppreciationUrl = "evaluation/eaeAppreciations";
-	private static final String eaeEvaluationUrl = "evaluation/eaeEvaluation";
-	private static final String eaeAutoEvaluationUrl = "evaluation/eaeAutoEvaluation";
-	private static final String eaePlanActionUrl = "evaluation/eaePlanAction";
-	private static final String eaeEvolutionUrl = "evaluation/eaeEvolution";
+	private static final String	eaeIdentificationUrl	= "evaluation/eaeIdentification";
+	private static final String	eaeFichePosteUrl		= "evaluation/eaeFichePoste";
+	private static final String	eaeResultatUrl			= "evaluation/eaeResultats";
+	private static final String	eaeAppreciationUrl		= "evaluation/eaeAppreciations";
+	private static final String	eaeEvaluationUrl		= "evaluation/eaeEvaluation";
+	private static final String	eaeAutoEvaluationUrl	= "evaluation/eaeAutoEvaluation";
+	private static final String	eaePlanActionUrl		= "evaluation/eaePlanAction";
+	private static final String	eaeEvolutionUrl			= "evaluation/eaeEvolution";
 
 	@Override
 	public List<EaeDashboardItemDto> getTableauBord(Integer idAgent) {
@@ -97,7 +98,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 	@Override
 	public String countEaeARealiserUrl(Integer idAgent) {
-		
+
 		String url = String.format(sirhEaeWsBaseUrl + eaeCountEaeARealiserUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -131,10 +132,9 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		if (res.getStatus() != HttpStatus.OK.value()) {
 			dto.getErrors().add("Une erreur est survenue dans l'initialisation de l'EAE.");
 			return dto;
+		} else {
+			return dto;
 		}
-		String result = readResponse(String.class, res, url);
-		dto.getInfos().add(result);
-		return dto;
 	}
 
 	@Override
@@ -156,12 +156,18 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(identification);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(identification);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		return readResponse(ReturnMessageDto.class, res, url);
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		} else {
+			dto.getInfos().add("L'onglet Identification a été sauvé avec succès");
+			return dto;
+		}
 	}
 
 	@Override
@@ -194,12 +200,18 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(resultat);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(resultat);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		return readResponse(ReturnMessageDto.class, res, url);
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		} else {
+			dto.getInfos().add("L'onglet Résultat a été sauvé avec succès");
+			return dto;
+		}
 	}
 
 	@Override
@@ -232,12 +244,18 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(appreciationAnnee);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(appreciationAnnee);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		return readResponse(ReturnMessageDto.class, res, url);
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		} else {
+			dto.getInfos().add("L'onglet Appréciation a été sauvé avec succès");
+			return dto;
+		}
 	}
 
 	@Override
@@ -259,12 +277,18 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(evaluation);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(evaluation);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		return readResponse(ReturnMessageDto.class, res, url);
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		} else {
+			dto.getInfos().add("L'onglet Evaluation a été sauvé avec succès");
+			return dto;
+		}
 	}
 
 	@Override
@@ -286,12 +310,18 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(autoEvaluation);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(autoEvaluation);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		return readResponse(ReturnMessageDto.class, res, url);
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		} else {
+			dto.getInfos().add("L'onglet Auto-évaluation a été sauvé avec succès");
+			return dto;
+		}
 	}
 
 	@Override
@@ -313,12 +343,18 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(planAction);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(planAction);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		return readResponse(ReturnMessageDto.class, res, url);
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		} else {
+			dto.getInfos().add("L'onglet Plan d'action a été sauvé avec succès");
+			return dto;
+		}
 	}
 
 	@Override
@@ -340,12 +376,18 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(evolution);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(evolution);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
 
-		return readResponse(ReturnMessageDto.class, res, url);
+		ReturnMessageDto dto = new ReturnMessageDto();
+		if (res.getStatus() != HttpStatus.OK.value()) {
+			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
+			return dto;
+		} else {
+			dto.getInfos().add("L'onglet Evolution a été sauvé avec succès");
+			return dto;
+		}
 	}
 
 	@Override
@@ -363,9 +405,19 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			dto.getErrors().add("Une erreur est survenue dans la sauvegarde du délégataire.");
 			return dto;
 		}
-		String result = readResponse(String.class, res, url);
-		dto.getInfos().add(result);
+		dto.getInfos().add("Le délégataire a été sauvé avec succès");
 		return dto;
+	}
+
+	@Override
+	public List<EaeFinalisationDto> getEeaControle(Integer idAgent) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeControleUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+
+		return readResponseAsList(EaeFinalisationDto.class, res, url);
 	}
 
 }

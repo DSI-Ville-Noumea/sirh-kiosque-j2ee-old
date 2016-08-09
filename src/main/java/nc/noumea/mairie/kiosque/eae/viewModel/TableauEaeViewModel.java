@@ -59,18 +59,18 @@ import org.zkoss.zul.Window;
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class TableauEaeViewModel {
 
-	private ProfilAgentDto currentUser;
+	private ProfilAgentDto			currentUser;
 
 	@WireVariable
-	private ISirhEaeWSConsumer eaeWsConsumer;
+	private ISirhEaeWSConsumer		eaeWsConsumer;
 
-	private List<EaeListItemDto> tableauEae;
+	private List<EaeListItemDto>	tableauEae;
 
-	private Div divDepart;
+	private Div						divDepart;
 
 	/* POUR LE HAUT DU TABLEAU */
-	private String filter;
-	private String tailleListe;
+	private String					filter;
+	private String					tailleListe;
 
 	@Init
 	public void initTableauEae(@ExecutionArgParam("div") Div div) {
@@ -127,12 +127,7 @@ public class TableauEaeViewModel {
 	public void telechargerEae(@BindingParam("ref") EaeListItemDto eae) {
 		// create a window programmatically and use it as a modal dialog.
 		Map<String, String> args = new HashMap<String, String>();
-		args.put("url", eae.getIdDocumentGed());
-		if (eae.getIdDocumentGed().startsWith("EAE_")) {
-			args.put("type", "");
-		} else {
-			args.put("type", "SP");
-		}
+		args.put("idDocument", eae.getIdDocumentGed());
 		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
 		win.doModal();
 	}
@@ -141,8 +136,7 @@ public class TableauEaeViewModel {
 	@NotifyChange({ "tableauEae" })
 	public void initialiserEae(@BindingParam("ref") EaeListItemDto eae) {
 
-		ReturnMessageDto result = eaeWsConsumer.initialiseEae(currentUser.getAgent().getIdAgent(), eae.getAgentEvalue()
-				.getIdAgent());
+		ReturnMessageDto result = eaeWsConsumer.initialiseEae(currentUser.getAgent().getIdAgent(), eae.getAgentEvalue().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -157,7 +151,9 @@ public class TableauEaeViewModel {
 		}
 		map.put("errors", listErreur);
 		map.put("infos", listInfo);
-		Executions.createComponents("/messages/returnMessage.zul", null, map);
+		if (listErreur.size() > 0 || listInfo.size() > 0) {
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+		}
 		// on re-affiche le tableau des EAEs
 		filtrer();
 	}

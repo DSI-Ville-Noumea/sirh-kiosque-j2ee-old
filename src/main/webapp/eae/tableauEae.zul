@@ -38,7 +38,7 @@
 				<listbox id="listeEae" model="@bind(vm.tableauEae)"
 					width="100%">
 					<listhead>
-						<listheader width="280px">
+						<listheader width="300px">
 							<vlayout>
 								<label sclass="z-listheader-content"
 									value="Direction" />
@@ -48,13 +48,13 @@
 									value="Section" />
 							</vlayout>
 						</listheader>
-						<listheader width="100px" label="Evalué"
+						<listheader width="200px" label="Evalué"
 							sort="auto('agentEvalue.nom')" />
-						<listheader width="100px" label="SHD"
+						<listheader width="200px" label="SHD"
 							sort="auto('agentShd.nom')" />
-						<listheader width="100px" label="Evaluateur(s)"
+						<listheader width="200px" label="Evaluateur(s)"
 							sort="none" />
-						<listheader width="100px" label="Délégataire"
+						<listheader width="200px" label="Délégataire"
 							sort="auto('agentDelegataire.nom')" />
 						<listheader width="75px" label="Etat de l'EAE"
 							sort="auto('etat')" />
