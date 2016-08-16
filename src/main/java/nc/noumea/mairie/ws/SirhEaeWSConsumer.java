@@ -30,7 +30,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -127,14 +126,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEvalue", idAgentEvalue.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans l'initialisation de l'EAE.");
-			return dto;
-		} else {
-			return dto;
-		}
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -159,15 +151,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(identification);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		} else {
-			dto.getInfos().add("L'onglet Identification a été sauvé avec succès");
-			return dto;
-		}
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -203,15 +187,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(resultat);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		} else {
-			dto.getInfos().add("L'onglet Résultat a été sauvé avec succès");
-			return dto;
-		}
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -247,15 +223,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(appreciationAnnee);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		} else {
-			dto.getInfos().add("L'onglet Appréciation a été sauvé avec succès");
-			return dto;
-		}
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -280,15 +248,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(evaluation);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		} else {
-			dto.getInfos().add("L'onglet Evaluation a été sauvé avec succès");
-			return dto;
-		}
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -313,15 +273,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(autoEvaluation);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		} else {
-			dto.getInfos().add("L'onglet Auto-évaluation a été sauvé avec succès");
-			return dto;
-		}
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -346,15 +298,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(planAction);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		} else {
-			dto.getInfos().add("L'onglet Plan d'action a été sauvé avec succès");
-			return dto;
-		}
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -379,15 +323,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(evolution);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde de l'EAE.");
-			return dto;
-		} else {
-			dto.getInfos().add("L'onglet Evolution a été sauvé avec succès");
-			return dto;
-		}
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -399,14 +335,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idDelegataire", idDelegataire.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde du délégataire.");
-			return dto;
-		}
-		dto.getInfos().add("Le délégataire a été sauvé avec succès");
-		return dto;
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override

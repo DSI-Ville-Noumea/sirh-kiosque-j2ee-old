@@ -28,6 +28,12 @@ package nc.noumea.mairie.kiosque.eae.dto;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+
 public class EaeEvolutionDto {
 
 	private int idEae;
@@ -46,6 +52,8 @@ public class EaeEvolutionDto {
 	private String commentaireEvaluateur;
 	private String commentaireEvalue;
 	private String commentaireEvolution;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateRetraite;
 	private EaeListeDto delaiEnvisage;
 	private List<EaeDeveloppementDto> developpementCompetences;

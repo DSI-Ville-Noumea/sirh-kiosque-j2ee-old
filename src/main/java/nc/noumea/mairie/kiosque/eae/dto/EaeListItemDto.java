@@ -24,38 +24,49 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
 public class EaeListItemDto {
 
-	private Integer idEae;
-	private AgentDto agentEvalue;
-	private List<AgentDto> eaeEvaluateurs;
-	private AgentDto agentDelegataire;
-	private String etat;
-	private boolean cap;
-	private String avisShd;
-	private boolean docAttache;
-	private Date dateCreation;
-	private Date dateFinalisation;
-	private Date dateControle;
-	private boolean droitInitialiser;
-	private boolean droitAcceder;
-	private boolean droitDemarrer;
-	private boolean droitAffecterDelegataire;
-	private boolean droitImprimerBirt;
-	private boolean droitImprimerGed;
-	private String idDocumentGed;
-	private boolean estDetache;
+	private Integer			idEae;
+	private AgentDto		agentEvalue;
+	private List<AgentDto>	eaeEvaluateurs;
+	private AgentDto		agentDelegataire;
+	private String			etat;
+	private boolean			cap;
+	private String			avisShd;
+	private boolean			docAttache;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date			dateCreation;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date			dateFinalisation;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date			dateControle;
+	private boolean			droitInitialiser;
+	private boolean			droitAcceder;
+	private boolean			droitDemarrer;
+	private boolean			droitAffecterDelegataire;
+	private boolean			droitImprimerBirt;
+	private boolean			droitImprimerGed;
+	private String			idDocumentGed;
+	private boolean			estDetache;
 
-	private String directionService;
-	private String sectionService;
-	private String service;
-	private AgentDto agentShd;
+	private String			directionService;
+	private String			sectionService;
+	private String			service;
+
+	private AgentDto		agentShd;
 
 	public Integer getIdEae() {
 		return idEae;

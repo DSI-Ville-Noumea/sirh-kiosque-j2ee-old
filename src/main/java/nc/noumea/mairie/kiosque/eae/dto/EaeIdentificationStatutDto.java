@@ -27,12 +27,20 @@ package nc.noumea.mairie.kiosque.eae.dto;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+
 public class EaeIdentificationStatutDto {
 
 	private Integer ancienneteEchelonJours;
 	private String cadre;
 	private String categorie;
 	private String classification;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateEffet;
 	private String echelon;
 	private String grade;
