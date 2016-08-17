@@ -1,0 +1,55 @@
+<zk>
+	<window id="popupFinalisationEae" title="Soumettre votre EAE"
+		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.eae.viewModel.PopupFinalisationEaeViewModel')">
+
+		<div sclass="fond" height="100%">
+			<vlayout>
+				<hlayout>
+					<div sclass="espaceFinalisation">
+						<label value="Votre EAE au format PDF : " />
+					</div>
+
+				</hlayout>
+				<hlayout>
+					<div sclass="espaceFinalisation">
+						<label value="Note de l'EAE : " />
+					</div>
+
+				</hlayout>
+				<hlayout>
+					<div sclass="espaceFinalisation">
+						<label value="Année de l'EAE : " />
+					</div>
+
+				</hlayout>
+				<hlayout>
+					<div sclass="espaceFinalisation">
+						<label value="Agent évalué : " />
+					</div>
+
+				</hlayout>
+				<hlayout>
+					<div sclass="espaceFinalisation">
+						<label value="Agent(s) évaluateur(s) : " />
+					</div>
+
+				</hlayout>
+				<hlayout>
+					<div sclass="espaceFinalisation">
+						<label value="Agent délégataire : " />
+					</div>
+
+				</hlayout>
+				<hlayout>
+					<div sclass="espaceFinalisation">
+						<label value="Commentaires : " />
+					</div>
+					<textbox rows="4" width="100%"
+						value="@bind(vm.eaeCourant.avisShd)" />
+				</hlayout>
+			</vlayout>
+		</div>
+	</window>
+</zk>

@@ -2,6 +2,7 @@
 
 
 
+
 	
 	<![CDATA[
 
@@ -10,14 +11,12 @@
 
 	.z-loading { top: 50% !important; left: 45% !important; align:
 	center; vertical-align: middle; }
-	
-	.z-loading-indicator, .z-apply-loading-indicator {
-	    background: none repeat scroll 0 0 #ffebcd;}
-	
-	.z-loading, .z-apply-loading {
-	    background: none repeat scroll 0 0 #ee7203;
-	    border: 1px solid #ee7203;
-	}
+
+	.z-loading-indicator, .z-apply-loading-indicator { background: none
+	repeat scroll 0 0 #ffebcd;}
+
+	.z-loading, .z-apply-loading { background: none repeat scroll 0 0
+	#ee7203; border: 1px solid #ee7203; }
 
 	.RHContent { margin-top: 10px; margin-bottom: 15px; }
 
@@ -56,10 +55,9 @@
 	background-position: -90px top; background-repeat: no-repeat;
 	border: 0 none; color: #ffffff; cursor: pointer; font-weight: bold;
 	height: 18px; margin: 5px 0 0; width: 90px; min-height: 0px;
-	text-shadow:none; font-size: 12px; } 
-	
-	.z-tabs-content {
-	border-bottom: 0px solid #cfcfcf; display: table;}
+	text-shadow:none; font-size: 12px; }
+
+	.z-tabs-content { border-bottom: 0px solid #cfcfcf; display: table;}
 
 	.z-tabpanel { border-style: none none none; border-width: 0 0 0; }
 
@@ -80,9 +78,10 @@
 
 	.ListAction.edit { background-position: -235px -229px; }
 
-	.ListAction.delete { background-image: url("img/absence/Corbeille.png");
-	background-repeat: no-repeat; cursor: pointer; display:
-	inline-block; height: 20px; margin: 2px 5px 0; width: 20px;  }
+	.ListAction.delete { background-image:
+	url("img/absence/Corbeille.png"); background-repeat: no-repeat;
+	cursor: pointer; display: inline-block; height: 20px; margin: 2px
+	5px 0; width: 20px; }
 
 	.ListAction.cancel { background-position: -251px -229px; }
 
@@ -122,15 +121,13 @@
 
 	.z-listitem.z-listbox-odd { background-color: #FFEBCD;}
 
-	.z-listheader-content,.z-paging{background-color: #ab5420;color:
-	#ffffff;}
+
+	.z-listheader-content,.z-listfooter-content,.z-paging{background-color:
+	#ab5420;color: #ffffff;}
 
 	.z-treecol-content,.z-paging{background-color: #ab5420;color:
-	#ffffff;}
-	.z-treerow {
-	    background: #FFEBCD none repeat scroll 0% 0%;
-	}
-	.treeNodeService {  background: #FED89C none repeat scroll 0% 0%; }
+	#ffffff;} .z-treerow { background: #FFEBCD none repeat scroll 0% 0%;
+	} .treeNodeService { background: #FED89C none repeat scroll 0% 0%; }
 	.treeNodeServiceText { font-weight: bold; }
 
 	.z-listbox-header table th, .z-listbox-header table td { background:
@@ -144,15 +141,15 @@
 	.z-listitem:hover > .z-listcell > .z-listcell-content {
 	background-color: #ee7203;}
 
-	.z-row {background-color: #fed89c;}	
-	.z-row .z-detail-outer {background:none;}
+	.z-row {background-color: #fed89c;} .z-row .z-detail-outer
+	{background:none;}
 
-	.z-row:hover .z-row-inner { background:#ee7203; }
-	.z-row:hover .z-detail-outer { background:#ee7203; }
+	.z-row:hover .z-row-inner { background:#ee7203; } .z-row:hover
+	.z-detail-outer { background:#ee7203; }
 
-	.z-row.z-grid-odd{background-color:  #FFEBCD;}
+	.z-row.z-grid-odd{background-color: #FFEBCD;}
 
-	.z-grid-odd > .z-row-inner {background-color:  #FFEBCD;}
+	.z-grid-odd > .z-row-inner {background-color: #FFEBCD;}
 
 	.fondRecherche{background-image: none; background-color: #ee7203;
 	border-radius: 12px 12px 0px 12px; -moz-border-radius: 12px 12px 0px
@@ -165,23 +162,28 @@
 
 	.z-listitem.z-listitem-selected:hover > .z-listcell { background:
 	none repeat scroll 0 0 #ee7203;}
-	
+
 	.z-column-content{background-color: #ab5420;color: #ffffff;}
 
 	.z-window {background-color: #ee7203;}
-	
+
 	.RHTitle2Line { width: 100%;border: 1px solid #ee7203; clear: both;
-			height: 1px; }	
-	
-	.z-groupbox {border: 2px solid #ee7203; border-top:none; padding-top: 1px;}
-	
-	.z-groupbox > .z-groupbox-header {border:none;border-top: 2px solid #ee7203;color:#ee7203;}
-	
+	height: 1px; }
+
+	.z-groupbox {border: 2px solid #ee7203; border-top:none;
+	padding-top: 1px;}
+
+	.z-groupbox > .z-groupbox-header {border:none;border-top: 2px solid
+	#ee7203;color:#ee7203;}
+
 	.z-groupbox > .z-groupbox-content {border:none;}
-	
-	.z-groupbox > .z-groupbox-header .z-caption, .z-groupbox > .z-groupbox-header .z-groupbox-title { background:#FFEBCD;font-weight: bold; }
-	
+
+	.z-groupbox > .z-groupbox-header .z-caption, .z-groupbox >
+	.z-groupbox-header .z-groupbox-title {
+	background:#FFEBCD;font-weight: bold; }
+
 	]]>
+	
 	
 	
 	

@@ -1,0 +1,22 @@
+<zk>
+	<div sclass="RHTitle2Line" />
+	<separator />
+	<vlayout>
+		<div align="center">
+			<vlayout>
+				<label sclass="titre"
+					value="Sélectionnez votre EAE, rempli et signé" />
+				<image sclass="uploadAction"
+					onClick="@command('openPopupFinalisation')" />
+			</vlayout>
+		</div>
+		<separator />
+		<tabbox>
+			<tabs>
+				<tab id="RETOUR_EAE" label="Retour à mes EAE(s)"
+					onClick="@command('changeEcran',page='/eae/tableauEae',ecran=content)">
+				</tab>
+			</tabs>
+		</tabbox>
+	</vlayout>
+</zk>

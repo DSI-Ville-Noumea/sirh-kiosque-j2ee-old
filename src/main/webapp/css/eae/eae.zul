@@ -12,6 +12,8 @@
 
 	.espace{width: 250px;}
 
+	.espaceFinalisation{width: 200px;}
+
 	.titre{color: #d3711c;font-weight: bold;}
 
 	.saveAction { background-image: url("img/Sprite.png");
@@ -24,6 +26,11 @@
 	.z-auxheader {background: #ab5420;}
 	
 	.z-auxheader-content {color:white;}
+
+	.uploadAction { background-image: url("img/uploaddoc.png");
+	background-position: left top; background-repeat: no-repeat; cursor:
+	pointer; display: inline-block; height: 30px; width: 30px; 
+	}
 
 	]]>
 	

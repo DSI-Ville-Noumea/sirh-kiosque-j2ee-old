@@ -29,6 +29,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Tab;
+import org.zkoss.zul.Tabbox;
+import org.zkoss.zul.Window;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.eae.dto.DureeDto;
@@ -50,19 +66,6 @@ import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
-
-import org.zkoss.bind.annotation.BindingParam;
-import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.ExecutionArgParam;
-import org.zkoss.bind.annotation.GlobalCommand;
-import org.zkoss.bind.annotation.Init;
-import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class EaeViewModel {
@@ -1284,5 +1287,25 @@ public class EaeViewModel {
 
 	public String getTitreFonctionnaireEvaluation(EaeEvaluationDto evaluation) {
 		return "Changement d'échelon ou de classe pour les agents promouvable en " + evaluation.getAnneeAvancement();
+	}
+
+	@Command
+	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div, @BindingParam("param") String param) {
+		div.getChildren().clear();
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("div", div);
+		args.put("param", param);
+
+		Executions.createComponents(page + ".zul", div, args);
+	}
+
+	@Command
+	public void openPopupFinalisation() {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, EaeListItemDto> args = new HashMap<String, EaeListItemDto>();
+		args.put("eaeCourant", getEaeCourant());
+		Window win = (Window) Executions.createComponents("/eae/onglet/popupFinalisation.zul", null, args);
+		win.doModal();
+
 	}
 }
