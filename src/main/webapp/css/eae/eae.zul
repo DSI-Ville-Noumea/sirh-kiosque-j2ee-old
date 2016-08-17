@@ -8,7 +8,7 @@
 	.blockSeparator { border-top: 1px solid #ccbda1; height: 0; margin:
 	10px 0; padding: 0; width: 100%; }
 
-	.bleu{color: #274f9a;width: 300px;}
+	.bleu{color: #274f9a;width: 500px;}
 
 	.espace{width: 250px;}
 

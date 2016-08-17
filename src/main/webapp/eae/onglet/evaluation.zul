@@ -9,6 +9,7 @@
 			<label value="Durée de l'entretien" />
 			<label sclass="bleu" visible="@bind(not vm.modification)"
 				value="@bind(vm.getInfoDureeEntretien(vm.evaluation))" />
+
 			<combobox model="@bind(vm.listeHeures)"
 				onSelect="@command('textChangedEvaluation')"
 				visible="@bind(vm.modification)" selectedItem="@bind(vm.heureDuree)"
@@ -17,7 +18,7 @@
 					<comboitem label="@bind(each)"></comboitem>
 				</template>
 			</combobox>
-
+			<label value="heures" />
 			<combobox model="@bind(vm.listeMinutes)"
 				onSelect="@command('textChangedEvaluation')"
 				visible="@bind(vm.modification)"
@@ -26,6 +27,7 @@
 					<comboitem label="@bind(each)"></comboitem>
 				</template>
 			</combobox>
+			<label value="minutes" />
 		</hlayout>
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3"
