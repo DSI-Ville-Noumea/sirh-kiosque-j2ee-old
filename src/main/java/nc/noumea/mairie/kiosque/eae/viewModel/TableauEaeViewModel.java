@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEtatEnum;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.export.ExcelExporter;
 import nc.noumea.mairie.kiosque.export.PdfExporter;
@@ -200,6 +201,10 @@ public class TableauEaeViewModel {
 		// on recupère les info du tableau des EAEs
 		List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
 		setTableauEae(tableau);
+	}
+
+	public String getEtat(String etat) {
+		return EaeEtatEnum.getEtatFromCode(etat) == null ? "" : EaeEtatEnum.getEtatFromCode(etat).toString();
 	}
 
 	public String concatAgent(String nom, String prenom) {

@@ -38,7 +38,7 @@ public class EaeListItemDto {
 
 	private Integer			idEae;
 	private AgentDto		agentEvalue;
-	private List<AgentDto>	eaeEvaluateurs;
+	private List<EaeEvaluateurDto>	eaeEvaluateurs;
 	private AgentDto		agentDelegataire;
 	private String			etat;
 	private boolean			cap;
@@ -84,11 +84,11 @@ public class EaeListItemDto {
 		this.agentEvalue = agentEvalue;
 	}
 
-	public List<AgentDto> getEaeEvaluateurs() {
+	public List<EaeEvaluateurDto> getEaeEvaluateurs() {
 		return eaeEvaluateurs;
 	}
 
-	public void setEaeEvaluateurs(List<AgentDto> eaeEvaluateurs) {
+	public void setEaeEvaluateurs(List<EaeEvaluateurDto> eaeEvaluateurs) {
 		this.eaeEvaluateurs = eaeEvaluateurs;
 	}
 

@@ -97,7 +97,7 @@
 									<zk
 										forEach="${each.eaeEvaluateurs}">
 										<label sclass="interieur"
-											value="${vm.concatAgent(each.nom,each.prenom)}" />
+											value="${vm.concatAgent(each.agent.nom,each.agent.prenom)}" />
 									</zk>
 								</vlayout>
 							</listcell>
@@ -110,7 +110,7 @@
 								label="@bind(vm.concatAgent(each.agentDelegataire.nom,each.agentDelegataire.prenom))"
 								visible="@bind(not each.droitDemarrer)" />
 							<!-- fin cas du délégataire -->
-							<listcell label="@bind(each.etat)" />
+							<listcell label="@bind(vm.getEtat(each.etat))" />
 							<listcell>
 								<image sclass="cap" tooltiptext="oui"
 									visible="@bind(each.cap)" />

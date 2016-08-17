@@ -24,25 +24,38 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 public enum EaeEtatEnum {
-	
-	NA("Non affecté"),
-	ND("Non débuté"),
-	C("Créé"),
-	EC("En cours"),
-	F("Finalisé"),
-	CO("Contrôlé"),
-	S("Supprimé");
-	
+
+	NA("Non affecté"), ND("Non débuté"), C("Créé"), EC("En cours"), F("Finalisé"), CO("Contrôlé"), S("Supprimé");
+
 	private String statut;
-	
+
 	private EaeEtatEnum(String _statut) {
 		this.statut = _statut;
 	}
-	
+
 	@Override
 	public String toString() {
 		return statut;
+	}
+
+	public static EaeEtatEnum getEtatFromCode(String code) {
+		switch (code) {
+			case "NA":
+				return NA;
+			case "ND":
+				return ND;
+			case "C":
+				return C;
+			case "EC":
+				return EC;
+			case "F":
+				return F;
+			case "CO":
+				return CO;
+			case "S":
+				return S;
+		}
+		return null;
 	}
 }
