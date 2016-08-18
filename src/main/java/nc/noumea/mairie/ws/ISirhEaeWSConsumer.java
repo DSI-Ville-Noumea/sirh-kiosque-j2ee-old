@@ -35,6 +35,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
@@ -91,5 +92,7 @@ public interface ISirhEaeWSConsumer {
 	String countEaeARealiserUrl(Integer idAgent);
 
 	List<EaeFinalisationDto> getEeaControle(Integer idAgent);
+
+	EaeFinalizationInformationDto getFinalisationInformation(Integer idEae, Integer idAgent);
 
 }

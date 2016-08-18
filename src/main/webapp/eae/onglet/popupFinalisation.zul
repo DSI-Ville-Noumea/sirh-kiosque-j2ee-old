@@ -2,54 +2,92 @@
 	<window id="popupFinalisationEae" title="Soumettre votre EAE"
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
+		style="color: #FFFFFF;"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.eae.viewModel.PopupFinalisationEaeViewModel')">
 
 		<div sclass="fond" height="100%">
 			<vlayout>
 				<hlayout>
 					<div sclass="espaceFinalisation">
-						<label value="Votre EAE au format PDF : " />
+						<label style="color: #d3711c;font-weight: bold;"
+							value="Votre EAE au format PDF : " />
 					</div>
-
 				</hlayout>
 				<hlayout>
 					<div sclass="espaceFinalisation">
-						<label value="Note de l'EAE : " />
+						<label style="color: #d3711c;font-weight: bold;"
+							value="Note de l'EAE : " />
 					</div>
-
 				</hlayout>
 				<hlayout>
 					<div sclass="espaceFinalisation">
-						<label value="Année de l'EAE : " />
+						<label style="color: #d3711c;font-weight: bold;"
+							value="Année de l'EAE : " />
 					</div>
-
+					<div sclass="bleu">
+						<label
+							value="@bind(vm.finalisationCourant.annee)" />
+					</div>
 				</hlayout>
 				<hlayout>
 					<div sclass="espaceFinalisation">
-						<label value="Agent évalué : " />
+						<label style="color: #d3711c;font-weight: bold;"
+							value="Agent évalué : " />
 					</div>
-
+					<div sclass="bleu">
+						<label
+							value="@bind(vm.concatAgent(vm.finalisationCourant.agentEvalue.nom,vm.finalisationCourant.agentEvalue.prenom))" />
+					</div>
 				</hlayout>
 				<hlayout>
 					<div sclass="espaceFinalisation">
-						<label value="Agent(s) évaluateur(s) : " />
+						<label style="color: #d3711c;font-weight: bold;"
+							value="Agent(s) évaluateur(s) : " />
 					</div>
-
+					<div sclass="bleu">
+						<label
+							value="@bind(vm.getEvaluateurs(vm.finalisationCourant.agentsEvaluateurs))" />
+					</div>
 				</hlayout>
 				<hlayout>
 					<div sclass="espaceFinalisation">
-						<label value="Agent délégataire : " />
+						<label style="color: #d3711c;font-weight: bold;"
+							value="Agent délégataire : " />
 					</div>
-
+					<div sclass="bleu">
+						<label
+							value="@bind(vm.concatAgent(vm.finalisationCourant.agentDelegataire.nom,vm.finalisationCourant.agentDelegataire.prenom))" />
+					</div>
 				</hlayout>
 				<hlayout>
 					<div sclass="espaceFinalisation">
-						<label value="Commentaires : " />
+						<label style="color: #d3711c;font-weight: bold;"
+							value="Commentaires : " />
 					</div>
-					<textbox rows="4" width="100%"
-						value="@bind(vm.eaeCourant.avisShd)" />
+					<div sclass="bleu">
+						<textbox rows="4" width="100%"
+							value="@bind(vm.finalisationCourant.commentaire)" />
+					</div>
 				</hlayout>
+				<div style="display:inline-block;float:right;"
+					align="right">
+					<tabbox>
+						<tabs>
+							<tab id="FINALISER_EAE"
+								label="Finaliser mon EAE" onClick="@command('finaliseEae')">
+							</tab>
+						</tabs>
+					</tabbox>
+				</div>
 			</vlayout>
 		</div>
 	</window>
+	<style>
+
+		.z-window-header { color: #FFFFFF; padding-left: 10px;
+		font-size: 14px; font-weight: bold; }
+
+	</style>
 </zk>
+
+

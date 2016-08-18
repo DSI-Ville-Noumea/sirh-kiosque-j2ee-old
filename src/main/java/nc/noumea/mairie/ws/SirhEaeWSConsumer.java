@@ -44,6 +44,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
@@ -57,23 +58,25 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	@Qualifier("sirhEaeWsBaseUrl")
 	private String				sirhEaeWsBaseUrl;
 
-	private static final String	eaeCampagneEaeUrl		= "eaes/getEaeCampagneOuverte";
-	private static final String	eaeTableauBordUrl		= "eaes/tableauDeBord";
-	private static final String	eaeTableauEaeUrl		= "eaes/listEaesByAgent";
-	private static final String	eaeCountEaeARealiserUrl	= "eaes/countListEaesByAgent";
-	private static final String	eaeImpressionEaeUrl		= "reporting/eae";
-	private static final String	eaeInitialiserEaeUrl	= "eaes/initialiserEae";
-	private static final String	eaeSaveDelegataireUrl	= "eaes/affecterDelegataire";
-	private static final String	eaeControleUrl			= "eaes/getEeaControle";
+	private static final String	eaeCampagneEaeUrl				= "eaes/getEaeCampagneOuverte";
+	private static final String	eaeTableauBordUrl				= "eaes/tableauDeBord";
+	private static final String	eaeTableauEaeUrl				= "eaes/listEaesByAgent";
+	private static final String	eaeCountEaeARealiserUrl			= "eaes/countListEaesByAgent";
+	private static final String	eaeImpressionEaeUrl				= "reporting/eae";
+	private static final String	eaeInitialiserEaeUrl			= "eaes/initialiserEae";
+	private static final String	eaeSaveDelegataireUrl			= "eaes/affecterDelegataire";
+	private static final String	eaeControleUrl					= "eaes/getEeaControle";
+	private static final String	eaeFinalizationInformationUrl	= "eaes/getFinalizationInformation";
+
 	/* Pour les onglets */
-	private static final String	eaeIdentificationUrl	= "evaluation/eaeIdentification";
-	private static final String	eaeFichePosteUrl		= "evaluation/eaeFichePoste";
-	private static final String	eaeResultatUrl			= "evaluation/eaeResultats";
-	private static final String	eaeAppreciationUrl		= "evaluation/eaeAppreciations";
-	private static final String	eaeEvaluationUrl		= "evaluation/eaeEvaluation";
-	private static final String	eaeAutoEvaluationUrl	= "evaluation/eaeAutoEvaluation";
-	private static final String	eaePlanActionUrl		= "evaluation/eaePlanAction";
-	private static final String	eaeEvolutionUrl			= "evaluation/eaeEvolution";
+	private static final String	eaeIdentificationUrl			= "evaluation/eaeIdentification";
+	private static final String	eaeFichePosteUrl				= "evaluation/eaeFichePoste";
+	private static final String	eaeResultatUrl					= "evaluation/eaeResultats";
+	private static final String	eaeAppreciationUrl				= "evaluation/eaeAppreciations";
+	private static final String	eaeEvaluationUrl				= "evaluation/eaeEvaluation";
+	private static final String	eaeAutoEvaluationUrl			= "evaluation/eaeAutoEvaluation";
+	private static final String	eaePlanActionUrl				= "evaluation/eaePlanAction";
+	private static final String	eaeEvolutionUrl					= "evaluation/eaeEvolution";
 
 	@Override
 	public List<EaeDashboardItemDto> getTableauBord(Integer idAgent) {
@@ -347,6 +350,17 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		ClientResponse res = createAndFireGetRequest(params, url);
 
 		return readResponseAsList(EaeFinalisationDto.class, res, url);
+	}
+
+	@Override
+	public EaeFinalizationInformationDto getFinalisationInformation(Integer idEae, Integer idAgent) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeFinalizationInformationUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idEae", idEae.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(EaeFinalizationInformationDto.class, res, url);
 	}
 
 }

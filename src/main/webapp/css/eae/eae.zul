@@ -12,7 +12,7 @@
 
 	.espace{width: 250px;}
 
-	.espaceFinalisation{width: 200px;}
+	.espaceFinalisation{width: 170px;}
 
 	.titre{color: #d3711c;font-weight: bold;}
 

@@ -11,12 +11,14 @@
 			</vlayout>
 		</div>
 		<separator />
-		<tabbox>
-			<tabs>
-				<tab id="RETOUR_EAE" label="Retour à mes EAE(s)"
-					onClick="@command('changeEcran',page='/eae/tableauEae',ecran=content)">
-				</tab>
-			</tabs>
-		</tabbox>
+		<div style="display:inline-block;float:right;" align="right">
+			<tabbox>
+				<tabs>
+					<tab id="RETOUR_EAE" label="Retour à mes EAE(s)"
+						onClick="@command('changeEcran',page='/eae/tableauEae',ecran=content)">
+					</tab>
+				</tabs>
+			</tabbox>
+		</div>
 	</vlayout>
 </zk>
