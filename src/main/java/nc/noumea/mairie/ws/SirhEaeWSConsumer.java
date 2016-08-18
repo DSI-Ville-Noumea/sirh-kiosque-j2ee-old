@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.sun.jersey.api.client.ClientResponse;
@@ -67,6 +68,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	private static final String	eaeSaveDelegataireUrl			= "eaes/affecterDelegataire";
 	private static final String	eaeControleUrl					= "eaes/getEeaControle";
 	private static final String	eaeFinalizationInformationUrl	= "eaes/getFinalizationInformation";
+	private static final String	eaeCanFinaliseEaeUrl			= "eaes/canFinalizeEae";
 
 	/* Pour les onglets */
 	private static final String	eaeIdentificationUrl			= "evaluation/eaeIdentification";
@@ -361,6 +363,20 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponse(EaeFinalizationInformationDto.class, res, url);
+	}
+
+	@Override
+	public boolean canFinaliseEae(Integer idEae, Integer idAgent) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeCanFinaliseEaeUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idEae", idEae.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		if (res.getStatus() == HttpStatus.CONFLICT.value()) {
+			return false;
+		}
+		return true;
 	}
 
 }

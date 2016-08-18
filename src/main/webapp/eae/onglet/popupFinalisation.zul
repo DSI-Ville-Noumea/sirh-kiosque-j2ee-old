@@ -12,11 +12,22 @@
 						<label style="color: #d3711c;font-weight: bold;"
 							value="Votre EAE au format PDF : " />
 					</div>
+					<div sclass="bleu">
+						<button label="Joindre"
+							upload="true,maxsize=2000,multiple=true,accept=|image/*|application/pdf, native"
+							onUpload="@command('onUploadPDF',upEvent=event)">
+						</button>
+						<label value="@bind(vm.finalisationCourant.nameFile)"/>
+					</div>
 				</hlayout>
 				<hlayout>
 					<div sclass="espaceFinalisation">
 						<label style="color: #d3711c;font-weight: bold;"
 							value="Note de l'EAE : " />
+					</div>
+					<div sclass="bleu">
+						<doublebox maxlength="5"
+							value="@bind(vm.finalisationCourant.noteAnnee)" />
 					</div>
 				</hlayout>
 				<hlayout>

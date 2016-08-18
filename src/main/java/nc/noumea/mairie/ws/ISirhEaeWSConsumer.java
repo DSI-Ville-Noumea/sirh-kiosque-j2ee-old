@@ -95,4 +95,6 @@ public interface ISirhEaeWSConsumer {
 
 	EaeFinalizationInformationDto getFinalisationInformation(Integer idEae, Integer idAgent);
 
+	boolean canFinaliseEae(Integer idEae, Integer idAgent);
+
 }

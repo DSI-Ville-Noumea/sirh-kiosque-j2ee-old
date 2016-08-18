@@ -71,4 +71,5 @@ public class EaeFinalisationDto {
 	public void setAnnee(String annee) {
 		this.annee = annee;
 	}
+
 }

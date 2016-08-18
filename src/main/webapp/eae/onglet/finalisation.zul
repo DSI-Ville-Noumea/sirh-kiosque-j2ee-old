@@ -2,12 +2,19 @@
 	<div sclass="RHTitle2Line" />
 	<separator />
 	<vlayout>
-		<div align="center">
+		<div align="center" visible="@bind(vm.finalisationPossible)">
 			<vlayout>
 				<label sclass="titre"
 					value="Sélectionnez votre EAE, rempli et signé" />
 				<image sclass="uploadAction"
 					onClick="@command('openPopupFinalisation')" />
+			</vlayout>
+		</div>
+		<div align="center"
+			visible="@bind(not vm.finalisationPossible)">
+			<vlayout>
+				<label sclass="titre"
+					value="@bind(vm.titreBadFinalisation)" />
 			</vlayout>
 		</div>
 		<separator />

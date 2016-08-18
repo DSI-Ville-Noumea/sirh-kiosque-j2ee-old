@@ -51,6 +51,7 @@ import nc.noumea.mairie.kiosque.eae.dto.DureeDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDeveloppementDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEtatEnum;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
@@ -128,6 +129,12 @@ public class EaeViewModel {
 	private boolean					hasTextChangedAutoEvaluation;
 	private boolean					hasTextChangedPlanAction;
 	private boolean					hasTextChangedEvolution;
+
+	/* Pour la finalisation */
+	@SuppressWarnings("unused")
+	private boolean					finalisationPossible;
+	@SuppressWarnings("unused")
+	private String					titreBadFinalisation;
 
 	@Init
 	public void initEae(@ExecutionArgParam("eae") EaeListItemDto eae, @ExecutionArgParam("mode") String modeSaisi) {
@@ -267,7 +274,8 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation", "planAction", "evolution",
 			"hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation", "hasTextChangedEvolution",
-			"hasTextChangedFichePoste", "hasTextChangedIdentification", "hasTextChangedPlanAction", "hasTextChangedResultat" })
+			"hasTextChangedFichePoste", "hasTextChangedIdentification", "hasTextChangedPlanAction", "hasTextChangedResultat", "finalisationPossible",
+			"titreBadFinalisation" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
@@ -1307,5 +1315,28 @@ public class EaeViewModel {
 		Window win = (Window) Executions.createComponents("/eae/onglet/popupFinalisation.zul", null, args);
 		win.doModal();
 
+	}
+
+	public boolean isFinalisationPossible() {
+		return eaeWsConsumer.canFinaliseEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
+	}
+
+	public String getTitreBadFinalisation() {
+		String res = "";
+		boolean isPossible = eaeWsConsumer.canFinaliseEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
+		if (!isPossible) {
+			String etat = EaeEtatEnum.getEtatFromCode(getEaeCourant().getEtat()) == null ? ""
+					: EaeEtatEnum.getEtatFromCode(getEaeCourant().getEtat()).toString();
+			res = "Impossible de finaliser l'Eae car son état est " + etat;
+		}
+		return res;
+	}
+
+	public void setFinalisationPossible(boolean finalisationPossible) {
+		this.finalisationPossible = finalisationPossible;
+	}
+
+	public void setTitreBadFinalisation(String titreBadFinalisation) {
+		this.titreBadFinalisation = titreBadFinalisation;
 	}
 }

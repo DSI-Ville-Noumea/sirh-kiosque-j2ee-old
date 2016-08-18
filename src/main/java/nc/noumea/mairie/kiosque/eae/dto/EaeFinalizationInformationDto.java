@@ -14,8 +14,10 @@ public class EaeFinalizationInformationDto {
 	private AgentDto		agentDelegataire;
 	private List<AgentDto>	agentsEvaluateurs;
 	private List<AgentDto>	agentsShd;
-	private Float			noteAnnee;
+	private Double			noteAnnee;
 	private String			commentaire;
+	private byte[]			bFile;
+	private String			nameFile;
 
 	public EaeFinalizationInformationDto() {
 		agentsEvaluateurs = new ArrayList<AgentDto>();
@@ -70,11 +72,11 @@ public class EaeFinalizationInformationDto {
 		this.agentsShd = agentsShd;
 	}
 
-	public Float getNoteAnnee() {
+	public Double getNoteAnnee() {
 		return noteAnnee;
 	}
 
-	public void setNoteAnnee(Float noteAnnee) {
+	public void setNoteAnnee(Double noteAnnee) {
 		this.noteAnnee = noteAnnee;
 	}
 
@@ -84,6 +86,22 @@ public class EaeFinalizationInformationDto {
 
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
+	}
+
+	public byte[] getbFile() {
+		return bFile;
+	}
+
+	public void setbFile(byte[] bFile) {
+		this.bFile = bFile;
+	}
+
+	public String getNameFile() {
+		return nameFile;
+	}
+
+	public void setNameFile(String nameFile) {
+		this.nameFile = nameFile;
 	}
 
 }
