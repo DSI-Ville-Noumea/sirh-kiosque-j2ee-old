@@ -1,5 +1,13 @@
 package nc.noumea.mairie.kiosque.eae.dto;
 
+import java.util.Date;
+
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -30,7 +38,14 @@ public class EaeFinalisationDto {
 	private String	versionDocument;
 	private String	commentaire;
 	private Float	noteAnnee;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date	dateFinalisation;
 	private String	annee;
+	
+	
+	byte[] bFile;
+	private String typeFile;
 
 	public String getIdDocument() {
 		return idDocument;
@@ -72,4 +87,28 @@ public class EaeFinalisationDto {
 		this.annee = annee;
 	}
 
+	public Date getDateFinalisation() {
+		return dateFinalisation;
+	}
+
+	public void setDateFinalisation(Date dateFinalisation) {
+		this.dateFinalisation = dateFinalisation;
+	}
+
+	public byte[] getbFile() {
+		return bFile;
+	}
+
+	public void setbFile(byte[] bFile) {
+		this.bFile = bFile;
+	}
+
+	public String getTypeFile() {
+		return typeFile;
+	}
+
+	public void setTypeFile(String typeFile) {
+		this.typeFile = typeFile;
+	}
+	
 }

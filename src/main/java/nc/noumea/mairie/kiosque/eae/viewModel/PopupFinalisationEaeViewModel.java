@@ -2,11 +2,23 @@ package nc.noumea.mairie.kiosque.eae.viewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
+
 import org.zkoss.bind.BindContext;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -17,14 +29,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-
-import nc.noumea.mairie.kiosque.dto.AgentDto;
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
+import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class PopupFinalisationEaeViewModel {
@@ -68,7 +73,7 @@ public class PopupFinalisationEaeViewModel {
 	}
 
 	@Command
-	public void finaliseEae() {
+	public void finaliseEae(@BindingParam("win") Window window) {
 		ReturnMessageDto result = new ReturnMessageDto();
 		// verifier que la note soit comprise entre 0 et 20
 		// verifier fichier et note obligatoire
@@ -113,7 +118,33 @@ public class PopupFinalisationEaeViewModel {
 
 		}
 
-		// TODO faire appel à Eae pour alfresco
+		EaeFinalisationDto eaeFinalisationDto = new EaeFinalisationDto();
+		eaeFinalisationDto.setAnnee(new Integer(getFinalisationCourant().getAnnee()).toString());
+		eaeFinalisationDto.setCommentaire(getFinalisationCourant().getCommentaire());
+		eaeFinalisationDto.setDateFinalisation(new Date());
+		eaeFinalisationDto.setNoteAnnee(b.floatValue());
+		eaeFinalisationDto.setTypeFile(getFinalisationCourant().getTypeFile());
+		eaeFinalisationDto.setbFile(getFinalisationCourant().getbFile());
+		
+		result = eaeWsConsumer.finalizeEae(getFinalisationCourant().getIdEae(), currentUser.getAgent().getIdAgent(), eaeFinalisationDto);
+		
+		if (!result.getErrors().isEmpty() 
+				|| !result.getInfos().isEmpty()) {
+			final HashMap<String, Object> map = new HashMap<String, Object>();
+			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
+			for (String error : result.getErrors()) {
+				ValidationMessage vm = new ValidationMessage(error);
+				listErreur.add(vm);
+			}
+			for (String info : result.getInfos()) {
+				ValidationMessage vm = new ValidationMessage(info);
+				listInfo.add(vm);
+			}
+			map.put("errors", listErreur);
+			map.put("infos", listInfo);
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+		}
 	}
 
 	@Command
@@ -129,6 +160,7 @@ public class PopupFinalisationEaeViewModel {
 
 				getFinalisationCourant().setbFile(media.getByteData());
 				getFinalisationCourant().setNameFile(media.getName());
+				getFinalisationCourant().setTypeFile(media.getContentType());
 			}
 		}
 	}

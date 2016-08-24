@@ -69,6 +69,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	private static final String	eaeControleUrl					= "eaes/getEeaControle";
 	private static final String	eaeFinalizationInformationUrl	= "eaes/getFinalizationInformation";
 	private static final String	eaeCanFinaliseEaeUrl			= "eaes/canFinalizeEae";
+	private static final String	eaeFinalizeEaeUrl				= "eaes/finalizeEae";
 
 	/* Pour les onglets */
 	private static final String	eaeIdentificationUrl			= "evaluation/eaeIdentification";
@@ -377,6 +378,19 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public ReturnMessageDto finalizeEae(Integer idEae, Integer idAgent, EaeFinalisationDto eaeFinalizationDto) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeFinalizeEaeUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idEae", idEae.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(eaeFinalizationDto);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 }

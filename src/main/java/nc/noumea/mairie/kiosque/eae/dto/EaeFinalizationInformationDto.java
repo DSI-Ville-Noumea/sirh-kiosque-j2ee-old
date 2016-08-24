@@ -18,6 +18,7 @@ public class EaeFinalizationInformationDto {
 	private String			commentaire;
 	private byte[]			bFile;
 	private String			nameFile;
+	private String			typeFile;
 
 	public EaeFinalizationInformationDto() {
 		agentsEvaluateurs = new ArrayList<AgentDto>();
@@ -102,6 +103,14 @@ public class EaeFinalizationInformationDto {
 
 	public void setNameFile(String nameFile) {
 		this.nameFile = nameFile;
+	}
+
+	public String getTypeFile() {
+		return typeFile;
+	}
+
+	public void setTypeFile(String typeFile) {
+		this.typeFile = typeFile;
 	}
 
 }
