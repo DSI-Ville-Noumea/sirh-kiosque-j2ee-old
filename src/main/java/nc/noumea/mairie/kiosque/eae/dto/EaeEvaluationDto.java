@@ -27,8 +27,8 @@ package nc.noumea.mairie.kiosque.eae.dto;
 public class EaeEvaluationDto {
 
 	private Integer				dureeEntretien;
-	private EaeCommentaireDto	commentaireEvaluateur;
-	private EaeCommentaireDto	commentaireEvalue;
+	private EaeCommentaireDto	commentaireEvaluateur		= new EaeCommentaireDto();
+	private EaeCommentaireDto	commentaireEvalue			= new EaeCommentaireDto();
 	private EaeListeDto			niveau;
 	private Double				noteAnnee;
 	private Double				noteAnneeN1;
@@ -38,8 +38,8 @@ public class EaeEvaluationDto {
 	private Boolean				avisChangementClasse;
 	private EaeListeDto			propositionAvancement;
 	private int					anneeAvancement;
-	private EaeCommentaireDto	commentaireAvctEvaluateur;
-	private EaeCommentaireDto	commentaireAvctEvalue;
+	private EaeCommentaireDto	commentaireAvctEvaluateur	= new EaeCommentaireDto();
+	private EaeCommentaireDto	commentaireAvctEvalue		= new EaeCommentaireDto();
 	private String				statut;
 	private String				typeAvct;
 	private boolean				cap;

@@ -28,12 +28,17 @@ import java.util.List;
 
 public class EaePlanActionDto {
 
-	private int						idEae;
-	private List<String>			moyensAutres;
-	private List<String>			moyensFinanciers;
-	private List<String>			moyensMateriels;
-	private List<String>			objectifsIndividuels;
-	private List<EaeObjectifProDto>	objectifsProfessionnels;
+	private int							idEae;
+	private List<String>				moyensAutres;
+	private List<String>				moyensFinanciers;
+	private List<String>				moyensMateriels;
+	private List<String>				objectifsIndividuels;
+	private List<EaeObjectifProDto>		objectifsProfessionnels;
+	//Version en liste pour kiosque et SIRH, ce qui a au dessus est utile à BIRT
+	private List<EaeItemPlanActionDto>	listeObjectifsIndividuels;
+	private List<EaeItemPlanActionDto>	listeMoyensAutres;
+	private List<EaeItemPlanActionDto>	listeMoyensFinanciers;
+	private List<EaeItemPlanActionDto>	listeMoyensMateriels;
 
 	public int getIdEae() {
 		return idEae;
@@ -81,5 +86,37 @@ public class EaePlanActionDto {
 
 	public void setObjectifsProfessionnels(List<EaeObjectifProDto> objectifsProfessionnels) {
 		this.objectifsProfessionnels = objectifsProfessionnels;
+	}
+
+	public List<EaeItemPlanActionDto> getListeObjectifsIndividuels() {
+		return listeObjectifsIndividuels;
+	}
+
+	public void setListeObjectifsIndividuels(List<EaeItemPlanActionDto> listeObjectifsIndividuels) {
+		this.listeObjectifsIndividuels = listeObjectifsIndividuels;
+	}
+
+	public List<EaeItemPlanActionDto> getListeMoyensAutres() {
+		return listeMoyensAutres;
+	}
+
+	public void setListeMoyensAutres(List<EaeItemPlanActionDto> listeMoyensAutres) {
+		this.listeMoyensAutres = listeMoyensAutres;
+	}
+
+	public List<EaeItemPlanActionDto> getListeMoyensFinanciers() {
+		return listeMoyensFinanciers;
+	}
+
+	public void setListeMoyensFinanciers(List<EaeItemPlanActionDto> listeMoyensFinanciers) {
+		this.listeMoyensFinanciers = listeMoyensFinanciers;
+	}
+
+	public List<EaeItemPlanActionDto> getListeMoyensMateriels() {
+		return listeMoyensMateriels;
+	}
+
+	public void setListeMoyensMateriels(List<EaeItemPlanActionDto> listeMoyensMateriels) {
+		this.listeMoyensMateriels = listeMoyensMateriels;
 	}
 }

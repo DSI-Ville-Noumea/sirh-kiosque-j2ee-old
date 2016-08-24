@@ -57,7 +57,7 @@
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3"
 			value="Objectifs de progrès individuels (1000 car. max)" />
-		<listbox model="@bind(vm.planAction.objectifsIndividuels)"
+		<listbox model="@bind(vm.planAction.listeObjectifsIndividuels)"
 			emptyMessage="Aucun élément">
 			<listhead visible="false">
 				<listheader />
@@ -68,9 +68,9 @@
 				<listitem>
 					<listcell>
 						<label sclass="bleu"
-							visible="@bind(not vm.modification)" value="@bind(each)" />
+							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 						<textbox rows="4" width="100%"
-							visible="@bind(vm.modification)" value="@bind(each)"
+							visible="@bind(vm.modification)" value="@bind(each.libelle)"
 							onChanging="@command('textChangedPlanAction')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
@@ -92,7 +92,7 @@
 		<div style="margin-left: 20px;">
 			<label value="Besoins matériels (300 car. max)"
 				style="color: #d3711c;font-weight: bold;" />
-			<listbox model="@bind(vm.planAction.moyensMateriels)"
+			<listbox model="@bind(vm.planAction.listeMoyensMateriels)"
 				emptyMessage="Aucun élément">
 				<listhead visible="false">
 					<listheader />
@@ -103,9 +103,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each)" />
+								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each)"
+								visible="@bind(vm.modification)" value="@bind(each.libelle)"
 								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
@@ -124,7 +124,7 @@
 			<separator />
 			<label value="Besoins financiers (300 car. max)"
 				style="color: #d3711c;font-weight: bold;" />
-			<listbox model="@bind(vm.planAction.moyensFinanciers)"
+			<listbox model="@bind(vm.planAction.listeMoyensFinanciers)"
 				emptyMessage="Aucun élément">
 				<listhead visible="false">
 					<listheader />
@@ -135,9 +135,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each)" />
+								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each)"
+								visible="@bind(vm.modification)" value="@bind(each.libelle)"
 								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
@@ -156,7 +156,7 @@
 			<separator />
 			<label value="Autres besoins (300 car. max)"
 				style="color: #d3711c;font-weight: bold;" />
-			<listbox model="@bind(vm.planAction.moyensAutres)"
+			<listbox model="@bind(vm.planAction.listeMoyensAutres)"
 				emptyMessage="Aucun élément">
 				<listhead visible="false">
 					<listheader />
@@ -167,9 +167,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each)" />
+								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each)"
+								visible="@bind(vm.modification)" value="@bind(each.libelle)"
 								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">

@@ -26,7 +26,7 @@ package nc.noumea.mairie.kiosque.eae.dto;
 
 public class EaeResultatDto {
 
-	private EaeCommentaireDto	commentaire;
+	private EaeCommentaireDto	commentaire	= new EaeCommentaireDto();
 	private Integer				idEaeResultat;
 	private String				objectif;
 	private String				resultat;

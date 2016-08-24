@@ -72,8 +72,6 @@
 					<tab style="margin-left: 830px !important;" id="FINALISATION" label="Finaliser l'EAE"
 						onClick="@command('changeVue',tabbox=tb,tab = FINALISATION)" visible="@bind(vm.modification)">
 						<caption label="Finaliser l'EAE">
-							<image visible="@bind(vm.hasTextChangedEvolution)"
-								sclass="saveAction" onClick="@command('engistreOnglet')" />
 						</caption>
 					</tab>
 				</tabs>

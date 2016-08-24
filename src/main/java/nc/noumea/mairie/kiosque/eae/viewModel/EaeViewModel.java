@@ -460,12 +460,34 @@ public class EaeViewModel {
 
 	private ReturnMessageDto isFormResultatValid(ReturnMessageDto result, EaeResultatsDto resultatDto) {
 		for (EaeResultatDto objIndiv : resultatDto.getObjectifsIndividuels()) {
-			if ((!objIndiv.getResultat().equals("") || !objIndiv.getCommentaire().equals("")) && objIndiv.getObjectif().equals("")) {
+			boolean resultIndiv = true;
+			if (objIndiv.getResultat() != null) {
+				if (!objIndiv.getResultat().equals("") && (objIndiv.getObjectif() == null || objIndiv.getObjectif().equals(""))) {
+					resultIndiv = false;
+				}
+			}
+			if (objIndiv.getCommentaire() != null) {
+				if (!objIndiv.getCommentaire().equals("") && (objIndiv.getObjectif() == null || objIndiv.getObjectif().equals(""))) {
+					resultIndiv = false;
+				}
+			}
+			if (!resultIndiv) {
 				result.getErrors().add("L'objectif de progrès individuel est obligatoire.");
 			}
 		}
 		for (EaeResultatDto objPro : resultatDto.getObjectifsProfessionnels()) {
-			if ((!objPro.getResultat().equals("") || !objPro.getCommentaire().equals("")) && objPro.getObjectif().equals("")) {
+			boolean resultPro = true;
+			if (objPro.getResultat() != null) {
+				if (!objPro.getResultat().equals("") && (objPro.getObjectif() == null || objPro.getObjectif().equals(""))) {
+					resultPro = false;
+				}
+			}
+			if (objPro.getCommentaire() != null) {
+				if (!objPro.getCommentaire().equals("") && (objPro.getObjectif() == null || objPro.getObjectif().equals(""))) {
+					resultPro = false;
+				}
+			}
+			if (!resultPro) {
 				result.getErrors().add("L'objectif professionnel est obligatoire.");
 			}
 		}
@@ -666,8 +688,8 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensAutres(@BindingParam("ref") EaeItemPlanActionDto moyensAutres) {
-		if (getPlanAction().getMoyensAutres().contains(moyensAutres)) {
-			getPlanAction().getMoyensAutres().remove(moyensAutres);
+		if (getPlanAction().getListeMoyensAutres().contains(moyensAutres)) {
+			getPlanAction().getListeMoyensAutres().remove(moyensAutres);
 		}
 		textChangedPlanAction();
 	}
@@ -675,15 +697,15 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensAutres() {
-		getPlanAction().getMoyensAutres().add(new String());
+		getPlanAction().getListeMoyensAutres().add(new EaeItemPlanActionDto());
 		textChangedPlanAction();
 	}
 
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensFinanciers(@BindingParam("ref") EaeItemPlanActionDto moyensFinanciers) {
-		if (getPlanAction().getMoyensFinanciers().contains(moyensFinanciers)) {
-			getPlanAction().getMoyensFinanciers().remove(moyensFinanciers);
+		if (getPlanAction().getListeMoyensFinanciers().contains(moyensFinanciers)) {
+			getPlanAction().getListeMoyensFinanciers().remove(moyensFinanciers);
 		}
 		textChangedPlanAction();
 	}
@@ -691,15 +713,15 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensFinanciers() {
-		getPlanAction().getMoyensFinanciers().add(new String());
+		getPlanAction().getListeMoyensFinanciers().add(new EaeItemPlanActionDto());
 		textChangedPlanAction();
 	}
 
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensMateriels(@BindingParam("ref") EaeItemPlanActionDto moyensMateriels) {
-		if (getPlanAction().getMoyensMateriels().contains(moyensMateriels)) {
-			getPlanAction().getMoyensMateriels().remove(moyensMateriels);
+		if (getPlanAction().getListeMoyensMateriels().contains(moyensMateriels)) {
+			getPlanAction().getListeMoyensMateriels().remove(moyensMateriels);
 		}
 		textChangedPlanAction();
 	}
@@ -707,15 +729,15 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensMateriels() {
-		getPlanAction().getMoyensMateriels().add(new String());
+		getPlanAction().getListeMoyensMateriels().add(new EaeItemPlanActionDto());
 		textChangedPlanAction();
 	}
 
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneObjectifIndiv(@BindingParam("ref") EaeItemPlanActionDto objectifIndiv) {
-		if (getPlanAction().getObjectifsIndividuels().contains(objectifIndiv)) {
-			getPlanAction().getObjectifsIndividuels().remove(objectifIndiv);
+		if (getPlanAction().getListeObjectifsIndividuels().contains(objectifIndiv)) {
+			getPlanAction().getListeObjectifsIndividuels().remove(objectifIndiv);
 		}
 		textChangedPlanAction();
 	}
@@ -723,7 +745,7 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneObjectifIndiv() {
-		getPlanAction().getObjectifsIndividuels().add(new String());
+		getPlanAction().getListeObjectifsIndividuels().add(new EaeItemPlanActionDto());
 		textChangedPlanAction();
 	}
 

@@ -58,9 +58,9 @@ public class EaeEvolutionDto {
 	private boolean							autrePerspective;
 	private String							libelleAutrePerspective;
 
-	private EaeCommentaireDto				commentaireEvolution;
-	private EaeCommentaireDto				commentaireEvaluateur;
-	private EaeCommentaireDto				commentaireEvalue;
+	private EaeCommentaireDto				commentaireEvolution	= new EaeCommentaireDto();
+	private EaeCommentaireDto				commentaireEvaluateur	= new EaeCommentaireDto();
+	private EaeCommentaireDto				commentaireEvalue		= new EaeCommentaireDto();
 
 	private List<EaeEvolutionSouhaitDto>	souhaitsSuggestions;
 	private List<EaeDeveloppementDto>		developpementConnaissances;
