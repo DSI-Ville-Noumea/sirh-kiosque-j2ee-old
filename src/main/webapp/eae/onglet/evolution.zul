@@ -290,10 +290,10 @@
 				value="Observations éventuelles de l'agent à propos de ses souhaits d'évolution professionnelle"
 				style="color: #d3711c;font-weight: bold;" />
 			<label sclass="bleu" visible="@bind(not vm.modification)"
-				value="@bind(vm.evolution.commentaireEvolution)" />
+				value="@bind(vm.evolution.commentaireEvolution.text)" />
 			<textbox rows="4" width="100%"
 				visible="@bind(vm.modification)"
-				value="@bind(vm.evolution.commentaireEvolution)"
+				value="@bind(vm.evolution.commentaireEvolution.text)"
 				onChanging="@command('textChangedEvolution')" />
 		</vlayout>
 		<div sclass="blockSeparator" />
@@ -645,10 +645,10 @@
 				<separator />
 				<label sclass="bleu"
 					visible="@bind(not vm.modification)"
-					value="@bind(vm.evolution.commentaireEvalue)" />
+					value="@bind(vm.evolution.commentaireEvalue.text)" />
 				<textbox rows="4" width="100%"
 					visible="@bind(vm.modification)"
-					value="@bind(vm.evolution.commentaireEvalue)"
+					value="@bind(vm.evolution.commentaireEvalue.text)"
 					onChanging="@command('textChangedEvolution')" />
 			</div>
 			<div width="48%" style="float:right;">
@@ -657,10 +657,10 @@
 				<separator />
 				<label sclass="bleu"
 					visible="@bind(not vm.modification)"
-					value="@bind(vm.evolution.commentaireEvaluateur)" />
+					value="@bind(vm.evolution.commentaireEvaluateur.text)" />
 				<textbox rows="4" width="100%"
 					visible="@bind(vm.modification)"
-					value="@bind(vm.evolution.commentaireEvaluateur)"
+					value="@bind(vm.evolution.commentaireEvaluateur.text)"
 					onChanging="@command('textChangedEvolution')" />
 			</div>
 		</div>

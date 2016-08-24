@@ -202,9 +202,9 @@
 					<div sclass="espace">
 						<vlayout>
 							<radiogroup orient="vertical"
-								selectedItem="@bind(vm.identification.statut.listeStatut.courant)">
+								selectedItem="@bind(vm.identification.listeStatut.courant)">
 								<zk
-									forEach="${vm.identification.statut.listeStatut.liste}">
+									forEach="${vm.identification.listeStatut.liste}">
 									<radio sclass="bleu" disabled="true"
 										label="${each.valeur}" value="${each.code}" />
 								</zk>
@@ -311,7 +311,7 @@
 		<label sclass="RHTitle3" value="POSITION" />
 		<hlayout>
 			<radiogroup orient="horizontal"
-				selectedItem="@bind(vm.identification.position)">
+				selectedItem="@bind(vm.identification.listePosition.courant)">
 				<hlayout>
 					<zk forEach="${vm.identification.listePosition.liste}">
 						<div sclass="bleu">

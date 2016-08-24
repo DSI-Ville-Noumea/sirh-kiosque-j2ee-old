@@ -68,9 +68,9 @@
 				<listitem>
 					<listcell>
 						<label sclass="bleu"
-							visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
+							visible="@bind(not vm.modification)" value="@bind(each)" />
 						<textbox rows="4" width="100%"
-							visible="@bind(vm.modification)" value="@bind(each.libelle)"
+							visible="@bind(vm.modification)" value="@bind(each)"
 							onChanging="@command('textChangedPlanAction')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
@@ -103,9 +103,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
+								visible="@bind(not vm.modification)" value="@bind(each)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each.libelle)"
+								visible="@bind(vm.modification)" value="@bind(each)"
 								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
@@ -135,9 +135,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
+								visible="@bind(not vm.modification)" value="@bind(each)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each.libelle)"
+								visible="@bind(vm.modification)" value="@bind(each)"
 								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">
@@ -167,9 +167,9 @@
 					<listitem>
 						<listcell>
 							<label sclass="bleu"
-								visible="@bind(not vm.modification)" value="@bind(each.libelle)" />
+								visible="@bind(not vm.modification)" value="@bind(each)" />
 							<textbox rows="4" width="100%"
-								visible="@bind(vm.modification)" value="@bind(each.libelle)"
+								visible="@bind(vm.modification)" value="@bind(each)"
 								onChanging="@command('textChangedPlanAction')" />
 						</listcell>
 						<listcell visible="@bind(vm.modification)">

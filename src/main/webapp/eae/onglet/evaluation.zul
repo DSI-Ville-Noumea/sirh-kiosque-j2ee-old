@@ -33,9 +33,9 @@
 		<label sclass="RHTitle3"
 			value="L'appréciation générale (par l'évaluateur)" />
 		<label sclass="bleu" visible="@bind(not vm.modification)"
-			value="@bind(vm.evaluation.commentaireEvaluateur)" />
+			value="@bind(vm.evaluation.commentaireEvaluateur.text)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
-			value="@bind(vm.evaluation.commentaireEvaluateur)"
+			value="@bind(vm.evaluation.commentaireEvaluateur.text)"
 			onChanging="@command('textChangedEvaluation')" />
 		<div sclass="blockSeparator" />
 		<label sclass="RHTitle3"
@@ -120,9 +120,9 @@
 			value="Commentaires éventuels de l'évalué concernant l'appréciation"
 			style="color: #d3711c;font-weight: bold;" />
 		<label sclass="bleu" visible="@bind(not vm.modification)"
-			value="@bind(vm.evaluation.commentaireEvalue)" />
+			value="@bind(vm.evaluation.commentaireEvalue.text)" />
 		<textbox rows="4" width="100%" visible="@bind(vm.modification)"
-			value="@bind(vm.evaluation.commentaireEvalue)"
+			value="@bind(vm.evaluation.commentaireEvalue.text)"
 			onChanging="@command('textChangedEvaluation')" />
 		<separator />
 		<div sclass="blockSeparator" />
@@ -179,20 +179,20 @@
 				value="Rapport circonstancié pour les changements de classe défavorable"
 				style="color: #d3711c;font-weight: bold;" />
 			<label sclass="bleu" visible="@bind(not vm.modification)"
-				value="@bind(vm.evaluation.commentaireAvctEvaluateur)" />
+				value="@bind(vm.evaluation.commentaireAvctEvaluateur.text)" />
 			<textbox rows="4" width="100%"
 				visible="@bind(vm.modification)"
-				value="@bind(vm.evaluation.commentaireAvctEvaluateur)"
+				value="@bind(vm.evaluation.commentaireAvctEvaluateur.text)"
 				onChanging="@command('textChangedEvaluation')" />
 			<separator />
 			<label
 				value="Commentaires éventuels de l'évalué concernant la proposition"
 				style="color: #d3711c;font-weight: bold;" />
 			<label sclass="bleu" visible="@bind(not vm.modification)"
-				value="@bind(vm.evaluation.commentaireAvctEvalue)" />
+				value="@bind(vm.evaluation.commentaireAvctEvalue.text)" />
 			<textbox rows="4" width="100%"
 				visible="@bind(vm.modification)"
-				value="@bind(vm.evaluation.commentaireAvctEvalue)"
+				value="@bind(vm.evaluation.commentaireAvctEvalue.text)"
 				onChanging="@command('textChangedEvaluation')" />
 			<separator />
 		</vlayout>

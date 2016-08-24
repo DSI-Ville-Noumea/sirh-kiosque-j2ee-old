@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 import java.util.Date;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -35,21 +34,20 @@ import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
 public class EaeIdentificationStatutDto {
 
-	private Integer ancienneteEchelonJours;
-	private String cadre;
-	private String categorie;
-	private String classification;
+	private Integer	ancienneteEchelonJours;
+	private String	cadre;
+	private String	categorie;
+	private String	classification;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
-	private Date dateEffet;
-	private String echelon;
-	private String grade;
-	private String nouvGrade;
-	private String nouvEchelon;
-	private String statutPrecision;
-	
+	private Date	dateEffet;
+	private String	echelon;
+	private String	grade;
+	private String	nouvGrade;
+	private String	nouvEchelon;
+	private String	statutPrecision;
+
 	private String	statut;
-	private EaeListeDto listeStatut;
 
 	public Integer getAncienneteEchelonJours() {
 		return ancienneteEchelonJours;
@@ -137,13 +135,5 @@ public class EaeIdentificationStatutDto {
 
 	public void setStatut(String statut) {
 		this.statut = statut;
-	}
-
-	public EaeListeDto getListeStatut() {
-		return listeStatut;
-	}
-
-	public void setListeStatut(EaeListeDto listeStatut) {
-		this.listeStatut = listeStatut;
 	}
 }
