@@ -30,7 +30,7 @@ import java.util.List;
 public class EaeListeDto {
 
 	private String courant;
-	private List<ValeurListeDto> liste;
+	private List<ValueWithListDto> liste;
 
 	public String getCourant() {
 		return courant;
@@ -40,11 +40,11 @@ public class EaeListeDto {
 		this.courant = courant;
 	}
 
-	public List<ValeurListeDto> getListe() {
+	public List<ValueWithListDto> getListe() {
 		return liste;
 	}
 
-	public void setListe(List<ValeurListeDto> liste) {
+	public void setListe(List<ValueWithListDto> liste) {
 		this.liste = liste;
 	}
 }

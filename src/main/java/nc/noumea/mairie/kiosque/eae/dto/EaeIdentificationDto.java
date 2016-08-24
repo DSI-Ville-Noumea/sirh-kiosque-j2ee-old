@@ -24,36 +24,33 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.dto.AgentEaeDto;
-import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
-import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
-
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-public class EaeIdentificationDto {
+import nc.noumea.mairie.kiosque.dto.BirtDto;
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
-	private int idEae;
+public class EaeIdentificationDto {
+	private BirtDto							agent;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
-	private Date dateEntretien;
-
-	private List<AgentEaeDto> evaluateurs;
-	private AgentEaeDto agent;
-	private List<String> diplomes;
-	private List<String> formations;
-	private List<String> parcoursPros;
-	private EaeListeDto position;
-	private EaeIdentificationSituationDto situation;
-	private EaeIdentificationStatutDto statut;
+	private Date							dateEntretien;
+	private List<String>					diplomes;
+	private List<BirtDto>					evaluateurs;
+	private int								idEae;
+	private List<String>					parcoursPros;
+	private String							position;
+	private EaeIdentificationSituationDto	situation;
+	private List<String>					formations;
+	private EaeIdentificationStatutDto		statut;
 
 	public EaeIdentificationDto() {
-		evaluateurs = new ArrayList<AgentEaeDto>();
+		evaluateurs = new ArrayList<BirtDto>();
 		diplomes = new ArrayList<String>();
 		parcoursPros = new ArrayList<String>();
 		formations = new ArrayList<String>();
@@ -75,19 +72,19 @@ public class EaeIdentificationDto {
 		this.dateEntretien = dateEntretien;
 	}
 
-	public List<AgentEaeDto> getEvaluateurs() {
+	public List<BirtDto> getEvaluateurs() {
 		return evaluateurs;
 	}
 
-	public void setEvaluateurs(List<AgentEaeDto> evaluateurs) {
+	public void setEvaluateurs(List<BirtDto> evaluateurs) {
 		this.evaluateurs = evaluateurs;
 	}
 
-	public AgentEaeDto getAgent() {
+	public BirtDto getAgent() {
 		return agent;
 	}
 
-	public void setAgent(AgentEaeDto agent) {
+	public void setAgent(BirtDto agent) {
 		this.agent = agent;
 	}
 
@@ -131,11 +128,12 @@ public class EaeIdentificationDto {
 		this.statut = statut;
 	}
 
-	public EaeListeDto getPosition() {
+	public String getPosition() {
 		return position;
 	}
 
-	public void setPosition(EaeListeDto position) {
+	public void setPosition(String position) {
 		this.position = position;
 	}
+
 }

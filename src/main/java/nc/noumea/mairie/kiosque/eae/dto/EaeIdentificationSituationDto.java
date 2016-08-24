@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 import java.util.Date;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -34,43 +33,19 @@ import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
 import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
 public class EaeIdentificationSituationDto {
-
-	private String directionService;
-	private String fonction;
-	private String emploi;
+	
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
-	private Date dateEntreeAdministration;
+	private Date	dateEntreeAdministration;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
-	private Date dateEntreeFonction;
+	private Date	dateEntreeFonction;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
-	private Date dateEntreeFonctionnaire;
-
-	public String getDirectionService() {
-		return directionService;
-	}
-
-	public void setDirectionService(String directionService) {
-		this.directionService = directionService;
-	}
-
-	public String getFonction() {
-		return fonction;
-	}
-
-	public void setFonction(String fonction) {
-		this.fonction = fonction;
-	}
-
-	public String getEmploi() {
-		return emploi;
-	}
-
-	public void setEmploi(String emploi) {
-		this.emploi = emploi;
-	}
+	private Date	dateEntreeFonctionnaire;
+	private String	directionService;
+	private String	fonction;
+	private String	emploi;
 
 	public Date getDateEntreeAdministration() {
 		return dateEntreeAdministration;
@@ -94,5 +69,29 @@ public class EaeIdentificationSituationDto {
 
 	public void setDateEntreeFonctionnaire(Date dateEntreeFonctionnaire) {
 		this.dateEntreeFonctionnaire = dateEntreeFonctionnaire;
+	}
+
+	public String getDirectionService() {
+		return directionService;
+	}
+
+	public void setDirectionService(String directionService) {
+		this.directionService = directionService;
+	}
+
+	public String getFonction() {
+		return fonction;
+	}
+
+	public void setFonction(String fonction) {
+		this.fonction = fonction;
+	}
+
+	public String getEmploi() {
+		return emploi;
+	}
+
+	public void setEmploi(String emploi) {
+		this.emploi = emploi;
 	}
 }

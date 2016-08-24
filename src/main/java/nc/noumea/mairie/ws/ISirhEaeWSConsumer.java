@@ -39,7 +39,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatsDto;
 
 public interface ISirhEaeWSConsumer {
 
@@ -63,9 +63,9 @@ public interface ISirhEaeWSConsumer {
 
 	List<EaeFichePosteDto> getListeFichePosteEae(Integer idEae, Integer idAgent);
 
-	EaeResultatDto getResultatEae(Integer idEae, Integer idAgent);
+	EaeResultatsDto getResultatEae(Integer idEae, Integer idAgent);
 
-	ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatDto resultat);
+	ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatsDto resultat);
 
 	EaeAppreciationDto getAppreciationEae(Integer idEae, Integer idAgent, Integer annee);
 

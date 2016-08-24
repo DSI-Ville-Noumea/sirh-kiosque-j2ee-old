@@ -47,22 +47,22 @@ import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Window;
 
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.DureeDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeCommentaireDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeDeveloppementDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEtatEnum;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionSouhaitDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeItemPlanActionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifProDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeSouhaitDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatsDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.TimePicker;
@@ -90,7 +90,7 @@ public class EaeViewModel {
 
 	private EaeFichePosteDto		fichePosteSecondaire;
 
-	private EaeResultatDto			resultat;
+	private EaeResultatsDto			resultat;
 
 	private EaeAppreciationDto		appreciationAnnee;
 
@@ -206,8 +206,8 @@ public class EaeViewModel {
 		setListeHeures(timePicker.getListeHeuresEaeDureeEntretien());
 		if (getEvaluation().getDureeEntretien() != null) {
 			if (getEvaluation().getDureeEntretien() != null) {
-				String heure = "" + getEvaluation().getDureeEntretien().getHeures();
-				String minute = "" + getEvaluation().getDureeEntretien().getMinutes();
+				String heure = "" + getEvaluation().getDureeEntretien() / 60;
+				String minute = "" + getEvaluation().getDureeEntretien() % 60;
 				if (heure.length() == 1) {
 					heure = "0" + heure;
 				}
@@ -234,18 +234,18 @@ public class EaeViewModel {
 	}
 
 	private void initResultat() {
-		EaeResultatDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
-		for (EaeObjectifDto objIndi : resultat.getObjectifsIndividuels()) {
+		EaeResultatsDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
+		for (EaeResultatDto objIndi : resultat.getObjectifsIndividuels()) {
 			if (objIndi.getCommentaire() == null)
-				objIndi.setCommentaire("");
+				objIndi.setCommentaire(new EaeCommentaireDto(""));
 			if (objIndi.getObjectif() == null)
 				objIndi.setObjectif("");
 			if (objIndi.getResultat() == null)
 				objIndi.setResultat("");
 		}
-		for (EaeObjectifDto objPro : resultat.getObjectifsProfessionnels()) {
+		for (EaeResultatDto objPro : resultat.getObjectifsProfessionnels()) {
 			if (objPro.getCommentaire() == null)
-				objPro.setCommentaire("");
+				objPro.setCommentaire(new EaeCommentaireDto(""));
 			if (objPro.getObjectif() == null)
 				objPro.setObjectif("");
 			if (objPro.getResultat() == null)
@@ -295,10 +295,8 @@ public class EaeViewModel {
 			result = isFormEvaluationValid(result, getEvaluation());
 			if (result.getErrors().size() == 0) {
 				// on construit la durée de l'entretien
-				DureeDto dureeDto = new DureeDto();
-				dureeDto.setHeures(Integer.valueOf(getHeureDuree()));
-				dureeDto.setMinutes(Integer.valueOf(getMinuteDuree()));
-				getEvaluation().setDureeEntretien(dureeDto);
+				Integer res = (Integer.valueOf(getHeureDuree()) * 60) + Integer.valueOf(getMinuteDuree());
+				getEvaluation().setDureeEntretien(res);
 				result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getEvaluation());
 			}
 		} else if (getTabCourant().getId().equals("AUTOEVALUATION")) {
@@ -412,20 +410,19 @@ public class EaeViewModel {
 		if (evolution.isMobiliteCollectivite() && (evolution.getNomCollectivite() == null || evolution.getNomCollectivite().equals(""))) {
 			result.getErrors().add("Le champ de mobilité au sein de la collectivité doit être rempli.");
 		}
-		if (evolution.getConcours() && (evolution.getNomConcours() == null || evolution.getNomConcours().equals(""))) {
+		if (evolution.isConcours() && (evolution.getNomConcours() == null || evolution.getNomConcours().equals(""))) {
 			result.getErrors().add("L'intitulé du concours ou de l'examen doit être rempli.");
 		}
-		if (evolution.getVae() && (evolution.getNomVae() == null || evolution.getNomVae().equals(""))) {
+		if (evolution.isVae() && (evolution.getNomVae() == null || evolution.getNomVae().equals(""))) {
 			result.getErrors().add("L'intitulé du diplôme doit être rempli.");
 		}
-		if (evolution.getTempsPartiel() && evolution.getPourcentageTempsPartiel().getCourant() == null) {
+		if (evolution.isTempsPartiel() && evolution.getPourcentageTempsPartiel().getCourant() == null) {
 			result.getErrors().add("Le pourcentage de temps partiel doit être rempli.");
 		}
-		if (evolution.getRetraite() && evolution.getDateRetraite() == null) {
+		if (evolution.isRetraite() && evolution.getDateRetraite() == null) {
 			result.getErrors().add("La date de départ en retraite doit être remplie.");
 		}
-		if (evolution.getAutrePerspective()
-				&& (evolution.getLibelleAutrePerspective() == null || evolution.getLibelleAutrePerspective().equals(""))) {
+		if (evolution.isAutrePerspective() && (evolution.getLibelleAutrePerspective() == null || evolution.getLibelleAutrePerspective().equals(""))) {
 			result.getErrors().add("Le champ 'autres perspective' doit être renseigné.");
 		}
 
@@ -461,13 +458,13 @@ public class EaeViewModel {
 		return result;
 	}
 
-	private ReturnMessageDto isFormResultatValid(ReturnMessageDto result, EaeResultatDto resultatDto) {
-		for (EaeObjectifDto objIndiv : resultatDto.getObjectifsIndividuels()) {
+	private ReturnMessageDto isFormResultatValid(ReturnMessageDto result, EaeResultatsDto resultatDto) {
+		for (EaeResultatDto objIndiv : resultatDto.getObjectifsIndividuels()) {
 			if ((!objIndiv.getResultat().equals("") || !objIndiv.getCommentaire().equals("")) && objIndiv.getObjectif().equals("")) {
 				result.getErrors().add("L'objectif de progrès individuel est obligatoire.");
 			}
 		}
-		for (EaeObjectifDto objPro : resultatDto.getObjectifsProfessionnels()) {
+		for (EaeResultatDto objPro : resultatDto.getObjectifsProfessionnels()) {
 			if ((!objPro.getResultat().equals("") || !objPro.getCommentaire().equals("")) && objPro.getObjectif().equals("")) {
 				result.getErrors().add("L'objectif professionnel est obligatoire.");
 			}
@@ -645,7 +642,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChangedEvolution", "evolution" })
-	public void supprimerLigneSouhaitSuggestion(@BindingParam("ref") EaeSouhaitDto souhait) {
+	public void supprimerLigneSouhaitSuggestion(@BindingParam("ref") EaeEvolutionSouhaitDto souhait) {
 		if (getEvolution().getSouhaitsSuggestions().contains(souhait)) {
 			getEvolution().getSouhaitsSuggestions().remove(souhait);
 		}
@@ -655,11 +652,11 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChanged", "evolution" })
 	public void ajouterLigneSouhaitSuggestion() {
-		EaeSouhaitDto dto = new EaeSouhaitDto();
+		EaeEvolutionSouhaitDto dto = new EaeEvolutionSouhaitDto();
 		if (getEvolution().getSouhaitsSuggestions() != null) {
 			getEvolution().getSouhaitsSuggestions().add(dto);
 		} else {
-			List<EaeSouhaitDto> liste = new ArrayList<>();
+			List<EaeEvolutionSouhaitDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setSouhaitsSuggestions(liste);
 		}
@@ -678,8 +675,7 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensAutres() {
-		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
-		getPlanAction().getMoyensAutres().add(dto);
+		getPlanAction().getMoyensAutres().add(new String());
 		textChangedPlanAction();
 	}
 
@@ -695,8 +691,7 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensFinanciers() {
-		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
-		getPlanAction().getMoyensFinanciers().add(dto);
+		getPlanAction().getMoyensFinanciers().add(new String());
 		textChangedPlanAction();
 	}
 
@@ -712,8 +707,7 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensMateriels() {
-		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
-		getPlanAction().getMoyensMateriels().add(dto);
+		getPlanAction().getMoyensMateriels().add(new String());
 		textChangedPlanAction();
 	}
 
@@ -729,8 +723,7 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneObjectifIndiv() {
-		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
-		getPlanAction().getObjectifsIndividuels().add(dto);
+		getPlanAction().getObjectifsIndividuels().add(new String());
 		textChangedPlanAction();
 	}
 
@@ -759,7 +752,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChangedResultat", "resultat" })
-	public void supprimerLigneIndiv(@BindingParam("ref") EaeObjectifDto objectifIndiv) {
+	public void supprimerLigneIndiv(@BindingParam("ref") EaeResultatDto objectifIndiv) {
 		if (getResultat().getObjectifsIndividuels().contains(objectifIndiv)) {
 			getResultat().getObjectifsIndividuels().remove(objectifIndiv);
 		}
@@ -769,11 +762,11 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedResultat", "resultat" })
 	public void ajouterLigneIndiv() {
-		EaeObjectifDto dto = new EaeObjectifDto();
+		EaeResultatDto dto = new EaeResultatDto();
 		if (getResultat().getObjectifsIndividuels() != null) {
 			getResultat().getObjectifsIndividuels().add(dto);
 		} else {
-			List<EaeObjectifDto> liste = new ArrayList<>();
+			List<EaeResultatDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getResultat().setObjectifsIndividuels(liste);
 		}
@@ -782,7 +775,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChangedResultat", "resultat" })
-	public void supprimerLignePro(@BindingParam("ref") EaeObjectifDto objectifPro) {
+	public void supprimerLignePro(@BindingParam("ref") EaeResultatDto objectifPro) {
 		if (getResultat().getObjectifsProfessionnels().contains(objectifPro)) {
 			getResultat().getObjectifsProfessionnels().remove(objectifPro);
 		}
@@ -792,11 +785,11 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedResultat", "resultat" })
 	public void ajouterLignePro() {
-		EaeObjectifDto dto = new EaeObjectifDto();
+		EaeResultatDto dto = new EaeResultatDto();
 		if (getResultat().getObjectifsProfessionnels() != null) {
 			getResultat().getObjectifsProfessionnels().add(dto);
 		} else {
-			List<EaeObjectifDto> liste = new ArrayList<>();
+			List<EaeResultatDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getResultat().setObjectifsProfessionnels(liste);
 		}
@@ -944,15 +937,18 @@ public class EaeViewModel {
 	}
 
 	public String getInfoDureeEntretien(EaeEvaluationDto dto) {
+		return getHeureMinute(dto.getDureeEntretien());
+	}
+
+	private static String getHeureMinute(int nombreMinute) {
+		int heure = nombreMinute / 60;
+		int minute = nombreMinute % 60;
 		String res = "";
-		if (dto != null && dto.getDureeEntretien() != null) {
-			if (dto.getDureeEntretien().getHeures() != 0) {
-				res += dto.getDureeEntretien().getHeures() + " h ";
-			}
-			if (dto.getDureeEntretien().getMinutes() != 0) {
-				res += dto.getDureeEntretien().getMinutes() + " min";
-			}
-		}
+		if (heure > 0)
+			res += heure + " h ";
+		if (minute > 0)
+			res += minute + " min";
+
 		return res;
 	}
 
@@ -1068,11 +1064,11 @@ public class EaeViewModel {
 		this.fichePosteSecondaire = fichePosteSecondaire;
 	}
 
-	public EaeResultatDto getResultat() {
+	public EaeResultatsDto getResultat() {
 		return resultat;
 	}
 
-	public void setResultat(EaeResultatDto resultat) {
+	public void setResultat(EaeResultatsDto resultat) {
 		this.resultat = resultat;
 	}
 

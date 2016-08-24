@@ -49,7 +49,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
 import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatsDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 @Service("eaeWsConsumer")
@@ -171,7 +171,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	}
 
 	@Override
-	public EaeResultatDto getResultatEae(Integer idEae, Integer idAgent) {
+	public EaeResultatsDto getResultatEae(Integer idEae, Integer idAgent) {
 		String url = String.format(sirhEaeWsBaseUrl + eaeResultatUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idEae", idEae.toString());
@@ -179,11 +179,11 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 
-		return readResponse(EaeResultatDto.class, res, url);
+		return readResponse(EaeResultatsDto.class, res, url);
 	}
 
 	@Override
-	public ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatDto resultat) {
+	public ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatsDto resultat) {
 		String url = String.format(sirhEaeWsBaseUrl + eaeResultatUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idEae", idEae.toString());

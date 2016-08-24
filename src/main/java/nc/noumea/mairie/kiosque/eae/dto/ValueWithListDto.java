@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.eae.dto;
 
+import java.util.List;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -24,34 +26,24 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
+public class ValueWithListDto {
 
-public class EaeSouhaitDto {
+	private String				courant;
+	private List<ListItemDto>	liste;
 
-	private Integer idEaeEvolutionSouhait;
-	private String souhait;
-	private String suggestion;
-
-	public Integer getIdEaeEvolutionSouhait() {
-		return idEaeEvolutionSouhait;
+	public String getCourant() {
+		return courant;
 	}
 
-	public void setIdEaeEvolutionSouhait(Integer idEaeEvolutionSouhait) {
-		this.idEaeEvolutionSouhait = idEaeEvolutionSouhait;
+	public void setCourant(String courant) {
+		this.courant = courant;
 	}
 
-	public String getSouhait() {
-		return souhait;
+	public List<ListItemDto> getListe() {
+		return liste;
 	}
 
-	public void setSouhait(String souhait) {
-		this.souhait = souhait;
-	}
-
-	public String getSuggestion() {
-		return suggestion;
-	}
-
-	public void setSuggestion(String suggestion) {
-		this.suggestion = suggestion;
+	public void setListe(List<ListItemDto> liste) {
+		this.liste = liste;
 	}
 }

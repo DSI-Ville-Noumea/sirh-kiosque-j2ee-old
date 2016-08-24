@@ -25,24 +25,33 @@ package nc.noumea.mairie.kiosque.eae.dto;
  */
 
 
-public class ValeurListeDto {
+public class EaeEvolutionSouhaitDto {
 
-	private String code;
-	private String valeur;
+	private Integer idEaeEvolutionSouhait;
+	private String souhait;
+	private String suggestion;
 
-	public String getCode() {
-		return code;
+	public Integer getIdEaeEvolutionSouhait() {
+		return idEaeEvolutionSouhait;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setIdEaeEvolutionSouhait(Integer idEaeEvolutionSouhait) {
+		this.idEaeEvolutionSouhait = idEaeEvolutionSouhait;
 	}
 
-	public String getValeur() {
-		return valeur;
+	public String getSouhait() {
+		return souhait;
 	}
 
-	public void setValeur(String valeur) {
-		this.valeur = valeur;
+	public void setSouhait(String souhait) {
+		this.souhait = souhait;
+	}
+
+	public String getSuggestion() {
+		return suggestion;
+	}
+
+	public void setSuggestion(String suggestion) {
+		this.suggestion = suggestion;
 	}
 }

@@ -28,12 +28,12 @@ import java.util.List;
 
 public class EaePlanActionDto {
 
-	private int idEae;
-	private List<EaeItemPlanActionDto> moyensAutres;
-	private List<EaeItemPlanActionDto> moyensFinanciers;
-	private List<EaeItemPlanActionDto> moyensMateriels;
-	private List<EaeItemPlanActionDto> objectifsIndividuels;
-	private List<EaeObjectifProDto> objectifsProfessionnels;
+	private int						idEae;
+	private List<String>			moyensAutres;
+	private List<String>			moyensFinanciers;
+	private List<String>			moyensMateriels;
+	private List<String>			objectifsIndividuels;
+	private List<EaeObjectifProDto>	objectifsProfessionnels;
 
 	public int getIdEae() {
 		return idEae;
@@ -43,43 +43,43 @@ public class EaePlanActionDto {
 		this.idEae = idEae;
 	}
 
+	public List<String> getMoyensAutres() {
+		return moyensAutres;
+	}
+
+	public void setMoyensAutres(List<String> moyensAutres) {
+		this.moyensAutres = moyensAutres;
+	}
+
+	public List<String> getMoyensFinanciers() {
+		return moyensFinanciers;
+	}
+
+	public void setMoyensFinanciers(List<String> moyensFinanciers) {
+		this.moyensFinanciers = moyensFinanciers;
+	}
+
+	public List<String> getMoyensMateriels() {
+		return moyensMateriels;
+	}
+
+	public void setMoyensMateriels(List<String> moyensMateriels) {
+		this.moyensMateriels = moyensMateriels;
+	}
+
+	public List<String> getObjectifsIndividuels() {
+		return objectifsIndividuels;
+	}
+
+	public void setObjectifsIndividuels(List<String> objectifsIndividuels) {
+		this.objectifsIndividuels = objectifsIndividuels;
+	}
+
 	public List<EaeObjectifProDto> getObjectifsProfessionnels() {
 		return objectifsProfessionnels;
 	}
 
 	public void setObjectifsProfessionnels(List<EaeObjectifProDto> objectifsProfessionnels) {
 		this.objectifsProfessionnels = objectifsProfessionnels;
-	}
-
-	public List<EaeItemPlanActionDto> getMoyensAutres() {
-		return moyensAutres;
-	}
-
-	public void setMoyensAutres(List<EaeItemPlanActionDto> moyensAutres) {
-		this.moyensAutres = moyensAutres;
-	}
-
-	public List<EaeItemPlanActionDto> getMoyensFinanciers() {
-		return moyensFinanciers;
-	}
-
-	public void setMoyensFinanciers(List<EaeItemPlanActionDto> moyensFinanciers) {
-		this.moyensFinanciers = moyensFinanciers;
-	}
-
-	public List<EaeItemPlanActionDto> getMoyensMateriels() {
-		return moyensMateriels;
-	}
-
-	public void setMoyensMateriels(List<EaeItemPlanActionDto> moyensMateriels) {
-		this.moyensMateriels = moyensMateriels;
-	}
-
-	public List<EaeItemPlanActionDto> getObjectifsIndividuels() {
-		return objectifsIndividuels;
-	}
-
-	public void setObjectifsIndividuels(List<EaeItemPlanActionDto> objectifsIndividuels) {
-		this.objectifsIndividuels = objectifsIndividuels;
 	}
 }

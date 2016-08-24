@@ -26,103 +26,48 @@ package nc.noumea.mairie.kiosque.eae.dto;
 
 public class EaeEvaluationDto {
 
-	private int idEae;
-	private int anneeAvancement;
-	private boolean avisChangementClasse;
-	private boolean avisRevalorisation;
-	private boolean cap;
-	private String commentaireAvctEvaluateur;
-	private String commentaireAvctEvalue;
-	private String commentaireEvaluateur;
-	private String commentaireEvalue;
-	private DureeDto dureeEntretien;
-	private EaeListeDto niveau;
-	private Double noteAnnee;
-	private Double noteAnneeN1;
-	private Double noteAnneeN2;
-	private Double noteAnneeN3;
-	private EaeListeDto propositionAvancement;
-	private String statut;
-	private String typeAvct;
+	private Integer				dureeEntretien;
+	private EaeCommentaireDto	commentaireEvaluateur;
+	private EaeCommentaireDto	commentaireEvalue;
+	private EaeListeDto			niveau;
+	private Double				noteAnnee;
+	private Double				noteAnneeN1;
+	private Double				noteAnneeN2;
+	private Double				noteAnneeN3;
+	private Boolean				avisRevalorisation;
+	private Boolean				avisChangementClasse;
+	private EaeListeDto			propositionAvancement;
+	private int					anneeAvancement;
+	private EaeCommentaireDto	commentaireAvctEvaluateur;
+	private EaeCommentaireDto	commentaireAvctEvalue;
+	private String				statut;
+	private String				typeAvct;
+	private boolean				cap;
+	private int					idEae;
+	private String				avisShd;
 
-	public int getIdEae() {
-		return idEae;
-	}
-
-	public void setIdEae(int idEae) {
-		this.idEae = idEae;
-	}
-
-	public int getAnneeAvancement() {
-		return anneeAvancement;
-	}
-
-	public void setAnneeAvancement(int anneeAvancement) {
-		this.anneeAvancement = anneeAvancement;
-	}
-
-	public boolean isAvisChangementClasse() {
-		return avisChangementClasse;
-	}
-
-	public void setAvisChangementClasse(boolean avisChangementClasse) {
-		this.avisChangementClasse = avisChangementClasse;
-	}
-
-	public boolean isAvisRevalorisation() {
-		return avisRevalorisation;
-	}
-
-	public void setAvisRevalorisation(boolean avisRevalorisation) {
-		this.avisRevalorisation = avisRevalorisation;
-	}
-
-	public boolean isCap() {
-		return cap;
-	}
-
-	public void setCap(boolean cap) {
-		this.cap = cap;
-	}
-
-	public String getCommentaireAvctEvaluateur() {
-		return commentaireAvctEvaluateur;
-	}
-
-	public void setCommentaireAvctEvaluateur(String commentaireAvctEvaluateur) {
-		this.commentaireAvctEvaluateur = commentaireAvctEvaluateur;
-	}
-
-	public String getCommentaireAvctEvalue() {
-		return commentaireAvctEvalue;
-	}
-
-	public void setCommentaireAvctEvalue(String commentaireAvctEvalue) {
-		this.commentaireAvctEvalue = commentaireAvctEvalue;
-	}
-
-	public String getCommentaireEvaluateur() {
-		return commentaireEvaluateur;
-	}
-
-	public void setCommentaireEvaluateur(String commentaireEvaluateur) {
-		this.commentaireEvaluateur = commentaireEvaluateur;
-	}
-
-	public String getCommentaireEvalue() {
-		return commentaireEvalue;
-	}
-
-	public void setCommentaireEvalue(String commentaireEvalue) {
-		this.commentaireEvalue = commentaireEvalue;
-	}
-
-	public DureeDto getDureeEntretien() {
+	public Integer getDureeEntretien() {
 		return dureeEntretien;
 	}
 
-	public void setDureeEntretien(DureeDto dureeEntretien) {
+	public void setDureeEntretien(Integer dureeEntretien) {
 		this.dureeEntretien = dureeEntretien;
+	}
+
+	public EaeCommentaireDto getCommentaireEvaluateur() {
+		return commentaireEvaluateur;
+	}
+
+	public void setCommentaireEvaluateur(EaeCommentaireDto commentaireEvaluateur) {
+		this.commentaireEvaluateur = commentaireEvaluateur;
+	}
+
+	public EaeCommentaireDto getCommentaireEvalue() {
+		return commentaireEvalue;
+	}
+
+	public void setCommentaireEvalue(EaeCommentaireDto commentaireEvalue) {
+		this.commentaireEvalue = commentaireEvalue;
 	}
 
 	public EaeListeDto getNiveau() {
@@ -131,30 +76,6 @@ public class EaeEvaluationDto {
 
 	public void setNiveau(EaeListeDto niveau) {
 		this.niveau = niveau;
-	}
-
-	public EaeListeDto getPropositionAvancement() {
-		return propositionAvancement;
-	}
-
-	public void setPropositionAvancement(EaeListeDto propositionAvancement) {
-		this.propositionAvancement = propositionAvancement;
-	}
-
-	public String getStatut() {
-		return statut;
-	}
-
-	public void setStatut(String statut) {
-		this.statut = statut;
-	}
-
-	public String getTypeAvct() {
-		return typeAvct;
-	}
-
-	public void setTypeAvct(String typeAvct) {
-		this.typeAvct = typeAvct;
 	}
 
 	public Double getNoteAnnee() {
@@ -187,5 +108,93 @@ public class EaeEvaluationDto {
 
 	public void setNoteAnneeN3(Double noteAnneeN3) {
 		this.noteAnneeN3 = noteAnneeN3;
+	}
+
+	public Boolean getAvisRevalorisation() {
+		return avisRevalorisation;
+	}
+
+	public void setAvisRevalorisation(Boolean avisRevalorisation) {
+		this.avisRevalorisation = avisRevalorisation;
+	}
+
+	public Boolean getAvisChangementClasse() {
+		return avisChangementClasse;
+	}
+
+	public void setAvisChangementClasse(Boolean avisChangementClasse) {
+		this.avisChangementClasse = avisChangementClasse;
+	}
+
+	public EaeListeDto getPropositionAvancement() {
+		return propositionAvancement;
+	}
+
+	public void setPropositionAvancement(EaeListeDto propositionAvancement) {
+		this.propositionAvancement = propositionAvancement;
+	}
+
+	public int getAnneeAvancement() {
+		return anneeAvancement;
+	}
+
+	public void setAnneeAvancement(int anneeAvancement) {
+		this.anneeAvancement = anneeAvancement;
+	}
+
+	public EaeCommentaireDto getCommentaireAvctEvaluateur() {
+		return commentaireAvctEvaluateur;
+	}
+
+	public void setCommentaireAvctEvaluateur(EaeCommentaireDto commentaireAvctEvaluateur) {
+		this.commentaireAvctEvaluateur = commentaireAvctEvaluateur;
+	}
+
+	public EaeCommentaireDto getCommentaireAvctEvalue() {
+		return commentaireAvctEvalue;
+	}
+
+	public void setCommentaireAvctEvalue(EaeCommentaireDto commentaireAvctEvalue) {
+		this.commentaireAvctEvalue = commentaireAvctEvalue;
+	}
+
+	public String getStatut() {
+		return statut;
+	}
+
+	public void setStatut(String statut) {
+		this.statut = statut;
+	}
+
+	public String getTypeAvct() {
+		return typeAvct;
+	}
+
+	public void setTypeAvct(String typeAvct) {
+		this.typeAvct = typeAvct;
+	}
+
+	public boolean isCap() {
+		return cap;
+	}
+
+	public void setCap(boolean cap) {
+		this.cap = cap;
+	}
+
+	public int getIdEae() {
+		return idEae;
+	}
+
+	public void setIdEae(int idEae) {
+		this.idEae = idEae;
+	}
+
+	public String getAvisShd() {
+		return avisShd;
+	}
+
+	public void setAvisShd(String avisShd) {
+		this.avisShd = avisShd;
 	}
 }

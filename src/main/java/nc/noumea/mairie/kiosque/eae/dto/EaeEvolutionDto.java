@@ -24,7 +24,6 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -36,38 +35,40 @@ import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
 public class EaeEvolutionDto {
 
-	private int idEae;
-	private boolean autrePerspective;
-	private boolean changementMetier;
-	private boolean concours;
-	private boolean mobiliteAutre;
-	private boolean mobiliteCollectivite;
-	private boolean mobiliteDirection;
-	private boolean mobiliteFonctionnelle;
-	private boolean mobiliteGeo;
-	private boolean mobiliteService;
-	private boolean retraite;
-	private boolean tempsPartiel;
-	private boolean vae;
-	private String commentaireEvaluateur;
-	private String commentaireEvalue;
-	private String commentaireEvolution;
+	private int								idEae;
+	private boolean							mobiliteGeo;
+	private boolean							mobiliteFonctionnelle;
+	private boolean							changementMetier;
+	private ValueWithListDto				delaiEnvisage;
+	private boolean							mobiliteService;
+	private boolean							mobiliteDirection;
+	private boolean							mobiliteCollectivite;
+	private String							nomCollectivite;
+	private boolean							mobiliteAutre;
+	private boolean							concours;
+	private String							nomConcours;
+	private boolean							vae;
+	private String							nomVae;
+	private boolean							tempsPartiel;
+	private ValueWithListDto				pourcentageTempsPartiel;
+	private boolean							retraite;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
-	private Date dateRetraite;
-	private EaeListeDto delaiEnvisage;
-	private List<EaeDeveloppementDto> developpementCompetences;
-	private List<EaeDeveloppementDto> developpementComportement;
-	private List<EaeDeveloppementDto> developpementConnaissances;
-	private List<EaeDeveloppementDto> developpementExamensConcours;
-	private List<EaeDeveloppementDto> developpementFormateur;
-	private List<EaeDeveloppementDto> developpementPersonnel;
-	private String libelleAutrePerspective;
-	private String nomCollectivite;
-	private String nomConcours;
-	private String nomVae;
-	private EaeListeDto pourcentageTempsPartiel;
-	private List<EaeSouhaitDto> souhaitsSuggestions;
+	private Date							dateRetraite;
+	private boolean							autrePerspective;
+	private String							libelleAutrePerspective;
+
+	private EaeCommentaireDto				commentaireEvolution;
+	private EaeCommentaireDto				commentaireEvaluateur;
+	private EaeCommentaireDto				commentaireEvalue;
+
+	private List<EaeEvolutionSouhaitDto>	souhaitsSuggestions;
+	private List<EaeDeveloppementDto>		developpementConnaissances;
+	private List<EaeDeveloppementDto>		developpementCompetences;
+	private List<EaeDeveloppementDto>		developpementExamensConcours;
+	private List<EaeDeveloppementDto>		developpementPersonnel;
+	private List<EaeDeveloppementDto>		developpementComportement;
+	private List<EaeDeveloppementDto>		developpementFormateur;
 
 	public int getIdEae() {
 		return idEae;
@@ -77,140 +78,60 @@ public class EaeEvolutionDto {
 		this.idEae = idEae;
 	}
 
-	public boolean getAutrePerspective() {
-		return autrePerspective;
+	public boolean isMobiliteGeo() {
+		return mobiliteGeo;
 	}
 
-	public void setAutrePerspective(boolean autrePerspective) {
-		this.autrePerspective = autrePerspective;
+	public void setMobiliteGeo(boolean mobiliteGeo) {
+		this.mobiliteGeo = mobiliteGeo;
 	}
 
-	public boolean getConcours() {
-		return concours;
+	public boolean isMobiliteFonctionnelle() {
+		return mobiliteFonctionnelle;
 	}
 
-	public void setConcours(boolean concours) {
-		this.concours = concours;
+	public void setMobiliteFonctionnelle(boolean mobiliteFonctionnelle) {
+		this.mobiliteFonctionnelle = mobiliteFonctionnelle;
 	}
 
-	public boolean getRetraite() {
-		return retraite;
+	public boolean isChangementMetier() {
+		return changementMetier;
 	}
 
-	public void setRetraite(boolean retraite) {
-		this.retraite = retraite;
+	public void setChangementMetier(boolean changementMetier) {
+		this.changementMetier = changementMetier;
 	}
 
-	public boolean getTempsPartiel() {
-		return tempsPartiel;
-	}
-
-	public void setTempsPartiel(boolean tempsPartiel) {
-		this.tempsPartiel = tempsPartiel;
-	}
-
-	public boolean getVae() {
-		return vae;
-	}
-
-	public void setVae(boolean vae) {
-		this.vae = vae;
-	}
-
-	public String getCommentaireEvaluateur() {
-		return commentaireEvaluateur;
-	}
-
-	public void setCommentaireEvaluateur(String commentaireEvaluateur) {
-		this.commentaireEvaluateur = commentaireEvaluateur;
-	}
-
-	public String getCommentaireEvalue() {
-		return commentaireEvalue;
-	}
-
-	public void setCommentaireEvalue(String commentaireEvalue) {
-		this.commentaireEvalue = commentaireEvalue;
-	}
-
-	public String getCommentaireEvolution() {
-		return commentaireEvolution;
-	}
-
-	public void setCommentaireEvolution(String commentaireEvolution) {
-		this.commentaireEvolution = commentaireEvolution;
-	}
-
-	public Date getDateRetraite() {
-		return dateRetraite;
-	}
-
-	public void setDateRetraite(Date dateRetraite) {
-		this.dateRetraite = dateRetraite;
-	}
-
-	public EaeListeDto getDelaiEnvisage() {
+	public ValueWithListDto getDelaiEnvisage() {
 		return delaiEnvisage;
 	}
 
-	public void setDelaiEnvisage(EaeListeDto delaiEnvisage) {
+	public void setDelaiEnvisage(ValueWithListDto delaiEnvisage) {
 		this.delaiEnvisage = delaiEnvisage;
 	}
 
-	public List<EaeDeveloppementDto> getDeveloppementCompetences() {
-		return developpementCompetences;
+	public boolean isMobiliteService() {
+		return mobiliteService;
 	}
 
-	public void setDeveloppementCompetences(List<EaeDeveloppementDto> developpementCompetences) {
-		this.developpementCompetences = developpementCompetences;
+	public void setMobiliteService(boolean mobiliteService) {
+		this.mobiliteService = mobiliteService;
 	}
 
-	public List<EaeDeveloppementDto> getDeveloppementComportement() {
-		return developpementComportement;
+	public boolean isMobiliteDirection() {
+		return mobiliteDirection;
 	}
 
-	public void setDeveloppementComportement(List<EaeDeveloppementDto> developpementComportement) {
-		this.developpementComportement = developpementComportement;
+	public void setMobiliteDirection(boolean mobiliteDirection) {
+		this.mobiliteDirection = mobiliteDirection;
 	}
 
-	public List<EaeDeveloppementDto> getDeveloppementConnaissances() {
-		return developpementConnaissances;
+	public boolean isMobiliteCollectivite() {
+		return mobiliteCollectivite;
 	}
 
-	public void setDeveloppementConnaissances(List<EaeDeveloppementDto> developpementConnaissances) {
-		this.developpementConnaissances = developpementConnaissances;
-	}
-
-	public List<EaeDeveloppementDto> getDeveloppementExamensConcours() {
-		return developpementExamensConcours;
-	}
-
-	public void setDeveloppementExamensConcours(List<EaeDeveloppementDto> developpementExamensConcours) {
-		this.developpementExamensConcours = developpementExamensConcours;
-	}
-
-	public List<EaeDeveloppementDto> getDeveloppementFormateur() {
-		return developpementFormateur;
-	}
-
-	public void setDeveloppementFormateur(List<EaeDeveloppementDto> developpementFormateur) {
-		this.developpementFormateur = developpementFormateur;
-	}
-
-	public List<EaeDeveloppementDto> getDeveloppementPersonnel() {
-		return developpementPersonnel;
-	}
-
-	public void setDeveloppementPersonnel(List<EaeDeveloppementDto> developpementPersonnel) {
-		this.developpementPersonnel = developpementPersonnel;
-	}
-
-	public String getLibelleAutrePerspective() {
-		return libelleAutrePerspective;
-	}
-
-	public void setLibelleAutrePerspective(String libelleAutrePerspective) {
-		this.libelleAutrePerspective = libelleAutrePerspective;
+	public void setMobiliteCollectivite(boolean mobiliteCollectivite) {
+		this.mobiliteCollectivite = mobiliteCollectivite;
 	}
 
 	public String getNomCollectivite() {
@@ -221,12 +142,36 @@ public class EaeEvolutionDto {
 		this.nomCollectivite = nomCollectivite;
 	}
 
+	public boolean isMobiliteAutre() {
+		return mobiliteAutre;
+	}
+
+	public void setMobiliteAutre(boolean mobiliteAutre) {
+		this.mobiliteAutre = mobiliteAutre;
+	}
+
+	public boolean isConcours() {
+		return concours;
+	}
+
+	public void setConcours(boolean concours) {
+		this.concours = concours;
+	}
+
 	public String getNomConcours() {
 		return nomConcours;
 	}
 
 	public void setNomConcours(String nomConcours) {
 		this.nomConcours = nomConcours;
+	}
+
+	public boolean isVae() {
+		return vae;
+	}
+
+	public void setVae(boolean vae) {
+		this.vae = vae;
 	}
 
 	public String getNomVae() {
@@ -237,76 +182,131 @@ public class EaeEvolutionDto {
 		this.nomVae = nomVae;
 	}
 
-	public EaeListeDto getPourcentageTempsPartiel() {
+	public boolean isTempsPartiel() {
+		return tempsPartiel;
+	}
+
+	public void setTempsPartiel(boolean tempsPartiel) {
+		this.tempsPartiel = tempsPartiel;
+	}
+
+	public ValueWithListDto getPourcentageTempsPartiel() {
 		return pourcentageTempsPartiel;
 	}
 
-	public void setPourcentageTempsPartiel(EaeListeDto pourcentageTempsPartiel) {
+	public void setPourcentageTempsPartiel(ValueWithListDto pourcentageTempsPartiel) {
 		this.pourcentageTempsPartiel = pourcentageTempsPartiel;
 	}
 
-	public List<EaeSouhaitDto> getSouhaitsSuggestions() {
+	public boolean isRetraite() {
+		return retraite;
+	}
+
+	public void setRetraite(boolean retraite) {
+		this.retraite = retraite;
+	}
+
+	public Date getDateRetraite() {
+		return dateRetraite;
+	}
+
+	public void setDateRetraite(Date dateRetraite) {
+		this.dateRetraite = dateRetraite;
+	}
+
+	public boolean isAutrePerspective() {
+		return autrePerspective;
+	}
+
+	public void setAutrePerspective(boolean autrePerspective) {
+		this.autrePerspective = autrePerspective;
+	}
+
+	public String getLibelleAutrePerspective() {
+		return libelleAutrePerspective;
+	}
+
+	public void setLibelleAutrePerspective(String libelleAutrePerspective) {
+		this.libelleAutrePerspective = libelleAutrePerspective;
+	}
+
+	public EaeCommentaireDto getCommentaireEvolution() {
+		return commentaireEvolution;
+	}
+
+	public void setCommentaireEvolution(EaeCommentaireDto commentaireEvolution) {
+		this.commentaireEvolution = commentaireEvolution;
+	}
+
+	public EaeCommentaireDto getCommentaireEvaluateur() {
+		return commentaireEvaluateur;
+	}
+
+	public void setCommentaireEvaluateur(EaeCommentaireDto commentaireEvaluateur) {
+		this.commentaireEvaluateur = commentaireEvaluateur;
+	}
+
+	public EaeCommentaireDto getCommentaireEvalue() {
+		return commentaireEvalue;
+	}
+
+	public void setCommentaireEvalue(EaeCommentaireDto commentaireEvalue) {
+		this.commentaireEvalue = commentaireEvalue;
+	}
+
+	public List<EaeEvolutionSouhaitDto> getSouhaitsSuggestions() {
 		return souhaitsSuggestions;
 	}
 
-	public void setSouhaitsSuggestions(List<EaeSouhaitDto> souhaitsSuggestions) {
+	public void setSouhaitsSuggestions(List<EaeEvolutionSouhaitDto> souhaitsSuggestions) {
 		this.souhaitsSuggestions = souhaitsSuggestions;
 	}
 
-	public boolean isChangementMetier() {
-		return changementMetier;
+	public List<EaeDeveloppementDto> getDeveloppementConnaissances() {
+		return developpementConnaissances;
 	}
 
-	public boolean isMobiliteAutre() {
-		return mobiliteAutre;
+	public void setDeveloppementConnaissances(List<EaeDeveloppementDto> developpementConnaissances) {
+		this.developpementConnaissances = developpementConnaissances;
 	}
 
-	public boolean isMobiliteCollectivite() {
-		return mobiliteCollectivite;
+	public List<EaeDeveloppementDto> getDeveloppementCompetences() {
+		return developpementCompetences;
 	}
 
-	public boolean isMobiliteDirection() {
-		return mobiliteDirection;
+	public void setDeveloppementCompetences(List<EaeDeveloppementDto> developpementCompetences) {
+		this.developpementCompetences = developpementCompetences;
 	}
 
-	public boolean isMobiliteFonctionnelle() {
-		return mobiliteFonctionnelle;
+	public List<EaeDeveloppementDto> getDeveloppementExamensConcours() {
+		return developpementExamensConcours;
 	}
 
-	public boolean isMobiliteGeo() {
-		return mobiliteGeo;
+	public void setDeveloppementExamensConcours(List<EaeDeveloppementDto> developpementExamensConcours) {
+		this.developpementExamensConcours = developpementExamensConcours;
 	}
 
-	public boolean isMobiliteService() {
-		return mobiliteService;
+	public List<EaeDeveloppementDto> getDeveloppementPersonnel() {
+		return developpementPersonnel;
 	}
 
-	public void setChangementMetier(boolean changementMetier) {
-		this.changementMetier = changementMetier;
+	public void setDeveloppementPersonnel(List<EaeDeveloppementDto> developpementPersonnel) {
+		this.developpementPersonnel = developpementPersonnel;
 	}
 
-	public void setMobiliteAutre(boolean mobiliteAutre) {
-		this.mobiliteAutre = mobiliteAutre;
+	public List<EaeDeveloppementDto> getDeveloppementComportement() {
+		return developpementComportement;
 	}
 
-	public void setMobiliteCollectivite(boolean mobiliteCollectivite) {
-		this.mobiliteCollectivite = mobiliteCollectivite;
+	public void setDeveloppementComportement(List<EaeDeveloppementDto> developpementComportement) {
+		this.developpementComportement = developpementComportement;
 	}
 
-	public void setMobiliteDirection(boolean mobiliteDirection) {
-		this.mobiliteDirection = mobiliteDirection;
+	public List<EaeDeveloppementDto> getDeveloppementFormateur() {
+		return developpementFormateur;
 	}
 
-	public void setMobiliteFonctionnelle(boolean mobiliteFonctionnelle) {
-		this.mobiliteFonctionnelle = mobiliteFonctionnelle;
+	public void setDeveloppementFormateur(List<EaeDeveloppementDto> developpementFormateur) {
+		this.developpementFormateur = developpementFormateur;
 	}
-
-	public void setMobiliteGeo(boolean mobiliteGeo) {
-		this.mobiliteGeo = mobiliteGeo;
-	}
-
-	public void setMobiliteService(boolean mobiliteService) {
-		this.mobiliteService = mobiliteService;
-	}
-
 }
