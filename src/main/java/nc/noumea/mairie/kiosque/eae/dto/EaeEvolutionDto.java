@@ -39,7 +39,7 @@ public class EaeEvolutionDto {
 	private boolean							mobiliteGeo;
 	private boolean							mobiliteFonctionnelle;
 	private boolean							changementMetier;
-	private ValueWithListDto				delaiEnvisage;
+	private EaeListeDto						delaiEnvisage;
 	private boolean							mobiliteService;
 	private boolean							mobiliteDirection;
 	private boolean							mobiliteCollectivite;
@@ -50,7 +50,7 @@ public class EaeEvolutionDto {
 	private boolean							vae;
 	private String							nomVae;
 	private boolean							tempsPartiel;
-	private ValueWithListDto				pourcentageTempsPartiel;
+	private EaeListeDto						pourcentageTempsPartiel;
 	private boolean							retraite;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
@@ -102,11 +102,11 @@ public class EaeEvolutionDto {
 		this.changementMetier = changementMetier;
 	}
 
-	public ValueWithListDto getDelaiEnvisage() {
+	public EaeListeDto getDelaiEnvisage() {
 		return delaiEnvisage;
 	}
 
-	public void setDelaiEnvisage(ValueWithListDto delaiEnvisage) {
+	public void setDelaiEnvisage(EaeListeDto delaiEnvisage) {
 		this.delaiEnvisage = delaiEnvisage;
 	}
 
@@ -190,11 +190,11 @@ public class EaeEvolutionDto {
 		this.tempsPartiel = tempsPartiel;
 	}
 
-	public ValueWithListDto getPourcentageTempsPartiel() {
+	public EaeListeDto getPourcentageTempsPartiel() {
 		return pourcentageTempsPartiel;
 	}
 
-	public void setPourcentageTempsPartiel(ValueWithListDto pourcentageTempsPartiel) {
+	public void setPourcentageTempsPartiel(EaeListeDto pourcentageTempsPartiel) {
 		this.pourcentageTempsPartiel = pourcentageTempsPartiel;
 	}
 

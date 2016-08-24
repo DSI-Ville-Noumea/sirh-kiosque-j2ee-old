@@ -937,6 +937,8 @@ public class EaeViewModel {
 	}
 
 	public String getInfoDureeEntretien(EaeEvaluationDto dto) {
+		if (dto.getDureeEntretien() == null)
+			return "";
 		return getHeureMinute(dto.getDureeEntretien());
 	}
 

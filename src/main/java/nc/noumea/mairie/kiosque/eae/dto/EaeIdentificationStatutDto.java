@@ -49,6 +49,7 @@ public class EaeIdentificationStatutDto {
 	private String statutPrecision;
 	
 	private String	statut;
+	private EaeListeDto listeStatut;
 
 	public Integer getAncienneteEchelonJours() {
 		return ancienneteEchelonJours;
@@ -136,5 +137,13 @@ public class EaeIdentificationStatutDto {
 
 	public void setStatut(String statut) {
 		this.statut = statut;
+	}
+
+	public EaeListeDto getListeStatut() {
+		return listeStatut;
+	}
+
+	public void setListeStatut(EaeListeDto listeStatut) {
+		this.listeStatut = listeStatut;
 	}
 }

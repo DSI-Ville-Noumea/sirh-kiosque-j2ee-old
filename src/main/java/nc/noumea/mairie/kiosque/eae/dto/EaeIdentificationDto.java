@@ -48,6 +48,7 @@ public class EaeIdentificationDto {
 	private EaeIdentificationSituationDto	situation;
 	private List<String>					formations;
 	private EaeIdentificationStatutDto		statut;
+	private EaeListeDto						listePosition;
 
 	public EaeIdentificationDto() {
 		evaluateurs = new ArrayList<BirtDto>();
@@ -134,6 +135,14 @@ public class EaeIdentificationDto {
 
 	public void setPosition(String position) {
 		this.position = position;
+	}
+
+	public EaeListeDto getListePosition() {
+		return listePosition;
+	}
+
+	public void setListePosition(EaeListeDto listePosition) {
+		this.listePosition = listePosition;
 	}
 
 }

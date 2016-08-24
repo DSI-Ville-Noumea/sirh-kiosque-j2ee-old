@@ -25,13 +25,13 @@
 						<label value="Nom" />
 					</div>
 					<div sclass="bleu">
-						<label value="${each.nom}" />
+						<label value="${each.agent.nomUsage}" />
 					</div>
 					<div sclass="espace">
 						<label value="Prénom" />
 					</div>
 					<div sclass="bleu">
-						<label value="${each.prenom}" />
+						<label value="${each.agent.prenomUsage}" />
 					</div>
 				</hlayout>
 				<hlayout>
@@ -76,7 +76,7 @@
 				<label value="Nom" />
 			</div>
 			<div sclass="bleu">
-				<label value="@bind(vm.identification.agent.nom)" />
+				<label value="@bind(vm.identification.agent.agent.nomUsage)" />
 			</div>
 		</hlayout>
 		<hlayout>
@@ -85,14 +85,14 @@
 			</div>
 			<div sclass="bleu">
 				<label
-					value="@bind(vm.identification.agent.nomJeuneFille)" />
+					value="@bind(vm.identification.agent.agent.nomPatronymique)" />
 			</div>
 			<div sclass="espace">
 				<label value="Date de naissance" />
 			</div>
 			<div sclass="bleu">
 				<label
-					value="@bind(vm.identification.agent.dateNaissance) @converter('formatedDate',format='dd/MM/yyyy')" />
+					value="@bind(vm.identification.agent.agent.dateNaissance) @converter('formatedDate',format='dd/MM/yyyy')" />
 			</div>
 		</hlayout>
 		<hlayout>
@@ -100,7 +100,7 @@
 				<label value="Prénom" />
 			</div>
 			<div sclass="bleu">
-				<label value="@bind(vm.identification.agent.prenom)" />
+				<label value="@bind(vm.identification.agent.agent.prenom)" />
 			</div>
 		</hlayout>
 		<hlayout>
@@ -202,9 +202,9 @@
 					<div sclass="espace">
 						<vlayout>
 							<radiogroup orient="vertical"
-								selectedItem="@bind(vm.identification.statut.statut.courant)">
+								selectedItem="@bind(vm.identification.statut.listeStatut.courant)">
 								<zk
-									forEach="${vm.identification.statut.statut.liste}">
+									forEach="${vm.identification.statut.listeStatut.liste}">
 									<radio sclass="bleu" disabled="true"
 										label="${each.valeur}" value="${each.code}" />
 								</zk>
@@ -311,9 +311,9 @@
 		<label sclass="RHTitle3" value="POSITION" />
 		<hlayout>
 			<radiogroup orient="horizontal"
-				selectedItem="@bind(vm.identification.position.courant)">
+				selectedItem="@bind(vm.identification.position)">
 				<hlayout>
-					<zk forEach="${vm.identification.position.liste}">
+					<zk forEach="${vm.identification.listePosition.liste}">
 						<div sclass="bleu">
 							<radio disabled="true"
 								label="${each.valeur}" value="${each.code}" />
