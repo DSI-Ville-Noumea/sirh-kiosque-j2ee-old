@@ -49,10 +49,12 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Window;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -168,6 +170,16 @@ public class PopupFinalisationEaeViewModel {
 			map.put("errors", listErreur);
 			map.put("infos", listInfo);
 			Executions.createComponents("/messages/returnMessage.zul", null, map);
+			
+			Div divContent = (Div) Path.getComponent("/windowIndex/content");
+			
+			final HashMap<String, Object> mapChangeEcran = new HashMap<String, Object>();
+			mapChangeEcran.put("page", "/eae/tableauEae");
+			mapChangeEcran.put("ecran", divContent);
+			if (listErreur.size() == 0) {
+				BindUtils.postGlobalCommand(null, null, "changeEcran", mapChangeEcran);
+				window.detach();
+			}
 		}
 	}
 

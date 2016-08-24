@@ -85,7 +85,7 @@
 					<tabbox>
 						<tabs>
 							<tab id="FINALISER_EAE"
-								label="Finaliser mon EAE" onClick="@command('finaliseEae')">
+								label="Finaliser mon EAE" onClick="@command('finaliseEae',win=popupFinalisationEae)">
 							</tab>
 						</tabs>
 					</tabbox>
