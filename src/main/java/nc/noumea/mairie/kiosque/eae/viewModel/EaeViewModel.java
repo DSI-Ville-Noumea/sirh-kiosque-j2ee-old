@@ -165,6 +165,15 @@ public class EaeViewModel {
 
 	private void initEvolution() {
 		EaeEvolutionDto evo = eaeWsConsumer.getEvolutionEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
+		if(evo.getCommentaireEvalue()==null){
+			evo.setCommentaireEvalue(new EaeCommentaireDto());			
+		}
+		if(evo.getCommentaireEvolution()==null){
+			evo.setCommentaireEvolution(new EaeCommentaireDto());			
+		}
+		if(evo.getCommentaireEvaluateur()==null){
+			evo.setCommentaireEvaluateur(new EaeCommentaireDto());			
+		}
 		setEvolution(evo);
 		// on charge les priorisations
 		Integer tailleDeveloppement = getEvolution().getDeveloppementConnaissances().size() + getEvolution().getDeveloppementCompetences().size()
