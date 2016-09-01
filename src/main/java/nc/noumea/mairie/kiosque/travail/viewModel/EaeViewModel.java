@@ -39,6 +39,7 @@ import org.zkoss.zul.Window;
 
 import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.ws.AlfrescoCMISService;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -64,20 +65,19 @@ public class EaeViewModel {
 		}
 	}
 
-	@Command
-	public void visuEAE(@BindingParam("ref") EaeFinalisationDto eae) {
-		// create a window programmatically and use it as a modal dialog.
-		Map<String, String> args = new HashMap<String, String>();
-		args.put("idDocument", eae.getIdDocument());
-		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
-		win.doModal();
-	}
-
 	public List<EaeFinalisationDto> getListeUrlEae() {
 		return listeUrlEae;
 	}
 
 	public void setListeUrlEae(List<EaeFinalisationDto> listeUrlEae) {
 		this.listeUrlEae = listeUrlEae;
+	}
+
+
+	public String getUrlFromAlfresco(EaeFinalisationDto dto) {
+		if (dto == null || dto.getIdDocument() == null) {
+			return "";
+		}
+		return AlfrescoCMISService.getUrlOfDocument(dto.getIdDocument());
 	}
 }

@@ -36,7 +36,6 @@ import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -49,7 +48,6 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.TreeModel;
 import org.zkoss.zul.Treeitem;
-import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Openable;
 
 import nc.noumea.mairie.ads.dto.EntiteDto;
@@ -58,6 +56,7 @@ import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
 import nc.noumea.mairie.kiosque.travail.dto.FichePosteDto;
+import nc.noumea.mairie.ws.AlfrescoCMISService;
 import nc.noumea.mairie.ws.IAdsWSConsumer;
 import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 import nc.noumea.mairie.ws.ISirhWSConsumer;
@@ -182,15 +181,6 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 		}
 	}
 
-	@Command
-	public void visuEAE(@BindingParam("ref") EaeFinalisationDto eae) {
-		// create a window programmatically and use it as a modal dialog.
-		Map<String, String> args = new HashMap<String, String>();
-		args.put("idDocument", eae.getIdDocument());
-		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
-		win.doModal();
-	}
-
 	@Listen("onSelect = #tree")
 	@NotifyChange("ficheCourant")
 	public void displayAgent(SelectEvent<Treeitem, String> event) throws NumberFormatException, Exception {
@@ -286,6 +276,13 @@ public class EquipeViewModel extends SelectorComposer<Component> {
 
 	public void setListeUrlEae(List<EaeFinalisationDto> listeUrlEae) {
 		this.listeUrlEae = listeUrlEae;
+	}
+
+	public String getUrlFromAlfresco(EaeFinalisationDto dto) {
+		if (dto == null || dto.getIdDocument() == null) {
+			return "";
+		}
+		return AlfrescoCMISService.getUrlOfDocument(dto.getIdDocument());
 	}
 
 }

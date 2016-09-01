@@ -10,8 +10,10 @@
 							<row align="center">
 								<label sclass="value"
 									value="${each.annee}" />
-								<image sclass="eaeDownload"
-									onClick="@command('visuEAE', ref=each)" />
+								<a
+									href="@bind(vm.getUrlFromAlfresco(each))" target="_blank"
+									sclass="eaeDownload">
+								</a>
 							</row>
 						</template>
 					</grid>

@@ -60,7 +60,7 @@
 							sort="auto('etat')" />
 						<listheader width="30px" align="center"
 							label="CAP" sort="auto('cap')" />
-						<listheader width="75px"  label="Avis Evaluateur"
+						<listheader width="75px" label="Avis Evaluateur"
 							sort="auto('avisShd')" />
 						<listheader width="55px" align="center"
 							label="EAE joint" sort="auto('docAttache')" />
@@ -152,10 +152,11 @@
 										tooltiptext="Télécharger l'EAE" sclass="ListAction print"
 										visible="@bind(each.droitImprimerBirt)"
 										onClick="@command('imprimerEae', ref=each)" />
-									<image
-										tooltiptext="Télécharger l'EAE" sclass="ListAction print"
+									<a tooltiptext="Télécharger l'EAE"
+										sclass="ListAction print"
 										visible="@bind(each.droitImprimerGed)"
-										onClick="@command('telechargerEae', ref=each)" />
+										href="@bind(vm.getUrlFromAlfresco(each))" target="_blank">
+									</a>
 								</hlayout>
 							</listcell>
 						</listitem>

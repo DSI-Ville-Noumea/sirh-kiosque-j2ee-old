@@ -32,15 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeEtatEnum;
-import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.export.ExcelExporter;
-import nc.noumea.mairie.kiosque.export.PdfExporter;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
-
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
@@ -56,6 +47,16 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Window;
+
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEtatEnum;
+import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.export.ExcelExporter;
+import nc.noumea.mairie.kiosque.export.PdfExporter;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.ws.AlfrescoCMISService;
+import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class TableauEaeViewModel {
@@ -122,15 +123,6 @@ public class TableauEaeViewModel {
 			Filedownload.save(resp, "application/pdf", "eae_" + eae.getIdEae());
 		}
 
-	}
-
-	@Command
-	public void telechargerEae(@BindingParam("ref") EaeListItemDto eae) {
-		// create a window programmatically and use it as a modal dialog.
-		Map<String, String> args = new HashMap<String, String>();
-		args.put("idDocument", eae.getIdDocumentGed());
-		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
-		win.doModal();
 	}
 
 	@Command
@@ -272,5 +264,12 @@ public class TableauEaeViewModel {
 
 	public void setDivDepart(Div divDepart) {
 		this.divDepart = divDepart;
+	}
+
+	public String getUrlFromAlfresco(EaeListItemDto dto) {
+		if (dto == null || dto.getIdDocumentGed() == null) {
+			return "";
+		}
+		return AlfrescoCMISService.getUrlOfDocument(dto.getIdDocumentGed());
 	}
 }
