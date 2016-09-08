@@ -69,7 +69,7 @@
 								sclass="saveAction" onClick="@command('engistreOnglet')" />
 						</caption>
 					</tab>					
-					<tab style="margin-left: 830px !important;" id="FINALISATION" label="Finaliser l'EAE"
+					<tab style="float:right;" id="FINALISATION" label="Finaliser l'EAE"
 						onClick="@command('changeVue',tabbox=tb,tab = FINALISATION)" visible="@bind(vm.modification)">
 						<caption label="Finaliser l'EAE">
 						</caption>
