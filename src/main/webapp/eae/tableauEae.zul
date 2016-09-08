@@ -36,9 +36,9 @@
 				</hlayout>
 				<separator />
 				<listbox id="listeEae" model="@bind(vm.tableauEae)"
-					width="100%">
+					hflex="1">
 					<listhead>
-						<listheader width="400px">
+						<listheader hflex="3">
 							<vlayout>
 								<label sclass="z-listheader-content"
 									value="Direction" />
@@ -48,23 +48,23 @@
 									value="Section" />
 							</vlayout>
 						</listheader>
-						<listheader width="250px" label="Evalué"
+						<listheader hflex="2" label="Evalué"
 							sort="auto('agentEvalue.nom')" />
-						<listheader width="200px" label="SHD"
+						<listheader hflex="2" label="SHD"
 							sort="auto('agentShd.nom')" />
-						<listheader width="250px" label="Evaluateur(s)"
+						<listheader hflex="2" label="Evaluateur(s)"
 							sort="none" />
-						<listheader width="250px" label="Délégataire"
+						<listheader hflex="2" label="Délégataire"
 							sort="auto('agentDelegataire.nom')" />
-						<listheader width="75px" label="Etat de l'EAE"
+						<listheader hflex="1" label="Etat de l'EAE"
 							sort="auto('etat')" />
-						<listheader width="30px" align="center"
+						<listheader hflex="1" align="center"
 							label="CAP" sort="auto('cap')" />
-						<listheader width="75px" label="Avis Evaluateur"
+						<listheader hflex="1" label="Avis Evaluateur"
 							sort="auto('avisShd')" />
-						<listheader width="55px" align="center"
+						<listheader hflex="1" align="center"
 							label="EAE joint" sort="auto('docAttache')" />
-						<listheader width="70px">
+						<listheader hflex="1">
 							<vlayout>
 								<label sclass="z-listheader-content"
 									value="Créé le" />
@@ -74,7 +74,7 @@
 									value="Contrôlé le" />
 							</vlayout>
 						</listheader>
-						<listheader label="Actions" sort="none" />
+						<listheader hflex="1" label="Actions" sort="none" />
 					</listhead>
 					<template name="model">
 						<listitem style="padding-bottom: 0px;">
