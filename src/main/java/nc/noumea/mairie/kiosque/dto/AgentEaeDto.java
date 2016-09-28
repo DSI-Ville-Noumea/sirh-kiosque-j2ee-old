@@ -27,52 +27,35 @@ package nc.noumea.mairie.kiosque.dto;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+
 public class AgentEaeDto {
 
-	private String nom;
-	private String nomJeuneFille;
-	private String prenom;
-	private Integer idAgent;
-	private Date dateNaissance;
-	private Date dateEntreeCollectivite;
-	private Date dateEntreeFonction;
-	private Date dateEntreeService;
-	private String fonction;
-
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date	dateDerniereEmbauche;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date	dateNaissance;
+	private Integer	idAgent;
+	private String	nomMarital;
+	private String	nomPatronymique;
+	private String	nomUsage;
+	private Integer	nomatr;
+	private String	prenom;
+	private String	prenomUsage;
 	public AgentEaeDto() {
 
 	}
 
-	public String getNom() {
-		return nom;
+	public Date getDateDerniereEmbauche() {
+		return dateDerniereEmbauche;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getNomJeuneFille() {
-		return nomJeuneFille;
-	}
-
-	public void setNomJeuneFille(String nomJeuneFille) {
-		this.nomJeuneFille = nomJeuneFille;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public Integer getIdAgent() {
-		return idAgent;
-	}
-
-	public void setIdAgent(Integer idAgent) {
-		this.idAgent = idAgent;
+	public void setDateDerniereEmbauche(Date dateDerniereEmbauche) {
+		this.dateDerniereEmbauche = dateDerniereEmbauche;
 	}
 
 	public Date getDateNaissance() {
@@ -83,35 +66,59 @@ public class AgentEaeDto {
 		this.dateNaissance = dateNaissance;
 	}
 
-	public Date getDateEntreeCollectivite() {
-		return dateEntreeCollectivite;
+	public Integer getIdAgent() {
+		return idAgent;
 	}
 
-	public void setDateEntreeCollectivite(Date dateEntreeCollectivite) {
-		this.dateEntreeCollectivite = dateEntreeCollectivite;
+	public void setIdAgent(Integer idAgent) {
+		this.idAgent = idAgent;
 	}
 
-	public Date getDateEntreeFonction() {
-		return dateEntreeFonction;
+	public String getNomMarital() {
+		return nomMarital;
 	}
 
-	public void setDateEntreeFonction(Date dateEntreeFonction) {
-		this.dateEntreeFonction = dateEntreeFonction;
+	public void setNomMarital(String nomMarital) {
+		this.nomMarital = nomMarital;
 	}
 
-	public Date getDateEntreeService() {
-		return dateEntreeService;
+	public String getNomPatronymique() {
+		return nomPatronymique;
 	}
 
-	public void setDateEntreeService(Date dateEntreeService) {
-		this.dateEntreeService = dateEntreeService;
+	public void setNomPatronymique(String nomPatronymique) {
+		this.nomPatronymique = nomPatronymique;
 	}
 
-	public String getFonction() {
-		return fonction;
+	public String getNomUsage() {
+		return nomUsage;
 	}
 
-	public void setFonction(String fonction) {
-		this.fonction = fonction;
+	public void setNomUsage(String nomUsage) {
+		this.nomUsage = nomUsage;
+	}
+
+	public Integer getNomatr() {
+		return nomatr;
+	}
+
+	public void setNomatr(Integer nomatr) {
+		this.nomatr = nomatr;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public String getPrenomUsage() {
+		return prenomUsage;
+	}
+
+	public void setPrenomUsage(String prenomUsage) {
+		this.prenomUsage = prenomUsage;
 	}
 }

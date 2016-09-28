@@ -32,14 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.export.ExcelExporter;
-import nc.noumea.mairie.kiosque.export.PdfExporter;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
-
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
@@ -56,21 +48,31 @@ import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Window;
 
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEtatEnum;
+import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.export.ExcelExporter;
+import nc.noumea.mairie.kiosque.export.PdfExporter;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.ws.AlfrescoCMISService;
+import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
+
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class TableauEaeViewModel {
 
-	private ProfilAgentDto currentUser;
+	private ProfilAgentDto			currentUser;
 
 	@WireVariable
-	private ISirhEaeWSConsumer eaeWsConsumer;
+	private ISirhEaeWSConsumer		eaeWsConsumer;
 
-	private List<EaeListItemDto> tableauEae;
+	private List<EaeListItemDto>	tableauEae;
 
-	private Div divDepart;
+	private Div						divDepart;
 
 	/* POUR LE HAUT DU TABLEAU */
-	private String filter;
-	private String tailleListe;
+	private String					filter;
+	private String					tailleListe;
 
 	@Init
 	public void initTableauEae(@ExecutionArgParam("div") Div div) {
@@ -124,25 +126,10 @@ public class TableauEaeViewModel {
 	}
 
 	@Command
-	public void telechargerEae(@BindingParam("ref") EaeListItemDto eae) {
-		// create a window programmatically and use it as a modal dialog.
-		Map<String, String> args = new HashMap<String, String>();
-		args.put("url", eae.getIdDocumentGed());
-		if (eae.getIdDocumentGed().startsWith("EAE_")) {
-			args.put("type", "");
-		} else {
-			args.put("type", "SP");
-		}
-		Window win = (Window) Executions.createComponents("/travail/visuEae.zul", null, args);
-		win.doModal();
-	}
-
-	@Command
 	@NotifyChange({ "tableauEae" })
 	public void initialiserEae(@BindingParam("ref") EaeListItemDto eae) {
 
-		ReturnMessageDto result = eaeWsConsumer.initialiseEae(currentUser.getAgent().getIdAgent(), eae.getAgentEvalue()
-				.getIdAgent());
+		ReturnMessageDto result = eaeWsConsumer.initialiseEae(currentUser.getAgent().getIdAgent(), eae.getAgentEvalue().getIdAgent());
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
@@ -157,7 +144,9 @@ public class TableauEaeViewModel {
 		}
 		map.put("errors", listErreur);
 		map.put("infos", listInfo);
-		Executions.createComponents("/messages/returnMessage.zul", null, map);
+		if (listErreur.size() > 0 || listInfo.size() > 0) {
+			Executions.createComponents("/messages/returnMessage.zul", null, map);
+		}
 		// on re-affiche le tableau des EAEs
 		filtrer();
 	}
@@ -204,6 +193,10 @@ public class TableauEaeViewModel {
 		// on recupère les info du tableau des EAEs
 		List<EaeListItemDto> tableau = eaeWsConsumer.getTableauEae(currentUser.getAgent().getIdAgent());
 		setTableauEae(tableau);
+	}
+
+	public String getEtat(String etat) {
+		return EaeEtatEnum.getEtatFromCode(etat) == null ? "" : EaeEtatEnum.getEtatFromCode(etat).toString();
 	}
 
 	public String concatAgent(String nom, String prenom) {
@@ -271,5 +264,12 @@ public class TableauEaeViewModel {
 
 	public void setDivDepart(Div divDepart) {
 		this.divDepart = divDepart;
+	}
+
+	public String getUrlFromAlfresco(EaeListItemDto dto) {
+		if (dto == null || dto.getIdDocumentGed() == null) {
+			return "";
+		}
+		return AlfrescoCMISService.getUrlOfDocument(dto.getIdDocumentGed());
 	}
 }

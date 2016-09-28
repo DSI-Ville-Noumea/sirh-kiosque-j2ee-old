@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.cmis;
+package nc.noumea.mairie.kiosque.eae.dto;
 
 /*
  * #%L
@@ -6,7 +6,7 @@ package nc.noumea.mairie.kiosque.cmis;
  * $Id:$
  * $HeadURL:$
  * %%
- * Copyright (C) 2014 Mairie de Nouméa
+ * Copyright (C) 2014 - 2016 Mairie de Nouméa
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,17 +24,28 @@ package nc.noumea.mairie.kiosque.cmis;
  * #L%
  */
 
-import java.util.List;
+public class EaeTypeObjectifDto {
 
-public interface ISharepointService {
+	private Integer	idEaeTypeObjectif;
+	private String	libelle;
 
-	List<SharepointDto> getAllEae(Integer idAgent) throws Exception;
+	public EaeTypeObjectifDto() {
 
-	String getUrlEaeApprobateur();
+	}
 
-	String getUrlTableauBordApprobateur();
+	public Integer getIdEaeTypeObjectif() {
+		return idEaeTypeObjectif;
+	}
 
-	String getUrlDocumentEAE();
+	public void setIdEaeTypeObjectif(Integer idEaeTypeObjectif) {
+		this.idEaeTypeObjectif = idEaeTypeObjectif;
+	}
 
-	String getUrlDocumentEAESharepoint();
+	public String getLibelle() {
+		return libelle;
+	}
+
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
+	}
 }

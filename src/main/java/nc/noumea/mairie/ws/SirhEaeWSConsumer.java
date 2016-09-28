@@ -28,20 +28,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.CampagneEaeDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
-import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -50,30 +36,50 @@ import org.springframework.stereotype.Service;
 import com.sun.jersey.api.client.ClientResponse;
 
 import flexjson.JSONSerializer;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.CampagneEaeDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeDashboardItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatsDto;
+import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 @Service("eaeWsConsumer")
 public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsumer {
 
 	@Autowired
 	@Qualifier("sirhEaeWsBaseUrl")
-	private String sirhEaeWsBaseUrl;
+	private String				sirhEaeWsBaseUrl;
 
-	private static final String eaeCampagneEaeUrl = "eaes/getEaeCampagneOuverte";
-	private static final String eaeTableauBordUrl = "eaes/tableauDeBord";
-	private static final String eaeTableauEaeUrl = "eaes/listEaesByAgent";
-	private static final String eaeCountEaeARealiserUrl = "eaes/countListEaesByAgent";
-	private static final String eaeImpressionEaeUrl = "reporting/eae";
-	private static final String eaeInitialiserEaeUrl = "eaes/initialiserEae";
-	private static final String eaeSaveDelegataireUrl = "eaes/affecterDelegataire";
+	private static final String	eaeCampagneEaeUrl				= "eaes/getEaeCampagneOuverte";
+	private static final String	eaeTableauBordUrl				= "eaes/tableauDeBord";
+	private static final String	eaeTableauEaeUrl				= "eaes/listEaesByAgent";
+	private static final String	eaeCountEaeARealiserUrl			= "eaes/countListEaesByAgent";
+	private static final String	eaeImpressionEaeUrl				= "reporting/eae";
+	private static final String	eaeInitialiserEaeUrl			= "eaes/initialiserEae";
+	private static final String	eaeSaveDelegataireUrl			= "eaes/affecterDelegataire";
+	private static final String	eaeControleUrl					= "eaes/getEeaControle";
+	private static final String	eaeFinalizationInformationUrl	= "eaes/getFinalizationInformation";
+	private static final String	eaeCanFinaliseEaeUrl			= "eaes/canFinalizeEae";
+	private static final String	eaeFinalizeEaeUrl				= "eaes/finalizeEae";
+
 	/* Pour les onglets */
-	private static final String eaeIdentificationUrl = "evaluation/eaeIdentification";
-	private static final String eaeFichePosteUrl = "evaluation/eaeFichePoste";
-	private static final String eaeResultatUrl = "evaluation/eaeResultats";
-	private static final String eaeAppreciationUrl = "evaluation/eaeAppreciations";
-	private static final String eaeEvaluationUrl = "evaluation/eaeEvaluation";
-	private static final String eaeAutoEvaluationUrl = "evaluation/eaeAutoEvaluation";
-	private static final String eaePlanActionUrl = "evaluation/eaePlanAction";
-	private static final String eaeEvolutionUrl = "evaluation/eaeEvolution";
+	private static final String	eaeIdentificationUrl			= "evaluation/eaeIdentification";
+	private static final String	eaeFichePosteUrl				= "evaluation/eaeFichePoste";
+	private static final String	eaeResultatUrl					= "evaluation/eaeResultats";
+	private static final String	eaeAppreciationUrl				= "evaluation/eaeAppreciations";
+	private static final String	eaeEvaluationUrl				= "evaluation/eaeEvaluation";
+	private static final String	eaeAutoEvaluationUrl			= "evaluation/eaeAutoEvaluation";
+	private static final String	eaePlanActionUrl				= "evaluation/eaePlanAction";
+	private static final String	eaeEvolutionUrl					= "evaluation/eaeEvolution";
 
 	@Override
 	public List<EaeDashboardItemDto> getTableauBord(Integer idAgent) {
@@ -97,7 +103,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 	@Override
 	public String countEaeARealiserUrl(Integer idAgent) {
-		
+
 		String url = String.format(sirhEaeWsBaseUrl + eaeCountEaeARealiserUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
@@ -126,15 +132,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEvalue", idAgentEvalue.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
-
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans l'initialisation de l'EAE.");
-			return dto;
-		}
-		String result = readResponse(String.class, res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -156,12 +154,10 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(identification);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(identification);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		return readResponse(ReturnMessageDto.class, res, url);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -176,7 +172,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	}
 
 	@Override
-	public EaeResultatDto getResultatEae(Integer idEae, Integer idAgent) {
+	public EaeResultatsDto getResultatEae(Integer idEae, Integer idAgent) {
 		String url = String.format(sirhEaeWsBaseUrl + eaeResultatUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idEae", idEae.toString());
@@ -184,22 +180,20 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 
-		return readResponse(EaeResultatDto.class, res, url);
+		return readResponse(EaeResultatsDto.class, res, url);
 	}
 
 	@Override
-	public ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatDto resultat) {
+	public ReturnMessageDto saveResultat(Integer idEae, Integer idAgent, EaeResultatsDto resultat) {
 		String url = String.format(sirhEaeWsBaseUrl + eaeResultatUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(resultat);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(resultat);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		return readResponse(ReturnMessageDto.class, res, url);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -232,12 +226,10 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(appreciationAnnee);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(appreciationAnnee);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		return readResponse(ReturnMessageDto.class, res, url);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -259,12 +251,10 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(evaluation);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(evaluation);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		return readResponse(ReturnMessageDto.class, res, url);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -286,12 +276,10 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(autoEvaluation);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(autoEvaluation);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		return readResponse(ReturnMessageDto.class, res, url);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -313,12 +301,10 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(planAction);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(planAction);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		return readResponse(ReturnMessageDto.class, res, url);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -340,12 +326,10 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idEae", idEae.toString());
 		params.put("idAgent", idAgent.toString());
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class)
-				.deepSerialize(evolution);
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(evolution);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);
-
-		return readResponse(ReturnMessageDto.class, res, url);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 	@Override
@@ -357,15 +341,56 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		params.put("idDelegataire", idDelegataire.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
+	}
 
-		ReturnMessageDto dto = new ReturnMessageDto();
-		if (res.getStatus() != HttpStatus.OK.value()) {
-			dto.getErrors().add("Une erreur est survenue dans la sauvegarde du délégataire.");
-			return dto;
+	@Override
+	public List<EaeFinalisationDto> getEeaControle(Integer idAgent) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeControleUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+
+		return readResponseAsList(EaeFinalisationDto.class, res, url);
+	}
+
+	@Override
+	public EaeFinalizationInformationDto getFinalisationInformation(Integer idEae, Integer idAgent) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeFinalizationInformationUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idEae", idEae.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(EaeFinalizationInformationDto.class, res, url);
+	}
+
+	@Override
+	public boolean canFinaliseEae(Integer idEae, Integer idAgent) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeCanFinaliseEaeUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idEae", idEae.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		if (res.getStatus() == HttpStatus.CONFLICT.value()) {
+			return false;
 		}
-		String result = readResponse(String.class, res, url);
-		dto.getInfos().add(result);
-		return dto;
+		return true;
+	}
+
+	@Override
+	public ReturnMessageDto finalizeEae(Integer idEae, Integer idAgent, EaeFinalisationDto eaeFinalizationDto) {
+		String url = String.format(sirhEaeWsBaseUrl + eaeFinalizeEaeUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idEae", idEae.toString());
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(eaeFinalizationDto);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
 	}
 
 }

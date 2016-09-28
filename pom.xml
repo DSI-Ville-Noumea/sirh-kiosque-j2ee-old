@@ -5,7 +5,7 @@
 	<groupId>nc.noumea.mairie</groupId>
 	<artifactId>sirh-kiosque-j2ee</artifactId>
 	<packaging>war</packaging>
-	<version>2.17</version>
+	<version>3.00</version>
 	<name>sirh-kiosque-j2ee</name>
 	<description>Kiosque RH en J2EE</description>
 	<organization>
@@ -100,8 +100,18 @@
 			<id>ZK EE Evaluation</id>
 			<url>http://mavensync.zkoss.org/eval/</url>
 		</repository>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
 	</repositories>
 	<dependencies>
+		<!-- CMIS ALfresco Client -->
+		<dependency>
+		    <groupId>com.github.DSI-Ville-Noumea</groupId>
+		    <artifactId>sirh-alfresco-cmis-common</artifactId>
+		    <version>1.2.3</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

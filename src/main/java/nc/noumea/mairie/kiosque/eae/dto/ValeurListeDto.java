@@ -6,7 +6,7 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * $Id:$
  * $HeadURL:$
  * %%
- * Copyright (C) 2014 Mairie de Nouméa
+ * Copyright (C) 2014 - 2016 Mairie de Nouméa
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,11 +24,19 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 public class ValeurListeDto {
 
-	private String code;
-	private String valeur;
+	private String	code;
+	private String	valeur;
+
+	public ValeurListeDto() {
+
+	}
+
+	public ValeurListeDto(String pCode, String pValeur) {
+		this.code = pCode;
+		this.valeur = pValeur;
+	}
 
 	public String getCode() {
 		return code;

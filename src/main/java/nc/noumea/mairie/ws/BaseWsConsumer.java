@@ -156,8 +156,8 @@ public abstract class BaseWsConsumer {
 
 		String output = response.getEntity(String.class);
 
-		result = new JSONDeserializer<List<T>>().use(null, ArrayList.class).use(Date.class, new MSDateTransformer())
-				.use("values", targetClass).deserialize(output);
+		result = new JSONDeserializer<List<T>>().use(null, ArrayList.class).use("values", targetClass)
+				.use(Date.class, new MSDateTransformer()).deserialize(output);
 
 		return result;
 	}

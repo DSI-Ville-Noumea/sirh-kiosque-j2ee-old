@@ -761,7 +761,6 @@ public class DateParser {
 			return _format;
 		}
 
-		// TODO
 		private int getMonthIndex(String month) {
 			month = month.toUpperCase();
 			FullMonthData fmd = FullMonthData.getInstance(CircularData.UPPER, _locale);

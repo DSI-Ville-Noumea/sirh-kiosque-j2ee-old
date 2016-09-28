@@ -31,16 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
-import nc.noumea.mairie.kiosque.cmis.ISharepointService;
-import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
-import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
-import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
-import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
-
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +47,15 @@ import org.zkoss.zkmax.zul.Portallayout;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Panel;
 
+import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
+import nc.noumea.mairie.kiosque.dto.AccueilRhDto;
+import nc.noumea.mairie.kiosque.dto.ReferentRhDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.ConsultPointageDto;
+import nc.noumea.mairie.kiosque.ptg.dto.EtatPointageEnum;
+import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
+
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class AccueilViewModel extends AbstractViewModel implements Serializable {
 
@@ -69,9 +68,6 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 
 	@WireVariable
 	private ISirhEaeWSConsumer eaeWsConsumer;
-
-	@WireVariable
-	private ISharepointService sharepointConsumer;
 
 	private List<AccueilRhDto> listeTexteAccueil;
 
@@ -281,25 +277,6 @@ public class AccueilViewModel extends AbstractViewModel implements Serializable 
 		args.put("param", param);
 
 		Executions.createComponents(page + ".zul", div, args);
-	}
-
-	@Command
-	public void eaeSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
-		// if (currentUser.getAgent().getIdAgent() == 9005138 ||
-		// currentUser.getAgent().getIdAgent() == 9005131) {
-		// Map<String, Div> args = new HashMap<String, Div>();
-		// args.put("div", div);
-		//
-		// div.getChildren().clear();
-		// Executions.createComponents(page + ".zul", div, args);
-		// } else {
-		div.getChildren().clear();
-		// redmine #14077 : on redirige vers la page d'accueil
-		Map<String, Div> args = new HashMap<String, Div>();
-		args.put("div", div);
-		Executions.createComponents("accueil.zul", div, args);
-		Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlEaeApprobateur(), "_blank");
-		// }
 	}
 
 	public List<AccueilRhDto> getListeTexteAccueil() {

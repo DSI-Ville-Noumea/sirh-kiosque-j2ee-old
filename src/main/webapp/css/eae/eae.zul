@@ -8,9 +8,11 @@
 	.blockSeparator { border-top: 1px solid #ccbda1; height: 0; margin:
 	10px 0; padding: 0; width: 100%; }
 
-	.bleu{color: #274f9a;width: 300px;}
+	.bleu{color: #274f9a;width: 500px;}
 
 	.espace{width: 250px;}
+
+	.espaceFinalisation{width: 170px;}
 
 	.titre{color: #d3711c;font-weight: bold;}
 
@@ -24,6 +26,11 @@
 	.z-auxheader {background: #ab5420;}
 	
 	.z-auxheader-content {color:white;}
+
+	.uploadAction { background-image: url("img/uploaddoc.png");
+	background-position: left top; background-repeat: no-repeat; cursor:
+	pointer; display: inline-block; height: 30px; width: 30px; 
+	}
 
 	]]>
 	

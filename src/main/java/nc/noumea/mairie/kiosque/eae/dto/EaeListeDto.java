@@ -24,13 +24,12 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 import java.util.List;
 
 public class EaeListeDto {
 
-	private String courant;
-	private List<ValeurListeDto> liste;
+	private String					courant;
+	private List<ValeurListeDto>	liste;
 
 	public String getCourant() {
 		return courant;

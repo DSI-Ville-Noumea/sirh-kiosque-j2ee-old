@@ -52,9 +52,9 @@
 					</listcell>
 					<listcell>
 						<label visible="@bind(not vm.modification)"
-							value="@bind(each.commentaire)" />
+							value="@bind(each.commentaire.text)" />
 						<textbox rows="4" width="100%"
-							visible="@bind(vm.modification)" value="@bind(each.commentaire)"
+							visible="@bind(vm.modification)" value="@bind(each.commentaire.text)"
 							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
@@ -101,9 +101,9 @@
 					</listcell>
 					<listcell>
 						<label visible="@bind(not vm.modification)"
-							value="@bind(each.commentaire)" />
+							value="@bind(each.commentaire.text)" />
 						<textbox rows="4" width="100%"
-							visible="@bind(vm.modification)" value="@bind(each.commentaire)"
+							visible="@bind(vm.modification)" value="@bind(each.commentaire.text)"
 							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell visible="@bind(vm.modification)">
