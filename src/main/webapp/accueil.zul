@@ -33,12 +33,12 @@
 							<panelchildren>
 								<vlayout>
 									<a
-										onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)">
+										onClick="@command('changeEcran',page='/eae/tableauEae',ecran=content)">
 										<label zclass="panelPortail"
 											value="@bind(vm.nombreEAEaRealiser)" />
 									</a>
 									<button label="Voir"
-										onClick="@command('eaeSharepoint',page='/eae/tableauEae',ecran=content)" />
+										onClick="@command('changeEcran',page='/eae/tableauEae',ecran=content)" />
 								</vlayout>
 							</panelchildren>
 						</panel>

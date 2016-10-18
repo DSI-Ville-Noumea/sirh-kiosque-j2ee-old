@@ -19,17 +19,17 @@
 					<grid model="@bind(vm.listeUrlEae)" id="listEae">
 						<columns>
 							<column align="center" label="Année" />
-							<column align="center" label="Identifiant" />
-							<column align="center" label="Téléchargement" />
+							<column align="center"
+								label="Téléchargement" />
 						</columns>
 						<template name="model">
 							<row>
 								<label sclass="value"
 									value="${each.annee}" />
-								<label sclass="value"
-									value="${each.id}" />
-								<image sclass="eaeDownload"
-									onClick="@command('visuEAE', ref=each.url)" />
+								<a
+									href="@bind(vm.getUrlFromAlfresco(each))" target="_blank"
+									sclass="eaeDownload">
+								</a>
 							</row>
 						</template>
 					</grid>

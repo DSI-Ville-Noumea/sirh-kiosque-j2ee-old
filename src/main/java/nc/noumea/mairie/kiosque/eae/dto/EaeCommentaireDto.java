@@ -6,7 +6,7 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * $Id:$
  * $HeadURL:$
  * %%
- * Copyright (C) 2014 Mairie de Nouméa
+ * Copyright (C) 2014 - 2016 Mairie de Nouméa
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,25 +24,32 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
+public class EaeCommentaireDto {
 
-public class DureeDto {
+	private Integer	idEaeCommentaire;
+	private String	text;
 
-	private int heures;
-	private int minutes;
+	public EaeCommentaireDto() {
 
-	public int getHeures() {
-		return heures;
 	}
 
-	public void setHeures(int heures) {
-		this.heures = heures;
+	public EaeCommentaireDto(String texte) {
+		this.text = texte;
 	}
 
-	public int getMinutes() {
-		return minutes;
+	public Integer getIdEaeCommentaire() {
+		return idEaeCommentaire;
 	}
 
-	public void setMinutes(int minutes) {
-		this.minutes = minutes;
+	public void setIdEaeCommentaire(Integer idEaeCommentaire) {
+		this.idEaeCommentaire = idEaeCommentaire;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 }

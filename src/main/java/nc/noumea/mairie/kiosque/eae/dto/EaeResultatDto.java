@@ -6,7 +6,7 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * $Id:$
  * $HeadURL:$
  * %%
- * Copyright (C) 2014 Mairie de Nouméa
+ * Copyright (C) 2014 - 2016 Mairie de Nouméa
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,51 +24,51 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class EaeResultatDto {
 
-	private String commentaireGeneral;
-	private int idEae;
-	private List<EaeObjectifDto> objectifsIndividuels;
-	private List<EaeObjectifDto> objectifsProfessionnels;
+	private EaeCommentaireDto	commentaire	= new EaeCommentaireDto();
+	private Integer				idEaeResultat;
+	private String				objectif;
+	private String				resultat;
+	private EaeTypeObjectifDto	typeObjectif;
 
-	public EaeResultatDto() {
-		objectifsIndividuels = new ArrayList<EaeObjectifDto>();
-		objectifsProfessionnels = new ArrayList<EaeObjectifDto>();
+	public EaeCommentaireDto getCommentaire() {
+		return commentaire;
 	}
 
-	public String getCommentaireGeneral() {
-		return commentaireGeneral;
+	public void setCommentaire(EaeCommentaireDto commentaire) {
+		this.commentaire = commentaire;
 	}
 
-	public void setCommentaireGeneral(String commentaireGeneral) {
-		this.commentaireGeneral = commentaireGeneral;
+	public Integer getIdEaeResultat() {
+		return idEaeResultat;
 	}
 
-	public int getIdEae() {
-		return idEae;
+	public void setIdEaeResultat(Integer idEaeResultat) {
+		this.idEaeResultat = idEaeResultat;
 	}
 
-	public void setIdEae(int idEae) {
-		this.idEae = idEae;
+	public String getObjectif() {
+		return objectif;
 	}
 
-	public List<EaeObjectifDto> getObjectifsIndividuels() {
-		return objectifsIndividuels;
+	public void setObjectif(String objectif) {
+		this.objectif = objectif;
 	}
 
-	public void setObjectifsIndividuels(List<EaeObjectifDto> objectifsIndividuels) {
-		this.objectifsIndividuels = objectifsIndividuels;
+	public String getResultat() {
+		return resultat;
 	}
 
-	public List<EaeObjectifDto> getObjectifsProfessionnels() {
-		return objectifsProfessionnels;
+	public void setResultat(String resultat) {
+		this.resultat = resultat;
 	}
 
-	public void setObjectifsProfessionnels(List<EaeObjectifDto> objectifsProfessionnels) {
-		this.objectifsProfessionnels = objectifsProfessionnels;
+	public EaeTypeObjectifDto getTypeObjectif() {
+		return typeObjectif;
+	}
+
+	public void setTypeObjectif(EaeTypeObjectifDto typeObjectif) {
+		this.typeObjectif = typeObjectif;
 	}
 }

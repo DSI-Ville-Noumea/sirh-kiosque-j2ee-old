@@ -68,6 +68,11 @@
 							<image visible="@bind(vm.hasTextChangedEvolution)"
 								sclass="saveAction" onClick="@command('engistreOnglet')" />
 						</caption>
+					</tab>					
+					<tab style="float:right;" id="FINALISATION" label="Finaliser l'EAE"
+						onClick="@command('changeVue',tabbox=tb,tab = FINALISATION)" visible="@bind(vm.modification)">
+						<caption label="Finaliser l'EAE">
+						</caption>
 					</tab>
 				</tabs>
 				<tabpanels>
@@ -97,6 +102,9 @@
 					</tabpanel>
 					<tabpanel>
 						<include src="/eae/onglet/evolution.zul" />
+					</tabpanel>
+					<tabpanel>
+						<include src="/eae/onglet/finalisation.zul" />
 					</tabpanel>
 				</tabpanels>
 			</tabbox>

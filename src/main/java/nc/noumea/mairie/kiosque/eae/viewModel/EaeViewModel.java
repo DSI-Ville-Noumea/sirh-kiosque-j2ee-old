@@ -29,27 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.DureeDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeDeveloppementDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeItemPlanActionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifProDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeSouhaitDto;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.kiosque.viewModel.TimePicker;
-import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
+import java.util.Map;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -61,70 +41,100 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabbox;
+import org.zkoss.zul.Window;
+
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAppreciationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeAutoEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeCommentaireDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeDeveloppementDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEtatEnum;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvaluationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeEvolutionSouhaitDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFichePosteDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeIdentificationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeItemPlanActionDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeObjectifProDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaePlanActionDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeResultatsDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
+import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class EaeViewModel {
 
-	private ProfilAgentDto currentUser;
+	private ProfilAgentDto			currentUser;
 
 	@WireVariable
-	private ISirhEaeWSConsumer eaeWsConsumer;
+	private ISirhEaeWSConsumer		eaeWsConsumer;
 
-	private EaeListItemDto eaeCourant;
+	private EaeListItemDto			eaeCourant;
 
-	private Tab tabCourant;
+	private Tab						tabCourant;
 
-	private Tabbox tabboxCourant;
+	private Tabbox					tabboxCourant;
 
-	private EaeIdentificationDto identification;
+	private EaeIdentificationDto	identification;
 
-	private List<EaeFichePosteDto> listeFichePoste;
+	private List<EaeFichePosteDto>	listeFichePoste;
 
-	private EaeFichePosteDto fichePostePrimaire;
+	private EaeFichePosteDto		fichePostePrimaire;
 
-	private EaeFichePosteDto fichePosteSecondaire;
+	private EaeFichePosteDto		fichePosteSecondaire;
 
-	private EaeResultatDto resultat;
+	private EaeResultatsDto			resultat;
 
-	private EaeAppreciationDto appreciationAnnee;
+	private EaeAppreciationDto		appreciationAnnee;
 
-	private EaeAppreciationDto appreciationAnneePrec;
+	private EaeAppreciationDto		appreciationAnneePrec;
 
-	private Integer annee;
+	private Integer					annee;
 
-	private Integer anneePrec;
+	private Integer					anneePrec;
 
-	private EaeEvaluationDto evaluation;
+	private EaeEvaluationDto		evaluation;
 
-	private EaeAutoEvaluationDto autoEvaluation;
+	private EaeAutoEvaluationDto	autoEvaluation;
 
-	private EaePlanActionDto planAction;
+	private EaePlanActionDto		planAction;
 
-	private EaeEvolutionDto evolution;
+	private EaeEvolutionDto			evolution;
 
-	private List<Integer> listePriorisationEvolution;
+	private List<Integer>			listePriorisationEvolution;
 
 	// POUR LA GESTION DE LA DUREE DE L'ENTRETIEN
-	private List<String> listeHeures;
-	private List<String> listeMinutes;
+	private List<String>			listeHeures;
+	private List<String>			listeMinutes;
 
-	private String heureDuree;
-	private String minuteDuree;
+	private String					heureDuree;
+	private String					minuteDuree;
 
 	/* Pour savoir si on est en modif ou en visu */
-	private String modeSaisi;
-	private boolean isModification;
+	private String					modeSaisi;
+	private boolean					isModification;
 	/* Pour savoir si on affiche la disquette de sauvegarde */
-	private boolean hasTextChangedIdentification;
-	private boolean hasTextChangedFichePoste;
-	private boolean hasTextChangedResultat;
-	private boolean hasTextChangedAppreciation;
-	private boolean hasTextChangedEvaluation;
-	private boolean hasTextChangedAutoEvaluation;
-	private boolean hasTextChangedPlanAction;
-	private boolean hasTextChangedEvolution;
+	private boolean					hasTextChangedIdentification;
+	private boolean					hasTextChangedFichePoste;
+	private boolean					hasTextChangedResultat;
+	private boolean					hasTextChangedAppreciation;
+	private boolean					hasTextChangedEvaluation;
+	private boolean					hasTextChangedAutoEvaluation;
+	private boolean					hasTextChangedPlanAction;
+	private boolean					hasTextChangedEvolution;
+
+	/* Pour la finalisation */
+	@SuppressWarnings("unused")
+	private boolean					finalisationPossible;
+	@SuppressWarnings("unused")
+	private String					titreBadFinalisation;
 
 	@Init
 	public void initEae(@ExecutionArgParam("eae") EaeListItemDto eae, @ExecutionArgParam("mode") String modeSaisi) {
@@ -154,14 +164,20 @@ public class EaeViewModel {
 	}
 
 	private void initEvolution() {
-		EaeEvolutionDto evo = eaeWsConsumer.getEvolutionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
+		EaeEvolutionDto evo = eaeWsConsumer.getEvolutionEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
+		if(evo.getCommentaireEvalue()==null){
+			evo.setCommentaireEvalue(new EaeCommentaireDto());			
+		}
+		if(evo.getCommentaireEvolution()==null){
+			evo.setCommentaireEvolution(new EaeCommentaireDto());			
+		}
+		if(evo.getCommentaireEvaluateur()==null){
+			evo.setCommentaireEvaluateur(new EaeCommentaireDto());			
+		}
 		setEvolution(evo);
 		// on charge les priorisations
-		Integer tailleDeveloppement = getEvolution().getDeveloppementConnaissances().size()
-				+ getEvolution().getDeveloppementCompetences().size()
-				+ getEvolution().getDeveloppementExamensConcours().size()
-				+ getEvolution().getDeveloppementPersonnel().size()
+		Integer tailleDeveloppement = getEvolution().getDeveloppementConnaissances().size() + getEvolution().getDeveloppementCompetences().size()
+				+ getEvolution().getDeveloppementExamensConcours().size() + getEvolution().getDeveloppementPersonnel().size()
 				+ getEvolution().getDeveloppementComportement().size();
 		List<Integer> temp = new ArrayList<>();
 		for (int i = 1; i <= tailleDeveloppement; i++) {
@@ -174,8 +190,7 @@ public class EaeViewModel {
 		// pour le moment ca plante car on a developé des nouveaux DTO qui ne
 		// sont pas encore en place en intégration/recette/prod
 		// cd redmine #13840
-		EaePlanActionDto plan = eaeWsConsumer.getPlanActionEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
+		EaePlanActionDto plan = eaeWsConsumer.getPlanActionEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		for (EaeObjectifProDto objPro : plan.getObjectifsProfessionnels()) {
 			if (objPro.getIndicateur() == null)
 				objPro.setIndicateur("");
@@ -186,14 +201,12 @@ public class EaeViewModel {
 	}
 
 	private void initAutoEvaluation() {
-		EaeAutoEvaluationDto autoEvaluation = eaeWsConsumer.getAutoEvaluationEae(getEaeCourant().getIdEae(),
-				currentUser.getAgent().getIdAgent());
+		EaeAutoEvaluationDto autoEvaluation = eaeWsConsumer.getAutoEvaluationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setAutoEvaluation(autoEvaluation);
 	}
 
 	private void initEvaluation() {
-		EaeEvaluationDto evaluation = eaeWsConsumer.getEvaluationEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
+		EaeEvaluationDto evaluation = eaeWsConsumer.getEvaluationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setEvaluation(evaluation);
 
 		// minutes et heures
@@ -202,8 +215,8 @@ public class EaeViewModel {
 		setListeHeures(timePicker.getListeHeuresEaeDureeEntretien());
 		if (getEvaluation().getDureeEntretien() != null) {
 			if (getEvaluation().getDureeEntretien() != null) {
-				String heure = "" + getEvaluation().getDureeEntretien().getHeures();
-				String minute = "" + getEvaluation().getDureeEntretien().getMinutes();
+				String heure = "" + getEvaluation().getDureeEntretien() / 60;
+				String minute = "" + getEvaluation().getDureeEntretien() % 60;
 				if (heure.length() == 1) {
 					heure = "0" + heure;
 				}
@@ -217,12 +230,12 @@ public class EaeViewModel {
 	}
 
 	private void initAppreciation() {
-		EaeAppreciationDto appreciationAnnee = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(), currentUser
-				.getAgent().getIdAgent(), eaeWsConsumer.getCampagneEae().getAnnee());
+		EaeAppreciationDto appreciationAnnee = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent(),
+				eaeWsConsumer.getCampagneEae().getAnnee());
 		setAppreciationAnnee(appreciationAnnee);
 		// on charge les appreciations de l'annéee précédente
-		EaeAppreciationDto appreciationAnneePrec = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(),
-				currentUser.getAgent().getIdAgent(), eaeWsConsumer.getCampagneEae().getAnnee() - 1);
+		EaeAppreciationDto appreciationAnneePrec = eaeWsConsumer.getAppreciationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent(),
+				eaeWsConsumer.getCampagneEae().getAnnee() - 1);
 		setAppreciationAnneePrec(appreciationAnneePrec);
 
 		setAnnee(eaeWsConsumer.getCampagneEae().getAnnee());
@@ -230,19 +243,18 @@ public class EaeViewModel {
 	}
 
 	private void initResultat() {
-		EaeResultatDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent()
-				.getIdAgent());
-		for (EaeObjectifDto objIndi : resultat.getObjectifsIndividuels()) {
+		EaeResultatsDto resultat = eaeWsConsumer.getResultatEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
+		for (EaeResultatDto objIndi : resultat.getObjectifsIndividuels()) {
 			if (objIndi.getCommentaire() == null)
-				objIndi.setCommentaire("");
+				objIndi.setCommentaire(new EaeCommentaireDto(""));
 			if (objIndi.getObjectif() == null)
 				objIndi.setObjectif("");
 			if (objIndi.getResultat() == null)
 				objIndi.setResultat("");
 		}
-		for (EaeObjectifDto objPro : resultat.getObjectifsProfessionnels()) {
+		for (EaeResultatDto objPro : resultat.getObjectifsProfessionnels()) {
 			if (objPro.getCommentaire() == null)
-				objPro.setCommentaire("");
+				objPro.setCommentaire(new EaeCommentaireDto(""));
 			if (objPro.getObjectif() == null)
 				objPro.setObjectif("");
 			if (objPro.getResultat() == null)
@@ -252,8 +264,7 @@ public class EaeViewModel {
 	}
 
 	private void initFichePoste() {
-		List<EaeFichePosteDto> listeFDP = eaeWsConsumer.getListeFichePosteEae(getEaeCourant().getIdEae(), currentUser
-				.getAgent().getIdAgent());
+		List<EaeFichePosteDto> listeFDP = eaeWsConsumer.getListeFichePosteEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setListeFichePoste(listeFDP);
 		if (getListeFichePoste().size() == 1) {
 			setFichePostePrimaire(getListeFichePoste().get(0));
@@ -264,60 +275,50 @@ public class EaeViewModel {
 	}
 
 	private void initIdentification() {
-		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(getEaeCourant().getIdEae(),
-				currentUser.getAgent().getIdAgent());
+		EaeIdentificationDto identification = eaeWsConsumer.getIdentificationEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
 		setIdentification(identification);
 	}
 
 	@GlobalCommand
 	@Command
-	@NotifyChange({ "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation", "planAction",
-			"evolution", "hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation",
-			"hasTextChangedEvolution", "hasTextChangedFichePoste", "hasTextChangedIdentification",
-			"hasTextChangedPlanAction", "hasTextChangedResultat" })
+	@NotifyChange({ "identification", "resultat", "appreciationAnnee", "evaluation", "autoEvaluation", "planAction", "evolution",
+			"hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation", "hasTextChangedEvolution",
+			"hasTextChangedFichePoste", "hasTextChangedIdentification", "hasTextChangedPlanAction", "hasTextChangedResultat", "finalisationPossible",
+			"titreBadFinalisation" })
 	public void engistreOnglet() {
 		// on sauvegarde l'onglet
 		ReturnMessageDto result = new ReturnMessageDto();
 		if (getTabCourant().getId().equals("IDENTIFICATION")) {
 			result = isFormIdentificationValid(result, getIdentification());
 			if (result.getErrors().size() == 0) {
-				result = eaeWsConsumer.saveIdentification(getIdentification().getIdEae(), currentUser.getAgent()
-						.getIdAgent(), getIdentification());
+				result = eaeWsConsumer.saveIdentification(getIdentification().getIdEae(), currentUser.getAgent().getIdAgent(), getIdentification());
 			}
 		} else if (getTabCourant().getId().equals("RESULTAT")) {
 			result = isFormResultatValid(result, getResultat());
 			if (result.getErrors().size() == 0) {
-				result = eaeWsConsumer.saveResultat(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-						getResultat());
+				result = eaeWsConsumer.saveResultat(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getResultat());
 			}
 		} else if (getTabCourant().getId().equals("APPRECIATION")) {
-			result = eaeWsConsumer.saveAppreciation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-					getAppreciationAnnee());
+			result = eaeWsConsumer.saveAppreciation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getAppreciationAnnee());
 		} else if (getTabCourant().getId().equals("EVALUATION")) {
 			result = isFormEvaluationValid(result, getEvaluation());
 			if (result.getErrors().size() == 0) {
 				// on construit la durée de l'entretien
-				DureeDto dureeDto = new DureeDto();
-				dureeDto.setHeures(Integer.valueOf(getHeureDuree()));
-				dureeDto.setMinutes(Integer.valueOf(getMinuteDuree()));
-				getEvaluation().setDureeEntretien(dureeDto);
-				result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-						getEvaluation());
+				Integer res = (Integer.valueOf(getHeureDuree()) * 60) + Integer.valueOf(getMinuteDuree());
+				getEvaluation().setDureeEntretien(res);
+				result = eaeWsConsumer.saveEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getEvaluation());
 			}
 		} else if (getTabCourant().getId().equals("AUTOEVALUATION")) {
-			result = eaeWsConsumer.saveAutoEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-					getAutoEvaluation());
+			result = eaeWsConsumer.saveAutoEvaluation(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getAutoEvaluation());
 		} else if (getTabCourant().getId().equals("PLANACTION")) {
 			result = isFormPlanActionValid(result, getPlanAction());
 			if (result.getErrors().size() == 0) {
-				result = eaeWsConsumer.savePlanAction(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-						getPlanAction());
+				result = eaeWsConsumer.savePlanAction(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getPlanAction());
 			}
 		} else if (getTabCourant().getId().equals("EVOLUTION")) {
 			result = isFormEvolutionValid(result, getEvolution());
 			if (result.getErrors().size() == 0) {
-				result = eaeWsConsumer.saveEvolution(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(),
-						getEvolution());
+				result = eaeWsConsumer.saveEvolution(getResultat().getIdEae(), currentUser.getAgent().getIdAgent(), getEvolution());
 			}
 		}
 
@@ -359,17 +360,13 @@ public class EaeViewModel {
 		}
 		// Si statut = F et type AD alors le rapport circonstancié obligatoire
 		// si mini ou maxi si moyen alors il doit être vide.
-		if (evaluation.getStatut().equals("F") && evaluation.getTypeAvct().equals("AD")) {
-			if ((evaluation.getPropositionAvancement().getCourant().equals("MINI") || evaluation
-					.getPropositionAvancement().getCourant().equals("MAXI"))
-					&& (evaluation.getCommentaireAvctEvaluateur() == null || evaluation.getCommentaireAvctEvaluateur()
-							.equals(""))) {
-				result.getErrors()
-						.add("Le contenu du rapport circonstancié ne doit pas être vide pour une durée d'avancement minimum ou maximum.");
-			} else if (evaluation.getPropositionAvancement().getCourant().equals("MOY")
-					&& evaluation.getCommentaireAvctEvaluateur() != null) {
-				result.getErrors()
-						.add("Le contenu du rapport circonstancié ne doit pas être rempli pour une durée d'avancement moyenne.");
+		if (evaluation.getTypeAvct() != null && evaluation.getStatut().equals("F") && evaluation.getTypeAvct().equals("AD")) {
+			if ((evaluation.getPropositionAvancement().getCourant().equals("MINI")
+					|| evaluation.getPropositionAvancement().getCourant().equals("MAXI"))
+					&& (evaluation.getCommentaireAvctEvaluateur() == null || evaluation.getCommentaireAvctEvaluateur().equals(""))) {
+				result.getErrors().add("Le contenu du rapport circonstancié ne doit pas être vide pour une durée d'avancement minimum ou maximum.");
+			} else if (evaluation.getPropositionAvancement().getCourant().equals("MOY") && evaluation.getCommentaireAvctEvaluateur() != null) {
+				result.getErrors().add("Le contenu du rapport circonstancié ne doit pas être rempli pour une durée d'avancement moyenne.");
 			}
 
 		}
@@ -419,24 +416,22 @@ public class EaeViewModel {
 					result.getErrors().add(message);
 			}
 		}
-		if (evolution.isMobiliteCollectivite()
-				&& (evolution.getNomCollectivite() == null || evolution.getNomCollectivite().equals(""))) {
+		if (evolution.isMobiliteCollectivite() && (evolution.getNomCollectivite() == null || evolution.getNomCollectivite().equals(""))) {
 			result.getErrors().add("Le champ de mobilité au sein de la collectivité doit être rempli.");
 		}
-		if (evolution.getConcours() && (evolution.getNomConcours() == null || evolution.getNomConcours().equals(""))) {
+		if (evolution.isConcours() && (evolution.getNomConcours() == null || evolution.getNomConcours().equals(""))) {
 			result.getErrors().add("L'intitulé du concours ou de l'examen doit être rempli.");
 		}
-		if (evolution.getVae() && (evolution.getNomVae() == null || evolution.getNomVae().equals(""))) {
+		if (evolution.isVae() && (evolution.getNomVae() == null || evolution.getNomVae().equals(""))) {
 			result.getErrors().add("L'intitulé du diplôme doit être rempli.");
 		}
-		if (evolution.getTempsPartiel() && evolution.getPourcentageTempsPartiel().getCourant() == null) {
+		if (evolution.isTempsPartiel() && evolution.getPourcentageTempsPartiel().getCourant() == null) {
 			result.getErrors().add("Le pourcentage de temps partiel doit être rempli.");
 		}
-		if (evolution.getRetraite() && evolution.getDateRetraite() == null) {
+		if (evolution.isRetraite() && evolution.getDateRetraite() == null) {
 			result.getErrors().add("La date de départ en retraite doit être remplie.");
 		}
-		if (evolution.getAutrePerspective()
-				&& (evolution.getLibelleAutrePerspective() == null || evolution.getLibelleAutrePerspective().equals(""))) {
+		if (evolution.isAutrePerspective() && (evolution.getLibelleAutrePerspective() == null || evolution.getLibelleAutrePerspective().equals(""))) {
 			result.getErrors().add("Le champ 'autres perspective' doit être renseigné.");
 		}
 
@@ -472,24 +467,43 @@ public class EaeViewModel {
 		return result;
 	}
 
-	private ReturnMessageDto isFormResultatValid(ReturnMessageDto result, EaeResultatDto resultatDto) {
-		for (EaeObjectifDto objIndiv : resultatDto.getObjectifsIndividuels()) {
-			if ((!objIndiv.getResultat().equals("") || !objIndiv.getCommentaire().equals(""))
-					&& objIndiv.getObjectif().equals("")) {
+	private ReturnMessageDto isFormResultatValid(ReturnMessageDto result, EaeResultatsDto resultatDto) {
+		for (EaeResultatDto objIndiv : resultatDto.getObjectifsIndividuels()) {
+			boolean resultIndiv = true;
+			if (objIndiv.getResultat() != null) {
+				if (!objIndiv.getResultat().equals("") && (objIndiv.getObjectif() == null || objIndiv.getObjectif().equals(""))) {
+					resultIndiv = false;
+				}
+			}
+			if (objIndiv.getCommentaire() != null) {
+				if (!objIndiv.getCommentaire().equals("") && (objIndiv.getObjectif() == null || objIndiv.getObjectif().equals(""))) {
+					resultIndiv = false;
+				}
+			}
+			if (!resultIndiv) {
 				result.getErrors().add("L'objectif de progrès individuel est obligatoire.");
 			}
 		}
-		for (EaeObjectifDto objPro : resultatDto.getObjectifsProfessionnels()) {
-			if ((!objPro.getResultat().equals("") || !objPro.getCommentaire().equals(""))
-					&& objPro.getObjectif().equals("")) {
+		for (EaeResultatDto objPro : resultatDto.getObjectifsProfessionnels()) {
+			boolean resultPro = true;
+			if (objPro.getResultat() != null) {
+				if (!objPro.getResultat().equals("") && (objPro.getObjectif() == null || objPro.getObjectif().equals(""))) {
+					resultPro = false;
+				}
+			}
+			if (objPro.getCommentaire() != null) {
+				if (!objPro.getCommentaire().equals("") && (objPro.getObjectif() == null || objPro.getObjectif().equals(""))) {
+					resultPro = false;
+				}
+			}
+			if (!resultPro) {
 				result.getErrors().add("L'objectif professionnel est obligatoire.");
 			}
 		}
 		return result;
 	}
 
-	private ReturnMessageDto isFormIdentificationValid(ReturnMessageDto result,
-			EaeIdentificationDto eaeIdentificationDto) {
+	private ReturnMessageDto isFormIdentificationValid(ReturnMessageDto result, EaeIdentificationDto eaeIdentificationDto) {
 		if (eaeIdentificationDto.getDateEntretien() == null) {
 			result.getErrors().add("La date de l'entretien annuel d'échange ne doit pas être vide.");
 		}
@@ -659,7 +673,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChangedEvolution", "evolution" })
-	public void supprimerLigneSouhaitSuggestion(@BindingParam("ref") EaeSouhaitDto souhait) {
+	public void supprimerLigneSouhaitSuggestion(@BindingParam("ref") EaeEvolutionSouhaitDto souhait) {
 		if (getEvolution().getSouhaitsSuggestions().contains(souhait)) {
 			getEvolution().getSouhaitsSuggestions().remove(souhait);
 		}
@@ -669,11 +683,11 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChanged", "evolution" })
 	public void ajouterLigneSouhaitSuggestion() {
-		EaeSouhaitDto dto = new EaeSouhaitDto();
+		EaeEvolutionSouhaitDto dto = new EaeEvolutionSouhaitDto();
 		if (getEvolution().getSouhaitsSuggestions() != null) {
 			getEvolution().getSouhaitsSuggestions().add(dto);
 		} else {
-			List<EaeSouhaitDto> liste = new ArrayList<>();
+			List<EaeEvolutionSouhaitDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getEvolution().setSouhaitsSuggestions(liste);
 		}
@@ -683,8 +697,8 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensAutres(@BindingParam("ref") EaeItemPlanActionDto moyensAutres) {
-		if (getPlanAction().getMoyensAutres().contains(moyensAutres)) {
-			getPlanAction().getMoyensAutres().remove(moyensAutres);
+		if (getPlanAction().getListeMoyensAutres().contains(moyensAutres)) {
+			getPlanAction().getListeMoyensAutres().remove(moyensAutres);
 		}
 		textChangedPlanAction();
 	}
@@ -692,16 +706,15 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensAutres() {
-		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
-		getPlanAction().getMoyensAutres().add(dto);
+		getPlanAction().getListeMoyensAutres().add(new EaeItemPlanActionDto());
 		textChangedPlanAction();
 	}
 
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensFinanciers(@BindingParam("ref") EaeItemPlanActionDto moyensFinanciers) {
-		if (getPlanAction().getMoyensFinanciers().contains(moyensFinanciers)) {
-			getPlanAction().getMoyensFinanciers().remove(moyensFinanciers);
+		if (getPlanAction().getListeMoyensFinanciers().contains(moyensFinanciers)) {
+			getPlanAction().getListeMoyensFinanciers().remove(moyensFinanciers);
 		}
 		textChangedPlanAction();
 	}
@@ -709,16 +722,15 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensFinanciers() {
-		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
-		getPlanAction().getMoyensFinanciers().add(dto);
+		getPlanAction().getListeMoyensFinanciers().add(new EaeItemPlanActionDto());
 		textChangedPlanAction();
 	}
 
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneMoyensMateriels(@BindingParam("ref") EaeItemPlanActionDto moyensMateriels) {
-		if (getPlanAction().getMoyensMateriels().contains(moyensMateriels)) {
-			getPlanAction().getMoyensMateriels().remove(moyensMateriels);
+		if (getPlanAction().getListeMoyensMateriels().contains(moyensMateriels)) {
+			getPlanAction().getListeMoyensMateriels().remove(moyensMateriels);
 		}
 		textChangedPlanAction();
 	}
@@ -726,16 +738,15 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneMoyensMateriels() {
-		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
-		getPlanAction().getMoyensMateriels().add(dto);
+		getPlanAction().getListeMoyensMateriels().add(new EaeItemPlanActionDto());
 		textChangedPlanAction();
 	}
 
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void supprimerLigneObjectifIndiv(@BindingParam("ref") EaeItemPlanActionDto objectifIndiv) {
-		if (getPlanAction().getObjectifsIndividuels().contains(objectifIndiv)) {
-			getPlanAction().getObjectifsIndividuels().remove(objectifIndiv);
+		if (getPlanAction().getListeObjectifsIndividuels().contains(objectifIndiv)) {
+			getPlanAction().getListeObjectifsIndividuels().remove(objectifIndiv);
 		}
 		textChangedPlanAction();
 	}
@@ -743,8 +754,7 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedPlanAction", "planAction" })
 	public void ajouterLigneObjectifIndiv() {
-		EaeItemPlanActionDto dto = new EaeItemPlanActionDto();
-		getPlanAction().getObjectifsIndividuels().add(dto);
+		getPlanAction().getListeObjectifsIndividuels().add(new EaeItemPlanActionDto());
 		textChangedPlanAction();
 	}
 
@@ -773,7 +783,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChangedResultat", "resultat" })
-	public void supprimerLigneIndiv(@BindingParam("ref") EaeObjectifDto objectifIndiv) {
+	public void supprimerLigneIndiv(@BindingParam("ref") EaeResultatDto objectifIndiv) {
 		if (getResultat().getObjectifsIndividuels().contains(objectifIndiv)) {
 			getResultat().getObjectifsIndividuels().remove(objectifIndiv);
 		}
@@ -783,11 +793,11 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedResultat", "resultat" })
 	public void ajouterLigneIndiv() {
-		EaeObjectifDto dto = new EaeObjectifDto();
+		EaeResultatDto dto = new EaeResultatDto();
 		if (getResultat().getObjectifsIndividuels() != null) {
 			getResultat().getObjectifsIndividuels().add(dto);
 		} else {
-			List<EaeObjectifDto> liste = new ArrayList<>();
+			List<EaeResultatDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getResultat().setObjectifsIndividuels(liste);
 		}
@@ -796,7 +806,7 @@ public class EaeViewModel {
 
 	@Command
 	@NotifyChange({ "hasTextChangedResultat", "resultat" })
-	public void supprimerLignePro(@BindingParam("ref") EaeObjectifDto objectifPro) {
+	public void supprimerLignePro(@BindingParam("ref") EaeResultatDto objectifPro) {
 		if (getResultat().getObjectifsProfessionnels().contains(objectifPro)) {
 			getResultat().getObjectifsProfessionnels().remove(objectifPro);
 		}
@@ -806,11 +816,11 @@ public class EaeViewModel {
 	@Command
 	@NotifyChange({ "hasTextChangedResultat", "resultat" })
 	public void ajouterLignePro() {
-		EaeObjectifDto dto = new EaeObjectifDto();
+		EaeResultatDto dto = new EaeResultatDto();
 		if (getResultat().getObjectifsProfessionnels() != null) {
 			getResultat().getObjectifsProfessionnels().add(dto);
 		} else {
-			List<EaeObjectifDto> liste = new ArrayList<>();
+			List<EaeResultatDto> liste = new ArrayList<>();
 			liste.add(dto);
 			getResultat().setObjectifsProfessionnels(liste);
 		}
@@ -818,10 +828,9 @@ public class EaeViewModel {
 	}
 
 	@GlobalCommand
-	@NotifyChange({ "hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation",
-			"hasTextChangedEvolution", "hasTextChangedFichePoste", "hasTextChangedIdentification",
-			"hasTextChangedPlanAction", "hasTextChangedResultat", "identification", "resultat", "appreciationAnnee",
-			"evaluation", "autoEvaluation", "planAction", "evolution" })
+	@NotifyChange({ "hasTextChangedAppreciation", "hasTextChangedAutoEvaluation", "hasTextChangedEvaluation", "hasTextChangedEvolution",
+			"hasTextChangedFichePoste", "hasTextChangedIdentification", "hasTextChangedPlanAction", "hasTextChangedResultat", "identification",
+			"resultat", "appreciationAnnee", "evaluation", "autoEvaluation", "planAction", "evolution" })
 	public void annulerEngistreOnglet(@BindingParam("tab") Tab tab) {
 		setHasTextChangedIdentification(false);
 		setHasTextChangedAppreciation(false);
@@ -844,8 +853,8 @@ public class EaeViewModel {
 		if (isHasTextChanged()) {
 			tabBox.setSelectedTab(getTabCourant());
 			List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
-			vList.add(new ValidationMessage("L'onglet " + getTabCourant().getId()
-					+ " semble avoir été modifié, vous devriez l'enregistrer avant de continuer."));
+			vList.add(new ValidationMessage(
+					"L'onglet " + getTabCourant().getId() + " semble avoir été modifié, vous devriez l'enregistrer avant de continuer."));
 			vList.add(new ValidationMessage("Si vous ne l'enregistrez pas, vous allez perdre vos données."));
 
 			final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -861,9 +870,8 @@ public class EaeViewModel {
 	}
 
 	private boolean isHasTextChanged() {
-		return isHasTextChangedAppreciation() || isHasTextChangedAutoEvaluation() || isHasTextChangedEvaluation()
-				|| isHasTextChangedEvolution() || isHasTextChangedFichePoste() || isHasTextChangedIdentification()
-				|| isHasTextChangedPlanAction() || isHasTextChangedResultat();
+		return isHasTextChangedAppreciation() || isHasTextChangedAutoEvaluation() || isHasTextChangedEvaluation() || isHasTextChangedEvolution()
+				|| isHasTextChangedFichePoste() || isHasTextChangedIdentification() || isHasTextChangedPlanAction() || isHasTextChangedResultat();
 	}
 
 	@Command
@@ -880,8 +888,7 @@ public class EaeViewModel {
 		if (!isModification())
 			setHasTextChangedEvolution(false);
 		setHasTextChangedEvolution(true);
-		if (getEvolution().isChangementMetier() || getEvolution().isMobiliteGeo()
-				|| getEvolution().isMobiliteFonctionnelle()) {
+		if (getEvolution().isChangementMetier() || getEvolution().isMobiliteGeo() || getEvolution().isMobiliteFonctionnelle()) {
 			getEvolution().getDelaiEnvisage().setCourant("MOINS1AN");
 		} else {
 			getEvolution().getDelaiEnvisage().setCourant(null);
@@ -945,8 +952,7 @@ public class EaeViewModel {
 	public String getInfoResponsable(EaeFichePosteDto fichePoste) {
 		if (fichePoste == null)
 			return "";
-		return fichePoste.getResponsableNom() + " " + fichePoste.getResponsablePrenom() + ", "
-				+ fichePoste.getResponsableFonction();
+		return fichePoste.getResponsableNom() + " " + fichePoste.getResponsablePrenom() + ", " + fichePoste.getResponsableFonction();
 	}
 
 	public String getEnteteN1() {
@@ -962,15 +968,20 @@ public class EaeViewModel {
 	}
 
 	public String getInfoDureeEntretien(EaeEvaluationDto dto) {
+		if (dto.getDureeEntretien() == null)
+			return "";
+		return getHeureMinute(dto.getDureeEntretien());
+	}
+
+	private static String getHeureMinute(int nombreMinute) {
+		int heure = nombreMinute / 60;
+		int minute = nombreMinute % 60;
 		String res = "";
-		if (dto != null && dto.getDureeEntretien() != null) {
-			if (dto.getDureeEntretien().getHeures() != 0) {
-				res += dto.getDureeEntretien().getHeures() + " h ";
-			}
-			if (dto.getDureeEntretien().getMinutes() != 0) {
-				res += dto.getDureeEntretien().getMinutes() + " min";
-			}
-		}
+		if (heure > 0)
+			res += heure + " h ";
+		if (minute > 0)
+			res += minute + " min";
+
 		return res;
 	}
 
@@ -1086,11 +1097,11 @@ public class EaeViewModel {
 		this.fichePosteSecondaire = fichePosteSecondaire;
 	}
 
-	public EaeResultatDto getResultat() {
+	public EaeResultatsDto getResultat() {
 		return resultat;
 	}
 
-	public void setResultat(EaeResultatDto resultat) {
+	public void setResultat(EaeResultatsDto resultat) {
 		this.resultat = resultat;
 	}
 
@@ -1313,5 +1324,48 @@ public class EaeViewModel {
 
 	public String getTitreFonctionnaireEvaluation(EaeEvaluationDto evaluation) {
 		return "Changement d'échelon ou de classe pour les agents promouvable en " + evaluation.getAnneeAvancement();
+	}
+
+	@Command
+	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div, @BindingParam("param") String param) {
+		div.getChildren().clear();
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("div", div);
+		args.put("param", param);
+
+		Executions.createComponents(page + ".zul", div, args);
+	}
+
+	@Command
+	public void openPopupFinalisation() {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, EaeListItemDto> args = new HashMap<String, EaeListItemDto>();
+		args.put("eaeCourant", getEaeCourant());
+		Window win = (Window) Executions.createComponents("/eae/onglet/popupFinalisation.zul", null, args);
+		win.doModal();
+
+	}
+
+	public boolean isFinalisationPossible() {
+		return eaeWsConsumer.canFinaliseEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
+	}
+
+	public String getTitreBadFinalisation() {
+		String res = "";
+		boolean isPossible = eaeWsConsumer.canFinaliseEae(getEaeCourant().getIdEae(), currentUser.getAgent().getIdAgent());
+		if (!isPossible) {
+			String etat = EaeEtatEnum.getEtatFromCode(getEaeCourant().getEtat()) == null ? ""
+					: EaeEtatEnum.getEtatFromCode(getEaeCourant().getEtat()).toString();
+			res = "Impossible de finaliser l'Eae car son état est " + etat;
+		}
+		return res;
+	}
+
+	public void setFinalisationPossible(boolean finalisationPossible) {
+		this.finalisationPossible = finalisationPossible;
+	}
+
+	public void setTitreBadFinalisation(String titreBadFinalisation) {
+		this.titreBadFinalisation = titreBadFinalisation;
 	}
 }

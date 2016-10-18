@@ -40,14 +40,14 @@
 	<!-- WS SIRH-ABS-WS -->
 	<!-- -->
 	<Environment name="SIRH_ABS_WS_URL" type="java.lang.String"
-		description="SIRH ABS WS endpoint url" value="http://localhost:8085/sirh-abs-ws/"
+		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8085/sirh-abs-ws/"
 		override="false" />
 
 	<!-- -->
 	<!-- WS SIRH-WS -->
 	<!-- -->
 	<Environment name="SIRH_WS_URL" type="java.lang.String"
-		description="SIRH WS endpoint url" value="http://localhost:8085/sirhws/"
+		description="SIRH WS endpoint url" value="http://svi-tomcat0:8085/sirhws/"
 		override="false" />
 
 	<!-- -->
@@ -77,24 +77,13 @@
 	<Environment name="ADS_WS_URL" type="java.lang.String"
 		description="ADS WS endpoint url" value="http://svi-tomcat0:8077/"
 		override="false" />
-
-	<!-- -->
-	<!-- Paramètres Sharepoint -->
-	<!-- -->
-	<Environment name="SHAREPOINT_BASE_URL" type="java.lang.String"
-		description="Sharepoint endpoint url" value="http://svq-sp/" override="false" />
-	<Environment name="SHAREPOINT_USER" type="java.lang.String"
-		description="User Sharepoint droit sur library EAE" value="sirhDroitEAE"
-		override="false" />
-	<Environment name="SHAREPOINT_USER_PWD" type="java.lang.String"
-		description="User Pwd Sharepoint droit sur library EAE" value="fum2ndo5"
-		override="false" />
-	<Environment name="SHAREPOINT_DOMAIN" type="java.lang.String"
-		description="Sharepoint domain" value="SITE-MAIRIE" override="false" />
-	<Environment name="SHAREPOINT_PORT" type="java.lang.String"
-		description="Sharepoint port" value="80" override="false" />
-	<Environment name="SHAREPOINT_HOST" type="java.lang.String"
-		description="Sharepoint host" value="svq-sp" override="false" />
+		
+	<!--  -->
+	<!-- ALFRESCO -->
+	<!--  -->
+	<!-- ATTENTION : bien mettre le "/" apres le port -->
+	<Environment name="ALFRESCO_URL" type="java.lang.String" description="Alfresco endpoint url" 
+		value="http://svi-alfresco.site-mairie.noumea.nc:8080/" override="false" />
 
 	<!-- Paramètre pour différencier QUAL et PROD -->
 	<Environment name="TYPE_ENV" type="java.lang.String"

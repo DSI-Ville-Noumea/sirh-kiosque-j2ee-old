@@ -24,17 +24,30 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
+
 public class CampagneEaeDto {
-	
-	private Integer idCampagneEae;
-	private Integer annee;
-	private Date dateDebut;
-	private Date dateFin;
-	private Date dateOuvertureKiosque;
-	private Date dateFermetureKiosque;
+
+	private Integer	idCampagneEae;
+	private Integer	annee;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date	dateDebut;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date	dateFin;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date	dateOuvertureKiosque;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date	dateFermetureKiosque;
 
 	public CampagneEaeDto() {
 	}

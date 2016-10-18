@@ -36,9 +36,9 @@
 				</hlayout>
 				<separator />
 				<listbox id="listeEae" model="@bind(vm.tableauEae)"
-					width="100%">
+					hflex="1">
 					<listhead>
-						<listheader width="280px">
+						<listheader hflex="3">
 							<vlayout>
 								<label sclass="z-listheader-content"
 									value="Direction" />
@@ -48,23 +48,23 @@
 									value="Section" />
 							</vlayout>
 						</listheader>
-						<listheader width="100px" label="Evalué"
+						<listheader hflex="2" label="Evalué"
 							sort="auto('agentEvalue.nom')" />
-						<listheader width="100px" label="SHD"
+						<listheader hflex="2" label="SHD"
 							sort="auto('agentShd.nom')" />
-						<listheader width="100px" label="Evaluateur(s)"
+						<listheader hflex="2" label="Evaluateur(s)"
 							sort="none" />
-						<listheader width="100px" label="Délégataire"
+						<listheader hflex="2" label="Délégataire"
 							sort="auto('agentDelegataire.nom')" />
-						<listheader width="75px" label="Etat de l'EAE"
+						<listheader hflex="1" label="Etat de l'EAE"
 							sort="auto('etat')" />
-						<listheader width="30px" align="center"
+						<listheader hflex="1" align="center"
 							label="CAP" sort="auto('cap')" />
-						<listheader label="Avis Evaluateur"
+						<listheader hflex="1" label="Avis Evaluateur"
 							sort="auto('avisShd')" />
-						<listheader width="55px" align="center"
+						<listheader hflex="1" align="center"
 							label="EAE joint" sort="auto('docAttache')" />
-						<listheader width="70px">
+						<listheader hflex="1">
 							<vlayout>
 								<label sclass="z-listheader-content"
 									value="Créé le" />
@@ -74,10 +74,10 @@
 									value="Contrôlé le" />
 							</vlayout>
 						</listheader>
-						<listheader label="Actions" sort="none" />
+						<listheader hflex="1" label="Actions" sort="none" />
 					</listhead>
 					<template name="model">
-						<listitem>
+						<listitem style="padding-bottom: 0px;">
 							<listcell>
 								<vlayout>
 									<label sclass="interieur"
@@ -97,7 +97,7 @@
 									<zk
 										forEach="${each.eaeEvaluateurs}">
 										<label sclass="interieur"
-											value="${vm.concatAgent(each.nom,each.prenom)}" />
+											value="${vm.concatAgent(each.agent.nom,each.agent.prenom)}" />
 									</zk>
 								</vlayout>
 							</listcell>
@@ -110,7 +110,8 @@
 								label="@bind(vm.concatAgent(each.agentDelegataire.nom,each.agentDelegataire.prenom))"
 								visible="@bind(not each.droitDemarrer)" />
 							<!-- fin cas du délégataire -->
-							<listcell label="@bind(each.etat)" />
+							<listcell
+								label="@bind(vm.getEtat(each.etat))" />
 							<listcell>
 								<image sclass="cap" tooltiptext="oui"
 									visible="@bind(each.cap)" />
@@ -151,10 +152,11 @@
 										tooltiptext="Télécharger l'EAE" sclass="ListAction print"
 										visible="@bind(each.droitImprimerBirt)"
 										onClick="@command('imprimerEae', ref=each)" />
-									<image
-										tooltiptext="Télécharger l'EAE" sclass="ListAction print"
+									<a tooltiptext="Télécharger l'EAE"
+										sclass="ListAction print"
 										visible="@bind(each.droitImprimerGed)"
-										onClick="@command('telechargerEae', ref=each)" />
+										href="@bind(vm.getUrlFromAlfresco(each))" target="_blank">
+									</a>
 								</hlayout>
 							</listcell>
 						</listitem>

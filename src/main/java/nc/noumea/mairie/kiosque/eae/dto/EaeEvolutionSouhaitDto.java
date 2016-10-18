@@ -1,4 +1,4 @@
-package nc.noumea.mairie.kiosque.cmis;
+package nc.noumea.mairie.kiosque.eae.dto;
 
 /*
  * #%L
@@ -25,34 +25,33 @@ package nc.noumea.mairie.kiosque.cmis;
  */
 
 
-public class SharepointDto {
+public class EaeEvolutionSouhaitDto {
 
-	private String annee;
-	private String id;
-	private String url;
+	private Integer idEaeEvolutionSouhait;
+	private String souhait;
+	private String suggestion;
 
-	public String getAnnee() {
-		return annee;
+	public Integer getIdEaeEvolutionSouhait() {
+		return idEaeEvolutionSouhait;
 	}
 
-	public void setAnnee(String annee) {
-		this.annee = annee;
+	public void setIdEaeEvolutionSouhait(Integer idEaeEvolutionSouhait) {
+		this.idEaeEvolutionSouhait = idEaeEvolutionSouhait;
 	}
 
-	public String getId() {
-		return id;
+	public String getSouhait() {
+		return souhait;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setSouhait(String souhait) {
+		this.souhait = souhait;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getSuggestion() {
+		return suggestion;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setSuggestion(String suggestion) {
+		this.suggestion = suggestion;
 	}
-
 }

@@ -28,10 +28,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import nc.noumea.mairie.kiosque.cmis.ISharepointService;
-
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -45,9 +44,6 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7929474744616954278L;
-
-	@WireVariable
-	private ISharepointService sharepointConsumer;
 
 	private boolean droitsModulePointage;
 
@@ -81,46 +77,12 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 	}
 
 	@Command
+	@GlobalCommand
 	public void changeEcran(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
 		div.getChildren().clear();
 		Map<String, Div> args = new HashMap<String, Div>();
 		args.put("div", div);
 		Executions.createComponents(page + ".zul", div, args);
-	}
-
-	@Command
-	public void eaeSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
-		// if (currentUser.getAgent().getIdAgent() == 9005138 ||
-		// currentUser.getAgent().getIdAgent() == 9005131) {
-		// Map<String, Div> args = new HashMap<String, Div>();
-		// args.put("div", div);
-		//
-		// div.getChildren().clear();
-		// Executions.createComponents(page + ".zul", div, args);
-		// } else {
-		div.getChildren().clear();
-		// redmine #14077 : on redirige vers la page d'accueil
-		Map<String, Div> args = new HashMap<String, Div>();
-		args.put("div", div);
-		Executions.createComponents("accueil.zul", div, args);
-		Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlEaeApprobateur(), "_blank");
-		// }
-	}
-
-	@Command
-	public void tableauBordSharepoint(@BindingParam("page") String page, @BindingParam("ecran") Div div) {
-		// if (currentUser.getAgent().getIdAgent() == 9005138 ||
-		// currentUser.getAgent().getIdAgent() == 9005131) {
-		// div.getChildren().clear();
-		// Executions.createComponents(page + ".zul", div, null);
-		// } else {
-		div.getChildren().clear();
-		// redmine #14077 : on redirige vers la page d'accueil
-		Map<String, Div> args = new HashMap<String, Div>();
-		args.put("div", div);
-		Executions.createComponents("accueil.zul", div, args);
-		Executions.getCurrent().sendRedirect(sharepointConsumer.getUrlTableauBordApprobateur(), "_blank");
-		// }
 	}
 
 	public boolean isDroitsModulePointage() {

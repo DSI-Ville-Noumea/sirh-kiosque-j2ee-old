@@ -1,9 +1,0 @@
-<zk>
-	<window id="visuEaeDialog" title="Visualisation de votre EAE"
-		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
-		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
-		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.travail.viewModel.VisuEaeViewModel')">
-		<iframe id="iframe" src="@bind(vm.url)" width="700px"
-			height="700px" style="border: 1px solid gray" />
-	</window>
-</zk>
