@@ -117,7 +117,8 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String url = String.format(sirhEaeWsBaseUrl + eaeImpressionEaeUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idEae", idEae.toString());
-		params.put("format", isDetache ? "DOCX" : "PDF");
+		//#33981 : on change de DOCX vers ODT
+		params.put("format", isDetache ? "ODT" : "PDF");
 
 		ClientResponse res = createAndFireRequest(params, url, false, null);
 
