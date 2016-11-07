@@ -63,8 +63,6 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 
 	private String formulaireRecup;
 
-	private String formulaireReposComp;
-
 	private List<MotifCompteurDto> listeMotifsCompteur;
 
 	private MotifCompteurDto motifCompteur;
@@ -193,10 +191,9 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 	}
 
 	@Command
-	@NotifyChange({ "formulaireRecup", "formulaireReposComp", "motifCompteur", "soldeCourant" })
+	@NotifyChange({ "formulaireRecup", "motifCompteur", "soldeCourant" })
 	public void refreshNomAgent() {
 		setFormulaireRecup(null);
-		setFormulaireReposComp(null);
 		setMotifCompteur(null);
 		setSoldeCourant(null);
 		if (getTypeAbsenceFiltre().getIdRefTypeAbsence() == RefTypeAbsenceEnum.RECUP.getValue()) {
@@ -208,19 +205,11 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 			filtreDto.setDateFin(new Date());
 			SoldeDto result = absWsConsumer.getAgentSolde(getAgentFiltre().getIdAgent(), filtreDto);
 			setSoldeCourant(result);
-		} else if (getTypeAbsenceFiltre().getIdRefTypeAbsence() == RefTypeAbsenceEnum.REPOS_COMP.getValue()) {
-			setFormulaireReposComp("Solde du compteur de repos compensateur pour l'agent " + getAgentFiltre().getNom()
-					+ " " + getAgentFiltre().getPrenom());
-			FiltreSoldeDto filtreDto = new FiltreSoldeDto();
-			filtreDto.setDateDebut(new Date());
-			filtreDto.setDateFin(new Date());
-			SoldeDto result = absWsConsumer.getAgentSolde(getAgentFiltre().getIdAgent(), filtreDto);
-			setSoldeCourant(result);
-		}
+		} 
 	}
 
 	@Command
-	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
+	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", 
 			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
 			"nouveauSoldeAnneePrec", "minuteAjout", "heureAjout", "minuteRetrait", "heureRetrait" })
 	public void chargeFormulaire() {
@@ -242,22 +231,6 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 			setListeMotifsCompteur(absWsConsumer.getListeMotifsCompteur(getTypeAbsenceFiltre().getIdRefTypeAbsence()));
 			setCompteurACreer(new CompteurDto());
 
-		} else if (getTypeAbsenceFiltre().getIdRefTypeAbsence() == RefTypeAbsenceEnum.REPOS_COMP.getValue()) {
-			setAnneePrec("0");
-			if (getAgentFiltre() == null) {
-				setFormulaireReposComp("Solde du compteur de repos compensateur pour l'agent ");
-			} else {
-				setFormulaireReposComp("Solde du compteur de repos compensateur pour l'agent "
-						+ getAgentFiltre().getNom() + " " + getAgentFiltre().getPrenom());
-				FiltreSoldeDto filtreDto = new FiltreSoldeDto();
-				filtreDto.setDateDebut(new Date());
-				filtreDto.setDateFin(new Date());
-				SoldeDto result = absWsConsumer.getAgentSolde(getAgentFiltre().getIdAgent(), filtreDto);
-				setSoldeCourant(result);
-			}
-			// on charge la liste des motifs d'alimenation des compteurs
-			setListeMotifsCompteur(absWsConsumer.getListeMotifsCompteur(getTypeAbsenceFiltre().getIdRefTypeAbsence()));
-			setCompteurACreer(new CompteurDto());
 		}
 	}
 
@@ -288,58 +261,7 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 		}
 	}
 
-	@Command
-	@NotifyChange({ "nouveauSolde", "nouveauSoldeAnneePrec" })
-	public void changeAnneePrec() {
-		setNouveauSolde(null);
-		setNouveauSoldeAnneePrec(null);
-		if (getSoldeCourant() != null) {
-			// on affiche le nouveau solde
-			if (compteurAnneePrec())
-				setNouveauSoldeAnneePrec(getHeureMinute(getSoldeCourant().getSoldeReposCompAnneePrec(),
-						getCompteurACreer()));
-			else
-				setNouveauSolde(getHeureMinute(getSoldeCourant().getSoldeReposCompAnnee(), getCompteurACreer()));
-		}
-	}
-
-	@Command
-	@NotifyChange({ "nouveauSolde", "nouveauSoldeAnneePrec" })
-	public void actualiseNouveauSoldeReposComp(@BindingParam("ref") String texte) {
-		if (getSoldeCourant() != null) {
-
-			setNouveauSolde(null);
-			setNouveauSoldeAnneePrec(null);
-			if (texte != null && texte.equals("ajouter") && getHeureAjout() != null && getMinuteAjout() != null) {
-				// on recupere la durée et on transforme ce temps en minute
-				String heures = getHeureAjout();
-				String minutes = getMinuteAjout();
-				// on rempli le DTO avec la valeur
-				Double dureeAj = (double) ((Integer.valueOf(heures) * 60) + Integer.valueOf(minutes));
-				getCompteurACreer().setDureeAAjouter(dureeAj == 0 ? null : dureeAj);
-				// on affiche le nouveau solde
-				if (compteurAnneePrec())
-					setNouveauSoldeAnneePrec(getHeureMinute(getSoldeCourant().getSoldeReposCompAnneePrec(),
-							getCompteurACreer()));
-				else
-					setNouveauSolde(getHeureMinute(getSoldeCourant().getSoldeReposCompAnnee(), getCompteurACreer()));
-			} else if (texte != null && texte.equals("retrancher") && getHeureRetrait() != null
-					&& getMinuteRetrait() != null) {
-				// on recupere la durée et on transforme ce temps en minute
-				String heures = getHeureRetrait();
-				String minutes = getMinuteRetrait();
-				// on rempli le DTO avec la valeur
-				Double dureeRetr = (double) ((Integer.valueOf(heures) * 60) + Integer.valueOf(minutes));
-				getCompteurACreer().setDureeARetrancher(dureeRetr == 0 ? null : dureeRetr);
-				// on affiche le nouveau solde
-				if (compteurAnneePrec())
-					setNouveauSoldeAnneePrec(getHeureMinute(getSoldeCourant().getSoldeReposCompAnneePrec(),
-							getCompteurACreer()));
-				else
-					setNouveauSolde(getHeureMinute(getSoldeCourant().getSoldeReposCompAnnee(), getCompteurACreer()));
-			}
-		}
-	}
+	
 
 	public String soldeJour(Double solde) {
 		if (solde == 0)
@@ -365,10 +287,6 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 		return res;
 	}
 
-	private boolean compteurAnneePrec() {
-		return getAnneePrec() == null ? false : getAnneePrec().equals("1") ? true : false;
-	}
-
 	private String getHeureMinute(Double soldeExistant, CompteurDto compteurACreer) {
 		Integer nombreMinute = (int) (soldeExistant
 				+ (compteurACreer.getDureeAAjouter() == null ? 0 : compteurACreer.getDureeAAjouter()) - (compteurACreer
@@ -384,8 +302,7 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 	}
 
 	@Command
-	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
-			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
+	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
 			"nouveauSoldeAnneePrec", "minuteAjout", "heureAjout", "minuteRetrait", "heureRetrait" })
 	public void saveCompteurRecup() {
 
@@ -411,53 +328,6 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 			if (result.getErrors().size() == 0)
 				result.getInfos().add(
 						"Le compteur de récupération de l'agent " + getAgentFiltre().getNom() + " "
-								+ getAgentFiltre().getPrenom() + " a été enregistré correctement.");
-			for (String error : result.getErrors()) {
-				ValidationMessage vm = new ValidationMessage(error);
-				listErreur.add(vm);
-			}
-			for (String info : result.getInfos()) {
-				ValidationMessage vm = new ValidationMessage(info);
-				listInfo.add(vm);
-			}
-			map.put("errors", listErreur);
-			map.put("infos", listInfo);
-			Executions.createComponents("/messages/returnMessage.zul", null, map);
-
-			// on reinitialise le formulaire
-			videFormulaire();
-		}
-
-	}
-
-	@Command
-	@NotifyChange({ "typeAbsenceFiltre", "serviceFiltre", "agentFiltre", "formulaireRecup", "formulaireReposComp",
-			"listeMotifsCompteur", "motifCompteur", "soldeCourant", "nouveauSolde", "compteurACreer",
-			"nouveauSoldeAnneePrec", "minuteAjout", "heureAjout", "minuteRetrait", "heureRetrait" })
-	public void saveCompteurReposComp() {
-
-		if (IsFormValid(getCompteurACreer())) {
-			getCompteurACreer().setDateDebut(null);
-			getCompteurACreer().setDateFin(null);
-			getCompteurACreer().setAnneePrecedente(compteurAnneePrec());
-			getCompteurACreer().setIdAgent(getAgentFiltre().getIdAgent());
-
-			MotifCompteurDto motifDto = new MotifCompteurDto();
-			motifDto.setIdMotifCompteur(getMotifCompteur().getIdMotifCompteur());
-			getCompteurACreer().setMotifCompteurDto(motifDto);
-			getCompteurACreer().setOrganisationSyndicaleDto(null);
-
-			ReturnMessageDto result = absWsConsumer.saveCompteurReposComp(getCurrentUser().getAgent().getIdAgent(),
-					getCompteurACreer());
-
-			final HashMap<String, Object> map = new HashMap<String, Object>();
-			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
-			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
-			// ici la liste info est toujours vide alors on ajoute un
-			// message
-			if (result.getErrors().size() == 0)
-				result.getInfos().add(
-						"Le compteur de repos compensateur de l'agent " + getAgentFiltre().getNom() + " "
 								+ getAgentFiltre().getPrenom() + " a été enregistré correctement.");
 			for (String error : result.getErrors()) {
 				ValidationMessage vm = new ValidationMessage(error);
@@ -514,7 +384,6 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 	private void videFormulaireSansType() {
 		setAnneePrec("0");
 		setFormulaireRecup(null);
-		setFormulaireReposComp(null);
 		setListeMotifsCompteur(null);
 		setMotifCompteur(null);
 		setSoldeCourant(null);
@@ -596,14 +465,6 @@ public class CompteursViewModel extends AbstractViewModel implements Serializabl
 
 	public void setFormulaireRecup(String formulaireRecup) {
 		this.formulaireRecup = formulaireRecup;
-	}
-
-	public String getFormulaireReposComp() {
-		return formulaireReposComp;
-	}
-
-	public void setFormulaireReposComp(String formulaireReposComp) {
-		this.formulaireReposComp = formulaireReposComp;
 	}
 
 	public List<MotifCompteurDto> getListeMotifsCompteur() {
