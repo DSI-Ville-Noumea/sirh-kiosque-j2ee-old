@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
@@ -363,9 +364,9 @@ public class EaeViewModel {
 		if (evaluation.getTypeAvct() != null && evaluation.getStatut().equals("F") && evaluation.getTypeAvct().equals("AD")) {
 			if ((evaluation.getPropositionAvancement().getCourant().equals("MINI")
 					|| evaluation.getPropositionAvancement().getCourant().equals("MAXI"))
-					&& (evaluation.getCommentaireAvctEvaluateur() == null || evaluation.getCommentaireAvctEvaluateur().equals(""))) {
+					&& (evaluation.getCommentaireAvctEvaluateur() == null || StringUtils.isBlank(evaluation.getCommentaireAvctEvaluateur().getText()))) {
 				result.getErrors().add("Le contenu du rapport circonstancié ne doit pas être vide pour une durée d'avancement minimum ou maximum.");
-			} else if (evaluation.getPropositionAvancement().getCourant().equals("MOY") && evaluation.getCommentaireAvctEvaluateur() != null) {
+			} else if (evaluation.getPropositionAvancement().getCourant().equals("MOY") && evaluation.getCommentaireAvctEvaluateur() != null && StringUtils.isNotBlank(evaluation.getCommentaireAvctEvaluateur().getText())) {
 				result.getErrors().add("Le contenu du rapport circonstancié ne doit pas être rempli pour une durée d'avancement moyenne.");
 			}
 
