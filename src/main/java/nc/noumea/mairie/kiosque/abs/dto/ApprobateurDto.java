@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
+import nc.noumea.mairie.kiosque.dto.AgentDto;
+
 /*
  * #%L
  * sirh-kiosque-j2ee

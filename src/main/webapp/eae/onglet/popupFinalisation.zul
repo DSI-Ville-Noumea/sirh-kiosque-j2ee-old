@@ -67,7 +67,7 @@
 					</div>
 					<div sclass="bleu">
 						<label
-							value="@bind(vm.concatAgent(vm.finalisationCourant.agentDelegataire.nom,vm.finalisationCourant.agentDelegataire.prenom))" />
+							value="@bind(vm.concatAgentWithDto(vm.finalisationCourant.agentDelegataire))" />
 					</div>
 				</hlayout>
 				<hlayout>

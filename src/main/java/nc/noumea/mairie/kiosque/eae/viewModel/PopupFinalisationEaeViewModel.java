@@ -80,6 +80,14 @@ public class PopupFinalisationEaeViewModel {
 		return nom + " " + prenom;
 	}
 
+	public String concatAgentWithDto(AgentDto agent) {
+		if(agent==null || agent.getNom()==null || agent.getPrenom()==null){
+			return null;
+		}
+		
+		return concatAgent(agent.getNom(), agent.getPrenom());
+	}
+
 	public String getEvaluateurs(List<AgentDto> evaluateurs) {
 		String res = "";
 		for (AgentDto eval : evaluateurs) {
