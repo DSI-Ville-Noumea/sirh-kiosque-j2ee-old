@@ -28,6 +28,7 @@ package nc.noumea.mairie.kiosque.ptg.dto;
 public class AbsenceDtoKiosque extends PointageDtoKiosque {
 
 	private Integer idRefTypeAbsence;
+	private boolean	absenceModifiable	= true;
 
 	public Integer getIdRefTypeAbsence() {
 		return idRefTypeAbsence;
@@ -35,5 +36,13 @@ public class AbsenceDtoKiosque extends PointageDtoKiosque {
 
 	public void setIdRefTypeAbsence(Integer idRefTypeAbsence) {
 		this.idRefTypeAbsence = idRefTypeAbsence;
+	}
+
+	public boolean isAbsenceModifiable() {
+		return absenceModifiable;
+	}
+
+	public void setAbsenceModifiable(boolean isAbsenceModifiable) {
+		this.absenceModifiable = isAbsenceModifiable;
 	}
 }
