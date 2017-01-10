@@ -29,7 +29,7 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.objectif)" />
-						<textbox rows="4" width="100%"
+						<textbox rows="4" width="100%" maxlength="1000"
 							visible="@bind(vm.modification)" value="@bind(each.objectif)"
 							onChanging="@command('textChangedPlanAction')" />
 					</listcell>
@@ -37,7 +37,7 @@
 						<label sclass="bleu"
 							visible="@bind(not vm.modification)"
 							value="@bind(each.indicateur)" />
-						<textbox rows="4" width="100%"
+						<textbox rows="4" width="100%" maxlength="1000"
 							visible="@bind(vm.modification)" value="@bind(each.indicateur)"
 							onChanging="@command('textChangedPlanAction')" />
 					</listcell>
