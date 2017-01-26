@@ -27,7 +27,7 @@ package nc.noumea.mairie.kiosque.ptg.dto;
 
 public enum RefTypeAbsenceEnum {
 
-	CONCERTEE(1, "Abs. concertée"), NON_CONCERTEE(2, "Abs. non concertée"), IMMEDIATE(3, "Abs. immédiate");
+	CONCERTEE(1, "Abs. concertée"), NON_CONCERTEE(2, "Abs. non concertée"), IMMEDIATE(3, "Abs. immédiate"), GREVE(4, "Abs. grève");
 
 	private Integer type;
 	private String lib;
@@ -62,6 +62,8 @@ public enum RefTypeAbsenceEnum {
 				return NON_CONCERTEE;
 			case 3:
 				return IMMEDIATE;
+			case 4:
+				return GREVE;
 			default:
 				return null;
 		}

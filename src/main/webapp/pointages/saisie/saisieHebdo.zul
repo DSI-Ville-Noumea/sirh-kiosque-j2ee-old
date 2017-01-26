@@ -240,15 +240,15 @@
 											<button
 												zclass="boutonDupliqueGauche"
 												onClick="@command('copieGaucheAbsence',ref=cellAbsence)"
-												visible="@bind(vm.isAfficherDupliquerAbsenceGauche(cellAbsence))" />
+												visible="@bind(vm.isAfficherDupliquerAbsenceGauche(cellAbsence)  and cellAbsence.absenceModifiable)" />
 											<button
 												zclass="boutonRemove"
 												onClick="@command('deleteAbsence',ref=cellAbsence)"
-												visible="@bind(not empty cellAbsence.idRefEtat)" />
+												visible="@bind(not empty cellAbsence.idRefEtat and cellAbsence.absenceModifiable)" />
 											<button
 												zclass="boutonDupliqueDroite"
 												onClick="@command('copieDroiteAbsence',ref=cellAbsence)"
-												visible="@bind(vm.isAfficherDupliquerAbsenceDroit(cellAbsence))" />
+												visible="@bind(vm.isAfficherDupliquerAbsenceDroit(cellAbsence) and cellAbsence.absenceModifiable)" />
 										</hlayout>
 										<label
 											value="@bind(vm.etatToString(cellAbsence.idRefEtat))"
@@ -266,7 +266,7 @@
 											model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellAbsence.heureDebut)"
 											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
-											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
+											cols="2" disabled="@bind((empty cellAbsence.idRefEtat) or (not cellAbsence.absenceModifiable))">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -277,7 +277,7 @@
 											model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellAbsence.minuteDebut)"
 											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
-											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
+											cols="2" disabled="@bind((empty cellAbsence.idRefEtat) or (not cellAbsence.absenceModifiable))">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -294,7 +294,7 @@
 											model="@bind(vm.listeHeures)"
 											selectedItem="@bind(cellAbsence.heureFin)"
 											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
-											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
+											cols="2" disabled="@bind((empty cellAbsence.idRefEtat) or (not cellAbsence.absenceModifiable))">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -305,7 +305,7 @@
 											model="@bind(vm.listeMinutes)"
 											selectedItem="@bind(cellAbsence.minuteFin)"
 											onChange="@command('textChangedAbs',ref=cellAbsence,heureDebut=cellAbsence.heureDebut,minuteDebut=cellAbsence.minuteDebut,heureFin=cellAbsence.heureFin,minuteFin=cellAbsence.minuteFin)"
-											cols="2" disabled="@bind(empty cellAbsence.idRefEtat)">
+											cols="2" disabled="@bind((empty cellAbsence.idRefEtat) or (not cellAbsence.absenceModifiable))">
 											<template name="model">
 												<comboitem
 													label="@bind(each)">
@@ -321,7 +321,7 @@
 									<combobox width="100%"
 										readonly="true"
 										selectedItem="@bind(cellAbsence.idRefTypeAbsence)"
-										disabled="@bind(empty cellAbsence.idRefEtat)"
+										disabled="@bind((empty cellAbsence.idRefEtat) or (not cellAbsence.absenceModifiable))"
 										placeholder="Type d'absence *"
 										onChange="@command('textChanged')">
 										<zk
@@ -332,11 +332,11 @@
 									</combobox>
 									<textbox width="100%"
 										value="@bind(cellAbsence.motif)"
-										disabled="@bind(empty cellAbsence.idRefEtat)"
+										disabled="@bind((empty cellAbsence.idRefEtat) or (not cellAbsence.absenceModifiable))"
 										placeholder="Motif *" onChanging="@command('textChanged')" />
 									<textbox width="100%"
 										value="@bind(cellAbsence.commentaire)"
-										disabled="@bind(empty cellAbsence.idRefEtat)" multiline="true"
+										disabled="@bind((empty cellAbsence.idRefEtat) or (not cellAbsence.absenceModifiable))" multiline="true"
 										height="40px" placeholder="Commentaire"
 										onChanging="@command('textChanged')" />
 								</listcell>

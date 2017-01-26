@@ -29,7 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
-import nc.noumea.mairie.kiosque.abs.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.abs.dto.ApprobateurDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;

@@ -144,6 +144,8 @@ public class MesChoixPrimeDpmViewModel extends AbstractViewModel {
 				buffer.append("l’indemnité de travail.");
 			} else if(getChoixAnneeEnCours().isChoixRecuperation()) {
 				buffer.append("la récupération de vos heures.");
+			}else{
+				buffer.append("NEANT.");
 			}
 			
 			return buffer.toString();

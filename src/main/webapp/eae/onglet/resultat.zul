@@ -39,14 +39,14 @@
 					<listcell>
 						<label visible="@bind(not vm.modification)"
 							value="@bind(each.objectif)" />
-						<textbox rows="4" width="100%"
+						<textbox rows="4" width="100%" maxlength="1000"
 							visible="@bind(vm.modification)" value="@bind(each.objectif)"
 							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell>
 						<label visible="@bind(not vm.modification)"
 							value="@bind(each.resultat)" />
-						<textbox rows="4" width="100%"
+						<textbox rows="4" width="100%" maxlength="1000"
 							visible="@bind(vm.modification)" value="@bind(each.resultat)"
 							onChanging="@command('textChangedResultat')" />
 					</listcell>
@@ -88,14 +88,14 @@
 					<listcell>
 						<label visible="@bind(not vm.modification)"
 							value="@bind(each.objectif)" />
-						<textbox rows="4" width="100%"
+						<textbox rows="4" width="100%" maxlength="1000"
 							visible="@bind(vm.modification)" value="@bind(each.objectif)"
 							onChanging="@command('textChangedResultat')" />
 					</listcell>
 					<listcell>
 						<label visible="@bind(not vm.modification)"
 							value="@bind(each.resultat)" />
-						<textbox rows="4" width="100%"
+						<textbox rows="4" width="100%" maxlength="1000"
 							visible="@bind(vm.modification)" value="@bind(each.resultat)"
 							onChanging="@command('textChangedResultat')" />
 					</listcell>

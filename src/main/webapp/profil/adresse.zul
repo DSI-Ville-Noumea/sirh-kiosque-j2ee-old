@@ -4,6 +4,8 @@
 		<label sclass="value"
 			value="@bind(vm.agentCourant.adresse.numRue)" />
 		<label sclass="value"
+			value="@bind(vm.agentCourant.adresse.bisTer)" />
+		<label sclass="value"
 			value="@bind(vm.agentCourant.adresse.rue)" />
 	</div>
 	<div>

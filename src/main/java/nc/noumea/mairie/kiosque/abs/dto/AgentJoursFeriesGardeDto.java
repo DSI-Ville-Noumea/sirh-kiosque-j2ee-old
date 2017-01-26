@@ -27,6 +27,8 @@ package nc.noumea.mairie.kiosque.abs.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import nc.noumea.mairie.kiosque.dto.AgentDto;
+
 public class AgentJoursFeriesGardeDto {
 
 	private AgentDto agent;

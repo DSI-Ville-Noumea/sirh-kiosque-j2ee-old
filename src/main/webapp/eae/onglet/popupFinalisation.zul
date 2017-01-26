@@ -14,7 +14,7 @@
 					</div>
 					<div sclass="bleu">
 						<button label="Joindre"
-							upload="true,maxsize=2000,multiple=true,accept=|image/*|application/pdf, native"
+							upload="true,maxsize=10000,multiple=true,accept=|image/*|application/pdf, native"
 							onUpload="@command('onUploadPDF',upEvent=event)">
 						</button>
 						<label value="@bind(vm.finalisationCourant.nameFile)"/>
@@ -67,7 +67,7 @@
 					</div>
 					<div sclass="bleu">
 						<label
-							value="@bind(vm.concatAgent(vm.finalisationCourant.agentDelegataire.nom,vm.finalisationCourant.agentDelegataire.prenom))" />
+							value="@bind(vm.concatAgentWithDto(vm.finalisationCourant.agentDelegataire))" />
 					</div>
 				</hlayout>
 				<hlayout>
