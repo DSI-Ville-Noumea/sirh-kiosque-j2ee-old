@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.eae.dto;
 
+import java.io.InputStream;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -24,7 +26,6 @@ package nc.noumea.mairie.kiosque.eae.dto;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class EaeFinalizationInformationDto {
 	private List<AgentDto>	agentsShd;
 	private Double			noteAnnee;
 	private String			commentaire;
-	private byte[]			bFile;
+	private InputStream		fileInputStream;
 	private String			nameFile;
 	private String			typeFile;
 
@@ -114,14 +115,6 @@ public class EaeFinalizationInformationDto {
 		this.commentaire = commentaire;
 	}
 
-	public byte[] getbFile() {
-		return bFile;
-	}
-
-	public void setbFile(byte[] bFile) {
-		this.bFile = bFile;
-	}
-
 	public String getNameFile() {
 		return nameFile;
 	}
@@ -136,6 +129,14 @@ public class EaeFinalizationInformationDto {
 
 	public void setTypeFile(String typeFile) {
 		this.typeFile = typeFile;
+	}
+
+	public InputStream getFileInputStream() {
+		return fileInputStream;
+	}
+
+	public void setFileInputStream(InputStream fileInputStream) {
+		this.fileInputStream = fileInputStream;
 	}
 
 }

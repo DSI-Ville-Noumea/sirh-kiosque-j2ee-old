@@ -1,12 +1,13 @@
 package nc.noumea.mairie.kiosque.eae.dto;
 
+import java.io.InputStream;
 import java.util.Date;
-
-import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
-import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
+import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 
 /*
  * #%L
@@ -34,18 +35,17 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 public class EaeFinalisationDto {
 
-	private String	idDocument;
-	private String	versionDocument;
-	private String	commentaire;
-	private Float	noteAnnee;
+	private String		idDocument;
+	private String		versionDocument;
+	private String		commentaire;
+	private Float		noteAnnee;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
-	private Date	dateFinalisation;
-	private String	annee;
-	
-	
-	byte[] bFile;
-	private String typeFile;
+	private Date		dateFinalisation;
+	private String		annee;
+
+	private InputStream	fileInputStream;
+	private String		typeFile;
 
 	public String getIdDocument() {
 		return idDocument;
@@ -95,14 +95,6 @@ public class EaeFinalisationDto {
 		this.dateFinalisation = dateFinalisation;
 	}
 
-	public byte[] getbFile() {
-		return bFile;
-	}
-
-	public void setbFile(byte[] bFile) {
-		this.bFile = bFile;
-	}
-
 	public String getTypeFile() {
 		return typeFile;
 	}
@@ -110,5 +102,13 @@ public class EaeFinalisationDto {
 	public void setTypeFile(String typeFile) {
 		this.typeFile = typeFile;
 	}
-	
+
+	public InputStream getFileInputStream() {
+		return fileInputStream;
+	}
+
+	public void setFileInputStream(InputStream fileInputStream) {
+		this.fileInputStream = fileInputStream;
+	}
+
 }
