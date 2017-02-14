@@ -33,6 +33,7 @@ public class AccessRightsPtgDto {
 	private boolean visualisation;
 	private boolean approbation;
 	private boolean titreRepas;
+	private boolean titreRepasAgent;
 	// concerne la Indemnité forfaitaire travail DPM #30544
 	private boolean primeDpm;
 	private boolean saisiePrimesDpmOperateur;
@@ -99,6 +100,14 @@ public class AccessRightsPtgDto {
 
 	public void setSaisiePrimesDpmOperateur(boolean saisiePrimesDpmOperateur) {
 		this.saisiePrimesDpmOperateur = saisiePrimesDpmOperateur;
+	}
+
+	public boolean isTitreRepasAgent() {
+		return titreRepasAgent;
+	}
+
+	public void setTitreRepasAgent(boolean titreRepasAgent) {
+		this.titreRepasAgent = titreRepasAgent;
 	}
 	
 }
