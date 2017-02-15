@@ -56,22 +56,22 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6673727695582022385L;
+	private static final long			serialVersionUID	= -6673727695582022385L;
 
-	private List<TitreRepasDemandeDto> listeTitreRepas;
-	private TitreRepasDemandeDto titreRepasCourant;
+	private List<TitreRepasDemandeDto>	listeTitreRepas;
+	private TitreRepasDemandeDto		titreRepasCourant;
 
-	private String checkTitreRepas;
+	private String						checkTitreRepas;
 
 	/* POUR LES FILTRES */
-	private Date dateDebutFiltre;
-	private Date dateFinFiltre;
-	private List<RefEtatPointageDto> listeEtatTitreRepasFiltre;
-	private RefEtatPointageDto etatTitreRepasFiltre;
+	private Date						dateDebutFiltre;
+	private Date						dateFinFiltre;
+	private List<RefEtatPointageDto>	listeEtatTitreRepasFiltre;
+	private RefEtatPointageDto			etatTitreRepasFiltre;
 
 	/* POUR LE HAUT DU TABLEAU */
-	private String filter;
-	private String tailleListe;
+	private String						filter;
+	private String						tailleListe;
 
 	@Init
 	public void initMesTitreRepas() {
@@ -87,9 +87,10 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
+		cal.add(Calendar.MONTH, 1);
 
-		List<TitreRepasDemandeDto> titreRepasCourant = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, null, getCurrentUser().getAgent().getIdAgent(), null,
-				cal.getTime());
+		List<TitreRepasDemandeDto> titreRepasCourant = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, null,
+				getCurrentUser().getAgent().getIdAgent(), null, cal.getTime());
 		if (titreRepasCourant == null || titreRepasCourant.size() != 1) {
 			setTitreRepasCourant(null);
 		} else {
@@ -97,8 +98,9 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		}
 		setCheckTitreRepas(getTitreRepasCourant() == null ? "non" : getTitreRepasCourant().getCommande() ? "oui" : "non");
 		// on charge les demandes sur 12 derniers mois
-		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), null, getCurrentUser().getAgent()
-				.getIdAgent(), getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
+				getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
+				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
 		setListeTitreRepas(result);
 	}
 
@@ -132,8 +134,9 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		Executions.createComponents("/messages/returnMessage.zul", null, map);
 		// on recharge la liste des demandes
 		// on charge les demandes sur 12 derniers mois
-		List<TitreRepasDemandeDto> resultList = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), null, getCurrentUser().getAgent()
-				.getIdAgent(), getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+		List<TitreRepasDemandeDto> resultList = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
+				getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
+				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
 		setListeTitreRepas(resultList);
 
 	}
@@ -157,7 +160,7 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	public String getPhraseTitreRepas() {
-		return "Voulez-vous commander les tickets repas pour le mois " + getMonth(new DateTime().getMonthOfYear()) + " : ";
+		return "Voulez-vous commander les tickets repas pour le mois " + getMonth(new DateTime().plusMonths(1).getMonthOfYear()) + " : ";
 	}
 
 	private String getMonth(int monthOfYear) {
@@ -211,8 +214,9 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 	@Command
 	@NotifyChange({ "*" })
 	public void filtrer() {
-		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(), getDateFinFiltre(), null, getCurrentUser().getAgent()
-				.getIdAgent(), getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
+				getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
+				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
 		setListeTitreRepas(result);
 	}
 
@@ -239,6 +243,8 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	public String concatAgent(AgentDto ag) {
+		if (ag == null)
+			return "";
 		return ag.getNom() + " " + ag.getPrenom();
 	}
 

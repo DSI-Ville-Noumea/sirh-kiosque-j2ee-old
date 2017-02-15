@@ -254,7 +254,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 	
 	public String getPhraseTitreRepas() {
-		return "Saisie des titres repas pour le mois " + getMonth(new DateTime().getMonthOfYear());
+		return "Saisie des titres repas pour le mois " + getMonth(new DateTime().plusMonths(1).getMonthOfYear());
 	}
 
 	private String getMonth(int monthOfYear) {
