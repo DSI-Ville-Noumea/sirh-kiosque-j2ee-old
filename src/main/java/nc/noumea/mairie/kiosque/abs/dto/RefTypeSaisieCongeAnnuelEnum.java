@@ -26,7 +26,7 @@ package nc.noumea.mairie.kiosque.abs.dto;
 
 public enum RefTypeSaisieCongeAnnuelEnum {
 	
-	A("A", "TOUS") ,	D("D","SVS"), E("E", "MORGUE"), F("F", "POMPIERS"), C("C", "GARDIENS");
+	A("A", "TOUS") ,	D("D","SVS"), E("E", "MORGUE"), F("F", "POMPIERS"), C("C", "GARDIENS"), S("S", "SAMEDI");
 
 	private String codeBase;
 	private String libelle;
@@ -68,6 +68,8 @@ public enum RefTypeSaisieCongeAnnuelEnum {
 				return E;
 			case "F":
 				return F;
+			case "S":
+				return S;
 			default:
 				return null;
 		}
