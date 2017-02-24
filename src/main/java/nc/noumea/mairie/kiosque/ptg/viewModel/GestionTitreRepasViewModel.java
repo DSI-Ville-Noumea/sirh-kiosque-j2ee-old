@@ -69,6 +69,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	private EntiteDto					serviceFiltre;
 	private Date						dateDebutFiltre;
 	private Date						dateFinFiltre;
+	private String						commandeFiltre;
 	private List<RefEtatPointageDto>	listeEtatTitreRepasFiltre;
 	private RefEtatPointageDto			etatTitreRepasFiltre;
 	private List<AgentDto>				listeAgentsFiltre;
@@ -123,7 +124,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 				// on recupere les demandes deja saisies
 				List<TitreRepasDemandeDto> resultDejaSaisie = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null,
 						getServiceFiltre() == null ? null : getServiceFiltre().getIdEntite(),
-						getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), null, getDatePremierJourOfMonthSuivant(new Date()));
+						getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(), null, getDatePremierJourOfMonthSuivant(new Date()),getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 				List<AgentDto> listExist = new ArrayList<AgentDto>();
 				for (TitreRepasDemandeDto dto : resultDejaSaisie) {
 					listExist.add(dto.getAgent());
@@ -134,7 +135,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 					if (listExist.contains(ag)) {
 						List<TitreRepasDemandeDto> resultAgent = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null,
 								getServiceFiltre() == null ? null : getServiceFiltre().getIdEntite(), ag.getIdAgent(), null,
-								getDatePremierJourOfMonthSuivant(new Date()));
+								getDatePremierJourOfMonthSuivant(new Date()),getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 						if (resultAgent != null && resultAgent.size() == 1) {
 							result.add(resultAgent.get(0));
 						} else {
@@ -158,7 +159,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 
 				List<TitreRepasDemandeDto> resultAgent = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null,
 						getServiceFiltre() == null ? null : getServiceFiltre().getIdEntite(), getAgentFiltre().getIdAgent(), null,
-						getDatePremierJourOfMonthSuivant(new Date()));
+						getDatePremierJourOfMonthSuivant(new Date()),getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 				if (resultAgent != null && resultAgent.size() == 1) {
 					result.add(resultAgent.get(0));
 				} else {
@@ -223,7 +224,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
 				getDateFinFiltre(), getServiceFiltre() == null ? null : getServiceFiltre().getIdEntite(),
 				getAgentFiltre() == null ? null : getAgentFiltre().getIdAgent(),
-				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null,getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 		setListeTitreRepas(result);
 	}
 
@@ -309,7 +310,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 	}
 
 	@Command
-	@NotifyChange({ "dateDebutFiltre", "serviceFiltre", "dateFinFiltre", "agentFiltre", "etatTitreRepasFiltre", "listeTitreRepasSaisie" })
+	@NotifyChange({ "dateDebutFiltre","commandeFiltre", "serviceFiltre", "dateFinFiltre", "agentFiltre", "etatTitreRepasFiltre", "listeTitreRepasSaisie" })
 	public void viderFiltre() {
 		setDateDebutFiltre(null);
 		setDateFinFiltre(null);
@@ -318,6 +319,7 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 		setListeAgentsFiltre(null);
 		setEtatTitreRepasFiltre(null);
 		setListeTitreRepasSaisie(null);
+		setCommandeFiltre(null);
 	}
 
 	@Command
@@ -474,6 +476,14 @@ public class GestionTitreRepasViewModel extends AbstractViewModel {
 
 	public void setCheckAll(boolean checkAll) {
 		this.checkAll = checkAll;
+	}
+
+	public String getCommandeFiltre() {
+		return commandeFiltre;
+	}
+
+	public void setCommandeFiltre(String commandeFiltre) {
+		this.commandeFiltre = commandeFiltre;
 	}
 
 }

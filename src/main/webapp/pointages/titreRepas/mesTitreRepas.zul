@@ -60,6 +60,12 @@
 								<comboitem label="@bind(each.libelle)" />
 							</template>
 						</combobox>
+						<label value="Commandé :" />
+						<combobox width="100px"
+							selectedItem="@bind(vm.commandeFiltre)">
+							<comboitem value="oui" label="oui" />
+							<comboitem value="non" label="non" />
+						</combobox>
 					</hlayout>
 					<hlayout>
 						<button label="Vider"

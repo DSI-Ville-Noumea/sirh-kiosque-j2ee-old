@@ -65,6 +65,7 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 
 	/* POUR LES FILTRES */
 	private Date						dateDebutFiltre;
+	private String						commandeFiltre;
 	private Date						dateFinFiltre;
 	private List<RefEtatPointageDto>	listeEtatTitreRepasFiltre;
 	private RefEtatPointageDto			etatTitreRepasFiltre;
@@ -90,7 +91,7 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		cal.add(Calendar.MONTH, 1);
 
 		List<TitreRepasDemandeDto> titreRepasCourant = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), null, null, null,
-				getCurrentUser().getAgent().getIdAgent(), null, cal.getTime());
+				getCurrentUser().getAgent().getIdAgent(), null, cal.getTime(), getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 		if (titreRepasCourant == null || titreRepasCourant.size() != 1) {
 			setTitreRepasCourant(null);
 		} else {
@@ -100,7 +101,8 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		// on charge les demandes sur 12 derniers mois
 		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
 				getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
-				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null,
+				getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 		setListeTitreRepas(result);
 	}
 
@@ -136,7 +138,8 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		// on charge les demandes sur 12 derniers mois
 		List<TitreRepasDemandeDto> resultList = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
 				getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
-				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null,
+				getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 		setListeTitreRepas(resultList);
 
 	}
@@ -216,16 +219,18 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 	public void filtrer() {
 		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
 				getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
-				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null);
+				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null,
+				getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 		setListeTitreRepas(result);
 	}
 
 	@Command
-	@NotifyChange({ "dateDebutFiltre", "dateFinFiltre", "etatTitreRepasFiltre" })
+	@NotifyChange({ "dateDebutFiltre", "dateFinFiltre", "etatTitreRepasFiltre", "commandeFiltre" })
 	public void viderFiltre() {
 		setDateDebutFiltre(null);
 		setDateFinFiltre(null);
 		setEtatTitreRepasFiltre(null);
+		setCommandeFiltre(null);
 	}
 
 	public String dateSaisieToString(Date date) {
@@ -318,5 +323,13 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 
 	public void setTitreRepasCourant(TitreRepasDemandeDto titreRepasCourant) {
 		this.titreRepasCourant = titreRepasCourant;
+	}
+
+	public String getCommandeFiltre() {
+		return commandeFiltre;
+	}
+
+	public void setCommandeFiltre(String commandeFiltre) {
+		this.commandeFiltre = commandeFiltre;
 	}
 }
