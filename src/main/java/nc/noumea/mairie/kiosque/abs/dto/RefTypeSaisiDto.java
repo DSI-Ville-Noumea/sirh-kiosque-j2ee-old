@@ -240,14 +240,6 @@ public class RefTypeSaisiDto implements Serializable {
 		this.compteurCollectif = compteurCollectif;
 	}
 
-	public boolean isMotif() {
-		return motif;
-	}
-
-	public void setMotif(boolean motif) {
-		this.motif = motif;
-	}
-
 	public boolean isPrescripteur() {
 		return prescripteur;
 	}
@@ -310,6 +302,14 @@ public class RefTypeSaisiDto implements Serializable {
 
 	public void setMaladiePro(boolean maladiePro) {
 		this.maladiePro = maladiePro;
+	}
+
+	public boolean isMotif() {
+		return motif;
+	}
+
+	public void setMotif(boolean motif) {
+		this.motif = motif;
 	}
 	
 }

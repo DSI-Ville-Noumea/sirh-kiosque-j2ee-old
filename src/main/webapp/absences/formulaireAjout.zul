@@ -202,10 +202,9 @@
 						</combobox>
 					</vlayout>
 				</hlayout>
-				<hlayout
-					visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.motif)">
+				<hlayout>
 					<hlayout width="150px">
-						<label value="Observation : " />
+						<label value="Commentaire : " />
 					</hlayout>
 					<vlayout>
 						<textbox rows="4" width="200px"
@@ -316,7 +315,7 @@
 						<textbox rows="4" width="300px"
 							value="@bind(vm.demandeCreation.commentaire)" />
 						<label
-							value="Précisez si vous êtes joignable ou non durant votre congé." />
+							value="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.infosComplementaires)" />
 					</vlayout>
 				</hlayout>
 				<hlayout>

@@ -427,13 +427,20 @@ public class ModifierDemandeViewModel {
 			// MOTIF
 			if (typeSaisie.isMotif()) {
 				if (getDemandeCourant().getCommentaire() == null) {
-					vList.add(new ValidationMessage("Le motif est obligatoire."));
+					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
 				}
 			}
 		} else if (getDemandeCourant().getTypeSaisiCongeAnnuel() != null) {
 			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
 					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de début."));
+				}
+			}
+
+			// MOTIF
+			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isMotif()) {
+				if (getDemandeCourant().getCommentaire() == null) {
+					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
 				}
 			}
 

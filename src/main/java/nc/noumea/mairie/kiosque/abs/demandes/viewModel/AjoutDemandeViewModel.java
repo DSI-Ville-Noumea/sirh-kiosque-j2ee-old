@@ -546,7 +546,7 @@ public class AjoutDemandeViewModel {
 			// MOTIF
 			if (refTypeAbsenceDto.getTypeSaisiDto().isMotif()) {
 				if (getDemandeCreation().getCommentaire() == null) {
-					vList.add(new ValidationMessage("Le motif est obligatoire."));
+					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
 				}
 			}
 		} else if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto() != null) {
@@ -554,6 +554,13 @@ public class AjoutDemandeViewModel {
 				if (getSelectDebutAM() == null) {
 					vList.add(new ValidationMessage(
 							"Merci de choisir M/A pour la date de début."));
+				}
+			}
+
+			// MOTIF
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isMotif()) {
+				if (getDemandeCreation().getCommentaire() == null) {
+					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
 				}
 			}
 
