@@ -80,6 +80,18 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		List<RefEtatPointageDto> filtreEtat = ptgWsConsumer.getEtatTitreRepasKiosque();
 		setListeEtatTitreRepasFiltre(filtreEtat);
 		setTailleListe("5");
+		
+		recupereTitreRepasEnCours();
+		setCheckTitreRepas(getTitreRepasCourant() == null ? "non" : getTitreRepasCourant().getCommande() ? "oui" : "non");
+		// on charge les demandes sur 12 derniers mois
+		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
+				getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
+				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null,
+				getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
+		setListeTitreRepas(result);
+	}
+
+	private void recupereTitreRepasEnCours() {
 		// on recupere le titre repas deja saisi
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeZone(TimeZone.getTimeZone("Pacific/Noumea"));
@@ -97,13 +109,7 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 		} else {
 			setTitreRepasCourant(titreRepasCourant.get(0));
 		}
-		setCheckTitreRepas(getTitreRepasCourant() == null ? "non" : getTitreRepasCourant().getCommande() ? "oui" : "non");
-		// on charge les demandes sur 12 derniers mois
-		List<TitreRepasDemandeDto> result = ptgWsConsumer.getListTitreRepas(getCurrentUser().getAgent().getIdAgent(), getDateDebutFiltre(),
-				getDateFinFiltre(), null, getCurrentUser().getAgent().getIdAgent(),
-				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null,
-				getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
-		setListeTitreRepas(result);
+		
 	}
 
 	@Command
@@ -141,6 +147,9 @@ public class MesTitreRepasViewModel extends AbstractViewModel {
 				getEtatTitreRepasFiltre() == null ? null : getEtatTitreRepasFiltre().getIdRefEtat(), null,
 				getCommandeFiltre() == null ? null : getCommandeFiltre().equals("oui") ? true : false);
 		setListeTitreRepas(resultList);
+		
+		//bug rafraichissement : on remet à jour le titre repas courant
+		recupereTitreRepasEnCours();
 
 	}
 
