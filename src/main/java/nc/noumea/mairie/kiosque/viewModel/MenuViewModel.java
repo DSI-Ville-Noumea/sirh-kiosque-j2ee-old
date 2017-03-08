@@ -69,11 +69,11 @@ public class MenuViewModel extends AbstractViewModel implements Serializable {
 
 		/* Pour les pointages */
 		setDroitsModulePointage(getDroitsPointage() == null ? false : getDroitsPointage().isApprobation() || getDroitsPointage().isFiches() || getDroitsPointage().isGestionDroitsAcces()
-				|| getDroitsPointage().isSaisie() || getDroitsPointage().isVisualisation() || (getDroitsPointage().isTitreRepas() && environnementService.isAffichageModuleTitreRepas())|| (getDroitsPointage().isTitreRepasAgent() && environnementService.isAffichageModuleTitreRepas()));
+				|| getDroitsPointage().isSaisie() || getDroitsPointage().isVisualisation() || getDroitsPointage().isTitreRepas()|| getDroitsPointage().isTitreRepasAgent() );
 	}
 
 	public boolean ouvreGestionTitreRepas() {
-		return (null != getDroitsPointage() && (getDroitsPointage().isApprobation() || getDroitsPointage().isVisualisation())) && environnementService.isAffichageModuleTitreRepas();
+		return (null != getDroitsPointage() && (getDroitsPointage().isApprobation() || getDroitsPointage().isVisualisation()));
 	}
 
 	@Command

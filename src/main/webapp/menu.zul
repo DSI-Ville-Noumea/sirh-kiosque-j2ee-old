@@ -64,7 +64,7 @@
 						visible="@bind(vm.droitsPointage.saisiePrimesDpmOperateur)" 
 						onClick="@command('changeEcran',page='/pointages/primeDpm/gestionChoixPrimeDpm',ecran=content)" />
 					<menuitem label="Mes titres repas"
-						visible="@bind(vm.droitsPointage.titreRepasAgent and vm.environnementService.affichageModuleTitreRepas)"
+						visible="@bind(vm.droitsPointage.titreRepasAgent)"
 						onClick="@command('changeEcran',page='/pointages/titreRepas/mesTitreRepas',ecran=content)" />
 					<menuitem label="Gestion des titres repas"
 						visible="@bind(vm.ouvreGestionTitreRepas())" 

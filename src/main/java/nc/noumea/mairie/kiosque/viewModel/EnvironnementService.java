@@ -35,10 +35,6 @@ public class EnvironnementService {
 	@Qualifier("typeEnvironnement")
 	private String typeEnvironnement;
 
-	@Autowired
-	@Qualifier("affichageModuleTitreRepas")
-	private boolean affichageModuleTitreRepas;
-
 	public String getTypeEnvironnement() {
 		return typeEnvironnement;
 	}
@@ -53,13 +49,5 @@ public class EnvironnementService {
 
 	public boolean isProduction() {
 		return getTypeEnvironnement().toUpperCase().equals("PROD");
-	}
-
-	public boolean isAffichageModuleTitreRepas() {
-		return affichageModuleTitreRepas;
-	}
-
-	public void setAffichageModuleTitreRepas(boolean affichageModuleTitreRepas) {
-		this.affichageModuleTitreRepas = affichageModuleTitreRepas;
 	}
 }
