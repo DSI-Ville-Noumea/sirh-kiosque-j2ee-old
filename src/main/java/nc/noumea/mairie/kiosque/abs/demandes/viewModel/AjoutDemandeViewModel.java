@@ -53,6 +53,7 @@ import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.apache.commons.lang.StringUtils;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
@@ -547,6 +548,13 @@ public class AjoutDemandeViewModel {
 			if (refTypeAbsenceDto.getTypeSaisiDto().isMotif()) {
 				if (getDemandeCreation().getCommentaire() == null) {
 					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
+				}
+			}
+
+			// Prescripteur
+			if (refTypeAbsenceDto.getTypeSaisiDto().isPrescripteur()) {
+				if (StringUtils.isBlank(getDemandeCreation().getPrescripteur())) {
+					vList.add(new ValidationMessage("Le prescripteur est obligatoire."));
 				}
 			}
 		} else if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto() != null) {

@@ -240,6 +240,7 @@
 						<hlayout>
 							<hlayout width="150px">
 								<label value="Pièces jointes : " />
+								<image tooltiptext="@bind(vm.demandeCourant.typeSaisi.infosPieceJointe)" sclass="ListAction help" visible="@bind(not empty vm.demandeCourant.typeSaisi.infosPieceJointe)" />
 							</hlayout>
 							<vlayout>
 								<grid
@@ -355,6 +356,7 @@
 						<hlayout>
 							<hlayout width="150px">
 								<label value="Pièces jointes : " />
+								<image tooltiptext="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.infosPieceJointe)" sclass="ListAction help" visible="@bind(not empty vm.demandeCourant.typeSaisiCongeAnnuel.infosPieceJointe)" />
 							</hlayout>
 							<vlayout>
 								<grid

@@ -216,7 +216,11 @@
 				<hlayout>
 					<hlayout width="150px">
 						<label value="Pièces jointes : " />
+						<image tooltiptext="@bind(vm.typeAbsenceCourant.typeSaisiDto.infosPieceJointe)" sclass="ListAction help" visible="@bind(not empty vm.typeAbsenceCourant.typeSaisiDto.infosPieceJointe)" />
 					</hlayout>
+					
+					
+            		
             		<vlayout>
             			<grid visible="@bind(not empty vm.demandeCreation.piecesJointes)"
 							model="@bind(vm.demandeCreation.piecesJointes)" width="260px" zclass="listPiecesJointes" >
@@ -321,7 +325,9 @@
 				<hlayout>
 					<hlayout width="150px">
 						<label value="Pièces jointes : " />
+						<image tooltiptext="@bind(vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.infosPieceJointe)" sclass="ListAction help" visible="@bind(not empty vm.typeAbsenceCourant.typeSaisiCongeAnnuelDto.infosPieceJointe)" />
 					</hlayout>
+					
             		<vlayout>
             			<grid visible="@bind(not empty vm.demandeCreation.piecesJointes)"
 							model="@bind(vm.demandeCreation.piecesJointes)" width="260px" zclass="listPiecesJointes" >

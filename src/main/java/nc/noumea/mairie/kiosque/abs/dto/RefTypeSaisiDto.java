@@ -44,6 +44,7 @@ public class RefTypeSaisiDto implements Serializable {
 	private boolean chkDateFin;
 	private boolean duree;
 	private boolean pieceJointe;
+	private String infosPieceJointe;
 	
 	private boolean fonctionnaire;
 	private boolean contractuel;
@@ -142,6 +143,14 @@ public class RefTypeSaisiDto implements Serializable {
 
 	public void setPieceJointe(boolean pieceJointe) {
 		this.pieceJointe = pieceJointe;
+	}
+
+	public String getInfosPieceJointe() {
+		return infosPieceJointe;
+	}
+
+	public void setInfosPieceJointe(String infosPieceJointe) {
+		this.infosPieceJointe = infosPieceJointe;
 	}
 
 	public boolean isFonctionnaire() {
