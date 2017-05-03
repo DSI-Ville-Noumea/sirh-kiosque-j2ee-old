@@ -215,6 +215,10 @@
 								sclass="ListAction print"
 								visible="@bind(each.affichageBoutonImprimer)"
 								onClick="@command('imprimerDemande',ref=each)" />
+							<image tooltiptext="Demander à la DRH un contrôle médical"
+								sclass="ListAction medecin"
+								visible="@bind(vm.afficheControleMedical(each))"
+								onClick="@command('demanderControleMedical',ref=each)" />
 						</hlayout>
 						<label
 							value="@bind(vm.dateSaisieToString(each.dateSaisie))" />

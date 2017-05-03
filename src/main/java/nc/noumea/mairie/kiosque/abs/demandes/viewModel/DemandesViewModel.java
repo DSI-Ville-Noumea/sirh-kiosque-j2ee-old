@@ -44,6 +44,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.planning.CustomEventsManager;
 import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXPlanner;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -470,6 +471,15 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	}
 
 	@Command
+	public void demanderControleMedical(@BindingParam("ref") DemandeDto demande) {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", demande);
+		Window win = (Window) Executions.createComponents("/absences/demandes/demanderControleMedical.zul", null, args);
+		win.doModal();
+	}
+
+	@Command
 	public void ajouterDemande() {
 		// create a window programmatically and use it as a modal dialog.
 		Window win = (Window) Executions.createComponents("/absences/demandes/ajoutDemande.zul", null, null);
@@ -879,6 +889,13 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 
 	public boolean affichePouceRougeViseur(DemandeDto dto) {
 		return dto.isModifierVisa() && dto.getIdRefEtat() != RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat();
+	}
+
+	/**
+	 * On affiche le bouton 'Controle médical' pour toutes les absences de type maladie.
+	 */
+	public boolean afficheControleMedical(DemandeDto dto) {
+		return dto.getGroupeAbsence().getIdRefGroupeAbsence().equals(RefTypeGroupeAbsenceEnum.MALADIES.getValue());
 	}
 
 }

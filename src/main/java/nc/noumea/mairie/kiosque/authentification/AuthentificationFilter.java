@@ -131,9 +131,9 @@ public class AuthentificationFilter implements Filter {
 		if (null == remoteUser && request.getHeader("host").contains("localhost")) {
 			//remoteUser = "laumi57";
 //			remoteUser = "ngusa79"; // drox sabrina 
-			remoteUser = "boust75"; // stephanie
+			//remoteUser = "boust75"; // stephanie
 			// remoteUser = "carda69";  // David CARDONA  Approbateur Chef du Service de l’accueil du public et de l’Etat civil (SAPEC)
-			// remoteUser = "butja63";   // 3367 operateur DPM
+			 remoteUser = "butja63";   // 3367 operateur DPM
 		}
 		
 		remoteUser = convertRemoteUser(remoteUser);

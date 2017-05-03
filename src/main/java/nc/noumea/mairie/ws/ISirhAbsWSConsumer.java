@@ -32,6 +32,7 @@ import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
+import nc.noumea.mairie.kiosque.abs.dto.ControleMedicalDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
@@ -88,6 +89,10 @@ public interface ISirhAbsWSConsumer {
 	ReturnMessageDto deleteDemandeAbsence(Integer idAgent, Integer idDemande);
 
 	ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent, DemandeEtatChangeDto dto);
+
+	ReturnMessageDto persistControleMedical(ControleMedicalDto dto);
+
+	ControleMedicalDto getControleMedicalByDemande(Integer demandeMaladieId);
 
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
 

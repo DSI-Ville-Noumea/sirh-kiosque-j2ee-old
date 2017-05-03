@@ -34,6 +34,7 @@ import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
+import nc.noumea.mairie.kiosque.abs.dto.ControleMedicalDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
@@ -89,6 +90,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
 	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
 	private static final String sirhListeDemandesUrl = "demandes/listeDemandes";
+	private static final String sirhPersistDemandeControleMedicalUrl = "demandes/persistDemandeControleMedical";
+	private static final String sirhGetDemandeControleMedicalUrl = "demandes/getDemandeControleMedical";
+	
 	// utilise pour le planning afin de passer la liste des agents dans l appel
 	// au WS
 	private static final String sirhListeDemandesPlanningKiosqueUrl = "demandes/listeDemandesPlanningKiosque";
@@ -682,4 +686,29 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(RefTypeDto.class, res, url);
 	}
+
+	@Override
+	public ReturnMessageDto persistControleMedical(ControleMedicalDto dto) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhPersistDemandeControleMedicalUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+//		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.signature")
+//				.exclude("*.position").exclude("*.selectedDroitAbs").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
+	}
+	
+	@Override
+	public ControleMedicalDto getControleMedicalByDemande(Integer idDemandeMaladie) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhGetDemandeControleMedicalUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idDemandeMaladie", idDemandeMaladie.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(ControleMedicalDto.class, res, url);
+	}
+
 }
