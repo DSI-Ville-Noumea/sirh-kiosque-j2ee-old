@@ -692,9 +692,6 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		String url = String.format(sirhAbsWsBaseUrl + sirhPersistDemandeControleMedicalUrl);
 		HashMap<String, String> params = new HashMap<>();
 
-//		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.signature")
-//				.exclude("*.position").exclude("*.selectedDroitAbs").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
-
 		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
 
 		ClientResponse res = createAndFirePostRequest(params, url, json);

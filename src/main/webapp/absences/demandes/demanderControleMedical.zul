@@ -5,12 +5,25 @@
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.demandes.viewModel.DemanderControleMedicalViewModel')">
 		<div sclass="fond" height="100%">
 			<vlayout>
-				<hlayout width="400px" height="50px">
-					<label value="Voulez-vous vraiment effectuer une demande de contrôle médical auprès de la DRH pour cet agent ?" />
+			
+				<!-- Text for a creation -->
+				<hlayout width="400px" height="90px" visible="@bind(!vm.readOnly())">
+					<hlayout width="400px" height="50px">
+						<label value="Voulez-vous vraiment effectuer une demande de contrôle médical auprès de la DRH pour cet agent ?" />
+					</hlayout>
+					<hlayout width="400px" height="30px">
+						<label value="Cette action est irréversible, et non modifiable." />
+					</hlayout>
 				</hlayout>
-				<hlayout width="400px" height="30px">
-					<label value="Cette action est irréversible, et non modifiable." />
+				
+				<!-- Text for a consultation -->
+				<hlayout width="400px" height="60px" visible="@bind(vm.readOnly())">
+					<hlayout width="400px" height="50px">
+						<label value="Une demande de contrôle médicale a déjà été effectuée pour cette demande, avec le motif suivant : " />
+					</hlayout>
 				</hlayout>
+				
+				<!-- Motif -->
 				<hlayout>
 					<hlayout width="35px">
 						<label value="Motif : " />
@@ -22,6 +35,8 @@
 				<separator />
 				<div sclass="RHTitle2Line" />
 				<separator />
+				
+				<!-- Barre de validation -->
 				<div align="center">
 					<hlayout>
 						<button label="Valider"

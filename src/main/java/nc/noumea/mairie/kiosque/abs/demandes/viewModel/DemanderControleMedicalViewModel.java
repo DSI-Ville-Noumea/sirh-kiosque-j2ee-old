@@ -56,11 +56,10 @@ public class DemanderControleMedicalViewModel {
 
 	@WireVariable
 	private ISirhAbsWSConsumer absWsConsumer;
+	private ProfilAgentDto currentUser;
 	
 	private DemandeDto demandeAbsenceCourant;
 	private ControleMedicalDto demandeControleMedicalCourant;
-
-	private ProfilAgentDto currentUser;
 	private String tabTitle;
 
 	@AfterCompose
@@ -70,9 +69,6 @@ public class DemanderControleMedicalViewModel {
 		setDemandeAbsenceCourant(demande);
 		
 		ControleMedicalDto controleMedical = absWsConsumer.getControleMedicalByDemande(demande.getIdDemande());
-
-		// TODO : Remove after tests
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(controleMedical);
 		
 		if (controleMedical == null)
 			controleMedical = new ControleMedicalDto();
@@ -82,24 +78,12 @@ public class DemanderControleMedicalViewModel {
 	}
 
 	@Command
-	public void approuveDemande(@BindingParam("win") Window window) {
-		
-		// TODO : Suppr. les System.out.println()
-		if (currentUser == null || currentUser.getAgent() == null) {
-			System.out.println("Aucun agent n'est connecté");
-			return;
-		}
-		// TODO : Suppr. les System.out.println()
-		if (demandeControleMedicalCourant.getId() != null) {
-			System.out.println("Vous ne pouvez modifier une demande de contrôle médical existante.");
-			return;
-		}
-		
+	public void approuveDemande(@BindingParam("win") Window window) {		
 		if (IsFormValid() && getDemandeAbsenceCourant() != null) {
 
 			ControleMedicalDto demandeControle = new ControleMedicalDto();
 			demandeControle.setDate(new Date());
-			demandeControle.setDemandeMaladie(demandeAbsenceCourant);
+			demandeControle.setIdDemandeMaladie(demandeAbsenceCourant.getIdDemande());
 			demandeControle.setIdAgent(currentUser.getAgent().getIdAgent());
 			demandeControle.setCommentaire(demandeControleMedicalCourant.getCommentaire());
 
@@ -132,9 +116,19 @@ public class DemanderControleMedicalViewModel {
 
 		List<ValidationMessage> vList = new ArrayList<ValidationMessage>();
 
+		String commentaire = getDemandeControleMedicalCourant() != null ? getDemandeControleMedicalCourant().getCommentaire() : null;
 		// Le commentaire est obligatoire
-		if (getDemandeControleMedicalCourant() == null || getDemandeControleMedicalCourant().getCommentaire() == null) {
+		if (commentaire == null || commentaire.trim().length() == 0) {
 			vList.add(new ValidationMessage("Le commentaire est obligatoire."));
+		}
+		
+		if (currentUser == null || currentUser.getAgent() == null) {
+			vList.add(new ValidationMessage("Aucun agent n'est connecté"));
+		}
+		
+		// Il n'est pas possible de modifier une demande crée (afin de garder l'historique)
+		if (demandeControleMedicalCourant.getId() != null) {
+			vList.add(new ValidationMessage("Vous ne pouvez modifier une demande de contrôle médical existante."));
 		}
 
 		if (vList.size() > 0) {

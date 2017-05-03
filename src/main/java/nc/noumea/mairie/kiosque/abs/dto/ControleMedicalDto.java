@@ -35,12 +35,16 @@ import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 public class ControleMedicalDto {
 
 	private Integer id;
-	private DemandeDto demandeMaladie;
+	private Integer idDemandeMaladie;
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date date;
 	private Integer idAgent;
 	private String commentaire;
+	
+	public ControleMedicalDto() {
+		super();
+	}
 
 	public Integer getId() {
 		return id;
@@ -50,12 +54,12 @@ public class ControleMedicalDto {
 		this.id = id;
 	}
 
-	public DemandeDto getDemandeMaladie() {
-		return demandeMaladie;
+	public Integer getIdDemandeMaladie() {
+		return idDemandeMaladie;
 	}
 
-	public void setDemandeMaladie(DemandeDto demandeMaladie) {
-		this.demandeMaladie = demandeMaladie;
+	public void setIdDemandeMaladie(Integer idDemandeMaladie) {
+		this.idDemandeMaladie = idDemandeMaladie;
 	}
 
 	public Date getDate() {
