@@ -8,12 +8,10 @@
 			
 				<!-- Text for a creation -->
 				<hlayout width="400px" height="90px" visible="@bind(!vm.readOnly())">
-					<hlayout width="400px" height="50px">
+					<vlayout width="400px" height="90px">
 						<label value="Voulez-vous vraiment effectuer une demande de contrôle médical auprès de la DRH pour cet agent ?" />
-					</hlayout>
-					<hlayout width="400px" height="30px">
 						<label value="Cette action est irréversible, et non modifiable." />
-					</hlayout>
+					</vlayout>
 				</hlayout>
 				
 				<!-- Text for a consultation -->
