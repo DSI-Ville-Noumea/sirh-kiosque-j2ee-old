@@ -1,5 +1,7 @@
 package nc.noumea.mairie.ws;
 
+import java.io.InputStream;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -27,13 +29,23 @@ package nc.noumea.mairie.ws;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 import flexjson.JSONSerializer;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
@@ -59,6 +71,8 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	@Qualifier("sirhEaeWsBaseUrl")
 	private String				sirhEaeWsBaseUrl;
 
+	private Logger				logger							= LoggerFactory.getLogger(SirhEaeWSConsumer.class);
+
 	private static final String	eaeCampagneEaeUrl				= "eaes/getEaeCampagneOuverte";
 	private static final String	eaeTableauBordUrl				= "eaes/tableauDeBord";
 	private static final String	eaeTableauEaeUrl				= "eaes/listEaesByAgent";
@@ -69,7 +83,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	private static final String	eaeControleUrl					= "eaes/getEeaControle";
 	private static final String	eaeFinalizationInformationUrl	= "eaes/getFinalizationInformation";
 	private static final String	eaeCanFinaliseEaeUrl			= "eaes/canFinalizeEae";
-	private static final String	eaeFinalizeEaeUrl				= "eaes/finalizeEae";
+	private static final String	eaeFinalizeEaeWithBufferUrl		= "eaes/finalizeEaeWithBuffer";
 
 	/* Pour les onglets */
 	private static final String	eaeIdentificationUrl			= "evaluation/eaeIdentification";
@@ -117,7 +131,7 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 		String url = String.format(sirhEaeWsBaseUrl + eaeImpressionEaeUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idEae", idEae.toString());
-		//#33981 : on change de DOCX vers ODT
+		// #33981 : on change de DOCX vers ODT
 		params.put("format", isDetache ? "ODT" : "PDF");
 
 		ClientResponse res = createAndFireRequest(params, url, false, null);
@@ -382,16 +396,49 @@ public class SirhEaeWSConsumer extends BaseWsConsumer implements ISirhEaeWSConsu
 	}
 
 	@Override
-	public ReturnMessageDto finalizeEae(Integer idEae, Integer idAgent, EaeFinalisationDto eaeFinalizationDto) {
-		String url = String.format(sirhEaeWsBaseUrl + eaeFinalizeEaeUrl);
+	public ReturnMessageDto finalizeEae(Integer idEae, Integer idAgent, String commentaire, Float noteAnnee, InputStream fileInputStream,
+			String typeFile) {
+		logger.debug("finalizeEae de SirhEaeWsConsumer");
+		String url = String.format(sirhEaeWsBaseUrl + eaeFinalizeEaeWithBufferUrl);
 		HashMap<String, String> params = new HashMap<>();
 		params.put("idAgent", idAgent.toString());
 		params.put("idEae", idEae.toString());
+		params.put("commentaire", commentaire == null ? "" : commentaire);
+		params.put("noteAnnee", String.valueOf(noteAnnee));
+		params.put("typeFile", typeFile);
 
-		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(eaeFinalizationDto);
+		logger.debug("finalizeEae de SirhEaeWsConsumer + params " + params.values());
 
-		ClientResponse res = createAndFirePostRequest(params, url, json);
+		ClientResponse res = createAndFirePostRequestWithInputStream(params, url, fileInputStream);
 		return readResponseWithReturnMessageDto(ReturnMessageDto.class, res, url);
+	}
+
+	public ClientResponse createAndFirePostRequestWithInputStream(Map<String, String> parameters, String url, InputStream fileInputStream) {
+
+		Client client = Client.create();
+		WebResource webResource = client.resource(url);
+
+		for (String key : parameters.keySet()) {
+			webResource = webResource.queryParam(key, parameters.get(key));
+		}
+
+		ClientResponse response = null;
+
+		try {
+
+			// on ajoute le inputStream
+			logger.debug("finaliseEae : createAndFirePostRequestWithInputStream avant creation Multipart ");
+			FormDataMultiPart form = new FormDataMultiPart();
+			FormDataBodyPart fdp = new FormDataBodyPart("fileInputStream", fileInputStream, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+			form.bodyPart(fdp);
+			logger.debug("finaliseEae : createAndFirePostRequestWithInputStream avant POST ");
+			response = webResource.type(MediaType.MULTIPART_FORM_DATA).post(ClientResponse.class, form);
+
+		} catch (ClientHandlerException ex) {
+			throw new WSConsumerException(String.format("An error occured when querying '%s'.", url), ex);
+		}
+
+		return response;
 	}
 
 }

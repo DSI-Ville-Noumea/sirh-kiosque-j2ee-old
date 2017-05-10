@@ -410,7 +410,8 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 	}
 
 	@Override
-	public List<TitreRepasDemandeDto> getListTitreRepas(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS, Integer idAgentRecherche, Integer idEtat, Date dateMonth) {
+	public List<TitreRepasDemandeDto> getListTitreRepas(Integer idAgentConnecte, Date fromDate, Date toDate, Integer idServiceADS,
+			Integer idAgentRecherche, Integer idEtat, Date dateMonth, Boolean commande) {
 
 		String url = String.format(sirhPtgWsBaseUrl + ptgListeTitreRepasUrl);
 		HashMap<String, String> params = new HashMap<>();
@@ -428,6 +429,8 @@ public class SirhPtgWSConsumer extends BaseWsConsumer implements ISirhPtgWSConsu
 			params.put("dateMonth", sdf.format(dateMonth));
 		if (idAgentRecherche != null)
 			params.put("idAgent", idAgentRecherche.toString());
+		if (commande != null)
+			params.put("commande", commande.toString());
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(TitreRepasDemandeDto.class, res, url);

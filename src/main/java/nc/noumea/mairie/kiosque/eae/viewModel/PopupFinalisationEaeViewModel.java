@@ -26,19 +26,11 @@ package nc.noumea.mairie.kiosque.eae.viewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import nc.noumea.mairie.kiosque.dto.AgentDto;
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeFinalisationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
-import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -58,6 +50,14 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Window;
 
+import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeFinalizationInformationDto;
+import nc.noumea.mairie.kiosque.eae.dto.EaeListItemDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.ws.ISirhEaeWSConsumer;
+
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class PopupFinalisationEaeViewModel {
 
@@ -67,6 +67,8 @@ public class PopupFinalisationEaeViewModel {
 
 	@WireVariable
 	private ISirhEaeWSConsumer				eaeWsConsumer;
+
+	private Logger							logger	= LoggerFactory.getLogger(PopupFinalisationEaeViewModel.class);
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("eaeCourant") EaeListItemDto eae) {
@@ -81,10 +83,10 @@ public class PopupFinalisationEaeViewModel {
 	}
 
 	public String concatAgentWithDto(AgentDto agent) {
-		if(agent==null || agent.getNom()==null || agent.getPrenom()==null){
+		if (agent == null || agent.getNom() == null || agent.getPrenom() == null) {
 			return null;
 		}
-		
+
 		return concatAgent(agent.getNom(), agent.getPrenom());
 	}
 
@@ -127,7 +129,7 @@ public class PopupFinalisationEaeViewModel {
 		} catch (Exception e) {
 		}
 		// vérifie fichier PDF et obligatoire
-		if (getFinalisationCourant().getbFile() == null || getFinalisationCourant().getNameFile() == null) {
+		if (getFinalisationCourant().getFileInputStream() == null || getFinalisationCourant().getNameFile() == null) {
 			result.getErrors().add("Veuillez sélectionner votre fichier EAE avant de pouvoir finaliser.");
 		} else {
 			try {
@@ -153,18 +155,12 @@ public class PopupFinalisationEaeViewModel {
 
 		}
 
-		EaeFinalisationDto eaeFinalisationDto = new EaeFinalisationDto();
-		eaeFinalisationDto.setAnnee(new Integer(getFinalisationCourant().getAnnee()).toString());
-		eaeFinalisationDto.setCommentaire(getFinalisationCourant().getCommentaire());
-		eaeFinalisationDto.setDateFinalisation(new Date());
-		eaeFinalisationDto.setNoteAnnee(b.floatValue());
-		eaeFinalisationDto.setTypeFile(getFinalisationCourant().getTypeFile());
-		eaeFinalisationDto.setbFile(getFinalisationCourant().getbFile());
-		
-		result = eaeWsConsumer.finalizeEae(getFinalisationCourant().getIdEae(), currentUser.getAgent().getIdAgent(), eaeFinalisationDto);
-		
-		if (!result.getErrors().isEmpty() 
-				|| !result.getInfos().isEmpty()) {
+		logger.debug("finaliseEae : juste avant appel à SIRH-EAE-WS ");
+		result = eaeWsConsumer.finalizeEae(getFinalisationCourant().getIdEae(), currentUser.getAgent().getIdAgent(),
+				getFinalisationCourant().getCommentaire(), b.floatValue(), getFinalisationCourant().getFileInputStream(),
+				getFinalisationCourant().getTypeFile());
+
+		if (!result.getErrors().isEmpty() || !result.getInfos().isEmpty()) {
 			final HashMap<String, Object> map = new HashMap<String, Object>();
 			List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 			List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
@@ -179,9 +175,9 @@ public class PopupFinalisationEaeViewModel {
 			map.put("errors", listErreur);
 			map.put("infos", listInfo);
 			Executions.createComponents("/messages/returnMessage.zul", null, map);
-			
+
 			Div divContent = (Div) Path.getComponent("/windowIndex/content");
-			
+
 			final HashMap<String, Object> mapChangeEcran = new HashMap<String, Object>();
 			mapChangeEcran.put("page", "/eae/tableauEae");
 			mapChangeEcran.put("ecran", divContent);
@@ -204,7 +200,7 @@ public class PopupFinalisationEaeViewModel {
 		if (upEvent != null && null != upEvent.getMedias()) {
 			for (Media media : upEvent.getMedias()) {
 
-				getFinalisationCourant().setbFile(media.getByteData());
+				getFinalisationCourant().setFileInputStream(media.getStreamData());
 				getFinalisationCourant().setNameFile(media.getName());
 				getFinalisationCourant().setTypeFile(media.getContentType());
 			}

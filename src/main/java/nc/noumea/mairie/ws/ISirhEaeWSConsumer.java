@@ -1,5 +1,7 @@
 package nc.noumea.mairie.ws;
 
+import java.io.InputStream;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -97,6 +99,6 @@ public interface ISirhEaeWSConsumer {
 
 	boolean canFinaliseEae(Integer idEae, Integer idAgent);
 
-	ReturnMessageDto finalizeEae(Integer idEae, Integer idAgent, EaeFinalisationDto eaeFinalizationDto);
+	ReturnMessageDto finalizeEae(Integer idEae, Integer idAgent, String commentaire, Float noteAnnee, InputStream fileInputStream, String typeFile);
 
 }
