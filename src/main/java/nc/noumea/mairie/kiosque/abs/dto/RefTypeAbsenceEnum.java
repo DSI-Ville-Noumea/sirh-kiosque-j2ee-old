@@ -27,8 +27,8 @@ package nc.noumea.mairie.kiosque.abs.dto;
 
 public enum RefTypeAbsenceEnum {
 
-	CONGE_ANNUEL(1), REPOS_COMP(2), RECUP(3), MALADIES(6), ASA_A48(7), ASA_A54(8), ASA_A55(9), ASA_A52(10), ASA_A53(
-			11), ASA_A49(12), ASA_A50(13), ASA_AMICALE(69);
+	CONGE_ANNUEL(1), REPOS_COMP(2), RECUP(3), ASA_A48(7), ASA_A54(8), ASA_A55(9), ASA_A52(10), ASA_A53(
+			11), ASA_A49(12), ASA_A50(13), ASA_AMICALE(69), ACCIDENT_TRAVAIL(77);
 
 	private int type;
 
@@ -52,8 +52,6 @@ public enum RefTypeAbsenceEnum {
 				return REPOS_COMP;
 			case 3:
 				return RECUP;
-			case 6:
-				return MALADIES;
 			case 7:
 				return ASA_A48;
 			case 8:
@@ -70,6 +68,8 @@ public enum RefTypeAbsenceEnum {
 				return ASA_A50;
 			case 69:
 				return ASA_AMICALE;
+			case 77:
+				return ACCIDENT_TRAVAIL;
 			default:
 				return null;
 		}
@@ -87,8 +87,6 @@ public enum RefTypeAbsenceEnum {
 				return "Repos compensateur";
 			case 3:
 				return "Récupérations";
-			case 6:
-				return "Maladies";
 			case 7:
 				return "Réunion des membres du bureau directeur";
 			case 8:

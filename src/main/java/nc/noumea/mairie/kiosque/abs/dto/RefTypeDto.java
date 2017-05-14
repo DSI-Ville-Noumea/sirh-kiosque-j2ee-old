@@ -6,7 +6,7 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * $Id:$
  * $HeadURL:$
  * %%
- * Copyright (C) 2014 - 2015 Mairie de Nouméa
+ * Copyright (C) 2014 - 2016 Mairie de Nouméa
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,41 +24,31 @@ package nc.noumea.mairie.kiosque.abs.dto;
  * #L%
  */
 
+import java.io.Serializable;
 
-public enum RefTypeGroupeAbsenceEnum {
+public class RefTypeDto implements Serializable {
 
-	RECUP(1), REPOS_COMP(2), AS(3), CONGES_EXCEP(4), CONGES_ANNUELS(5), MALADIES(6), NOT_EXIST(99);
-
-	private int type;
-
-	private RefTypeGroupeAbsenceEnum(int _type) {
-		type = _type;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3854094040343020224L;
+	
+	private Integer idRefType;
+	private String libelle;
+	
+	public RefTypeDto() {
 	}
-
-	public int getValue() {
-		return type;
+	
+	public Integer getIdRefType() {
+		return idRefType;
 	}
-
-	public static RefTypeGroupeAbsenceEnum getRefTypeGroupeAbsenceEnum(Integer type) {
-
-		if (type == null)
-			return null;
-
-		switch (type) {
-			case 1:
-				return RECUP;
-			case 2:
-				return REPOS_COMP;
-			case 3:
-				return AS;
-			case 4:
-				return CONGES_EXCEP;
-			case 5:
-				return CONGES_ANNUELS;
-			case 6:
-				return MALADIES;
-			default:
-				return NOT_EXIST;
-		}
+	public void setIdRefType(Integer idRefType) {
+		this.idRefType = idRefType;
+	}
+	public String getLibelle() {
+		return libelle;
+	}
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
 	}
 }

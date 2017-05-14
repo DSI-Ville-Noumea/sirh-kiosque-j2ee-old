@@ -1,4 +1,26 @@
 <zk>
+<script type="text/javascript">
+	var oldAlert = jq.alert;
+	jq.alert = function (msg, opts) {
+		if (!msg.indexOf('the request was rejected because its size')) {
+
+			// get original number
+			msg = msg.replace('the request was rejected because its size (', '');
+			msg = msg.replace(') exceeds the configured maximum (', '_');
+			msg = msg.replace(')', '');
+			var v1 = msg.substring(0, msg.indexOf('_'));
+			var v2 = msg.substring(msg.indexOf('_')+1, msg.length);
+
+			// calculate MB
+			var n1 = (parseInt(v1)/1024/ 1000).toFixed(2) + 'Mo';
+			var n2 = (parseInt(v2)/1024/ 1000).toFixed(2) + 'Mo';
+
+			oldAlert('La taille de la pièce jointe est trop grande. Merci de ne pas dépasser ' + n2 + '.', opts); // use custom message here
+		}
+		else
+			oldAlert(msg, opts);
+	}
+</script>
 <?meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" ?>
 	<window height="100%" id="windowIndex">
 		<div height="100%">

@@ -34,25 +34,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import nc.noumea.mairie.ads.dto.EntiteDto;
-import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
-import nc.noumea.mairie.kiosque.abs.dto.ApprobateurDto;
-import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
-import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.planning.CustomEventsManager;
-import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXPlanner;
-import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.export.ExcelExporter;
-import nc.noumea.mairie.kiosque.export.PdfExporter;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
-import nc.noumea.mairie.ws.IAdsWSConsumer;
-import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
-import nc.noumea.mairie.ws.ISirhWSConsumer;
-
 import org.apache.catalina.session.StandardSessionFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +60,25 @@ import org.zkoss.zul.Window;
 
 import com.dhtmlx.planner.DHXSkin;
 
+import nc.noumea.mairie.ads.dto.EntiteDto;
+import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
+import nc.noumea.mairie.kiosque.abs.dto.ApprobateurDto;
+import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.planning.CustomEventsManager;
+import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXPlanner;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.export.ExcelExporter;
+import nc.noumea.mairie.kiosque.export.PdfExporter;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.travail.dto.EstChefDto;
+import nc.noumea.mairie.ws.IAdsWSConsumer;
+import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
+import nc.noumea.mairie.ws.ISirhWSConsumer;
+
 // @Controller utile pour le planning
 @Controller
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
@@ -87,43 +87,43 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1319705744557882740L;
+	private static final long			serialVersionUID	= 1319705744557882740L;
 
-	private Logger logger = LoggerFactory.getLogger(DemandesAgentViewModel.class);
-
-	@WireVariable
-	private ISirhAbsWSConsumer absWsConsumer;
+	private Logger						logger				= LoggerFactory.getLogger(DemandesAgentViewModel.class);
 
 	@WireVariable
-	private ISirhWSConsumer sirhWsConsumer;
+	private ISirhAbsWSConsumer			absWsConsumer;
 
 	@WireVariable
-	private IAdsWSConsumer adsWsConsumer;
+	private ISirhWSConsumer				sirhWsConsumer;
 
-	private List<DemandeDto> listeDemandes;
+	@WireVariable
+	private IAdsWSConsumer				adsWsConsumer;
 
-	private Tab tabCourant;
+	private List<DemandeDto>			listeDemandes;
+
+	private Tab							tabCourant;
 
 	/* POUR LES FILTRES */
-	private List<RefGroupeAbsenceDto> listeGroupeAbsenceFiltre;
-	private RefGroupeAbsenceDto groupeAbsenceFiltre;
-	private List<RefTypeAbsenceDto> listeTypeAbsenceFiltre;
-	private RefTypeAbsenceDto typeAbsenceFiltre;
-	private List<RefEtatAbsenceDto> listeEtatAbsenceFiltre;
+	private List<RefGroupeAbsenceDto>	listeGroupeAbsenceFiltre;
+	private RefGroupeAbsenceDto			groupeAbsenceFiltre;
+	private List<RefTypeAbsenceDto>		listeTypeAbsenceFiltre;
+	private RefTypeAbsenceDto			typeAbsenceFiltre;
+	private List<RefEtatAbsenceDto>		listeEtatAbsenceFiltre;
 
-	private Date dateDebutFiltre;
-	private Date dateFinFiltre;
-	private Date dateDemandeFiltre;
+	private Date						dateDebutFiltre;
+	private Date						dateFinFiltre;
+	private Date						dateDemandeFiltre;
 
 	/* POUR LE HAUT DU TABLEAU */
-	private String filter;
-	private String tailleListe;
+	private String						filter;
+	private String						tailleListe;
 
-	private ProfilAgentDto currentUser;
+	private ProfilAgentDto				currentUser;
 
-	private ActeursDto acteursDto;
+	private ActeursDto					acteursDto;
 
-	private List<AgentWithServiceDto> listAgentsEquipe;
+	private List<AgentWithServiceDto>	listAgentsEquipe;
 
 	@Init
 	public void initDemandesAgent() {
@@ -167,8 +167,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			addAgentsEquipeFromThree(tree);
 		} else {
 			// sinon l equipe de l agent
-			List<AgentWithServiceDto> agentsEquipe = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(),
-					null);
+			List<AgentWithServiceDto> agentsEquipe = sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), null);
 
 			for (AgentWithServiceDto ag : agentsEquipe) {
 				ag.setIdServiceADS(agent.getIdServiceADS());
@@ -178,26 +177,23 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		}
 
 		// planning #12159
-		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
-				.getSession().getNativeSession();
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
 		s.setAttribute("listeAgentsEquipe", getListAgentsEquipe());
 	}
-	
+
 	private void addAgentsEquipeFromThree(EntiteDto tree) {
-		
-		for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
-				.getIdAgent(), tree.getIdEntite())) {
+
+		for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), tree.getIdEntite())) {
 			getListAgentsEquipe().add(agent);
 		}
-		
+
 		addAgentsEquipeFromThreeRecursive(tree);
 	}
-	
+
 	private void addAgentsEquipeFromThreeRecursive(EntiteDto entite) {
-		
+
 		for (EntiteDto entiteEnfant : entite.getEnfants()) {
-			for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent()
-					.getIdAgent(), entiteEnfant.getIdEntite())) {
+			for (AgentWithServiceDto agent : sirhWsConsumer.getAgentEquipe(currentUser.getAgent().getIdAgent(), entiteEnfant.getIdEntite())) {
 				getListAgentsEquipe().add(agent);
 			}
 			addAgentsEquipeFromThreeRecursive(entiteEnfant);
@@ -207,8 +203,8 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	@Command
 	@NotifyChange({ "listeTypeAbsenceFiltre", "typeAbsenceFiltre" })
 	public void alimenteTypeFamilleAbsence() {
-		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsenceFiltre()
-				.getIdRefGroupeAbsence(), currentUser.getAgent().getIdAgent());
+		List<RefTypeAbsenceDto> filtreFamilleAbsence = absWsConsumer.getRefTypeAbsenceKiosque(getGroupeAbsenceFiltre().getIdRefGroupeAbsence(),
+				currentUser.getAgent().getIdAgent());
 		if (filtreFamilleAbsence.size() == 1) {
 			setListeTypeAbsenceFiltre(null);
 			setTypeAbsenceFiltre(null);
@@ -252,29 +248,26 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		// #12159 construction du planning
 		if ("PLANNING".equals(getTabCourant().getId())) {
 			// #20359 ne pas retourner les etats annule, rejete, ...
-			if(etats.isEmpty()) {
-				for(RefEtatAbsenceDto etat : getListeEtatAbsenceFiltre()) {
+			if (etats.isEmpty()) {
+				for (RefEtatAbsenceDto etat : getListeEtatAbsenceFiltre()) {
 					etats.add(etat.getIdRefEtat());
 				}
 			}
-			
-			List<DemandeDto> result = absWsConsumer.getListeDemandesForPlanning(getDateDebutFiltre(),
-					getDateFinFiltre(), etats.size() == 0 ? null : etats.toString().replace("[", "").replace("]", "")
-							.replace(" ", ""), getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre()
-							.getIdRefTypeAbsence(), getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre()
-							.getIdRefGroupeAbsence(), getListAgentsEquipe());
+
+			List<DemandeDto> result = absWsConsumer.getListeDemandesForPlanning(getDateDebutFiltre(), getDateFinFiltre(),
+					etats.size() == 0 ? null : etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
+					getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
+					getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence(), getListAgentsEquipe());
 			setListeDemandes(result);
 
-			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
-					.getSession().getNativeSession();
+			org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
 
 			s.setAttribute("listeDemandes", result);
 			s.setAttribute("listeAgentsEquipe", getListAgentsEquipe());
-			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning")
-					.getFellow("windowplanning"));
+			doAfterCompose(getTabCourant().getFellow("tb").getFellow("tabpanelplanning").getFellow("includeplanning").getFellow("windowplanning"));
 		} else {
-			List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getAgent().getIdAgent(),
-					getTabCourant().getId(), getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
+			List<DemandeDto> result = absWsConsumer.getDemandesAgent(currentUser.getAgent().getIdAgent(), getTabCourant().getId(),
+					getDateDebutFiltre(), getDateFinFiltre(), getDateDemandeFiltre(),
 					etats.size() == 0 ? null : etats.toString().replace("[", "").replace("]", "").replace(" ", ""),
 					getTypeAbsenceFiltre() == null ? null : getTypeAbsenceFiltre().getIdRefTypeAbsence(),
 					getGroupeAbsenceFiltre() == null ? null : getGroupeAbsenceFiltre().getIdRefGroupeAbsence());
@@ -305,8 +298,8 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	}
 
 	@Command
-	@NotifyChange({ "groupeAbsenceFiltre", "listeTypeAbsenceFiltre", "typeAbsenceFiltre", "dateDebutFiltre",
-			"dateFinFiltre", "dateDemandeFiltre", "listeEtatAbsenceFiltre" })
+	@NotifyChange({ "groupeAbsenceFiltre", "listeTypeAbsenceFiltre", "typeAbsenceFiltre", "dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre",
+			"listeEtatAbsenceFiltre" })
 	public void viderFiltre() {
 		setListeTypeAbsenceFiltre(null);
 		setGroupeAbsenceFiltre(null);
@@ -320,8 +313,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	}
 
 	public List<DemandeDto> getHistoriqueAbsence(DemandeDto abs) {
-		List<DemandeDto> result = absWsConsumer.getHistoriqueAbsence(currentUser.getAgent().getIdAgent(),
-				abs.getIdDemande());
+		List<DemandeDto> result = absWsConsumer.getHistoriqueAbsence(currentUser.getAgent().getIdAgent(), abs.getIdDemande());
 		return result;
 	}
 
@@ -417,8 +409,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		String approb = approbateur.getApprobateur().getNom() + " " + approbateur.getApprobateur().getPrenom();
 		// on regarde si il y a un delegataire
 		if (approbateur.getDelegataire() != null) {
-			approb += " (Délégataire : " + approbateur.getDelegataire().getNom() + " "
-					+ approbateur.getDelegataire().getPrenom() + ")";
+			approb += " (Délégataire : " + approbateur.getDelegataire().getNom() + " " + approbateur.getDelegataire().getPrenom() + ")";
 		}
 		return approb;
 	}
@@ -502,6 +493,11 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	public String getDureeToString(DemandeDto dto) {
 		if (dto.getTypeSaisi() != null) {
 			if (dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+				// #32281 : si on est MALADIE AT, alors dans durée, on affiche
+				// le nombre de jours ITT
+				if (dto.getTypeSaisi() != null && dto.getTypeSaisi().isNombreITT()) {
+					return dto.getNombreITT() + " j";
+				}
 				return dto.getDuree() + " j";
 			} else {
 				return getHeureMinute(dto.getDuree().intValue());
@@ -544,13 +540,11 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 			// car creer dans planner.render()
 		}
 
-		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent()
-				.getSession().getNativeSession();
+		org.apache.catalina.session.StandardSessionFacade s = (StandardSessionFacade) Executions.getCurrent().getSession().getNativeSession();
 		@SuppressWarnings("unchecked")
 		List<AgentWithServiceDto> listeAgentsEquipe = (List<AgentWithServiceDto>) s.getAttribute("listeAgentsEquipe");
 
-		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsDemandesAgent",
-				listeAgentsEquipe);
+		CustomDHXPlanner planner = new CustomDHXPlanner("./codebase/", DHXSkin.TERRACE, "eventsDemandesAgent", listeAgentsEquipe);
 		try {
 			Executions.createComponentsDirectly(planner.render(), null, comp.getFellow("div"), null);
 		} catch (Exception e) {
@@ -565,8 +559,7 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 		List<DemandeDto> listDemandes = (List<DemandeDto>) request.getSession().getAttribute("listeDemandes");
 
 		@SuppressWarnings("unchecked")
-		List<AgentWithServiceDto> listeAgentsEquipe = (List<AgentWithServiceDto>) request.getSession().getAttribute(
-				"listeAgentsEquipe");
+		List<AgentWithServiceDto> listeAgentsEquipe = (List<AgentWithServiceDto>) request.getSession().getAttribute("listeAgentsEquipe");
 
 		CustomEventsManager evs = new CustomEventsManager(request, listDemandes, listeAgentsEquipe);
 		return evs.run();

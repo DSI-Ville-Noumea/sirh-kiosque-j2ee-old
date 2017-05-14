@@ -26,7 +26,6 @@ package nc.noumea.mairie.kiosque.abs.planning;
  
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +42,6 @@ import com.dhtmlx.planner.DHXStatus;
 public class CustomEventsManager extends DHXEventsManager {
 
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	
-	public static final List<String> LIST_COLORS = Arrays.asList("orange", "red", "gold", "blue", "green", "grey", "purple", "pink"); 
 
 	private List<DHXEv> evs = new ArrayList<DHXEv>();
 	

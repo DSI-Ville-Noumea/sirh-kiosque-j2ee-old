@@ -24,17 +24,26 @@ package nc.noumea.mairie.kiosque.abs.agent.viewModel;
  * #L%
  */
 
+import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
@@ -42,13 +51,19 @@ import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.apache.commons.lang.StringUtils;
+import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
@@ -72,6 +87,9 @@ public class AjoutDemandeAgentViewModel {
 	private String samediOffertCongeAnnuel;
 
 	private List<OrganisationSyndicaleDto> listeOrganisationsSyndicale;
+	
+	private List<RefTypeDto> listeSiegeLesion;
+	private List<DemandeDto> listeATReference;
 
 	private OrganisationSyndicaleDto organisationsSyndicaleCourant;
 
@@ -94,6 +112,8 @@ public class AjoutDemandeAgentViewModel {
 	private String dureeMinuteDemande;
 	
 	private boolean saisieManuelleDuree = false;
+	
+	private SimpleDateFormat sdfddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Init
 	public void initAjoutDemandeAgent() {
@@ -102,8 +122,8 @@ public class AjoutDemandeAgentViewModel {
 
 		currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-		// on recharge les groupes d'absences pour les filtres
-		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsence();
+		// on recharge les groupes d'absences pour les filtres sauf maladies
+		List<RefGroupeAbsenceDto> filtreGroupeFamille = absWsConsumer.getRefGroupeAbsenceForAgent();
 		setListeGroupeAbsence(filtreGroupeFamille);
 		// on positionne la selection du statut Provisoire/Définitif
 		//#15785
@@ -137,8 +157,9 @@ public class AjoutDemandeAgentViewModel {
 
 	@Command
 	@NotifyChange({ "listeOrganisationsSyndicale", "organisationsSyndicaleCourant", "." })
-	public void alimenteOrganisation() {
-		if (getTypeAbsenceCourant() != null && getTypeAbsenceCourant().getTypeSaisiDto() != null
+	public void chargeFormulaire() {
+		if (getTypeAbsenceCourant() != null 
+				&& getTypeAbsenceCourant().getTypeSaisiDto() != null
 				&& getTypeAbsenceCourant().getTypeSaisiDto().isCompteurCollectif()) {
 			// on recharge les organisations syndicales
 			List<OrganisationSyndicaleDto> orga = absWsConsumer.getListOrganisationSyndicale(currentUser.getAgent()
@@ -153,6 +174,24 @@ public class AjoutDemandeAgentViewModel {
 			}
 
 			setListeOrganisationsSyndicale(orga);
+		}
+		if (getTypeAbsenceCourant() != null 
+				&& getTypeAbsenceCourant().getTypeSaisiDto() != null){
+			if(getTypeAbsenceCourant().getTypeSaisiDto().isSiegeLesion()) {
+				setListeSiegeLesion(absWsConsumer.getListSiegeLesion());
+			}
+		}
+		if (getTypeAbsenceCourant() != null 
+				&& getTypeAbsenceCourant().getTypeSaisiDto() != null){
+			if(getTypeAbsenceCourant().getTypeSaisiDto().isAtReference()) {
+				List<DemandeDto> listATReference = absWsConsumer.getDemandesAgent(currentUser.getAgent()
+						.getIdAgent(), "TOUTES", null, null, null, 
+						Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
+						RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue(), getTypeAbsenceCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+				
+				Collections.sort(listATReference);
+				setListeATReference(listATReference);
+			}
 		}
 	}
 
@@ -219,6 +258,8 @@ public class AjoutDemandeAgentViewModel {
 		setSelectFinAM(null);
 		setDureeHeureDemande(null);
 		setDureeMinuteDemande(null);
+		setListeATReference(null);
+		setListeSiegeLesion(null);
 	}
 
 	@Command
@@ -387,13 +428,27 @@ public class AjoutDemandeAgentViewModel {
 			// MOTIF
 			if (refTypeAbsenceDto.getTypeSaisiDto().isMotif()) {
 				if (getDemandeCreation().getCommentaire() == null) {
-					vList.add(new ValidationMessage("Le motif est obligatoire."));
+					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
+				}
+			}
+
+			// Prescripteur
+			if (refTypeAbsenceDto.getTypeSaisiDto().isPrescripteur()) {
+				if (StringUtils.isBlank(getDemandeCreation().getPrescripteur())) {
+					vList.add(new ValidationMessage("Le prescripteur est obligatoire."));
 				}
 			}
 		} else if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto() != null) {
 			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
 					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de début."));
+				}
+			}
+
+			// MOTIF
+			if (refTypeAbsenceDto.getTypeSaisiCongeAnnuelDto().isMotif()) {
+				if (getDemandeCreation().getCommentaire() == null) {
+					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
 				}
 			}
 
@@ -427,6 +482,58 @@ public class AjoutDemandeAgentViewModel {
 			return false;
 		} else
 			return true;
+	}
+
+	public String afficheATReference(DemandeDto demandeAT) {
+		
+		String result = "";
+		
+		if(null != demandeAT.getDateDeclaration()) {
+			result += sdfddMMyyyy.format(demandeAT.getDateDeclaration()) + " - ";
+		}
+		if(null != demandeAT.getTypeSiegeLesion()) {
+			result += demandeAT.getTypeSiegeLesion().getLibelle();
+		}
+		
+		return result;
+	}
+
+	@Command
+	@NotifyChange("demandeCourant")
+	public void onUploadPDF(
+			@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx)
+			throws IOException {
+
+		UploadEvent upEvent = null;
+		Object objUploadEvent = ctx.getTriggerEvent();
+		if (objUploadEvent != null && (objUploadEvent instanceof UploadEvent)) {
+			upEvent = (UploadEvent) objUploadEvent;
+		}
+		if (upEvent != null
+				&& null != upEvent.getMedias()) {
+			for(Media media : upEvent.getMedias()) {
+				
+				PieceJointeDto pj = new PieceJointeDto();
+				pj.setTitre(media.getName());
+				pj.setTypeFile(media.getContentType());
+				pj.setbFile(media.getByteData());
+				
+				getDemandeCreation().getPiecesJointes().add(pj);
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange("demandeCourant")
+	public void supprimerPieceJointe(
+			@BindingParam("ref") PieceJointeDto pieceJointeDto)
+			throws IOException {
+
+		if(null != getDemandeCreation().getPiecesJointes()
+				&& !getDemandeCreation().getPiecesJointes().isEmpty()
+				&& getDemandeCreation().getPiecesJointes().contains(pieceJointeDto)) {
+			getDemandeCreation().getPiecesJointes().remove(pieceJointeDto);
+		}
 	}
 
 	public List<RefTypeAbsenceDto> getListeTypeAbsence() {
@@ -609,5 +716,30 @@ public class AjoutDemandeAgentViewModel {
 
 	public void setSaisieManuelleDuree(boolean saisieManuelleDuree) {
 		this.saisieManuelleDuree = saisieManuelleDuree;
+	}
+
+	public List<RefTypeDto> getListeSiegeLesion() {
+		return listeSiegeLesion;
+	}
+
+	public void setListeSiegeLesion(List<RefTypeDto> listeSiegeLesion) {
+		this.listeSiegeLesion = listeSiegeLesion;
+	}
+
+	public List<DemandeDto> getListeATReference() {
+		return listeATReference;
+	}
+
+	public void setListeATReference(List<DemandeDto> listeATReference) {
+		this.listeATReference = listeATReference;
+	}	
+	
+	public boolean isMaladie(){
+		if(getGroupeAbsence()==null || getGroupeAbsence().getIdRefGroupeAbsence()==null){
+			return false;
+		}else if(getGroupeAbsence().getIdRefGroupeAbsence()==RefTypeGroupeAbsenceEnum.MALADIES.getValue()){
+			return true;
+		}
+		return false;
 	}
 }

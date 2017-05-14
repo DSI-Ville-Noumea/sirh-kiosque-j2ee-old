@@ -87,6 +87,10 @@
 
 	.ListAction.print { background-position: -299px -229px; }
 
+	.ListAction.medecin { background-image:
+	url("img/firstAidKit.png"); background-repeat: no-repeat;
+	cursor: pointer; display: inline-block; height: 22px; width: 22px; }
+
 	.ListAction.accept {background-image: url("img/hand-vert.png");
 	background-repeat: no-repeat; cursor: pointer; display:
 	inline-block; height: 16px; margin: 2px 5px 0; width: 16px;}

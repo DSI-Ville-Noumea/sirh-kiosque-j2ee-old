@@ -44,6 +44,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.planning.CustomEventsManager;
 import nc.noumea.mairie.kiosque.abs.planning.vo.CustomDHXPlanner;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
@@ -378,6 +379,15 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	}
 
 	@Command
+	public void openPiecesJointes(@BindingParam("ref") DemandeDto demande) {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", demande);
+		Window win = (Window) Executions.createComponents("/absences/piecesJointes.zul", null, args);
+		win.doModal();
+	}
+
+	@Command
 	@NotifyChange({ "listeDemandes" })
 	public void approuverDemande(@BindingParam("ref") DemandeDto demande) {
 
@@ -457,6 +467,15 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
 		args.put("demandeCourant", demande);
 		Window win = (Window) Executions.createComponents("/absences/demandes/approuverDemande.zul", null, args);
+		win.doModal();
+	}
+
+	@Command
+	public void demanderControleMedical(@BindingParam("ref") DemandeDto demande) {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", demande);
+		Window win = (Window) Executions.createComponents("/absences/demandes/demanderControleMedical.zul", null, args);
 		win.doModal();
 	}
 
@@ -627,6 +646,10 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 	public String getDureeToString(DemandeDto dto) {
 		if (dto.getTypeSaisi() != null) {
 			if (dto.getTypeSaisi().getUniteDecompte().equals("jours")) {
+				//#32281 : si on est MALADIE AT, alors dans durée, on affiche le nombre de jours ITT
+				if (dto.getTypeSaisi() != null && dto.getTypeSaisi().isNombreITT()) {
+					return dto.getNombreITT() + " j";
+				}
 				return dto.getDuree() + " j";
 			} else {
 				return getHeureMinute(dto.getDuree().intValue());
@@ -866,6 +889,13 @@ public class DemandesViewModel extends AbstractViewModel implements Serializable
 
 	public boolean affichePouceRougeViseur(DemandeDto dto) {
 		return dto.isModifierVisa() && dto.getIdRefEtat() != RefEtatEnum.VISEE_DEFAVORABLE.getCodeEtat();
+	}
+
+	/**
+	 * On affiche le bouton 'Controle médical' pour toutes les absences de type maladie.
+	 */
+	public boolean afficheControleMedical(DemandeDto dto) {
+		return dto.getGroupeAbsence().getIdRefGroupeAbsence().equals(RefTypeGroupeAbsenceEnum.MALADIES.getValue());
 	}
 
 }

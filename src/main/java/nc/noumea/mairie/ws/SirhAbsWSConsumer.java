@@ -34,6 +34,7 @@ import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
+import nc.noumea.mairie.kiosque.abs.dto.ControleMedicalDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
@@ -45,6 +46,7 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
@@ -88,6 +90,9 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhDemandesAgentUrl = "demandes/listeDemandesAgent";
 	private static final String sirhPrintDemandesAgentUrl = "edition/downloadTitreDemande";
 	private static final String sirhListeDemandesUrl = "demandes/listeDemandes";
+	private static final String sirhPersistDemandeControleMedicalUrl = "demandes/persistDemandeControleMedical";
+	private static final String sirhGetDemandeControleMedicalUrl = "demandes/getDemandeControleMedical";
+	
 	// utilise pour le planning afin de passer la liste des agents dans l appel
 	// au WS
 	private static final String sirhListeDemandesPlanningKiosqueUrl = "demandes/listeDemandesPlanningKiosque";
@@ -100,6 +105,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
 	private static final String sirhEtatAbsenceKiosqueUrl = "filtres/getEtats";
 	private static final String sirhGroupeAbsenceUrl = "filtres/getGroupesAbsence";
+	private static final String sirhGroupeAbsenceForAgentUrl = "filtres/getGroupesAbsenceForAgent";
 	private static final String sirhListOrganisationUrl = "organisation/listOrganisationActif";
 	private static final String sirhTypeAbsenceCompteurKiosqueUrl = "filtres/getTypeAbsenceCompteurKiosque";
 	private static final String sirhServicesKiosqueUrl = "filtres/services";
@@ -117,6 +123,11 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhGetListAgentsWithJoursFeriesEnGardeUrl = "joursFeriesGarde/getListAgentsWithJoursFeriesEnGarde";
 	private static final String sirhSetListAgentsWithJoursFeriesEnGardeUrl = "joursFeriesGarde/setListAgentsWithJoursFeriesEnGarde";
 
+	/* Maladies */
+	private static final String sirhListeSiegeLesionUrl = "filtres/getAllTypeSiegeLesion";
+	private static final String sirhListeMaladieProUrl = "filtres/getAllTypeMaladiePro";
+	
+	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
@@ -173,6 +184,15 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	@Override
 	public List<RefGroupeAbsenceDto> getRefGroupeAbsence() {
 		String url = String.format(sirhAbsWsBaseUrl + sirhGroupeAbsenceUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefGroupeAbsenceDto.class, res, url);
+	}
+
+	@Override
+	public List<RefGroupeAbsenceDto> getRefGroupeAbsenceForAgent() {
+		String url = String.format(sirhAbsWsBaseUrl + sirhGroupeAbsenceForAgentUrl);
 		HashMap<String, String> params = new HashMap<>();
 
 		ClientResponse res = createAndFireGetRequest(params, url);
@@ -648,4 +668,44 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(AgentDto.class, res, url);
 	}
+
+	@Override
+	public List<RefTypeDto> getListSiegeLesion() {
+		String url = String.format(sirhAbsWsBaseUrl + sirhListeSiegeLesionUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefTypeDto.class, res, url);
+	}
+
+	@Override
+	public List<RefTypeDto> getListMaladiePro() {
+		String url = String.format(sirhAbsWsBaseUrl + sirhListeMaladieProUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(RefTypeDto.class, res, url);
+	}
+
+	@Override
+	public ReturnMessageDto persistControleMedical(ControleMedicalDto dto) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhPersistDemandeControleMedicalUrl);
+		HashMap<String, String> params = new HashMap<>();
+
+		String json = new JSONSerializer().exclude("*.class").transform(new MSDateTransformer(), Date.class).deepSerialize(dto);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponse(ReturnMessageDto.class, res, url);
+	}
+	
+	@Override
+	public ControleMedicalDto getControleMedicalByDemande(Integer idDemandeMaladie) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhGetDemandeControleMedicalUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idDemandeMaladie", idDemandeMaladie.toString());
+
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponse(ControleMedicalDto.class, res, url);
+	}
+
 }

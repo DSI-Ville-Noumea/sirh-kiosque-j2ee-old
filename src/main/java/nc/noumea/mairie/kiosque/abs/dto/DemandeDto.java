@@ -25,7 +25,9 @@ package nc.noumea.mairie.kiosque.abs.dto;
  */
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.JsonDateDeserializer;
@@ -34,7 +36,7 @@ import nc.noumea.mairie.kiosque.dto.JsonDateSerializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-public class DemandeDto implements Serializable {
+public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 
 	/**
 	 * 
@@ -79,15 +81,12 @@ public class DemandeDto implements Serializable {
 	private boolean isAffichageBoutonSupprimer;
 	private boolean isAffichageBoutonImprimer;
 	private boolean isAffichageBoutonAnnuler;
-	private boolean isAffichageVisa;
-	private boolean isAffichageApprobation;
 	private boolean isAffichageValidation;
 	private boolean isAffichageEnAttente;
 	private boolean isAffichageBoutonDupliquer;
 	// permet de viser ou approuver
 	private boolean isModifierVisa;
 	private boolean isModifierApprobation;
-	private boolean isModifierValidation;
 	// valeur du visa et approbation de la demande
 	private Boolean isValeurVisa = null;
 	private Boolean isValeurApprobation = null;
@@ -95,6 +94,7 @@ public class DemandeDto implements Serializable {
 	// depassement de droits
 	private boolean isDepassementCompteur;
 	private boolean isDepassementMultiple;
+	private boolean isDepassementITT;
 
 	private OrganisationSyndicaleDto organisationSyndicale;
 
@@ -105,6 +105,22 @@ public class DemandeDto implements Serializable {
 	
 	// #15586 restitution massive
 	private boolean affichageBoutonHistorique;
+	
+	// Maladies
+	private Double nombreITT;
+	private String prescripteur;
+	private String nomEnfant;
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	private Date dateDeclaration;
+	private boolean prolongation;
+	private RefTypeDto typeAccidentTravail;
+	private RefTypeDto typeSiegeLesion;
+	private RefTypeDto typeMaladiePro;
+	private DemandeDto accidentTravailReference;
+	
+	// pieces jointes
+	private List<PieceJointeDto> piecesJointes = new ArrayList<PieceJointeDto>();
 
 	public DemandeDto() {
 	}
@@ -171,22 +187,6 @@ public class DemandeDto implements Serializable {
 
 	public void setAffichageBoutonImprimer(boolean isAffichageBoutonImprimer) {
 		this.isAffichageBoutonImprimer = isAffichageBoutonImprimer;
-	}
-
-	public boolean isAffichageVisa() {
-		return isAffichageVisa;
-	}
-
-	public void setAffichageVisa(boolean isAffichageVisa) {
-		this.isAffichageVisa = isAffichageVisa;
-	}
-
-	public boolean isAffichageApprobation() {
-		return isAffichageApprobation;
-	}
-
-	public void setAffichageApprobation(boolean isAffichageApprobation) {
-		this.isAffichageApprobation = isAffichageApprobation;
 	}
 
 	public boolean isAffichageBoutonAnnuler() {
@@ -325,14 +325,6 @@ public class DemandeDto implements Serializable {
 		this.isAffichageValidation = isAffichageValidation;
 	}
 
-	public boolean isModifierValidation() {
-		return isModifierValidation;
-	}
-
-	public void setModifierValidation(boolean isModifierValidation) {
-		this.isModifierValidation = isModifierValidation;
-	}
-
 	public Boolean getValeurValidation() {
 		return isValeurValidation;
 	}
@@ -459,6 +451,109 @@ public class DemandeDto implements Serializable {
 
 	public void setForceSaisieManuelleDuree(boolean forceSaisieManuelleDuree) {
 		this.forceSaisieManuelleDuree = forceSaisieManuelleDuree;
+	}
+
+	public Double getNombreITT() {
+		return nombreITT;
+	}
+
+	public void setNombreITT(Double nombreITT) {
+		this.nombreITT = nombreITT;
+	}
+
+	public String getPrescripteur() {
+		return prescripteur;
+	}
+
+	public void setPrescripteur(String prescripteur) {
+		this.prescripteur = prescripteur;
+	}
+
+	public String getNomEnfant() {
+		return nomEnfant;
+	}
+
+	public void setNomEnfant(String nomEnfant) {
+		this.nomEnfant = nomEnfant;
+	}
+
+	public Date getDateDeclaration() {
+		return dateDeclaration;
+	}
+
+	public void setDateDeclaration(Date dateDeclaration) {
+		this.dateDeclaration = dateDeclaration;
+	}
+
+	public boolean isProlongation() {
+		return prolongation;
+	}
+
+	public void setProlongation(boolean prolongation) {
+		this.prolongation = prolongation;
+	}
+
+	public RefTypeDto getTypeAccidentTravail() {
+		return typeAccidentTravail;
+	}
+
+	public void setTypeAccidentTravail(RefTypeDto typeAccidentTravail) {
+		this.typeAccidentTravail = typeAccidentTravail;
+	}
+
+	public RefTypeDto getTypeSiegeLesion() {
+		return typeSiegeLesion;
+	}
+
+	public void setTypeSiegeLesion(RefTypeDto typeSiegeLesion) {
+		this.typeSiegeLesion = typeSiegeLesion;
+	}
+
+	public RefTypeDto getTypeMaladiePro() {
+		return typeMaladiePro;
+	}
+
+	public void setTypeMaladiePro(RefTypeDto typeMaladiePro) {
+		this.typeMaladiePro = typeMaladiePro;
+	}
+
+	public DemandeDto getAccidentTravailReference() {
+		return accidentTravailReference;
+	}
+
+	public void setAccidentTravailReference(DemandeDto accidentTravailReference) {
+		this.accidentTravailReference = accidentTravailReference;
+	}
+	
+	public List<PieceJointeDto> getPiecesJointes() {
+		return piecesJointes;
+	}
+
+	public void setPiecesJointes(List<PieceJointeDto> piecesJointes) {
+		this.piecesJointes = piecesJointes;
+	}
+
+	@Override
+	public int compareTo(DemandeDto o) {
+		return 0-this.dateDeclaration.compareTo(o.getDateDeclaration());
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(null == this.idDemande
+				|| null == o
+				|| null == ((DemandeDto)o).getIdDemande())
+			return false;
+		
+		return this.idDemande.equals(((DemandeDto)o).getIdDemande());
+	}
+
+	public boolean isDepassementITT() {
+		return isDepassementITT;
+	}
+
+	public void setDepassementITT(boolean isDepassementITT) {
+		this.isDepassementITT = isDepassementITT;
 	}
 
 }

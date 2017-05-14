@@ -24,15 +24,23 @@ package nc.noumea.mairie.kiosque.abs.viewModel;
  * #L%
  */
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
@@ -42,14 +50,20 @@ import nc.noumea.mairie.kiosque.validation.ValidationMessage;
 import nc.noumea.mairie.kiosque.viewModel.TimePicker;
 import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
+import org.apache.commons.lang.StringUtils;
+import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
@@ -65,6 +79,9 @@ public class ModifierDemandeViewModel {
 	private List<OrganisationSyndicaleDto> listeOrganisationsSyndicale;
 
 	private OrganisationSyndicaleDto organisationsSyndicaleCourant;
+	
+	private List<RefTypeDto> listeSiegeLesion;
+	private List<DemandeDto> listeATReference;
 
 	// pour savoir si la date de debut est le matin
 	private String selectDebutAM;
@@ -86,6 +103,8 @@ public class ModifierDemandeViewModel {
 	private String minuteFin;
 	
 	private boolean saisieManuelleDuree;
+	
+	private SimpleDateFormat sdfddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 
 	@AfterCompose
 	public void doAfterCompose(@ExecutionArgParam("demandeCourant") DemandeDto demande) {
@@ -140,6 +159,27 @@ public class ModifierDemandeViewModel {
 
 				setDureeHeureDemande(String.valueOf(heureDuree));
 				setDureeMinuteDemande(String.valueOf(minuteDuree));
+			}
+			
+			// maladies
+			if (getDemandeCourant() != null 
+					&& getDemandeCourant().getTypeSaisi() != null){
+				if(getDemandeCourant().getTypeSaisi().isSiegeLesion()) {
+					setListeSiegeLesion(absWsConsumer.getListSiegeLesion());
+				}
+			}
+			if (getDemandeCourant() != null 
+					&& getDemandeCourant().getTypeSaisi() != null){
+				if(getDemandeCourant().getTypeSaisi().isAtReference()) {
+					List<DemandeDto> listATReference = absWsConsumer.getDemandesAgent(getDemandeCourant().getAgentWithServiceDto()
+							.getIdAgent(), "TOUTES", null, null, null, 
+							Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
+							RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue(), getDemandeCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+					
+					Collections.sort(listATReference);
+					
+					setListeATReference(listATReference);
+				}
 			}
 		}
 	}
@@ -329,6 +369,7 @@ public class ModifierDemandeViewModel {
 		getDemandeCourant().setDuree(demande.getDuree());
 		getDemandeCourant().setIdRefEtat(demande.getIdRefEtat());
 		getDemandeCourant().setMotif(demande.getMotif());
+		getDemandeCourant().setPiecesJointes(demande.getPiecesJointes());
 	}
 
 	private boolean IsFormValid(RefTypeSaisiDto typeSaisie) {
@@ -387,13 +428,27 @@ public class ModifierDemandeViewModel {
 			// MOTIF
 			if (typeSaisie.isMotif()) {
 				if (getDemandeCourant().getCommentaire() == null) {
-					vList.add(new ValidationMessage("Le motif est obligatoire."));
+					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
+				}
+			}
+
+			// Prescripteur
+			if (getDemandeCourant().getTypeSaisi().isPrescripteur()) {
+				if (StringUtils.isBlank(getDemandeCourant().getPrescripteur())) {
+					vList.add(new ValidationMessage("Le prescripteur est obligatoire."));
 				}
 			}
 		} else if (getDemandeCourant().getTypeSaisiCongeAnnuel() != null) {
 			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isChkDateDebut()) {
 				if (getSelectDebutAM() == null) {
 					vList.add(new ValidationMessage("Merci de choisir M/A pour la date de début."));
+				}
+			}
+
+			// MOTIF
+			if (getDemandeCourant().getTypeSaisiCongeAnnuel().isMotif()) {
+				if (getDemandeCourant().getCommentaire() == null) {
+					vList.add(new ValidationMessage("Le commentaire est obligatoire."));
 				}
 			}
 
@@ -450,6 +505,59 @@ public class ModifierDemandeViewModel {
 		return false;
 	}
 
+	public String afficheATReference(DemandeDto demandeAT) {
+		
+		String result = "";
+		
+		if(null != demandeAT.getDateDeclaration()) {
+			result += sdfddMMyyyy.format(demandeAT.getDateDeclaration()) + " - ";
+		}
+		if(null != demandeAT.getTypeSiegeLesion()) {
+			result += demandeAT.getTypeSiegeLesion().getLibelle();
+		}
+		
+		return result;
+	}
+
+	@Command
+	@NotifyChange("demandeCourant")
+	public void onUploadPDF(
+			@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx)
+			throws IOException {
+
+		UploadEvent upEvent = null;
+		Object objUploadEvent = ctx.getTriggerEvent();
+		if (objUploadEvent != null && (objUploadEvent instanceof UploadEvent)) {
+			upEvent = (UploadEvent) objUploadEvent;
+		}
+		if (upEvent != null
+				&& null != upEvent.getMedias()) {
+			for(Media media : upEvent.getMedias()) {
+				
+				PieceJointeDto pj = new PieceJointeDto();
+				pj.setTypeFile(media.getContentType());
+				pj.setbFile(media.getByteData());
+				// bug #30020
+				pj.setTitre(media.getName());
+				
+				getDemandeCourant().getPiecesJointes().add(pj);
+			}
+		}
+	}
+
+	@Command
+	@NotifyChange("demandeCourant")
+	public void supprimerPieceJointe(
+			@BindingParam("ref") PieceJointeDto pieceJointeDto)
+			throws IOException {
+
+		if(null != getDemandeCourant().getPiecesJointes()
+				&& !getDemandeCourant().getPiecesJointes().isEmpty()
+				&& getDemandeCourant().getPiecesJointes().contains(pieceJointeDto)) {
+			getDemandeCourant().getPiecesJointes().remove(pieceJointeDto);
+		}
+	}
+
 	public DemandeDto getDemandeCourant() {
 		return demandeCourant;
 	}
@@ -491,6 +599,11 @@ public class ModifierDemandeViewModel {
 	}
 
 	public String getEtatDemande() {
+		// bug #30012
+		if(demandeCourant.getGroupeAbsence().getIdRefGroupeAbsence()==RefTypeGroupeAbsenceEnum.MALADIES.getValue()
+				&& etatDemande.equals(new Integer(RefEtatEnum.A_VALIDER.getCodeEtat()).toString())) {
+			return new Integer(RefEtatEnum.SAISIE.getCodeEtat()).toString();
+		}
 		return etatDemande;
 	}
 
@@ -585,4 +698,30 @@ public class ModifierDemandeViewModel {
 	public void setSaisieManuelleDuree(boolean saisieManuelleDuree) {
 		this.saisieManuelleDuree = saisieManuelleDuree;
 	}
+
+	public List<RefTypeDto> getListeSiegeLesion() {
+		return listeSiegeLesion;
+	}
+
+	public void setListeSiegeLesion(List<RefTypeDto> listeSiegeLesion) {
+		this.listeSiegeLesion = listeSiegeLesion;
+	}
+
+	public List<DemandeDto> getListeATReference() {
+		return listeATReference;
+	}
+
+	public void setListeATReference(List<DemandeDto> listeATReference) {
+		this.listeATReference = listeATReference;
+	}
+	
+	public boolean isMaladie(){
+		if(getDemandeCourant().getGroupeAbsence()==null || getDemandeCourant().getGroupeAbsence().getIdRefGroupeAbsence()==null){
+			return false;
+		}else if(getDemandeCourant().getGroupeAbsence().getIdRefGroupeAbsence()==RefTypeGroupeAbsenceEnum.MALADIES.getValue()){
+			return true;
+		}
+		return false;
+	}
+	
 }

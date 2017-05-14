@@ -32,6 +32,7 @@ import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
 import nc.noumea.mairie.kiosque.abs.dto.AgentJoursFeriesGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.CompteurDto;
+import nc.noumea.mairie.kiosque.abs.dto.ControleMedicalDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
 import nc.noumea.mairie.kiosque.abs.dto.DemandeEtatChangeDto;
 import nc.noumea.mairie.kiosque.abs.dto.FiltreSoldeDto;
@@ -43,6 +44,7 @@ import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SaisieGardeDto;
 import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
@@ -87,6 +89,10 @@ public interface ISirhAbsWSConsumer {
 	ReturnMessageDto deleteDemandeAbsence(Integer idAgent, Integer idDemande);
 
 	ReturnMessageDto changerEtatDemandeAbsence(Integer idAgent, DemandeEtatChangeDto dto);
+
+	ReturnMessageDto persistControleMedical(ControleMedicalDto dto);
+
+	ControleMedicalDto getControleMedicalByDemande(Integer demandeMaladieId);
 
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
 
@@ -151,5 +157,11 @@ public interface ISirhAbsWSConsumer {
 
 	List<DemandeDto> getListeDemandesForPlanning(Date fromDate, Date toDate, String listIdRefEtat, Integer idRefType,
 			Integer idRefGroupeAbsence, List<AgentWithServiceDto> listIdsAgent);
+
+	List<RefTypeDto> getListMaladiePro();
+
+	List<RefTypeDto> getListSiegeLesion();
+
+	List<RefGroupeAbsenceDto> getRefGroupeAbsenceForAgent();
 
 }

@@ -64,6 +64,12 @@
 							<div style="background:violet;" class="legendEventRaye"></div>
 							<div style="background:violet;" class="legend"></div>
 						</row>
+						<row style="background-color:#FFEBCD !important;background:#FFEBCD !important;">
+							<label value="Maladies" class="marginLeftBold" />
+							<div style="background:grey;" class="legend"></div>
+							<div style="background:brown;" class="legendEventRaye"></div>
+							<div style="background:brown;" class="legend"></div>
+						</row>
 					</rows>
 				</grid>
 			</hlayout>

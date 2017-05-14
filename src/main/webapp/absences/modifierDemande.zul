@@ -3,7 +3,7 @@
 		mode="modal" closable="true" action="show: slideDown;hide: slideUp"
 		apply="org.zkoss.bind.BindComposer" onCancel="self.detach()"
 		viewModel="@id('vm') @init('nc.noumea.mairie.kiosque.abs.viewModel.ModifierDemandeViewModel')"
-		onClose="@command('refreshDemande')" >
+		onClose="@command('refreshDemande')" width="500px">
 		<div sclass="fond" height="100%">
 			<hlayout>
 				<hlayout width="150px">
@@ -136,10 +136,98 @@
 								</combobox>
 							</hlayout>
 						</hlayout>
+						<!-- Maladies -->
+						<hlayout>
+							<hlayout width="150px"
+								visible="@bind(vm.demandeCourant.typeSaisi.dateDeclaration)">
+								<label value="Date de déclaration : " />
+							</hlayout>
+							<hlayout>
+								<datebox
+									visible="@bind(vm.demandeCourant.typeSaisi.dateDeclaration)"
+									cols="14" format="dd/MM/yyyy" maxlength="10"
+									value="@bind(vm.demandeCourant.dateDeclaration)" />
+							</hlayout>
+						</hlayout>
 						<hlayout
-							visible="@bind(vm.demandeCourant.typeSaisi.motif)">
+							visible="@bind(vm.demandeCourant.typeSaisi.prescripteur)">
 							<hlayout width="150px">
-								<label value="Motif : " />
+								<label value="Prescripteur : " />
+							</hlayout>
+							<vlayout>
+								<textbox width="200px"
+									value="@bind(vm.demandeCourant.prescripteur)" />
+							</vlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.nomEnfant)">
+							<hlayout width="150px">
+								<label value="Nom enfant : " />
+							</hlayout>
+							<vlayout>
+								<textbox width="200px"
+									value="@bind(vm.demandeCourant.nomEnfant)" />
+							</vlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.prolongation)">
+							<hlayout width="150px">
+								<label value="Prolongation : " />
+							</hlayout>
+							<vlayout>
+								<checkbox
+									checked="@bind(vm.demandeCourant.prolongation)"
+									label="Prolongation" />
+							</vlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.nombreITT)">
+							<hlayout width="150px">
+								<label value="Nombre ITT : " />
+							</hlayout>
+							<vlayout>
+								<textbox width="200px"
+									constraint="/[0-9]+/: Veuiller entrer un nombre"
+									value="@bind(vm.demandeCourant.nombreITT)" />
+							</vlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.siegeLesion)">
+							<hlayout width="150px">
+								<label value="Siège des lésions : " />
+							</hlayout>
+							<vlayout>
+								<combobox width="400px"
+									value="@bind(vm.demandeCourant.typeSiegeLesion.libelle)"
+									model="@bind(vm.listeSiegeLesion)"
+									selectedItem="@bind(vm.demandeCourant.typeSiegeLesion)">
+									<template name="model">
+										<comboitem
+											label="@bind(each.libelle)" />
+									</template>
+								</combobox>
+							</vlayout>
+						</hlayout>
+						<hlayout
+							visible="@bind(vm.demandeCourant.typeSaisi.atReference)">
+							<hlayout width="150px">
+								<label
+									value="Accident de travail de référence : " />
+							</hlayout>
+							<vlayout>
+								<combobox width="400px"
+									model="@bind(vm.listeATReference)"
+									selectedItem="@bind(vm.demandeCourant.accidentTravailReference)">
+									<template name="model">
+										<comboitem
+											label="@bind(vm.afficheATReference(each))" />
+									</template>
+								</combobox>
+							</vlayout>
+						</hlayout>
+						<hlayout>
+							<hlayout width="150px">
+								<label value="Commentaire : " />
 							</hlayout>
 							<vlayout>
 								<textbox rows="4" width="200px"
@@ -148,13 +236,41 @@
 									value="@bind(vm.demandeCourant.typeSaisi.infosComplementaires)" />
 							</vlayout>
 						</hlayout>
-						<!-- 						<hlayout -->
-						<!-- 							visible="@bind(vm.demandeCourant.typeSaisi.pieceJointe)"> -->
-						<!-- 							<hlayout width="150px"> -->
-						<!-- 								<label value="Pièce jointe : " /> -->
-						<!-- 							</hlayout> -->
-						<!-- 							<hlayout></hlayout> -->
-						<!-- 						</hlayout> -->
+
+						<hlayout>
+							<hlayout width="150px">
+								<label value="Pièces jointes : " />
+								<image tooltiptext="@bind(vm.demandeCourant.typeSaisi.infosPieceJointe)" sclass="ListAction help" visible="@bind(not empty vm.demandeCourant.typeSaisi.infosPieceJointe)" />
+							</hlayout>
+							<vlayout>
+								<grid
+									visible="@bind(not empty vm.demandeCourant.piecesJointes)"
+									model="@bind(vm.demandeCourant.piecesJointes)" width="320px"
+									zclass="listPiecesJointes">
+									<template name="model" var="pj">
+										<row
+											zclass="listPiecesJointes">
+
+											<a
+												if="${pj.urlFromAlfresco != null}"
+												href="@bind(pj.urlFromAlfresco)" label="@bind(pj.titre)"
+												target="_blank" tooltiptext="@bind(pj.titre)" />
+											<label
+												if="${pj.urlFromAlfresco == null}" value="@bind(pj.titre)" />
+											<image
+												tooltiptext="Supprimer la pièce jointe"
+												sclass="ListAction delete"
+												onClick="@command('supprimerPieceJointe',ref=pj)"
+												style="float:right;" />
+										</row>
+									</template>
+								</grid>
+								<button label="Joindre"
+									upload="true,maxsize=2000,multiple=true,accept=|image/*|application/pdf, native"
+									onUpload="@command('onUploadPDF',upEvent=event)">
+								</button>
+							</vlayout>
+						</hlayout>
 					</vlayout>
 					<!-- POUR LES CONGES ANNUELS -->
 					<vlayout
@@ -215,7 +331,8 @@
 								<label value="Durée : " />
 							</hlayout>
 							<hlayout>
-								<textbox cols="14" disabled="@bind(!vm.saisieManuelleDuree)"
+								<textbox cols="14"
+									disabled="@bind(!vm.saisieManuelleDuree)"
 									style="font-weight:bold;color:#ee7203 !important;"
 									value="@bind(vm.dureeCongeAnnuel)" />
 							</hlayout>
@@ -233,7 +350,40 @@
 								<textbox rows="4" width="300px"
 									value="@bind(vm.demandeCourant.commentaire)" />
 								<label
-									value="Précisez si vous êtes joignable ou non durant votre congé." />
+									value="@bind(vm.demandeCourant.typeSaisiCongeAnnuel.infosComplementaires)" />
+							</vlayout>
+						</hlayout>
+						<hlayout>
+							<hlayout width="150px">
+								<label value="Pièces jointes : " />
+							</hlayout>
+							<vlayout>
+								<grid
+									visible="@bind(not empty vm.demandeCourant.piecesJointes)"
+									model="@bind(vm.demandeCourant.piecesJointes)" width="320px"
+									zclass="listPiecesJointes">
+									<template name="model" var="pj">
+										<row
+											zclass="listPiecesJointes">
+
+											<a
+												if="${pj.urlFromAlfresco != null}"
+												href="@bind(pj.urlFromAlfresco)" label="@bind(pj.titre)"
+												target="_blank" tooltiptext="@bind(pj.titre)" />
+											<label
+												if="${pj.urlFromAlfresco == null}" value="@bind(pj.titre)" />
+											<image
+												tooltiptext="Supprimer la pièce jointe"
+												sclass="ListAction delete"
+												onClick="@command('supprimerPieceJointe',ref=pj)"
+												style="float:right;" />
+										</row>
+									</template>
+								</grid>
+								<button label="Joindre"
+									upload="true,maxsize=2000,multiple=true,accept=|image/*|application/pdf, native"
+									onUpload="@command('onUploadPDF',upEvent=event)">
+								</button>
 							</vlayout>
 						</hlayout>
 					</vlayout>
@@ -245,8 +395,10 @@
 						<hlayout>
 							<radiogroup
 								selectedItem="@bind(vm.etatDemande)">
-								<radio label="Provisoire" value="0" />
-								<radio label="Définitive" value="1" />
+								<radio label="Provisoire" value="0"
+									disabled="@bind(vm.isMaladie())" />
+								<radio label="Définitive" value="1"
+									disabled="@bind(vm.isMaladie())" />
 							</radiogroup>
 						</hlayout>
 					</hlayout>
