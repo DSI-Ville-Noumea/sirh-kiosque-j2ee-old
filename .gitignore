@@ -2,3 +2,5 @@
 .classpath
 .project
 .settings
+.idea
+sirh-kiosque-j2ee.iml
