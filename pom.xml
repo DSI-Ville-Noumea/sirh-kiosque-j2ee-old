@@ -394,7 +394,7 @@
 		
 	</dependencies>
 	<build>
-		<finalName>ROOT##${project.artifactId}-${project.version}</finalName>
+		<finalName>ROOT##sirh-kiosque-j2ee-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
