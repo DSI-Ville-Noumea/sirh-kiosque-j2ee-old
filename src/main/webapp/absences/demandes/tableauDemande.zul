@@ -104,9 +104,9 @@
 				emptyMessage="Aucun élément">
 				<columns>
 					<column width="30px" sort="none" />
-					<column label="Agent" width="300px"
+					<column label="Agent" width="280px"
 						sort="auto('agentWithServiceDto.nom','agentWithServiceDto.prenom')" />
-					<column label="Type de demande" width="300px"
+					<column label="Type de demande" width="280px"
 						sort="auto('libelleTypeDemande')" />
 					<column label="Date de début"
 						sort="auto('dateDebut')" align="left" width="90px" />
@@ -115,6 +115,10 @@
 					<column label="Durée" sort="none" width="60px"
 						align="center" />
 					<column label="Etat" sort="none" width="135px" />
+					<column width="40px" align="center" sort="auto('commentaire')">
+						<image tooltiptext="Commentaires"
+							sclass="ListAction help" />
+					</column>
 					<column width="40px" align="center">
 						<image tooltiptext="Alertes"
 							sclass="ListAction warn" />
@@ -165,6 +169,15 @@
 							<image tooltiptext="@bind(each.motif)"
 								sclass="ListAction help" visible="@bind(not empty each.motif)" />
 						</hlayout>
+						
+						<hlayout>
+							<label
+								value="@bind(each.commentaire)"
+								visible="@bind(each.commentaire)" />
+							<image tooltiptext="@bind(each.commentaire)"
+								sclass="ListAction help" visible="@bind(not empty each.commentaire)" />
+						</hlayout>
+						
 						<vlayout>
 							<image
 								tooltiptext="Le seuil du compteur est dépassé pour cette demande."
