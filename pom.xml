@@ -642,7 +642,7 @@
 						<fileSet>
 							<directory>target</directory>
 							<includes>
-								<include>ROOT##${project.artifactId}-${project.version}.war</include>
+								<include>ROOT##sirh-kiosque-j2ee-${project.version}.war</include>
 							</includes>
 						</fileSet>
 					</fileSets>
