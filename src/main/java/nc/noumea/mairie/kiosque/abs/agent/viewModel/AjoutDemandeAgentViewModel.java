@@ -516,7 +516,9 @@ public class AjoutDemandeAgentViewModel {
 				PieceJointeDto pj = new PieceJointeDto();
 				pj.setTitre(media.getName());
 				pj.setTypeFile(media.getContentType());
-				pj.setbFile(media.getByteData());
+				//pj.setbFile(media.getByteData());
+				// #37756 : Upload via stream
+				pj.setFileInputStream(media.getStreamData());
 				
 				getDemandeCreation().getPiecesJointes().add(pj);
 			}

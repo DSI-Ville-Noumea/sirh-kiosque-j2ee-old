@@ -1,5 +1,7 @@
 package nc.noumea.mairie.ws;
 
+import java.io.IOException;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -95,6 +97,12 @@ public interface ISirhAbsWSConsumer {
 	ControleMedicalDto getControleMedicalByDemande(Integer demandeMaladieId);
 
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
+	
+	/* Pièces jointes */
+
+	String saveDemandeAbsenceWithoutPJ(Integer idAgent, DemandeDto dto);
+	
+	ReturnMessageDto savePJWithInputStream(Integer idAgent, DemandeDto dto, String idDemande) throws IOException; 
 
 	/* DROITS */
 

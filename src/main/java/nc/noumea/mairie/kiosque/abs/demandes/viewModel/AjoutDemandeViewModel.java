@@ -382,7 +382,7 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
-	public void saveDemande(@BindingParam("win") Window window) {
+	public void saveDemande(@BindingParam("win") Window window) throws IOException {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
 
@@ -456,8 +456,14 @@ public class AjoutDemandeViewModel {
 				
 			}
 			
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+			/*ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+					getDemandeCreation());*/
+			
+			String demandeId = absWsConsumer.saveDemandeAbsenceWithoutPJ(currentUser.getAgent().getIdAgent(),
 					getDemandeCreation());
+			
+			ReturnMessageDto result = absWsConsumer.savePJWithInputStream(currentUser.getAgent().getIdAgent(),
+					getDemandeCreation(), demandeId);
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -635,7 +641,9 @@ public class AjoutDemandeViewModel {
 				PieceJointeDto pj = new PieceJointeDto();
 				pj.setTitre(media.getName());
 				pj.setTypeFile(media.getContentType());
-				pj.setbFile(media.getByteData());
+				//pj.setbFile(media.getByteData());
+				// #37756 : Upload via stream
+				pj.setFileInputStream(media.getStreamData());
 				
 				getDemandeCreation().getPiecesJointes().add(pj);
 			}

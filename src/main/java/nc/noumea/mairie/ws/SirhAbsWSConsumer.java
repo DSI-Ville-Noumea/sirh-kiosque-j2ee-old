@@ -1,5 +1,8 @@
 package nc.noumea.mairie.ws;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -25,9 +28,13 @@ package nc.noumea.mairie.ws;
  */
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.MediaType;
 
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
@@ -43,6 +50,7 @@ import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifRefusDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
@@ -59,7 +67,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 import flexjson.JSONSerializer;
 
@@ -100,6 +113,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhHistoriqueAbsenceUrl = "demandes/historique";
 	private static final String sirhDureeCongeAnnuelUrl = "demandes/dureeDemandeCongeAnnuel";
 	private static final String sirhDemandeUrl = "demandes/demande";
+	private static final String sirhSaveDemandeWithoutPJUrl = "demandes/saveDemandeWithoutPJ";
+	private static final String sirhSaveDemandesAgentWithStreamUrl = "demandes/savePieceJointesWithStream";
 
 	/* Filtres */
 	private static final String sirhTypeAbsenceKiosqueUrl = "filtres/getTypeAbsenceKiosque";
@@ -129,6 +144,73 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+
+	/* =============================
+	 * The code below is not stable. 
+	 * In test for #37756 
+	 * =============================
+	 */
+	@Override
+	public String saveDemandeAbsenceWithoutPJ(Integer idAgent, DemandeDto dto) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhSaveDemandeWithoutPJUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+
+		String json = new JSONSerializer().exclude("*.class").exclude("*.civilite").exclude("*.signature")
+				.exclude("*.position").exclude("*.selectedDroitAbs").exclude("*.piecesJointes").transform(new MSDateTransformer(), Date.class)
+				.deepSerialize(dto);
+
+		ClientResponse res = createAndFirePostRequest(params, url, json);
+		return readResponseAsString(res, url);
+	}
+
+	@Override
+	public ReturnMessageDto savePJWithInputStream(Integer idAgent, DemandeDto dto, String idDemande) throws IOException {
+		String url = String.format(sirhAbsWsBaseUrl + sirhSaveDemandesAgentWithStreamUrl);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		params.put("idDemande", idDemande);
+
+		ClientResponse res = createAndFirePostRequestWithInputStream(params, url, dto);
+		return readResponse(ReturnMessageDto.class, res, url);
+	}
+	
+	public ClientResponse createAndFirePostRequestWithInputStream(Map<String, String> parameters, String url, DemandeDto demandeDto) throws IOException {
+
+		Client client = Client.create();
+		WebResource webResource = client.resource(url);
+
+		for (String key : parameters.keySet()) {
+			webResource = webResource.queryParam(key, parameters.get(key));
+		}
+
+		ClientResponse response = null;
+
+		try {
+			FormDataMultiPart form = new FormDataMultiPart();
+			for (PieceJointeDto pj : demandeDto.getPiecesJointes()) {
+				InputStream test = pj.getFileInputStream();
+				FormDataBodyPart fdp = new FormDataBodyPart("fileInputStream", test, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+				//form.field("fileInputStream", test, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+				form.bodyPart(fdp);
+				// on ajoute le inputStream
+			}
+			response = webResource.type(MediaType.MULTIPART_FORM_DATA).post(ClientResponse.class, form);
+
+		} catch (ClientHandlerException ex) {
+			throw new WSConsumerException(String.format("An error occured when querying '%s'.", url), ex);
+		}
+
+		return response;
+	}
+	/* =============================
+	 * The code above is not stable. 
+	 * In test for #37756 
+	 * =============================
+	 */
+	
+	
 
 	public SoldeDto getAgentSolde(Integer idAgent, FiltreSoldeDto filtreDto) {
 
