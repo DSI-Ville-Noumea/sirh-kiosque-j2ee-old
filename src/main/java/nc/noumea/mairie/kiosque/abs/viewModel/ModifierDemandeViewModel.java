@@ -239,7 +239,7 @@ public class ModifierDemandeViewModel {
 	}
 
 	@Command
-	public void saveDemande(@BindingParam("win") Window window) {
+	public void saveDemande(@BindingParam("win") Window window) throws IOException {
 
 		if (IsFormValid(getDemandeCourant().getTypeSaisi())) {
 
@@ -307,8 +307,11 @@ public class ModifierDemandeViewModel {
 			
 			ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
-					getDemandeCourant());
+			/*ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+					getDemandeCourant());*/
+			
+			ReturnMessageDto result = absWsConsumer.savePJWithInputStream(currentUser.getAgent().getIdAgent(),
+					getDemandeCourant(), "28");
 
 			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();

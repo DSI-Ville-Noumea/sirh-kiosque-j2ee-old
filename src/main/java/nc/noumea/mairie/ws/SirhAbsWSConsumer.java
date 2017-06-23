@@ -34,8 +34,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.multipart.BodyPart;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
+
+import flexjson.JSONSerializer;
 import nc.noumea.mairie.ads.dto.EntiteDto;
 import nc.noumea.mairie.kiosque.abs.dto.AccessRightsAbsDto;
 import nc.noumea.mairie.kiosque.abs.dto.ActeursDto;
@@ -62,19 +83,6 @@ import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.multipart.FormDataBodyPart;
-import com.sun.jersey.multipart.FormDataMultiPart;
-
-import flexjson.JSONSerializer;
 
 @Service("absWsConsumer")
 public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsumer {
@@ -169,8 +177,8 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	public ReturnMessageDto savePJWithInputStream(Integer idAgent, DemandeDto dto, String idDemande) throws IOException {
 		String url = String.format(sirhAbsWsBaseUrl + sirhSaveDemandesAgentWithStreamUrl);
 		HashMap<String, String> params = new HashMap<>();
-		params.put("idAgent", idAgent.toString());
-		params.put("idDemande", idDemande);
+		/*params.put("idAgent", idAgent.toString());
+		params.put("idDemande", idDemande);*/
 
 		ClientResponse res = createAndFirePostRequestWithInputStream(params, url, dto);
 		return readResponse(ReturnMessageDto.class, res, url);
@@ -186,13 +194,12 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 		}
 
 		ClientResponse response = null;
-
+		
 		try {
 			FormDataMultiPart form = new FormDataMultiPart();
 			for (PieceJointeDto pj : demandeDto.getPiecesJointes()) {
-				InputStream test = pj.getFileInputStream();
-				FormDataBodyPart fdp = new FormDataBodyPart("fileInputStream", test, MediaType.APPLICATION_OCTET_STREAM_TYPE);
-				//form.field("fileInputStream", test, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+				FormDataBodyPart fdp = new FormDataBodyPart("file", pj.getFileInputStream(), MediaType.APPLICATION_OCTET_STREAM_TYPE);
+				//form.field("fileInputStream", pj.getFileInputStream(), MediaType.APPLICATION_OCTET_STREAM_TYPE);
 				form.bodyPart(fdp);
 				// on ajoute le inputStream
 			}
