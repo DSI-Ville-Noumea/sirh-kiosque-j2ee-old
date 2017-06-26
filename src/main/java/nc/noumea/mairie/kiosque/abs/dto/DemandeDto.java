@@ -535,7 +535,10 @@ public class DemandeDto implements Comparable<DemandeDto>, Serializable  {
 
 	@Override
 	public int compareTo(DemandeDto o) {
-		return 0-this.dateDeclaration.compareTo(o.getDateDeclaration());
+		if (this.dateDeclaration != null && o.getDateDeclaration() != null)
+			return 0 - this.dateDeclaration.compareTo(o.getDateDeclaration());
+		else
+			return 0-this.dateDebut.compareTo(o.getDateDebut());
 	}
 	
 	@Override

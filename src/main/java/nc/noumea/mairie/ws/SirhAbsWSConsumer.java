@@ -92,6 +92,7 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 	private static final String sirhListeDemandesUrl = "demandes/listeDemandes";
 	private static final String sirhPersistDemandeControleMedicalUrl = "demandes/persistDemandeControleMedical";
 	private static final String sirhGetDemandeControleMedicalUrl = "demandes/getDemandeControleMedical";
+	private static final String	sirhAbsDemandesATForAgent							= "demandes/listeATReferenceForAgent";
 	
 	// utilise pour le planning afin de passer la liste des agents dans l appel
 	// au WS
@@ -222,6 +223,15 @@ public class SirhAbsWSConsumer extends BaseWsConsumer implements ISirhAbsWSConsu
 
 		ClientResponse res = createAndFireGetRequest(params, url);
 		return readResponseAsList(OrganisationSyndicaleDto.class, res, url);
+	}
+
+	@Override
+	public List<DemandeDto> getListeATReferenceForAgent(Integer idAgent) {
+		String url = String.format(sirhAbsWsBaseUrl + sirhAbsDemandesATForAgent);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("idAgent", idAgent.toString());
+		ClientResponse res = createAndFireGetRequest(params, url);
+		return readResponseAsList(DemandeDto.class, res, url);
 	}
 
 	@Override
