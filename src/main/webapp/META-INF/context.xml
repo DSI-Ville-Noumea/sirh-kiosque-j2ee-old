@@ -54,7 +54,7 @@
 	<!-- WS SIRH-PTG-WS -->
 	<!-- -->
 	<Environment name="SIRH_PTG_WS_URL" type="java.lang.String"
-		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8085/sirh-ptg-ws/"
+		description="SIRH ABS WS endpoint url" value="http://svi-tomcat0:8210/sirh-ptg-ws/"
 		override="false" />
 
 	<!-- -->
