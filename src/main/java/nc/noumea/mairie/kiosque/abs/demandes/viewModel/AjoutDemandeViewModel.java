@@ -254,22 +254,7 @@ public class AjoutDemandeViewModel {
 			if (getTypeAbsenceCourant() != null
 					&& getTypeAbsenceCourant().getTypeSaisiDto() != null) {
 				if (getTypeAbsenceCourant().getTypeSaisiDto().isAtReference()) {
-					List<DemandeDto> listATReference = absWsConsumer
-							.getDemandesAgent(
-									getAgentFiltre().getIdAgent(),
-									"TOUTES",
-									null,
-									null,
-									null,
-									Arrays.asList(
-											RefEtatEnum.VALIDEE.getCodeEtat(),
-											RefEtatEnum.PRISE.getCodeEtat())
-											.toString().replace("[", "")
-											.replace("]", "").replace(" ", ""),
-									RefTypeAbsenceEnum.ACCIDENT_TRAVAIL
-											.getValue(),
-									getTypeAbsenceCourant().getGroupeAbsence()
-											.getIdRefGroupeAbsence());
+					List<DemandeDto> listATReference = absWsConsumer.getListeATReferenceForAgent(getAgentFiltre().getIdAgent());
 
 					Collections.sort(listATReference);
 					setListeATReference(listATReference);
@@ -863,8 +848,7 @@ public class AjoutDemandeViewModel {
 		String result = "";
 
 		if (null != demandeAT.getDateDeclaration()) {
-			result += sdfddMMyyyy.format(demandeAT.getDateDeclaration())
-					+ " - ";
+			result += sdfddMMyyyy.format(demandeAT.getDateDeclaration()) + " - ";
 		}
 		if (null != demandeAT.getTypeSiegeLesion()) {
 			result += demandeAT.getTypeSiegeLesion().getLibelle();

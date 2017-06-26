@@ -95,6 +95,8 @@ public interface ISirhAbsWSConsumer {
 	ControleMedicalDto getControleMedicalByDemande(Integer demandeMaladieId);
 
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
+	
+	List<DemandeDto> getListeATReferenceForAgent(Integer idAgent);
 
 	/* DROITS */
 
