@@ -45,6 +45,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageAbsDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -263,7 +264,7 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
-	public void saveDemande(@BindingParam("win") Window window) throws ParseException {
+	public void saveDemande(@BindingParam("win") Window window) throws ParseException, IOException {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
 
@@ -319,10 +320,40 @@ public class AjoutDemandeAgentViewModel {
 			getDemandeCreation().setDateFinPM(
 					getSelectFinAM() == null ? false : getSelectFinAM().equals("PM") ? true : false);
 
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+			// sauvegarde sans ajout de piece jointe, mais suppression de pj ok
+			ReturnMessageAbsDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
 					getDemandeCreation());
 
-			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
+			// si erreur on retourne le message et on sort
+			// pas de sauvegarde des pieces jointes
+			if (result.getErrors().size() > 0) {
+				final HashMap<String, Object> map = new HashMap<String, Object>();
+				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+				for (String error : result.getErrors()) {
+					ValidationMessage vm = new ValidationMessage(error);
+					listErreur.add(vm);
+				}
+				map.put("errors", listErreur);
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
+				return;
+			}
+			
+			// puis on sauvegarde les pieces jointes
+			if(getDemandeCreation().getPiecesJointes() != null && !getDemandeCreation().getPiecesJointes().isEmpty()) {
+				for (PieceJointeDto pj : getDemandeCreation().getPiecesJointes()) {
+					ReturnMessageDto resultPJ = new ReturnMessageDto();
+					resultPJ = absWsConsumer.savePJWithInputStream(getDemandeCreation().getAgentWithServiceDto().getIdAgent(), 
+							currentUser.getAgent().getIdAgent(), result.getIdDemande(), pj);
+		
+					if (resultPJ.getErrors().size() > 0 || resultPJ.getInfos().size() > 0) {
+						result.getInfos().addAll(resultPJ.getInfos());
+						result.getErrors().addAll(resultPJ.getErrors());
+					}
+				}
+			}
+			
+			// message de succes
+			if (result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
 				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 				List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();

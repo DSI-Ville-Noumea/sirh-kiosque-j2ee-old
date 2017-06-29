@@ -34,22 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
-import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
-import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.kiosque.viewModel.TimePicker;
-import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
-
 import org.apache.commons.lang.StringUtils;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
@@ -67,6 +51,23 @@ import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
+
+import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
+import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiCongeAnnuelDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisiDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageAbsDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
+import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class ModifierDemandeViewModel {
@@ -307,13 +308,48 @@ public class ModifierDemandeViewModel {
 			
 			ProfilAgentDto currentUser = (ProfilAgentDto) Sessions.getCurrent().getAttribute("currentUser");
 
-			/*ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
-					getDemandeCourant());*/
-			
-			ReturnMessageDto result = absWsConsumer.savePJWithInputStream(currentUser.getAgent().getIdAgent(),
-					getDemandeCourant(), "28");
+			// sauvegarde de la demande sans creation de pj mais avec suppression de pj
+			ReturnMessageAbsDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+					getDemandeCourant());
 
-			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
+			if (result.getErrors().size() > 0) {
+				final HashMap<String, Object> map = new HashMap<String, Object>();
+				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+				for (String error : result.getErrors()) {
+					ValidationMessage vm = new ValidationMessage(error);
+					listErreur.add(vm);
+				}
+				map.put("errors", listErreur);
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
+				if (listErreur.size() == 0) {
+					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
+					window.detach();
+				}
+			}
+			
+			// puis on sauvegarde les pieces jointes si pas d erreur avant
+			if(getDemandeCourant().getPiecesJointes() != null && !getDemandeCourant().getPiecesJointes().isEmpty()) {
+				for (PieceJointeDto pj : getDemandeCourant().getPiecesJointes()) {
+					
+					if(null != pj.getNodeRefAlfresco()
+							&& !"".equals(pj.getNodeRefAlfresco().trim())) {
+						continue;
+					}
+					
+					ReturnMessageDto resultPJ = new ReturnMessageDto();
+					resultPJ = absWsConsumer.savePJWithInputStream(getDemandeCourant().getAgentWithServiceDto().getIdAgent(), 
+							currentUser.getAgent().getIdAgent(), result.getIdDemande(), pj);
+		
+					pj.getFileInputStream().close();
+					if (resultPJ.getErrors().size() > 0 || resultPJ.getInfos().size() > 0) {
+						result.getInfos().addAll(resultPJ.getInfos());
+						result.getErrors().addAll(resultPJ.getErrors());
+					}
+				}
+			}
+			
+			// message de succes
+			if (result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
 				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 				List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();

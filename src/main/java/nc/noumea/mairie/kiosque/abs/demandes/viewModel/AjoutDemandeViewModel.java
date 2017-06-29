@@ -64,6 +64,7 @@ import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageAbsDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
 import nc.noumea.mairie.kiosque.validation.ValidationMessage;
@@ -455,17 +456,41 @@ public class AjoutDemandeViewModel {
 			} catch(NumberFormatException e) {
 				
 			}
-			
-			/*ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
-					getDemandeCreation());*/
-			
-			/*String demandeId = absWsConsumer.saveDemandeAbsenceWithoutPJ(currentUser.getAgent().getIdAgent(),
-					getDemandeCreation());*/
-			
-			ReturnMessageDto result = absWsConsumer.savePJWithInputStream(currentUser.getAgent().getIdAgent(),
-					getDemandeCreation(), "28");
 
-			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
+			// sauvegarde sans ajout de piece jointe, mais suppression de pj ok
+			ReturnMessageAbsDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+					getDemandeCreation());
+
+			// si erreur on retourne le message et on sort
+			// pas de sauvegarde des pieces jointes
+			if (result.getErrors().size() > 0) {
+				final HashMap<String, Object> map = new HashMap<String, Object>();
+				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+				for (String error : result.getErrors()) {
+					ValidationMessage vm = new ValidationMessage(error);
+					listErreur.add(vm);
+				}
+				map.put("errors", listErreur);
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
+				return;
+			}
+			
+			// puis on sauvegarde les pieces jointes
+			if(getDemandeCreation().getPiecesJointes() != null && !getDemandeCreation().getPiecesJointes().isEmpty()) {
+				for (PieceJointeDto pj : getDemandeCreation().getPiecesJointes()) {
+					ReturnMessageDto resultPJ = new ReturnMessageDto();
+					resultPJ = absWsConsumer.savePJWithInputStream(getDemandeCreation().getAgentWithServiceDto().getIdAgent(), 
+							currentUser.getAgent().getIdAgent(), result.getIdDemande(), pj);
+		
+					if (resultPJ.getErrors().size() > 0 || resultPJ.getInfos().size() > 0) {
+						result.getInfos().addAll(resultPJ.getInfos());
+						result.getErrors().addAll(resultPJ.getErrors());
+					}
+				}
+			}
+			
+			// message de succes
+			if (result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
 				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 				List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
@@ -479,11 +504,9 @@ public class AjoutDemandeViewModel {
 				}
 				map.put("errors", listErreur);
 				map.put("infos", listInfo);
-				Executions.createComponents("/messages/returnMessage.zul",
-						null, map);
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
 				if (listErreur.size() == 0) {
-					BindUtils.postGlobalCommand(null, null,
-							"refreshListeDemande", null);
+					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
 					window.detach();
 				}
 			}
