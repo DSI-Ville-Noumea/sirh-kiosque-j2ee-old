@@ -530,7 +530,7 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange("demandeCourant")
+	@NotifyChange("demandeCreation")
 	public void onUploadPDF(
 			@ContextParam(ContextType.BIND_CONTEXT) BindContext ctx)
 			throws IOException {
@@ -557,7 +557,7 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
-	@NotifyChange("demandeCourant")
+	@NotifyChange("demandeCreation")
 	public void supprimerPieceJointe(
 			@BindingParam("ref") PieceJointeDto pieceJointeDto)
 			throws IOException {

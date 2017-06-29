@@ -298,6 +298,15 @@ public class DemandesAgentViewModel extends GenericForwardComposer<Component> {
 	}
 
 	@Command
+	public void openPiecesJointes(@BindingParam("ref") DemandeDto demande) {
+		// create a window programmatically and use it as a modal dialog.
+		Map<String, DemandeDto> args = new HashMap<String, DemandeDto>();
+		args.put("demandeCourant", demande);
+		Window win = (Window) Executions.createComponents("/absences/piecesJointes.zul", null, args);
+		win.doModal();
+	}
+
+	@Command
 	@NotifyChange({ "groupeAbsenceFiltre", "listeTypeAbsenceFiltre", "typeAbsenceFiltre", "dateDebutFiltre", "dateFinFiltre", "dateDemandeFiltre",
 			"listeEtatAbsenceFiltre" })
 	public void viderFiltre() {
