@@ -1,5 +1,7 @@
 package nc.noumea.mairie.kiosque.abs.dto;
 
+import java.io.InputStream;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -42,7 +44,6 @@ public class PieceJointeDto implements Serializable {
 	
 
 	private Integer idPieceJointe;
-	private byte[] bFile;
 	private String typeFile;
 	private String titre;
 	private String urlFromAlfresco;
@@ -51,6 +52,9 @@ public class PieceJointeDto implements Serializable {
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date dateModification;
+
+	// #37756 : Upload via stream
+	private InputStream	fileInputStream;
 	
 	
 	public Integer getIdPieceJointe() {
@@ -58,12 +62,6 @@ public class PieceJointeDto implements Serializable {
 	}
 	public void setIdPieceJointe(Integer idPieceJointe) {
 		this.idPieceJointe = idPieceJointe;
-	}
-	public byte[] getbFile() {
-		return bFile;
-	}
-	public void setbFile(byte[] bFile) {
-		this.bFile = bFile;
 	}
 	public String getTypeFile() {
 		return typeFile;
@@ -100,6 +98,12 @@ public class PieceJointeDto implements Serializable {
 	}
 	public void setDateModification(Date dateModification) {
 		this.dateModification = dateModification;
+	}
+	public InputStream getFileInputStream() {
+		return fileInputStream;
+	}
+	public void setFileInputStream(InputStream fileInputStream) {
+		this.fileInputStream = fileInputStream;
 	}
 
 }

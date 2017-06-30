@@ -1,5 +1,5 @@
 <zk>
-	<groupbox width="1252px">
+	<groupbox width="1352px">
 		<caption label="Filtres de recherche" />
 		<vlayout>
 			<hlayout>
@@ -76,7 +76,7 @@
 		</hlayout>
 		<separator />
 		<grid model="@bind(vm.listeDemandes)" mold="paging"
-			width="1252px" pageSize="@bind(vm.tailleListe)" id="listeDemandesId"
+			width="1352px" pageSize="@bind(vm.tailleListe)" id="listeDemandesId"
 			emptyMessage="Aucun élément">
 			<columns>
 				<column width="30px" sort="none" />
@@ -97,6 +97,7 @@
 				<column label="Date de saisie"
 					sort="auto('dateDemande')" align="center" width="120px" />
 				<column label="" sort="none" width="150px" />
+				<column label="Pièces Jointes" sort="none" width="100px" />
 			</columns>
 			<template name="model">
 				<row>
@@ -151,22 +152,16 @@
 							sclass="ListAction print"
 							visible="@bind(each.affichageBoutonImprimer)"
 							onClick="@command('imprimerDemande',ref=each)" />
-							
-						<grid visible="@bind(not empty each.piecesJointes)"
-							model="@bind(each.piecesJointes)" zclass="listPiecesJointes">
-		
-							<template name="model" var="pj">
-								<row zclass="listPiecesJointes">
-									<a href="@bind(pj.urlFromAlfresco)" label="Pièce Jointe" target="_blank" tooltiptext="@bind(pj.titre)" />
-								</row>
-							</template>
-						</grid>
-						
 					</hlayout>
+							
+					 <button tooltiptext="Voir les pièces jointes"
+							label="Voir"
+                            visible="@bind(not empty each.piecesJointes)"
+                            onClick="@command('openPiecesJointes', ref=each)" />
 				</row>
 			</template>
 		</grid>
-		<div style="display:block;" width="1252px">
+		<div style="display:block;" width="1352px">
 			<div style="display:inline-block;float:left;"
 				align="left">
 				<button label="Ajouter"

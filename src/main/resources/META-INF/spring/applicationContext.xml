@@ -51,6 +51,10 @@
 		<context:exclude-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
 	</context:component-scan>
+	
+	<bean id="multipartResolver"
+    	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
 
 	<jee:jndi-lookup id="sirhAbsWsBaseUrl" jndi-name="SIRH_ABS_WS_URL"
 		expected-type="java.lang.String" />

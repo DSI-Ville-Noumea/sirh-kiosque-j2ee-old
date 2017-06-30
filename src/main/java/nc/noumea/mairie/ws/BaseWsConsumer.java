@@ -1,5 +1,8 @@
 package nc.noumea.mairie.ws;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -24,13 +27,10 @@ package nc.noumea.mairie.ws;
  * #L%
  */
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,10 +39,15 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 import flexjson.JSONDeserializer;
+import nc.noumea.mairie.kiosque.transformer.MSDateTransformer;
 
 public abstract class BaseWsConsumer {
+	
+	public static final String MIME_TYPE_PDF = "application/pdf";
 
 	public ClientResponse createAndFireGetRequest(Map<String, String> parameters, String url) {
 		return createAndFireRequest(parameters, url, false, null);
@@ -89,11 +94,11 @@ public abstract class BaseWsConsumer {
 		if (response.getStatus() == HttpStatus.OK.value())
 			return;
 
-		throw new WSConsumerException(String.format(
-				"An error occured when querying '%s'. Return code is : %s, content is %s", url, response.getStatus(),
-				response.getEntity(String.class)));
+		throw new WSConsumerException(
+				String.format("An error occured when querying '%s'. Return code is : %s, content is %s", url,
+						response.getStatus(), response.getEntity(String.class)));
 	}
-	
+
 	public String readResponseAsString(ClientResponse response, String url) {
 
 		if (response.getStatus() == HttpStatus.NO_CONTENT.value()) {
@@ -101,9 +106,9 @@ public abstract class BaseWsConsumer {
 		}
 
 		if (response.getStatus() != HttpStatus.OK.value() && response.getStatus() != HttpStatus.CONFLICT.value()) {
-			throw new WSConsumerException(String.format(
-					"An error occured when querying '%s'. Return code is : %s, content is %s", url,
-					response.getStatus(), response.getEntity(String.class)));
+			throw new WSConsumerException(
+					String.format("An error occured when querying '%s'. Return code is : %s, content is %s", url,
+							response.getStatus(), response.getEntity(String.class)));
 		}
 
 		return response.getEntity(String.class);
@@ -127,9 +132,9 @@ public abstract class BaseWsConsumer {
 		}
 
 		if (response.getStatus() != HttpStatus.OK.value() && response.getStatus() != HttpStatus.CONFLICT.value()) {
-			throw new WSConsumerException(String.format(
-					"An error occured when querying '%s'. Return code is : %s, content is %s", url,
-					response.getStatus(), response.getEntity(String.class)));
+			throw new WSConsumerException(
+					String.format("An error occured when querying '%s'. Return code is : %s, content is %s", url,
+							response.getStatus(), response.getEntity(String.class)));
 		}
 
 		String output = response.getEntity(String.class);
@@ -150,8 +155,8 @@ public abstract class BaseWsConsumer {
 		}
 
 		if (response.getStatus() != HttpStatus.OK.value()) {
-			throw new WSConsumerException(String.format("An error occured when querying '%s'. Return code is : %s",
-					url, response.getStatus()));
+			throw new WSConsumerException(String.format("An error occured when querying '%s'. Return code is : %s", url,
+					response.getStatus()));
 		}
 
 		String output = response.getEntity(String.class);
@@ -194,10 +199,47 @@ public abstract class BaseWsConsumer {
 		}
 
 		if (response.getStatus() != HttpStatus.OK.value()) {
-			throw new WSConsumerException(String.format("An error occured when querying '%s'. Return code is : %s",
-					url, response.getStatus()));
+			throw new WSConsumerException(String.format("An error occured when querying '%s'. Return code is : %s", url,
+					response.getStatus()));
 		}
 
 		return response.getEntity(byte[].class);
+	}
+
+	public ClientResponse createAndFirePostRequestWithInputStream(Map<String, String> parameters, String url,
+			InputStream inputStream, String typeFile) throws IOException {
+
+		Client client = Client.create();
+		WebResource webResource = client.resource(url);
+
+		for (String key : parameters.keySet()) {
+			webResource = webResource.queryParam(key, parameters.get(key));
+		}
+
+		ClientResponse response = null;
+
+		try {
+			if (MIME_TYPE_PDF.equals(typeFile)) {
+				FormDataMultiPart form = new FormDataMultiPart();
+				form.field("file", "Testing.txt");
+
+				FormDataBodyPart fdp = new FormDataBodyPart("fileInputStream", inputStream,
+						javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM_TYPE);
+
+				form.bodyPart(fdp);
+
+				response = webResource.type(javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA).post(ClientResponse.class,
+						form);
+			} else {
+
+				response = webResource.type(javax.ws.rs.core.MediaType.MULTIPART_FORM_DATA).post(ClientResponse.class,
+						inputStream);
+			}
+
+		} catch (ClientHandlerException ex) {
+			throw new WSConsumerException(String.format("An error occured when querying '%s'.", url), ex);
+		}
+
+		return response;
 	}
 }

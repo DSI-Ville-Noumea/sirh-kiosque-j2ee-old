@@ -1,5 +1,7 @@
 package nc.noumea.mairie.ws;
 
+import java.io.IOException;
+
 /*
  * #%L
  * sirh-kiosque-j2ee
@@ -41,6 +43,7 @@ import nc.noumea.mairie.kiosque.abs.dto.InputterDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifCompteurDto;
 import nc.noumea.mairie.kiosque.abs.dto.MotifRefusDto;
 import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefEtatAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
 import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
@@ -50,6 +53,7 @@ import nc.noumea.mairie.kiosque.abs.dto.SoldeDto;
 import nc.noumea.mairie.kiosque.abs.dto.ViseursDto;
 import nc.noumea.mairie.kiosque.dto.AgentDto;
 import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageAbsDto;
 import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
 
 public interface ISirhAbsWSConsumer {
@@ -84,7 +88,7 @@ public interface ISirhAbsWSConsumer {
 	List<DemandeDto> getDemandesAgent(Integer idAgent, String onglet, Date fromDate, Date toDate, Date dateDemande,
 			String listIdRefEtat, Integer idRefType, Integer idRefGroupeAbsence);
 
-	ReturnMessageDto saveDemandeAbsence(Integer idAgent, DemandeDto dto);
+	ReturnMessageAbsDto saveDemandeAbsence(Integer idAgent, DemandeDto dto);
 
 	ReturnMessageDto deleteDemandeAbsence(Integer idAgent, Integer idDemande);
 
@@ -95,7 +99,10 @@ public interface ISirhAbsWSConsumer {
 	ControleMedicalDto getControleMedicalByDemande(Integer demandeMaladieId);
 
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
-	
+
+	ReturnMessageDto savePJWithInputStream(Integer idAgent, Integer idAgentOperateur, Integer idDemande,
+			PieceJointeDto pj) throws IOException;
+  
 	List<DemandeDto> getListeATReferenceForAgent(Integer idAgent);
 
 	/* DROITS */

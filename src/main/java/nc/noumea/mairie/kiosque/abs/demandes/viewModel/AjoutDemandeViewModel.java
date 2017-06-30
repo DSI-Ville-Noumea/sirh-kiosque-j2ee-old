@@ -34,25 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import nc.noumea.mairie.ads.dto.EntiteDto;
-import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
-import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
-import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
-import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
-import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
-import nc.noumea.mairie.kiosque.dto.AgentDto;
-import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
-import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
-import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
-import nc.noumea.mairie.kiosque.validation.ValidationMessage;
-import nc.noumea.mairie.kiosque.viewModel.TimePicker;
-import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
-
 import org.apache.commons.lang.StringUtils;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
@@ -69,6 +50,26 @@ import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Window;
+
+import nc.noumea.mairie.ads.dto.EntiteDto;
+import nc.noumea.mairie.kiosque.abs.dto.DemandeDto;
+import nc.noumea.mairie.kiosque.abs.dto.OrganisationSyndicaleDto;
+import nc.noumea.mairie.kiosque.abs.dto.PieceJointeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefEtatEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefGroupeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeDto;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeGroupeAbsenceEnum;
+import nc.noumea.mairie.kiosque.abs.dto.RefTypeSaisieCongeAnnuelEnum;
+import nc.noumea.mairie.kiosque.dto.AgentDto;
+import nc.noumea.mairie.kiosque.dto.AgentWithServiceDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageAbsDto;
+import nc.noumea.mairie.kiosque.dto.ReturnMessageDto;
+import nc.noumea.mairie.kiosque.profil.dto.ProfilAgentDto;
+import nc.noumea.mairie.kiosque.validation.ValidationMessage;
+import nc.noumea.mairie.kiosque.viewModel.TimePicker;
+import nc.noumea.mairie.ws.ISirhAbsWSConsumer;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class AjoutDemandeViewModel {
@@ -367,7 +368,7 @@ public class AjoutDemandeViewModel {
 	}
 
 	@Command
-	public void saveDemande(@BindingParam("win") Window window) {
+	public void saveDemande(@BindingParam("win") Window window) throws IOException {
 
 		if (IsFormValid(getTypeAbsenceCourant())) {
 
@@ -440,11 +441,41 @@ public class AjoutDemandeViewModel {
 			} catch(NumberFormatException e) {
 				
 			}
-			
-			ReturnMessageDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
+
+			// sauvegarde sans ajout de piece jointe, mais suppression de pj ok
+			ReturnMessageAbsDto result = absWsConsumer.saveDemandeAbsence(currentUser.getAgent().getIdAgent(),
 					getDemandeCreation());
 
-			if (result.getErrors().size() > 0 || result.getInfos().size() > 0) {
+			// si erreur on retourne le message et on sort
+			// pas de sauvegarde des pieces jointes
+			if (result.getErrors().size() > 0) {
+				final HashMap<String, Object> map = new HashMap<String, Object>();
+				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
+				for (String error : result.getErrors()) {
+					ValidationMessage vm = new ValidationMessage(error);
+					listErreur.add(vm);
+				}
+				map.put("errors", listErreur);
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
+				return;
+			}
+			
+			// puis on sauvegarde les pieces jointes
+			if(getDemandeCreation().getPiecesJointes() != null && !getDemandeCreation().getPiecesJointes().isEmpty()) {
+				for (PieceJointeDto pj : getDemandeCreation().getPiecesJointes()) {
+					ReturnMessageDto resultPJ = new ReturnMessageDto();
+					resultPJ = absWsConsumer.savePJWithInputStream(getDemandeCreation().getAgentWithServiceDto().getIdAgent(), 
+							currentUser.getAgent().getIdAgent(), result.getIdDemande(), pj);
+		
+					if (resultPJ.getErrors().size() > 0 || resultPJ.getInfos().size() > 0) {
+						result.getInfos().addAll(resultPJ.getInfos());
+						result.getErrors().addAll(resultPJ.getErrors());
+					}
+				}
+			}
+			
+			// message de succes
+			if (result.getInfos().size() > 0) {
 				final HashMap<String, Object> map = new HashMap<String, Object>();
 				List<ValidationMessage> listErreur = new ArrayList<ValidationMessage>();
 				List<ValidationMessage> listInfo = new ArrayList<ValidationMessage>();
@@ -458,11 +489,9 @@ public class AjoutDemandeViewModel {
 				}
 				map.put("errors", listErreur);
 				map.put("infos", listInfo);
-				Executions.createComponents("/messages/returnMessage.zul",
-						null, map);
+				Executions.createComponents("/messages/returnMessage.zul", null, map);
 				if (listErreur.size() == 0) {
-					BindUtils.postGlobalCommand(null, null,
-							"refreshListeDemande", null);
+					BindUtils.postGlobalCommand(null, null, "refreshListeDemande", null);
 					window.detach();
 				}
 			}
@@ -620,7 +649,9 @@ public class AjoutDemandeViewModel {
 				PieceJointeDto pj = new PieceJointeDto();
 				pj.setTitre(media.getName());
 				pj.setTypeFile(media.getContentType());
-				pj.setbFile(media.getByteData());
+				//pj.setbFile(media.getByteData());
+				// #37756 : Upload via stream
+				pj.setFileInputStream(media.getStreamData());
 				
 				getDemandeCreation().getPiecesJointes().add(pj);
 			}
