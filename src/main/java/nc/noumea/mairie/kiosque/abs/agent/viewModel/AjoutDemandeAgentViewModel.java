@@ -185,10 +185,7 @@ public class AjoutDemandeAgentViewModel {
 		if (getTypeAbsenceCourant() != null 
 				&& getTypeAbsenceCourant().getTypeSaisiDto() != null){
 			if(getTypeAbsenceCourant().getTypeSaisiDto().isAtReference()) {
-				List<DemandeDto> listATReference = absWsConsumer.getDemandesAgent(currentUser.getAgent()
-						.getIdAgent(), "TOUTES", null, null, null, 
-						Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
-						RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue(), getTypeAbsenceCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+				List<DemandeDto> listATReference = absWsConsumer.getListeATReferenceForAgent(currentUser.getAgent().getIdAgent());
 				
 				Collections.sort(listATReference);
 				setListeATReference(listATReference);

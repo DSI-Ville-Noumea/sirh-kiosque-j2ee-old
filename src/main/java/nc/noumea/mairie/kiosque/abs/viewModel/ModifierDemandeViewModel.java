@@ -172,10 +172,7 @@ public class ModifierDemandeViewModel {
 			if (getDemandeCourant() != null 
 					&& getDemandeCourant().getTypeSaisi() != null){
 				if(getDemandeCourant().getTypeSaisi().isAtReference()) {
-					List<DemandeDto> listATReference = absWsConsumer.getDemandesAgent(getDemandeCourant().getAgentWithServiceDto()
-							.getIdAgent(), "TOUTES", null, null, null, 
-							Arrays.asList(RefEtatEnum.VALIDEE.getCodeEtat(), RefEtatEnum.PRISE.getCodeEtat()).toString().replace("[", "").replace("]", "").replace(" ", ""), 
-							RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue(), getDemandeCourant().getGroupeAbsence().getIdRefGroupeAbsence());
+					List<DemandeDto> listATReference = absWsConsumer.getListeATReferenceForAgent(getDemandeCourant().getAgentWithServiceDto().getIdAgent());
 					
 					Collections.sort(listATReference);
 					

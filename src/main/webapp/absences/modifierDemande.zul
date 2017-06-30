@@ -197,7 +197,7 @@
 								<label value="Siège des lésions : " />
 							</hlayout>
 							<vlayout>
-								<combobox width="400px"
+								<combobox width="300px"
 									value="@bind(vm.demandeCourant.typeSiegeLesion.libelle)"
 									model="@bind(vm.listeSiegeLesion)"
 									selectedItem="@bind(vm.demandeCourant.typeSiegeLesion)">
@@ -215,7 +215,7 @@
 									value="Accident de travail de référence : " />
 							</hlayout>
 							<vlayout>
-								<combobox width="400px"
+								<combobox width="300px"
 									model="@bind(vm.listeATReference)"
 									selectedItem="@bind(vm.demandeCourant.accidentTravailReference)">
 									<template name="model">

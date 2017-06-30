@@ -99,11 +99,11 @@ public interface ISirhAbsWSConsumer {
 	ControleMedicalDto getControleMedicalByDemande(Integer demandeMaladieId);
 
 	byte[] imprimerDemande(Integer idAgent, Integer idDemande);
-	
-	/* Pièces jointes */
 
 	ReturnMessageDto savePJWithInputStream(Integer idAgent, Integer idAgentOperateur, Integer idDemande,
 			PieceJointeDto pj) throws IOException;
+  
+	List<DemandeDto> getListeATReferenceForAgent(Integer idAgent);
 
 	/* DROITS */
 
