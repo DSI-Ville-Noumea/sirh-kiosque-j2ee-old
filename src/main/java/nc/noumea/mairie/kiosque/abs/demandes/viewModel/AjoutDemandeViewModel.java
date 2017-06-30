@@ -26,6 +26,7 @@ package nc.noumea.mairie.kiosque.abs.demandes.viewModel;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -33,8 +34,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.Days;
+import org.joda.time.Interval;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.BindingParam;
@@ -214,6 +219,11 @@ public class AjoutDemandeViewModel {
 			getDemandeCreation()
 					.setDateFin(getDemandeCreation().getDateDebut());
 		}
+		
+		// #40183 : Calcul du nombre d'ITT pour un AT ou une rechute d'AT
+		if (getTypeAbsenceCourant().getIdRefTypeAbsence().equals(RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue()) 
+				|| getTypeAbsenceCourant().getIdRefTypeAbsence().equals(RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue()))
+				refreshNombreITT();
 	}
 
 	@Command
@@ -345,6 +355,38 @@ public class AjoutDemandeViewModel {
 		setSamediOffertCongeAnnuel(getSamediOffertDureeCongeAnnuel(
 				getTypeAbsenceCourant().getTypeSaisiCongeAnnuelDto()
 						.getCodeBaseHoraireAbsence(), getDemandeCreation()));
+	}
+
+	/**
+	 * #40134 : Alimenter le nombre de jours d'ITT selon les règles spécifiées dans le redmine.
+	 */
+	@Command
+	@NotifyChange({ "demandeCreation" })
+	public void refreshNombreITT() {
+		if (getDemandeCreation().getDateDebut() != null && getDemandeCreation().getDateFin() != null) {
+			Long nbITT = null;
+		    
+			switch (RefTypeAbsenceEnum.getRefTypeAbsenceEnum(getTypeAbsenceCourant().getIdRefTypeAbsence())) {
+				case ACCIDENT_TRAVAIL :
+					nbITT = ChronoUnit.DAYS.between(getDemandeCreation().getDateDebut().toInstant(), getDemandeCreation().getDateFin().toInstant());
+					// #40134 : Une prolongation fonctionne comme une rechute
+					// Il faut donc ajouter une journée supplémentaire.
+					if (getDemandeCreation().isProlongation())
+						++nbITT;
+					break;
+				case RECHUTE_AT :
+					nbITT = ChronoUnit.DAYS.between(getDemandeCreation().getDateDebut().toInstant(), getDemandeCreation().getDateFin().toInstant()) + 1;
+					break;
+				default:
+					break;
+			}
+			
+			// On n'autorise pas un nombre de jour négatif (dans le cas d'un AT sur une journée)
+			if (nbITT != null) {
+				nbITT = nbITT > 0 ? nbITT : 0;
+				getDemandeCreation().setNombreITT((double) nbITT);
+			}
+		}
 	}
 
 	@Command

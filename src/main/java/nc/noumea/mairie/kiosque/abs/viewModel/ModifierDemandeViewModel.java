@@ -26,6 +26,7 @@ package nc.noumea.mairie.kiosque.abs.viewModel;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -178,6 +179,38 @@ public class ModifierDemandeViewModel {
 					
 					setListeATReference(listATReference);
 				}
+			}
+		}
+	}
+
+	/**
+	 * #40134 : Alimenter le nombre de jours d'ITT selon les règles spécifiées dans le redmine.
+	 */
+	@Command
+	@NotifyChange({ "demandeCreation" })
+	public void refreshNombreITT() {
+		if (getDemandeCourant().getDateDebut() != null && getDemandeCourant().getDateFin() != null) {
+			Long nbITT = null;
+		    
+			switch (RefTypeAbsenceEnum.getRefTypeAbsenceEnum(getDemandeCourant().getIdTypeDemande())) {
+			case ACCIDENT_TRAVAIL :
+				nbITT = ChronoUnit.DAYS.between(getDemandeCourant().getDateDebut().toInstant(), getDemandeCourant().getDateFin().toInstant());
+				// #40134 : Une prolongation fonctionne comme une rechute
+				// Il faut donc ajouter une journée supplémentaire.
+				if (getDemandeCourant().isProlongation())
+					++nbITT;
+				break;
+			case RECHUTE_AT :
+				nbITT = ChronoUnit.DAYS.between(getDemandeCourant().getDateDebut().toInstant(), getDemandeCourant().getDateFin().toInstant()) + 1;
+				break;
+			default:
+				break;
+			}
+			
+			// On n'autorise pas un nombre de jour négatif (dans le cas d'un AT sur une journée)
+			if (nbITT != null) {
+				nbITT = nbITT > 0 ? nbITT : 0;
+				getDemandeCourant().setNombreITT((double) nbITT);
 			}
 		}
 	}
@@ -386,6 +419,11 @@ public class ModifierDemandeViewModel {
 			getDemandeCourant().setDateFin(calReprise.getTime());
 		}
 		refreshDuree();
+		
+		// #40183 : Calcul du nombre d'ITT pour un AT ou une rechute d'AT
+		if (getDemandeCourant().getIdTypeDemande().equals(RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue()) 
+				|| getDemandeCourant().getIdTypeDemande().equals(RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue()))
+				refreshNombreITT();
 	}
 	
 	@Command
