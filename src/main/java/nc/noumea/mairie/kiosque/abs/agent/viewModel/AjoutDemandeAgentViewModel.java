@@ -239,6 +239,12 @@ public class AjoutDemandeAgentViewModel {
 	}
 
 	@Command
+	public void refreshNombreITT() {
+		// Un agent ne pourra pas renseigner un AT ou une rechute d'AT pour lui-même
+		// La fonction ne doit pas être supprimée, sinon NullPointerException lorsque l'on modifie la date de fin;
+	}
+
+	@Command
 	public void cancelDemande(@BindingParam("win") Window window) {
 		window.detach();
 	}

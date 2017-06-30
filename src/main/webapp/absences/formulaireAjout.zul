@@ -86,7 +86,8 @@
 						<datebox
 							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.calendarDateFin)"
 							cols="14" format="dd/MM/yyyy" maxlength="10"
-							value="@bind(vm.demandeCreation.dateFin)" />
+							value="@bind(vm.demandeCreation.dateFin)" 
+							onChange="@command('refreshNombreITT')" />
 						<radiogroup
 							visible="@bind(vm.typeAbsenceCourant.typeSaisiDto.chkDateFin)"
 							selectedItem="@bind(vm.selectFinAM)">
