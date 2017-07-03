@@ -100,7 +100,7 @@
 	<Parameter description="Init CTX LDAP" name="INITCTX_LDAP"
 		override="false" value="com.sun.jndi.ldap.LdapCtxFactory" />
 	<Parameter description="Mot de passe de l'hôte LDAP" name="HOST_LDAP_PASSWORD"
-		override="false" value="***REMOVED***" />
+		override="false" value="planet" />
 	<Parameter description="Base LDAP" name="BASE_LDAP" override="false"
 		value="dc=site-mairie,dc=noumea,dc=nc" />
 	<Parameter description="Hôte LDAP" name="HOST_LDAP" override="false"
