@@ -363,7 +363,8 @@ public class AjoutDemandeViewModel {
 	@Command
 	@NotifyChange({ "demandeCreation" })
 	public void refreshNombreITT() {
-		if (getDemandeCreation().getDateDebut() != null && getDemandeCreation().getDateFin() != null) {
+		if (getDemandeCreation().getDateDebut() != null && getDemandeCreation().getDateFin() != null 
+				&& (getTypeAbsenceCourant().getIdRefTypeAbsence().equals(RefTypeAbsenceEnum.ACCIDENT_TRAVAIL.getValue()) || getTypeAbsenceCourant().getIdRefTypeAbsence().equals(RefTypeAbsenceEnum.RECHUTE_AT.getValue())) ) {
 			Long nbITT = null;
 		    
 			switch (RefTypeAbsenceEnum.getRefTypeAbsenceEnum(getTypeAbsenceCourant().getIdRefTypeAbsence())) {
